@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agentic ADLC with GitHub Copilot — Module Outline</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f8f8;
+      color: #2d3748;
+      font-size: 13px;
+      line-height: 1.32;
+    }
+    a { color: #0f766e; }
+    header {
+      background: linear-gradient(135deg, #062f2c 0%, #0f766e 100%);
+      color: #fff;
+      padding: 12px 18px;
+      text-align: center;
+      border-bottom: 3px solid #2dd4bf;
+    }
+    header h1 { margin: 0; font-size: 1.32em; }
+    header .tagline { margin-top: 3px; color: #99f6e4; font-size: 0.9em; font-weight: 600; }
+    header .meta { margin-top: 5px; color: #b8c2d6; font-size: 0.82em; }
+    header .meta span { margin: 0 6px; }
+    header .meta .duration { color: #5eead4; font-weight: 600; }
+    header .meta .level { color: #fbbf24; font-weight: 600; }
+    .container {
+      max-width: 1080px;
+      margin: 10px auto;
+      background: #fff;
+      padding: 10px 18px 4px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .day-header {
+      background: linear-gradient(135deg, #062f2c 0%, #0d9488 140%);
+      color: #fff;
+      padding: 4px 10px;
+      margin: 8px 0 6px 0;
+      border-radius: 3px;
+      font-size: 0.9em;
+      font-weight: 600;
+      border-left: 4px solid #fbbf24;
+    }
+    .day-header:first-of-type { margin-top: 2px; }
+    .modules-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+    .module {
+      background: #f7fcfb;
+      padding: 6px 9px;
+      border-left: 3px solid #0f766e;
+      border-radius: 0 3px 3px 0;
+      font-size: 0.8em;
+    }
+    .module h4 { margin: 0 0 3px 0; font-size: 1.02em; color: #0b4f4a; }
+    .module ul { margin: 0; padding-left: 14px; }
+    .module li { margin-bottom: 0.5px; }
+    .badge {
+      display: inline-block; padding: 0 5px; border-radius: 9px;
+      font-size: 0.7em; margin-left: 3px; vertical-align: 1px;
+      background: #0052cc; color: #fff; font-weight: 700;
+    }
+    .scope {
+      background: #fffbeb; border-left: 3px solid #fbbf24;
+      padding: 5px 9px; margin-top: 7px; font-size: 0.78em; color: #4b3a10;
+      border-radius: 0 3px 3px 0;
+    }
+    .module h4 a { color: inherit; text-decoration: none; }
+    .module h4 a:hover { text-decoration: underline; }
+    footer {
+      background: #062f2c; color: #fff; text-align: center;
+      padding: 8px; font-size: 0.78em;
+    }
+    footer a { color: #99f6e4; text-decoration: none; }
+
+    @media print {
+      @page { size: A4; margin: 7mm; }
+      body { font-size: 11.4px; background: #fff; }
+      header { padding: 7px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      header h1 { font-size: 1.28em; }
+      .container { box-shadow: none; padding: 6px 8px 2px; margin: 5px auto; max-width: 100%; }
+      .day-header { padding: 3px 8px; margin: 6px 0 5px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .modules-grid { gap: 4px; }
+      .module { padding: 4px 7px; break-inside: avoid; page-break-inside: avoid; }
+      .scope { -webkit-print-color-adjust: exact; print-color-adjust: exact; padding: 4px 8px; margin-top: 5px; }
+      footer { padding: 5px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Agentic ADLC with GitHub Copilot</h1>
+    <div class="tagline">From JIRA Ticket to Merged PR &mdash; Knowledge, Specialised Agents &amp; Spec-Driven Delivery</div>
+    <div class="meta">
+      <span class="duration">2 Days &middot; Hands-on</span> |
+      <span class="level">Advanced</span> |
+      <span>8 modules &middot; 15 labs</span> |
+      <span>40% theory &middot; 60% demo + labs</span> |
+      <span>Trainer: Rajesh Gheware</span>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <div class="day-header">Day 1 &mdash; Knowledge, Context &amp; Specialised Agents</div>
+    <div class="modules-grid">
+
+      <div class="module">
+        <h4><a href="presentation/module-1-adlc-token-economics.html" title="Open the Module 1 slide deck">Module 1 &middot; The ADLC Operating Model &amp; Token Economics</a></h4>
+        <ul>
+          <li>Where the AI development lifecycle really differs from the SDLC</li>
+          <li><strong>The re-discovery tax:</strong> what the agent re-learns every request, and its cost in premium requests, latency and accuracy</li>
+          <li>Baselining a ticket end to end &mdash; turns, premium requests, wall-clock, rework</li>
+          <li>Mode and <strong>model selection per task</strong>: mechanical, reasoning, review &mdash; when the cheap model is the right answer</li>
+          <li>The context window as a budget: what belongs in context, in a file, or behind a tool call</li>
+          <li>Interactive vs. delegated (asynchronous) agent &mdash; choosing per ticket</li>
+        </ul>
+      </div>
+
+      <div class="module">
+        <h4><a href="presentation/module-2-knowledge-harnessing.html" title="Open the Module 2 slide deck">Module 2 &middot; Knowledge Harnessing &mdash; the Repository as the Agent's Memory</a></h4>
+        <ul>
+          <li>The layered model &mdash; <strong>org &rarr; repository &rarr; path-scoped &rarr; task-scoped</strong></li>
+          <li>Repository instructions, path-scoped instruction files, architecture notes, ADRs, conventions, runbooks as standing context</li>
+          <li><strong>Signal vs. bloat</strong> &mdash; what to write down, what the agent infers, what actively misleads it</li>
+          <li>Structuring for retrieval: scoping rules, indexes, module maps, navigable naming</li>
+          <li><strong>Keeping it current</strong> &mdash; ownership, review cadence, staleness detection, knowledge updated in the same PR, CI checks that fail on drift</li>
+          <li>What must never be written down: secrets, credentials, client data &mdash; and the leak paths</li>
+        </ul>
+      </div>
+
+      <div class="module">
+        <h4><a href="presentation/module-3-prompt-context-engineering.html" title="Open the Module 3 slide deck">Module 3 &middot; Prompt &amp; Context Engineering for Accurate Output</a></h4>
+        <ul>
+          <li>Anatomy of a high-yield instruction: goal &middot; constraints &middot; inputs &middot; output contract &middot; done criteria &middot; stop conditions</li>
+          <li><strong>Skill files</strong> &mdash; ad-hoc prompts turned into versioned, reviewed, parameterised assets under source control</li>
+          <li>Grounding that suppresses hallucination: cite-the-file, quote-before-you-change, refuse-when-unknown, ask-don't-invent</li>
+          <li>The failure taxonomy &mdash; invented APIs, silent scope drift, confidently wrong refactors, tests written to pass &mdash; and the pattern that catches each</li>
+          <li>Context hygiene in a long session: what to compact, when to start clean</li>
+          <li><strong>Proving a prompt is better:</strong> an eval set of representative tickets and a pass rate</li>
+        </ul>
+      </div>
+
+      <div class="module">
+        <h4><a href="presentation/module-4-specialised-agents.html" title="Open the Module 4 slide deck">Module 4 &middot; Specialised Agents &mdash; Design, Coding, Test &amp; Review</a></h4>
+        <ul>
+          <li>Why one general agent underperforms four narrow ones: context pollution, conflicting goals, reviewer independence</li>
+          <li>Defining an agent &mdash; role, goal, allowed tools, inputs/outputs, guardrails, hand-off contract, and <strong>what it must never do</strong></li>
+          <li>The four in practice: <strong>Design</strong> (options &amp; trade-offs), <strong>Coding</strong> (inside the architecture), <strong>Test</strong> (proving requirements, not code), <strong>Review</strong> (adversarial, blind to the coder's rationale)</li>
+          <li>Hand-off artifacts as the interface between agents: spec, plan, diff, test report, review report</li>
+          <li>Orchestration &mdash; sequential hand-off, parallel drafts, review-before-merge gates, and where a human must sit</li>
+          <li>Anti-patterns: agent sprawl, overlapping roles, definitions nobody maintains</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="day-header">Day 2 &mdash; Spec-Driven Delivery: JIRA &rarr; Code &rarr; PR &rarr; Confluence</div>
+    <div class="modules-grid">
+
+      <div class="module">
+        <h4><a href="presentation/module-5-spec-driven-development.html" title="Open the Module 5 slide deck">Module 5 &middot; Spec-Driven Development</a></h4>
+        <ul>
+          <li>Why spec-first beats prompt-first: the spec is the durable artifact, the chat transcript is disposable</li>
+          <li>The chain &mdash; <strong>principles &rarr; specification &rarr; technical plan &rarr; task breakdown &rarr; implementation</strong> &mdash; with a human gate between each</li>
+          <li>Specs an agent can execute and a test can check: machine-verifiable acceptance criteria, explicit out-of-scope, stated assumptions</li>
+          <li>Challenging the plan <strong>before</strong> any code exists</li>
+          <li>Keeping spec, tests and code in lockstep; detecting spec drift at pull-request time</li>
+          <li>When spec-driven development is overkill, and the lighter mechanic to use instead</li>
+        </ul>
+      </div>
+
+      <div class="module">
+        <h4><a href="presentation/module-6-ticket-as-unit-of-work.html" title="Open the Module 6 slide deck">Module 6 &middot; The Ticket as the Unit of Work &mdash; JIRA over MCP</a> <span class="badge">MCP</span></h4>
+        <ul>
+          <li>MCP in practice: what the agent can see, tool budgets, and why <em>pulling</em> a ticket beats pasting one</li>
+          <li><strong>JIRA hygiene that makes a ticket agent-ready</strong> &mdash; acceptance criteria, definition of ready, linked context, sizing to what an agent can finish</li>
+          <li>Ticket &rarr; spec &rarr; plan &rarr; tasks, with the ticket key as the traceability anchor through branch, commit, PR and page</li>
+          <li>Reading the surroundings: epics, linked issues, prior art, the design decision made three sprints ago</li>
+          <li>Under-specified tickets &mdash; making the agent interrogate and clarify rather than invent</li>
+          <li><strong>Write-back guardrails:</strong> what the agent may change unattended, what needs a human, how the audit trail is kept</li>
+        </ul>
+      </div>
+
+      <div class="module">
+        <h4><a href="presentation/module-7-multi-repo-engineering.html" title="Open the Module 7 slide deck">Module 7 &middot; Multi-Repo Engineering with Agents</a></h4>
+        <ul>
+          <li>Why agents degrade across repositories: no shared context, no cross-repo search, contract changes landing out of order</li>
+          <li>Workspace strategies &mdash; multi-root workspaces, per-repo instructions, a shared knowledge repository as common ground</li>
+          <li><strong>Contract-first cross-repo change:</strong> API/schema first, producer and consumer sequenced, compatibility window, no big-bang merge</li>
+          <li>Coordinated pull requests &mdash; ordering, linking, what merges first, and the rollback story when only half of it lands</li>
+          <li>Keeping cross-repo context cheap: indexes, interface summaries and generated clients instead of full checkouts in context</li>
+          <li>Shared libraries and versioning &mdash; what an agent may change, what needs a human owner</li>
+        </ul>
+      </div>
+
+      <div class="module">
+        <h4><a href="presentation/module-8-closing-the-loop.html" title="Open the Module 8 slide deck">Module 8 &middot; Closing the Loop &mdash; Review, Pull Requests &amp; Documentation</a> <span class="badge">MCP</span></h4>
+        <ul>
+          <li>The review agent on a real change set &mdash; what it reliably catches, its blind spots, and why the human still signs</li>
+          <li>Reviewing <strong>other people's AI-written code</strong>: the defect classes that survive a confident PR description</li>
+          <li>Pull requests the agent is genuinely good at &mdash; description tied to the spec, test evidence, risk &amp; rollback notes</li>
+          <li><strong>Confluence write-back over MCP</strong> &mdash; decisions, contracts and runbooks are worth generating; narrated diffs are not</li>
+          <li>Documentation that feeds the next ticket &mdash; the loop closes back to Module 2</li>
+          <li>Rollout in a team: standards, ownership of agent and skill files, measuring whether any of it worked</li>
+          <li><strong>Capstone</strong> &mdash; one ticket end to end: pull &rarr; spec &rarr; plan &rarr; implement across both repos &rarr; test &rarr; review &rarr; PR &rarr; Confluence &rarr; knowledge-base update</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="scope">
+      <strong>Scope note &mdash; SRE / operations agents are deliberately excluded.</strong> CI/CD pipelines are already owned by
+      the teams and the surrounding tooling is team-specific, so the course stops at the merged pull request and the updated documentation.
+    </div>
+
+  </div>
+
+  <footer>
+    &copy; 2026 Gheware DevOps &amp; Agentic AI |
+    <a href="https://devops.gheware.com">devops.gheware.com</a> |
+    Trainer: Rajesh Gheware |
+    Slides: <a href="presentation/module-1-adlc-token-economics.html">M1</a> &middot; <a href="presentation/module-2-knowledge-harnessing.html">M2</a> &middot; <a href="presentation/module-3-prompt-context-engineering.html">M3</a> &middot; <a href="presentation/module-4-specialised-agents.html">M4</a> &middot; <a href="presentation/module-5-spec-driven-development.html">M5</a> &middot; <a href="presentation/module-6-ticket-as-unit-of-work.html">M6</a> &middot; <a href="presentation/module-7-multi-repo-engineering.html">M7</a> &middot; <a href="presentation/module-8-closing-the-loop.html">M8</a> |
+    Labs: <a href="labs/guides/module-1-labs.html">M1</a> &middot; <a href="labs/guides/module-2-labs.html">M2</a> &middot; <a href="labs/guides/module-3-labs.html">M3</a> &middot; <a href="labs/guides/module-4-labs.html">M4</a> &middot; <a href="labs/guides/module-5-labs.html">M5</a> &middot; <a href="labs/guides/module-6-labs.html">M6</a> &middot; <a href="labs/guides/module-7-labs.html">M7</a> &middot; <a href="labs/guides/module-8-labs.html">M8</a> |
+    Agentic ADLC with GitHub Copilot v1.0
+  </footer>
+</body>
+</html>

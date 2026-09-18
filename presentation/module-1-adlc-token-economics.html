@@ -1,0 +1,1748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 1 — The ADLC Operating Model &amp; Token Economics | Agentic ADLC with GitHub Copilot</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;height:100%}
+body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#dbe9e7;color:#1c2b29;overflow:hidden}
+
+/* ---------- chrome ---------- */
+#top{position:fixed;top:0;left:0;right:0;height:44px;background:#062f2c;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 16px;z-index:40;font-size:13px}
+#top .l{display:flex;align-items:center;gap:12px}
+#top .mod{font-weight:600;letter-spacing:.2px}
+#top .sec{color:#5eead4;font-size:12px;border-left:1px solid #14615a;padding-left:12px}
+#top .r{display:flex;align-items:center;gap:8px}
+#top a,#top button{color:#ccfbf1;text-decoration:none;background:#0d4b46;border:1px solid #14615a;padding:5px 11px;border-radius:4px;font-size:12.5px;cursor:pointer;font-family:inherit}
+#top a:hover,#top button:hover{background:#0f766e;color:#fff}
+#bot{position:fixed;bottom:0;left:0;right:0;height:38px;background:#062f2c;color:#c3ddd9;display:flex;align-items:center;gap:12px;padding:0 16px;z-index:40;font-size:12px}
+#prog{flex:1;height:4px;background:#14403c;border-radius:2px;overflow:hidden}
+#progf{height:100%;width:3%;background:#fbbf24;transition:width .25s ease}
+.navbtn{background:#0d4b46;color:#fff;border:1px solid #14615a;border-radius:4px;padding:4px 12px;cursor:pointer;font-size:14px;line-height:1.2;font-family:inherit}
+.navbtn:hover{background:#0f766e}
+#num{min-width:66px;text-align:right;font-variant-numeric:tabular-nums}
+#hint{color:#7fada8}
+#wrap{position:fixed;top:44px;bottom:38px;left:0;right:0;display:flex;align-items:center;justify-content:center}
+#stage{width:1280px;height:720px;background:#fff;box-shadow:0 8px 34px rgba(6,47,44,.28);position:relative;transform-origin:center center;overflow:hidden}
+
+/* ---------- delivery tier: K key . D demo . R reference ---------- */
+#top .tier{font-size:11px;font-weight:700;letter-spacing:.7px;padding:3px 9px;border-radius:3px;background:#14403c;color:#7fada8}
+#top .tier.K{background:#fbbf24;color:#3b2708}
+#top .tier.D{background:#2dd4bf;color:#062f2c}
+#top .after{font-size:11px;font-weight:700;letter-spacing:.7px;padding:3px 9px;border-radius:3px;background:#b91c1c;color:#fff;display:none}
+#top .after.on{display:inline-block}
+#toc a .tg{display:inline-block;width:26px;font-size:10px;font-weight:700;letter-spacing:.4px;color:#4d7c76}
+#toc a .tg.K{color:#fbbf24}
+#toc a .tg.D{color:#2dd4bf}
+#toc a.aft{border-left-color:#b91c1c}
+#toc a.aft .tg::after{content:' !';color:#f87171}
+
+/* ---------- index overlay ---------- */
+#toc{position:fixed;inset:44px 0 38px;background:rgba(5,38,36,.975);color:#fff;z-index:35;display:none;overflow:auto;padding:22px 46px}
+#toc.on{display:block}
+#toc h3{margin:0 0 14px;font-size:15px;color:#5eead4;letter-spacing:.6px;text-transform:uppercase;font-weight:600}
+#toc .cols{column-count:2;column-gap:38px}
+#toc .grp{margin-bottom:16px;break-inside:avoid}
+#toc .grph{font-size:12px;color:#fbbf24;font-weight:700;letter-spacing:.8px;margin-bottom:5px}
+#toc a{display:block;color:#d3ece9;text-decoration:none;padding:4px 10px;border-left:2px solid #14615a;font-size:14px}
+#toc a:hover{background:#0d4b46;border-left-color:#2dd4bf}
+#toc a.cur{background:#0f766e;border-left-color:#fbbf24;color:#fff;font-weight:600}
+#toc a .n{display:inline-block;width:28px;color:#79aaa4;font-size:12px}
+
+/* ---------- slide shell ---------- */
+#notes{position:fixed;left:0;right:0;bottom:38px;max-height:34%;overflow:auto;background:#0b211f;color:#d3ece9;border-top:3px solid #fbbf24;padding:12px 22px;z-index:36;display:none;font-size:14px;line-height:1.5}
+#notes.on{display:block}
+#notes .h{font-size:11px;letter-spacing:.8px;color:#5eead4;font-weight:700;margin-bottom:5px}
+.slide{position:absolute;inset:0;padding:30px 42px 24px;display:none;flex-direction:column}
+.slide.active{display:flex}
+.slide h2{margin:0 0 13px;font-size:28px;line-height:1.14;color:#062f2c;border-bottom:2px solid #0f766e;padding-bottom:8px;font-weight:600}
+.slide h2 .tag{float:right;font-size:12px;background:#0f766e;color:#fff;padding:4px 11px;border-radius:12px;font-weight:700;position:relative;top:4px;letter-spacing:.4px}
+.slide h2 .tag.k{background:#b45309}
+.slide h2 .tag.q{background:#7c3aed}
+.body{flex:1;display:grid;gap:22px;min-height:0;align-items:center}
+.g64{grid-template-columns:1.45fr 1fr}
+.g46{grid-template-columns:1fr 1.45fr}
+.g55{grid-template-columns:1fr 1fr}
+.g1{grid-template-columns:1fr}
+.body.g1{align-items:stretch}
+.body.g1>div:only-child{height:100%;display:flex;flex-direction:column;justify-content:center}
+.pts h3{margin:0 0 7px;font-size:12.5px;letter-spacing:.7px;text-transform:uppercase;color:#0f766e;font-weight:700}
+.pts h3+h3{margin-top:13px}
+.pts ul{margin:0;padding-left:17px;font-size:15.5px;line-height:1.46}
+.pts li{margin-bottom:6px}
+.pts b{color:#062f2c}
+.pts em{color:#b45309;font-style:normal;font-weight:600}
+.pts code{background:#eefaf8;border:1px solid #cfeae6;border-radius:3px;padding:0 4px;font-size:14px;color:#0b4f4a}
+.callout{background:#eefaf8;border-left:3px solid #0f766e;padding:9px 13px;font-size:15px;border-radius:0 4px 4px 0;margin-top:11px;line-height:1.4}
+.callout.bad{background:#fef2f2;border-left-color:#dc2626;color:#7f1d1d}
+.callout.good{background:#ecfdf5;border-left-color:#059669;color:#064e3b}
+.take{margin-top:13px;background:#fffbeb;border-left:4px solid #fbbf24;padding:10px 15px;font-size:15.5px;color:#78350f;border-radius:0 4px 4px 0;line-height:1.4}
+.take b{color:#92400e}
+svg{width:100%;height:auto;display:block}
+
+/* ---------- title slide ---------- */
+.slide.title{background:linear-gradient(135deg,#062f2c 0%,#0b4f4a 58%,#0f766e 150%);color:#fff;justify-content:center;padding:0 78px}
+.slide.title h1{margin:0;font-size:50px;line-height:1.12;font-weight:600}
+.slide.title .sub{margin-top:14px;font-size:22px;color:#99f6e4;font-weight:600}
+.slide.title .rule{width:110px;height:4px;background:#fbbf24;margin:24px 0}
+.slide.title .meta{font-size:16px;color:#c3ddd9;line-height:1.85}
+.slide.title .meta b{color:#fff}
+.slide.title .chips{margin-top:24px;display:flex;gap:10px;flex-wrap:wrap}
+.slide.title .chip{background:rgba(255,255,255,.1);border:1px solid rgba(94,234,212,.45);color:#ccfbf1;padding:7px 14px;border-radius:16px;font-size:14px}
+
+/* ---------- quiz ---------- */
+.qz{font-size:20px;line-height:1.4;color:#062f2c;font-weight:600;background:#f0fbf9;border-left:4px solid #7c3aed;padding:13px 18px;border-radius:0 5px 5px 0}
+.opts{margin-top:18px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.opt{display:flex;align-items:flex-start;gap:11px;background:#fff;border:1.5px solid #d5e5e2;border-radius:6px;padding:12px 15px;font-size:17px;line-height:1.36;color:#1c2b29}
+.opt .k{flex:0 0 28px;height:28px;border-radius:50%;background:#e6f4f2;color:#0b4f4a;font-weight:700;font-size:14.5px;display:flex;align-items:center;justify-content:center;border:1.5px solid #b9ddd8}
+.opt.right{background:#ecfdf5;border-color:#34d399;box-shadow:0 0 0 3px rgba(52,211,153,.16)}
+.opt.right .k{background:#059669;color:#fff;border-color:#059669}
+.opt.wrong{opacity:.62}
+.why{margin-top:16px;background:#f0fbf9;border-left:4px solid #0f766e;padding:11px 16px;font-size:15.5px;line-height:1.45;border-radius:0 4px 4px 0}
+.why b{color:#0b4f4a}
+.why .no{display:block;margin-top:7px;color:#7f1d1d;font-size:14.5px}
+.qmeta{font-size:13px;color:#5b7a76;margin-top:12px}
+
+/* ---------- svg vocabulary ---------- */
+.bx{fill:#f0fbf9;stroke:#bfe3de;stroke-width:1.5}
+.bx.g{fill:#ecfdf5;stroke:#a7f3d0}
+.bx.a{fill:#fffbeb;stroke:#fcd34d}
+.bx.r{fill:#fef2f2;stroke:#fecaca}
+.bx.p{fill:#f5f3ff;stroke:#ddd6fe}
+.bx.d{fill:#062f2c;stroke:#062f2c}
+.bx.w{fill:#fff;stroke:#cbd5e1}
+.tt{font-size:15px;font-weight:600;fill:#062f2c}
+.tt.w{fill:#fff}
+.ss{font-size:12.5px;fill:#3f5f5c}
+.ss.w{fill:#a7f3d0}
+.lb{font-size:10.5px;font-weight:700;fill:#0f766e;letter-spacing:.7px}
+.lb.a{fill:#b45309}.lb.r{fill:#dc2626}.lb.g{fill:#047857}.lb.w{fill:#5eead4}.lb.p{fill:#6d28d9}
+.ar{fill:none;stroke:#94b8b3;stroke-width:2;marker-end:url(#arw)}
+.arr{fill:none;stroke:#dc2626;stroke-width:2;marker-end:url(#arr)}
+.arg{fill:none;stroke:#059669;stroke-width:2;marker-end:url(#arg)}
+.fl{fill:none;stroke:#0f766e;stroke-width:2.5;stroke-dasharray:7 9;marker-end:url(#arb)}
+.slide.active .fl{animation:march 1.1s linear infinite}
+@keyframes march{to{stroke-dashoffset:-16}}
+.pulse{transform-box:fill-box;transform-origin:center}
+.slide.active .pulse{animation:pl 2.2s ease-in-out infinite}
+@keyframes pl{0%,100%{opacity:.25}50%{opacity:.9}}
+.tok{opacity:0}
+.slide.active .tok{animation:tk 6s linear infinite}
+@keyframes tk{0%,8%{opacity:0}14%,86%{opacity:1}96%,100%{opacity:0}}
+.slide.active .t2{animation-delay:.6s}.slide.active .t3{animation-delay:1.2s}
+.slide.active .t4{animation-delay:1.8s}.slide.active .t5{animation-delay:2.4s}
+.slide.active .t6{animation-delay:3s}
+.rise{transform-box:fill-box;transform-origin:bottom}
+.slide.active .rise{animation:rs .9s cubic-bezier(.2,.8,.3,1) both}
+.slide.active .r2{animation-delay:.12s}.slide.active .r3{animation-delay:.24s}
+.slide.active .r4{animation-delay:.36s}.slide.active .r5{animation-delay:.48s}
+.slide.active .r6{animation-delay:.6s}
+@keyframes rs{from{transform:scaleY(.04)}to{transform:scaleY(1)}}
+.grow{transform-box:fill-box;transform-origin:left}
+.slide.active .grow{animation:gw 1.1s cubic-bezier(.2,.8,.3,1) both}
+.slide.active .w2{animation-delay:.14s}.slide.active .w3{animation-delay:.28s}
+.slide.active .w4{animation-delay:.42s}.slide.active .w5{animation-delay:.56s}
+@keyframes gw{from{transform:scaleX(.02)}to{transform:scaleX(1)}}
+.dash{stroke-dasharray:5 5}
+@media (prefers-reduced-motion:reduce){
+  .slide.active .fl,.slide.active .pulse,.slide.active .tok,.slide.active .rise,.slide.active .grow{animation:none}
+  .tok{opacity:1}
+}
+
+@media print{
+  @page{size:1280px 720px;margin:0}
+  body{background:#fff;overflow:visible}
+  #top,#bot,#toc,#notes{display:none}
+  #wrap{position:static;display:block}
+  #stage{transform:none!important;width:1280px;height:auto;overflow:visible;box-shadow:none}
+  .slide{display:flex!important;position:relative;page-break-after:always;height:720px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#94b8b3"/></marker>
+  <marker id="arb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#0f766e"/></marker>
+  <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#dc2626"/></marker>
+  <marker id="arg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#059669"/></marker>
+</defs></svg>
+
+<div id="top">
+  <div class="l">
+    <span class="mod">Module 1 &middot; The ADLC Operating Model &amp; Token Economics</span>
+    <span class="sec" id="sec"></span>
+    <span class="tier" id="tier"></span><span class="after" id="after">AFTER LAB</span>
+  </div>
+  <div class="r">
+    <a href="../course-outline-agentic-adlc-github-copilot.html" title="Open the 2-day course outline">Course outline</a>
+    <button id="tocbtn" title="Index (O)">Index</button>
+    <button id="notesbtn" title="Speaker notes (N)">Notes</button>
+    <button id="fsbtn" title="Fullscreen (F)">Full</button>
+  </div>
+</div>
+
+<div id="toc"><h3>Module 1 &mdash; slide index</h3><div class="cols" id="toclist"></div></div>
+
+<div id="wrap"><div id="stage">
+<!-- 1 -->
+<section class="slide title" data-sec="Opening" data-title="Title" data-notes="Open on the framing, not the tooling. Everyone in this room already uses Copilot agents daily - so nothing today is about whether the tool works. The whole module is about what a request costs and what makes it cost that. The one sentence to land before moving on: the agent is fast, but every request where it re-learns what your team already knows is paid for twice - once at the meter, once in the answer being wrong." data-tier="R">
+  <h1>The ADLC Operating Model<br>&amp; Token Economics</h1>
+  <div class="sub">Module 1 &mdash; what a request actually costs, and what decides that</div>
+  <div class="rule"></div>
+  <div class="meta">
+    <b>Agentic ADLC with GitHub Copilot</b> &mdash; From JIRA Ticket to Merged PR<br>
+    Day 1 &middot; Module 1 of 8 &nbsp;|&nbsp; Advanced &nbsp;|&nbsp; Trainer: <b>Rajesh Gheware</b>
+  </div>
+  <div class="chips">
+    <span class="chip">ADLC vs. SDLC</span>
+    <span class="chip">The re-discovery tax</span>
+    <span class="chip">Baselining a ticket</span>
+    <span class="chip">Mode &amp; model selection</span>
+    <span class="chip">Context as a budget</span>
+    <span class="chip">Interactive vs. delegated</span>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="slide" data-sec="Opening" data-title="What this module has to leave you able to do" data-notes="This slide sets the standard the module is judged against, and it is deliberately not a list of features. Four capabilities, and each one is a decision they will make in a later module. Point at the spine on the right: the re-discovery tax is measured here in Module 1 and re-measured at the capstone on Day 2 - it is the only thread that runs the full two days, and everything in Modules 2 to 5 exists to move that number. Also name what is not here: no prompt tricks, no tool tour, no vendor comparison. If the room drifts there, the module has gone wrong." data-tier="K">
+  <h2>What Module 1 has to leave you able to do<span class="tag">M1</span></h2>
+  <div class="body g64">
+    <div>
+      <svg viewBox="0 0 700 430" role="img" aria-label="Module 1 capabilities and how the re-discovery tax spine runs across both days">
+        <text class="lb" x="4" y="13">MODULE 1 &mdash; FOUR CAPABILITIES</text>
+        <rect class="bx" x="4" y="22" width="692" height="196" rx="8"/>
+
+        <rect class="bx w rise" x="20" y="38" width="326" height="76" rx="6"/>
+        <text class="tt" x="34" y="60">1 &middot; Read a run like an invoice</text>
+        <text class="ss" x="34" y="80">Look at a session trace and say where</text>
+        <text class="ss" x="34" y="98">the turns went &mdash; and which were waste</text>
+
+        <rect class="bx w rise r2" x="356" y="38" width="326" height="76" rx="6"/>
+        <text class="tt" x="370" y="60">2 &middot; Baseline a ticket honestly</text>
+        <text class="ss" x="370" y="80">Six observable numbers, taken the same</text>
+        <text class="ss" x="370" y="98">way twice, so a change is provable</text>
+
+        <rect class="bx w rise r3" x="20" y="126" width="326" height="76" rx="6"/>
+        <text class="tt" x="34" y="148">3 &middot; Choose mode and model</text>
+        <text class="ss" x="34" y="168">Per task, on purpose &mdash; including when</text>
+        <text class="ss" x="34" y="186">the cheap, fast one is the right answer</text>
+
+        <rect class="bx w rise r4" x="356" y="126" width="326" height="76" rx="6"/>
+        <text class="tt" x="370" y="148">4 &middot; Spend the context window</text>
+        <text class="ss" x="370" y="168">Decide what goes in context, in a file,</text>
+        <text class="ss" x="370" y="186">or behind a tool call &mdash; and why</text>
+
+        <text class="lb a" x="4" y="248">THE SPINE &mdash; MEASURED HERE, RE-MEASURED AT THE CAPSTONE</text>
+        <rect class="bx d" x="4" y="258" width="692" height="76" rx="8"/>
+        <circle cx="60" cy="296" r="21" fill="#fbbf24"/>
+        <text x="60" y="301" text-anchor="middle" style="font-size:13px;font-weight:700;fill:#062f2c">M1</text>
+        <path class="fl" d="M88 296 L240 296"/>
+        <text class="ss w" x="252" y="291" style="font-size:13px">M2 knowledge &middot; M3 prompts &middot; M4 agents</text>
+        <text class="ss w" x="252" y="310" style="font-size:13px">M5 specs &middot; M6 tickets &middot; M7 repos</text>
+        <path class="fl" d="M556 296 L608 296"/>
+        <circle cx="640" cy="296" r="21" fill="#2dd4bf"/>
+        <text x="640" y="301" text-anchor="middle" style="font-size:12px;font-weight:700;fill:#062f2c">M8</text>
+
+        <rect class="bx r" x="4" y="348" width="340" height="76" rx="8"/>
+        <text class="lb r" x="20" y="370">NOT THIS MODULE</text>
+        <text class="ss" x="20" y="390">Prompt tricks &middot; a tour of the tool</text>
+        <text class="ss" x="20" y="408">Vendor comparison &middot; whether AI works</text>
+        <rect class="bx g" x="356" y="348" width="340" height="76" rx="8"/>
+        <text class="lb g" x="372" y="370">THIS MODULE</text>
+        <text class="ss" x="372" y="390">Unit economics of a request &middot; measurement</text>
+        <text class="ss" x="372" y="408">Deliberate mode, model and context choices</text>
+      </svg>
+    </div>
+    <div class="pts">
+      <h3>The premise</h3>
+      <ul>
+        <li>You already use agents daily. So this is <b>not</b> a course about whether they work &mdash; it is about <b>what a request costs and what decides that cost</b>.</li>
+        <li>Every request where the agent re-learns something your team already knows is <em>paid for twice</em>: once at the meter, once in the answer being wrong.</li>
+      </ul>
+      <h3>How Module 1 is run</h3>
+      <ul>
+        <li>We baseline one real ticket end to end in <b>Lab 1.1</b> &mdash; deliberately without any of the practices in Modules 2&ndash;5.</li>
+        <li>That number goes on the board and <b>stays there for two days</b>. The capstone is measured against it.</li>
+      </ul>
+      <div class="take"><b>The test:</b> by the end of this module you should be able to look at any agent session and say <b>where the money went</b>.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="slide" data-sec="1 &middot; ADLC vs. SDLC" data-title="Where the lifecycle actually differs" data-notes="Resist the temptation to say everything changed - almost nothing in the outer loop did. The ticket, the branch, the review, the merge, the pipeline are all identical, and that is why teams underestimate the change. What moved is inside the middle box. In the SDLC the expensive, slow, skilled step is producing the code, and review is a sampling check on a colleague you trust. In the ADLC producing code is nearly free and nearly instant, so the cost and the skill move outward to the two steps on either side: assembling the right context going in, and verifying an output whose confidence carries no information going out. That is the whole slide. The consequence to state plainly: if your process still spends its effort where the SDLC spent it, you are optimising the step that stopped being the bottleneck." data-tier="K">
+  <h2>Where the AI development lifecycle really differs<span class="tag k">1</span></h2>
+  <div class="body g1">
+    <div>
+      <svg viewBox="0 0 1180 452" role="img" aria-label="SDLC and ADLC compared, showing that cost and skill move from producing code to assembling context and verifying output">
+        <text class="lb" x="4" y="14">SDLC &mdash; THE COST SITS IN THE MIDDLE</text>
+        <rect class="bx" x="4" y="24" width="1172" height="120" rx="8"/>
+        <rect class="bx w" x="22" y="42" width="150" height="84" rx="6"/>
+        <text class="tt" x="97" y="72" text-anchor="middle">Ticket</text>
+        <text class="ss" x="97" y="92" text-anchor="middle">requirement</text>
+        <text class="ss" x="97" y="110" text-anchor="middle">as prose</text>
+        <path class="ar" d="M176 84 L206 84"/>
+        <rect class="bx w" x="210" y="42" width="128" height="84" rx="6"/>
+        <text class="tt" x="274" y="78" text-anchor="middle">Understand</text>
+        <text class="ss" x="274" y="98" text-anchor="middle">in the head</text>
+        <path class="ar" d="M342 84 L372 84"/>
+        <rect class="bx a" x="376" y="34" width="300" height="100" rx="6"/>
+        <text class="lb a" x="392" y="54">THE BOTTLENECK</text>
+        <text class="tt" x="526" y="82" text-anchor="middle" style="font-size:17px">Write the code</text>
+        <text class="ss" x="526" y="104" text-anchor="middle">slow &middot; skilled &middot; the scarce resource</text>
+        <text class="ss" x="526" y="122" text-anchor="middle">one engineer, hours to days</text>
+        <path class="ar" d="M680 84 L710 84"/>
+        <rect class="bx w" x="714" y="42" width="150" height="84" rx="6"/>
+        <text class="tt" x="789" y="72" text-anchor="middle">Review</text>
+        <text class="ss" x="789" y="92" text-anchor="middle">sampling check on</text>
+        <text class="ss" x="789" y="110" text-anchor="middle">a trusted colleague</text>
+        <path class="ar" d="M868 84 L898 84"/>
+        <rect class="bx w" x="902" y="42" width="130" height="84" rx="6"/>
+        <text class="tt" x="967" y="78" text-anchor="middle">Merge</text>
+        <text class="ss" x="967" y="98" text-anchor="middle">CI / CD</text>
+        <rect class="bx g" x="1044" y="42" width="114" height="84" rx="6"/>
+        <text class="lb g" x="1101" y="70" text-anchor="middle">UNCHANGED</text>
+        <text class="ss" x="1101" y="92" text-anchor="middle">the outer loop</text>
+        <text class="ss" x="1101" y="110" text-anchor="middle">is identical</text>
+
+        <text class="lb a" x="4" y="182">ADLC &mdash; THE COST MOVES OUTWARD, TO BOTH SIDES</text>
+        <rect class="bx a" x="4" y="192" width="1172" height="136" rx="8"/>
+        <rect class="bx w" x="22" y="216" width="150" height="88" rx="6"/>
+        <text class="tt" x="97" y="248" text-anchor="middle">Ticket</text>
+        <text class="ss" x="97" y="268" text-anchor="middle">now needs to be</text>
+        <text class="ss" x="97" y="286" text-anchor="middle">machine-readable</text>
+        <path class="fl" d="M176 260 L204 260"/>
+        <rect class="bx r" x="208" y="204" width="230" height="112" rx="6"/>
+        <text class="lb r" x="224" y="224">NEW BOTTLENECK &mdash; IN</text>
+        <text class="tt" x="323" y="252" text-anchor="middle" style="font-size:16px">Assemble context</text>
+        <text class="ss" x="323" y="274" text-anchor="middle">spec &middot; conventions &middot; prior</text>
+        <text class="ss" x="323" y="292" text-anchor="middle">decisions &middot; constraints</text>
+        <text class="ss" x="323" y="310" text-anchor="middle">Modules 2, 3, 5, 6</text>
+        <path class="fl" d="M442 260 L470 260"/>
+        <rect class="bx g" x="474" y="216" width="196" height="88" rx="6"/>
+        <text class="lb g" x="490" y="236">NO LONGER SCARCE</text>
+        <text class="tt" x="572" y="264" text-anchor="middle">Generate code</text>
+        <text class="ss" x="572" y="286" text-anchor="middle">seconds &middot; near-zero effort</text>
+        <path class="fl" d="M674 260 L702 260"/>
+        <rect class="bx r" x="706" y="204" width="230" height="112" rx="6"/>
+        <text class="lb r" x="722" y="224">NEW BOTTLENECK &mdash; OUT</text>
+        <text class="tt" x="821" y="252" text-anchor="middle" style="font-size:16px">Verify the output</text>
+        <text class="ss" x="821" y="274" text-anchor="middle">confidence carries no</text>
+        <text class="ss" x="821" y="292" text-anchor="middle">information &mdash; you must check</text>
+        <text class="ss" x="821" y="310" text-anchor="middle">Modules 4, 8</text>
+        <path class="fl" d="M940 260 L968 260"/>
+        <rect class="bx w" x="972" y="216" width="186" height="88" rx="6"/>
+        <text class="tt" x="1065" y="252" text-anchor="middle">Review &rarr; Merge</text>
+        <text class="ss" x="1065" y="274" text-anchor="middle">same gate, higher stakes</text>
+        <text class="ss" x="1065" y="292" text-anchor="middle">and more volume</text>
+
+        <rect class="bx d" x="4" y="344" width="1172" height="100" rx="8"/>
+        <text class="tt w" x="26" y="374" style="font-size:16px">The consequence &mdash; and the reason this module exists:</text>
+        <text class="ss w" x="26" y="400" style="font-size:14.5px">The step that used to be expensive is now cheap. If your process still spends its effort where the SDLC spent it, you are</text>
+        <text class="ss w" x="26" y="424" style="font-size:14.5px">optimising a step that <tspan font-weight="700" fill="#fbbf24">stopped being the bottleneck</tspan> &mdash; and paying for the two that became one.</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="slide" data-sec="1 &middot; ADLC vs. SDLC" data-title="Unchanged, changed, genuinely new" data-notes="Three columns, and the middle one is where teams get hurt. The left column is worth saying out loud because it is reassuring and true - your branching model, your pipeline, your merge gate, your definition of done all survive intact, and anyone selling you a new SDLC is overreaching. The middle column is the dangerous one: these are practices that still exist but whose economics inverted. Code review used to be a sampling check because you trusted the author's intent; now the author has no intent, so sampling is the wrong strategy. Documentation used to be a cost centre you skimped on; now it is executable context that pays back per request, which is the whole argument of Module 2. The right column is genuinely new work with no SDLC equivalent, and every item there is a module in this course. Land it as: nothing was replaced, two things inverted, four things were added." data-tier="R">
+  <h2>What is unchanged, what inverted, what is genuinely new<span class="tag k">1</span></h2>
+  <div class="body g1">
+    <div>
+      <svg viewBox="0 0 1180 448" role="img" aria-label="Three columns comparing practices that are unchanged, inverted, and newly required">
+        <rect class="bx g" x="4" y="6" width="378" height="404" rx="8"/>
+        <text class="lb g" x="24" y="30">UNCHANGED &mdash; DO NOT REBUILD THESE</text>
+        <rect class="bx w grow" x="24" y="42" width="338" height="52" rx="5"/>
+        <text class="tt" x="40" y="64">Branching &amp; trunk policy</text>
+        <text class="ss" x="40" y="84">an agent commits like anyone else</text>
+        <rect class="bx w grow w2" x="24" y="102" width="338" height="52" rx="5"/>
+        <text class="tt" x="40" y="124">CI / CD pipelines</text>
+        <text class="ss" x="40" y="144">out of scope for this course, by design</text>
+        <rect class="bx w grow w3" x="24" y="162" width="338" height="52" rx="5"/>
+        <text class="tt" x="40" y="184">The merge gate &amp; approvals</text>
+        <text class="ss" x="40" y="204">a human still signs &mdash; Module 8</text>
+        <rect class="bx w grow w4" x="24" y="222" width="338" height="52" rx="5"/>
+        <text class="tt" x="40" y="244">Definition of done</text>
+        <text class="ss" x="40" y="264">tests, docs, review &mdash; unchanged</text>
+        <rect class="bx w grow w5" x="24" y="282" width="338" height="52" rx="5"/>
+        <text class="tt" x="40" y="304">Ownership &amp; accountability</text>
+        <text class="ss" x="40" y="324">the engineer owns the merged code</text>
+        <text class="ss" x="24" y="360" style="font-style:italic">Anyone selling you a brand-new lifecycle</text>
+        <text class="ss" x="24" y="380" style="font-style:italic">is overreaching. Most of it survives intact.</text>
+
+        <rect class="bx a" x="394" y="6" width="378" height="404" rx="8"/>
+        <text class="lb a" x="414" y="30">INVERTED &mdash; SAME NAME, OPPOSITE ECONOMICS</text>
+        <rect class="bx w grow" x="414" y="42" width="338" height="80" rx="5"/>
+        <text class="tt" x="430" y="64">Code review</text>
+        <text class="ss" x="430" y="84">was: sampling a colleague whose intent</text>
+        <text class="ss" x="430" y="102">you trust &rarr; now: the author has no intent</text>
+        <text class="ss" x="430" y="118" style="fill:#b45309;font-weight:600">sampling is now the wrong strategy</text>
+        <rect class="bx w grow w2" x="414" y="130" width="338" height="80" rx="5"/>
+        <text class="tt" x="430" y="152">Documentation</text>
+        <text class="ss" x="430" y="172">was: a cost centre you skimp on</text>
+        <text class="ss" x="430" y="190">now: executable context, paid back</text>
+        <text class="ss" x="430" y="206" style="fill:#b45309;font-weight:600">per request &mdash; the Module 2 argument</text>
+        <rect class="bx w grow w3" x="414" y="218" width="338" height="80" rx="5"/>
+        <text class="tt" x="430" y="240">Writing the code</text>
+        <text class="ss" x="430" y="260">was: the scarce, skilled bottleneck</text>
+        <text class="ss" x="430" y="278">now: the cheapest step in the chain</text>
+        <text class="ss" x="430" y="294" style="fill:#b45309;font-weight:600">stop optimising it</text>
+        <rect class="bx w grow w4" x="414" y="306" width="338" height="80" rx="5"/>
+        <text class="tt" x="430" y="328">Estimation</text>
+        <text class="ss" x="430" y="348">was: sized to typing and thinking time</text>
+        <text class="ss" x="430" y="366">now: sized to specification clarity and</text>
+        <text class="ss" x="430" y="382" style="fill:#b45309;font-weight:600">verification cost &mdash; Module 6</text>
+
+        <rect class="bx r" x="784" y="6" width="392" height="404" rx="8"/>
+        <text class="lb r" x="804" y="30">NEW &mdash; NO SDLC EQUIVALENT</text>
+        <rect class="bx w grow" x="804" y="42" width="352" height="60" rx="5"/>
+        <text class="tt" x="820" y="64">Context engineering</text>
+        <text class="ss" x="820" y="84">deciding what the agent sees, per request</text>
+        <text class="ss" x="1140" y="64" text-anchor="end" class="lb">M3</text>
+        <rect class="bx w grow w2" x="804" y="110" width="352" height="60" rx="5"/>
+        <text class="tt" x="820" y="132">Knowledge as a maintained asset</text>
+        <text class="ss" x="820" y="152">owned, reviewed, failed in CI when stale</text>
+        <rect class="bx w grow w3" x="804" y="178" width="352" height="60" rx="5"/>
+        <text class="tt" x="820" y="200">Agent role design</text>
+        <text class="ss" x="820" y="220">who may do what, and what it must never do</text>
+        <rect class="bx w grow w4" x="804" y="246" width="352" height="60" rx="5"/>
+        <text class="tt" x="820" y="268">Machine-executable specs</text>
+        <text class="ss" x="820" y="288">acceptance criteria a test can check</text>
+        <rect class="bx w grow w5" x="804" y="314" width="352" height="60" rx="5"/>
+        <text class="tt" x="820" y="336">Unit-economics awareness</text>
+        <text class="ss" x="820" y="356">cost and mode chosen per task, on purpose</text>
+        <text class="ss" x="804" y="394" style="font-style:italic">Each of these five is a module in this course.</text>
+
+        <text class="lb" x="1096" y="132" text-anchor="end">M2</text>
+        <text class="lb" x="1096" y="200" text-anchor="end">M4</text>
+        <text class="lb" x="1096" y="268" text-anchor="end">M5</text>
+        <text class="lb" x="1096" y="336" text-anchor="end">M1</text>
+
+        <rect class="bx d" x="4" y="420" width="1172" height="28" rx="6"/>
+        <text class="tt w" x="590" y="440" text-anchor="middle" style="font-size:14.5px">Nothing was replaced &middot; four things inverted &middot; five things were added &mdash; and the added five are what you are here for</text>
+      </svg>
+    </div>
+  </div>
+</section>
+<!-- 5 -->
+<section class="slide" data-sec="2 &middot; The re-discovery tax" data-title="Anatomy of one request" data-notes="This is the definitional slide of the whole course, so slow down here. Take a single ordinary request - add idempotency to the posting endpoint - and ask what the agent actually spent its turn on. Only the top band is the work you wanted. Everything below it is the agent reconstructing, from scratch, facts that already exist somewhere in your organisation: where things live, how you name them, which version of the library you are on, what was decided and why. It rebuilt all of that in the previous request too, and it will rebuild it in the next one, because a session boundary erases it. That is the tax: not a bug, not a model weakness - it is the default behaviour of a stateless system pointed at a codebase that never told it anything. Do not quote a proportion here - the bands are five kinds of work, not a measured split, and if anyone asks for the ratio the honest answer is that they will measure their own in Lab 1.1. Two things to say out loud: it is worse on unfamiliar code and worse again on large repos, and it is paid on every single request, so it multiplies by team size and by ticket count. The fix is not a better prompt. The fix is that the answers stop being re-derived and start being read - which is Module 2." data-tier="K">
+  <h2>The re-discovery tax &mdash; anatomy of a single request<span class="tag k">2</span></h2>
+  <div class="body g1">
+    <div>
+      <svg viewBox="0 0 1180 456" role="img" aria-label="Breakdown of what one agent request spends its effort on, showing that most of it is re-derived knowledge">
+        <rect class="bx d" x="4" y="4" width="1172" height="44" rx="7"/>
+        <text class="ss w" x="24" y="32" style="font-size:14.5px">One ordinary request:</text>
+        <text class="tt w" x="182" y="32" style="font-size:15.5px">&ldquo;Add idempotency to the posting endpoint so a retried payment is not double-booked.&rdquo;</text>
+
+        <text class="lb" x="4" y="76">WHAT ONE TURN IS SPENT ON &mdash; FIVE KINDS OF WORK, NOT FIVE EQUAL SHARES</text>
+
+        <rect class="bx g grow" x="4" y="86" width="742" height="60" rx="5"/>
+        <text class="tt" x="24" y="110">The work you asked for</text>
+        <text class="ss" x="24" y="130">reasoning about idempotency itself</text>
+        <text class="lb g" x="722" y="112" text-anchor="end">WANTED &mdash; 1 OF 5</text>
+
+        <rect class="bx r grow w2" x="4" y="154" width="742" height="56" rx="5"/>
+        <text class="tt" x="24" y="178">Re-deriving where things live</text>
+        <text class="ss" x="24" y="198">which module owns posting &middot; where the controller is &middot; how the repository layer is wired &middot; what the package tree looks like</text>
+
+        <rect class="bx r grow w3" x="4" y="218" width="742" height="56" rx="5"/>
+        <text class="tt" x="24" y="242">Re-deriving how you write code here</text>
+        <text class="ss" x="24" y="262">naming &middot; error-handling idiom &middot; which test style &middot; whether you use that framework feature or have banned it</text>
+
+        <rect class="bx r grow w4" x="4" y="282" width="742" height="56" rx="5"/>
+        <text class="tt" x="24" y="306">Re-deriving the domain</text>
+        <text class="ss" x="24" y="326">what &ldquo;posting&rdquo; means here &middot; what a duplicate is &middot; which fields form the natural key</text>
+
+        <rect class="bx r grow w5" x="4" y="346" width="742" height="56" rx="5"/>
+        <text class="tt" x="24" y="370">Re-deriving decisions already made</text>
+        <text class="ss" x="24" y="390">the ADR from three sprints ago that says how</text>
+
+        <path class="arr" d="M770 182 L820 182"/>
+        <rect class="bx r" x="826" y="88" width="350" height="200" rx="8"/>
+        <text class="lb r" x="846" y="112">ALL FOUR RED BANDS ARE</text>
+        <text class="tt" x="846" y="140" style="font-size:17px">facts that already exist</text>
+        <text class="ss" x="846" y="164">&mdash; in a senior engineer&rsquo;s head</text>
+        <text class="ss" x="846" y="184">&mdash; in a Confluence page</text>
+        <text class="ss" x="846" y="204">&mdash; in a pull request from last quarter</text>
+        <text class="ss" x="846" y="224">&mdash; in the code, unindexed and unstated</text>
+        <text class="ss" x="846" y="256" style="fill:#b45309;font-weight:600">It rebuilt them last request too.</text>
+        <text class="ss" x="846" y="274" style="fill:#b45309;font-weight:600">It will rebuild them in the next one.</text>
+
+        <rect class="bx a" x="826" y="300" width="350" height="102" rx="8"/>
+        <text class="lb a" x="846" y="324">WHY IT REPEATS</text>
+        <text class="ss" x="846" y="346">A session boundary erases everything.</text>
+        <text class="ss" x="846" y="366">The agent is stateless by default and your</text>
+        <text class="ss" x="846" y="386">repository never told it anything.</text>
+
+        <rect class="bx d" x="4" y="414" width="1172" height="38" rx="6"/>
+        <text class="tt w" x="590" y="439" text-anchor="middle" style="font-size:15px">This is not a model weakness and not a prompting failure. It is the <tspan fill="#fbbf24" font-weight="700">default cost of an unprepared repository</tspan> &mdash; and it is charged on every request.</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="slide" data-sec="2 &middot; The re-discovery tax" data-title="The six things it re-learns" data-notes="This is the diagnostic slide - it turns a vague complaint into a checklist. Six categories, and for each one ask the room the middle question: where does the true answer live today? Almost always the honest answer is a person, a wiki page nobody links, or nowhere at all. The right-hand column is the Module 2 preview, so do not teach it here - just show that every row has a destination. The category worth dwelling on is the fourth, prior decisions, because it is the one with a compounding cost: when the agent cannot find the decision it does not stall, it invents a new one, and now you have two competing patterns in the codebase and a reviewer who has to notice. The last row, the negative constraints, is the one teams forget entirely - the agent has no way to know what you have banned, so it will cheerfully reintroduce the thing you spent a quarter removing." data-tier="K">
+  <h2>The six things it re-learns &mdash; and where the answer really lives<span class="tag k">2</span></h2>
+  <div class="body g1">
+    <div>
+      <svg viewBox="0 0 1180 448" role="img" aria-label="Six categories of re-derived knowledge, where the answer lives today, and where it should live">
+        <rect class="bx d" x="4" y="4" width="1172" height="34" rx="6"/>
+        <text class="lb w" x="24" y="26">WHAT IT RE-DERIVES</text>
+        <text class="lb w" x="440" y="26">WHERE THE TRUE ANSWER LIVES TODAY</text>
+        <text class="lb w" x="808" y="26">COST WHEN IT GUESSES INSTEAD</text>
+
+        <rect class="bx grow" x="4" y="46" width="1172" height="60" rx="6"/>
+        <text class="tt" x="24" y="72">1 &middot; Topography</text>
+        <text class="ss" x="24" y="92">where modules, config and entry points are</text>
+        <text class="ss" x="440" y="72">The code &mdash; but only by reading a lot of it</text>
+        <text class="ss" x="440" y="92" style="fill:#b45309">every request pays the same reading cost</text>
+        <text class="ss" x="808" y="82">Extra turns; files opened that did not matter</text>
+
+        <rect class="bx grow w2" x="4" y="114" width="1172" height="60" rx="6"/>
+        <text class="tt" x="24" y="140">2 &middot; Conventions</text>
+        <text class="ss" x="24" y="160">naming, layering, error handling, test style</text>
+        <text class="ss" x="440" y="140">A senior engineer&rsquo;s head; a style guide</text>
+        <text class="ss" x="440" y="160" style="fill:#b45309">nobody has opened since onboarding</text>
+        <text class="ss" x="808" y="150">Code that works but reads foreign &rarr; review churn</text>
+
+        <rect class="bx grow w3" x="4" y="182" width="1172" height="60" rx="6"/>
+        <text class="tt" x="24" y="208">3 &middot; Domain vocabulary</text>
+        <text class="ss" x="24" y="228">what your nouns mean in your business</text>
+        <text class="ss" x="440" y="208">Tickets, tribal knowledge, a glossary</text>
+        <text class="ss" x="440" y="228" style="fill:#b45309">that is four product names out of date</text>
+        <text class="ss" x="808" y="218">Subtly wrong logic that passes review</text>
+
+        <rect class="bx r grow w4" x="4" y="250" width="1172" height="60" rx="6"/>
+        <text class="tt" x="24" y="276">4 &middot; Prior decisions and their reasons</text>
+        <text class="ss" x="24" y="296">the ADR, the trade-off, the thing you tried and rejected</text>
+        <text class="ss" x="440" y="276">Confluence, a PR thread, a Slack scroll-back</text>
+        <text class="ss" x="440" y="296" style="fill:#b45309">effectively unreachable at request time</text>
+        <text class="ss" x="808" y="286" style="fill:#dc2626;font-weight:600">It invents a competing pattern &mdash; and now you own two</text>
+
+        <rect class="bx grow w5" x="4" y="318" width="1172" height="60" rx="6"/>
+        <text class="tt" x="24" y="344">5 &middot; Environment facts</text>
+        <text class="ss" x="24" y="364">library versions, platform limits, what is actually deployed</text>
+        <text class="ss" x="440" y="344">Build files &mdash; if it thinks to look</text>
+        <text class="ss" x="440" y="364" style="fill:#b45309">otherwise it assumes the most common version</text>
+        <text class="ss" x="808" y="354">Code written against an API you do not have</text>
+
+        <rect class="bx r grow w5" x="4" y="386" width="1172" height="60" rx="6"/>
+        <text class="tt" x="24" y="412">6 &middot; Negative constraints</text>
+        <text class="ss" x="24" y="432">what is forbidden, deprecated, or deliberately not done here</text>
+        <text class="ss" x="440" y="412">Nowhere. Absence is not readable.</text>
+        <text class="ss" x="440" y="432" style="fill:#dc2626;font-weight:600">the agent cannot infer a prohibition</text>
+        <text class="ss" x="808" y="422" style="fill:#dc2626;font-weight:600">It reintroduces the thing you spent a quarter removing</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="slide" data-sec="2 &middot; The re-discovery tax" data-title="Why you pay for it twice" data-notes="The most important economic slide in the module. The left loop is the one everybody sees on the invoice: more re-derivation means more turns, more tool calls, more AI credits, longer wall-clock. Annoying, visible, budgetable. The right loop is the one that actually costs the money, and it is invisible on any dashboard. When the agent cannot find a fact it does not stop - it guesses, plausibly, and the guess propagates into code that compiles and tests that pass. Somebody catches it at review, or worse nobody does, and the rework loop starts: more prompts, more turns, back into the left loop. So the two loops feed each other, which is why the cost is not linear in ticket size - it is superlinear in how unprepared the repository is. State the punchline exactly: the meter shows you the cheap half of the bill. And note the asymmetry that makes this worth a whole course - both loops are removed by the same intervention, which is writing the knowledge down once, in the repository, where it is read rather than re-derived." data-tier="K">
+  <h2>Why the tax is paid twice &mdash; and only half of it shows on the meter<span class="tag k">2</span></h2>
+  <div class="body g1">
+    <div>
+      <svg viewBox="0 0 1180 452" role="img" aria-label="Two feedback loops: the visible cost loop and the invisible accuracy loop, both fed by re-derivation">
+        <rect class="bx d" x="418" y="6" width="344" height="62" rx="8"/>
+        <text class="tt w" x="590" y="34" text-anchor="middle" style="font-size:16px">A fact the agent needs</text>
+        <text class="ss w" x="590" y="56" text-anchor="middle">that is not written down anywhere it can read</text>
+        <path class="arr" d="M470 72 L300 106"/>
+        <path class="arr" d="M712 72 L882 106"/>
+
+        <rect class="bx a" x="4" y="112" width="546" height="252" rx="8"/>
+        <text class="lb a" x="24" y="136">LOOP 1 &mdash; THE VISIBLE COST &middot; SHOWS ON THE METER</text>
+        <rect class="bx w" x="24" y="150" width="240" height="52" rx="5"/>
+        <text class="tt" x="144" y="172" text-anchor="middle">It reads more files</text>
+        <text class="ss" x="144" y="192" text-anchor="middle">searching for the answer</text>
+        <path class="ar" d="M268 176 L296 176"/>
+        <rect class="bx w" x="300" y="150" width="230" height="52" rx="5"/>
+        <text class="tt" x="415" y="172" text-anchor="middle">More tool calls, more turns</text>
+        <text class="ss" x="415" y="192" text-anchor="middle">and a fuller context window</text>
+        <path class="ar" d="M415 206 L415 232"/>
+        <rect class="bx w" x="300" y="236" width="230" height="52" rx="5"/>
+        <text class="tt" x="415" y="258" text-anchor="middle">More AI credits</text>
+        <text class="ss" x="415" y="278" text-anchor="middle">longer wall-clock per ticket</text>
+        <path class="ar" d="M296 262 L268 262"/>
+        <rect class="bx w" x="24" y="236" width="240" height="52" rx="5"/>
+        <text class="tt" x="144" y="258" text-anchor="middle">You prompt again</text>
+        <text class="ss" x="144" y="278" text-anchor="middle">to narrow or correct it</text>
+        <path class="ar" d="M144 232 L144 206"/>
+        <rect class="bx" x="24" y="300" width="506" height="50" rx="5"/>
+        <text class="ss" x="44" y="322" style="font-size:13.5px">Annoying, visible, and budgetable. This is the half people argue about</text>
+        <text class="ss" x="44" y="340" style="font-size:13.5px">in licence reviews &mdash; and it is the <tspan font-weight="700" fill="#b45309">cheaper</tspan> half of the bill.</text>
+
+        <rect class="bx r" x="630" y="112" width="546" height="252" rx="8"/>
+        <text class="lb r" x="650" y="136">LOOP 2 &mdash; THE INVISIBLE COST &middot; SHOWS ON NO DASHBOARD</text>
+        <rect class="bx w" x="650" y="150" width="240" height="52" rx="5"/>
+        <text class="tt" x="770" y="172" text-anchor="middle">It does not stall</text>
+        <text class="ss" x="770" y="192" text-anchor="middle">it guesses, plausibly</text>
+        <path class="arr" d="M894 176 L922 176"/>
+        <rect class="bx w" x="926" y="150" width="230" height="52" rx="5"/>
+        <text class="tt" x="1041" y="172" text-anchor="middle">The guess propagates</text>
+        <text class="ss" x="1041" y="192" text-anchor="middle">into code that compiles</text>
+        <path class="arr" d="M1041 206 L1041 232"/>
+        <rect class="bx w" x="926" y="236" width="230" height="52" rx="5"/>
+        <text class="tt" x="1041" y="258" text-anchor="middle">Caught at review</text>
+        <text class="ss" x="1041" y="278" text-anchor="middle">&mdash; or not caught at all</text>
+        <path class="arr" d="M922 262 L894 262"/>
+        <rect class="bx w" x="650" y="236" width="240" height="52" rx="5"/>
+        <text class="tt" x="770" y="258" text-anchor="middle">Rework</text>
+        <text class="ss" x="770" y="278" text-anchor="middle">which re-enters Loop 1</text>
+        <path class="arr" d="M770 232 L770 206"/>
+        <rect class="bx" x="650" y="300" width="506" height="50" rx="5"/>
+        <text class="ss" x="670" y="322" style="font-size:13.5px">No counter increments when the agent is confidently wrong. You pay in</text>
+        <text class="ss" x="670" y="340" style="font-size:13.5px">review time, defects and rework &mdash; the <tspan font-weight="700" fill="#dc2626">expensive</tspan> half.</text>
+
+        <path class="fl" d="M550 320 L626 320"/>
+        <path class="fl" d="M626 200 L550 200"/>
+        <text class="lb" x="588" y="244" text-anchor="middle">EACH</text>
+        <text class="lb" x="588" y="260" text-anchor="middle">FEEDS</text>
+        <text class="lb" x="588" y="276" text-anchor="middle">THE</text>
+        <text class="lb" x="588" y="292" text-anchor="middle">OTHER</text>
+
+        <rect class="bx g" x="4" y="378" width="1172" height="70" rx="8"/>
+        <text class="tt" x="26" y="404" style="font-size:16px">The asymmetry that justifies the next four modules:</text>
+        <text class="ss" x="26" y="430" style="font-size:14.5px">Both loops are fed by the same cause, so <tspan font-weight="700" fill="#047857">one intervention drains both</tspan> &mdash; write the fact down once, in the repository, where it is read instead of re-derived. That is Module 2.</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="slide" data-sec="3 &middot; Baselining" data-title="What you can actually measure" data-notes="Be scrupulously honest on this slide, because the room will test it. The number the brief cares about - AI credits - is real, but it is not observable per ticket while you work: it lands in an aggregate usage view, per user, on a lag. So if we quote a per-ticket credit figure we cannot show where it came from, and everything after it gets discounted. The answer is the left column: six things you can read off the trace or a stopwatch, in the room, with no special tooling. Turns and tool calls are the closest live proxies for spend; clarifying questions and rework prompts are the closest proxies for how much the agent had to guess; churn and wall-clock are the outcome. Then reconcile against the usage dashboard at the end of Day 2 and explain the lag. Say the rule out loud: measure what you can show, reconcile what you cannot, and never quote a number you cannot point at." data-tier="K">
+  <h2>Baselining a ticket &mdash; measure what you can actually show<span class="tag k">3</span></h2>
+  <div class="body g64">
+    <div>
+      <svg viewBox="0 0 700 440" role="img" aria-label="Six live proxy metrics versus the lagging usage dashboard">
+        <text class="lb" x="4" y="14">OBSERVABLE LIVE &mdash; READ OFF THE TRACE OR A STOPWATCH</text>
+        <rect class="bx g" x="4" y="24" width="692" height="252" rx="8"/>
+
+        <rect class="bx w rise" x="20" y="40" width="326" height="66" rx="5"/>
+        <text class="tt" x="36" y="62">1 &middot; Turns</text>
+        <text class="ss" x="36" y="82">every prompt you had to send,</text>
+        <text class="ss" x="36" y="98">including the corrections</text>
+        <rect class="bx w rise r2" x="356" y="40" width="326" height="66" rx="5"/>
+        <text class="tt" x="372" y="62">2 &middot; Tool calls / files read</text>
+        <text class="ss" x="372" y="82">the searching is the tax,</text>
+        <text class="ss" x="372" y="98">made visible</text>
+
+        <rect class="bx w rise r3" x="20" y="114" width="326" height="66" rx="5"/>
+        <text class="tt" x="36" y="136">3 &middot; Clarifying questions</text>
+        <text class="ss" x="36" y="156">what it had to ask you that a</text>
+        <text class="ss" x="36" y="172">file could have answered</text>
+        <rect class="bx w rise r4" x="356" y="114" width="326" height="66" rx="5"/>
+        <text class="tt" x="372" y="136">4 &middot; Rework prompts</text>
+        <text class="ss" x="372" y="156">turns spent undoing a guess</text>
+        <text class="ss" x="372" y="172">&mdash; the accuracy loop, counted</text>
+
+        <rect class="bx w rise r5" x="20" y="188" width="326" height="66" rx="5"/>
+        <text class="tt" x="36" y="210">5 &middot; Diff churn</text>
+        <text class="ss" x="36" y="230">lines written then discarded</text>
+        <text class="ss" x="36" y="246">before the change settled</text>
+        <rect class="bx w rise r6" x="356" y="188" width="326" height="66" rx="5"/>
+        <text class="tt" x="372" y="210">6 &middot; Wall-clock</text>
+        <text class="ss" x="372" y="230">first prompt to change you</text>
+        <text class="ss" x="372" y="246">would actually raise a PR for</text>
+
+        <text class="lb a" x="4" y="302">RECONCILED AFTERWARDS &mdash; NOT AVAILABLE IN THE ROOM</text>
+        <rect class="bx a" x="4" y="312" width="692" height="76" rx="8"/>
+        <text class="tt" x="24" y="338">AI credits, from the usage view</text>
+        <text class="ss" x="24" y="360">Real, and the number the business cares about &mdash; but aggregated per user</text>
+        <text class="ss" x="24" y="378">and on a lag. It cannot be attributed to one ticket while you work.</text>
+
+        <rect class="bx d" x="4" y="398" width="692" height="42" rx="7"/>
+        <text class="tt w" x="350" y="424" text-anchor="middle" style="font-size:14.5px">Measure what you can show &middot; reconcile what you cannot &middot; quote nothing you cannot point at</text>
+      </svg>
+    </div>
+    <div class="pts">
+      <h3>Why proxies, and not just the invoice</h3>
+      <ul>
+        <li>The six on the left are visible <b>in the session, in front of you</b> &mdash; no tooling, no admin access, no waiting.</li>
+        <li>Turns and tool calls track <b>spend</b>. Clarifying questions and rework track <b>how much the agent had to guess</b>. Churn and wall-clock are the <b>outcome</b>.</li>
+        <li>Together they move in the same direction as the invoice &mdash; and unlike the invoice, you can <b>attribute them to one ticket</b>.</li>
+      </ul>
+      <h3>The discipline</h3>
+      <ul>
+        <li>Same ticket shape, same counting rules, <b>same person counting</b>, before and after. A baseline compared against a differently-measured run proves nothing.</li>
+        <li>Record it where it survives &mdash; <code>metrics.md</code> in the repo, not a slide.</li>
+      </ul>
+      <div class="callout bad">If you cannot say where a number came from, do not put it in front of an engineering audience &mdash; including this one.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="slide" data-sec="3 &middot; Baselining" data-title="The baseline run — and the number that follows you" data-notes="This is the slide immediately before Lab 1.1, so it is a briefing rather than a lecture. Four rules and they matter in this order. Pick a ticket that is genuinely representative - not the trivial one, not the epic; roughly the size your team closes several of per sprint. Work naturally, which is the hardest instruction to follow because people perform efficiency when they are being measured; tell them explicitly that a flattering baseline sabotages their own result on Day 2. Count as you go using the tally, because reconstructing it afterwards from memory always undercounts rework. And write it on the board, publicly, because the capstone on Day 2 is measured against it and a number that lives in a private notebook does not create the accountability that makes the second measurement honest. Set expectations by refusing to predict, and say why: I am not going to quote you a delta, because I would be quoting a number I cannot show you the source of - and that is the same rule I just asked you to hold your own baseline to. We measure it here, we measure it again at the capstone, and we report what we get, including if it disappoints." data-tier="D">
+  <h2>Lab 1.1 &mdash; the baseline run, and the number that follows you for two days<span class="tag k">3</span></h2>
+  <div class="body g46">
+    <div class="pts">
+      <h3>Four rules for a baseline worth having</h3>
+      <ul>
+        <li><b>Representative, not convenient.</b> Roughly the size your team closes several of per sprint &mdash; not the trivial one, not the epic.</li>
+        <li><b>Work naturally.</b> Do not perform efficiency because you are being measured. A flattering baseline sabotages <em>your own</em> result on Day 2.</li>
+        <li><b>Count as you go.</b> Reconstructing the tally from memory always undercounts rework &mdash; that is exactly the number the improvement depends on.</li>
+        <li><b>Put it on the board.</b> Public, unedited, and it stays there until the capstone.</li>
+      </ul>
+      <div class="take"><b>Set the expectation as a range, not a promise.</b> We will report what we actually measure at the capstone &mdash; including if it disappoints. That is the difference between a measurement and a sales slide.</div>
+    </div>
+    <div>
+      <svg viewBox="0 0 700 442" role="img" aria-label="The baseline tally sheet and where it is re-measured across the two days">
+        <text class="lb" x="4" y="14">THE TALLY SHEET &mdash; ONE ROW PER MEASURED RUN</text>
+        <rect class="bx" x="4" y="24" width="692" height="196" rx="8"/>
+        <line x1="20" y1="72" x2="680" y2="72" stroke="#bfe3de" stroke-width="1.5"/>
+        <text class="lb" x="20" y="52">RUN</text>
+        <text class="lb" x="250" y="52">TURNS</text>
+        <text class="lb" x="330" y="52">TOOL</text>
+        <text class="lb" x="404" y="52">ASKED</text>
+        <text class="lb" x="482" y="52">REWORK</text>
+        <text class="lb" x="572" y="52">CHURN</text>
+        <text class="lb" x="640" y="52">CLOCK</text>
+
+        <rect class="bx a" x="16" y="80" width="668" height="34" rx="4"/>
+        <text class="tt" x="28" y="102" style="font-size:13.5px">1.1 &mdash; today, unprepared repo</text>
+        <text class="ss" x="266" y="102" style="font-weight:700;fill:#b45309">?</text>
+        <text class="ss" x="344" y="102" style="font-weight:700;fill:#b45309">?</text>
+        <text class="ss" x="422" y="102" style="font-weight:700;fill:#b45309">?</text>
+        <text class="ss" x="506" y="102" style="font-weight:700;fill:#b45309">?</text>
+        <text class="ss" x="588" y="102" style="font-weight:700;fill:#b45309">?</text>
+        <text class="ss" x="652" y="102" style="font-weight:700;fill:#b45309">?</text>
+
+        <rect class="bx w" x="16" y="118" width="668" height="30" rx="4"/>
+        <text class="ss" x="28" y="138" style="font-size:13px">after Module 2 &mdash; knowledge in the repo</text>
+        <text class="ss" x="266" y="138">&mdash;</text><text class="ss" x="344" y="138">&mdash;</text><text class="ss" x="422" y="138">&mdash;</text>
+        <text class="ss" x="506" y="138">&mdash;</text><text class="ss" x="588" y="138">&mdash;</text><text class="ss" x="652" y="138">&mdash;</text>
+
+        <rect class="bx w" x="16" y="152" width="668" height="30" rx="4"/>
+        <text class="ss" x="28" y="172" style="font-size:13px">after Module 3 &mdash; engineered prompts</text>
+        <text class="ss" x="266" y="172">&mdash;</text><text class="ss" x="344" y="172">&mdash;</text><text class="ss" x="422" y="172">&mdash;</text>
+        <text class="ss" x="506" y="172">&mdash;</text><text class="ss" x="588" y="172">&mdash;</text><text class="ss" x="652" y="172">&mdash;</text>
+
+        <rect class="bx g" x="16" y="186" width="668" height="30" rx="4"/>
+        <text class="tt" x="28" y="206" style="font-size:13.5px">capstone &mdash; full pipeline, Day 2</text>
+        <text class="ss" x="266" y="206" style="font-weight:700;fill:#047857">?</text>
+        <text class="ss" x="344" y="206" style="font-weight:700;fill:#047857">?</text>
+        <text class="ss" x="422" y="206" style="font-weight:700;fill:#047857">?</text>
+        <text class="ss" x="506" y="206" style="font-weight:700;fill:#047857">?</text>
+        <text class="ss" x="588" y="206" style="font-weight:700;fill:#047857">?</text>
+        <text class="ss" x="652" y="206" style="font-weight:700;fill:#047857">?</text>
+
+        <text class="lb a" x="4" y="248">WHY THE FIRST ROW MUST BE UNFLATTERING</text>
+        <rect class="bx r" x="4" y="258" width="692" height="86" rx="8"/>
+        <text class="ss" x="24" y="284">A baseline taken carefully, with a well-phrased prompt on a repo you happen to know</text>
+        <text class="ss" x="24" y="304">well, is not a baseline &mdash; it is a second measurement of the thing we have not taught yet.</text>
+        <text class="tt" x="24" y="330" style="fill:#dc2626">Measure the Tuesday you actually have, not the Tuesday you would like to show.</text>
+
+        <rect class="bx d" x="4" y="358" width="692" height="84" rx="8"/>
+        <text class="lb w" x="24" y="382">THE ONLY CLAIM THIS COURSE MAKES ABOUT ITSELF</text>
+        <text class="ss w" x="24" y="406" style="font-size:14px">Two runs of comparable work, measured the same way, forty-eight hours apart.</text>
+        <text class="ss w" x="24" y="428" style="font-size:14px">Everything between them is the argument &mdash; and you hold the tally sheet.</text>
+      </svg>
+    </div>
+  </div>
+</section>
+<!-- 10 -->
+<section class="slide" data-sec="4 &middot; Mode &amp; model" data-title="Three kinds of task" data-notes="Before you can choose a model you have to be able to name the task, and most people never do - they have one gear. Three classes. Mechanical work has a known answer and the only question is whether it was applied consistently; it needs breadth of context but almost no reasoning, and verification is cheap because a compiler or a test tells you immediately. Reasoning work has an unknown answer and several defensible ones; the cost of a wrong choice is architectural and shows up months later, and verification is expensive because it needs a human who knows the system. Review work is different from both and people miss why: its value comes from independence, from not having been the author, so the worst thing you can do is ask the same session that wrote the code to review it - it will defend its own reasoning. Land the diagnostic question at the bottom: if the answer is already determined and you are only asking for it to be applied, that is mechanical, whatever it feels like." data-tier="R">
+  <h2>Three kinds of task &mdash; name it before you choose anything<span class="tag k">4</span></h2>
+  <div class="body g1">
+    <div>
+      <svg viewBox="0 0 1180 450" role="img" aria-label="Mechanical, reasoning and review tasks compared across answer, context need, verification cost and failure mode">
+        <rect class="bx g" x="4" y="6" width="380" height="368" rx="8"/>
+        <text class="lb g" x="24" y="30">MECHANICAL</text>
+        <text class="tt" x="24" y="56" style="font-size:17px">The answer is already known</text>
+        <text class="ss" x="24" y="80">You are asking for it to be <tspan font-weight="600">applied</tspan>, consistently.</text>
+        <line x1="24" y1="94" x2="364" y2="94" stroke="#a7f3d0" stroke-width="1.5"/>
+        <text class="lb" x="24" y="116">TYPICAL WORK</text>
+        <text class="ss" x="24" y="138">DTOs, mappers, boilerplate, test scaffolds</text>
+        <text class="ss" x="24" y="158">mechanical refactors, version bumps</text>
+        <text class="ss" x="24" y="178">format and lint conformance, renames</text>
+        <text class="lb" x="24" y="208">NEEDS</text>
+        <text class="ss" x="24" y="230">Breadth of context &mdash; lots of files</text>
+        <text class="ss" x="24" y="250">Very little reasoning depth</text>
+        <text class="lb" x="24" y="280">VERIFICATION</text>
+        <text class="ss" x="24" y="302">Cheap &mdash; the compiler or a test answers</text>
+        <text class="ss" x="24" y="322">in seconds, and answers definitively</text>
+        <rect class="bx w" x="24" y="334" width="340" height="30" rx="4"/>
+        <text class="ss" x="38" y="354" style="font-weight:600;fill:#047857">Failure mode: inconsistency &mdash; and it is obvious</text>
+
+        <rect class="bx a" x="400" y="6" width="380" height="368" rx="8"/>
+        <text class="lb a" x="420" y="30">REASONING</text>
+        <text class="tt" x="420" y="56" style="font-size:17px">The answer is not determined</text>
+        <text class="ss" x="420" y="80">Several are defensible; you are choosing between them.</text>
+        <line x1="420" y1="94" x2="760" y2="94" stroke="#fcd34d" stroke-width="1.5"/>
+        <text class="lb" x="420" y="116">TYPICAL WORK</text>
+        <text class="ss" x="420" y="138">Designing the idempotency strategy</text>
+        <text class="ss" x="420" y="158">a schema change and its migration path</text>
+        <text class="ss" x="420" y="178">diagnosing a defect nobody understands</text>
+        <text class="lb" x="420" y="208">NEEDS</text>
+        <text class="ss" x="420" y="230">Depth, not breadth &mdash; a few right files</text>
+        <text class="ss" x="420" y="250">and the constraints that rule options out</text>
+        <text class="lb" x="420" y="280">VERIFICATION</text>
+        <text class="ss" x="420" y="302">Expensive &mdash; needs a human who knows</text>
+        <text class="ss" x="420" y="322">the system; tests passing proves little</text>
+        <rect class="bx w" x="420" y="334" width="340" height="30" rx="4"/>
+        <text class="ss" x="434" y="354" style="font-weight:600;fill:#b45309">Failure mode: a defensible-looking wrong choice</text>
+
+        <rect class="bx p" x="796" y="6" width="380" height="368" rx="8"/>
+        <text class="lb p" x="816" y="30">REVIEW</text>
+        <text class="tt" x="816" y="56" style="font-size:17px">Its value is independence</text>
+        <text class="ss" x="816" y="80">Not skill &mdash; <tspan font-weight="600">not having been the author</tspan>.</text>
+        <line x1="816" y1="94" x2="1156" y2="94" stroke="#ddd6fe" stroke-width="1.5"/>
+        <text class="lb" x="816" y="116">TYPICAL WORK</text>
+        <text class="ss" x="816" y="138">Adversarial read of a change set</text>
+        <text class="ss" x="816" y="158">checking a diff against the spec</text>
+        <text class="ss" x="816" y="178">hunting for what is missing, not wrong</text>
+        <text class="lb" x="816" y="208">NEEDS</text>
+        <text class="ss" x="816" y="230">A clean context that has <tspan font-weight="600">never seen</tspan></text>
+        <text class="ss" x="816" y="250">the author&rsquo;s reasoning or rationale</text>
+        <text class="lb" x="816" y="280">VERIFICATION</text>
+        <text class="ss" x="816" y="302">Judged on what it caught &mdash; and you</text>
+        <text class="ss" x="816" y="322">only learn that from the misses</text>
+        <rect class="bx w" x="816" y="334" width="340" height="30" rx="4"/>
+        <text class="ss" x="830" y="354" style="font-weight:600;fill:#6d28d9">Failure mode: reviewing its own work, and agreeing</text>
+
+        <rect class="bx d" x="4" y="386" width="1172" height="64" rx="8"/>
+        <text class="tt w" x="26" y="412" style="font-size:15.5px">The diagnostic question, asked before every request:</text>
+        <text class="ss w" x="26" y="438" style="font-size:14.5px">&ldquo;Is the answer already determined and I am asking for it to be applied &mdash; or am I asking it to <tspan font-weight="700" fill="#fbbf24">choose</tspan>?&rdquo; Most work people treat as reasoning is mechanical, and priced accordingly.</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="slide" data-sec="4 &middot; Mode &amp; model" data-title="When the cheap model is the right answer" data-notes="The point of this quadrant is to kill two opposite bad habits at once. The reflex of always reaching for the strongest model is not caution, it is waste, and worse it is slow, which makes people batch up work and lose the tight loop that makes agents useful at all. The opposite reflex, always using the fastest thing because it is cheap, is how you get a defensible-looking wrong architectural decision that nobody catches for a quarter. So the axes are the two things that actually decide it: how ambiguous the task is, and what it costs you if it is wrong. Bottom-left is the volume quadrant - this is most of the work most days, and it belongs on the fast class; that is the sentence that saves the most money in this course. Top-right is where the reasoning class earns its price, and note it is a small share of requests but most of the consequences. The two off-diagonal quadrants are the interesting ones: cheap-but-ambiguous means split the task rather than pick a model, and expensive-but-determined means the model is fine but the verification has to be real." data-tier="K">
+  <h2>Choosing the model: ambiguity against the cost of being wrong<span class="tag k">4</span></h2>
+  <div class="body g64">
+    <div>
+      <svg viewBox="0 0 700 448" role="img" aria-label="Quadrant chart plotting task ambiguity against cost of being wrong, with model class recommendations">
+        <line x1="70" y1="20" x2="70" y2="386" stroke="#94b8b3" stroke-width="2"/>
+        <line x1="70" y1="386" x2="672" y2="386" stroke="#94b8b3" stroke-width="2"/>
+        <text class="lb" x="8" y="32">COST OF</text>
+        <text class="lb" x="8" y="46">BEING</text>
+        <text class="lb" x="8" y="60">WRONG</text>
+        <text class="lb" x="14" y="380">LOW</text>
+        <text class="lb" x="586" y="404">AMBIGUITY &rarr;</text>
+        <text class="lb" x="78" y="404">DETERMINED</text>
+
+        <rect class="bx" x="76" y="20" width="292" height="176" rx="7"/>
+        <text class="lb" x="94" y="44">MODEL IS NOT THE RISK</text>
+        <text class="tt" x="94" y="70" style="font-size:16px">Fast class + real verification</text>
+        <text class="ss" x="94" y="94">Determined answer, but expensive</text>
+        <text class="ss" x="94" y="114">blast radius: migrations, config</text>
+        <rect class="bx w" x="94" y="126" width="256" height="62" rx="5"/>
+        <text class="ss" x="108" y="146">It will get this right. What you</text>
+        <text class="ss" x="108" y="164">owe here is the <tspan font-weight="600">check</tspan> &mdash; a test, a</text>
+        <text class="ss" x="108" y="182">review gate. Not a bigger model.</text>
+
+        <rect class="bx r" x="378" y="20" width="292" height="176" rx="7"/>
+        <text class="lb r" x="396" y="44">WHERE IT EARNS ITS PRICE</text>
+        <text class="tt" x="396" y="70" style="font-size:16px">Reasoning class &mdash; deliberately</text>
+        <text class="ss" x="396" y="94">Architecture &middot; schema and contract</text>
+        <text class="ss" x="396" y="114">design &middot; diagnosis &middot; cross-cutting</text>
+        <rect class="bx w" x="396" y="126" width="256" height="62" rx="5"/>
+        <text class="ss" x="410" y="146">A small share of your requests &mdash;</text>
+        <text class="ss" x="410" y="164" style="font-weight:600;fill:#dc2626">and most of the consequences.</text>
+        <text class="ss" x="410" y="182">The quadrant worth paying for.</text>
+
+        <rect class="bx g" x="76" y="204" width="292" height="178" rx="7"/>
+        <text class="lb g" x="94" y="228">THE VOLUME QUADRANT</text>
+        <text class="tt" x="94" y="254" style="font-size:16px">Fast, low-cost class</text>
+        <text class="ss" x="94" y="278">Boilerplate &middot; mappers &middot; scaffolds</text>
+        <text class="ss" x="94" y="298">renames &middot; mechanical refactors</text>
+        <rect class="bx w" x="94" y="310" width="256" height="64" rx="5"/>
+        <text class="ss" x="108" y="330" style="font-weight:600">Most of your requests live here.</text>
+        <text class="ss" x="108" y="348" style="font-weight:600;fill:#047857">A reasoning model here is waste</text>
+        <text class="ss" x="108" y="366">&mdash; and slower, costing you the loop</text>
+
+        <rect class="bx a" x="378" y="204" width="292" height="178" rx="7"/>
+        <text class="lb a" x="396" y="228">SPLIT IT, DO NOT PICK</text>
+        <text class="tt" x="396" y="254" style="font-size:16px">Decompose first</text>
+        <text class="ss" x="396" y="278">Ambiguous but cheap to get wrong</text>
+        <text class="ss" x="396" y="298">&mdash; exploration, spikes, options</text>
+        <rect class="bx w" x="396" y="310" width="256" height="64" rx="5"/>
+        <text class="ss" x="410" y="330">Reason once about the approach,</text>
+        <text class="ss" x="410" y="348">then run the mechanical work on</text>
+        <text class="ss" x="410" y="366">the fast class. <tspan font-weight="600">Two prices.</tspan></text>
+
+        <rect class="bx d" x="4" y="414" width="668" height="34" rx="6"/>
+        <text class="tt w" x="338" y="436" text-anchor="middle" style="font-size:13.5px">Both reflexes are wrong &mdash; &ldquo;always the strongest&rdquo; wastes, &ldquo;always the cheapest&rdquo; bites later</text>
+      </svg>
+    </div>
+    <div class="pts">
+      <h3>How to make this a habit, not a slide</h3>
+      <ul>
+        <li>Say the quadrant out loud before you send the request. Two seconds, and it is the highest-return two seconds in the module.</li>
+        <li><b>Decompose across quadrants.</b> Most real tickets are one reasoning decision followed by a pile of mechanical work &mdash; price them separately instead of running the whole ticket at the top rate.</li>
+        <li>If you are reaching for the strongest model because you are <em>unsure</em>, the real problem is that the task is under-specified. Fix the spec, not the model &mdash; Module 5.</li>
+      </ul>
+      <h3>Team-level</h3>
+      <ul>
+        <li>Write the default down. A one-line convention &mdash; <i>&ldquo;mechanical work goes on the fast class unless it touches migrations&rdquo;</i> &mdash; beats every engineer re-deciding privately.</li>
+      </ul>
+      <div class="callout good">Model choice is a <b>per-task</b> decision, not a per-person preference and not a setting you configure once.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 12 -->
+<section class="slide" data-sec="4 &middot; Mode &amp; model" data-title="Mode is a permission boundary" data-notes="People choose modes by habit rather than by intent, and the framing that fixes it is this: the mode is not a convenience setting, it is how much of your repository you have just authorised something to change without asking. Read the escalation left to right - ask touches nothing, edit touches what you pointed at, agent decides for itself what to touch and can run commands. The rule at the bottom is the one to enforce as a team standard: escalate deliberately and only as far as the task needs, because the blast radius is the thing you are choosing, not the capability. The common anti-pattern in an experienced room is the opposite of what you would expect - not people being reckless, but people running everything in agent mode out of habit and then spending their attention supervising work that never needed supervision. That is a real cost: agent mode is the most expensive mode in reviewer attention, which is your scarcest resource." data-tier="R">
+  <h2>Mode is not a convenience setting &mdash; it is a permission boundary<span class="tag k">4</span></h2>
+  <div class="body g1">
+    <div>
+      <svg viewBox="0 0 1180 448" role="img" aria-label="Escalation of blast radius across ask, edit and agent modes">
+        <text class="lb" x="4" y="16">BLAST RADIUS &mdash; WHAT YOU HAVE AUTHORISED IT TO CHANGE WITHOUT ASKING AGAIN</text>
+
+        <rect class="bx g" x="4" y="28" width="376" height="238" rx="8"/>
+        <text class="tt" x="24" y="58" style="font-size:19px">Ask</text>
+        <rect class="bx w" x="24" y="70" width="336" height="34" rx="4"/>
+        <text class="ss" x="38" y="92" style="font-weight:600;fill:#047857">Changes nothing. Answers only.</text>
+        <text class="lb" x="24" y="128">USE IT FOR</text>
+        <text class="ss" x="24" y="150">Understanding code you did not write</text>
+        <text class="ss" x="24" y="170">Options and trade-offs before committing</text>
+        <text class="ss" x="24" y="190">Anything where you are still deciding</text>
+        <text class="lb" x="24" y="220">COST PROFILE</text>
+        <text class="ss" x="24" y="242">Cheapest in attention &mdash; nothing to review</text>
+        <text class="ss" x="24" y="260">because nothing happened</text>
+
+        <path class="ar" d="M384 148 L406 148"/>
+        <rect class="bx a" x="410" y="28" width="376" height="238" rx="8"/>
+        <text class="tt" x="430" y="58" style="font-size:19px">Edit</text>
+        <rect class="bx w" x="430" y="70" width="336" height="34" rx="4"/>
+        <text class="ss" x="444" y="92" style="font-weight:600;fill:#b45309">Changes what you pointed at. Nothing else.</text>
+        <text class="lb" x="430" y="128">USE IT FOR</text>
+        <text class="ss" x="430" y="150">A change whose location you already know</text>
+        <text class="ss" x="430" y="170">Bounded, reviewable, one or a few files</text>
+        <text class="ss" x="430" y="190">The bulk of mechanical work</text>
+        <text class="lb" x="430" y="220">COST PROFILE</text>
+        <text class="ss" x="430" y="242">You review a diff you expected &mdash; scoped</text>
+        <text class="ss" x="430" y="260">attention, and the scope was your choice</text>
+
+        <path class="ar" d="M790 148 L812 148"/>
+        <rect class="bx r" x="816" y="28" width="360" height="238" rx="8"/>
+        <text class="tt" x="836" y="58" style="font-size:19px">Agent</text>
+        <rect class="bx w" x="836" y="70" width="320" height="34" rx="4"/>
+        <text class="ss" x="850" y="92" style="font-weight:600;fill:#dc2626">Decides what to touch. Runs commands.</text>
+        <text class="lb" x="836" y="128">USE IT FOR</text>
+        <text class="ss" x="836" y="150">Work spanning files you cannot enumerate</text>
+        <text class="ss" x="836" y="170">Anything needing build / test feedback</text>
+        <text class="ss" x="836" y="190">Multi-step change under a clear spec</text>
+        <text class="lb" x="836" y="220">COST PROFILE</text>
+        <text class="ss" x="836" y="242">Most expensive in <tspan font-weight="600">reviewer attention</tspan> &mdash;</text>
+        <text class="ss" x="836" y="260">your scarcest resource, not your tokens</text>
+
+        <rect class="bx a" x="4" y="284" width="576" height="94" rx="8"/>
+        <text class="lb a" x="24" y="308">THE ANTI-PATTERN IN AN EXPERIENCED ROOM</text>
+        <text class="ss" x="24" y="332" style="font-size:13.5px">Not recklessness &mdash; <tspan font-weight="600">habit</tspan>. Running everything in agent mode, then spending</text>
+        <text class="ss" x="24" y="352" style="font-size:13.5px">attention supervising work that never needed supervising, and reviewing</text>
+        <text class="ss" x="24" y="372" style="font-size:13.5px">diffs in files you never intended to change.</text>
+
+        <rect class="bx g" x="600" y="284" width="576" height="94" rx="8"/>
+        <text class="lb g" x="620" y="308">THE RULE</text>
+        <text class="ss" x="620" y="332" style="font-size:13.5px">Start at the lowest mode the task needs and <tspan font-weight="600">escalate deliberately</tspan>.</text>
+        <text class="ss" x="620" y="352" style="font-size:13.5px">You are not choosing a capability &mdash; the model is the same. You are</text>
+        <text class="ss" x="620" y="372" style="font-size:13.5px">choosing how much of the repository it may change while you look away.</text>
+
+        <rect class="bx d" x="4" y="394" width="1172" height="52" rx="8"/>
+        <text class="tt w" x="590" y="426" text-anchor="middle" style="font-size:15px">Mode sets the blast radius &middot; model sets the reasoning &middot; context sets the accuracy &mdash; <tspan fill="#fbbf24" font-weight="700">three separate decisions, made on purpose, every time</tspan></text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 13 -->
+<section class="slide" data-sec="5 &middot; Context as a budget" data-title="What is actually in the window" data-notes="Everyone knows the window is finite; almost nobody has looked at what is sitting in it. Walk the stack from the bottom: the system and tool definitions you do not control, the instruction files you do, then the files pulled in, then the growing transcript of everything said so far, then tool outputs which are the silent killer - a single verbose command dump or a large file read can consume more of the window than the entire conversation preceding it. What is left at the top is the room the model has to actually think and answer in. Two consequences worth stating. First, the window is not free storage - everything in it is re-processed on every turn, so an unnecessary file is not a one-off cost, it is a recurring one for the rest of the session. Second, as it fills, the material in the middle is the most likely to be crowded out or attended to least - which is exactly where your instructions and the important file usually sit. That is why the discipline on the next slide is about placement, not volume." data-tier="K">
+  <h2>The context window is a budget &mdash; and you are already spending it<span class="tag k">5</span></h2>
+  <div class="body g64">
+    <div>
+      <svg viewBox="0 0 700 446" role="img" aria-label="Stacked view of what occupies a context window during a long session">
+        <text class="lb" x="4" y="14">ONE TURN, LATE IN A SESSION &mdash; WHAT THE WINDOW IS HOLDING</text>
+        <rect class="bx w" x="4" y="24" width="404" height="410" rx="8"/>
+
+        <rect x="20" y="40" width="372" height="52" rx="4" fill="#e6f4f2" stroke="#bfe3de" stroke-width="1.5"/>
+        <text class="tt" x="34" y="62" style="font-size:13.5px">Room left to think and answer</text>
+        <text class="ss" x="34" y="82">what you are actually paying for</text>
+        <text class="lb g" x="378" y="68" text-anchor="end">WANTED</text>
+
+        <rect x="20" y="98" width="372" height="86" rx="4" fill="#fef2f2" stroke="#fecaca" stroke-width="1.5"/>
+        <text class="tt" x="34" y="120" style="font-size:13.5px">Tool output</text>
+        <text class="ss" x="34" y="140">build logs, test runs, whole-file reads,</text>
+        <text class="ss" x="34" y="158">search results you did not need</text>
+        <text class="ss" x="34" y="176" style="fill:#dc2626;font-weight:600">the silent killer &mdash; one dump can outweigh the chat</text>
+
+        <rect x="20" y="190" width="372" height="70" rx="4" fill="#fffbeb" stroke="#fcd34d" stroke-width="1.5"/>
+        <text class="tt" x="34" y="212" style="font-size:13.5px">The transcript so far</text>
+        <text class="ss" x="34" y="232">every prompt, every answer, every correction</text>
+        <text class="ss" x="34" y="250" style="fill:#b45309">grows monotonically &mdash; including your mistakes</text>
+
+        <rect x="20" y="266" width="372" height="62" rx="4" fill="#f0fbf9" stroke="#bfe3de" stroke-width="1.5"/>
+        <text class="tt" x="34" y="288" style="font-size:13.5px">Files pulled into the conversation</text>
+        <text class="ss" x="34" y="308">by you, or by the agent&rsquo;s own searching</text>
+        <text class="ss" x="34" y="324" style="fill:#0f766e">the part you have the most control over</text>
+
+        <rect x="20" y="334" width="372" height="46" rx="4" fill="#ecfdf5" stroke="#a7f3d0" stroke-width="1.5"/>
+        <text class="tt" x="34" y="356" style="font-size:13.5px">Instruction files</text>
+        <text class="ss" x="34" y="374">small, standing, high-value &mdash; Module 2</text>
+
+        <rect x="20" y="386" width="372" height="34" rx="4" fill="#062f2c"/>
+        <text class="tt w" x="34" y="407" style="font-size:13px">System &amp; tool definitions &mdash; not yours to spend</text>
+
+        <rect class="bx a" x="422" y="24" width="274" height="196" rx="8"/>
+        <text class="lb a" x="440" y="48">THE PROPERTY PEOPLE MISS</text>
+        <text class="ss" x="440" y="74">The window is not storage.</text>
+        <text class="ss" x="440" y="98">Everything in it is <tspan font-weight="600">re-processed</tspan></text>
+        <text class="ss" x="440" y="118"><tspan font-weight="600">on every subsequent turn</tspan>.</text>
+        <text class="ss" x="440" y="148">So one unnecessary large file is</text>
+        <text class="ss" x="440" y="168">not a one-off cost &mdash; it is a</text>
+        <text class="ss" x="440" y="188">recurring charge for the rest</text>
+        <text class="ss" x="440" y="208">of the session.</text>
+
+        <rect class="bx r" x="422" y="234" width="274" height="200" rx="8"/>
+        <text class="lb r" x="440" y="258">AND AS IT FILLS</text>
+        <text class="ss" x="440" y="284">Material in the <tspan font-weight="600">middle</tspan> of a long</text>
+        <text class="ss" x="440" y="304">window gets the least attention</text>
+        <text class="ss" x="440" y="324">and is first to be crowded out.</text>
+        <text class="ss" x="440" y="354" style="fill:#dc2626;font-weight:600">That is exactly where your</text>
+        <text class="ss" x="440" y="374" style="fill:#dc2626;font-weight:600">instructions and the important</text>
+        <text class="ss" x="440" y="394" style="fill:#dc2626;font-weight:600">file usually ended up.</text>
+        <text class="ss" x="440" y="422">Hence: placement, not volume.</text>
+      </svg>
+    </div>
+    <div class="pts">
+      <h3>Three questions, before anything enters the window</h3>
+      <ul>
+        <li><b>Is it needed every request?</b> Then it does not belong in the chat &mdash; it belongs in a file the agent always has.</li>
+        <li><b>Is it needed sometimes, and large?</b> Then it belongs <em>behind a tool call</em>, fetched only when the task actually needs it.</li>
+        <li><b>Is it needed only right now?</b> That &mdash; and only that &mdash; is what the context window is for.</li>
+      </ul>
+      <h3>Why this is an economics slide, not a tips slide</h3>
+      <ul>
+        <li>Everything you leave in the window is <b>re-billed on every later turn</b>. A long session is where cost quietly compounds.</li>
+        <li>The re-discovery tax and window bloat are the <b>same problem seen twice</b>: facts arriving through the most expensive route available.</li>
+      </ul>
+      <div class="take"><b>The skill is deciding placement</b> &mdash; context, file, or tool call. Volume management is what you do when you never made that decision.</div>
+    </div>
+  </div>
+</section>
+<!-- 14 -->
+<section class="slide" data-sec="5 &middot; Context as a budget" data-title="Context, file, or tool call" data-notes="This is the practical rule the whole context section exists to deliver, and it is worth making them apply it to their own repo before the break. Three destinations, and the routing test is frequency crossed with size. Needed every time and small goes in a file - it costs you once to write and is then free forever, which is the entire economic argument for Module 2. Needed sometimes and large goes behind a tool call, because the cost is only paid on the requests that actually need it; this is the pattern that makes JIRA and Confluence over MCP economically sensible rather than just convenient, and it is why Day 2 is built the way it is. Needed only now goes in the window. The failure mode to name is the diagonal one: teams either paste everything into chat every time, which is the tax paid manually, or they write enormous instruction files containing things needed once a quarter, which is a permanent charge on every request for something almost never used. Both are placement errors, and both feel like diligence." data-tier="R">
+  <h2>The placement rule &mdash; context, a file, or behind a tool call<span class="tag k">5</span></h2>
+  <div class="body g1">
+    <div>
+      <svg viewBox="0 0 1180 452" role="img" aria-label="Routing knowledge to context, files or tool calls based on frequency and size">
+        <rect class="bx d" x="330" y="4" width="520" height="46" rx="7"/>
+        <text class="tt w" x="590" y="33" text-anchor="middle" style="font-size:16px">A fact the agent will need. Where does it live?</text>
+        <path class="fl" d="M470 54 L226 90"/>
+        <path class="fl" d="M590 54 L590 90"/>
+        <path class="fl" d="M712 54 L956 90"/>
+
+        <rect class="bx g" x="4" y="96" width="376" height="242" rx="8"/>
+        <text class="lb g" x="24" y="120">NEEDED EVERY REQUEST &middot; SMALL</text>
+        <text class="tt" x="24" y="150" style="font-size:19px">Put it in a file</text>
+        <text class="ss" x="24" y="176">Repository and path-scoped instructions,</text>
+        <text class="ss" x="24" y="196">conventions, architecture notes, the</text>
+        <text class="ss" x="24" y="216">module map, standing constraints.</text>
+        <rect class="bx w" x="24" y="230" width="336" height="92" rx="5"/>
+        <text class="lb g" x="38" y="252">ECONOMICS</text>
+        <text class="ss" x="38" y="274">Written once. Read on every request</text>
+        <text class="ss" x="38" y="294">at no additional authoring cost.</text>
+        <text class="ss" x="38" y="314" style="font-weight:600;fill:#047857">This is the whole argument of Module 2.</text>
+
+        <rect class="bx" x="402" y="96" width="376" height="242" rx="8"/>
+        <text class="lb" x="422" y="120">NEEDED ONLY RIGHT NOW</text>
+        <text class="tt" x="422" y="150" style="font-size:19px">Put it in the window</text>
+        <text class="ss" x="422" y="176">This ticket&rsquo;s acceptance criteria, the two</text>
+        <text class="ss" x="422" y="196">files being changed, the error you are</text>
+        <text class="ss" x="422" y="216">chasing, the decision you just made.</text>
+        <rect class="bx w" x="422" y="230" width="336" height="92" rx="5"/>
+        <text class="lb" x="436" y="252">ECONOMICS</text>
+        <text class="ss" x="436" y="274">Re-billed on every later turn of this</text>
+        <text class="ss" x="436" y="294">session &mdash; so it should leave when the</text>
+        <text class="ss" x="436" y="314" style="font-weight:600">task does. This is what compaction is for.</text>
+
+        <rect class="bx a" x="800" y="96" width="376" height="242" rx="8"/>
+        <text class="lb a" x="820" y="120">NEEDED SOMETIMES &middot; LARGE</text>
+        <text class="tt" x="820" y="150" style="font-size:19px">Put it behind a tool call</text>
+        <text class="ss" x="820" y="176">The ticket and its epic, the Confluence</text>
+        <text class="ss" x="820" y="196">decision page, the other repository, test</text>
+        <text class="ss" x="820" y="216">output, anything you fetch on demand.</text>
+        <rect class="bx w" x="820" y="230" width="336" height="92" rx="5"/>
+        <text class="lb a" x="834" y="252">ECONOMICS</text>
+        <text class="ss" x="834" y="274">Paid only on the requests that need it.</text>
+        <text class="ss" x="834" y="294">Why pulling a ticket over MCP is cheaper</text>
+        <text class="ss" x="834" y="314" style="font-weight:600;fill:#b45309">than standing context &mdash; Modules 6 and 8.</text>
+
+        <rect class="bx r" x="4" y="356" width="576" height="92" rx="8"/>
+        <text class="lb r" x="24" y="380">PLACEMENT ERROR 1 &mdash; AND IT FEELS LIKE DILIGENCE</text>
+        <text class="ss" x="24" y="404" style="font-size:13.5px">Pasting the same context into chat every session. This is the re-discovery</text>
+        <text class="ss" x="24" y="424" style="font-size:13.5px">tax paid <tspan font-weight="600">by hand</tspan> &mdash; you have automated nothing, you have just become</text>
+        <text class="ss" x="24" y="442" style="font-size:13.5px">the retrieval system yourself.</text>
+
+        <rect class="bx r" x="600" y="356" width="576" height="92" rx="8"/>
+        <text class="lb r" x="620" y="380">PLACEMENT ERROR 2 &mdash; AND IT ALSO FEELS LIKE DILIGENCE</text>
+        <text class="ss" x="620" y="404" style="font-size:13.5px">A vast instruction file holding everything anyone might ever need. A</text>
+        <text class="ss" x="620" y="424" style="font-size:13.5px">permanent charge on <tspan font-weight="600">every</tspan> request for material used once a quarter &mdash;</text>
+        <text class="ss" x="620" y="442" style="font-size:13.5px">and the signal you needed is now buried in it.</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 15 -->
+<section class="slide" data-sec="5 &middot; Context as a budget" data-title="Session hygiene — when to compact, when to start clean" data-notes="The curve is the honest shape of a long session and everyone in the room has lived it: the first stretch improves because the agent has accumulated genuinely useful working context, then it plateaus, then it degrades - and the degradation is not gentle, it shows up as the agent forgetting a constraint you set forty minutes ago or reintroducing something you already rejected. The two interventions are different and people conflate them. Compaction keeps the thread and discards the noise, and it is right when you are still on the same task and the conclusions still matter. Starting clean is right when the task changed, and the strongest tell is the one at the bottom: if you find yourself telling it to forget something, or repeating a constraint you already gave, that is not a prompting problem, that is a signal the session is past its useful life. The habit to instil is preventative rather than reactive - write the conclusion out to a file or the spec while it is still sound, then start clean without fear, because the durable thing is on disk. That is the bridge into Module 5." data-tier="R">
+  <h2>Session hygiene &mdash; compaction is not the same as starting clean<span class="tag k">5</span></h2>
+  <div class="body g64">
+    <div>
+      <svg viewBox="0 0 700 440" role="img" aria-label="Curve showing output quality rising then degrading as a session lengthens, with compaction and restart points">
+        <line x1="62" y1="24" x2="62" y2="250" stroke="#94b8b3" stroke-width="2"/>
+        <line x1="62" y1="250" x2="676" y2="250" stroke="#94b8b3" stroke-width="2"/>
+        <text class="lb" x="6" y="36">OUTPUT</text>
+        <text class="lb" x="6" y="50">QUALITY</text>
+        <text class="lb" x="556" y="272">SESSION LENGTH &rarr;</text>
+
+        <path d="M62 214 C130 150 190 108 268 100 C350 92 410 104 470 132 C530 160 590 200 664 236"
+              fill="none" stroke="#0f766e" stroke-width="3"/>
+        <path d="M62 214 C130 150 190 108 268 100 C350 92 410 104 470 132 C530 160 590 200 664 236 L664 250 L62 250 Z"
+              fill="#0f766e" opacity="0.07"/>
+
+        <rect class="bx g" x="78" y="40" width="150" height="44" rx="5"/>
+        <text class="ss" x="90" y="60" style="font-weight:600;fill:#047857">Warming up</text>
+        <text class="ss" x="90" y="76">useful context accrues</text>
+        <path class="ar dash" d="M150 88 L176 112"/>
+
+        <rect class="bx a" x="252" y="26" width="150" height="44" rx="5"/>
+        <text class="ss" x="264" y="46" style="font-weight:600;fill:#b45309">Peak &mdash; and plateau</text>
+        <text class="ss" x="264" y="62">it knows the task</text>
+        <path class="ar dash" d="M320 74 L308 94"/>
+
+        <rect class="bx r" x="470" y="30" width="206" height="62" rx="5"/>
+        <text class="ss" x="482" y="50" style="font-weight:600;fill:#dc2626">Degrading &mdash; and not gently</text>
+        <text class="ss" x="482" y="68">constraints dropped, rejected</text>
+        <text class="ss" x="482" y="84">ideas returning, drift</text>
+        <path class="arr dash" d="M560 96 L572 190"/>
+
+        <circle cx="440" cy="120" r="7" fill="#fbbf24" stroke="#fff" stroke-width="2" class="pulse"/>
+        <text class="lb a" x="404" y="146">COMPACT HERE</text>
+        <circle cx="620" cy="212" r="7" fill="#dc2626" stroke="#fff" stroke-width="2" class="pulse"/>
+        <text class="lb r" x="576" y="238">START CLEAN HERE</text>
+
+        <rect class="bx a" x="4" y="288" width="340" height="146" rx="8"/>
+        <text class="lb a" x="22" y="312">COMPACT &mdash; KEEP THE THREAD</text>
+        <text class="ss" x="22" y="336">Same task, still going. Conclusions</text>
+        <text class="ss" x="22" y="356">still matter; the noise does not.</text>
+        <text class="ss" x="22" y="382" style="font-weight:600">Discard: file dumps, build logs, dead</text>
+        <text class="ss" x="22" y="400" style="font-weight:600">ends, corrected mistakes.</text>
+        <text class="ss" x="22" y="424">Keep: the decision and the constraints.</text>
+
+        <rect class="bx r" x="356" y="288" width="340" height="146" rx="8"/>
+        <text class="lb r" x="374" y="312">START CLEAN &mdash; DROP THE THREAD</text>
+        <text class="ss" x="374" y="336">The task changed. Nothing in the</text>
+        <text class="ss" x="374" y="356">history helps the next thing.</text>
+        <text class="ss" x="374" y="382" style="font-weight:600;fill:#dc2626">The tell: you are telling it to forget</text>
+        <text class="ss" x="374" y="400" style="font-weight:600;fill:#dc2626">something, or repeating a constraint</text>
+        <text class="ss" x="374" y="418" style="font-weight:600;fill:#dc2626">you already gave.</text>
+      </svg>
+    </div>
+    <div class="pts">
+      <h3>The preventative habit</h3>
+      <ul>
+        <li>Write the conclusion out <b>while it is still sound</b> &mdash; into the spec, the ADR, the instruction file. Then start clean without losing anything.</li>
+        <li>If the durable artifact is on disk, a fresh session is <b>free</b>. If it only exists in the transcript, you are hostage to a window that is quietly degrading.</li>
+        <li>This is the bridge to <b>Module 5</b>: the spec is the thing that survives the session, and the transcript is disposable by design.</li>
+      </ul>
+      <h3>What people get wrong</h3>
+      <ul>
+        <li>Treating a long session as an achievement. It is not continuity &mdash; it is <em>accumulated liability</em>.</li>
+        <li>Re-prompting harder when the real problem is that the session is past its useful life. No prompt fixes a degraded window.</li>
+      </ul>
+      <div class="callout bad">&ldquo;Ignore what I said earlier&rdquo; is not an instruction. It is a <b>diagnosis</b> &mdash; and the remedy is a new session, not a firmer tone.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 16 -->
+<section class="slide" data-sec="6 &middot; Interactive vs. delegated" data-title="Two shapes of work" data-notes="The distinction that matters here is not speed, it is where the human attention sits and how often it is spent. Interactive is a tight loop - you are in every turn, you catch a wrong direction within seconds, and the cost is that you are pinned to the session and cannot do anything else. Delegated inverts all three: you spend attention twice, once writing a specification good enough to survive without you and once reviewing a finished result, and in between you are free. The trap to name explicitly is that delegation looks like it saves time and often does not, because a delegated run on a vague spec produces a large, confident, wrong change set - and reviewing that costs more than the interactive session you avoided. So the honest framing is that delegation converts supervision time into specification time, at a poor exchange rate when the spec is weak and an excellent one when it is strong. That is why this course teaches specs before it leans on delegation, and why Module 5 sits where it does." data-tier="R">
+  <h2>Interactive and delegated &mdash; where your attention actually goes<span class="tag k">6</span></h2>
+  <div class="body g1">
+    <div>
+      <svg viewBox="0 0 1180 448" role="img" aria-label="Interactive tight loop compared with delegated asynchronous run, showing where human attention is spent">
+        <text class="lb" x="4" y="14">INTERACTIVE &mdash; A TIGHT LOOP, AND YOU ARE INSIDE IT</text>
+        <rect class="bx" x="4" y="24" width="1172" height="146" rx="8"/>
+        <rect class="bx d" x="24" y="46" width="120" height="102" rx="6"/>
+        <text class="tt w" x="84" y="86" text-anchor="middle">You</text>
+        <text class="ss w" x="84" y="108" text-anchor="middle">present</text>
+        <text class="ss w" x="84" y="126" text-anchor="middle">for all of it</text>
+        <path class="fl" d="M150 74 L232 74"/>
+        <path class="fl" d="M232 122 L150 122"/>
+        <rect class="bx w" x="238" y="46" width="176" height="102" rx="6"/>
+        <text class="tt" x="326" y="82" text-anchor="middle">Prompt &rarr; result</text>
+        <text class="ss" x="326" y="104" text-anchor="middle">seconds per cycle</text>
+        <text class="ss" x="326" y="126" text-anchor="middle">dozens of cycles</text>
+        <rect class="bx g" x="440" y="46" width="234" height="102" rx="6"/>
+        <text class="lb g" x="458" y="70">STRENGTH</text>
+        <text class="ss" x="458" y="94">A wrong direction is caught in</text>
+        <text class="ss" x="458" y="114">seconds, before it becomes a</text>
+        <text class="ss" x="458" y="134">change set anyone has to read</text>
+        <rect class="bx r" x="690" y="46" width="234" height="102" rx="6"/>
+        <text class="lb r" x="708" y="70">COST</text>
+        <text class="ss" x="708" y="94">You are pinned. Your attention</text>
+        <text class="ss" x="708" y="114">is the throughput limit, and it</text>
+        <text class="ss" x="708" y="134">is spent continuously</text>
+        <rect class="bx a" x="940" y="46" width="216" height="102" rx="6"/>
+        <text class="lb a" x="958" y="70">RIGHT WHEN</text>
+        <text class="ss" x="958" y="94">The spec is in your head</text>
+        <text class="ss" x="958" y="114">and would cost more to</text>
+        <text class="ss" x="958" y="134">write down than to steer</text>
+
+        <text class="lb a" x="4" y="200">DELEGATED &mdash; ATTENTION SPENT TWICE, AND NOT AT ALL IN BETWEEN</text>
+        <rect class="bx a" x="4" y="210" width="1172" height="146" rx="8"/>
+        <rect class="bx d" x="24" y="232" width="120" height="102" rx="6"/>
+        <text class="tt w" x="84" y="266" text-anchor="middle">You</text>
+        <text class="ss w" x="84" y="288" text-anchor="middle">write the spec</text>
+        <text class="ss w" x="84" y="308" text-anchor="middle">then leave</text>
+        <path class="fl" d="M150 284 L226 284"/>
+        <rect class="bx w" x="232" y="232" width="290" height="102" rx="6"/>
+        <text class="tt" x="377" y="264" text-anchor="middle">Long unattended run</text>
+        <text class="ss" x="377" y="288" text-anchor="middle">minutes to hours &middot; many steps</text>
+        <text class="ss" x="377" y="310" text-anchor="middle">you are doing something else</text>
+        <path class="fl" d="M528 284 L604 284"/>
+        <rect class="bx d" x="610" y="232" width="130" height="102" rx="6"/>
+        <text class="tt w" x="675" y="270" text-anchor="middle">You</text>
+        <text class="ss w" x="675" y="292" text-anchor="middle">review the</text>
+        <text class="ss w" x="675" y="312" text-anchor="middle">finished result</text>
+        <rect class="bx g" x="756" y="232" width="196" height="102" rx="6"/>
+        <text class="lb g" x="774" y="256">STRENGTH</text>
+        <text class="ss" x="774" y="280">Your attention is freed</text>
+        <text class="ss" x="774" y="300">for the run&rsquo;s duration &mdash;</text>
+        <text class="ss" x="774" y="320">real parallelism</text>
+        <rect class="bx r" x="968" y="232" width="188" height="102" rx="6"/>
+        <text class="lb r" x="986" y="256">COST</text>
+        <text class="ss" x="986" y="280">A wrong direction is</text>
+        <text class="ss" x="986" y="300">caught only at the end &mdash;</text>
+        <text class="ss" x="986" y="320">after it grew</text>
+
+        <rect class="bx d" x="4" y="372" width="1172" height="76" rx="8"/>
+        <text class="lb w" x="26" y="396">THE TRAP &mdash; SAY THIS ONE PLAINLY</text>
+        <text class="ss w" x="26" y="420" style="font-size:14.5px">Delegation does not remove supervision. It <tspan font-weight="700" fill="#fbbf24">converts supervision time into specification time</tspan> &mdash; a poor exchange when the spec is weak,</text>
+        <text class="ss w" x="26" y="442" style="font-size:14.5px">because a vague brief returns a large, confident, wrong change set that costs more to review than the interactive session you avoided.</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 17 -->
+<section class="slide" data-sec="6 &middot; Interactive vs. delegated" data-title="Choosing per ticket" data-notes="Four gates, and they are ordered by how often they are the blocker. The first is the real one: can you write down what done means, precisely enough that someone else could check it without asking you? If not, nothing else matters - delegating is a bet you will lose. The second is bounding: an unbounded task will find work you did not want done. Third, verification - if the only way to know whether it worked is for you to read all of it, you have not saved anything, and this is the gate that quietly disqualifies most legacy work. Fourth, blast radius - if it is irreversible or touches something regulated, the human sits in the loop regardless of how good the spec is. Note the shape at the bottom: the gates get easier to pass as the course progresses, because Modules 2, 3 and 5 are precisely the machinery for passing them. So a ticket that must be interactive today may be safely delegable by Day 2, and that progression is itself part of the argument." data-tier="K">
+  <h2>Choosing per ticket &mdash; four gates, in this order<span class="tag k">6</span></h2>
+  <div class="body g46">
+    <div class="pts">
+      <h3>Read the gates as a sequence</h3>
+      <ul>
+        <li>They are ordered by how often they are the blocker. <b>Gate 1 fails most often</b>, and when it does, the other three are irrelevant.</li>
+        <li>Any single failure sends the ticket to <b>interactive</b>. This is not a scoring system &mdash; there is no passing average.</li>
+      </ul>
+      <h3>The progression that matters</h3>
+      <ul>
+        <li>These gates get <em>easier to pass</em> as the course goes on. Module 2 supplies the standing context, Module 3 the precision, Module 5 the machine-checkable acceptance criteria.</li>
+        <li>So a ticket that must be interactive today may be <b>safely delegable by tomorrow afternoon</b> &mdash; and that shift is itself part of the argument this course is making.</li>
+      </ul>
+      <div class="take"><b>Delegation is not a maturity badge.</b> An experienced engineer choosing interactive for an ambiguous ticket is making the correct call, not a timid one.</div>
+    </div>
+    <div>
+      <svg viewBox="0 0 700 448" role="img" aria-label="Four sequential gates deciding whether a ticket can be delegated">
+        <rect class="bx d" x="180" y="4" width="340" height="38" rx="6"/>
+        <text class="tt w" x="350" y="29" text-anchor="middle" style="font-size:14.5px">A ticket. Interactive or delegated?</text>
+        <path class="fl" d="M350 44 L350 62"/>
+
+        <rect class="bx" x="60" y="66" width="580" height="72" rx="7"/>
+        <text class="lb" x="78" y="88">GATE 1 &mdash; THE ONE THAT USUALLY FAILS</text>
+        <text class="tt" x="78" y="112" style="font-size:14.5px">Can you write down what &ldquo;done&rdquo; means?</text>
+        <text class="ss" x="78" y="130">Precisely enough that someone else could check it without asking you</text>
+        <path class="arr" d="M632 102 L652 102"/>
+        <path class="fl" d="M350 140 L350 158"/>
+
+        <rect class="bx" x="60" y="162" width="580" height="66" rx="7"/>
+        <text class="lb" x="78" y="184">GATE 2</text>
+        <text class="tt" x="78" y="206" style="font-size:14.5px">Is the work bounded?</text>
+        <text class="ss" x="78" y="222">An unbounded task will find work you did not want done</text>
+        <path class="arr" d="M632 196 L652 196"/>
+        <path class="fl" d="M350 230 L350 248"/>
+
+        <rect class="bx" x="60" y="252" width="580" height="66" rx="7"/>
+        <text class="lb" x="78" y="274">GATE 3 &mdash; QUIETLY DISQUALIFIES MOST LEGACY WORK</text>
+        <text class="tt" x="78" y="296" style="font-size:14.5px">Can success be checked without reading all of it?</text>
+        <text class="ss" x="78" y="312">Tests, a contract, a runnable check &mdash; not your own careful reading</text>
+        <path class="arr" d="M632 286 L652 286"/>
+        <path class="fl" d="M350 320 L350 338"/>
+
+        <rect class="bx" x="60" y="342" width="580" height="66" rx="7"/>
+        <text class="lb" x="78" y="364">GATE 4</text>
+        <text class="tt" x="78" y="386" style="font-size:14.5px">Is the blast radius acceptable unattended?</text>
+        <text class="ss" x="78" y="402">Irreversible, regulated or production-adjacent &rarr; a human sits in the loop</text>
+        <path class="arr" d="M632 376 L652 376"/>
+
+        <path class="arg" d="M350 410 L350 426"/>
+        <rect class="bx g" x="180" y="414" width="340" height="34" rx="6"/>
+        <text class="tt" x="350" y="437" text-anchor="middle" style="font-size:14px;fill:#047857">All four pass &rarr; delegate it</text>
+
+        <rect class="bx r" x="656" y="60" width="40" height="330" rx="6"/>
+        <text class="lb r" x="676" y="200" text-anchor="middle" transform="rotate(90 676 200)">ANY FAILURE &rarr; INTERACTIVE</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 18 -->
+<section class="slide" data-sec="Close" data-title="What Module 1 hands to the rest of the course" data-notes="Close by converting the module into obligations rather than summarising it. Left column is the four decisions they now owe on every request - and the framing to use is that none of these are new work, they are decisions they were already making implicitly and badly. Right column is where each thread is picked up, which also tells them nothing here was academic. Then the tally sheet: point at the board, remind them the first row is filled in and the last row is empty, and that they will fill it themselves at the capstone tomorrow afternoon. The last line is the one to leave hanging before the quiz - the agent will never tell you what it did not know. That is why the measurement exists and why the next module is about writing things down." data-tier="K">
+  <h2>What Module 1 hands to the rest of the course<span class="tag">M1</span></h2>
+  <div class="body g55">
+    <div class="pts">
+      <h3>Four decisions you now owe on every request</h3>
+      <ul>
+        <li><b>What kind of task is this?</b> Mechanical, reasoning, or review &mdash; named before anything is sent.</li>
+        <li><b>What mode?</b> The blast radius you are authorising, chosen and not defaulted.</li>
+        <li><b>What goes in the window?</b> And what should have been a file or a tool call instead.</li>
+        <li><b>Interactive or delegated?</b> Four gates, and gate one is the honest one.</li>
+      </ul>
+      <div class="callout">None of these are new work. You were already making all four &mdash; <b>implicitly, and by habit</b>. The change is making them deliberately, and being able to say why.</div>
+      <div class="take"><b>The line to leave with:</b> the agent will never tell you what it did not know. It will produce something anyway &mdash; which is exactly why the number on the board exists.</div>
+    </div>
+    <div>
+      <svg viewBox="0 0 700 448" role="img" aria-label="Where each Module 1 thread is picked up later in the course">
+        <text class="lb" x="4" y="14">EVERY THREAD IS PICKED UP &mdash; NOTHING HERE WAS ACADEMIC</text>
+        <rect class="bx" x="4" y="24" width="692" height="272" rx="8"/>
+
+        <rect class="bx w grow" x="20" y="40" width="660" height="46" rx="5"/>
+        <text class="tt" x="36" y="60" style="font-size:13.5px">The re-discovery tax &rarr; drained by writing knowledge into the repo</text>
+        <text class="ss" x="36" y="78">layered instructions, ownership, staleness detection, CI checks on drift</text>
+        <text class="lb" x="664" y="66" text-anchor="end">M2</text>
+
+        <rect class="bx w grow w2" x="20" y="94" width="660" height="46" rx="5"/>
+        <text class="tt" x="36" y="114" style="font-size:13.5px">Guessing and hallucination &rarr; grounding rules and versioned skill files</text>
+        <text class="ss" x="36" y="132">and an eval set that proves one prompt beats another on pass rate</text>
+        <text class="lb" x="664" y="120" text-anchor="end">M3</text>
+
+        <rect class="bx w grow w3" x="20" y="148" width="660" height="46" rx="5"/>
+        <text class="tt" x="36" y="168" style="font-size:13.5px">Task classes &rarr; four specialised agents instead of one general one</text>
+        <text class="ss" x="36" y="186">design, coding, test and review &mdash; each with its own context and guardrails</text>
+        <text class="lb" x="664" y="174" text-anchor="end">M4</text>
+
+        <rect class="bx w grow w4" x="20" y="202" width="660" height="46" rx="5"/>
+        <text class="tt" x="36" y="222" style="font-size:13.5px">Gate 1 and the specification gap &rarr; spec-driven development</text>
+        <text class="ss" x="36" y="240">machine-verifiable acceptance criteria, and a human gate between each step</text>
+        <text class="lb" x="664" y="228" text-anchor="end">M5</text>
+
+        <rect class="bx w grow w5" x="20" y="256" width="660" height="30" rx="5"/>
+        <text class="tt" x="36" y="276" style="font-size:13.5px">&ldquo;Behind a tool call&rdquo; &rarr; pulling the ticket and writing the page back</text>
+        <text class="lb" x="664" y="276" text-anchor="end">M6 &middot; M8</text>
+
+        <text class="lb a" x="4" y="326">AND THE ROW YOU FILL IN TOMORROW AFTERNOON</text>
+        <rect class="bx d" x="4" y="336" width="692" height="112" rx="8"/>
+        <rect class="bx a" x="24" y="356" width="300" height="72" rx="6"/>
+        <text class="lb a" x="40" y="378">TODAY &mdash; ROW ONE, FILLED IN</text>
+        <text class="ss" x="40" y="400">One ticket, unprepared repo,</text>
+        <text class="ss" x="40" y="418">measured honestly. On the board.</text>
+        <path class="fl" d="M334 392 L370 392"/>
+        <rect class="bx g" x="376" y="356" width="300" height="72" rx="6"/>
+        <text class="lb g" x="392" y="378">TOMORROW &mdash; THE LAST ROW</text>
+        <text class="ss" x="392" y="400">Same measurement, full pipeline.</text>
+        <text class="ss" x="392" y="418">Reported as measured &mdash; either way.</text>
+      </svg>
+    </div>
+  </div>
+</section>
+<!-- 19 -->
+<section class="slide" data-sec="Review quiz" data-title="Quiz — how to run it" data-notes="Eight questions, answer revealed on the following slide. Run it as a conversation, not a test - ask for a show of hands on each option before advancing, because the split is the diagnostic. Where the room splits evenly, that concept did not land and is worth two more minutes before the break. The distractors are deliberately plausible and several are things experienced engineers actually believe, so a wrong answer here is useful rather than embarrassing - say that before you start. If time is short, questions 2, 4 and 8 are the three that must be asked; they carry the re-discovery tax, the model-selection habit and the delegation gate, which are the three ideas the rest of the course leans on." data-tier="R">
+  <h2>Review quiz &mdash; eight questions<span class="tag q">QUIZ</span></h2>
+  <div class="body g55">
+    <div class="pts">
+      <h3>How this runs</h3>
+      <ul>
+        <li>Question on one slide, <b>answer on the next</b>. Four options, exactly one correct.</li>
+        <li>Show of hands on each option <em>before</em> advancing &mdash; the split is the useful part, not the score.</li>
+        <li>Several distractors are things experienced engineers genuinely believe. Getting one wrong here is <b>information, not embarrassment</b>.</li>
+      </ul>
+      <h3>If time is short</h3>
+      <ul>
+        <li>Ask <b>Q2, Q4 and Q8</b>. They carry the re-discovery tax, the model-selection habit and the delegation gate &mdash; the three ideas the rest of the course leans on.</li>
+      </ul>
+      <div class="callout">Where the room splits evenly, that concept did not land. Spend two more minutes on it before the break rather than discovering it in Module 4.</div>
+    </div>
+    <div>
+      <svg viewBox="0 0 660 420" role="img" aria-label="Map of the eight quiz questions to the six module concepts">
+        <text class="lb p" x="4" y="14">WHAT EACH QUESTION CHECKS</text>
+        <rect class="bx p" x="4" y="24" width="652" height="386" rx="8"/>
+        <rect class="bx w rise" x="22" y="42" width="616" height="42" rx="5"/>
+        <text class="tt" x="38" y="60" style="font-size:13.5px">Q1 &nbsp;&middot;&nbsp; Where the ADLC actually differs from the SDLC</text>
+        <text class="ss" x="38" y="77">concept 1 &mdash; the cost moved outward, the outer loop did not change</text>
+        <rect class="bx w rise r2" x="22" y="92" width="616" height="42" rx="5"/>
+        <text class="tt" x="38" y="110" style="font-size:13.5px">Q2 &nbsp;&middot;&nbsp; Why the re-discovery tax is paid twice</text>
+        <text class="ss" x="38" y="127">concept 2 &mdash; the invisible half is the expensive half</text>
+        <rect class="bx w rise r3" x="22" y="142" width="616" height="42" rx="5"/>
+        <text class="tt" x="38" y="160" style="font-size:13.5px">Q3 &nbsp;&middot;&nbsp; Why the baseline uses proxy metrics</text>
+        <text class="ss" x="38" y="177">concept 3 &mdash; measure what you can show, reconcile what you cannot</text>
+        <rect class="bx w rise r4" x="22" y="192" width="616" height="42" rx="5"/>
+        <text class="tt" x="38" y="210" style="font-size:13.5px">Q4 &nbsp;&middot;&nbsp; When the fast, cheap model is the right choice</text>
+        <text class="ss" x="38" y="227">concept 4 &mdash; ambiguity against the cost of being wrong</text>
+        <rect class="bx w rise r5" x="22" y="242" width="616" height="42" rx="5"/>
+        <text class="tt" x="38" y="260" style="font-size:13.5px">Q5 &nbsp;&middot;&nbsp; What choosing a mode actually decides</text>
+        <text class="ss" x="38" y="277">concept 4 &mdash; mode is a permission boundary, not a capability</text>
+        <rect class="bx w rise r6" x="22" y="292" width="616" height="42" rx="5"/>
+        <text class="tt" x="38" y="310" style="font-size:13.5px">Q6 &nbsp;&middot;&nbsp; Where a large, occasionally-needed document belongs</text>
+        <text class="ss" x="38" y="327">concept 5 &mdash; context, a file, or behind a tool call</text>
+        <rect class="bx w rise r6" x="22" y="342" width="616" height="30" rx="5"/>
+        <text class="tt" x="38" y="362" style="font-size:13.5px">Q7 &nbsp;&middot;&nbsp; The signal to start a clean session &mdash; concept 5</text>
+        <rect class="bx w rise r6" x="22" y="380" width="616" height="30" rx="5"/>
+        <text class="tt" x="38" y="400" style="font-size:13.5px">Q8 &nbsp;&middot;&nbsp; The gate that disqualifies delegation most often &mdash; concept 6</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 20 -->
+<section class="slide" data-sec="Review quiz" data-title="Q1 — what changed in the lifecycle" data-notes="Show of hands on each before advancing. Watch for B - it is the answer people give when they have been reading vendor marketing, and it is wrong in a way worth naming." data-tier="R">
+  <h2>Q1 &middot; Moving from SDLC to ADLC, what actually changed?<span class="tag q">1 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">Your team adopts agents across the board. Which statement best describes what genuinely changed about the lifecycle?</div>
+    <div class="opts">
+      <div class="opt"><span class="k">A</span><span>The outer loop &mdash; branching, CI/CD and the merge gate &mdash; has to be redesigned around the agent, because the old pipeline assumes a human author.</span></div>
+      <div class="opt"><span class="k">B</span><span>Review becomes less important, because the model produces more consistent code than a mixed team of engineers does.</span></div>
+      <div class="opt"><span class="k">C</span><span>The outer loop is largely unchanged; what moved is that producing code stopped being the bottleneck, and assembling context and verifying output became one.</span></div>
+      <div class="opt"><span class="k">D</span><span>Nothing structural changed &mdash; it is the same lifecycle, executed faster, so the only real question is licensing and seat allocation.</span></div>
+    </div>
+    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+  </div></div>
+</section>
+
+<!-- 21 -->
+<section class="slide" data-sec="Review quiz" data-title="Q1 — answer" data-notes="If a meaningful share of the room picked D, that is worth addressing directly: the faster-horses reading is the one that leads teams to change nothing and then wonder why the gains did not appear. If they picked B, name the inversion explicitly - the model is consistent, but consistency is not correctness, and the author has no intent for a reviewer to trust." data-tier="R">
+  <h2>Q1 &middot; Answer<span class="tag q">1 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">Moving from SDLC to ADLC, what actually changed?</div>
+    <div class="opts">
+      <div class="opt wrong"><span class="k">A</span><span>The outer loop has to be redesigned around the agent.</span></div>
+      <div class="opt wrong"><span class="k">B</span><span>Review becomes less important, because the model is more consistent.</span></div>
+      <div class="opt right"><span class="k">C</span><span>The outer loop is largely unchanged; producing code stopped being the bottleneck, and assembling context and verifying output became one.</span></div>
+      <div class="opt wrong"><span class="k">D</span><span>Nothing structural &mdash; the same lifecycle, executed faster.</span></div>
+    </div>
+    <div class="why"><b>C.</b> Branching, pipelines, the merge gate and ownership all survive intact &mdash; which is exactly why the change is underestimated. The cost moved <b>outward from the middle</b>, to context going in and verification coming out.
+      <span class="no"><b>A</b> overreaches &mdash; an agent commits like anyone else. <b>B</b> inverts the truth: the author now has no intent to trust, so sampling review is the <em>wrong</em> strategy, not a lighter one. <b>D</b> is the faster-horses reading &mdash; it leads teams to change nothing and then wonder where the gains went.</span></div>
+  </div></div>
+</section>
+
+<!-- 22 -->
+<section class="slide" data-sec="Review quiz" data-title="Q2 — the re-discovery tax" data-notes="This is the one that must land. If the room does not pick A confidently, re-run the two-loop diagram before moving on - everything in Modules 2 and 3 depends on this being understood." data-tier="R">
+  <h2>Q2 &middot; Why is the re-discovery tax described as &ldquo;paid twice&rdquo;?<span class="tag q">2 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">The course calls re-discovery a tax that is paid twice. What are the two payments?</div>
+    <div class="opts">
+      <div class="opt"><span class="k">A</span><span>Once in visible spend &mdash; extra turns, tool calls and AI credits &mdash; and once invisibly, when the agent guesses instead of stalling and the wrong guess reaches the codebase.</span></div>
+      <div class="opt"><span class="k">B</span><span>Once when the agent reads the repository, and again when it re-reads the same files later in the same session because the window was compacted.</span></div>
+      <div class="opt"><span class="k">C</span><span>Once by the engineer running the agent, and once by the reviewer who has to read the resulting pull request.</span></div>
+      <div class="opt"><span class="k">D</span><span>Once at the licence level per seat, and once in the infrastructure cost of the tool calls the agent makes against your systems.</span></div>
+    </div>
+    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+  </div></div>
+</section>
+
+<!-- 23 -->
+<section class="slide" data-sec="Review quiz" data-title="Q2 — answer" data-notes="Reinforce the asymmetry: no counter increments when the agent is confidently wrong, which is why a licence-cost conversation about agents is always measuring the cheaper half. And close with the reason it justifies four modules - one intervention drains both loops." data-tier="R">
+  <h2>Q2 &middot; Answer<span class="tag q">2 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">Why is the re-discovery tax &ldquo;paid twice&rdquo;?</div>
+    <div class="opts">
+      <div class="opt right"><span class="k">A</span><span>Once in visible spend &mdash; turns, tool calls, AI credits &mdash; and once invisibly, when the agent guesses rather than stalling and the guess reaches the codebase.</span></div>
+      <div class="opt wrong"><span class="k">B</span><span>Reading the repository, then re-reading after compaction.</span></div>
+      <div class="opt wrong"><span class="k">C</span><span>Paid by the engineer, then by the reviewer.</span></div>
+      <div class="opt wrong"><span class="k">D</span><span>Licence cost per seat, then infrastructure cost.</span></div>
+    </div>
+    <div class="why"><b>A.</b> The second payment is the expensive one and <b>no counter increments for it</b> &mdash; you pay in review time, defects and rework. Any conversation that prices agents purely on AI credits is measuring the cheaper half of the bill.
+      <span class="no"><b>B</b> describes a real inefficiency but a much smaller one, inside a single session. <b>C</b> is a genuine cost of AI-written code &mdash; it is Module 8&rsquo;s subject &mdash; but it is not what re-discovery means. <b>D</b> is a procurement view; it never sees the accuracy loop at all. <em>Both loops share one cause, which is why one intervention drains both.</em></span></div>
+  </div></div>
+</section>
+
+<!-- 24 -->
+<section class="slide" data-sec="Review quiz" data-title="Q3 — why proxy metrics" data-notes="Expect some resistance on this one from anyone with admin access to the usage dashboard. The point is not that the dashboard is wrong - it is that it cannot be attributed to one ticket while you are running it, which is the only thing a baseline needs." data-tier="K">
+  <h2>Q3 &middot; Why does Lab 1.1 count turns and rework rather than AI credits?<span class="tag q">3 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">The brief asks for token efficiency, yet the baseline is built on turns, tool calls, clarifying questions, rework, churn and wall-clock. Why?</div>
+    <div class="opts">
+      <div class="opt"><span class="k">A</span><span>Because AI credit counts are confidential and cannot be shown to a training cohort.</span></div>
+      <div class="opt"><span class="k">B</span><span>Because turns and rework are more accurate measures of cost than AI credits are.</span></div>
+      <div class="opt"><span class="k">C</span><span>Because the six proxies are easier to explain, so the exercise takes less classroom time.</span></div>
+      <div class="opt"><span class="k">D</span><span>Because AI credits are aggregated per user and arrive on a lag &mdash; they cannot be attributed to one ticket while you work, and an unshowable number gets discounted.</span></div>
+    </div>
+    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+  </div></div>
+</section>
+
+<!-- 25 -->
+<section class="slide" data-sec="Review quiz" data-title="Q3 — answer" data-notes="Land the rule as a working principle they can take back to their own teams: measure what you can show, reconcile what you cannot, quote nothing you cannot point at. It applies well beyond this course." data-tier="K">
+  <h2>Q3 &middot; Answer<span class="tag q">3 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">Why does the baseline use proxy metrics?</div>
+    <div class="opts">
+      <div class="opt wrong"><span class="k">A</span><span>AI credit counts are confidential.</span></div>
+      <div class="opt wrong"><span class="k">B</span><span>Turns and rework are more accurate measures of cost.</span></div>
+      <div class="opt wrong"><span class="k">C</span><span>The proxies are easier to explain and save classroom time.</span></div>
+      <div class="opt right"><span class="k">D</span><span>AI credits are aggregated per user and lagged &mdash; not attributable to one ticket while you work, and a number you cannot show gets discounted.</span></div>
+    </div>
+    <div class="why"><b>D.</b> The proxies are readable <b>in the session, in front of you</b>, and attributable to one ticket &mdash; which is the only property a baseline actually requires. The usage view is still used, as an after-the-fact reconciliation with its lag explained.
+      <span class="no"><b>A</b> is not the reason &mdash; the constraint is attribution and timing, not confidentiality. <b>B</b> overclaims: AI credits are the truer measure of spend, they are simply unavailable at the moment you need them. <b>C</b> is a convenience argument, and convenience is not why we chose them. <em>The rule to carry back: measure what you can show, reconcile what you cannot, quote nothing you cannot point at.</em></span></div>
+  </div></div>
+</section>
+
+<!-- 26 -->
+<section class="slide" data-sec="Review quiz" data-title="Q4 — model selection" data-notes="The most behaviour-changing question in the set. Whatever the room answers, follow up by asking what proportion of their last ten requests were actually in the bottom-left quadrant - the honest answer is usually most of them." data-tier="R">
+  <h2>Q4 &middot; Which task most clearly belongs on the fast, low-cost model?<span class="tag q">4 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">Four tickets arrive. Which one most clearly belongs on the fast, low-cost class rather than the reasoning class?</div>
+    <div class="opts">
+      <div class="opt"><span class="k">A</span><span>Decide how the posting service should behave when the same payment is retried after a partial failure.</span></div>
+      <div class="opt"><span class="k">B</span><span>Generate the DTOs, mappers and test scaffolds for an endpoint whose contract has already been agreed and written down.</span></div>
+      <div class="opt"><span class="k">C</span><span>Work out why the reconciliation job produces a different total on the last day of the month, which nobody has yet explained.</span></div>
+      <div class="opt"><span class="k">D</span><span>Design the migration path for a schema change that both the service and its consumer depend on.</span></div>
+    </div>
+    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+  </div></div>
+</section>
+
+<!-- 27 -->
+<section class="slide" data-sec="Review quiz" data-title="Q4 — answer" data-notes="Make the decomposition point here, because it is the practical habit: A, C and D each contain a small reasoning decision followed by a pile of mechanical work, and running the whole ticket at the top rate is the waste this module is trying to remove." data-tier="R">
+  <h2>Q4 &middot; Answer<span class="tag q">4 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">Which task most clearly belongs on the fast, low-cost model?</div>
+    <div class="opts">
+      <div class="opt wrong"><span class="k">A</span><span>Decide retry behaviour after a partial failure.</span></div>
+      <div class="opt right"><span class="k">B</span><span>Generate DTOs, mappers and test scaffolds for an <em>already agreed and written-down</em> contract.</span></div>
+      <div class="opt wrong"><span class="k">C</span><span>Diagnose an unexplained month-end discrepancy.</span></div>
+      <div class="opt wrong"><span class="k">D</span><span>Design a cross-repo schema migration path.</span></div>
+    </div>
+    <div class="why"><b>B.</b> The answer is <b>already determined</b> &mdash; you are asking for it to be applied consistently &mdash; and verification is cheap, because the compiler and the tests answer immediately and definitively. Bottom-left quadrant, and most of your requests live there.
+      <span class="no"><b>A</b> and <b>D</b> are reasoning work: several defensible answers, and a wrong choice is architectural. <b>C</b> is unbounded diagnosis, the hardest class of all. <em>But note the habit that matters: each of A, C and D is one reasoning decision followed by a pile of mechanical work. Decompose and price them separately instead of running the whole ticket at the top rate.</em></span></div>
+  </div></div>
+</section>
+
+<!-- 28 -->
+<section class="slide" data-sec="Review quiz" data-title="Q5 — what a mode decides" data-notes="If anyone answers C, that is the most useful wrong answer in the quiz - it is the belief that makes people run everything in agent mode. Correct it plainly: the model is the same, only the authorisation changed." data-tier="R">
+  <h2>Q5 &middot; When you choose ask, edit or agent mode, what are you deciding?<span class="tag q">5 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">What does the choice of mode actually determine?</div>
+    <div class="opts">
+      <div class="opt"><span class="k">A</span><span>How much context the agent is allowed to read from the repository before answering.</span></div>
+      <div class="opt"><span class="k">B</span><span>Which model tier serves the request, and therefore what the request costs.</span></div>
+      <div class="opt"><span class="k">C</span><span>How capable the response will be &mdash; agent mode reasons harder because it can take multiple steps.</span></div>
+      <div class="opt"><span class="k">D</span><span>How much of the repository you have authorised it to change without asking you again &mdash; the blast radius.</span></div>
+    </div>
+    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+  </div></div>
+</section>
+
+<!-- 29 -->
+<section class="slide" data-sec="Review quiz" data-title="Q5 — answer" data-notes="Close with the three-decision framing, because it is the sentence from this module people most often carry back to their teams: mode sets the blast radius, model sets the reasoning, context sets the accuracy - and they are chosen separately." data-tier="R">
+  <h2>Q5 &middot; Answer<span class="tag q">5 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">What does choosing a mode actually decide?</div>
+    <div class="opts">
+      <div class="opt wrong"><span class="k">A</span><span>How much context it may read.</span></div>
+      <div class="opt wrong"><span class="k">B</span><span>Which model tier serves the request.</span></div>
+      <div class="opt wrong"><span class="k">C</span><span>How capable the response will be.</span></div>
+      <div class="opt right"><span class="k">D</span><span>How much of the repository you have authorised it to change without asking again &mdash; the blast radius.</span></div>
+    </div>
+    <div class="why"><b>D.</b> Mode is a <b>permission boundary</b>. Ask changes nothing, edit changes what you pointed at, agent decides for itself what to touch and can run commands. Escalate only as far as the task needs.
+      <span class="no"><b>C</b> is the most useful wrong answer here &mdash; it is precisely the belief that makes people run everything in agent mode out of habit, then spend their scarcest resource, reviewer attention, supervising work that never needed it. The model is the same; only the authorisation changed. <b>A</b> and <b>B</b> are separate decisions. <em>Mode sets the blast radius &middot; model sets the reasoning &middot; context sets the accuracy &mdash; three decisions, made on purpose, every time.</em></span></div>
+  </div></div>
+</section>
+
+<!-- 30 -->
+<section class="slide" data-sec="Review quiz" data-title="Q6 — placement" data-notes="This question previews Day 2 as much as it reviews Module 1 - the reason the JIRA and Confluence work is built on tool calls rather than standing context is exactly this routing rule." data-tier="R">
+  <h2>Q6 &middot; Where does a large, occasionally-needed document belong?<span class="tag q">6 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">A 40-page architecture decision record is relevant to perhaps one ticket in ten. Where should it live?</div>
+    <div class="opts">
+      <div class="opt"><span class="k">A</span><span>Behind a tool call &mdash; fetched only on the requests that actually need it, so the cost is paid on those requests alone.</span></div>
+      <div class="opt"><span class="k">B</span><span>In the repository instruction file, so the agent always has it and never has to go looking.</span></div>
+      <div class="opt"><span class="k">C</span><span>Pasted into the chat at the start of every session, so it is present before the agent needs it.</span></div>
+      <div class="opt"><span class="k">D</span><span>Summarised into three bullet points in the instruction file, and the full document deleted to avoid drift.</span></div>
+    </div>
+    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+  </div></div>
+</section>
+
+<!-- 31 -->
+<section class="slide" data-sec="Review quiz" data-title="Q6 — answer" data-notes="Name both placement errors again, and stress that both feel like diligence - that is why they persist in otherwise disciplined teams. D is worth extra care because summarising is often right; deleting the source is what makes it wrong." data-tier="R">
+  <h2>Q6 &middot; Answer<span class="tag q">6 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">Where does a large, occasionally-needed document belong?</div>
+    <div class="opts">
+      <div class="opt right"><span class="k">A</span><span>Behind a tool call &mdash; fetched only on the requests that need it.</span></div>
+      <div class="opt wrong"><span class="k">B</span><span>In the repository instruction file, always present.</span></div>
+      <div class="opt wrong"><span class="k">C</span><span>Pasted into chat at the start of every session.</span></div>
+      <div class="opt wrong"><span class="k">D</span><span>Summarised to three bullets, full document deleted.</span></div>
+    </div>
+    <div class="why"><b>A.</b> Frequency crossed with size decides placement. Occasional and large means the cost should fall <b>only on the requests that need it</b> &mdash; which is why Day 2 pulls tickets and pages over MCP rather than holding them as standing context.
+      <span class="no"><b>B</b> is placement error two: a permanent charge on every request for material used once in ten, and the signal you did need is now buried. <b>C</b> is placement error one &mdash; the re-discovery tax paid <em>by hand</em>; you have become the retrieval system. <b>D</b> is half right and the dangerous half is the deletion: a pointer plus a summary is good practice, destroying the source is not. <em>Both errors feel like diligence, which is why they survive in disciplined teams.</em></span></div>
+  </div></div>
+</section>
+
+<!-- 32 -->
+<section class="slide" data-sec="Review quiz" data-title="Q7 — session hygiene" data-notes="Quick one. The value is in naming the tell, because everyone has done it - the moment you type ignore what I said earlier, the session has already told you what it needs." data-tier="R">
+  <h2>Q7 &middot; Which is the clearest signal to start a clean session?<span class="tag q">7 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">You are ninety minutes into a session. Which of these most clearly says &ldquo;start clean&rdquo; rather than &ldquo;compact&rdquo;?</div>
+    <div class="opts">
+      <div class="opt"><span class="k">A</span><span>The context window is reported as more than half full.</span></div>
+      <div class="opt"><span class="k">B</span><span>You find yourself repeating a constraint you already gave, or telling it to ignore something earlier.</span></div>
+      <div class="opt"><span class="k">C</span><span>The agent has read more than twenty files during the session.</span></div>
+      <div class="opt"><span class="k">D</span><span>Responses are taking noticeably longer to come back than they did at the start.</span></div>
+    </div>
+    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+  </div></div>
+</section>
+
+<!-- 33 -->
+<section class="slide" data-sec="Review quiz" data-title="Q7 — answer" data-notes="Bridge into Module 5 here: the reason starting clean is cheap is that the durable artifact is on disk. If the only record of the decision is the transcript, you are hostage to a window that is quietly degrading - which is the argument for specs." data-tier="R">
+  <h2>Q7 &middot; Answer<span class="tag q">7 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">Which is the clearest signal to start clean?</div>
+    <div class="opts">
+      <div class="opt wrong"><span class="k">A</span><span>The window is more than half full.</span></div>
+      <div class="opt right"><span class="k">B</span><span>You are repeating a constraint you already gave, or telling it to ignore something earlier.</span></div>
+      <div class="opt wrong"><span class="k">C</span><span>It has read more than twenty files.</span></div>
+      <div class="opt wrong"><span class="k">D</span><span>Responses are slower than at the start.</span></div>
+    </div>
+    <div class="why"><b>B.</b> That is behavioural evidence the session has passed its useful life &mdash; the constraint is in the window and is no longer being honoured. <b>&ldquo;Ignore what I said earlier&rdquo; is a diagnosis, not an instruction</b>, and the remedy is a new session rather than a firmer tone.
+      <span class="no"><b>A</b> and <b>C</b> are volume, not quality &mdash; a full window on a coherent task may be working perfectly. <b>D</b> is real but ambiguous; latency tracks many things. <em>And the reason starting clean is cheap: write the conclusion to the spec or the instruction file while it is still sound, and the fresh session loses nothing. If the only record is the transcript, you are hostage to a degrading window &mdash; which is the argument for Module 5.</em></span></div>
+  </div></div>
+</section>
+
+<!-- 34 -->
+<section class="slide" data-sec="Review quiz" data-title="Q8 — the delegation gate" data-notes="Last one, and the one to end on because it points straight at Module 5. If the room answers A or D, they are describing real gates - just not the one that fails most often. Close by asking how many of their current sprint tickets would pass gate one today." data-tier="K">
+  <h2>Q8 &middot; Which gate disqualifies delegation most often?<span class="tag q">8 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">Of the four gates, which one fails most frequently in real teams &mdash; and therefore sends most tickets to interactive?</div>
+    <div class="opts">
+      <div class="opt"><span class="k">A</span><span>Blast radius &mdash; the change touches something irreversible, regulated or production-adjacent.</span></div>
+      <div class="opt"><span class="k">B</span><span>Boundedness &mdash; the work has no natural edge, so the agent will find work nobody asked for.</span></div>
+      <div class="opt"><span class="k">C</span><span>Definition of done &mdash; you cannot write down what &ldquo;finished&rdquo; means precisely enough for someone else to check it without asking you.</span></div>
+      <div class="opt"><span class="k">D</span><span>Verifiability &mdash; success can only be established by a person reading the whole change.</span></div>
+    </div>
+    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+  </div></div>
+</section>
+
+<!-- 35 -->
+<section class="slide" data-sec="Review quiz" data-title="Q8 — answer" data-notes="End the module here. The closing thought to leave in the room before the break: the gates get easier to pass as the course goes on, because Modules 2, 3 and 5 are the machinery for passing them - so a ticket that must be interactive today may be safely delegable by tomorrow afternoon, and that shift is the argument the course is making." data-tier="K">
+  <h2>Q8 &middot; Answer<span class="tag q">8 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">Which gate disqualifies delegation most often?</div>
+    <div class="opts">
+      <div class="opt wrong"><span class="k">A</span><span>Blast radius.</span></div>
+      <div class="opt wrong"><span class="k">B</span><span>Boundedness.</span></div>
+      <div class="opt right"><span class="k">C</span><span>Definition of done &mdash; you cannot write down what &ldquo;finished&rdquo; means precisely enough for another party to check without asking you.</span></div>
+      <div class="opt wrong"><span class="k">D</span><span>Verifiability.</span></div>
+    </div>
+    <div class="why"><b>C.</b> Gate one, and when it fails the other three are irrelevant &mdash; delegating against a specification you could not write is a bet you will lose, and you will discover it only after a large, confident change set exists.
+      <span class="no"><b>B</b> and <b>D</b> are genuine gates and <b>D</b> quietly disqualifies a great deal of legacy work &mdash; but both are downstream of C. <b>A</b> is a hard stop when it applies, and applies to a minority of tickets. <em>The closing thought: these gates get easier to pass as the course goes on, because Modules 2, 3 and 5 are precisely the machinery for passing them. A ticket that must be interactive today may be safely delegable by tomorrow afternoon &mdash; and that shift is the whole argument.</em></span></div>
+  </div></div>
+</section>
+</div></div>
+
+<div id="notes"><div class="h">SPEAKER NOTES</div><div id="notesbody"></div></div>
+
+<div id="bot">
+  <button class="navbtn" id="prev" title="Previous (&larr;)">&#8249;</button>
+  <button class="navbtn" id="next" title="Next (&rarr;)">&#8250;</button>
+  <span id="ttl"></span>
+  <div id="prog"><div id="progf"></div></div>
+  <span id="hint">&larr; &rarr; move &middot; K key path &middot; O index &middot; N notes &middot; F full</span>
+  <span id="num"></span>
+</div>
+
+<script>
+(function(){
+  var slides=[].slice.call(document.querySelectorAll('.slide'));
+  var stage=document.getElementById('stage'),toc=document.getElementById('toc');
+  var notes=document.getElementById('notes'),notesBody=document.getElementById('notesbody');
+  var elNum=document.getElementById('num'),elSec=document.getElementById('sec');
+  var elTtl=document.getElementById('ttl'),elProg=document.getElementById('progf');
+  var elTier=document.getElementById('tier'),elAfter=document.getElementById('after');
+  var elHint=document.getElementById('hint');
+  // The key path skips reference slides, and skips after-lab slides until the lab is scored.
+  var postLab=false;
+  function onPath(n){var s=slides[n];return s.dataset.tier!=='R'&&(postLab||!s.dataset.after);}
+  function paintHint(){elHint.innerHTML='&larr; &rarr; move &middot; K key path &middot; L after-lab '+(postLab?'<b>ON</b>':'off')+' &middot; O index &middot; N notes &middot; F full';}
+  var i=0;
+
+  // ---- build the index, grouped by section ----
+  var list=document.getElementById('toclist'),grp=null,last=null;
+  slides.forEach(function(s,k){
+    var sec=s.dataset.sec||'';
+    if(sec!==last){
+      grp=document.createElement('div');grp.className='grp';
+      var h=document.createElement('div');h.className='grph';h.innerHTML=sec;grp.appendChild(h);
+      list.appendChild(grp);last=sec;
+    }
+    var a=document.createElement('a');a.href='#'+(k+1);
+    var tr=s.dataset.tier||'R';
+    a.innerHTML='<span class="n">'+(k+1)+'</span><span class="tg '+tr+'">'+tr+'</span>'+(s.dataset.title||'');
+    if(s.dataset.after)a.className='aft';
+    a.onclick=function(e){e.preventDefault();go(k);toc.classList.remove('on');};
+    grp.appendChild(a);
+  });
+  var links=[].slice.call(toc.querySelectorAll('a'));
+
+  function go(n){
+    i=Math.max(0,Math.min(slides.length-1,n));
+    slides.forEach(function(s,k){s.classList.toggle('active',k===i);});
+    links.forEach(function(a,k){a.classList.toggle('cur',k===i);});
+    elNum.textContent=(i+1)+' / '+slides.length;
+    elSec.innerHTML=slides[i].dataset.sec||'';
+    elTtl.textContent=slides[i].dataset.title||'';
+    var tr=slides[i].dataset.tier||'R';
+    elTier.className='tier '+tr;elTier.textContent=(tr==='D'?'DEMO':tr==='K'?'KEY':'REF');
+    elAfter.classList.toggle('on',!!slides[i].dataset.after);
+    elProg.style.width=((i+1)/slides.length*100)+'%';
+    notesBody.textContent=slides[i].dataset.notes||'No notes for this slide.';
+    if(history.replaceState)history.replaceState(null,'','#'+(i+1));
+  }
+  function fit(){
+    var extra=notes.classList.contains('on')?notes.offsetHeight:0;
+    var s=Math.min((window.innerWidth-24)/1280,(window.innerHeight-82-extra-24)/720);
+    stage.style.transform='scale('+s+')';
+  }
+  document.getElementById('next').onclick=function(){go(i+1);};
+  document.getElementById('prev').onclick=function(){go(i-1);};
+  document.getElementById('tocbtn').onclick=function(){toc.classList.toggle('on');};
+  document.getElementById('notesbtn').onclick=function(){notes.classList.toggle('on');fit();};
+  document.getElementById('fsbtn').onclick=function(){
+    if(document.fullscreenElement)document.exitFullscreen();else document.documentElement.requestFullscreen();
+  };
+  document.addEventListener('keydown',function(e){
+    var k=e.key;
+    if(k==='ArrowRight'||k==='PageDown'||k===' '){go(i+1);e.preventDefault();}
+    else if(k==='ArrowLeft'||k==='PageUp'||k==='p'){go(i-1);e.preventDefault();}
+    else if(k==='Home'){go(0);}
+    else if(k==='End'){go(slides.length-1);}
+    else if(k==='o'||k==='O'){toc.classList.toggle('on');}
+    else if(k==='n'||k==='N'){notes.classList.toggle('on');fit();}
+    else if(k==='f'||k==='F'){document.getElementById('fsbtn').onclick();}
+    else if(k==='k'){for(var j=i+1;j<slides.length;j++){if(onPath(j)){go(j);break;}}}
+    else if(k==='K'){for(var j2=i-1;j2>=0;j2--){if(onPath(j2)){go(j2);break;}}}
+    else if(k==='l'||k==='L'){postLab=!postLab;paintHint();}
+    else if(k==='Escape'){toc.classList.remove('on');notes.classList.remove('on');fit();}
+  });
+  window.addEventListener('resize',fit);
+  window.addEventListener('hashchange',function(){
+    var n=parseInt(location.hash.replace('#',''),10);if(n)go(n-1);
+  });
+  fit();
+  paintHint();
+  var start=parseInt(location.hash.replace('#',''),10);
+  go(start?start-1:0);
+})();
+</script>
+</body>
+</html>

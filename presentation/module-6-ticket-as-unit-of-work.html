@@ -1,0 +1,1487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 6 — The Ticket as the Unit of Work: JIRA over MCP | Agentic ADLC with GitHub Copilot</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;height:100%}
+body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#dbe9e7;color:#1c2b29;overflow:hidden}
+
+/* ---------- chrome ---------- */
+#top{position:fixed;top:0;left:0;right:0;height:44px;background:#062f2c;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 16px;z-index:40;font-size:13px}
+#top .l{display:flex;align-items:center;gap:12px}
+#top .mod{font-weight:600;letter-spacing:.2px}
+#top .sec{color:#5eead4;font-size:12px;border-left:1px solid #14615a;padding-left:12px}
+#top .r{display:flex;align-items:center;gap:8px}
+#top a,#top button{color:#ccfbf1;text-decoration:none;background:#0d4b46;border:1px solid #14615a;padding:5px 11px;border-radius:4px;font-size:12.5px;cursor:pointer;font-family:inherit}
+#top a:hover,#top button:hover{background:#0f766e;color:#fff}
+#bot{position:fixed;bottom:0;left:0;right:0;height:38px;background:#062f2c;color:#c3ddd9;display:flex;align-items:center;gap:12px;padding:0 16px;z-index:40;font-size:12px}
+#prog{flex:1;height:4px;background:#14403c;border-radius:2px;overflow:hidden}
+#progf{height:100%;width:3%;background:#fbbf24;transition:width .25s ease}
+.navbtn{background:#0d4b46;color:#fff;border:1px solid #14615a;border-radius:4px;padding:4px 12px;cursor:pointer;font-size:14px;line-height:1.2;font-family:inherit}
+.navbtn:hover{background:#0f766e}
+#num{min-width:66px;text-align:right;font-variant-numeric:tabular-nums}
+#hint{color:#7fada8}
+#wrap{position:fixed;top:44px;bottom:38px;left:0;right:0;display:flex;align-items:center;justify-content:center}
+#stage{width:1280px;height:720px;background:#fff;box-shadow:0 8px 34px rgba(6,47,44,.28);position:relative;transform-origin:center center;overflow:hidden}
+
+/* ---------- delivery tier: K key . D demo . R reference ---------- */
+#top .tier{font-size:11px;font-weight:700;letter-spacing:.7px;padding:3px 9px;border-radius:3px;background:#14403c;color:#7fada8}
+#top .tier.K{background:#fbbf24;color:#3b2708}
+#top .tier.D{background:#2dd4bf;color:#062f2c}
+#top .after{font-size:11px;font-weight:700;letter-spacing:.7px;padding:3px 9px;border-radius:3px;background:#b91c1c;color:#fff;display:none}
+#top .after.on{display:inline-block}
+#toc a .tg{display:inline-block;width:26px;font-size:10px;font-weight:700;letter-spacing:.4px;color:#4d7c76}
+#toc a .tg.K{color:#fbbf24}
+#toc a .tg.D{color:#2dd4bf}
+#toc a.aft{border-left-color:#b91c1c}
+#toc a.aft .tg::after{content:' !';color:#f87171}
+
+/* ---------- index overlay ---------- */
+#toc{position:fixed;inset:44px 0 38px;background:rgba(5,38,36,.975);color:#fff;z-index:35;display:none;overflow:auto;padding:22px 46px}
+#toc.on{display:block}
+#toc h3{margin:0 0 14px;font-size:15px;color:#5eead4;letter-spacing:.6px;text-transform:uppercase;font-weight:600}
+#toc .cols{column-count:2;column-gap:38px}
+#toc .grp{margin-bottom:16px;break-inside:avoid}
+#toc .grph{font-size:12px;color:#fbbf24;font-weight:700;letter-spacing:.8px;margin-bottom:5px}
+#toc a{display:block;color:#d3ece9;text-decoration:none;padding:4px 10px;border-left:2px solid #14615a;font-size:14px}
+#toc a:hover{background:#0d4b46;border-left-color:#2dd4bf}
+#toc a.cur{background:#0f766e;border-left-color:#fbbf24;color:#fff;font-weight:600}
+#toc a .n{display:inline-block;width:28px;color:#79aaa4;font-size:12px}
+
+/* ---------- slide shell ---------- */
+#notes{position:fixed;left:0;right:0;bottom:38px;max-height:34%;overflow:auto;background:#0b211f;color:#d3ece9;border-top:3px solid #fbbf24;padding:12px 22px;z-index:36;display:none;font-size:14px;line-height:1.5}
+#notes.on{display:block}
+#notes .h{font-size:11px;letter-spacing:.8px;color:#5eead4;font-weight:700;margin-bottom:5px}
+.slide{position:absolute;inset:0;padding:30px 42px 24px;display:none;flex-direction:column}
+.slide.active{display:flex}
+.slide h2{margin:0 0 13px;font-size:28px;line-height:1.14;color:#062f2c;border-bottom:2px solid #0f766e;padding-bottom:8px;font-weight:600}
+.slide h2 .tag{float:right;font-size:12px;background:#0f766e;color:#fff;padding:4px 11px;border-radius:12px;font-weight:700;position:relative;top:4px;letter-spacing:.4px}
+.slide h2 .tag.k{background:#b45309}
+.slide h2 .tag.q{background:#7c3aed}
+.body{flex:1;display:grid;gap:22px;min-height:0;align-items:center}
+.g64{grid-template-columns:1.45fr 1fr}
+.g46{grid-template-columns:1fr 1.45fr}
+.g55{grid-template-columns:1fr 1fr}
+.g1{grid-template-columns:1fr}
+.body.g1{align-items:stretch}
+.body.g1>div:only-child{height:100%;display:flex;flex-direction:column;justify-content:center}
+.pts h3{margin:0 0 7px;font-size:12.5px;letter-spacing:.7px;text-transform:uppercase;color:#0f766e;font-weight:700}
+.pts h3+h3{margin-top:13px}
+.pts ul{margin:0;padding-left:17px;font-size:15.5px;line-height:1.46}
+.pts li{margin-bottom:6px}
+.pts b{color:#062f2c}
+.pts em{color:#b45309;font-style:normal;font-weight:600}
+.pts code{background:#eefaf8;border:1px solid #cfeae6;border-radius:3px;padding:0 4px;font-size:14px;color:#0b4f4a}
+.callout{background:#eefaf8;border-left:3px solid #0f766e;padding:9px 13px;font-size:15px;border-radius:0 4px 4px 0;margin-top:11px;line-height:1.4}
+.callout.bad{background:#fef2f2;border-left-color:#dc2626;color:#7f1d1d}
+.callout.good{background:#ecfdf5;border-left-color:#059669;color:#064e3b}
+.take{margin-top:13px;background:#fffbeb;border-left:4px solid #fbbf24;padding:10px 15px;font-size:15.5px;color:#78350f;border-radius:0 4px 4px 0;line-height:1.4}
+.take b{color:#92400e}
+svg{width:100%;height:auto;display:block}
+
+/* ---------- title slide ---------- */
+.slide.title{background:linear-gradient(135deg,#062f2c 0%,#0b4f4a 58%,#0f766e 150%);color:#fff;justify-content:center;padding:0 78px}
+.slide.title h1{margin:0;font-size:50px;line-height:1.12;font-weight:600}
+.slide.title .sub{margin-top:14px;font-size:22px;color:#99f6e4;font-weight:600}
+.slide.title .rule{width:110px;height:4px;background:#fbbf24;margin:24px 0}
+.slide.title .meta{font-size:16px;color:#c3ddd9;line-height:1.85}
+.slide.title .meta b{color:#fff}
+.slide.title .chips{margin-top:24px;display:flex;gap:10px;flex-wrap:wrap}
+.slide.title .chip{background:rgba(255,255,255,.1);border:1px solid rgba(94,234,212,.45);color:#ccfbf1;padding:7px 14px;border-radius:16px;font-size:14px}
+
+/* ---------- quiz ---------- */
+.qz{font-size:20px;line-height:1.4;color:#062f2c;font-weight:600;background:#f0fbf9;border-left:4px solid #7c3aed;padding:13px 18px;border-radius:0 5px 5px 0}
+.opts{margin-top:18px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.opt{display:flex;align-items:flex-start;gap:11px;background:#fff;border:1.5px solid #d5e5e2;border-radius:6px;padding:12px 15px;font-size:17px;line-height:1.36;color:#1c2b29}
+.opt .k{flex:0 0 28px;height:28px;border-radius:50%;background:#e6f4f2;color:#0b4f4a;font-weight:700;font-size:14.5px;display:flex;align-items:center;justify-content:center;border:1.5px solid #b9ddd8}
+.opt.right{background:#ecfdf5;border-color:#34d399;box-shadow:0 0 0 3px rgba(52,211,153,.16)}
+.opt.right .k{background:#059669;color:#fff;border-color:#059669}
+.opt.wrong{opacity:.62}
+.why{margin-top:16px;background:#f0fbf9;border-left:4px solid #0f766e;padding:11px 16px;font-size:15.5px;line-height:1.45;border-radius:0 4px 4px 0}
+.why b{color:#0b4f4a}
+.why .no{display:block;margin-top:7px;color:#7f1d1d;font-size:14.5px}
+.qmeta{font-size:13px;color:#5b7a76;margin-top:12px}
+
+.file{background:#0b211f;border-radius:5px;padding:11px 14px;font-family:'DejaVu Sans Mono',Menlo,Consolas,monospace;font-size:12.5px;line-height:1.46;color:#d3ece9;overflow:hidden;white-space:pre-wrap;tab-size:2}
+.file .fn{color:#5eead4;font-weight:700;display:block;margin-bottom:5px;font-size:11.5px;letter-spacing:.4px}
+.file .c{color:#7fada8}
+.file .k{color:#fbbf24;font-weight:700}
+.file .s{color:#fca5a5}
+/* ---------- svg vocabulary ---------- */
+.bx{fill:#f0fbf9;stroke:#bfe3de;stroke-width:1.5}
+.bx.g{fill:#ecfdf5;stroke:#a7f3d0}
+.bx.a{fill:#fffbeb;stroke:#fcd34d}
+.bx.r{fill:#fef2f2;stroke:#fecaca}
+.bx.p{fill:#f5f3ff;stroke:#ddd6fe}
+.bx.d{fill:#062f2c;stroke:#062f2c}
+.bx.w{fill:#fff;stroke:#cbd5e1}
+.tt{font-size:15px;font-weight:600;fill:#062f2c}
+.tt.w{fill:#fff}
+.ss{font-size:12.5px;fill:#3f5f5c}
+.ss.w{fill:#a7f3d0}
+.lb{font-size:10.5px;font-weight:700;fill:#0f766e;letter-spacing:.7px}
+.lb.a{fill:#b45309}.lb.r{fill:#dc2626}.lb.g{fill:#047857}.lb.w{fill:#5eead4}.lb.p{fill:#6d28d9}
+.ar{fill:none;stroke:#94b8b3;stroke-width:2;marker-end:url(#arw)}
+.arr{fill:none;stroke:#dc2626;stroke-width:2;marker-end:url(#arr)}
+.arg{fill:none;stroke:#059669;stroke-width:2;marker-end:url(#arg)}
+.fl{fill:none;stroke:#0f766e;stroke-width:2.5;stroke-dasharray:7 9;marker-end:url(#arb)}
+.slide.active .fl{animation:march 1.1s linear infinite}
+@keyframes march{to{stroke-dashoffset:-16}}
+.pulse{transform-box:fill-box;transform-origin:center}
+.slide.active .pulse{animation:pl 2.2s ease-in-out infinite}
+@keyframes pl{0%,100%{opacity:.25}50%{opacity:.9}}
+.tok{opacity:0}
+.slide.active .tok{animation:tk 6s linear infinite}
+@keyframes tk{0%,8%{opacity:0}14%,86%{opacity:1}96%,100%{opacity:0}}
+.slide.active .t2{animation-delay:.6s}.slide.active .t3{animation-delay:1.2s}
+.slide.active .t4{animation-delay:1.8s}.slide.active .t5{animation-delay:2.4s}
+.slide.active .t6{animation-delay:3s}
+.rise{transform-box:fill-box;transform-origin:bottom}
+.slide.active .rise{animation:rs .9s cubic-bezier(.2,.8,.3,1) both}
+.slide.active .r2{animation-delay:.12s}.slide.active .r3{animation-delay:.24s}
+.slide.active .r4{animation-delay:.36s}.slide.active .r5{animation-delay:.48s}
+.slide.active .r6{animation-delay:.6s}
+@keyframes rs{from{transform:scaleY(.04)}to{transform:scaleY(1)}}
+.grow{transform-box:fill-box;transform-origin:left}
+.slide.active .grow{animation:gw 1.1s cubic-bezier(.2,.8,.3,1) both}
+.slide.active .w2{animation-delay:.14s}.slide.active .w3{animation-delay:.28s}
+.slide.active .w4{animation-delay:.42s}.slide.active .w5{animation-delay:.56s}
+@keyframes gw{from{transform:scaleX(.02)}to{transform:scaleX(1)}}
+.dash{stroke-dasharray:5 5}
+@media (prefers-reduced-motion:reduce){
+  .slide.active .fl,.slide.active .pulse,.slide.active .tok,.slide.active .rise,.slide.active .grow{animation:none}
+  .tok{opacity:1}
+}
+
+@media print{
+  @page{size:1280px 720px;margin:0}
+  body{background:#fff;overflow:visible}
+  #top,#bot,#toc,#notes{display:none}
+  #wrap{position:static;display:block}
+  #stage{transform:none!important;width:1280px;height:auto;overflow:visible;box-shadow:none}
+  .slide{display:flex!important;position:relative;page-break-after:always;height:720px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#94b8b3"/></marker>
+  <marker id="arb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#0f766e"/></marker>
+  <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#dc2626"/></marker>
+  <marker id="arg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#059669"/></marker>
+</defs></svg>
+
+<div id="top">
+  <div class="l">
+    <span class="mod">Module 6 &middot; The Ticket as the Unit of Work &mdash; JIRA over MCP</span>
+    <span class="sec" id="sec"></span>
+    <span class="tier" id="tier"></span><span class="after" id="after">AFTER LAB</span>
+  </div>
+  <div class="r">
+    <a href="../course-outline-agentic-adlc-github-copilot.html" title="Open the 2-day course outline">Course outline</a>
+    <button id="tocbtn" title="Index (O)">Index</button>
+    <button id="notesbtn" title="Speaker notes (N)">Notes</button>
+    <button id="fsbtn" title="Fullscreen (F)">Full</button>
+  </div>
+</div>
+
+<div id="toc"><h3>Module 6 &mdash; slide index</h3><div class="cols" id="toclist"></div></div>
+
+<div id="wrap"><div id="stage"><!-- 1 -->
+<section class="slide title" data-sec="Opening" data-title="Title" data-notes="Open on the disconnection Module 5 ended with. Their spec is a good document on a laptop, written from a ticket somebody pasted into a chat, and the three open questions are in a file that the three people who could answer them will never open. This module connects the front of the pipeline to where the work actually lives. Say the honest boundary early: MCP is a connection, not an intelligence - nothing here makes the agent better at reasoning, it makes the agent able to reach the things it should have been reasoning about." data-tier="R">
+  <h1>The Ticket as the Unit of Work</h1>
+  <div class="sub">Module 6 &mdash; JIRA over MCP: pulling context, and writing back safely</div>
+  <div class="rule"></div>
+  <div class="meta">
+    <b>Agentic ADLC with GitHub Copilot</b> &mdash; From JIRA Ticket to Merged PR<br>
+    Day 2 &middot; Module 6 of 8 &nbsp;|&nbsp; Advanced &nbsp;|&nbsp; Trainer: <b>Rajesh Gheware</b>
+  </div>
+  <div class="chips">
+    <span class="chip">MCP in practice</span>
+    <span class="chip">Agent-ready tickets</span>
+    <span class="chip">The traceability anchor</span>
+    <span class="chip">Reading the surroundings</span>
+    <span class="chip">Interrogate, do not invent</span>
+    <span class="chip">Write-back guardrails</span>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="slide" data-sec="Opening" data-title="From pasted to pulled" data-notes="The left diagram is what they have been doing for a day and a half and it is worth making them see it clearly: pasting a ticket is a lossy copy made by a human under time pressure. What gets pasted is the description. What gets left behind is every comment, every link, the epic, the status, and the closed duplicate from seven months ago - which is exactly where the constraint usually lives. On the right is the pull, and the key property is not convenience, it is completeness plus freshness. Then the boundary, and say it plainly because a senior room will otherwise over-read this module: MCP is plumbing. It does not make the agent smarter. It makes the agent able to reach the things it should have been reasoning about, and it makes the questions it raises land where somebody can answer them." data-tier="K">
+  <h2>Pasting is a lossy copy made by a human in a hurry<span class="tag">M6</span></h2>
+  <div class="body g64">
+    <div>
+      <svg viewBox="0 0 700 430" role="img" aria-label="What is lost when a ticket is pasted versus pulled over MCP">
+        <text class="lb r" x="4" y="13">PASTED &mdash; WHAT ACTUALLY MAKES IT INTO THE WINDOW</text>
+        <rect class="bx r" x="4" y="22" width="692" height="158" rx="8"/>
+        <rect class="bx w" x="20" y="40" width="200" height="122" rx="6"/>
+        <text class="tt" x="120" y="66" text-anchor="middle" style="font-size:13px">the ticket</text>
+        <text class="ss" x="120" y="90" text-anchor="middle" style="font-size:11.5px;fill:#047857">description &#10003;</text>
+        <text class="ss" x="120" y="110" text-anchor="middle" style="font-size:11.5px;fill:#dc2626">comments &#10007;</text>
+        <text class="ss" x="120" y="130" text-anchor="middle" style="font-size:11.5px;fill:#dc2626">linked issues &#10007;</text>
+        <text class="ss" x="120" y="150" text-anchor="middle" style="font-size:11.5px;fill:#dc2626">epic, status &#10007;</text>
+        <path class="arr" d="M224 100 L262 100"/>
+        <rect class="bx d" x="266" y="76" width="180" height="48" rx="6"/>
+        <text class="ss w" x="356" y="98" text-anchor="middle" style="font-size:12px">one paragraph,</text>
+        <text class="ss w" x="356" y="116" text-anchor="middle" style="font-size:12px">frozen at paste time</text>
+        <text class="ss" x="466" y="86" style="font-size:11.5px;fill:#dc2626;font-weight:600">And the constraint</text>
+        <text class="ss" x="466" y="106" style="font-size:11.5px;fill:#dc2626;font-weight:600">is almost always</text>
+        <text class="ss" x="466" y="126" style="font-size:11.5px;fill:#dc2626;font-weight:600">in what was left.</text>
+
+        <text class="lb g" x="4" y="214">PULLED &mdash; COMPLETE, AND STILL TRUE WHEN IT IS READ</text>
+        <rect class="bx g" x="4" y="224" width="692" height="126" rx="8"/>
+        <rect class="bx w rise" x="20" y="242" width="320" height="42" rx="5"/>
+        <text class="ss" x="34" y="268"><tspan font-weight="700">Complete</tspan> &mdash; comments, links, epic, history</text>
+        <rect class="bx w rise r2" x="348" y="242" width="332" height="42" rx="5"/>
+        <text class="ss" x="362" y="268"><tspan font-weight="700">Fresh</tspan> &mdash; read now, not copied on Tuesday</text>
+        <rect class="bx w rise r3" x="20" y="292" width="320" height="42" rx="5"/>
+        <text class="ss" x="34" y="318"><tspan font-weight="700">Traceable</tspan> &mdash; the key travels with the work</text>
+        <rect class="bx w rise r4" x="348" y="292" width="332" height="42" rx="5"/>
+        <text class="ss" x="362" y="318"><tspan font-weight="700">Two-way</tspan> &mdash; questions land where they are seen</text>
+
+        <rect class="bx d" x="4" y="362" width="692" height="68" rx="8"/>
+        <text class="lb w" x="24" y="386">THE BOUNDARY &mdash; SAY IT BEFORE THE ROOM OVER-READS THIS</text>
+        <text class="ss w" x="24" y="412" style="font-size:14px">MCP is <tspan font-weight="700" fill="#fbbf24">plumbing, not intelligence.</tspan> It does not make the agent reason better.</text>
+      </svg>
+    </div>
+    <div class="pts">
+      <h3>Where we are</h3>
+      <ul>
+        <li>Module 5 produced a spec worth executing &mdash; on your laptop, from a ticket somebody pasted, with three open questions <b>nobody who could answer them will ever see</b>.</li>
+        <li>This module connects the front of the pipeline to where the work lives.</li>
+      </ul>
+      <h3>Two things it changes, and only two</h3>
+      <ul>
+        <li><b>What the agent can reach</b> &mdash; the whole ticket and its surroundings, not one pasted paragraph.</li>
+        <li><b>Where its questions go</b> &mdash; onto the ticket, where the person who can answer is already looking.</li>
+      </ul>
+      <div class="take"><b>The uncomfortable half of this module:</b> a connected agent is only as good as your JIRA. Most of what follows is about <em>ticket hygiene</em>, and it is the part your team controls.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="slide" data-sec="1 &middot; MCP in practice" data-title="What the agent can actually see" data-notes="Practical grounding. Three things to get across. First, MCP exposes tools rather than a database - the agent calls a named operation and gets a result, so what it can see is exactly what the server chose to expose and no more. Second, the scope question is the one your platform team will ask first, and the answer they want to hear is that it is bounded by the token and the project, not that it is bounded by the prompt. Third, and this is the one people miss, the agent decides WHICH calls to make, so an unbounded search across a large JIRA is both slow and expensive and it will happily do it. Land the practical rule: name the ticket key. Do not ask it to find the ticket about the reporting thing - that is a search, and searches are where tool budgets go to die." data-tier="K">
+  <h2>MCP exposes tools, not a database &mdash; and the agent chooses the calls<span class="tag k">1</span></h2>
+  <div class="body g1">
+    <div>
+      <svg viewBox="0 0 1180 452" role="img" aria-label="How MCP works in practice: tools, scope and who chooses the calls">
+        <rect class="bx grow" x="4" y="4" width="384" height="200" rx="8"/>
+        <text class="lb" x="24" y="28">1 &middot; IT IS A SET OF TOOLS</text>
+        <text class="tt" x="24" y="56">Named operations, not query access</text>
+        <text class="ss" x="24" y="82">get_issue &middot; search_issues &middot; add_comment</text>
+        <text class="ss" x="24" y="102">get_transitions &middot; transition_issue</text>
+        <text class="ss" x="24" y="130">The agent can do exactly what the server exposes</text>
+        <text class="ss" x="24" y="150">and nothing else. There is no &ldquo;and also&rdquo;.</text>
+        <text class="ss" x="24" y="178" style="fill:#047857;font-weight:600">So the first design question is which tools to expose,</text>
+        <text class="ss" x="24" y="196" style="fill:#047857;font-weight:600">not which prompts to write.</text>
+
+        <rect class="bx a grow w2" x="398" y="4" width="384" height="200" rx="8"/>
+        <text class="lb a" x="418" y="28">2 &middot; SCOPE &mdash; YOUR PLATFORM TEAM ASKS THIS FIRST</text>
+        <text class="tt" x="418" y="56">Bounded by the token, not the prompt</text>
+        <text class="ss" x="418" y="82">The agent sees what the credential sees: this</text>
+        <text class="ss" x="418" y="102">project, these issue types, these permissions.</text>
+        <text class="ss" x="418" y="130" style="fill:#b45309;font-weight:600">&ldquo;We told it not to look at other projects&rdquo; is not</text>
+        <text class="ss" x="418" y="150" style="fill:#b45309;font-weight:600">an answer anyone will accept. Scope the token.</text>
+        <text class="ss" x="418" y="178">A read-only token is a legitimate first deployment,</text>
+        <text class="ss" x="418" y="196">and it still gets you most of this module.</text>
+
+        <rect class="bx r grow w3" x="792" y="4" width="384" height="200" rx="8"/>
+        <text class="lb r" x="812" y="28">3 &middot; THE AGENT CHOOSES THE CALLS</text>
+        <text class="tt" x="812" y="56">And it will happily make forty</text>
+        <text class="ss" x="812" y="82">Ask it to &ldquo;find the ticket about the reporting</text>
+        <text class="ss" x="812" y="102">thing&rdquo; and it searches, reads candidates, and</text>
+        <text class="ss" x="812" y="122">pulls each one into the window.</text>
+        <text class="ss" x="812" y="150" style="fill:#dc2626;font-weight:600">Every result is context you are then billed for on</text>
+        <text class="ss" x="812" y="170" style="fill:#dc2626;font-weight:600">every later turn &mdash; Module 1, at a new address.</text>
+        <text class="ss" x="812" y="196">Searches are where tool budgets go to die.</text>
+
+        <text class="lb g" x="4" y="238">THE PRACTICAL RULES &mdash; ALL FOUR ARE ABOUT NARROWING THE CALL</text>
+        <rect class="bx g" x="4" y="248" width="1172" height="132" rx="8"/>
+        <rect class="bx w rise" x="24" y="266" width="560" height="46" rx="6"/>
+        <text class="ss" x="40" y="286"><tspan font-weight="700">Name the key.</tspan> &ldquo;Pull GB-163&rdquo;, never &ldquo;find the ticket about the limit&rdquo;.</text>
+        <text class="ss" x="40" y="304" style="font-size:11.5px">One call instead of a search plus five reads.</text>
+        <rect class="bx w rise r2" x="596" y="266" width="560" height="46" rx="6"/>
+        <text class="ss" x="612" y="286"><tspan font-weight="700">Say which surroundings.</tspan> &ldquo;Its comments and linked issues&rdquo; &mdash; not &ldquo;everything&rdquo;.</text>
+        <text class="ss" x="612" y="304" style="font-size:11.5px">Bounded, and you can predict what lands in the window.</text>
+        <rect class="bx w rise r3" x="24" y="320" width="560" height="46" rx="6"/>
+        <text class="ss" x="40" y="340"><tspan font-weight="700">Pull once, work from the spec.</tspan> Do not re-read the ticket every turn.</text>
+        <text class="ss" x="40" y="358" style="font-size:11.5px">The spec is the durable copy &mdash; that was Module 5.</text>
+        <rect class="bx w rise r4" x="596" y="320" width="560" height="46" rx="6"/>
+        <text class="ss" x="612" y="340"><tspan font-weight="700">Summarise into the spec, not into the chat.</tspan></text>
+        <text class="ss" x="612" y="358" style="font-size:11.5px">Otherwise the surroundings are re-pulled by the next session.</text>
+
+        <rect class="bx d" x="4" y="392" width="1172" height="56" rx="8"/>
+        <text class="ss w" x="24" y="428" style="font-size:14px">A connected agent with no discipline about <tspan font-weight="700" fill="#fbbf24">which</tspan> calls it makes is more expensive than a disconnected one &mdash; and slower.</text>
+      </svg>
+    </div>
+  </div>
+</section>
+<!-- 4 -->
+<section class="slide" data-sec="1 &middot; MCP in practice" data-title="Tool budgets - what a connected agent costs" data-notes="The outline promises tool budgets and this is it, stated as economics rather than as a warning. Three costs and they compound in a way people do not expect. The call itself is the smallest. The RESULT entering the window is the real cost, because a JIRA issue with forty comments is a large object and you are billed for it on every subsequent turn - that is Module 1's context budget, arriving through a new door. And the third is the one nobody predicts: a search returns candidates, the agent reads several to work out which is right, and you have paid for all of them to find one. The budget line at the bottom is the practical rule to give them - decide how many calls this ticket is worth before you start, and if the agent is still searching after three, it does not have enough information and no number of further calls will fix that." data-tier="K">
+  <h2>Tool budgets &mdash; the call is cheap, the result is not<span class="tag k">1</span></h2>
+  <div class="body g64">
+    <div>
+      <svg viewBox="0 0 700 430" role="img" aria-label="The three costs of MCP tool calls and how they compound">
+        <text class="lb" x="4" y="13">THREE COSTS, SMALLEST FIRST</text>
+        <rect class="bx" x="4" y="22" width="692" height="228" rx="8"/>
+
+        <rect class="bx w rise" x="20" y="40" width="660" height="56" rx="6"/>
+        <text class="tt" x="36" y="62" style="font-size:13px">1 &middot; The call itself &mdash; small, and the one people worry about</text>
+        <text class="ss" x="36" y="82">A round trip. Latency, and a little context describing what came back.</text>
+
+        <rect class="bx a rise r2" x="20" y="104" width="660" height="66" rx="6"/>
+        <text class="tt" x="36" y="126" style="font-size:13px">2 &middot; The result entering the window &mdash; the real cost</text>
+        <text class="ss" x="36" y="146">A ticket with forty comments is a large object, and it is <tspan font-weight="600" fill="#b45309">re-billed on every</tspan></text>
+        <text class="ss" x="36" y="164" style="fill:#b45309;font-weight:600">later turn of that session</tspan> &mdash; Module 1&rsquo;s context budget, through a new door.</text>
+
+        <rect class="bx r rise r3" x="20" y="178" width="660" height="62" rx="6"/>
+        <text class="tt" x="36" y="200" style="font-size:13px">3 &middot; The calls you did not intend &mdash; the one nobody predicts</text>
+        <text class="ss" x="36" y="220">A search returns eight candidates. It reads five to work out which is right.</text>
+        <text class="ss" x="36" y="236" style="fill:#dc2626;font-weight:600">You paid for five tickets to find one, and all five are now in the window.</text>
+
+        <text class="lb g" x="4" y="282">THE RULE</text>
+        <rect class="bx g" x="4" y="292" width="692" height="80" rx="8"/>
+        <text class="tt" x="24" y="322" style="font-size:15px">Decide how many calls this ticket is worth, before you start.</text>
+        <text class="ss" x="24" y="348">For a well-formed ticket: <tspan font-weight="600">three</tspan> &mdash; the issue, its comments, its links.</text>
+        <text class="ss" x="24" y="366">For GB-163: five, because the epic and a closed issue both matter.</text>
+
+        <rect class="bx d" x="4" y="384" width="692" height="46" rx="8"/>
+        <text class="ss w" x="24" y="414" style="font-size:14px">Still searching after three? It does not have enough information &mdash; <tspan font-weight="700" fill="#fbbf24">and more calls will not supply it.</tspan></text>
+      </svg>
+    </div>
+    <div class="pts">
+      <h3>Why this is not a performance footnote</h3>
+      <ul>
+        <li>A large pulled object <b>displaces the things you meant to have in the window</b> &mdash; the spec, the two files in play. Accuracy falls, not just cost.</li>
+        <li>This is exactly Module 1's argument about window bloat, and it arrives through a door that feels free because the agent is &ldquo;just reading the ticket&rdquo;.</li>
+      </ul>
+      <h3>The discipline</h3>
+      <ul>
+        <li><b>Pull once, summarise into the spec.</b> The spec is the durable, compact copy &mdash; the ticket is not re-read every turn.</li>
+        <li><b>Never ask it to find a ticket.</b> Name the key. Searching is the single most expensive thing an agent can do here.</li>
+      </ul>
+      <div class="take"><b>The tell that you have a budget problem:</b> a session where the agent has read six tickets and written no code. It is not stuck &mdash; it is searching, and it will keep going.</div>
+    </div>
+  </div>
+</section>
+<!-- 5 -->
+<section class="slide" data-sec="1 &middot; MCP in practice" data-title="Why pulling beats pasting" data-notes="Four reasons and the fourth is the one that changes behaviour rather than cost. Completeness is obvious. Freshness is less obvious and it bites: a ticket pasted on Tuesday is a snapshot, and if someone answered the open question on Wednesday you will never see it. Traceability is the anchor from section three. But the write-back is the reason this module exists rather than being a paragraph in Module 5 - it converts the agent's questions from lines in a private file into comments on the ticket, where the person who can answer them is already looking. Land the reframe: the value is not that the agent reads JIRA faster than you can copy and paste. It is that the loop closes." data-tier="K">
+  <h2>Four reasons &mdash; and the fourth is the one that matters<span class="tag k">1</span></h2>
+  <div class="body g46">
+    <div class="pts">
+      <h3>The first three are about cost and correctness</h3>
+      <ul>
+        <li><b>Complete.</b> Comments, links, epic, status and history &mdash; the places the actual constraint usually lives.</li>
+        <li><b>Fresh.</b> A pasted ticket is a snapshot. If somebody answered your open question on Wednesday, a Tuesday paste will never show it.</li>
+        <li><b>Traceable.</b> The ticket key travels with the work &mdash; branch, commit, pull request, page.</li>
+      </ul>
+      <h3>The fourth is about behaviour</h3>
+      <ul>
+        <li><b>The loop closes.</b> The agent's questions stop being lines in a private file and become comments on the ticket &mdash; where the person who can answer is already looking.</li>
+      </ul>
+      <div class="callout"><b>The reframe:</b> the value is not that an agent reads JIRA faster than you can copy and paste. You are not short of copy-paste capacity. The value is that <em>the question reaches somebody</em>.</div>
+      <div class="take"><b>Which is why this module is half about JIRA hygiene.</b> A pulled ticket that contains nothing useful is a faster route to the same guess.</div>
+    </div>
+    <div>
+      <svg viewBox="0 0 700 430" role="img" aria-label="The open loop with pasting and the closed loop with MCP write-back">
+        <text class="lb r" x="4" y="13">THE OPEN LOOP &mdash; WHAT YOU HAVE HAD UNTIL NOW</text>
+        <rect class="bx r" x="4" y="22" width="692" height="150" rx="8"/>
+        <rect class="bx w" x="20" y="42" width="160" height="44" rx="6"/>
+        <text class="ss" x="100" y="69" text-anchor="middle" style="font-size:11.5px">the ticket</text>
+        <path class="arr" d="M184 64 L222 64"/>
+        <rect class="bx w" x="226" y="42" width="160" height="44" rx="6"/>
+        <text class="ss" x="306" y="69" text-anchor="middle" style="font-size:11.5px">your spec</text>
+        <path class="arr" d="M390 64 L428 64"/>
+        <rect class="bx w" x="432" y="42" width="248" height="44" rx="6"/>
+        <text class="ss" x="556" y="62" text-anchor="middle" style="font-size:11.5px">3 open questions,</text>
+        <text class="ss" x="556" y="80" text-anchor="middle" style="font-size:11.5px">in a file on your laptop</text>
+        <text class="ss" x="20" y="114">The three people who could answer them are looking at the ticket.</text>
+        <text class="ss" x="20" y="136" style="fill:#dc2626;font-weight:600">Nothing goes back. So you answer them yourself, and call it a decision.</text>
+        <text class="ss" x="20" y="160">That is the invented decision from Module 5, arriving by a different route.</text>
+
+        <text class="lb g" x="4" y="206">THE CLOSED LOOP</text>
+        <rect class="bx g" x="4" y="216" width="692" height="150" rx="8"/>
+        <rect class="bx w rise" x="20" y="236" width="160" height="44" rx="6"/>
+        <text class="ss" x="100" y="263" text-anchor="middle" style="font-size:11.5px">pull GB-163</text>
+        <path class="arg" d="M184 258 L222 258"/>
+        <rect class="bx w rise r2" x="226" y="236" width="160" height="44" rx="6"/>
+        <text class="ss" x="306" y="263" text-anchor="middle" style="font-size:11.5px">spec + questions</text>
+        <path class="arg" d="M390 258 L428 258"/>
+        <rect class="bx g rise r3" x="432" y="236" width="248" height="44" rx="6"/>
+        <text class="ss" x="556" y="256" text-anchor="middle" style="font-size:11.5px;font-weight:600">questions posted</text>
+        <text class="ss" x="556" y="274" text-anchor="middle" style="font-size:11.5px">as a comment on the ticket</text>
+        <path class="arg" d="M556 286 L556 306 L100 306 L100 288"/>
+        <text class="ss" x="330" y="326" text-anchor="middle" style="font-size:11.5px;fill:#047857;font-weight:600">somebody answers &mdash; on the ticket, where it stays</text>
+        <text class="ss" x="20" y="356">And the next session pulls the answer along with everything else.</text>
+
+        <rect class="bx d" x="4" y="380" width="692" height="50" rx="8"/>
+        <text class="ss w" x="24" y="412" style="font-size:14px">You are not short of copy-paste capacity. You are short of <tspan font-weight="700" fill="#fbbf24">answers.</tspan></text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="slide" data-sec="2 &middot; Agent-ready tickets" data-title="A definition of ready for agents" data-notes="This is the slide teams will actually adopt, and it is worth being clear that it is not new process - most teams already have a definition of ready, and this is four additions to it. Each one exists because of a failure they watched yesterday. Criteria a test can check is Module 5. Context linked rather than remembered is this module. Sized to what an agent can finish in one run is the new one and it is worth dwelling on: a ticket spanning three days of human work becomes a long unattended run with no checkpoint, which is Module 1's delegation gates failing at the ticket level. And the fourth - the questions answered on the ticket, not in a corridor - is the one that makes the whole loop work. Then the honest note: none of this is agent-specific. Every one of these makes the ticket better for a human too, which is the easiest way to get it adopted." data-tier="K">
+  <h2>Definition of ready &mdash; four additions, not a new process<span class="tag k">2</span></h2>
+  <div class="body g1">
+    <div>
+      <svg viewBox="0 0 1180 452" role="img" aria-label="Four additions to a definition of ready that make a ticket agent-ready">
+        <rect class="bx d" x="4" y="4" width="1172" height="30" rx="6"/>
+        <text class="lb w" x="24" y="24">ADD TO YOUR DEFINITION OF READY</text>
+        <text class="lb w" x="560" y="24">BECAUSE, WITHOUT IT</text>
+        <text class="lb w" x="920" y="24">WHERE YOU SAW THIS FAIL</text>
+
+        <rect class="bx g grow" x="4" y="42" width="1172" height="88" rx="6"/>
+        <text class="tt" x="24" y="72">1 &middot; Criteria a test can check</text>
+        <text class="ss" x="24" y="96">numbered, one behaviour each,</text>
+        <text class="ss" x="24" y="118">naming an input and an outcome</text>
+        <text class="ss" x="560" y="80">The test agent has nothing to work from and</text>
+        <text class="ss" x="560" y="102">reports &ldquo;covered&rdquo; against a sentence nobody</text>
+        <text class="ss" x="560" y="124">could have written a test for.</text>
+        <text class="ss" x="920" y="92" style="fill:#047857;font-weight:600">Module 5 &mdash; and</text>
+        <text class="ss" x="920" y="112" style="fill:#047857;font-weight:600">GB-147, this morning</text>
+
+        <rect class="bx g grow w2" x="4" y="138" width="1172" height="88" rx="6"/>
+        <text class="tt" x="24" y="168">2 &middot; Context linked, not remembered</text>
+        <text class="ss" x="24" y="192">the ADR, the prior ticket, the</text>
+        <text class="ss" x="24" y="214">decision that constrains this</text>
+        <text class="ss" x="560" y="176">The agent reads a thin description and invents</text>
+        <text class="ss" x="560" y="198">the rest &mdash; confidently, because nothing in the</text>
+        <text class="ss" x="560" y="220">ticket suggested there was anything to find.</text>
+        <text class="ss" x="920" y="188" style="fill:#047857;font-weight:600">GB-163, in the next</text>
+        <text class="ss" x="920" y="208" style="fill:#047857;font-weight:600">lab &mdash; and it is worse</text>
+
+        <rect class="bx a grow w3" x="4" y="234" width="1172" height="88" rx="6"/>
+        <text class="lb a" x="920" y="254">THE NEW ONE</text>
+        <text class="tt" x="24" y="264">3 &middot; Sized to one agent run</text>
+        <text class="ss" x="24" y="288">if it needs three days of human</text>
+        <text class="ss" x="24" y="310">work, it is an epic, not a ticket</text>
+        <text class="ss" x="560" y="272">A long unattended run with no checkpoint &mdash;</text>
+        <text class="ss" x="560" y="294">which is Module 1&rsquo;s delegation gates failing</text>
+        <text class="ss" x="560" y="316">at the ticket level rather than the request level.</text>
+        <text class="ss" x="920" y="286">Module 1, gates 2 and 3</text>
+        <text class="ss" x="920" y="308" style="font-size:11.5px">bounded, and checkable</text>
+
+        <rect class="bx g grow w4" x="4" y="330" width="1172" height="88" rx="6"/>
+        <text class="tt" x="24" y="360">4 &middot; Questions answered <em>on the ticket</em></text>
+        <text class="ss" x="24" y="384">not in a corridor, a DM, or a</text>
+        <text class="ss" x="24" y="406">meeting nobody minuted</text>
+        <text class="ss" x="560" y="368">The answer exists and the agent cannot reach it,</text>
+        <text class="ss" x="560" y="390">so the loop stays open and the next person to</text>
+        <text class="ss" x="560" y="412">pick this up asks the same question again.</text>
+        <text class="ss" x="920" y="380" style="fill:#047857;font-weight:600">GB-163&rsquo;s last comment</text>
+        <text class="ss" x="920" y="400" style="fill:#047857;font-weight:600">&mdash; asked, never answered</text>
+
+        <rect class="bx d" x="4" y="426" width="1172" height="22" rx="5"/>
+        <text class="ss w" x="590" y="442" text-anchor="middle" style="font-size:13px">None of this is agent-specific. Every one makes the ticket better for a human too &mdash; which is <tspan font-weight="700" fill="#fbbf24">how you get it adopted</tspan></text>
+      </svg>
+    </div>
+  </div>
+</section>
+<!-- 7 -->
+<section class="slide" data-sec="2 &middot; Agent-ready tickets" data-title="Sizing to what an agent can finish" data-notes="One idea, and it is the least intuitive of the four additions because it inverts a habit. Teams size tickets to what a person can finish in a day or two. The right size for an agent is different, and it is smaller, because the constraint is not effort but CHECKABILITY - the same insight as task breakdown in Module 5, applied one level up at the ticket. The three tests on the right are the practical version. And the honest caveat at the bottom matters: this is not a demand that every ticket be tiny, it is a demand that a ticket you intend to delegate be checkable in one pass. A three-day ticket is fine if a human is going to sit with it interactively - it is only a problem if you were planning to delegate it." data-tier="R">
+  <h2>The right size for an agent is smaller &mdash; and it is not about effort<span class="tag k">2</span></h2>
+  <div class="body g64">
+    <div>
+      <svg viewBox="0 0 700 430" role="img" aria-label="Ticket sizing by checkability rather than effort">
+        <text class="lb r" x="4" y="13">SIZED THE USUAL WAY &mdash; BY EFFORT</text>
+        <rect class="bx r" x="4" y="22" width="692" height="118" rx="8"/>
+        <rect class="bx w" x="20" y="40" width="660" height="42" rx="5"/>
+        <text class="ss" x="34" y="66">&ldquo;Add reporting for ops&rdquo; &mdash; about three days of work for a person</text>
+        <text class="ss" x="20" y="102">Delegated, that is a long unattended run with <tspan font-weight="600" fill="#dc2626">no checkpoint anywhere in it</tspan>.</text>
+        <text class="ss" x="20" y="124">A wrong turn in hour one is discovered at the end, in a change set nobody wants to unpick.</text>
+
+        <text class="lb g" x="4" y="174">SIZED BY CHECKABILITY</text>
+        <rect class="bx g" x="4" y="184" width="692" height="140" rx="8"/>
+        <rect class="bx w rise" x="20" y="202" width="212" height="46" rx="5"/>
+        <text class="ss" x="126" y="222" text-anchor="middle" style="font-size:11px">the endpoint and its</text>
+        <text class="ss" x="126" y="240" text-anchor="middle" style="font-size:11px">empty and ordering cases</text>
+        <rect class="bx w rise r2" x="240" y="202" width="212" height="46" rx="5"/>
+        <text class="ss" x="346" y="222" text-anchor="middle" style="font-size:11px">the date filter, with its</text>
+        <text class="ss" x="346" y="240" text-anchor="middle" style="font-size:11px">boundary behaviour</text>
+        <rect class="bx w rise r3" x="460" y="202" width="220" height="46" rx="5"/>
+        <text class="ss" x="570" y="222" text-anchor="middle" style="font-size:11px">the regression guard on</text>
+        <text class="ss" x="570" y="240" text-anchor="middle" style="font-size:11px">the existing endpoint</text>
+        <text class="ss" x="20" y="274">Three tickets, each finishable in one run, each with a result you can check</text>
+        <text class="ss" x="20" y="296">on its own before the next one starts.</text>
+        <text class="ss" x="20" y="316" style="fill:#047857;font-weight:600">Same total work. Three checkpoints instead of none.</text>
+
+        <rect class="bx d" x="4" y="342" width="692" height="88" rx="8"/>
+        <text class="lb w" x="24" y="366">THE CAVEAT &mdash; THIS IS NOT A DEMAND THAT EVERY TICKET BE TINY</text>
+        <text class="ss w" x="24" y="392" style="font-size:14px">A three-day ticket is perfectly fine if a human is going to sit with it</text>
+        <text class="ss w" x="24" y="414" style="font-size:14px">interactively. It is only a problem if you <tspan font-weight="700" fill="#fbbf24">intended to delegate it.</tspan></text>
+      </svg>
+    </div>
+    <div class="pts">
+      <h3>Three questions at refinement</h3>
+      <ul>
+        <li><b>Could one agent run finish this?</b> If not, it is an epic wearing a ticket's clothes.</li>
+        <li><b>Could you check the result without doing the next ticket?</b> Module 5's task rule, one level up.</li>
+        <li><b>Is there a point where a wrong turn becomes expensive?</b> Put a ticket boundary there.</li>
+      </ul>
+      <h3>Why this inverts a habit</h3>
+      <ul>
+        <li>Teams size tickets by <b>what a person can finish</b>. The binding constraint for an agent is not effort &mdash; it is <b>how long you go without being able to check</b>.</li>
+        <li>Two tickets of identical effort can differ completely on that, and it is the only dimension that matters here.</li>
+      </ul>
+      <div class="take"><b>This is the cheapest change in the module</b> and the one your delivery lead will like: smaller tickets, more checkpoints, and it needs no tooling at all.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="slide" data-sec="3 &middot; The traceability anchor" data-title="The ticket key travels with the work" data-notes="Short, concrete, and it is the slide that makes the audit story work at the end of the day. The key appears in five places and each one is a join. The branch and the commit are conventions most teams already have. The pull request title is usually there too. What is usually missing is the spec file and the write-back, and those two are what turn a convention into a trail. Then the question that makes it land in a bank: six months later, someone asks who decided this and on what basis. With the anchor you answer it by following one string. Without it you answer it by asking people what they remember, which is not an answer anybody will accept." data-tier="K">
+  <h2>One key, five places &mdash; and each one is a join<span class="tag k">3</span></h2>
+  <div class="body g55">
+    <div>
+      <svg viewBox="0 0 700 430" role="img" aria-label="The ticket key appearing in branch, commit, spec, pull request and write-back">
+        <text class="lb" x="4" y="13">THE ANCHOR</text>
+        <rect class="bx d" x="4" y="22" width="692" height="46" rx="7"/>
+        <text class="tt w" x="350" y="52" text-anchor="middle" style="font-size:20px">GB-163</text>
+
+        <rect class="bx grow" x="4" y="80" width="692" height="42" rx="6"/>
+        <text class="ss" x="24" y="106"><tspan font-weight="700">branch</tspan> &nbsp;&nbsp;GB-163-raise-posting-limit</text>
+        <rect class="bx grow w2" x="4" y="128" width="692" height="42" rx="6"/>
+        <text class="ss" x="24" y="154"><tspan font-weight="700">commit</tspan> &nbsp;&nbsp;GB-163: raise the posting limit</text>
+        <rect class="bx g grow w3" x="4" y="176" width="692" height="42" rx="6"/>
+        <text class="ss" x="24" y="202"><tspan font-weight="700">spec</tspan> &nbsp;&nbsp;specs/GB-163.md &mdash; <tspan font-style="italic">usually missing, and it is the durable one</tspan></text>
+        <rect class="bx grow w4" x="4" y="224" width="692" height="42" rx="6"/>
+        <text class="ss" x="24" y="250"><tspan font-weight="700">pull request</tspan> &nbsp;&nbsp;title and description both carry it</text>
+        <rect class="bx g grow w5" x="4" y="272" width="692" height="42" rx="6"/>
+        <text class="ss" x="24" y="298"><tspan font-weight="700">write-back</tspan> &nbsp;&nbsp;the comment and the page link back &mdash; <tspan font-style="italic">also usually missing</tspan></text>
+
+        <rect class="bx d" x="4" y="330" width="692" height="100" rx="8"/>
+        <text class="lb w" x="24" y="354">THE QUESTION THIS ANSWERS &mdash; AND IT WILL BE ASKED</text>
+        <text class="ss w" x="24" y="380" style="font-size:14px">&ldquo;Six months ago somebody raised this limit. Who decided, and on what basis?&rdquo;</text>
+        <text class="ss w" x="24" y="406" style="font-size:14px">With the anchor: follow one string. Without it: <tspan font-weight="700" fill="#fbbf24">ask people what they remember.</tspan></text>
+      </svg>
+    </div>
+    <div class="pts">
+      <h3>What most teams already have</h3>
+      <ul>
+        <li>The key in the branch, the commit and the PR title. Often enforced by a hook already.</li>
+      </ul>
+      <h3>The two that are usually missing</h3>
+      <ul>
+        <li><b>The spec file, named for the key.</b> Without it the reasoning lives in a transcript &mdash; and Module 5 established what that is worth.</li>
+        <li><b>The write-back.</b> A comment on the ticket and a link from the page, both carrying the key, so the trail runs in <em>both</em> directions.</li>
+      </ul>
+      <div class="callout">A one-way trail answers &ldquo;what did this change do?&rdquo; A two-way trail answers <b>&ldquo;why was it done, and what was rejected?&rdquo;</b> &mdash; and that is the question a regulator asks.</div>
+      <div class="take"><b>Cheap to enforce, and worth doing now:</b> a commit hook and a PR template check for the key. Both are a morning's work and neither needs MCP.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="slide" data-sec="4 &middot; Reading the surroundings" data-title="Where the constraint actually lives" data-notes="This is the setup for the GB-163 lab and it is the heart of the module. Walk the five places and let the room recognise each one. The description is where people look and it is the least reliable, because it was written before anyone thought hard about the problem. The comments are where the real requirement usually is. The linked issues are where the constraint is. The closed duplicate is where the reason it was rejected last time is - and that one is invisible unless you go looking. The epic tells you this is the third attempt. Then the point: an agent that reads only the description is doing what a junior engineer does on their first week, and for the same reason - it does not know that there is anything else to read." data-tier="K" data-after="lab">
+  <h2>Five places, and the description is the least reliable<span class="tag k">4</span></h2>
+  <div class="body g1">
+    <div>
+      <svg viewBox="0 0 1180 452" role="img" aria-label="Five places around a ticket where context lives, ranked by reliability">
+        <rect class="bx d" x="4" y="4" width="1172" height="30" rx="6"/>
+        <text class="lb w" x="24" y="24">WHERE</text>
+        <text class="lb w" x="290" y="24">WHAT LIVES THERE</text>
+        <text class="lb w" x="720" y="24">ON GB-163, SPECIFICALLY</text>
+
+        <rect class="bx r grow" x="4" y="42" width="1172" height="70" rx="6"/>
+        <text class="tt" x="24" y="72">The description</text>
+        <text class="ss" x="24" y="94" style="fill:#dc2626">where everyone looks</text>
+        <text class="ss" x="290" y="72">Written before anyone thought hard about it, and</text>
+        <text class="ss" x="290" y="94">rarely updated once they did.</text>
+        <text class="ss" x="720" y="83">&ldquo;Raise the posting limit as discussed with ops.&rdquo;</text>
+
+        <rect class="bx a grow w2" x="4" y="120" width="1172" height="70" rx="6"/>
+        <text class="tt" x="24" y="150">The comments</text>
+        <text class="ss" x="24" y="172">the real requirement</text>
+        <text class="ss" x="290" y="150">Where the actual number, the actual edge case and</text>
+        <text class="ss" x="290" y="172">the actual objection are agreed.</text>
+        <text class="ss" x="720" y="150">Ops: <tspan font-weight="600">&ldquo;up to 500 million&rdquo;</tspan>. And an engineering</text>
+        <text class="ss" x="720" y="172">lead&rsquo;s question that <tspan fill="#dc2626">nobody ever answered</tspan>.</text>
+
+        <rect class="bx a grow w3" x="4" y="198" width="1172" height="70" rx="6"/>
+        <text class="tt" x="24" y="228">Linked issues</text>
+        <text class="ss" x="24" y="250">the constraint</text>
+        <text class="ss" x="290" y="228">What another team requires before this can happen.</text>
+        <text class="ss" x="290" y="250">Usually open, usually unassigned.</text>
+        <text class="ss" x="720" y="228">RISK-402: <tspan font-weight="600">dual approval required</tspan> &mdash; open,</text>
+        <text class="ss" x="720" y="250">unassigned, no target date.</text>
+
+        <rect class="bx r grow w4" x="4" y="276" width="1172" height="70" rx="6"/>
+        <text class="lb r" x="994" y="296">INVISIBLE UNLESS YOU LOOK</text>
+        <text class="tt" x="24" y="306">The closed duplicate</text>
+        <text class="ss" x="24" y="328">why it was refused</text>
+        <text class="ss" x="290" y="306">The same request, already rejected, with the reason</text>
+        <text class="ss" x="290" y="328">recorded &mdash; and nothing links to it from the new one.</text>
+        <text class="ss" x="720" y="316">GB-119, closed <tspan font-weight="600">Won&rsquo;t Do</tspan>: outside the</text>
+        <text class="ss" x="720" y="338">client money limits agreed with the regulator.</text>
+
+        <rect class="bx grow w5" x="4" y="354" width="1172" height="60" rx="6"/>
+        <text class="tt" x="24" y="384">The epic</text>
+        <text class="ss" x="290" y="384">Whether this is the first attempt or the third.</text>
+        <text class="ss" x="720" y="384">GB-118: three tickets, two closed <tspan font-weight="600">Won&rsquo;t Do</tspan>.</text>
+
+        <rect class="bx d" x="4" y="422" width="1172" height="26" rx="5"/>
+        <text class="ss w" x="590" y="440" text-anchor="middle" style="font-size:13px">An agent reading only the description behaves exactly like a new joiner in their first week &mdash; <tspan font-weight="700" fill="#fbbf24">it does not know there is more to read</tspan></text>
+      </svg>
+    </div>
+  </div>
+</section>
+<!-- 10 -->
+<section class="slide" data-sec="4 &middot; Reading the surroundings" data-title="The trap - stale surroundings" data-notes="Balance the previous slide, because reading the surroundings has a failure mode of its own and an experienced room will spot it before you say it. Not everything around a ticket is true. A comment from four weeks ago may have been superseded in a meeting. A linked issue may itself be stale. And a closed Won't Do from seven months ago may have been overturned by a decision recorded somewhere else entirely. So the instruction is not read everything and believe it - it is read everything and RANK it, and the ranking rule is on the right. Recency and authority, in that order, and anything you cannot rank becomes a question rather than an input. That is the same discipline as Module 3's grounding: cite the source, and refuse when you cannot." data-tier="R" data-after="lab">
+  <h2>The trap &mdash; the surroundings are not automatically true<span class="tag k">4</span></h2>
+  <div class="body g46">
+    <div class="pts">
+      <h3>Three ways context misleads</h3>
+      <ul>
+        <li><b>Superseded in a meeting.</b> The comment says 500 million; the number changed last Thursday and nobody updated the ticket.</li>
+        <li><b>The link is stale.</b> RISK-402 might have been satisfied by a control shipped elsewhere &mdash; and nothing on RISK-402 would say so.</li>
+        <li><b>The rejection was overturned.</b> A <em>Won't Do</em> from seven months ago is evidence, not a verdict.</li>
+      </ul>
+      <h3>So the instruction is not &ldquo;read everything&rdquo;</h3>
+      <ul>
+        <li>It is <b>read everything and rank it</b> &mdash; by recency, then by authority.</li>
+        <li>And anything you cannot rank becomes a <b>question</b>, not an input. That is Module 3's grounding rule at the ticket level: cite the source, and refuse when you cannot.</li>
+      </ul>
+      <div class="callout bad"><b>The failure this prevents:</b> an agent that reads the surroundings and treats a four-week-old comment as authoritative is not more careful than one that reads only the description. It is <em>confidently</em> wrong instead of <em>obviously</em> wrong &mdash; which is worse.</div>
+    </div>
+    <div>
+      <svg viewBox="0 0 700 430" role="img" aria-label="Ranking rules for context found around a ticket">
+        <text class="lb g" x="4" y="13">RANK IT &mdash; RECENCY, THEN AUTHORITY</text>
+        <rect class="bx g" x="4" y="22" width="692" height="230" rx="8"/>
+
+        <rect class="bx w rise" x="20" y="40" width="660" height="46" rx="6"/>
+        <text class="tt" x="36" y="60" style="font-size:12.5px">1 &middot; An ADR in the repository</text>
+        <text class="ss" x="36" y="78">Owned, reviewed, versioned. Superseded only by another ADR.</text>
+
+        <rect class="bx w rise r2" x="20" y="94" width="660" height="46" rx="6"/>
+        <text class="tt" x="36" y="114" style="font-size:12.5px">2 &middot; A decision recorded on a linked issue by the team that owns it</text>
+        <text class="ss" x="36" y="132">Risk saying dual approval is Risk&rsquo;s to say. Weight it accordingly.</text>
+
+        <rect class="bx w rise r3" x="20" y="148" width="660" height="46" rx="6"/>
+        <text class="tt" x="36" y="168" style="font-size:12.5px">3 &middot; A recent comment from the requesting team</text>
+        <text class="ss" x="36" y="186">Usually the real requirement &mdash; and usually not reflected in the description.</text>
+
+        <rect class="bx a rise r4" x="20" y="202" width="660" height="42" rx="6"/>
+        <text class="tt" x="36" y="222" style="font-size:12.5px">4 &middot; Anything older than a quarter, or from nobody in particular</text>
+        <text class="ss" x="36" y="238" style="fill:#b45309">Evidence that a conversation happened. Not evidence of what is true now.</text>
+
+        <text class="lb r" x="4" y="284">AND THE RULE THAT MAKES IT SAFE</text>
+        <rect class="bx r" x="4" y="294" width="692" height="76" rx="8"/>
+        <text class="tt" x="24" y="322" style="font-size:14px">If two sources disagree, that is a question &mdash; not a judgement call.</text>
+        <text class="ss" x="24" y="346">On GB-163, Ops and Risk disagree in writing. An agent that picks one has</text>
+        <text class="ss" x="24" y="364">just made a regulatory decision on your behalf.</text>
+
+        <rect class="bx d" x="4" y="382" width="692" height="48" rx="8"/>
+        <text class="ss w" x="24" y="412" style="font-size:14px">Cite the source for every constraint &mdash; <tspan font-weight="700" fill="#fbbf24">then a stale one is visible rather than absorbed.</tspan></text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="slide" data-sec="5 &middot; Interrogate, do not invent" data-title="GB-163 - what happens with a naked read" data-notes="Read the ticket out loud - it takes five seconds. Raise the posting limit as discussed with ops. Acceptance criteria: the limit is raised. Then the left panel: an agent reading only that produces a change that raises the constant, adds a test asserting the new constant, and reports the criterion met. Every part of that is defensible against the ticket as written. And it is a regulatory breach - the tests pass, the review agent checking against the acceptance criteria finds nothing wrong, because the criterion IS satisfied. This is the sharpest example in the course of a green pipeline producing an unacceptable outcome, and the reason is not the agent. It is that the ticket did not contain the constraint and nothing made anyone go looking." data-tier="D" data-after="lab">
+  <h2>GB-163 &mdash; a green pipeline producing a regulatory breach<span class="tag k">5</span></h2>
+  <div class="body g55">
+    <div>
+      <div class="callout bad" style="margin-top:0"><b>The ticket, in full</b></div>
+<div class="file"><span class="fn">GB-163 — RAISE THE POSTING LIMIT</span>Raise the posting limit as discussed with ops.
+
+<span class="k">Acceptance criteria</span>
+- <span class="s">The limit is raised.</span>
+</div>
+      <div class="pts" style="margin-top:12px">
+        <h3>What a naked read produces</h3>
+        <ul>
+          <li>Raises <code>MAX_POSTING_MINOR</code> to a number it chose.</li>
+          <li>Adds a test asserting the new constant.</li>
+          <li>Reports the acceptance criterion <b>met</b> &mdash; and it <em>is</em> met.</li>
+        </ul>
+        <div class="callout bad"><b>And every check you built passes.</b> The tests are green. The review agent finds nothing, because it checks against the acceptance criteria and the criterion is satisfied.</div>
+      </div>
+    </div>
+    <div>
+      <div class="callout" style="margin-top:0"><b>What was in the surroundings all along</b></div>
+<div class="file"><span class="fn">FOUR PLACES, NONE OF THEM THE DESCRIPTION</span><span class="k">comment, ops:</span>  "up to 500 million so the
+  quarterly rebalancing stops failing"
+
+<span class="k">comment, risk:</span> <span class="s">"not without dual approval</span>
+<span class="s">  on anything above the current limit"</span>
+
+<span class="k">GB-119, closed Won't Do:</span>
+  <span class="s">"raising the cap without an approval step</span>
+<span class="s">  moves us outside the client money limits</span>
+<span class="s">  agreed with the regulator"</span>
+
+<span class="k">epic GB-118:</span> two prior attempts, both
+  closed for the same reason
+
+<span class="k">unanswered, 6 days ago:</span>
+  <span class="c">"is 500m the number, or 500m per instruction</span>
+<span class="c">   with a daily cap?"</span>
+</div>
+      <div class="take"><b>The agent is not the problem here.</b> The ticket did not contain the constraint, and nothing in it suggested there was anything to go and find.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 12 -->
+<section class="slide" data-sec="5 &middot; Interrogate, do not invent" data-title="Making it interrogate" data-notes="The fix, and it is three things rather than one clever prompt. First, an instruction to read the surroundings before proposing anything - and be specific about which surroundings, because everything is a search. Second, the stop condition from Module 3, now with a ticket-shaped trigger: if two sources disagree, or a linked issue is open and blocking, stop. Third, and this is what makes it a loop rather than a refusal, the questions get POSTED. Not listed in the chat where they die - posted as a comment on the ticket, with the ticket key, where the person who can answer will see them. Then the honest note about what good looks like: on GB-163 the correct output is not an implementation. It is a comment asking three questions and a change that has not been made. An agent that produces nothing but the right question has done the most valuable thing available to it." data-tier="K" data-after="lab">
+  <h2>Three changes &mdash; and the third is what closes the loop<span class="tag k">5</span></h2>
+  <div class="body g1">
+    <div>
+      <svg viewBox="0 0 1180 452" role="img" aria-label="Three changes that make an agent interrogate a ticket rather than invent">
+        <rect class="bx g grow" x="4" y="4" width="384" height="196" rx="8"/>
+        <text class="lb g" x="24" y="28">1 &middot; READ THE SURROUNDINGS FIRST</text>
+        <text class="tt" x="24" y="56">And name which ones</text>
+        <text class="ss" x="24" y="82">&ldquo;Before proposing anything: read this ticket&rsquo;s</text>
+        <text class="ss" x="24" y="102">comments, its linked issues and its epic.&rdquo;</text>
+        <text class="ss" x="24" y="130" style="fill:#047857;font-weight:600">Named, so it is three calls and not a search.</text>
+        <text class="ss" x="24" y="158">Then: <tspan font-style="italic">summarise what you found, and cite</tspan></text>
+        <text class="ss" x="24" y="178" style="font-style:italic">where each constraint came from.</text>
+
+        <rect class="bx a grow w2" x="398" y="4" width="384" height="196" rx="8"/>
+        <text class="lb a" x="418" y="28">2 &middot; A TICKET-SHAPED STOP CONDITION</text>
+        <text class="tt" x="418" y="56">Module 3, with a new trigger</text>
+        <text class="ss" x="418" y="82">&ldquo;Stop and ask if: two sources disagree; a</text>
+        <text class="ss" x="418" y="102">linked issue is open and blocking; a prior</text>
+        <text class="ss" x="418" y="122">ticket was closed <tspan font-weight="600">Won&rsquo;t Do</tspan> for this.&rdquo;</text>
+        <text class="ss" x="418" y="150" style="fill:#b45309;font-weight:600">Named circumstances, not &ldquo;ask if unsure&rdquo; &mdash;</text>
+        <text class="ss" x="418" y="170" style="fill:#b45309;font-weight:600">and all three are mechanically checkable.</text>
+
+        <rect class="bx r grow w3" x="792" y="4" width="384" height="196" rx="8"/>
+        <text class="lb r" x="812" y="28">3 &middot; POST THE QUESTIONS &mdash; THE ONE THAT MATTERS</text>
+        <text class="tt" x="812" y="56">Not listed in the chat</text>
+        <text class="ss" x="812" y="82">A comment on the ticket, carrying the key,</text>
+        <text class="ss" x="812" y="102">where the person who can answer is looking.</text>
+        <text class="ss" x="812" y="130" style="fill:#dc2626;font-weight:600">Questions raised in a session die with it.</text>
+        <text class="ss" x="812" y="158">This is the only step that turns a refusal into</text>
+        <text class="ss" x="812" y="178">progress somebody else can act on.</text>
+
+        <text class="lb g" x="4" y="240">WHAT GOOD LOOKS LIKE ON GB-163 &mdash; AND IT IS NOT AN IMPLEMENTATION</text>
+        <rect class="bx g" x="4" y="250" width="1172" height="130" rx="8"/>
+        <rect class="bx w" x="24" y="268" width="1132" height="96" rx="6"/>
+        <text class="ss" x="42" y="292" style="font-family:'DejaVu Sans Mono',monospace;font-size:12px">Not proceeding. GB-119 was closed Won&rsquo;t Do for this exact change: raising the cap without an</text>
+        <text class="ss" x="42" y="312" style="font-family:'DejaVu Sans Mono',monospace;font-size:12px">approval step moves us outside the agreed client money limits. RISK-402 is open and blocking.</text>
+        <text class="ss" x="42" y="336" style="font-family:'DejaVu Sans Mono',monospace;font-size:12px">Three questions: (1) has RISK-402 been satisfied elsewhere? (2) is 500m per instruction or a</text>
+        <text class="ss" x="42" y="356" style="font-family:'DejaVu Sans Mono',monospace;font-size:12px">daily cap &mdash; asked 6 days ago, unanswered? (3) does the GB-119 rejection still stand?</text>
+
+        <rect class="bx d" x="4" y="392" width="1172" height="56" rx="8"/>
+        <text class="ss w" x="24" y="428" style="font-size:14px">An agent that produces <tspan font-weight="700" fill="#fbbf24">no code and the right question</tspan> has done the most valuable thing available to it on this ticket.</text>
+      </svg>
+    </div>
+  </div>
+</section>
+<!-- 13 -->
+<section class="slide" data-sec="5 &middot; Interrogate, do not invent" data-title="The cost of a good refusal" data-notes="Short slide, and it exists to pre-empt the objection that will otherwise be raised in the corridor rather than the room. If the agent stops on ambiguous tickets, and your board is full of ambiguous tickets, then the agent stops constantly and delivers nothing. That objection is correct in its premise and wrong in its conclusion, and the honest answer is on the right: a stop is not a failure to deliver, it is delivery of the finding that this ticket was not ready. The thing to measure is not how often it stops - it is whether the stops were RIGHT. A stop that a human looks at and says yes, good catch, is the cheapest quality event in the pipeline. A stop that a human looks at and says just get on with it means your stop conditions are too broad, and that is tunable." data-tier="K" data-after="lab">
+  <h2>&ldquo;If it stops on every ambiguous ticket, it will never ship&rdquo;<span class="tag k">5</span></h2>
+  <div class="body g55">
+    <div>
+      <svg viewBox="0 0 700 430" role="img" aria-label="How to judge whether an agent stops too often">
+        <text class="lb a" x="4" y="13">THE OBJECTION &mdash; AND ITS PREMISE IS CORRECT</text>
+        <rect class="bx a" x="4" y="22" width="692" height="94" rx="8"/>
+        <text class="tt" x="24" y="52" style="font-size:14px">&ldquo;Half our board looks like GB-163. It will stop on all of it.&rdquo;</text>
+        <text class="ss" x="24" y="78">Probably true. And the conclusion people draw &mdash; therefore loosen the stop</text>
+        <text class="ss" x="24" y="98">conditions &mdash; is the one that quietly removes the value.</text>
+
+        <text class="lb g" x="4" y="150">MEASURE THE RIGHT THING &mdash; NOT HOW OFTEN, BUT WHETHER IT WAS RIGHT</text>
+        <rect class="bx g" x="4" y="160" width="692" height="164" rx="8"/>
+        <rect class="bx w rise" x="20" y="178" width="660" height="44" rx="6"/>
+        <text class="ss" x="34" y="198"><tspan font-weight="700" fill="#047857">Good stop</tspan> &mdash; a human reads it and says &ldquo;yes, good catch&rdquo;</text>
+        <text class="ss" x="34" y="216" style="font-size:11.5px">The cheapest quality event in the whole pipeline. Count these.</text>
+        <rect class="bx w rise r2" x="20" y="230" width="660" height="44" rx="6"/>
+        <text class="ss" x="34" y="250"><tspan font-weight="700" fill="#b45309">Noisy stop</tspan> &mdash; a human reads it and says &ldquo;just get on with it&rdquo;</text>
+        <text class="ss" x="34" y="268" style="font-size:11.5px">Your stop conditions are too broad. That is tunable, and worth tuning.</text>
+        <rect class="bx w rise r3" x="20" y="282" width="660" height="34" rx="6"/>
+        <text class="ss" x="34" y="304"><tspan font-weight="700" fill="#dc2626">Missed stop</tspan> &mdash; it proceeded, and should not have. Count these too.</text>
+
+        <rect class="bx d" x="4" y="336" width="692" height="94" rx="8"/>
+        <text class="lb w" x="24" y="360">THE REFRAME</text>
+        <text class="ss w" x="24" y="386" style="font-size:14px">A stop is not a failure to deliver. It is <tspan font-weight="700" fill="#fbbf24">delivery of the finding</tspan></text>
+        <text class="ss w" x="24" y="408" style="font-size:14px">that this ticket was not ready &mdash; which is information somebody wanted.</text>
+      </svg>
+    </div>
+    <div class="pts">
+      <h3>What a wave of stops actually tells you</h3>
+      <ul>
+        <li>Not that the agent is timid. That your <b>definition of ready</b> is not being applied &mdash; and now you have evidence, per ticket, instead of an opinion at a retrospective.</li>
+        <li>Most teams have never had that measurement. It is a by-product of this module and arguably worth more than the automation.</li>
+      </ul>
+      <h3>The practical settlement</h3>
+      <ul>
+        <li>Let it stop. Triage the stops for a fortnight. <b>Tune the conditions on the noisy ones</b>, and fix the tickets on the good ones.</li>
+        <li>If the same stop recurs across tickets, that is not a prompt problem &mdash; it is a <em>process</em> problem with a name.</li>
+      </ul>
+      <div class="take"><b>What you must not do</b> is loosen the conditions because stopping is inconvenient. That converts an agent that finds problems into one that ships them, and you will not notice for a quarter.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 14 -->
+<section class="slide" data-sec="6 &middot; Write-back guardrails" data-title="What may be written unattended" data-notes="The section that decides whether you are allowed to deploy any of this, so treat it as the governance conversation it is. Three tiers. Unattended is additive and reversible - comments, links, a spec attachment. Notice what they have in common: nothing is destroyed, and anything wrong is visible and can be corrected by a human in seconds. Needs a human is anything that changes STATE that other people or processes react to - a transition, an assignment, a priority. And never is anything that destroys information or reaches outside the ticket. The rule at the bottom is the one to give them for their own tools: can a human see it was the agent, and undo it in under a minute? If both are yes it can probably be unattended, and if either is no it cannot." data-tier="K">
+  <h2>Three tiers &mdash; and the test that decides which<span class="tag k">6</span></h2>
+  <div class="body g1">
+    <div>
+      <svg viewBox="0 0 1180 452" role="img" aria-label="Three tiers of write-back permission with examples and the deciding test">
+        <rect class="bx g grow" x="4" y="4" width="384" height="234" rx="8"/>
+        <text class="lb g" x="24" y="28">UNATTENDED &mdash; ADDITIVE AND REVERSIBLE</text>
+        <rect class="bx w" x="24" y="40" width="344" height="28" rx="4"/>
+        <text class="ss" x="38" y="59">Add a comment &mdash; questions, findings</text>
+        <rect class="bx w" x="24" y="74" width="344" height="28" rx="4"/>
+        <text class="ss" x="38" y="93">Link the pull request to the ticket</text>
+        <rect class="bx w" x="24" y="108" width="344" height="28" rx="4"/>
+        <text class="ss" x="38" y="127">Attach or link the spec</text>
+        <rect class="bx w" x="24" y="142" width="344" height="28" rx="4"/>
+        <text class="ss" x="38" y="161">Add a label the team agreed on</text>
+        <text class="ss" x="24" y="192" style="fill:#047857;font-weight:600">Nothing is destroyed. Anything wrong is</text>
+        <text class="ss" x="24" y="212" style="fill:#047857;font-weight:600">visible, and a human undoes it in seconds.</text>
+        <text class="ss" x="24" y="232" style="font-size:11.5px">This tier alone gets you most of the module.</text>
+
+        <rect class="bx a grow w2" x="398" y="4" width="384" height="234" rx="8"/>
+        <text class="lb a" x="418" y="28">NEEDS A HUMAN &mdash; CHANGES STATE OTHERS REACT TO</text>
+        <rect class="bx w" x="418" y="40" width="344" height="28" rx="4"/>
+        <text class="ss" x="432" y="59">Transition the ticket &mdash; any status</text>
+        <rect class="bx w" x="418" y="74" width="344" height="28" rx="4"/>
+        <text class="ss" x="432" y="93">Assign it, or change the assignee</text>
+        <rect class="bx w" x="418" y="108" width="344" height="28" rx="4"/>
+        <text class="ss" x="432" y="127">Change priority, sizing or sprint</text>
+        <rect class="bx w" x="418" y="142" width="344" height="28" rx="4"/>
+        <text class="ss" x="432" y="161">Edit the description or the criteria</text>
+        <text class="ss" x="418" y="192" style="fill:#b45309;font-weight:600">These are signals other people and other</text>
+        <text class="ss" x="418" y="212" style="fill:#b45309;font-weight:600">automations act on. A wrong transition</text>
+        <text class="ss" x="418" y="232" style="fill:#b45309;font-weight:600">moves work, or reports progress that is not real.</text>
+
+        <rect class="bx r grow w3" x="792" y="4" width="384" height="234" rx="8"/>
+        <text class="lb r" x="812" y="28">NEVER &mdash; WHATEVER THE PERMISSIONS ALLOW</text>
+        <rect class="bx w" x="812" y="40" width="344" height="28" rx="4"/>
+        <text class="ss" x="826" y="59">Delete or edit somebody else&rsquo;s comment</text>
+        <rect class="bx w" x="812" y="74" width="344" height="28" rx="4"/>
+        <text class="ss" x="826" y="93">Close a ticket, or reopen a closed one</text>
+        <rect class="bx w" x="812" y="108" width="344" height="28" rx="4"/>
+        <text class="ss" x="826" y="127">Touch a ticket in another team&rsquo;s project</text>
+        <rect class="bx w" x="812" y="142" width="344" height="28" rx="4"/>
+        <text class="ss" x="826" y="161">Anything that removes an audit record</text>
+        <text class="ss" x="812" y="192" style="fill:#dc2626;font-weight:600">Enforce these with the token&rsquo;s permissions,</text>
+        <text class="ss" x="812" y="212" style="fill:#dc2626;font-weight:600">not with a sentence in a prompt.</text>
+        <text class="ss" x="812" y="232" style="font-size:11.5px">A prohibition the credential allows will happen.</text>
+
+        <text class="lb" x="4" y="274">THE TEST, FOR WHATEVER TOOL YOU CONNECT NEXT</text>
+        <rect class="bx d" x="4" y="284" width="1172" height="90" rx="8"/>
+        <text class="tt w" x="24" y="316" style="font-size:16px">Can a human see it was the agent &mdash; and undo it in under a minute?</text>
+        <text class="ss w" x="24" y="346" style="font-size:14px">Both yes &rarr; it can probably be unattended. &nbsp;&nbsp;Either no &rarr; it cannot.</text>
+        <text class="ss w" x="24" y="366" style="font-size:13px;fill:#5eead4">This generalises past JIRA, and it is the sentence to take into the conversation with your platform team.</text>
+
+        <rect class="bx a" x="4" y="384" width="1172" height="64" rx="8"/>
+        <text class="tt" x="24" y="412" style="font-size:14px">Start read-only. Add commenting. Stop there for a while.</text>
+        <text class="ss" x="24" y="436">Read-only plus comments is a legitimate permanent position &mdash; and it is where most of the value in this module lives.</text>
+      </svg>
+    </div>
+  </div>
+</section>
+<!-- 15 -->
+<section class="slide" data-sec="6 &middot; Write-back guardrails" data-title="The audit trail" data-notes="This is the slide that gets this past a risk function, so deliver it as an answer rather than as a principle. Three requirements. Attribution - every write says which agent, on whose behalf, under which ticket, and it must be visible in the JIRA history without special tooling. Reconstructability - from the ticket alone you can get to the spec, the pull request and the review report. And an unbroken chain, which is the one people forget: if the agent posts a comment and a human later edits the description in response, both events are in the history and neither overwrites the other. The bottom line is the honest one: this is not extra work introduced by agents. It is the audit trail you were supposed to have, and the agent makes its absence obvious because now something automated is writing." data-tier="R">
+  <h2>The audit trail &mdash; three requirements, and one honest observation<span class="tag k">6</span></h2>
+  <div class="body g64">
+    <div>
+      <svg viewBox="0 0 700 430" role="img" aria-label="Three audit trail requirements and how they compose">
+        <text class="lb" x="4" y="13">1 &middot; ATTRIBUTION &mdash; VISIBLE WITHOUT SPECIAL TOOLING</text>
+        <rect class="bx" x="4" y="22" width="692" height="108" rx="8"/>
+        <rect class="bx w" x="20" y="40" width="660" height="74" rx="6"/>
+        <text class="ss" x="34" y="62" style="font-family:'DejaVu Sans Mono',monospace;font-size:11.5px">[copilot-agent &middot; review] on behalf of r.gheware &middot; GB-163</text>
+        <text class="ss" x="34" y="82" style="font-family:'DejaVu Sans Mono',monospace;font-size:11.5px">Not proceeding: GB-119 closed Won&rsquo;t Do for this change. RISK-402 open.</text>
+        <text class="ss" x="34" y="104" style="font-size:11.5px;fill:#047857">Which agent &middot; on whose behalf &middot; under which ticket &mdash; in the history, readable by anyone</text>
+
+        <text class="lb" x="4" y="164">2 &middot; RECONSTRUCTABLE FROM THE TICKET ALONE</text>
+        <rect class="bx g" x="4" y="174" width="692" height="86" rx="8"/>
+        <rect class="bx w" x="20" y="192" width="150" height="50" rx="5"/>
+        <text class="ss" x="95" y="222" text-anchor="middle" style="font-size:11.5px">the ticket</text>
+        <path class="arg" d="M174 217 L206 217"/>
+        <rect class="bx w" x="210" y="192" width="140" height="50" rx="5"/>
+        <text class="ss" x="280" y="222" text-anchor="middle" style="font-size:11.5px">the spec</text>
+        <path class="arg" d="M354 217 L386 217"/>
+        <rect class="bx w" x="390" y="192" width="140" height="50" rx="5"/>
+        <text class="ss" x="460" y="222" text-anchor="middle" style="font-size:11.5px">the PR</text>
+        <path class="arg" d="M534 217 L566 217"/>
+        <rect class="bx w" x="570" y="192" width="110" height="50" rx="5"/>
+        <text class="ss" x="625" y="216" text-anchor="middle" style="font-size:11.5px">review</text>
+        <text class="ss" x="625" y="232" text-anchor="middle" style="font-size:11.5px">report</text>
+
+        <text class="lb" x="4" y="294">3 &middot; AN UNBROKEN CHAIN &mdash; THE ONE PEOPLE FORGET</text>
+        <rect class="bx a" x="4" y="304" width="692" height="70" rx="8"/>
+        <text class="ss" x="24" y="330">The agent comments. A human edits the description in response.</text>
+        <text class="ss" x="24" y="352" style="fill:#b45309;font-weight:600">Both events are in the history. Neither overwrites the other.</text>
+
+        <rect class="bx d" x="4" y="386" width="692" height="44" rx="8"/>
+        <text class="ss w" x="24" y="414" style="font-size:13.5px">Which is why <tspan font-weight="700" fill="#fbbf24">editing the description</tspan> sits in the needs-a-human tier.</text>
+      </svg>
+    </div>
+    <div class="pts">
+      <h3>The observation to make out loud</h3>
+      <ul>
+        <li><b>None of this is extra work introduced by agents.</b> It is the audit trail you were supposed to have.</li>
+        <li>What changes is that something <em>automated</em> is now writing &mdash; so the gaps become obvious, and somebody finally asks.</li>
+      </ul>
+      <h3>Two things to agree before you connect anything</h3>
+      <ul>
+        <li><b>A named account for the agent</b>, not a person's credential. Otherwise attribution is a lie and the trail is worthless.</li>
+        <li><b>A comment format the team agrees on</b>, so agent comments are filterable &mdash; and so nobody mistakes one for a colleague's opinion.</li>
+      </ul>
+      <div class="take"><b>The conversation this replaces:</b> &ldquo;can we let an agent write to JIRA?&rdquo; is unanswerable. <em>&ldquo;Can it add a comment under its own account, which anyone can see and delete?&rdquo;</em> answers itself.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 16 -->
+<section class="slide" data-sec="6 &middot; Write-back guardrails" data-title="What to agree before you connect it" data-notes="Practical closing slide for the section - a checklist for the conversation with the platform and risk teams, because that conversation is what actually gates this in a bank. Six items, and the point of showing them as a list is that none of them is a research project. Each is a decision somebody can make in a meeting. Say the sequencing advice explicitly: go and have this conversation with a read-only proposal first, because read-only is almost always approvable, it delivers the pulling half of the module, and it builds the track record that makes the commenting conversation easy three months later. Teams that ask for full write access on day one usually get nothing." data-tier="K">
+  <h2>Six decisions, and none of them is a research project<span class="tag k">6</span></h2>
+  <div class="body g1">
+    <div>
+      <svg viewBox="0 0 1180 452" role="img" aria-label="A six-item checklist to agree before connecting an agent to the ticketing system">
+        <rect class="bx d" x="4" y="4" width="1172" height="30" rx="6"/>
+        <text class="lb w" x="24" y="24">DECISION</text>
+        <text class="lb w" x="470" y="24">A REASONABLE FIRST ANSWER</text>
+        <text class="lb w" x="900" y="24">WHO DECIDES</text>
+
+        <rect class="bx grow" x="4" y="42" width="1172" height="60" rx="6"/>
+        <text class="tt" x="24" y="72">1 &middot; Which account does the agent write as?</text>
+        <text class="ss" x="470" y="72">A named service account, never a person&rsquo;s credential</text>
+        <text class="ss" x="900" y="72">platform</text>
+
+        <rect class="bx grow w2" x="4" y="110" width="1172" height="60" rx="6"/>
+        <text class="tt" x="24" y="140">2 &middot; What is it scoped to?</text>
+        <text class="ss" x="470" y="140">One project. Not the instance.</text>
+        <text class="ss" x="900" y="140">platform</text>
+
+        <rect class="bx g grow w3" x="4" y="178" width="1172" height="60" rx="6"/>
+        <text class="tt" x="24" y="208">3 &middot; Read-only, or read and comment?</text>
+        <text class="ss" x="470" y="208" style="fill:#047857;font-weight:600">Start read-only. Add commenting once there is a track record.</text>
+        <text class="ss" x="900" y="208">risk + platform</text>
+
+        <rect class="bx grow w4" x="4" y="246" width="1172" height="60" rx="6"/>
+        <text class="tt" x="24" y="276">4 &middot; What format do agent comments take?</text>
+        <text class="ss" x="470" y="276">A fixed prefix, so they are filterable and unmistakable</text>
+        <text class="ss" x="900" y="276">the team</text>
+
+        <rect class="bx grow w5" x="4" y="314" width="1172" height="60" rx="6"/>
+        <text class="tt" x="24" y="344">5 &middot; Who reviews what it wrote, and how often?</text>
+        <text class="ss" x="470" y="344">A filter on the agent account, read at standup for a fortnight</text>
+        <text class="ss" x="900" y="344">the team</text>
+
+        <rect class="bx a grow" x="4" y="382" width="1172" height="66" rx="6"/>
+        <text class="tt" x="24" y="412">6 &middot; What happens when it is wrong?</text>
+        <text class="ss" x="24" y="436" style="font-size:11.5px;fill:#b45309">the question people forget to ask</text>
+        <text class="ss" x="470" y="404">Anyone deletes the comment. Nothing else was changed,</text>
+        <text class="ss" x="470" y="426">which is <tspan font-weight="600">why</tspan> tier one is limited to additive and reversible.</text>
+        <text class="ss" x="900" y="412">already answered</text>
+        <text class="ss" x="900" y="432" style="font-size:11.5px">by the tiering</text>
+      </svg>
+    </div>
+  </div>
+</section>
+<!-- 17 -->
+<section class="slide" data-sec="6 &middot; Write-back guardrails" data-title="Ticket to spec to plan, connected" data-notes="Bring the two days together in one picture, because this is the first slide where the whole pipeline is visible end to end. Trace it: the ticket and its surroundings are pulled, the spec is written and carries the key, the plan and tasks follow, the four agents run, the artifacts accumulate, and two things go back - the questions early and the outcome at the end. Point out that only two arrows are new in this module, the pull at the front and the write-back, and everything between them is what they already built. That is worth saying because it reframes MCP from a big new capability into two connections at the ends of an existing pipeline. Then the honest gap at the bottom: the last arrow, writing the outcome back to Confluence, is Module 8 and it is not built yet." data-tier="R">
+  <h2>The whole pipeline, connected at both ends<span class="tag k">6</span></h2>
+  <div class="body g1">
+    <div>
+      <svg viewBox="0 0 1180 452" role="img" aria-label="The end to end pipeline from ticket through spec plan and agents back to the ticket">
+        <text class="lb" x="4" y="14">ONLY TWO ARROWS ARE NEW IN THIS MODULE &mdash; THE PULL, AND THE WRITE-BACK</text>
+
+        <rect class="bx d" x="4" y="26" width="170" height="76" rx="7"/>
+        <text class="tt w" x="89" y="54" text-anchor="middle" style="font-size:13.5px">JIRA</text>
+        <text class="ss w" x="89" y="74" text-anchor="middle" style="font-size:11px">GB-163 + comments,</text>
+        <text class="ss w" x="89" y="90" text-anchor="middle" style="font-size:11px">links, epic</text>
+
+        <path class="fl" d="M178 64 L212 64"/>
+        <text class="lb g" x="180" y="52">pull</text>
+
+        <rect class="bx g" x="216" y="26" width="160" height="76" rx="7"/>
+        <text class="tt" x="296" y="54" text-anchor="middle" style="font-size:13.5px">spec.md</text>
+        <text class="ss" x="296" y="74" text-anchor="middle" style="font-size:11px">criteria &middot; scope</text>
+        <text class="ss" x="296" y="90" text-anchor="middle" style="font-size:11px">assumptions &middot; questions</text>
+
+        <path class="fl" d="M380 64 L414 64"/>
+        <rect class="bx" x="418" y="26" width="150" height="76" rx="7"/>
+        <text class="tt" x="493" y="54" text-anchor="middle" style="font-size:13.5px">plan + tasks</text>
+        <text class="ss" x="493" y="76" text-anchor="middle" style="font-size:11px">challenged first</text>
+
+        <path class="fl" d="M572 64 L606 64"/>
+        <rect class="bx" x="610" y="26" width="330" height="76" rx="7"/>
+        <text class="tt" x="775" y="52" text-anchor="middle" style="font-size:13.5px">design &rarr; coding &rarr; test &rarr; review</text>
+        <text class="ss" x="775" y="74" text-anchor="middle" style="font-size:11px">five artifacts, independence protected</text>
+        <text class="ss" x="775" y="92" text-anchor="middle" style="font-size:10.5px;fill:#047857">Module 4</text>
+
+        <path class="fl" d="M944 64 L978 64"/>
+        <rect class="bx" x="982" y="26" width="194" height="76" rx="7"/>
+        <text class="tt" x="1079" y="54" text-anchor="middle" style="font-size:13.5px">pull request</text>
+        <text class="ss" x="1079" y="76" text-anchor="middle" style="font-size:11px">carrying GB-163</text>
+
+        <path class="arg" d="M296 108 L296 140 L100 140 L100 108"/>
+        <text class="ss" x="200" y="158" text-anchor="middle" style="font-size:11.5px;fill:#047857;font-weight:600">questions posted early &mdash; while a change is still cheap</text>
+
+        <path class="arg" d="M1079 108 L1079 178 L100 178 L100 148"/>
+        <text class="ss" x="600" y="196" text-anchor="middle" style="font-size:11.5px;fill:#047857;font-weight:600">outcome written back at the end &mdash; the PR linked, the ticket closed by a human</text>
+
+        <text class="lb" x="4" y="236">WHAT EACH MODULE CONTRIBUTED &mdash; NOTHING HERE IS NEW EXCEPT THE CONNECTIONS</text>
+        <rect class="bx" x="4" y="246" width="1172" height="120" rx="8"/>
+        <rect class="bx w rise" x="24" y="264" width="368" height="40" rx="5"/>
+        <text class="ss" x="40" y="289"><tspan font-weight="700">M2</tspan> &nbsp;the repository answers what is true</text>
+        <rect class="bx w rise r2" x="404" y="264" width="368" height="40" rx="5"/>
+        <text class="ss" x="420" y="289"><tspan font-weight="700">M3</tspan> &nbsp;the request is precise and grounded</text>
+        <rect class="bx w rise r3" x="784" y="264" width="372" height="40" rx="5"/>
+        <text class="ss" x="800" y="289"><tspan font-weight="700">M4</tspan> &nbsp;four roles, five artifacts</text>
+        <rect class="bx w rise r4" x="24" y="312" width="368" height="40" rx="5"/>
+        <text class="ss" x="40" y="337"><tspan font-weight="700">M5</tspan> &nbsp;the spec, and gates that can say no</text>
+        <rect class="bx g rise r5" x="404" y="312" width="752" height="40" rx="5"/>
+        <text class="ss" x="420" y="337"><tspan font-weight="700">M6</tspan> &nbsp;the pull at the front and the write-back at the end &mdash; <tspan font-style="italic">two connections, not a new pipeline</tspan></text>
+
+        <rect class="bx a" x="4" y="378" width="1172" height="70" rx="8"/>
+        <text class="lb a" x="24" y="402">WHAT IS STILL MISSING</text>
+        <text class="ss" x="24" y="428">The knowledge the ticket produced &mdash; the decision, the rejected option, the thing the next ticket needs &mdash; still</text>
+        <text class="ss" x="24" y="446">goes nowhere. <tspan font-weight="600" fill="#b45309">That is Module 8, and the loop back to Module 2 that it closes.</tspan></text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 18 -->
+<section class="slide" data-sec="Close" data-title="What Module 6 hands forward" data-notes="Close the module. Four obligations, and then the transition to Module 7. The honest framing for the transition: everything so far, on both days, has happened in one repository. Global Bank is several services with contracts between them, and the moment a change crosses that boundary all the properties this course has built start to strain - the spec covers two codebases, the agents run twice, the review has to check a contract rather than a diff, and the ticket key is the only thing holding it together. That last point is the bridge, because it is the thing they just built." data-tier="R">
+  <h2>What Module 6 hands forward<span class="tag">M6</span></h2>
+  <div class="body g46">
+    <div class="pts">
+      <h3>What you now owe, per ticket</h3>
+      <ul>
+        <li><b>Pull, do not paste</b> &mdash; and name the key and the surroundings, so it is three calls rather than a search.</li>
+        <li><b>Rank what you find.</b> Recency then authority; two sources disagreeing is a question, not a judgement call.</li>
+        <li><b>Post the questions on the ticket.</b> A question raised in a session dies with it.</li>
+        <li><b>Keep write-back additive and reversible</b> until there is a track record. Enforce it with permissions, not prose.</li>
+      </ul>
+      <div class="callout">And the thing your team can do <em>tomorrow</em>, with no tooling at all: <b>four additions to the definition of ready</b>. They make tickets better for humans too, which is how they get adopted.</div>
+      <div class="take"><b>Into Module 7:</b> everything on both days has happened in <em>one repository</em>. Global Bank is several, with contracts between them &mdash; and that is where these properties start to strain.</div>
+    </div>
+    <div>
+      <svg viewBox="0 0 700 430" role="img" aria-label="What changes when a change crosses a repository boundary">
+        <text class="lb g" x="4" y="13">WHAT YOU HAVE, AND IT IS COMPLETE FOR ONE REPOSITORY</text>
+        <rect class="bx g" x="4" y="22" width="692" height="112" rx="8"/>
+        <rect class="bx w rise" x="20" y="40" width="660" height="28" rx="5"/>
+        <text class="ss" x="34" y="59">A ticket pulled with its surroundings, and questions that go back</text>
+        <rect class="bx w rise r2" x="20" y="74" width="660" height="24" rx="5"/>
+        <text class="ss" x="34" y="91">A spec with checkable criteria, and gates that can say no</text>
+        <rect class="bx w rise r3" x="20" y="104" width="660" height="24" rx="5"/>
+        <text class="ss" x="34" y="121">Four agents, five artifacts, and a key threading all of it</text>
+
+        <text class="lb r" x="4" y="168">WHAT STRAINS WHEN THE CHANGE CROSSES A BOUNDARY</text>
+        <rect class="bx r" x="4" y="178" width="692" height="180" rx="8"/>
+        <rect class="bx w" x="20" y="196" width="660" height="34" rx="5"/>
+        <text class="ss" x="34" y="217">The <tspan font-weight="600">spec</tspan> now covers two codebases &mdash; and two sets of conventions</text>
+        <rect class="bx w" x="20" y="238" width="660" height="34" rx="5"/>
+        <text class="ss" x="34" y="259">The <tspan font-weight="600">agents</tspan> run twice, with different standing context each time</text>
+        <rect class="bx w" x="20" y="280" width="660" height="34" rx="5"/>
+        <text class="ss" x="34" y="301">The <tspan font-weight="600">review</tspan> must check a <tspan font-style="italic">contract</tspan>, not a diff &mdash; and neither side holds it</text>
+        <rect class="bx w" x="20" y="322" width="660" height="28" rx="5"/>
+        <text class="ss" x="34" y="341">And the two changes have to <tspan font-weight="600">land in an order</tspan> that never breaks either side</text>
+
+        <rect class="bx d" x="4" y="370" width="692" height="60" rx="8"/>
+        <text class="ss w" x="24" y="398" style="font-size:14px">The one thing holding it together is the <tspan font-weight="700" fill="#fbbf24">ticket key</tspan> &mdash;</text>
+        <text class="ss w" x="24" y="420" style="font-size:14px">which is what you built in this module. Module 7 next.</text>
+      </svg>
+    </div>
+  </div>
+</section>
+<!-- 19 -->
+<section class="slide" data-sec="Review quiz" data-title="Review quiz - eight questions" data-notes="Questions 4, 6 and 8 carry the most - 4 because the tool budget point is counter-intuitive, 6 because the write-back tiering is what a risk function will ask about, and 8 because it sets up Module 7. If short, run 2, 4, 6 and 8." data-tier="R">
+  <h2>Review quiz &mdash; eight questions<span class="tag q">QUIZ</span></h2>
+  <div class="body g55">
+    <div class="pts">
+      <h3>How this runs</h3>
+      <ul>
+        <li>Four options, one right. <b>Show of hands on each</b> before the answer.</li>
+        <li>Every question comes from something you will do in Labs 2.3 and 2.4.</li>
+      </ul>
+      <h3>If time is short</h3>
+      <ul>
+        <li>Run <b>2, 4, 6 and 8</b>. Surroundings, tool budgets, write-back tiering, and the hand-over to multi-repo.</li>
+      </ul>
+      <div class="take">Question 6 is the one your risk function will ask you in a meeting. Make sure the room can answer it without notes.</div>
+    </div>
+    <div>
+      <svg viewBox="0 0 700 420" role="img" aria-label="What the eight quiz questions cover">
+        <rect class="bx p" x="4" y="4" width="692" height="412" rx="8"/>
+        <text class="lb p" x="24" y="32">WHAT THE EIGHT COVER</text>
+        <rect class="bx w rise" x="24" y="44" width="652" height="40" rx="5"/>
+        <text class="ss" x="40" y="69"><tspan font-weight="700">1 &middot;</tspan> What pulling actually buys over pasting</text>
+        <rect class="bx w rise r2" x="24" y="90" width="652" height="40" rx="5"/>
+        <text class="ss" x="40" y="115"><tspan font-weight="700">2 &middot;</tspan> Where the constraint lives on GB-163</text>
+        <rect class="bx w rise r3" x="24" y="136" width="652" height="40" rx="5"/>
+        <text class="ss" x="40" y="161"><tspan font-weight="700">3 &middot;</tspan> Two sources disagree &mdash; what should the agent do?</text>
+        <rect class="bx w rise r4" x="24" y="182" width="652" height="40" rx="5"/>
+        <text class="ss" x="40" y="207"><tspan font-weight="700">4 &middot;</tspan> Where the cost of a tool call actually goes</text>
+        <rect class="bx w rise r5" x="24" y="228" width="652" height="40" rx="5"/>
+        <text class="ss" x="40" y="253"><tspan font-weight="700">5 &middot;</tspan> Sizing a ticket for an agent</text>
+        <rect class="bx w rise r6" x="24" y="274" width="652" height="40" rx="5"/>
+        <text class="ss" x="40" y="299"><tspan font-weight="700">6 &middot;</tspan> Which write-back needs a human</text>
+        <rect class="bx w rise r6" x="24" y="320" width="652" height="40" rx="5"/>
+        <text class="ss" x="40" y="345"><tspan font-weight="700">7 &middot;</tspan> The agent stops constantly &mdash; what do you measure?</text>
+        <rect class="bx w rise r6" x="24" y="366" width="652" height="40" rx="5"/>
+        <text class="ss" x="40" y="391"><tspan font-weight="700">8 &middot;</tspan> What is still not connected</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 20 -->
+<section class="slide" data-sec="Review quiz" data-title="Q1 - what pulling buys" data-notes="Warm-up. B and C are both real benefits and neither is the one that changes behaviour." data-tier="R">
+  <h2>Q1 &middot; What does pulling a ticket buy that pasting does not?<span class="tag q">1 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">You could paste the ticket in five seconds. What does the MCP connection actually add?</div>
+    <div class="opts">
+      <div class="opt"><span class="k">A</span><span>It saves the engineer the copy and paste, which adds up across a sprint.</span></div>
+      <div class="opt"><span class="k">B</span><span>It lets the agent read the ticket in its original formatting, which reduces misinterpretation.</span></div>
+      <div class="opt"><span class="k">C</span><span>It reduces context cost, because the agent fetches only the fields it needs rather than the whole ticket.</span></div>
+      <div class="opt"><span class="k">D</span><span>The surroundings come with it, it is fresh when read, and the agent's questions can go back to where someone will see them.</span></div>
+    </div>
+    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+  </div></div>
+</section>
+
+<!-- 21 -->
+<section class="slide" data-sec="Review quiz" data-title="Q1 - answer" data-notes="Land the reframe: you are not short of copy-paste capacity, you are short of answers. And note that C is actually backwards - a pull usually puts MORE into the window, not less, which is why the tool budget slide exists." data-tier="R">
+  <h2>Q1 &middot; Answer<span class="tag q">1 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">What does pulling buy?</div>
+    <div class="opts">
+      <div class="opt wrong"><span class="k">A</span><span>It saves the copy and paste.</span></div>
+      <div class="opt wrong"><span class="k">B</span><span>Original formatting.</span></div>
+      <div class="opt wrong"><span class="k">C</span><span>Lower context cost.</span></div>
+      <div class="opt right"><span class="k">D</span><span>The surroundings, freshness, and a route for the agent's questions to reach somebody.</span></div>
+    </div>
+    <div class="why"><b>D.</b> And the last of those is the one that changes behaviour: a question raised in a session dies with it, while a comment on the ticket reaches the person who can answer.
+      <span class="no"><b>A</b> is true and trivial &mdash; you are not short of copy-paste capacity, you are short of answers. <b>C</b> is <em>backwards</em>: a pull usually puts considerably <em>more</em> into the window than a paste, which is exactly why tool budgets needed their own slide. <b>B</b> is marginal at best.</span></div>
+  </div></div>
+</section>
+
+<!-- 22 -->
+<section class="slide" data-sec="Review quiz" data-title="Q2 - where the constraint lives" data-notes="Checks whether they internalised the surroundings hierarchy. Expect A to poll, because the comment is where people are told to look after this module - and it is not where the binding constraint is." data-tier="R" data-after="lab">
+  <h2>Q2 &middot; On GB-163, where is the binding constraint?<span class="tag q">2 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">Ops asked for 500 million. The agent must not simply raise the limit. Which piece of context makes that true?</div>
+    <div class="opts">
+      <div class="opt"><span class="k">A</span><span>The Ops comment &mdash; it names a number, so it is the requirement the agent should implement.</span></div>
+      <div class="opt"><span class="k">B</span><span>The unanswered question from the engineering lead &mdash; the ticket cannot proceed while a question on it is open.</span></div>
+      <div class="opt"><span class="k">C</span><span>The closed GB-119 and the open RISK-402 &mdash; a prior rejection on regulatory grounds, and an unmet condition.</span></div>
+      <div class="opt"><span class="k">D</span><span>The epic showing three attempts &mdash; repeated attempts indicate the requirement is contested.</span></div>
+    </div>
+    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+  </div></div>
+</section>
+
+<!-- 23 -->
+<section class="slide" data-sec="Review quiz" data-title="Q2 - answer" data-notes="The ranking rule is the teaching point: a decision recorded by the team that owns the constraint outranks a comment from the requesting team, however specific the comment is. Risk saying dual approval is Risk's to say." data-tier="R" data-after="lab">
+  <h2>Q2 &middot; Answer<span class="tag q">2 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">Where is the binding constraint?</div>
+    <div class="opts">
+      <div class="opt wrong"><span class="k">A</span><span>The Ops comment naming 500 million.</span></div>
+      <div class="opt wrong"><span class="k">B</span><span>The unanswered question.</span></div>
+      <div class="opt right"><span class="k">C</span><span>GB-119 closed <em>Won't Do</em> on regulatory grounds, and RISK-402 open and unmet.</span></div>
+      <div class="opt wrong"><span class="k">D</span><span>The epic showing three attempts.</span></div>
+    </div>
+    <div class="why"><b>C.</b> A decision recorded by the team that <em>owns</em> the constraint outranks a comment from the requesting team, however specific that comment is. Risk saying dual approval is Risk's to say.
+      <span class="no"><b>A</b> is the requirement, not the constraint &mdash; and implementing it is precisely the breach. <b>B</b> is a real signal and a weaker one: plenty of tickets carry unanswered questions that do not block. <b>D</b> is evidence that something is contested, which tells you to look &mdash; it is not itself the reason to stop.</span></div>
+  </div></div>
+</section>
+
+<!-- 24 -->
+<section class="slide" data-sec="Review quiz" data-title="Q3 - sources disagree" data-notes="Quick. The wrong answers are all things a well-meaning team actually configures." data-tier="R" data-after="lab">
+  <h2>Q3 &middot; Two sources on the ticket disagree. What should the agent do?<span class="tag q">3 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">Ops say raise the limit; Risk say not without dual approval. Both are in writing, on the ticket. What is the correct behaviour?</div>
+    <div class="opts">
+      <div class="opt"><span class="k">A</span><span>Stop, and post a comment naming both sources and the disagreement.</span></div>
+      <div class="opt"><span class="k">B</span><span>Follow the more recent one, since it reflects the current state of the discussion.</span></div>
+      <div class="opt"><span class="k">C</span><span>Follow the more restrictive one, since that is the safe default on a money-moving change.</span></div>
+      <div class="opt"><span class="k">D</span><span>Implement the requirement and note the disagreement in the pull request description for the reviewer.</span></div>
+    </div>
+    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+  </div></div>
+</section>
+
+<!-- 25 -->
+<section class="slide" data-sec="Review quiz" data-title="Q3 - answer" data-notes="C is the interesting wrong answer and worth two minutes - choosing the restrictive option is safer in outcome and still wrong in kind, because the agent has silently resolved a disagreement between two teams. That is a decision, and it was not its to make." data-tier="R" data-after="lab">
+  <h2>Q3 &middot; Answer<span class="tag q">3 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">Two written sources disagree.</div>
+    <div class="opts">
+      <div class="opt right"><span class="k">A</span><span>Stop, and post a comment naming both sources and the disagreement.</span></div>
+      <div class="opt wrong"><span class="k">B</span><span>Follow the more recent.</span></div>
+      <div class="opt wrong"><span class="k">C</span><span>Follow the more restrictive.</span></div>
+      <div class="opt wrong"><span class="k">D</span><span>Implement, and flag it in the PR.</span></div>
+    </div>
+    <div class="why"><b>A.</b> A disagreement between two teams is a question, not a judgement call &mdash; and posting it is what turns a refusal into progress somebody can act on.
+      <span class="no"><b>C</b> is the interesting one: safer in <em>outcome</em>, and still wrong in <em>kind</em>. The agent has silently resolved a disagreement between two teams, and that decision was not its to make. <b>B</b> would have it follow whichever team commented last. <b>D</b> defers the question to the most expensive moment &mdash; after the code exists, to a reviewer who cannot answer it either.</span></div>
+  </div></div>
+</section>
+
+<!-- 26 -->
+<section class="slide" data-sec="Review quiz" data-title="Q4 - where the cost goes" data-notes="Counter-intuitive and worth the time. Most people assume the call is the cost." data-tier="K">
+  <h2>Q4 &middot; Where does the cost of a tool call actually go?<span class="tag q">4 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">Your agent pulls a ticket with forty comments. What is the dominant cost?</div>
+    <div class="opts">
+      <div class="opt"><span class="k">A</span><span>The round trip &mdash; latency on each call, which is what makes connected sessions feel slow.</span></div>
+      <div class="opt"><span class="k">B</span><span>The result sitting in the window, re-billed on every later turn of that session.</span></div>
+      <div class="opt"><span class="k">C</span><span>The JIRA API rate limits, which throttle a busy team's agents during working hours.</span></div>
+      <div class="opt"><span class="k">D</span><span>Parsing the response, since a large ticket has to be interpreted before it can be used.</span></div>
+    </div>
+    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+  </div></div>
+</section>
+
+<!-- 27 -->
+<section class="slide" data-sec="Review quiz" data-title="Q4 - answer" data-notes="Connect to Module 1 explicitly - this is the context budget arriving through a new door, and the door feels free because the agent is just reading the ticket. Then the accuracy point, which matters more than the cost: a large pulled object displaces the things you meant to have in the window." data-tier="K">
+  <h2>Q4 &middot; Answer<span class="tag q">4 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">Where does the cost go?</div>
+    <div class="opts">
+      <div class="opt wrong"><span class="k">A</span><span>The round trip.</span></div>
+      <div class="opt right"><span class="k">B</span><span>The result in the window, re-billed on every later turn.</span></div>
+      <div class="opt wrong"><span class="k">C</span><span>API rate limits.</span></div>
+      <div class="opt wrong"><span class="k">D</span><span>Parsing the response.</span></div>
+    </div>
+    <div class="why"><b>B.</b> Module 1's context budget, arriving through a door that feels free because the agent is &ldquo;just reading the ticket&rdquo;. And the <em>accuracy</em> cost matters more than the token cost: a large pulled object displaces the spec and the two files you meant to have in the window.
+      <span class="no"><b>A</b> is real, visible, and small. <b>C</b> is an operational concern for a platform team, not the cost the engineer controls. <b>D</b> is not where the money goes.
+      <b>Hence the rule:</b> pull once, summarise into the spec, and never ask it to <em>find</em> a ticket.</span></div>
+  </div></div>
+</section>
+
+<!-- 28 -->
+<section class="slide" data-sec="Review quiz" data-title="Q5 - sizing" data-notes="Checks the inversion. A is the habitual answer." data-tier="R">
+  <h2>Q5 &middot; What makes a ticket the right size for an agent?<span class="tag q">5 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">Two tickets are the same size in effort. One is well-suited to delegation and one is not. What separates them?</div>
+    <div class="opts">
+      <div class="opt"><span class="k">A</span><span>How many files the change touches &mdash; a broad change is harder for an agent to keep coherent.</span></div>
+      <div class="opt"><span class="k">B</span><span>How long a person would take &mdash; anything beyond a day is too much for one run.</span></div>
+      <div class="opt"><span class="k">C</span><span>How well specified it is &mdash; a fully specified ticket of any size can safely be delegated.</span></div>
+      <div class="opt"><span class="k">D</span><span>Whether the result can be checked on its own, before the next piece of work is built on top of it.</span></div>
+    </div>
+    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+  </div></div>
+</section>
+
+<!-- 29 -->
+<section class="slide" data-sec="Review quiz" data-title="Q5 - answer" data-notes="D is the sophisticated wrong answer and the most useful to unpick: specification is necessary and not sufficient. A perfectly specified three-day ticket delegated in one run still has no checkpoint in it, so a wrong turn in hour one surfaces at the end." data-tier="R">
+  <h2>Q5 &middot; Answer<span class="tag q">5 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">What separates them?</div>
+    <div class="opts">
+      <div class="opt wrong"><span class="k">A</span><span>How many files it touches.</span></div>
+      <div class="opt wrong"><span class="k">B</span><span>How long a person would take.</span></div>
+      <div class="opt wrong"><span class="k">C</span><span>How well specified it is.</span></div>
+      <div class="opt right"><span class="k">D</span><span>Whether the result can be checked on its own, before more work rests on it.</span></div>
+    </div>
+    <div class="why"><b>D.</b> The binding constraint is not effort &mdash; it is <em>how long you go without being able to check</em>. Two tickets of identical effort can differ completely on that.
+      <span class="no"><b>C</b> is the sophisticated miss and worth unpicking: specification is necessary and not sufficient. A perfectly specified three-day ticket, delegated as one run, still contains no checkpoint &mdash; so a wrong turn in hour one surfaces at the end. <b>B</b> is the habitual framing this slide inverts. <b>A</b> correlates and does not cause.</span></div>
+  </div></div>
+</section>
+
+<!-- 30 -->
+<section class="slide" data-sec="Review quiz" data-title="Q6 - which write-back needs a human" data-notes="The governance question. Let it run - this is the one they will be asked in a meeting." data-tier="K">
+  <h2>Q6 &middot; Which of these should <em>not</em> happen unattended?<span class="tag q">6 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">Your agent has finished. Which of these write-backs needs a human first?</div>
+    <div class="opts">
+      <div class="opt"><span class="k">A</span><span>Transitioning the ticket to <em>In Review</em> now that the pull request is open.</span></div>
+      <div class="opt"><span class="k">B</span><span>Adding a comment listing the three questions it could not resolve.</span></div>
+      <div class="opt"><span class="k">C</span><span>Linking the pull request to the ticket.</span></div>
+      <div class="opt"><span class="k">D</span><span>Attaching the spec it wrote, and linking it from the ticket.</span></div>
+    </div>
+    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+  </div></div>
+</section>
+
+<!-- 31 -->
+<section class="slide" data-sec="Review quiz" data-title="Q6 - answer" data-notes="The test is the takeaway, not the answer: can a human see it was the agent, and undo it in under a minute. Both yes, probably unattended. Either no, not unattended. And note that D feels like the most harmless of the four, which is exactly why it is worth naming - a transition is a signal other people and other automations act on." data-tier="K">
+  <h2>Q6 &middot; Answer<span class="tag q">6 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">Which needs a human first?</div>
+    <div class="opts">
+      <div class="opt right"><span class="k">A</span><span>Transitioning the ticket to <em>In Review</em>.</span></div>
+      <div class="opt wrong"><span class="k">B</span><span>Adding a comment with its open questions.</span></div>
+      <div class="opt wrong"><span class="k">C</span><span>Linking the pull request.</span></div>
+      <div class="opt wrong"><span class="k">D</span><span>Attaching and linking the spec.</span></div>
+    </div>
+    <div class="why"><b>A.</b> A transition is a <em>signal other people and other automations act on</em> &mdash; it moves work, it reports progress, and it may trigger downstream tooling. B, C and D are additive and reversible: anyone can see them and delete them in seconds.
+      <span class="no"><b>A</b> feels like the most harmless of the four, which is precisely why it is worth naming.
+      <b>The test to take away:</b> can a human see it was the agent, and undo it in under a minute? Both yes &rarr; probably unattended. Either no &rarr; not unattended. That generalises past JIRA to whatever you connect next.</span></div>
+  </div></div>
+</section>
+
+<!-- 32 -->
+<section class="slide" data-sec="Review quiz" data-title="Q7 - it stops constantly" data-notes="The measurement question. B is what teams actually do and it is the one that quietly removes the value." data-tier="R">
+  <h2>Q7 &middot; The agent stops on half your board. What do you measure?<span class="tag q">7 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">Two weeks in, your agent is refusing to proceed on a lot of tickets. What is the right response?</div>
+    <div class="opts">
+      <div class="opt"><span class="k">A</span><span>Measure how often it stops, and set a target to bring the rate down over the next quarter.</span></div>
+      <div class="opt"><span class="k">B</span><span>Loosen the stop conditions until the rate is workable, then tighten selectively if defects appear.</span></div>
+      <div class="opt"><span class="k">C</span><span>Triage the stops: count how many a human agrees with, and tune only the ones they do not.</span></div>
+      <div class="opt"><span class="k">D</span><span>Route stopped tickets to a human queue and let the agent continue on the rest, without changing anything.</span></div>
+    </div>
+    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+  </div></div>
+</section>
+
+<!-- 33 -->
+<section class="slide" data-sec="Review quiz" data-title="Q7 - answer" data-notes="The reframe is the answer: a stop is delivery of the finding that this ticket was not ready. And the by-product is worth naming - most teams have never had a per-ticket measurement of whether their definition of ready is being applied, and this gives them one for free." data-tier="R">
+  <h2>Q7 &middot; Answer<span class="tag q">7 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">It stops on half your board.</div>
+    <div class="opts">
+      <div class="opt wrong"><span class="k">A</span><span>Measure the stop rate and target a reduction.</span></div>
+      <div class="opt wrong"><span class="k">B</span><span>Loosen until workable.</span></div>
+      <div class="opt right"><span class="k">C</span><span>Triage: count how many a human agrees with, and tune only the rest.</span></div>
+      <div class="opt wrong"><span class="k">D</span><span>Route stopped tickets to a human queue and change nothing.</span></div>
+    </div>
+    <div class="why"><b>C.</b> The question is not how often it stops but whether the stops were <em>right</em>. A stop a human agrees with is the cheapest quality event in the pipeline; a stop they dismiss means the conditions are too broad, and that is tunable.
+      <span class="no"><b>B</b> is what teams actually do, and it converts an agent that finds problems into one that ships them &mdash; and you will not notice for a quarter. <b>A</b> targets the wrong number: a falling stop rate is only good news if the tickets improved. <b>D</b> is not wrong as an interim measure, but changing nothing wastes the finding &mdash; a wave of stops is evidence about your <em>definition of ready</em>, per ticket, which most teams have never had.</span></div>
+  </div></div>
+</section>
+
+<!-- 34 -->
+<section class="slide" data-sec="Review quiz" data-title="Q8 - what is still not connected" data-notes="Sets up Modules 7 and 8. Both B and C are true statements about what is missing - the distinction is that one of them is the next module." data-tier="R">
+  <h2>Q8 &middot; The ticket is connected at both ends. What is not?<span class="tag q">8 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">You pull the ticket and its surroundings, and you write questions and the outcome back. What has this module still not addressed?</div>
+    <div class="opts">
+      <div class="opt"><span class="k">A</span><span>The agent still cannot transition the ticket unattended, so a human is needed to close the loop.</span></div>
+      <div class="opt"><span class="k">B</span><span>Everything has happened in one repository &mdash; and a change that crosses a contract boundary strains every property built so far.</span></div>
+      <div class="opt"><span class="k">C</span><span>The knowledge the ticket produced still goes nowhere, so the next ticket starts from the same standing context.</span></div>
+      <div class="opt"><span class="k">D</span><span>The spec is still written by a human, so the front of the pipeline remains a manual step.</span></div>
+    </div>
+    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+  </div></div>
+</section>
+
+<!-- 35 -->
+<section class="slide" data-sec="Review quiz" data-title="Q8 - answer" data-notes="Both B and C describe real gaps and both are the remaining modules - B is next, C is Module 8. Take the answer as the transition and go straight into the lab. The closing line: Global Bank is several services with contracts between them, and you have been working as though it were one." data-tier="R">
+  <h2>Q8 &middot; Answer<span class="tag q">8 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">What has this module not addressed?</div>
+    <div class="opts">
+      <div class="opt wrong"><span class="k">A</span><span>The agent cannot transition unattended.</span></div>
+      <div class="opt right"><span class="k">B</span><span>Everything has been one repository &mdash; a change crossing a contract boundary strains all of it.</span></div>
+      <div class="opt wrong"><span class="k">C</span><span>The knowledge produced still goes nowhere.</span></div>
+      <div class="opt wrong"><span class="k">D</span><span>The spec is still written by a human.</span></div>
+    </div>
+    <div class="why"><b>B.</b> And it is the next module. The spec now covers two codebases with two sets of conventions, the agents run twice with different standing context, the review must check a <em>contract</em> rather than a diff, and the two changes have to land in an order that never breaks either side.
+      <span class="no"><b>C</b> is equally true and it is <b>Module 8</b> &mdash; the loop back to Module 2 that closes the course. <b>A</b> is a deliberate design choice, not a gap: it sits in the needs-a-human tier because a transition is a signal others act on. <b>D</b> is not a gap at all &mdash; the human writing the spec is the point, and gate 1 exists precisely so someone who can answer is involved.
+      <b>Module 7 next:</b> Global Bank is several services with contracts between them, and you have been working as though it were one.</span></div>
+  </div></div>
+</section>
+
+
+
+
+</div></div>
+
+<div id="notes"><div class="h">SPEAKER NOTES</div><div id="notesbody"></div></div>
+
+<div id="bot">
+  <button class="navbtn" id="prev" title="Previous (&larr;)">&#8249;</button>
+  <button class="navbtn" id="next" title="Next (&rarr;)">&#8250;</button>
+  <span id="ttl"></span>
+  <div id="prog"><div id="progf"></div></div>
+  <span id="hint">&larr; &rarr; move &middot; K key path &middot; O index &middot; N notes &middot; F full</span>
+  <span id="num"></span>
+</div>
+
+<script>
+(function(){
+  var slides=[].slice.call(document.querySelectorAll('.slide'));
+  var stage=document.getElementById('stage'),toc=document.getElementById('toc');
+  var notes=document.getElementById('notes'),notesBody=document.getElementById('notesbody');
+  var elNum=document.getElementById('num'),elSec=document.getElementById('sec');
+  var elTtl=document.getElementById('ttl'),elProg=document.getElementById('progf');
+  var elTier=document.getElementById('tier'),elAfter=document.getElementById('after');
+  var elHint=document.getElementById('hint');
+  // The key path skips reference slides, and skips after-lab slides until the lab is scored.
+  var postLab=false;
+  function onPath(n){var s=slides[n];return s.dataset.tier!=='R'&&(postLab||!s.dataset.after);}
+  function paintHint(){elHint.innerHTML='&larr; &rarr; move &middot; K key path &middot; L after-lab '+(postLab?'<b>ON</b>':'off')+' &middot; O index &middot; N notes &middot; F full';}
+  var i=0;
+
+  // ---- build the index, grouped by section ----
+  var list=document.getElementById('toclist'),grp=null,last=null;
+  slides.forEach(function(s,k){
+    var sec=s.dataset.sec||'';
+    if(sec!==last){
+      grp=document.createElement('div');grp.className='grp';
+      var h=document.createElement('div');h.className='grph';h.innerHTML=sec;grp.appendChild(h);
+      list.appendChild(grp);last=sec;
+    }
+    var a=document.createElement('a');a.href='#'+(k+1);
+    var tr=s.dataset.tier||'R';
+    a.innerHTML='<span class="n">'+(k+1)+'</span><span class="tg '+tr+'">'+tr+'</span>'+(s.dataset.title||'');
+    if(s.dataset.after)a.className='aft';
+    a.onclick=function(e){e.preventDefault();go(k);toc.classList.remove('on');};
+    grp.appendChild(a);
+  });
+  var links=[].slice.call(toc.querySelectorAll('a'));
+
+  function go(n){
+    i=Math.max(0,Math.min(slides.length-1,n));
+    slides.forEach(function(s,k){s.classList.toggle('active',k===i);});
+    links.forEach(function(a,k){a.classList.toggle('cur',k===i);});
+    elNum.textContent=(i+1)+' / '+slides.length;
+    elSec.innerHTML=slides[i].dataset.sec||'';
+    elTtl.textContent=slides[i].dataset.title||'';
+    var tr=slides[i].dataset.tier||'R';
+    elTier.className='tier '+tr;elTier.textContent=(tr==='D'?'DEMO':tr==='K'?'KEY':'REF');
+    elAfter.classList.toggle('on',!!slides[i].dataset.after);
+    elProg.style.width=((i+1)/slides.length*100)+'%';
+    notesBody.textContent=slides[i].dataset.notes||'No notes for this slide.';
+    if(history.replaceState)history.replaceState(null,'','#'+(i+1));
+  }
+  function fit(){
+    var extra=notes.classList.contains('on')?notes.offsetHeight:0;
+    var s=Math.min((window.innerWidth-24)/1280,(window.innerHeight-82-extra-24)/720);
+    stage.style.transform='scale('+s+')';
+  }
+  document.getElementById('next').onclick=function(){go(i+1);};
+  document.getElementById('prev').onclick=function(){go(i-1);};
+  document.getElementById('tocbtn').onclick=function(){toc.classList.toggle('on');};
+  document.getElementById('notesbtn').onclick=function(){notes.classList.toggle('on');fit();};
+  document.getElementById('fsbtn').onclick=function(){
+    if(document.fullscreenElement)document.exitFullscreen();else document.documentElement.requestFullscreen();
+  };
+  document.addEventListener('keydown',function(e){
+    var k=e.key;
+    if(k==='ArrowRight'||k==='PageDown'||k===' '){go(i+1);e.preventDefault();}
+    else if(k==='ArrowLeft'||k==='PageUp'||k==='p'){go(i-1);e.preventDefault();}
+    else if(k==='Home'){go(0);}
+    else if(k==='End'){go(slides.length-1);}
+    else if(k==='o'||k==='O'){toc.classList.toggle('on');}
+    else if(k==='n'||k==='N'){notes.classList.toggle('on');fit();}
+    else if(k==='f'||k==='F'){document.getElementById('fsbtn').onclick();}
+    else if(k==='k'){for(var j=i+1;j<slides.length;j++){if(onPath(j)){go(j);break;}}}
+    else if(k==='K'){for(var j2=i-1;j2>=0;j2--){if(onPath(j2)){go(j2);break;}}}
+    else if(k==='l'||k==='L'){postLab=!postLab;paintHint();}
+    else if(k==='Escape'){toc.classList.remove('on');notes.classList.remove('on');fit();}
+  });
+  window.addEventListener('resize',fit);
+  window.addEventListener('hashchange',function(){
+    var n=parseInt(location.hash.replace('#',''),10);if(n)go(n-1);
+  });
+  fit();
+  paintHint();
+  var start=parseInt(location.hash.replace('#',''),10);
+  go(start?start-1:0);
+})();
+</script>
+</body>
+</html>

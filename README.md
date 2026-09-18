@@ -1,0 +1,58 @@
+# Agentic ADLC with GitHub Copilot
+
+*From JIRA Ticket to Merged PR — Knowledge, Specialised Agents & Spec-Driven Delivery*
+2 days · Advanced · 8 modules · 15 labs + capstone · 40% theory / 60% demo + hands-on
+
+This repository holds the course outline and the eight module decks. Everything opens straight from
+the filesystem: no build step, no install, no network needed.
+
+## Start here
+
+Open **`course-outline-agentic-adlc-github-copilot.html`** in a browser. Each module heading links to
+its deck, and every deck links back to the outline.
+
+```
+course-outline-agentic-adlc-github-copilot.html   the two-day outline (PDF copy beside it)
+presentation/
+  module-1-adlc-token-economics.html                the ADLC operating model and token economics
+  module-2-knowledge-harnessing.html                instruction files, ADRs and knowledge in the repo
+  module-3-prompt-context-engineering.html          prompts, skill files and grounding
+  module-4-specialised-agents.html                  agents for specific tasks and their hand-offs
+  module-5-spec-driven-development.html             spec, plan, tasks, with gates between them
+  module-6-ticket-as-unit-of-work.html              the JIRA ticket as the unit of work, over MCP
+  module-7-multi-repo-engineering.html              changes that cross repositories
+  module-8-closing-the-loop.html                    review, pull requests and documentation
+labs/
+  board/                                            the metrics board: one GitHub issue per participant
+  scripts/                                          checks the decks' layout (for maintainers)
+```
+
+The course works on **Global Bank**, a set of Spring Boot services on JDK 25, and a small weather app
+used to demonstrate the Jira → agent → pull request flow. Your trainer gives you the repository links
+and a machine setup check before Day 1. Lab guides are handed out module by module.
+
+## Using the decks
+
+| Key | Does |
+|---|---|
+| `←` `→` | previous / next slide |
+| `O` | slide index |
+| `N` | speaker notes, the argument behind each slide |
+| `F` | fullscreen |
+| `Home` / `End` | first / last slide |
+| `k` / `Shift+K` | jump along the key path: the slides taught live |
+| `L` | show the slides held back until after their lab |
+
+Deep links work: `module-2-knowledge-harnessing.html#12` opens slide 12.
+
+Every slide is tagged **K** (taught live), **D** (demo: the trainer leaves the deck and shows the real
+thing) or **R** (reference, for reading afterwards). Some slides carry an **AFTER LAB** chip: they hold
+the answer to a lab, so **read them after you have done that lab**, not before. The labs measure what
+changes when you work differently, and knowing the answer in advance leaves nothing to measure.
+
+## The worked examples
+
+The decks show complete files as worked examples: `copilot-instructions.md`, path-scoped instruction
+files, an ADR, a skill file, agent definitions, a contract document and several tickets (`GB-142`,
+`GB-147`, `GB-151`, `GB-158`, `GB-163`, `GB-207`, and the capstone `GB-186`). They are written for the
+Global Bank services and are the kind of file you write in the labs.

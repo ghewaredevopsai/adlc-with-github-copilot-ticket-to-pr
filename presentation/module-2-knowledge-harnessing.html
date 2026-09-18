@@ -1,0 +1,1658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 2 — Knowledge Harnessing | Agentic ADLC with GitHub Copilot</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;height:100%}
+body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#dbe9e7;color:#1c2b29;overflow:hidden}
+
+/* ---------- chrome ---------- */
+#top{position:fixed;top:0;left:0;right:0;height:44px;background:#062f2c;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 16px;z-index:40;font-size:13px}
+#top .l{display:flex;align-items:center;gap:12px}
+#top .mod{font-weight:600;letter-spacing:.2px}
+#top .sec{color:#5eead4;font-size:12px;border-left:1px solid #14615a;padding-left:12px}
+#top .r{display:flex;align-items:center;gap:8px}
+#top a,#top button{color:#ccfbf1;text-decoration:none;background:#0d4b46;border:1px solid #14615a;padding:5px 11px;border-radius:4px;font-size:12.5px;cursor:pointer;font-family:inherit}
+#top a:hover,#top button:hover{background:#0f766e;color:#fff}
+#bot{position:fixed;bottom:0;left:0;right:0;height:38px;background:#062f2c;color:#c3ddd9;display:flex;align-items:center;gap:12px;padding:0 16px;z-index:40;font-size:12px}
+#prog{flex:1;height:4px;background:#14403c;border-radius:2px;overflow:hidden}
+#progf{height:100%;width:3%;background:#fbbf24;transition:width .25s ease}
+.navbtn{background:#0d4b46;color:#fff;border:1px solid #14615a;border-radius:4px;padding:4px 12px;cursor:pointer;font-size:14px;line-height:1.2;font-family:inherit}
+.navbtn:hover{background:#0f766e}
+#num{min-width:66px;text-align:right;font-variant-numeric:tabular-nums}
+#hint{color:#7fada8}
+#wrap{position:fixed;top:44px;bottom:38px;left:0;right:0;display:flex;align-items:center;justify-content:center}
+#stage{width:1280px;height:720px;background:#fff;box-shadow:0 8px 34px rgba(6,47,44,.28);position:relative;transform-origin:center center;overflow:hidden}
+
+/* ---------- delivery tier: K key . D demo . R reference ---------- */
+#top .tier{font-size:11px;font-weight:700;letter-spacing:.7px;padding:3px 9px;border-radius:3px;background:#14403c;color:#7fada8}
+#top .tier.K{background:#fbbf24;color:#3b2708}
+#top .tier.D{background:#2dd4bf;color:#062f2c}
+#top .after{font-size:11px;font-weight:700;letter-spacing:.7px;padding:3px 9px;border-radius:3px;background:#b91c1c;color:#fff;display:none}
+#top .after.on{display:inline-block}
+#toc a .tg{display:inline-block;width:26px;font-size:10px;font-weight:700;letter-spacing:.4px;color:#4d7c76}
+#toc a .tg.K{color:#fbbf24}
+#toc a .tg.D{color:#2dd4bf}
+#toc a.aft{border-left-color:#b91c1c}
+#toc a.aft .tg::after{content:' !';color:#f87171}
+
+/* ---------- index overlay ---------- */
+#toc{position:fixed;inset:44px 0 38px;background:rgba(5,38,36,.975);color:#fff;z-index:35;display:none;overflow:auto;padding:22px 46px}
+#toc.on{display:block}
+#toc h3{margin:0 0 14px;font-size:15px;color:#5eead4;letter-spacing:.6px;text-transform:uppercase;font-weight:600}
+#toc .cols{column-count:2;column-gap:38px}
+#toc .grp{margin-bottom:16px;break-inside:avoid}
+#toc .grph{font-size:12px;color:#fbbf24;font-weight:700;letter-spacing:.8px;margin-bottom:5px}
+#toc a{display:block;color:#d3ece9;text-decoration:none;padding:4px 10px;border-left:2px solid #14615a;font-size:14px}
+#toc a:hover{background:#0d4b46;border-left-color:#2dd4bf}
+#toc a.cur{background:#0f766e;border-left-color:#fbbf24;color:#fff;font-weight:600}
+#toc a .n{display:inline-block;width:28px;color:#79aaa4;font-size:12px}
+
+/* ---------- slide shell ---------- */
+#notes{position:fixed;left:0;right:0;bottom:38px;max-height:34%;overflow:auto;background:#0b211f;color:#d3ece9;border-top:3px solid #fbbf24;padding:12px 22px;z-index:36;display:none;font-size:14px;line-height:1.5}
+#notes.on{display:block}
+#notes .h{font-size:11px;letter-spacing:.8px;color:#5eead4;font-weight:700;margin-bottom:5px}
+.slide{position:absolute;inset:0;padding:30px 42px 24px;display:none;flex-direction:column}
+.slide.active{display:flex}
+.slide h2{margin:0 0 13px;font-size:28px;line-height:1.14;color:#062f2c;border-bottom:2px solid #0f766e;padding-bottom:8px;font-weight:600}
+.slide h2 .tag{float:right;font-size:12px;background:#0f766e;color:#fff;padding:4px 11px;border-radius:12px;font-weight:700;position:relative;top:4px;letter-spacing:.4px}
+.slide h2 .tag.k{background:#b45309}
+.slide h2 .tag.q{background:#7c3aed}
+.body{flex:1;display:grid;gap:22px;min-height:0;align-items:center}
+.g64{grid-template-columns:1.45fr 1fr}
+.g46{grid-template-columns:1fr 1.45fr}
+.g55{grid-template-columns:1fr 1fr}
+.g1{grid-template-columns:1fr}
+.body.g1{align-items:stretch}
+.body.g1>div:only-child{height:100%;display:flex;flex-direction:column;justify-content:center}
+.pts h3{margin:0 0 7px;font-size:12.5px;letter-spacing:.7px;text-transform:uppercase;color:#0f766e;font-weight:700}
+.pts h3+h3{margin-top:13px}
+.pts ul{margin:0;padding-left:17px;font-size:15.5px;line-height:1.46}
+.pts li{margin-bottom:6px}
+.pts b{color:#062f2c}
+.pts em{color:#b45309;font-style:normal;font-weight:600}
+.pts code{background:#eefaf8;border:1px solid #cfeae6;border-radius:3px;padding:0 4px;font-size:14px;color:#0b4f4a}
+.callout{background:#eefaf8;border-left:3px solid #0f766e;padding:9px 13px;font-size:15px;border-radius:0 4px 4px 0;margin-top:11px;line-height:1.4}
+.callout.bad{background:#fef2f2;border-left-color:#dc2626;color:#7f1d1d}
+.callout.good{background:#ecfdf5;border-left-color:#059669;color:#064e3b}
+.take{margin-top:13px;background:#fffbeb;border-left:4px solid #fbbf24;padding:10px 15px;font-size:15.5px;color:#78350f;border-radius:0 4px 4px 0;line-height:1.4}
+.take b{color:#92400e}
+svg{width:100%;height:auto;display:block}
+
+/* ---------- title slide ---------- */
+.slide.title{background:linear-gradient(135deg,#062f2c 0%,#0b4f4a 58%,#0f766e 150%);color:#fff;justify-content:center;padding:0 78px}
+.slide.title h1{margin:0;font-size:50px;line-height:1.12;font-weight:600}
+.slide.title .sub{margin-top:14px;font-size:22px;color:#99f6e4;font-weight:600}
+.slide.title .rule{width:110px;height:4px;background:#fbbf24;margin:24px 0}
+.slide.title .meta{font-size:16px;color:#c3ddd9;line-height:1.85}
+.slide.title .meta b{color:#fff}
+.slide.title .chips{margin-top:24px;display:flex;gap:10px;flex-wrap:wrap}
+.slide.title .chip{background:rgba(255,255,255,.1);border:1px solid rgba(94,234,212,.45);color:#ccfbf1;padding:7px 14px;border-radius:16px;font-size:14px}
+
+/* ---------- quiz ---------- */
+.qz{font-size:20px;line-height:1.4;color:#062f2c;font-weight:600;background:#f0fbf9;border-left:4px solid #7c3aed;padding:13px 18px;border-radius:0 5px 5px 0}
+.opts{margin-top:18px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.opt{display:flex;align-items:flex-start;gap:11px;background:#fff;border:1.5px solid #d5e5e2;border-radius:6px;padding:12px 15px;font-size:17px;line-height:1.36;color:#1c2b29}
+.opt .k{flex:0 0 28px;height:28px;border-radius:50%;background:#e6f4f2;color:#0b4f4a;font-weight:700;font-size:14.5px;display:flex;align-items:center;justify-content:center;border:1.5px solid #b9ddd8}
+.opt.right{background:#ecfdf5;border-color:#34d399;box-shadow:0 0 0 3px rgba(52,211,153,.16)}
+.opt.right .k{background:#059669;color:#fff;border-color:#059669}
+.opt.wrong{opacity:.62}
+.why{margin-top:16px;background:#f0fbf9;border-left:4px solid #0f766e;padding:11px 16px;font-size:15.5px;line-height:1.45;border-radius:0 4px 4px 0}
+.why b{color:#0b4f4a}
+.why .no{display:block;margin-top:7px;color:#7f1d1d;font-size:14.5px}
+.qmeta{font-size:13px;color:#5b7a76;margin-top:12px}
+
+.file{background:#0b211f;border-radius:5px;padding:11px 14px;font-family:'DejaVu Sans Mono',Menlo,Consolas,monospace;font-size:12.5px;line-height:1.46;color:#d3ece9;overflow:hidden;white-space:pre-wrap;tab-size:2}
+.file .fn{color:#5eead4;font-weight:700;display:block;margin-bottom:5px;font-size:11.5px;letter-spacing:.4px}
+.file .c{color:#7fada8}
+.file .k{color:#fbbf24;font-weight:700}
+.file .s{color:#fca5a5}
+/* ---------- svg vocabulary ---------- */
+.bx{fill:#f0fbf9;stroke:#bfe3de;stroke-width:1.5}
+.bx.g{fill:#ecfdf5;stroke:#a7f3d0}
+.bx.a{fill:#fffbeb;stroke:#fcd34d}
+.bx.r{fill:#fef2f2;stroke:#fecaca}
+.bx.p{fill:#f5f3ff;stroke:#ddd6fe}
+.bx.d{fill:#062f2c;stroke:#062f2c}
+.bx.w{fill:#fff;stroke:#cbd5e1}
+.tt{font-size:15px;font-weight:600;fill:#062f2c}
+.tt.w{fill:#fff}
+.ss{font-size:12.5px;fill:#3f5f5c}
+.ss.w{fill:#a7f3d0}
+.lb{font-size:10.5px;font-weight:700;fill:#0f766e;letter-spacing:.7px}
+.lb.a{fill:#b45309}.lb.r{fill:#dc2626}.lb.g{fill:#047857}.lb.w{fill:#5eead4}.lb.p{fill:#6d28d9}
+.ar{fill:none;stroke:#94b8b3;stroke-width:2;marker-end:url(#arw)}
+.arr{fill:none;stroke:#dc2626;stroke-width:2;marker-end:url(#arr)}
+.arg{fill:none;stroke:#059669;stroke-width:2;marker-end:url(#arg)}
+.fl{fill:none;stroke:#0f766e;stroke-width:2.5;stroke-dasharray:7 9;marker-end:url(#arb)}
+.slide.active .fl{animation:march 1.1s linear infinite}
+@keyframes march{to{stroke-dashoffset:-16}}
+.pulse{transform-box:fill-box;transform-origin:center}
+.slide.active .pulse{animation:pl 2.2s ease-in-out infinite}
+@keyframes pl{0%,100%{opacity:.25}50%{opacity:.9}}
+.tok{opacity:0}
+.slide.active .tok{animation:tk 6s linear infinite}
+@keyframes tk{0%,8%{opacity:0}14%,86%{opacity:1}96%,100%{opacity:0}}
+.slide.active .t2{animation-delay:.6s}.slide.active .t3{animation-delay:1.2s}
+.slide.active .t4{animation-delay:1.8s}.slide.active .t5{animation-delay:2.4s}
+.slide.active .t6{animation-delay:3s}
+.rise{transform-box:fill-box;transform-origin:bottom}
+.slide.active .rise{animation:rs .9s cubic-bezier(.2,.8,.3,1) both}
+.slide.active .r2{animation-delay:.12s}.slide.active .r3{animation-delay:.24s}
+.slide.active .r4{animation-delay:.36s}.slide.active .r5{animation-delay:.48s}
+.slide.active .r6{animation-delay:.6s}
+@keyframes rs{from{transform:scaleY(.04)}to{transform:scaleY(1)}}
+.grow{transform-box:fill-box;transform-origin:left}
+.slide.active .grow{animation:gw 1.1s cubic-bezier(.2,.8,.3,1) both}
+.slide.active .w2{animation-delay:.14s}.slide.active .w3{animation-delay:.28s}
+.slide.active .w4{animation-delay:.42s}.slide.active .w5{animation-delay:.56s}
+@keyframes gw{from{transform:scaleX(.02)}to{transform:scaleX(1)}}
+.dash{stroke-dasharray:5 5}
+@media (prefers-reduced-motion:reduce){
+  .slide.active .fl,.slide.active .pulse,.slide.active .tok,.slide.active .rise,.slide.active .grow{animation:none}
+  .tok{opacity:1}
+}
+
+@media print{
+  @page{size:1280px 720px;margin:0}
+  body{background:#fff;overflow:visible}
+  #top,#bot,#toc,#notes{display:none}
+  #wrap{position:static;display:block}
+  #stage{transform:none!important;width:1280px;height:auto;overflow:visible;box-shadow:none}
+  .slide{display:flex!important;position:relative;page-break-after:always;height:720px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#94b8b3"/></marker>
+  <marker id="arb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#0f766e"/></marker>
+  <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#dc2626"/></marker>
+  <marker id="arg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#059669"/></marker>
+</defs></svg>
+
+<div id="top">
+  <div class="l">
+    <span class="mod">Module 2 &middot; Knowledge Harnessing &mdash; the Repository as the Agent's Memory</span>
+    <span class="sec" id="sec"></span>
+    <span class="tier" id="tier"></span><span class="after" id="after">AFTER LAB</span>
+  </div>
+  <div class="r">
+    <a href="../course-outline-agentic-adlc-github-copilot.html" title="Open the 2-day course outline">Course outline</a>
+    <button id="tocbtn" title="Index (O)">Index</button>
+    <button id="notesbtn" title="Speaker notes (N)">Notes</button>
+    <button id="fsbtn" title="Fullscreen (F)">Full</button>
+  </div>
+</div>
+
+<div id="toc"><h3>Module 2 &mdash; slide index</h3><div class="cols" id="toclist"></div></div>
+
+<div id="wrap"><div id="stage"><!-- 1 -->
+<section class="slide title" data-sec="Opening" data-title="Title" data-notes="Open by pointing at the board. Module 1 ended with a number on the flip chart and a claim that most of it was waste - this module is where the waste gets removed, and by the end of it you re-measure and find out whether that was true. The framing sentence: everything in this module is an answer to one question, which is how a fact gets from somebody's head into the agent's context without a human retyping it every time." data-tier="R">
+  <h1>Knowledge Harnessing</h1>
+  <div class="sub">Module 2 &mdash; the repository as the agent's memory</div>
+  <div class="rule"></div>
+  <div class="meta">
+    <b>Agentic ADLC with GitHub Copilot</b> &mdash; From JIRA Ticket to Merged PR<br>
+    Day 1 &middot; Module 2 of 8 &nbsp;|&nbsp; Advanced &nbsp;|&nbsp; Trainer: <b>Rajesh Gheware</b>
+  </div>
+  <div class="chips">
+    <span class="chip">The layered model</span>
+    <span class="chip">Standing context artifacts</span>
+    <span class="chip">Signal vs. bloat</span>
+    <span class="chip">Structuring for retrieval</span>
+    <span class="chip">Keeping it current</span>
+    <span class="chip">What must never be written down</span>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="slide" data-sec="Opening" data-title="This module is where the number moves" data-notes="Do not summarise Module 1 - point at the tally sheet instead, because the argument for this module was already made and measured. The four capabilities on the left are all things they will do to the Global Bank repository this afternoon, not things they will read about. The right-hand diagram is the honest one: knowledge costs real effort to write and real effort to maintain, and it only pays back if it is read on many requests. That is why the module spends as long on what NOT to write down and on keeping it current as it does on authoring - a knowledge base nobody maintains goes negative, and going negative is not a hypothetical, it is the ordinary fate of a wiki. Land the closing line before moving on: at the end of this module you re-run the ticket from Lab 1.1 and the delta goes on the board, whatever it is." data-tier="K">
+  <h2>This is the module where the number on the board moves<span class="tag">M2</span></h2>
+  <div class="body g64">
+    <div>
+      <svg viewBox="0 0 700 430" role="img" aria-label="What Module 2 delivers and the economics of writing knowledge down">
+        <text class="lb" x="4" y="13">MODULE 2 &mdash; FOUR CAPABILITIES</text>
+        <rect class="bx" x="4" y="22" width="692" height="164" rx="8"/>
+        <rect class="bx w rise" x="20" y="38" width="326" height="62" rx="6"/>
+        <text class="tt" x="34" y="60">1 &middot; Place a fact in the right layer</text>
+        <text class="ss" x="34" y="80">org &rarr; repository &rarr; path &rarr; task, and</text>
+        <text class="ss" x="34" y="96">know which one from its properties</text>
+        <rect class="bx w rise r2" x="356" y="38" width="326" height="62" rx="6"/>
+        <text class="tt" x="370" y="60">2 &middot; Tell signal from bloat</text>
+        <text class="ss" x="370" y="80">write it, let the agent infer it, or</text>
+        <text class="ss" x="370" y="96">recognise that it actively misleads</text>
+        <rect class="bx w rise r3" x="20" y="110" width="326" height="62" rx="6"/>
+        <text class="tt" x="34" y="132">3 &middot; Structure it to be found</text>
+        <text class="ss" x="34" y="152">scoping, indexes, module maps &mdash;</text>
+        <text class="ss" x="34" y="168">written is not the same as reachable</text>
+        <rect class="bx w rise r4" x="356" y="110" width="326" height="62" rx="6"/>
+        <text class="tt" x="370" y="132">4 &middot; Keep it from rotting</text>
+        <text class="ss" x="370" y="152">ownership, the same-PR rule, and a</text>
+        <text class="ss" x="370" y="168">CI check that fails on drift</text>
+
+        <text class="lb a" x="4" y="212">THE ECONOMICS &mdash; AND WHY HALF THIS MODULE IS ABOUT RESTRAINT</text>
+        <rect class="bx a" x="4" y="222" width="692" height="126" rx="8"/>
+        <rect class="bx w" x="24" y="240" width="196" height="42" rx="5"/>
+        <text class="tt" x="122" y="266" text-anchor="middle" style="font-size:13.5px">Cost to write</text>
+        <path class="ar" d="M224 261 L252 261"/>
+        <rect class="bx w" x="256" y="240" width="196" height="42" rx="5"/>
+        <text class="tt" x="354" y="266" text-anchor="middle" style="font-size:13.5px">Cost to maintain, forever</text>
+        <path class="ar" d="M456 261 L484 261"/>
+        <rect class="bx g" x="488" y="240" width="188" height="42" rx="5"/>
+        <text class="tt" x="582" y="266" text-anchor="middle" style="font-size:13.5px">Read on every request</text>
+        <text class="ss" x="24" y="306">Knowledge pays back only when the third box is large. Write down something read</text>
+        <text class="ss" x="24" y="326">once a quarter and you have added permanent cost for almost no return &mdash; and if</text>
+        <text class="ss" x="24" y="342" style="fill:#b45309;font-weight:600">nobody maintains it, the return goes negative. That is the ordinary fate of a wiki.</text>
+
+        <rect class="bx d" x="4" y="360" width="692" height="70" rx="8"/>
+        <text class="lb w" x="24" y="384">THE ONE QUESTION THIS MODULE ANSWERS</text>
+        <text class="ss w" x="24" y="408" style="font-size:14px">How does a fact get from somebody&rsquo;s head into the agent&rsquo;s context</text>
+        <text class="ss w" x="24" y="426" style="font-size:14px"><tspan font-weight="700" fill="#fbbf24">without a human retyping it every time?</tspan></text>
+      </svg>
+    </div>
+    <div class="pts">
+      <h3>Where we are</h3>
+      <ul>
+        <li>Module 1 put a number on the board and claimed most of it was <b>re-derivation</b>. This module removes it.</li>
+        <li>Everything here is done to the <b>Global Bank</b> repository this afternoon &mdash; you are not reading about it, you are writing it.</li>
+      </ul>
+      <h3>The shape of the module</h3>
+      <ul>
+        <li>Roughly half is <em>what to write and where</em>. The other half is <b>what not to write, and how to stop it rotting</b> &mdash; because those are what decide whether any of it survives contact with a real team.</li>
+      </ul>
+      <div class="take"><b>At the end of this module you re-run the Lab 1.1 ticket</b> against the instrumented repo, and the delta goes on the board &mdash; whatever it turns out to be.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="slide" data-sec="1 &middot; The layered model" data-title="Four layers, and what distinguishes them" data-notes="The layers are not a hierarchy of importance and people read them that way. What separates them is three properties: how many repositories the fact is true for, how long it stays true, and who owns it. Walk them bottom to top. Org-level is what is true everywhere - it is small, it changes rarely, and someone outside your team owns it, which also means you cannot fix it quickly when it is wrong. Repository-level is the workhorse and where most of the value in this course lives: true for this codebase, owned by this team, changes with the codebase. Path-scoped is the underrated one - the same repository has genuinely different rules in the domain layer and the test tree, and stating both in one file forces the agent to hold rules it does not need. Task-scoped is per-request and dies with the session, which is exactly what Module 1's context window slide was about. The failure to name: everything lands in the repository layer because it is the easiest file to edit, and it grows until nothing in it is read carefully." data-tier="K">
+  <h2>The layered model &mdash; org &rarr; repository &rarr; path-scoped &rarr; task-scoped<span class="tag k">1</span></h2>
+  <div class="body g1">
+    <div>
+      <svg viewBox="0 0 1180 452" role="img" aria-label="Four knowledge layers compared by scope, lifetime, owner and what belongs in each">
+        <rect class="bx d" x="4" y="4" width="1172" height="32" rx="6"/>
+        <text class="lb w" x="24" y="25">LAYER</text>
+        <text class="lb w" x="300" y="25">TRUE FOR</text>
+        <text class="lb w" x="500" y="25">LIFETIME</text>
+        <text class="lb w" x="680" y="25">OWNED BY</text>
+        <text class="lb w" x="870" y="25">IN GLOBAL BANK, THAT MEANS</text>
+
+        <rect class="bx grow" x="4" y="44" width="1172" height="88" rx="6"/>
+        <text class="tt" x="24" y="72" style="font-size:16px">Organisation</text>
+        <text class="ss" x="24" y="94">what is true everywhere</text>
+        <text class="ss" x="24" y="114">you inherit it, you cannot fix it fast</text>
+        <text class="ss" x="300" y="84">every repository</text>
+        <text class="ss" x="300" y="104">in the firm</text>
+        <text class="ss" x="500" y="84">years</text>
+        <text class="ss" x="500" y="104">changes rarely</text>
+        <text class="ss" x="680" y="84">a platform or</text>
+        <text class="ss" x="680" y="104">standards group</text>
+        <text class="ss" x="870" y="84">Licence policy, approved libraries,</text>
+        <text class="ss" x="870" y="104">logging and data-handling standards</text>
+
+        <rect class="bx g grow w2" x="4" y="140" width="1172" height="98" rx="6"/>
+        <text class="lb g" x="24" y="164">THE WORKHORSE &mdash; MOST OF THE VALUE IN THIS COURSE</text>
+        <text class="tt" x="24" y="192" style="font-size:16px">Repository</text>
+        <text class="ss" x="24" y="214">what is true about this codebase</text>
+        <text class="ss" x="24" y="232">and only this one</text>
+        <text class="ss" x="300" y="192">one repository</text>
+        <text class="ss" x="300" y="212">every request in it</text>
+        <text class="ss" x="500" y="192">months to years</text>
+        <text class="ss" x="500" y="212">moves with the code</text>
+        <text class="ss" x="680" y="192">this team</text>
+        <text class="ss" x="680" y="212">you can fix it today</text>
+        <text class="ss" x="870" y="184" style="font-weight:600;fill:#047857">.github/copilot-instructions.md</text>
+        <text class="ss" x="870" y="204">docs/architecture.md &middot; conventions.md</text>
+        <text class="ss" x="870" y="224">docs/glossary.md &middot; docs/adr/</text>
+
+        <rect class="bx a grow w3" x="4" y="246" width="1172" height="96" rx="6"/>
+        <text class="lb a" x="24" y="270">THE UNDERRATED ONE</text>
+        <text class="tt" x="24" y="298" style="font-size:16px">Path-scoped</text>
+        <text class="ss" x="24" y="320">rules that differ inside one repository</text>
+        <text class="ss" x="24" y="338">domain code is not test code</text>
+        <text class="ss" x="300" y="298">files under a path</text>
+        <text class="ss" x="300" y="318">only when touched</text>
+        <text class="ss" x="500" y="298">months to years</text>
+        <text class="ss" x="500" y="318">moves with the layer</text>
+        <text class="ss" x="680" y="298">this team</text>
+        <text class="ss" x="680" y="318">often one owner</text>
+        <text class="ss" x="870" y="290" style="font-weight:600;fill:#b45309">.github/instructions/*.instructions.md</text>
+        <text class="ss" x="870" y="310">domain &middot; api &middot; tests &mdash; three different</text>
+        <text class="ss" x="870" y="330">sets of rules, applied by path</text>
+
+        <rect class="bx grow w4" x="4" y="350" width="1172" height="70" rx="6"/>
+        <text class="tt" x="24" y="378" style="font-size:16px">Task-scoped</text>
+        <text class="ss" x="24" y="400">true for this ticket, then gone</text>
+        <text class="ss" x="300" y="388">one request</text>
+        <text class="ss" x="500" y="388">minutes</text>
+        <text class="ss" x="680" y="388">whoever is working</text>
+        <text class="ss" x="870" y="378">The ticket, the spec, the two files in play</text>
+        <text class="ss" x="870" y="398">&mdash; Module 1&rsquo;s context window, exactly</text>
+
+        <rect class="bx r" x="4" y="428" width="1172" height="24" rx="5"/>
+        <text class="ss" x="590" y="445" text-anchor="middle" style="font-size:13px;fill:#dc2626;font-weight:600">The failure to watch for: everything lands in the repository layer because it is the easiest file to edit &mdash; until nothing in it is read carefully</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="slide" data-sec="1 &middot; The layered model" data-title="Which layer does this fact belong in?" data-notes="This is the routing rule and it is the practical takeaway of the section - it deliberately mirrors the placement rule from Module 1, because it is the same discipline applied to a different question. Three tests, asked in this order. Scope first: how many repositories is it true for? Getting this wrong in the generous direction is the common error - a rule that is really about this service ends up in an org standard nobody can change. Then frequency: is it needed on every request in that scope, or only when a particular area is touched? Then volatility, which is the one people skip: a fact that changes every sprint should not be in a file that gets reviewed once a year, because it will be wrong more often than right. Point out the diagonal at the bottom - when a fact is high-volatility and high-value, the answer is usually to write down the pointer rather than the value, so the file stays true even as the thing it points at changes." data-tier="R">
+  <h2>Routing a fact to its layer &mdash; three tests, in this order<span class="tag k">1</span></h2>
+  <div class="body g46">
+    <div class="pts">
+      <h3>Why this order</h3>
+      <ul>
+        <li><b>Scope</b> first, because getting it wrong upward is expensive &mdash; a rule that is really about this service ends up in an org standard <em>nobody on your team can change</em>.</li>
+        <li><b>Frequency</b> second, because it decides repository-wide versus path-scoped, and that is where instruction files get bloated.</li>
+        <li><b>Volatility</b> last, and it is the one people skip. A fact that changes every sprint does not belong in a file reviewed once a year &mdash; it will be wrong more often than right.</li>
+      </ul>
+      <h3>The trick for volatile facts</h3>
+      <ul>
+        <li>Write down the <b>pointer, not the value</b>. &ldquo;Supported versions are in <code>pom.xml</code>&rdquo; stays true forever; &ldquo;we are on Spring Boot 3.5.3&rdquo; is wrong within a quarter.</li>
+      </ul>
+      <div class="callout">This is Module 1&rsquo;s placement rule again &mdash; context, file, or tool call &mdash; asked one level down. Same discipline, different question.</div>
+    </div>
+    <div>
+      <svg viewBox="0 0 700 448" role="img" aria-label="Three sequential tests routing a fact to the correct knowledge layer">
+        <rect class="bx d" x="150" y="4" width="400" height="36" rx="6"/>
+        <text class="tt w" x="350" y="28" text-anchor="middle" style="font-size:14.5px">A fact the agent will need</text>
+        <path class="fl" d="M350 42 L350 60"/>
+
+        <rect class="bx" x="40" y="64" width="620" height="80" rx="7"/>
+        <text class="lb" x="58" y="86">TEST 1 &mdash; SCOPE</text>
+        <text class="tt" x="58" y="110" style="font-size:14.5px">How many repositories is it true for?</text>
+        <text class="ss" x="58" y="130">all of them &rarr; <tspan font-weight="600">org</tspan> &nbsp;&middot;&nbsp; this one &rarr; keep going &nbsp;&middot;&nbsp; this ticket &rarr; <tspan font-weight="600">task</tspan></text>
+        <path class="fl" d="M350 146 L350 164"/>
+
+        <rect class="bx" x="40" y="168" width="620" height="80" rx="7"/>
+        <text class="lb" x="58" y="190">TEST 2 &mdash; FREQUENCY</text>
+        <text class="tt" x="58" y="214" style="font-size:14.5px">Needed on every request, or only in one area?</text>
+        <text class="ss" x="58" y="234">every request &rarr; <tspan font-weight="600">repository</tspan> &nbsp;&middot;&nbsp; one area only &rarr; <tspan font-weight="600">path-scoped</tspan></text>
+        <path class="fl" d="M350 250 L350 268"/>
+
+        <rect class="bx" x="40" y="272" width="620" height="80" rx="7"/>
+        <text class="lb" x="58" y="294">TEST 3 &mdash; VOLATILITY &middot; THE ONE PEOPLE SKIP</text>
+        <text class="tt" x="58" y="318" style="font-size:14.5px">How often does the answer change?</text>
+        <text class="ss" x="58" y="338">stable &rarr; write the value &nbsp;&middot;&nbsp; volatile &rarr; <tspan font-weight="600">write the pointer</tspan></text>
+
+        <path class="arg" d="M350 354 L350 372"/>
+        <rect class="bx g" x="40" y="376" width="620" height="30" rx="6"/>
+        <text class="tt" x="350" y="397" text-anchor="middle" style="font-size:13.5px;fill:#047857">Now it has one home &mdash; and only one</text>
+
+        <rect class="bx r" x="40" y="414" width="620" height="34" rx="6"/>
+        <text class="ss" x="350" y="436" text-anchor="middle" style="font-size:13px;fill:#dc2626;font-weight:600">A fact written in two layers will disagree with itself within a quarter</text>
+      </svg>
+    </div>
+  </div>
+</section>
+<!-- 5 -->
+<section class="slide" data-sec="2 &middot; The artifacts" data-title="Six artifacts, and what each is not" data-notes="Six artifact types and the column that does the work is the third one - what each is NOT. Teams fail here by merging them: an instructions file that has swallowed the architecture, an architecture document that has become a tutorial, ADRs used as a changelog. Each artifact has a different lifetime and a different reader, and merging them means the whole blob gets reviewed at the cadence of its most volatile part, which is to say never. Two to dwell on. The glossary looks like the least important row and is often the highest value per line, because domain vocabulary is where the agent's confident wrongness is hardest to see - wrong code fails a test, a wrong meaning of the word posting passes review. And runbooks are the row to be honest about: they are genuinely useful to a human on call and almost never read by an agent doing development work, so write them for the human and do not count them toward this module's return." data-tier="R">
+  <h2>The standing-context artifacts &mdash; and what each one is <em>not</em><span class="tag k">2</span></h2>
+  <div class="body g1">
+    <div>
+      <svg viewBox="0 0 1180 448" role="img" aria-label="Six knowledge artifact types with their purpose, what they are not, and their file in Global Bank">
+        <rect class="bx d" x="4" y="4" width="1172" height="32" rx="6"/>
+        <text class="lb w" x="24" y="25">ARTIFACT</text>
+        <text class="lb w" x="250" y="25">ANSWERS</text>
+        <text class="lb w" x="560" y="25">IS NOT &mdash; THE COLUMN THAT MATTERS</text>
+        <text class="lb w" x="900" y="25">IN GLOBAL BANK</text>
+
+        <rect class="bx g grow" x="4" y="44" width="1172" height="62" rx="6"/>
+        <text class="tt" x="24" y="70">Repository instructions</text>
+        <text class="ss" x="24" y="90">the entry point &mdash; always loaded</text>
+        <text class="ss" x="250" y="70">&ldquo;What must I never get wrong here,</text>
+        <text class="ss" x="250" y="90">and where do I look for the rest?&rdquo;</text>
+        <text class="ss" x="560" y="70" style="fill:#dc2626">Not a place to paste the architecture.</text>
+        <text class="ss" x="560" y="90" style="fill:#dc2626">It is a <tspan font-weight="600">router plus a short list of absolutes</tspan>.</text>
+        <text class="ss" x="900" y="80" style="font-weight:600;fill:#047857">.github/copilot-instructions.md</text>
+
+        <rect class="bx a grow w2" x="4" y="114" width="1172" height="62" rx="6"/>
+        <text class="tt" x="24" y="140">Path-scoped instructions</text>
+        <text class="ss" x="24" y="160">loaded only when that area is touched</text>
+        <text class="ss" x="250" y="140">&ldquo;What is different about writing code</text>
+        <text class="ss" x="250" y="160">in <tspan font-style="italic">this</tspan> part of the repository?&rdquo;</text>
+        <text class="ss" x="560" y="140" style="fill:#dc2626">Not a second copy of the repository rules.</text>
+        <text class="ss" x="560" y="160" style="fill:#dc2626">Only what <tspan font-weight="600">differs</tspan> from them.</text>
+        <text class="ss" x="900" y="150" style="font-weight:600;fill:#b45309">.github/instructions/*.md</text>
+
+        <rect class="bx grow w3" x="4" y="184" width="1172" height="62" rx="6"/>
+        <text class="tt" x="24" y="210">Architecture notes</text>
+        <text class="ss" x="24" y="230">the map, and the layering rule</text>
+        <text class="ss" x="250" y="210">&ldquo;What lives where, and what may</text>
+        <text class="ss" x="250" y="230">depend on what?&rdquo;</text>
+        <text class="ss" x="560" y="210" style="fill:#dc2626">Not a tutorial, not onboarding prose, not a</text>
+        <text class="ss" x="560" y="230" style="fill:#dc2626">description of every class. A map, not a tour.</text>
+        <text class="ss" x="900" y="220">docs/architecture.md</text>
+
+        <rect class="bx grow w4" x="4" y="254" width="1172" height="62" rx="6"/>
+        <text class="tt" x="24" y="280">Conventions</text>
+        <text class="ss" x="24" y="300">how we write code here</text>
+        <text class="ss" x="250" y="280">&ldquo;How do I make this look like it</text>
+        <text class="ss" x="250" y="300">was written by this team?&rdquo;</text>
+        <text class="ss" x="560" y="280" style="fill:#dc2626">Not a style guide a linter already enforces.</text>
+        <text class="ss" x="560" y="300" style="fill:#dc2626">If CI can check it, do not also write it down.</text>
+        <text class="ss" x="900" y="290">docs/conventions.md</text>
+
+        <rect class="bx r grow w5" x="4" y="324" width="1172" height="62" rx="6"/>
+        <text class="tt" x="24" y="350">Decision records &mdash; ADRs</text>
+        <text class="ss" x="24" y="370" style="font-weight:600;fill:#dc2626">the highest-value artifact. Next slide but one.</text>
+        <text class="ss" x="250" y="350">&ldquo;Why is it like this, and what did</text>
+        <text class="ss" x="250" y="370">we already reject?&rdquo;</text>
+        <text class="ss" x="560" y="350" style="fill:#dc2626">Not a changelog, not release notes, not a</text>
+        <text class="ss" x="560" y="370" style="fill:#dc2626">design doc. One decision, its reasons, its cost.</text>
+        <text class="ss" x="900" y="360" style="font-weight:600;fill:#dc2626">docs/adr/ADR-003 &middot; 005 &middot; 007 &middot; 009</text>
+
+        <rect class="bx grow w5" x="4" y="394" width="1172" height="54" rx="6"/>
+        <text class="tt" x="24" y="418">Glossary &amp; runbooks</text>
+        <text class="ss" x="24" y="438">the sleeper, and the honest one</text>
+        <text class="ss" x="250" y="418">&ldquo;What do our nouns mean?&rdquo; and</text>
+        <text class="ss" x="250" y="438">&ldquo;What do I do when it breaks?&rdquo;</text>
+        <text class="ss" x="560" y="418">Glossary is highest value per line &mdash; wrong code fails a test,</text>
+        <text class="ss" x="560" y="438">a wrong <tspan font-style="italic">meaning</tspan> passes review. Runbooks: write for the human.</text>
+        <text class="ss" x="900" y="428">docs/glossary.md</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="slide" data-sec="2 &middot; The artifacts" data-title="Anatomy of a repository instruction file" data-notes="This is a worked example of the file they will write for the Global Bank repository, so read it as a specimen rather than a template. Three blocks and the order is deliberate. The router comes first because the file's main job is to send the agent somewhere else - it cannot hold everything and should not try. The non-negotiables are second and they are short on purpose: six lines, each one a rule whose violation is a defect rather than a preference, and each one traceable to something real in the codebase. Notice what the money rule says - never double, never float, never BigDecimal - a prohibition stated three ways, because the agent needs to know the shape of the wrong answer, not just the right one. The third block is the one teams leave out and it is the cheapest: telling the agent that asking is a legal move. Without it the model's default is to produce something, because producing something is what it is for. And the last line, quote the file you are relying on, is free verification - you can see at a glance whether the answer came from the repository or from the model's prior." data-tier="D">
+  <h2>Anatomy of a repository instruction file &mdash; the real one<span class="tag k">2</span></h2>
+  <div class="body g55">
+    <div>
+      <div class="file"><span class="fn">global-bank-account/.github/copilot-instructions.md</span>
+<span class="k"># Global Bank Account Service — working agreement</span>
+
+Double-entry payment posting for client money. Every
+request either produces a balanced pair of ledger
+entries or fails. There is no partial posting.
+
+<span class="k">## Read these before proposing a change</span>
+<span class="c">- docs/architecture.md   — what lives where
+- docs/conventions.md    — how we write code here
+- docs/glossary.md       — what our nouns mean
+- docs/adr/              — decisions already made</span>
+  <span class="s">Check for an existing ADR before designing anything.</span>
+
+<span class="k">## Non-negotiables</span>
+- Money is a <span class="s">long</span> of minor units. Never double,
+  never float, never BigDecimal. See ADR-003.
+- Every posting writes exactly two LedgerEntry rows.
+- Balances are derived from entries, never stored.
+- Constructor injection only.
+- <span class="s">No Lombok.</span> See ADR-005 — a deliberate removal.
+- Cross-currency postings are rejected.
+
+<span class="k">## When you are unsure</span>
+Say so and ask. Do not invent an account id, a currency
+code, a status value or a limit. <span class="s">Quote the file you
+are relying on</span> when you propose a change.</div>
+    </div>
+    <div class="pts">
+      <h3>Three blocks, in this order</h3>
+      <ul>
+        <li><b>The router.</b> Its main job is to send the agent somewhere else. This file cannot hold everything and should not try.</li>
+        <li><b>The non-negotiables.</b> Six lines. Each one is a rule whose violation is a <em>defect</em>, not a preference &mdash; and each traces to something real in the codebase.</li>
+        <li><b>Permission to ask.</b> The block teams leave out, and the cheapest one to add.</li>
+      </ul>
+      <h3>Two details worth copying</h3>
+      <ul>
+        <li>&ldquo;Never <code>double</code>, never <code>float</code>, never <code>BigDecimal</code>&rdquo; &mdash; the prohibition is stated three ways. The agent needs the <b>shape of the wrong answer</b>, not only the right one.</li>
+        <li>&ldquo;<b>Quote the file you are relying on</b>&rdquo; is free verification: you can see at a glance whether the answer came from the repository or from the model&rsquo;s prior.</li>
+      </ul>
+      <div class="callout bad">Without an explicit &ldquo;ask&rdquo; instruction, the default is to <b>produce something</b> &mdash; because producing something is what it is for.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="slide" data-sec="2 &middot; The artifacts" data-title="Path-scoped instructions" data-notes="Path-scoping is the mechanism that lets you be specific without being expensive, and it is the direct answer to Module 1's context-budget slide. The frontmatter is the whole trick: applyTo is a glob, and the file is only pulled in when the agent is working on matching files. So the test-writing rules cost nothing on the ninety per cent of requests that do not touch tests. Read the three example files across the bottom and notice they genuinely contradict each other in tone - the domain layer says no framework annotations, the api layer is all about framework annotations, and both are correct in their own scope. Putting both in one repository file would force the agent to hold rules it cannot use and to work out which apply, which is precisely the reasoning you do not want it spending a turn on. The discipline is the middle box: a path-scoped file states only what DIFFERS from the repository rules. The moment it restates them you have two copies that will drift, and drift is the subject of the second half of this module." data-tier="K">
+  <h2>Path-scoped instructions &mdash; specific without being expensive<span class="tag k">2</span></h2>
+  <div class="body g46">
+    <div class="pts">
+      <h3>The mechanism</h3>
+      <ul>
+        <li>The <code>applyTo</code> glob in the frontmatter is the whole trick: the file is pulled in <b>only when the agent works on matching files</b>.</li>
+        <li>So the test-writing rules cost <em>nothing</em> on the 90% of requests that never touch tests. This is Module 1&rsquo;s context budget, enforced by the tooling rather than by discipline.</li>
+      </ul>
+      <h3>The discipline</h3>
+      <ul>
+        <li>State only what <b>differs</b> from the repository rules. The moment a path-scoped file restates them, you own two copies that will drift.</li>
+        <li>The three example files genuinely <em>contradict</em> each other &mdash; domain says &ldquo;no framework annotations&rdquo;, api is entirely about framework annotations. Both are right <b>in their own scope</b>, and that is only possible because they are scoped.</li>
+      </ul>
+      <div class="take">Merging them into one repository file would force the agent to hold rules it cannot use, and to reason about which apply &mdash; a turn spent on something the glob answers for free.</div>
+    </div>
+    <div>
+      <div class="file" style="font-size:11.8px"><span class="fn">.github/instructions/tests.instructions.md</span>
+<span class="c">---</span>
+<span class="k">applyTo:</span> <span class="s">"src/test/**"</span>
+<span class="c">---</span>
+
+<span class="k"># Tests</span>
+
+- <span class="s">Slice tests, not @SpringBootTest.</span> Persistence-facing
+  service tests use @DataJpaTest with @Import of the
+  services under test. Controller tests use @WebMvcTest.
+- Assertions use AssertJ. Do not mix in JUnit's Assertions.
+- Test names are sentences describing the behaviour:
+  <span class="s">rejectsACrossCurrencyPosting</span>, not testPost2.
+- Amounts are written with underscores at the minor-unit
+  boundary — <span class="s">12_34L</span> is £12.34 — so a misplaced
+  factor of 100 is visible on the page.
+- A test that asserts only "no exception was thrown" is
+  not a test. Assert the ledger effect.</div>
+      <svg viewBox="0 0 660 96" role="img" aria-label="The three path-scoped instruction files in the example and the paths they apply to" style="margin-top:10px">
+        <rect class="bx" x="2" y="4" width="212" height="88" rx="6"/>
+        <text class="lb" x="18" y="26">domain.instructions.md</text>
+        <text class="ss" x="18" y="48">applyTo: domain/**</text>
+        <text class="ss" x="18" y="70">&ldquo;no Spring annotations,</text>
+        <text class="ss" x="18" y="86">valid on construction&rdquo;</text>
+        <rect class="bx a" x="224" y="4" width="212" height="88" rx="6"/>
+        <text class="lb a" x="240" y="26">api.instructions.md</text>
+        <text class="ss" x="240" y="48">applyTo: api/**</text>
+        <text class="ss" x="240" y="70">&ldquo;thin controllers, errors</text>
+        <text class="ss" x="240" y="86">only via LedgerException&rdquo;</text>
+        <rect class="bx g" x="446" y="4" width="212" height="88" rx="6"/>
+        <text class="lb g" x="462" y="26">tests.instructions.md</text>
+        <text class="ss" x="462" y="48">applyTo: src/test/**</text>
+        <text class="ss" x="462" y="70">&ldquo;slice tests only,</text>
+        <text class="ss" x="462" y="86">assert the ledger effect&rdquo;</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="slide" data-sec="2 &middot; The artifacts" data-title="ADRs carry the one thing that cannot be inferred" data-notes="This is the most important slide in the module, so give it time, and it is the one the room needs BEFORE they write anything in Lab 1.2. Everything else in a repository can in principle be recovered by reading the code - the agent can work out the layering, the naming, the error idiom, given enough turns. There is exactly one class of fact that reading the code can never recover, and that is the option you considered and rejected, because rejected options leave no trace in the codebase. Absence is not readable. Close on the practical rule and make it land, because it is the test they will apply in twenty minutes: the rejected-options section is not optional padding, it is the part that carries the value, and an ADR without it is just a description of the code. The worked example that proves it is the next slide, and it is held until after the lab." data-tier="K">
+  <h2>ADRs carry the one thing reading the code can never recover<span class="tag k">2</span></h2>
+  <div class="body g1">
+    <div>
+      <svg viewBox="0 0 1180 330" role="img" aria-label="Why rejected options are unrecoverable from code">
+        <rect class="bx g" x="4" y="8" width="560" height="196" rx="8"/>
+        <text class="lb g" x="24" y="42">RECOVERABLE FROM THE CODE &mdash; GIVEN ENOUGH TURNS</text>
+        <text class="ss" x="24" y="78">The layering &middot; the naming &middot; the error idiom &middot; the test style &middot; which</text>
+        <text class="ss" x="24" y="104">library version &middot; what the domain types are &middot; how a request flows</text>
+        <text class="ss" x="24" y="148" style="font-style:italic">Writing these down buys <tspan font-weight="600">speed</tspan>. The agent would have got there</text>
+        <text class="ss" x="24" y="174" style="font-style:italic">eventually, and paid for the trip on every request.</text>
+
+        <rect class="bx r" x="616" y="8" width="560" height="196" rx="8"/>
+        <text class="lb r" x="636" y="42">NOT RECOVERABLE &mdash; AT ANY PRICE</text>
+        <text class="tt" x="636" y="76" style="font-size:17px">The option you considered and rejected</text>
+        <text class="ss" x="636" y="110">A rejected option leaves <tspan font-weight="600">no trace in the codebase</tspan>. There is no</text>
+        <text class="ss" x="636" y="136">absence to read. No number of turns recovers it.</text>
+        <text class="ss" x="636" y="176" style="fill:#dc2626;font-weight:600">Writing this down buys correctness, not speed.</text>
+
+        <rect class="bx d" x="4" y="232" width="1172" height="88" rx="8"/>
+        <text class="ss w" x="26" y="284" style="font-size:14.5px">So: the <tspan font-weight="700">rejected-options section is not padding.</tspan> It is the part that carries the value. An ADR without it is a description of the code you already have.</text>
+      </svg>
+    </div>
+  </div>
+</section>
+<!-- 9 -->
+<section class="slide" data-sec="2 &middot; The artifacts" data-title="ADR-007 - the worked example" data-notes="Held until Lab 1.2 and Lab 1.3 are scored - this slide is the debrief, not the setup, because it hands over the exact ADR they were asked to discover the need for. ADR-007 in their lab repository is the worked example and it is worth reading the rejected paragraph aloud: header-based idempotency is the conventional answer, it is what any competent engineer would reach for, and it is wrong here for a reason that is invisible from inside the code - two upstream systems do not propagate headers through their retry path. An agent without this ADR does not fail. It succeeds, confidently, at building the wrong thing, and the reviewer has to know the history to catch it. That is the whole argument for ADRs in one example. Ask who wrote a rejected option into their own ADR an hour ago - usually a minority, and that is the finding." data-tier="K" data-after="lab">
+  <h2>The worked example &mdash; ADR-007, in the repository you used this afternoon<span class="tag k">2</span></h2>
+  <div class="body g1">
+    <div>
+      <svg viewBox="0 0 1180 400" role="img" aria-label="ADR-007 as the worked example: the rejected header scheme and the accepted natural key">
+        <rect class="bx" x="4" y="8" width="380" height="240" rx="8"/>
+        <text class="lb" x="24" y="42">THE TICKET &mdash; GB-142</text>
+        <text class="ss" x="24" y="78">&ldquo;Retried payments are being</text>
+        <text class="ss" x="24" y="104">double-booked. Make a retry produce</text>
+        <text class="ss" x="24" y="130">one posting, not two.&rdquo;</text>
+        <text class="ss" x="24" y="176" style="font-style:italic">A competent engineer&rsquo;s first instinct,</text>
+        <text class="ss" x="24" y="202" style="font-style:italic">and the agent&rsquo;s: an <tspan font-weight="600">Idempotency-Key</tspan></text>
+        <text class="ss" x="24" y="228" style="font-style:italic">header with a key store.</text>
+
+        <path class="arr" d="M390 128 L424 128"/>
+        <rect class="bx r" x="430" y="8" width="380" height="240" rx="8"/>
+        <text class="lb r" x="450" y="42">WHAT ADR-007 RECORDS</text>
+        <text class="ss" x="450" y="78" style="font-weight:600;fill:#dc2626">Rejected &mdash; the header scheme.</text>
+        <text class="ss" x="450" y="110">The two systems generating most of our</text>
+        <text class="ss" x="450" y="136">volume &mdash; a mainframe batch feed and a</text>
+        <text class="ss" x="450" y="162">vendor gateway &mdash; <tspan font-weight="600">do not propagate a</tspan></text>
+        <text class="ss" x="450" y="188"><tspan font-weight="600">header through their retry path.</tspan></text>
+        <text class="ss" x="450" y="226">It would suppress nothing, and look correct.</text>
+
+        <path class="arg" d="M816 128 L850 128"/>
+        <rect class="bx g" x="856" y="8" width="320" height="240" rx="8"/>
+        <text class="lb g" x="876" y="42">AND WHAT WAS ACCEPTED</text>
+        <text class="ss" x="876" y="78">clientReference + valueDate &mdash; the</text>
+        <text class="ss" x="876" y="104">natural key already on the instruction.</text>
+        <text class="ss" x="876" y="146">The repository method for it</text>
+        <text class="ss" x="876" y="172">already exists, unused, waiting:</text>
+        <text class="ss" x="876" y="206" style="font-weight:600;fill:#047857">findByClientReference</text>
+        <text class="ss" x="876" y="228" style="font-weight:600;fill:#047857">AndValueDate</text>
+
+        <rect class="bx d" x="4" y="276" width="1172" height="112" rx="8"/>
+        <text class="ss w" x="26" y="322" style="font-size:14.5px">Without the ADR the agent does not fail. It <tspan font-weight="700" fill="#fbbf24">succeeds, confidently, at building the wrong thing</tspan> &mdash; and only a reviewer who knows the history catches it.</text>
+        <text class="ss w" x="26" y="360" style="font-size:14.5px">This is the fact no instruction file you wrote this afternoon could have contained, because no amount of reading the code recovers a rejected option.</text>
+      </svg>
+    </div>
+  </div>
+</section>
+<!-- 10 -->
+<section class="slide" data-sec="3 &middot; Signal vs. bloat" data-title="Three fates for a candidate fact" data-notes="The instinct after the last slide is to write everything down, and this section exists to stop that. Three fates, and the middle column is the one that surprises people: a great deal of what teams carefully document is material the agent infers perfectly well from one file open, so writing it down adds permanent cost and buys nothing. The right-hand column is the one that changes behaviour - a wrong document is not neutral, it is worse than silence, because the agent trusts it and stops looking. With no document it reads the code, which is slow and correct. With a wrong document it is fast and wrong, and confident. Say the asymmetry plainly: the cost of a missing fact is turns, the cost of a wrong fact is a defect. They are not the same order of magnitude, and that asymmetry is the entire argument for the maintenance half of this module." data-tier="R">
+  <h2>Signal, bloat, and the third category people forget<span class="tag k">3</span></h2>
+  <div class="body g1">
+    <div>
+      <svg viewBox="0 0 1180 448" role="img" aria-label="Three fates for a candidate fact: write it, let the agent infer it, or recognise it as actively misleading">
+        <rect class="bx g" x="4" y="6" width="380" height="368" rx="8"/>
+        <text class="lb g" x="24" y="30">WRITE IT DOWN &mdash; SIGNAL</text>
+        <text class="tt" x="24" y="58" style="font-size:16px">Cannot be inferred, or is</text>
+        <text class="tt" x="24" y="80" style="font-size:16px">expensive to infer</text>
+        <line x1="24" y1="94" x2="364" y2="94" stroke="#a7f3d0" stroke-width="1.5"/>
+        <text class="ss" x="24" y="118">Rejected options and the reasons</text>
+        <text class="ss" x="24" y="142">Negative constraints &mdash; what is banned</text>
+        <text class="ss" x="24" y="166">Domain vocabulary and its local meaning</text>
+        <text class="ss" x="24" y="190">Facts spread across many files</text>
+        <text class="ss" x="24" y="214">Constraints imposed from outside the code</text>
+        <text class="ss" x="24" y="238">Where things are &mdash; the map</text>
+        <rect class="bx w" x="24" y="256" width="340" height="102" rx="5"/>
+        <text class="lb g" x="40" y="278">THE TEST</text>
+        <text class="ss" x="40" y="300">Could a competent engineer recover</text>
+        <text class="ss" x="40" y="320">this by reading the repository?</text>
+        <text class="ss" x="40" y="344" style="font-weight:600;fill:#047857">No, or only slowly &rarr; write it.</text>
+
+        <rect class="bx a" x="400" y="6" width="380" height="368" rx="8"/>
+        <text class="lb a" x="420" y="30">LET IT INFER &mdash; BLOAT</text>
+        <text class="tt" x="420" y="58" style="font-size:16px">Already visible in one or</text>
+        <text class="tt" x="420" y="80" style="font-size:16px">two file opens</text>
+        <line x1="420" y1="94" x2="760" y2="94" stroke="#fcd34d" stroke-width="1.5"/>
+        <text class="ss" x="420" y="118">What a class does &mdash; it can read the class</text>
+        <text class="ss" x="420" y="142">Formatting a linter already enforces</text>
+        <text class="ss" x="420" y="166">Framework behaviour it knows better than you</text>
+        <text class="ss" x="420" y="190">Method-by-method descriptions</text>
+        <text class="ss" x="420" y="214">Anything restated from another doc</text>
+        <text class="ss" x="420" y="238">Version numbers &mdash; point at the build file</text>
+        <rect class="bx w" x="420" y="256" width="340" height="102" rx="5"/>
+        <text class="lb a" x="436" y="278">THE COST</text>
+        <text class="ss" x="436" y="300">A permanent charge on every request,</text>
+        <text class="ss" x="436" y="320">for a fact it already had &mdash; and the</text>
+        <text class="ss" x="436" y="344" style="font-weight:600;fill:#b45309">signal you needed is now buried in it.</text>
+
+        <rect class="bx r" x="796" y="6" width="380" height="368" rx="8"/>
+        <text class="lb r" x="816" y="30">THE THIRD CATEGORY &mdash; MISLEADS</text>
+        <text class="tt" x="816" y="58" style="font-size:16px">Was true. Is not any more.</text>
+        <text class="tt" x="816" y="80" style="font-size:16px">Nothing marks it stale.</text>
+        <line x1="816" y1="94" x2="1156" y2="94" stroke="#fecaca" stroke-width="1.5"/>
+        <text class="ss" x="816" y="118">A helper documented after it was deleted</text>
+        <text class="ss" x="816" y="142">A convention the team quietly abandoned</text>
+        <text class="ss" x="816" y="166">An ADR superseded in a PR, not in the ADR</text>
+        <text class="ss" x="816" y="190">A module map from two refactors ago</text>
+        <text class="ss" x="816" y="214">Aspirational rules nobody actually follows</text>
+        <text class="ss" x="816" y="238">A glossary using last year&rsquo;s product names</text>
+        <rect class="bx w" x="816" y="256" width="340" height="102" rx="5"/>
+        <text class="lb r" x="832" y="278">WHY IT IS WORSE THAN SILENCE</text>
+        <text class="ss" x="832" y="300">The agent <tspan font-weight="600">trusts it and stops looking.</tspan></text>
+        <text class="ss" x="832" y="320">No document &rarr; it reads the code: slow, correct.</text>
+        <text class="ss" x="832" y="344" style="font-weight:600;fill:#dc2626">Wrong document &rarr; fast, confident, wrong.</text>
+
+        <rect class="bx d" x="4" y="388" width="1172" height="60" rx="8"/>
+        <text class="ss w" x="590" y="414" text-anchor="middle" style="font-size:15px">The asymmetry that decides how you run a knowledge base:</text>
+        <text class="ss w" x="590" y="440" text-anchor="middle" style="font-size:15px">a <tspan font-weight="700">missing</tspan> fact costs you turns &middot; a <tspan font-weight="700" fill="#fbbf24">wrong</tspan> fact costs you a defect. Not the same order of magnitude.</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="slide" data-sec="3 &middot; Signal vs. bloat" data-title="The write-it-down test" data-notes="This is the operational version of the previous slide and the thing to take back to their own repositories. Two axes: how hard the fact is to infer from the code, and how often it is needed. Bottom-left is noise and it is where most over-documentation sits - easy to infer, rarely needed, and every line of it dilutes the file. Top-right is the non-negotiables list: hard to infer and needed constantly, which is why the example instructions file is only six bullets long. Top-left is the interesting one, because the answer is not to write the fact - it is to write the index. If something takes twelve file opens to work out, what you owe the agent is the map that makes it two, not a paragraph that will be wrong next quarter. And then the band across the bottom, which sits outside the matrix entirely: unreachable facts. Rejected options and prohibitions are not on a spectrum of difficulty, they are absent from the code, so frequency does not enter into it. Write them down even if they come up twice a year." data-tier="K">
+  <h2>The write-it-down test &mdash; inferability against frequency<span class="tag k">3</span></h2>
+  <div class="body g64">
+    <div>
+      <svg viewBox="0 0 700 448" role="img" aria-label="Matrix of how hard a fact is to infer against how often it is needed, with the unreachable band outside it">
+        <line x1="66" y1="16" x2="66" y2="316" stroke="#94b8b3" stroke-width="2"/>
+        <line x1="66" y1="316" x2="676" y2="316" stroke="#94b8b3" stroke-width="2"/>
+        <text class="lb" x="6" y="28">HARD TO</text>
+        <text class="lb" x="6" y="42">INFER</text>
+        <text class="lb" x="10" y="308">EASY</text>
+        <text class="lb" x="540" y="336">NEEDED OFTEN &rarr;</text>
+        <text class="lb" x="74" y="336">RARELY</text>
+
+        <rect class="bx a" x="72" y="22" width="296" height="140" rx="7"/>
+        <text class="lb a" x="90" y="46">WRITE THE INDEX, NOT THE FACT</text>
+        <text class="ss" x="90" y="72">Takes twelve file opens to work out,</text>
+        <text class="ss" x="90" y="92">but only comes up occasionally.</text>
+        <rect class="bx w" x="90" y="104" width="260" height="48" rx="5"/>
+        <text class="ss" x="104" y="124">What you owe it is the <tspan font-weight="600">map that makes</tspan></text>
+        <text class="ss" x="104" y="144"><tspan font-weight="600">it two opens</tspan> — not a paragraph that</text>
+
+        <rect class="bx g" x="380" y="22" width="296" height="140" rx="7"/>
+        <text class="lb g" x="398" y="46">THE NON-NEGOTIABLES</text>
+        <text class="ss" x="398" y="72">Hard to infer and needed constantly.</text>
+        <text class="ss" x="398" y="92">Highest value per line in the repo.</text>
+        <rect class="bx w" x="398" y="104" width="260" height="48" rx="5"/>
+        <text class="ss" x="412" y="124">This is why the example&rsquo;s instructions</text>
+        <text class="ss" x="412" y="144">file is <tspan font-weight="600">six bullets long</tspan>, and no longer.</text>
+
+        <rect class="bx r" x="72" y="170" width="296" height="138" rx="7"/>
+        <text class="lb r" x="90" y="194">NOISE &mdash; WHERE OVER-DOCUMENTING LIVES</text>
+        <text class="ss" x="90" y="220">Easy to infer, rarely needed.</text>
+        <text class="ss" x="90" y="240">Most of what teams carefully write.</text>
+        <rect class="bx w" x="90" y="252" width="260" height="46" rx="5"/>
+        <text class="ss" x="104" y="272" style="font-weight:600;fill:#dc2626">Every line of it dilutes the lines</text>
+        <text class="ss" x="104" y="290" style="font-weight:600;fill:#dc2626">that matter. Delete on sight.</text>
+
+        <rect class="bx" x="380" y="170" width="296" height="138" rx="7"/>
+        <text class="lb" x="398" y="194">USUALLY A POINTER</text>
+        <text class="ss" x="398" y="220">Easy to infer but needed constantly &mdash;</text>
+        <text class="ss" x="398" y="240">versions, ports, seeded data.</text>
+        <rect class="bx w" x="398" y="252" width="260" height="46" rx="5"/>
+        <text class="ss" x="412" y="272">Name the file that holds the truth,</text>
+        <text class="ss" x="412" y="290">not the value. It stays true.</text>
+
+        <text class="lb r" x="4" y="366">OUTSIDE THE MATRIX ENTIRELY</text>
+        <rect class="bx d" x="4" y="376" width="672" height="72" rx="8"/>
+        <text class="tt w" x="24" y="402" style="font-size:15px">Unreachable facts &mdash; rejected options, prohibitions, external constraints</text>
+        <text class="ss w" x="24" y="426" style="font-size:13.5px">Not on a difficulty spectrum. They are <tspan font-weight="700" fill="#fbbf24">absent from the code</tspan>, so frequency does not enter into it.</text>
+        <text class="ss w" x="24" y="444" style="font-size:13.5px">Write them down even if they come up twice a year.</text>
+      </svg>
+    </div>
+    <div class="pts">
+      <h3>Applying it to your own repository</h3>
+      <ul>
+        <li>Take your current instructions file and put every line in a quadrant. In most teams <b>a third of it is bottom-left</b> and should simply be deleted.</li>
+        <li>For anything top-left, ask whether the honest fix is an <b>index or a module map</b> rather than prose. Structure beats explanation.</li>
+      </ul>
+      <h3>The one-line version</h3>
+      <ul>
+        <li>Write down what the agent <b>cannot</b> work out, and what is <b>expensive</b> to work out. Nothing else.</li>
+        <li>Then write down everything <b>unreachable</b>, whatever the frequency &mdash; that is the category the matrix cannot price.</li>
+      </ul>
+      <div class="callout good">A shorter instructions file is usually a better one. If yours has never had a line <b>removed</b>, it is carrying bloat.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 12 -->
+<section class="slide" data-sec="3 &middot; Signal vs. bloat" data-title="What a stale file actually does" data-notes="This is the slide behind the poisoned-file demo, so set it up rather than explaining it away - they are about to watch it happen. The mechanism is the important part and it is not obvious: a stale document does not simply supply a wrong fact, it terminates the search. The agent reads the instruction file, finds an authoritative-looking answer, and stops - so the correct information sitting in the code three directories away is never opened. That is why the wrong-document path is faster than the no-document path, and speed here is a symptom, not a benefit. Then the second-order effect, which is the one that hurts a team: once a stale file has produced one confident wrong answer that a reviewer caught, people stop trusting the whole knowledge base, and a knowledge base nobody trusts is worse than none because you are still paying to maintain it. Trust is the asset. Close on the practical consequence: this is why the second half of this module exists, and why a knowledge base without an owner and a staleness check is a liability with a deceptive first month." data-tier="K">
+  <h2>A stale file does not just mislead &mdash; it stops the search<span class="tag k">3</span></h2>
+  <div class="body g1">
+    <div>
+      <svg viewBox="0 0 1180 452" role="img" aria-label="Three paths: no document, correct document and stale document, showing that a stale document terminates the search">
+        <rect class="bx" x="4" y="6" width="384" height="196" rx="8"/>
+        <text class="lb" x="24" y="30">NO DOCUMENT</text>
+        <rect class="bx w" x="24" y="42" width="344" height="34" rx="5"/>
+        <text class="ss" x="38" y="64">Agent looks for guidance &mdash; finds none</text>
+        <path class="ar" d="M196 78 L196 94"/>
+        <rect class="bx w" x="24" y="98" width="344" height="34" rx="5"/>
+        <text class="ss" x="38" y="120">Falls back to reading the code</text>
+        <path class="ar" d="M196 134 L196 150"/>
+        <rect class="bx g" x="24" y="154" width="344" height="38" rx="5"/>
+        <text class="ss" x="38" y="178" style="font-weight:600;fill:#047857">Slow &mdash; and correct. You pay in turns.</text>
+
+        <rect class="bx g" x="398" y="6" width="384" height="196" rx="8"/>
+        <text class="lb g" x="418" y="30">CURRENT DOCUMENT</text>
+        <rect class="bx w" x="418" y="42" width="344" height="34" rx="5"/>
+        <text class="ss" x="432" y="64">Agent reads it &mdash; finds the answer</text>
+        <path class="arg" d="M590 78 L590 94"/>
+        <rect class="bx w" x="418" y="98" width="344" height="34" rx="5"/>
+        <text class="ss" x="432" y="120">Search terminates. Correctly.</text>
+        <path class="arg" d="M590 134 L590 150"/>
+        <rect class="bx g" x="418" y="154" width="344" height="38" rx="5"/>
+        <text class="ss" x="432" y="178" style="font-weight:600;fill:#047857">Fast and correct. This is the whole point.</text>
+
+        <rect class="bx r" x="792" y="6" width="384" height="196" rx="8"/>
+        <text class="lb r" x="812" y="30">STALE DOCUMENT</text>
+        <rect class="bx w" x="812" y="42" width="344" height="34" rx="5"/>
+        <text class="ss" x="826" y="64">Agent reads it &mdash; finds an answer</text>
+        <path class="arr" d="M984 78 L984 94"/>
+        <rect class="bx r" x="812" y="98" width="344" height="34" rx="5"/>
+        <text class="ss" x="826" y="120" style="font-weight:600;fill:#dc2626">Search terminates. It stops looking.</text>
+        <path class="arr" d="M984 134 L984 150"/>
+        <rect class="bx r" x="812" y="154" width="344" height="38" rx="5"/>
+        <text class="ss" x="826" y="178" style="font-weight:600;fill:#dc2626">Fast, confident, wrong.</text>
+
+        <rect class="bx a" x="4" y="216" width="1172" height="86" rx="8"/>
+        <text class="lb a" x="24" y="240">THE MECHANISM &mdash; AND IT IS NOT THE OBVIOUS ONE</text>
+        <text class="ss" x="24" y="266" style="font-size:14px">A stale document does not merely supply a wrong fact. <tspan font-weight="600">It terminates the search.</tspan> The correct information, sitting in the code three directories</text>
+        <text class="ss" x="24" y="290" style="font-size:14px">away, is never opened &mdash; because the agent already has an authoritative-looking answer. Speed here is a <tspan font-style="italic">symptom</tspan>, not a benefit.</text>
+
+        <rect class="bx r" x="4" y="316" width="576" height="130" rx="8"/>
+        <text class="lb r" x="24" y="340">THE SECOND-ORDER EFFECT &mdash; THE ONE THAT HURTS A TEAM</text>
+        <text class="ss" x="24" y="366">One confident wrong answer that a reviewer catches, and people stop</text>
+        <text class="ss" x="24" y="388">trusting the <tspan font-weight="600">whole</tspan> knowledge base &mdash; including the accurate nine-tenths.</text>
+        <text class="ss" x="24" y="416" style="font-weight:600;fill:#dc2626">A knowledge base nobody trusts is worse than none:</text>
+        <text class="ss" x="24" y="436" style="font-weight:600;fill:#dc2626">you are still paying to maintain it, and getting nothing back.</text>
+
+        <rect class="bx d" x="600" y="316" width="576" height="130" rx="8"/>
+        <text class="lb w" x="620" y="340">WHICH IS WHY THE REST OF THIS MODULE EXISTS</text>
+        <text class="ss w" x="620" y="368" style="font-size:14px">Authoring is the easy half and it is where the first month&rsquo;s</text>
+        <text class="ss w" x="620" y="390" style="font-size:14px">enthusiasm goes. Ownership, cadence and drift detection are</text>
+        <text class="ss w" x="620" y="412" style="font-size:14px">what decide whether any of it is still true in month six.</text>
+        <text class="ss w" x="620" y="438" style="font-size:14px"><tspan font-weight="700" fill="#fbbf24">Trust is the asset. Everything else is bookkeeping.</tspan></text>
+      </svg>
+    </div>
+  </div>
+</section>
+<!-- 13 -->
+<section class="slide" data-sec="4 &middot; Structuring for retrieval" data-title="Written is not the same as reachable" data-notes="The failure this slide names is the commonest one in mature organisations: the fact was written down, correctly, three years ago, and it is still unreachable. Three ways a fact reaches the agent, and they have wildly different costs. Always-loaded is the instruction files - reliable, and the reason that budget is small. Loaded on demand is a named file the agent decides to open, and it only works if the name tells it what is inside; this is the tier most knowledge lives in and the tier most often broken. Found by search is the weakest and the most common assumption - it depends on the agent guessing the right query, and a document titled Q3 Platform Update containing your retry policy will never be found by anything. The Confluence line is worth saying out loud because it is the honest diagnosis for most enterprises: the knowledge exists, it is accurate, and it is in a system the agent cannot reach, indexed by a title nobody would search for. Moving it into the repository is not tidying - it is the difference between written and reachable." data-tier="K">
+  <h2>Written is not the same as reachable<span class="tag k">4</span></h2>
+  <div class="body g1">
+    <div>
+      <svg viewBox="0 0 1180 448" role="img" aria-label="Three tiers by which a fact reaches the agent, with their reliability and failure modes">
+        <text class="lb" x="4" y="14">HOW A FACT ACTUALLY REACHES THE AGENT &mdash; THREE TIERS, VERY DIFFERENT RELIABILITY</text>
+
+        <rect class="bx g" x="4" y="24" width="1172" height="98" rx="8"/>
+        <text class="tt" x="24" y="52" style="font-size:17px">1 &middot; Always loaded</text>
+        <text class="ss" x="24" y="76">Repository and path-scoped</text>
+        <text class="ss" x="24" y="96">instruction files</text>
+        <rect class="bx w" x="340" y="40" width="380" height="66" rx="5"/>
+        <text class="lb g" x="356" y="62">RELIABILITY</text>
+        <text class="ss" x="356" y="84">Certain. It is in the context whether</text>
+        <text class="ss" x="356" y="100">the agent wants it or not.</text>
+        <rect class="bx a" x="740" y="40" width="416" height="66" rx="5"/>
+        <text class="lb a" x="756" y="62">THE CONSTRAINT</text>
+        <text class="ss" x="756" y="84">Costs on every single request, so the budget is</text>
+        <text class="ss" x="756" y="100">tiny. Six bullets, not six pages.</text>
+
+        <rect class="bx a" x="4" y="132" width="1172" height="98" rx="8"/>
+        <text class="tt" x="24" y="160" style="font-size:17px">2 &middot; Loaded on demand</text>
+        <text class="ss" x="24" y="184">A named file the agent chooses</text>
+        <text class="ss" x="24" y="204">to open. Most knowledge lives here.</text>
+        <rect class="bx w" x="340" y="148" width="380" height="66" rx="5"/>
+        <text class="lb a" x="356" y="170">RELIABILITY</text>
+        <text class="ss" x="356" y="192">Good &mdash; <tspan font-weight="600">if the name says what is inside</tspan>,</text>
+        <text class="ss" x="356" y="208">and something points at it.</text>
+        <rect class="bx r" x="740" y="148" width="416" height="66" rx="5"/>
+        <text class="lb r" x="756" y="170">THE FAILURE MODE &mdash; THE COMMON ONE</text>
+        <text class="ss" x="756" y="192">Perfect content, unopenable name. Nothing links</text>
+        <text class="ss" x="756" y="208">to it. It may as well not exist.</text>
+
+        <rect class="bx r" x="4" y="240" width="1172" height="98" rx="8"/>
+        <text class="tt" x="24" y="268" style="font-size:17px">3 &middot; Found by search</text>
+        <text class="ss" x="24" y="292">The agent guesses a query and</text>
+        <text class="ss" x="24" y="312">hopes. The weakest tier.</text>
+        <rect class="bx w" x="340" y="256" width="380" height="66" rx="5"/>
+        <text class="lb r" x="356" y="278">RELIABILITY</text>
+        <text class="ss" x="356" y="300">Poor, and unpredictable. Do not design</text>
+        <text class="ss" x="356" y="316">a knowledge base that depends on it.</text>
+        <rect class="bx r" x="740" y="256" width="416" height="66" rx="5"/>
+        <text class="lb r" x="756" y="278">WHY IT FAILS</text>
+        <text class="ss" x="756" y="300">It has to guess your vocabulary. A page titled</text>
+        <text class="ss" x="756" y="316">&ldquo;Q3 Platform Update&rdquo; is found by no query ever.</text>
+
+        <rect class="bx d" x="4" y="352" width="1172" height="96" rx="8"/>
+        <text class="lb w" x="24" y="376">THE HONEST DIAGNOSIS FOR MOST ENTERPRISES</text>
+        <text class="ss w" x="24" y="404" style="font-size:14.5px">The knowledge exists. It is accurate. It is in a wiki the agent cannot reach, under a title nobody would search for, last edited by someone</text>
+        <text class="ss w" x="24" y="430" style="font-size:14.5px">who has left. Moving it into the repository is not tidying up &mdash; it is <tspan font-weight="700" fill="#fbbf24">the difference between written and reachable.</tspan></text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 14 -->
+<section class="slide" data-sec="4 &middot; Structuring for retrieval" data-title="Three structures that make knowledge findable" data-notes="Three structures, all cheap, and all present in the repository they will use. The module map is the highest-leverage single artifact after the instructions file, because it converts an expensive search into a lookup - and note the last column, the dependency rule, which is the part that stops the agent proposing a change that violates the layering. The index is the humblest idea here and the most neglected: a README in the ADR directory that lists what each decision is, so the agent can tell from one file open whether any of them are relevant. Without it, four ADRs means four opens to find out that none apply. And naming: the filename is the only metadata the agent has before it opens anything, so ADR-007-duplicate-suppression tells it what is inside and decisions-v2-final does not. Put the practical instruction plainly - name files for the question they answer, not for the meeting that produced them." data-tier="R" data-after="lab">
+  <h2>Three cheap structures that turn writing into finding<span class="tag k">4</span></h2>
+  <div class="body g55">
+    <div class="pts">
+      <h3>1 &middot; The module map</h3>
+      <ul>
+        <li>Converts an <b>expensive search</b> into a lookup. Highest leverage artifact after the instructions file.</li>
+        <li>The column that earns its place is the last one &mdash; <b>what may depend on what</b>. That is what stops the agent proposing a change that violates the layering.</li>
+      </ul>
+      <h3>2 &middot; The index</h3>
+      <ul>
+        <li>The humblest idea here and the most neglected. Without <code>docs/adr/README.md</code>, four ADRs means <b>four file opens</b> to learn that none of them apply.</li>
+      </ul>
+      <h3>3 &middot; Navigable naming</h3>
+      <ul>
+        <li>The filename is the <b>only metadata the agent has before it opens anything</b>.</li>
+        <li><code>ADR-007-duplicate-suppression.md</code> says what is inside. <code>decisions-v2-final.md</code> says nothing.</li>
+      </ul>
+      <div class="take"><b>Name files for the question they answer</b> &mdash; not for the meeting, the quarter, or the person who wrote them.</div>
+    </div>
+    <div>
+      <svg viewBox="0 0 660 442" role="img" aria-label="The example module map and ADR index as worked examples of retrieval structure">
+        <text class="lb" x="4" y="14">docs/architecture.md &mdash; THE MODULE MAP</text>
+        <rect class="bx" x="4" y="24" width="652" height="192" rx="8"/>
+        <rect class="bx d" x="20" y="38" width="620" height="26" rx="4"/>
+        <text class="lb w" x="34" y="56">PACKAGE</text>
+        <text class="lb w" x="200" y="56">HOLDS</text>
+        <text class="lb w" x="470" y="56">MAY DEPEND ON</text>
+        <rect class="bx w grow" x="20" y="68" width="620" height="28" rx="3"/>
+        <text class="ss" x="34" y="87" style="font-weight:600">api</text>
+        <text class="ss" x="200" y="87">controllers, DTOs, the advice</text>
+        <text class="ss" x="470" y="87">service, domain</text>
+        <rect class="bx w grow w2" x="20" y="100" width="620" height="28" rx="3"/>
+        <text class="ss" x="34" y="119" style="font-weight:600">service</text>
+        <text class="ss" x="200" y="119">rules, exceptions, transactions</text>
+        <text class="ss" x="470" y="119">domain, repository</text>
+        <rect class="bx w grow w3" x="20" y="132" width="620" height="28" rx="3"/>
+        <text class="ss" x="34" y="151" style="font-weight:600">domain</text>
+        <text class="ss" x="200" y="151">JPA entities and enums</text>
+        <text class="ss" x="470" y="151" style="font-weight:600;fill:#047857">nothing</text>
+        <rect class="bx w grow w4" x="20" y="164" width="620" height="28" rx="3"/>
+        <text class="ss" x="34" y="183" style="font-weight:600">repository</text>
+        <text class="ss" x="200" y="183">Spring Data interfaces only</text>
+        <text class="ss" x="470" y="183">domain</text>
+        <text class="ss" x="20" y="210" style="font-weight:600;fill:#0f766e">&ldquo;Dependencies point inward only. A controller never touches a repository.&rdquo;</text>
+
+        <text class="lb" x="4" y="244">docs/adr/README.md &mdash; THE INDEX</text>
+        <rect class="bx a" x="4" y="254" width="652" height="122" rx="8"/>
+        <text class="ss" x="24" y="278">ADR-003 &nbsp; Amounts are <tspan font-weight="600">long</tspan> minor units</text>
+        <text class="ss" x="24" y="300">ADR-005 &nbsp; Lombok removed and not to be reintroduced</text>
+        <text class="ss" x="24" y="322">ADR-007 &nbsp; Duplicate suppression keys on client reference + value date</text>
+        <text class="ss" x="24" y="344">ADR-009 &nbsp; Posting contract changes are versioned and sequenced</text>
+        <text class="ss" x="24" y="368" style="font-style:italic">One open tells the agent whether any of the four are relevant.</text>
+
+        <rect class="bx g" x="4" y="386" width="320" height="56" rx="7"/>
+        <text class="lb g" x="20" y="408">FINDABLE</text>
+        <text class="ss" x="20" y="430">ADR-007-duplicate-suppression.md</text>
+        <rect class="bx r" x="336" y="386" width="320" height="56" rx="7"/>
+        <text class="lb r" x="352" y="408">NOT FINDABLE</text>
+        <text class="ss" x="352" y="430">decisions-v2-final.md</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 15 -->
+<section class="slide" data-sec="5 &middot; Keeping it current" data-title="Knowledge is code, or it rots" data-notes="The framing sentence is the one to land: knowledge that is not owned, reviewed and tested is not an asset, it is a liability with a deceptive first month. Walk the decay curve - it is the honest shape and everyone recognises it. Week one the knowledge base is perfect because someone just wrote it. Then the code moves and the docs do not, and the gap opens quietly; nothing fails, nothing alerts, and the first symptom is an agent confidently doing something the team stopped doing two quarters ago. The four mechanisms on the right are ordered by how much they actually buy. Ownership first, because an unowned file is nobody's job and the review cadence will not happen; and name a person, not a team, because a team is nobody. The same-PR rule is second and it is the highest-return single practice in the module - it is the only one that makes the knowledge move at the same speed as the code, rather than on a cadence that always loses. Cadence and automated checks are useful but they are catching what the same-PR rule missed." data-tier="R">
+  <h2>Knowledge is code &mdash; owned, reviewed, and tested, or it rots<span class="tag k">5</span></h2>
+  <div class="body g64">
+    <div>
+      <svg viewBox="0 0 700 446" role="img" aria-label="Decay curve of knowledge accuracy over time with the four mechanisms that arrest it">
+        <line x1="58" y1="20" x2="58" y2="212" stroke="#94b8b3" stroke-width="2"/>
+        <line x1="58" y1="212" x2="672" y2="212" stroke="#94b8b3" stroke-width="2"/>
+        <text class="lb" x="4" y="32">ACCURACY</text>
+        <text class="lb" x="66" y="232">WEEK 1</text>
+        <text class="lb" x="300" y="232">MONTH 3</text>
+        <text class="lb" x="560" y="232">MONTH 12</text>
+
+        <path d="M58 36 C160 40 250 74 340 120 C430 166 530 190 668 200"
+              fill="none" stroke="#dc2626" stroke-width="3"/>
+        <path d="M58 36 C160 40 250 74 340 120 C430 166 530 190 668 200 L668 212 L58 212 Z"
+              fill="#dc2626" opacity="0.07"/>
+        <path d="M58 36 L668 44" fill="none" stroke="#059669" stroke-width="2.5" class="dash"/>
+        <text class="lb g" x="470" y="38">WITH THE MECHANISMS &rarr;</text>
+
+        <rect class="bx g" x="76" y="52" width="150" height="40" rx="5"/>
+        <text class="ss" x="90" y="70" style="font-weight:600;fill:#047857">Week one: perfect</text>
+        <text class="ss" x="90" y="86">someone just wrote it</text>
+
+        <rect class="bx r" x="330" y="130" width="230" height="58" rx="5"/>
+        <text class="ss" x="344" y="150" style="font-weight:600;fill:#dc2626">The gap opens quietly</text>
+        <text class="ss" x="344" y="168">Code moves, docs do not. Nothing</text>
+        <text class="ss" x="344" y="184">fails. Nothing alerts.</text>
+
+        <text class="lb r" x="4" y="266">THE FIRST SYMPTOM, AND IT ARRIVES LATE</text>
+        <rect class="bx r" x="4" y="276" width="692" height="52" rx="8"/>
+        <text class="ss" x="24" y="300">An agent confidently doing something the team stopped doing two quarters ago &mdash;</text>
+        <text class="ss" x="24" y="320">and a reviewer who has to be senior enough to know that.</text>
+
+        <text class="lb g" x="4" y="352">THE FOUR MECHANISMS, IN ORDER OF WHAT THEY BUY</text>
+        <rect class="bx g" x="4" y="362" width="692" height="84" rx="8"/>
+        <rect class="bx w rise" x="20" y="376" width="160" height="58" rx="5"/>
+        <text class="tt" x="34" y="396" style="font-size:13px">1 &middot; Ownership</text>
+        <text class="ss" x="34" y="414">A <tspan font-weight="600">person</tspan>, not a team.</text>
+        <text class="ss" x="34" y="430">A team is nobody.</text>
+        <rect class="bx w rise r2" x="188" y="376" width="176" height="58" rx="5"/>
+        <text class="tt" x="202" y="396" style="font-size:13px">2 &middot; The same-PR rule</text>
+        <text class="ss" x="202" y="414">Highest return in the</text>
+        <text class="ss" x="202" y="430">module. Next slide.</text>
+        <rect class="bx w rise r3" x="372" y="376" width="152" height="58" rx="5"/>
+        <text class="tt" x="386" y="396" style="font-size:13px">3 &middot; Review cadence</text>
+        <text class="ss" x="386" y="414">Catches what the</text>
+        <text class="ss" x="386" y="430">same-PR rule missed.</text>
+        <rect class="bx w rise r4" x="532" y="376" width="148" height="58" rx="5"/>
+        <text class="tt" x="546" y="396" style="font-size:13px">4 &middot; CI drift checks</text>
+        <text class="ss" x="546" y="414">The backstop that</text>
+        <text class="ss" x="546" y="430">never gets bored.</text>
+      </svg>
+    </div>
+    <div class="pts">
+      <h3>The sentence to take away</h3>
+      <ul>
+        <li>Knowledge that is not owned, reviewed and tested is not an asset. It is a <b>liability with a deceptive first month</b>.</li>
+      </ul>
+      <h3>Ownership, specifically</h3>
+      <ul>
+        <li>Name a <b>person</b> per artifact, in the file. A team is nobody, and &ldquo;the team owns it&rdquo; is how a file reaches month twelve unread.</li>
+        <li>Put the owner and the last review date <em>in the document</em>, where the next reader &mdash; human or agent &mdash; can see how much to trust it.</li>
+      </ul>
+      <h3>Why decay is silent</h3>
+      <ul>
+        <li>Nothing fails when a document goes stale. No test breaks, no alert fires. That is precisely why it needs a <b>mechanism rather than good intentions</b>.</li>
+      </ul>
+      <div class="callout bad">If your answer to &ldquo;how do you keep it current&rdquo; is <b>&ldquo;people update it&rdquo;</b>, you have described the failure, not the mechanism.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 16 -->
+<section class="slide" data-sec="5 &middot; Keeping it current" data-title="The same-PR rule, and checks a machine can run" data-notes="Two mechanisms, and the first is worth more than everything else in this module put together. The same-PR rule says the knowledge changes in the pull request that invalidates it - not in a follow-up ticket, not in a documentation sprint, not next quarter. The reason it works where cadence fails is that it is the only moment when the person changing the code still knows what changed and why; a week later that context is gone and the update becomes archaeology. Make it a review question, so it costs a reviewer one sentence: does this change make anything in docs wrong? Then the CI checks, and be concrete because people assume drift detection is impossible. It is not - it is just narrow. A machine cannot tell you whether a paragraph is still true, but it can tell you that a path named in the architecture document no longer exists, that an ADR referenced by an instruction file was deleted, that an instruction file has grown past its budget, or - the Global Bank one - that Lombok has appeared in the POM despite ADR-005 saying it never will. That last check is the shape to aim for: a decision recorded in prose, enforced by a test." data-tier="K">
+  <h2>The same-PR rule &mdash; and drift checks a machine can actually run<span class="tag k">5</span></h2>
+  <div class="body g1">
+    <div>
+      <svg viewBox="0 0 1180 452" role="img" aria-label="The same-PR rule compared with deferred documentation, and five CI checks that detect drift">
+        <rect class="bx g" x="4" y="6" width="576" height="182" rx="8"/>
+        <text class="lb g" x="24" y="30">THE SAME-PR RULE &mdash; WORTH MORE THAN THE REST OF THIS MODULE</text>
+        <text class="tt" x="24" y="58" style="font-size:16px">Knowledge changes in the pull request that invalidates it.</text>
+        <text class="ss" x="24" y="84">Not a follow-up ticket. Not a documentation sprint. Not next quarter.</text>
+        <rect class="bx w" x="24" y="98" width="536" height="76" rx="5"/>
+        <text class="lb g" x="40" y="120">WHY IT WORKS WHERE CADENCE FAILS</text>
+        <text class="ss" x="40" y="142">It is the <tspan font-weight="600">only moment</tspan> when the person changing the code still knows</text>
+        <text class="ss" x="40" y="162">what changed and why. A week later the update is archaeology.</text>
+
+        <rect class="bx r" x="600" y="6" width="576" height="164" rx="8"/>
+        <text class="lb r" x="620" y="30">THE ALTERNATIVE, HONESTLY DESCRIBED</text>
+        <text class="tt" x="620" y="58" style="font-size:16px">&ldquo;We&rsquo;ll update the docs afterwards.&rdquo;</text>
+        <text class="ss" x="620" y="84">The ticket is created. It is real. It is also never the most important</text>
+        <text class="ss" x="620" y="104">thing in any subsequent sprint, and it never will be.</text>
+        <rect class="bx w" x="620" y="118" width="536" height="40" rx="5"/>
+        <text class="ss" x="636" y="144" style="font-weight:600;fill:#dc2626">Make it a review question instead &mdash; it costs a reviewer one sentence:</text>
+
+        <rect class="bx d" x="600" y="176" width="576" height="34" rx="6"/>
+        <text class="tt w" x="888" y="199" text-anchor="middle" style="font-size:14.5px">&ldquo;Does this change make anything in <tspan fill="#fbbf24">docs/</tspan> wrong?&rdquo;</text>
+
+        <text class="lb" x="4" y="208">DRIFT IS NARROW, NOT IMPOSSIBLE &mdash; FIVE CHECKS CI CAN RUN TODAY</text>
+        <rect class="bx" x="4" y="222" width="1172" height="164" rx="8"/>
+
+        <rect class="bx w grow" x="24" y="238" width="1132" height="26" rx="4"/>
+        <text class="ss" x="40" y="256"><tspan font-weight="600">1 &middot; Every path named in docs/ exists.</tspan> &nbsp; Catches the module map that survived a refactor. Cheap, and the most frequently triggered.</text>
+        <rect class="bx w grow w2" x="24" y="268" width="1132" height="26" rx="4"/>
+        <text class="ss" x="40" y="286"><tspan font-weight="600">2 &middot; Every ADR referenced by an instruction file exists and is not superseded.</tspan> &nbsp; Catches the dangling pointer.</text>
+        <rect class="bx w grow w3" x="24" y="298" width="1132" height="26" rx="4"/>
+        <text class="ss" x="40" y="316"><tspan font-weight="600">3 &middot; Instruction files stay under their size budget.</tspan> &nbsp; A hard cap is the only thing that reliably stops bloat, because every addition looks reasonable.</text>
+        <rect class="bx r grow w4" x="24" y="328" width="1132" height="26" rx="4"/>
+        <text class="ss" x="40" y="346"><tspan font-weight="600">4 &middot; Prohibitions are enforced as tests.</tspan> &nbsp; ADR-005 says no Lombok &mdash; so <tspan font-weight="600" fill="#dc2626">fail the build if org.projectlombok appears in the POM.</tspan></text>
+        <rect class="bx w grow w5" x="24" y="358" width="1132" height="26" rx="4"/>
+        <text class="ss" x="40" y="376"><tspan font-weight="600">5 &middot; Source changed, docs did not &mdash; warn, do not fail.</tspan> &nbsp; A nudge on the PR. Failing here trains people to write meaningless doc edits.</text>
+
+        <rect class="bx d" x="4" y="398" width="1172" height="54" rx="8"/>
+        <text class="ss w" x="590" y="422" text-anchor="middle" style="font-size:14.5px">A machine cannot tell you whether a paragraph is still <tspan font-style="italic">true</tspan>. It can tell you the file it names is gone.</text>
+        <text class="ss w" x="590" y="444" text-anchor="middle" style="font-size:14.5px">Check 4 is the shape to aim for: <tspan font-weight="700" fill="#fbbf24">a decision recorded in prose, enforced by a test.</tspan></text>
+      </svg>
+    </div>
+  </div>
+</section>
+<!-- 17 -->
+<section class="slide" data-sec="6 &middot; What must never be written down" data-title="The most-read file is the worst place for a secret" data-notes="This section inverts the whole module and that inversion is the point: everything so far has been an argument for writing more down, and this is where it stops. Start with the counter-intuitive framing rather than the list, because the list is obvious and the framing is not. The instruction file is the most-read file in the repository - it enters the context of every single request from every engineer, forever. That property is exactly what makes it valuable, and exactly what makes it the worst possible place to put a credential. The value and the risk come from the same property. Then the four categories, and note that two of them are not secrets in the classic sense: client data and personal data are the ones people leak by accident, usually by pasting a real example into a document to make it concrete. The rule at the bottom is the practical one - write down where the value lives, never the value, and a pointer to a vault path is more useful to the agent anyway because it tells it what to do rather than giving it something to copy." data-tier="K">
+  <h2>The most-read file in the repository is the worst place for a secret<span class="tag k">6</span></h2>
+  <div class="body g64">
+    <div>
+      <svg viewBox="0 0 700 446" role="img" aria-label="Why instruction files are uniquely dangerous for secrets, and the four categories that must never be written down">
+        <rect class="bx d" x="4" y="4" width="692" height="92" rx="8"/>
+        <text class="lb w" x="24" y="28">THE INVERSION</text>
+        <text class="ss w" x="24" y="54" style="font-size:14px">The instruction file enters the context of <tspan font-weight="700" fill="#fbbf24">every request, from every</tspan></text>
+        <text class="ss w" x="24" y="74" style="font-size:14px"><tspan font-weight="700" fill="#fbbf24">engineer, forever.</tspan> That property is what makes it valuable &mdash; and it is</text>
+        <text class="ss w" x="24" y="92" style="font-size:14px">the same property that makes it catastrophic to put a credential in.</text>
+
+        <text class="lb r" x="4" y="122">NEVER WRITTEN DOWN &mdash; FOUR CATEGORIES</text>
+
+        <rect class="bx r" x="4" y="132" width="340" height="86" rx="7"/>
+        <text class="tt" x="22" y="156">1 &middot; Secrets and credentials</text>
+        <text class="ss" x="22" y="178">API keys, tokens, connection strings,</text>
+        <text class="ss" x="22" y="196">certificates, anything from the vault</text>
+        <text class="ss" x="22" y="212" style="font-style:italic">The obvious one. Rarely the leak.</text>
+
+        <rect class="bx r" x="356" y="132" width="340" height="86" rx="7"/>
+        <text class="tt" x="374" y="156">2 &middot; Client data</text>
+        <text class="ss" x="374" y="178">Real account numbers, real names,</text>
+        <text class="ss" x="374" y="196">real balances, real transactions</text>
+        <text class="ss" x="374" y="212" style="font-weight:600;fill:#dc2626">Leaked by making an example concrete.</text>
+
+        <rect class="bx r" x="4" y="226" width="340" height="86" rx="7"/>
+        <text class="tt" x="22" y="250">3 &middot; Personal data</text>
+        <text class="ss" x="22" y="272">Staff or customer identifiers in a</text>
+        <text class="ss" x="22" y="290">sample payload or a debugging note</text>
+        <text class="ss" x="22" y="306" style="font-weight:600;fill:#dc2626">The other accidental one.</text>
+
+        <rect class="bx r" x="356" y="226" width="340" height="86" rx="7"/>
+        <text class="tt" x="374" y="250">4 &middot; Material non-public information</text>
+        <text class="ss" x="374" y="272">Unannounced deals, positions,</text>
+        <text class="ss" x="374" y="290">anything with a disclosure obligation</text>
+        <text class="ss" x="374" y="306" style="font-style:italic">Rarely considered. Highest consequence.</text>
+
+        <text class="lb g" x="4" y="340">WHAT TO WRITE INSTEAD</text>
+        <rect class="bx g" x="4" y="350" width="692" height="96" rx="8"/>
+        <rect class="bx r" x="24" y="366" width="316" height="62" rx="5"/>
+        <text class="lb r" x="40" y="388">NEVER</text>
+        <text class="ss" x="40" y="410">&ldquo;The posting API key is</text>
+        <text class="ss" x="40" y="426">sk-live-4f8a...&rdquo;</text>
+        <path class="arg" d="M348 396 L372 396"/>
+        <rect class="bx g" x="380" y="366" width="296" height="62" rx="5"/>
+        <text class="lb g" x="396" y="388">ALWAYS</text>
+        <text class="ss" x="396" y="410">&ldquo;Credentials come from the</text>
+        <text class="ss" x="396" y="426">platform vault at <tspan font-weight="600">secret/global-bank</tspan>&rdquo;</text>
+      </svg>
+    </div>
+    <div class="pts">
+      <h3>Why the pointer is genuinely better</h3>
+      <ul>
+        <li>It tells the agent <b>what to do</b> &mdash; resolve it from the vault &mdash; rather than handing it something to copy into code.</li>
+        <li>It stays true when the credential rotates. The value would not.</li>
+      </ul>
+      <h3>The two that actually leak</h3>
+      <ul>
+        <li>Not keys. <b>Client and personal data</b>, pasted into a document to make an example concrete &mdash; a real account number in a sample request, a real name in a debugging note.</li>
+        <li>Synthetic examples cost nothing and read identically. The examples&rsquo; accounts are all <code>ACC-CLIENT-001</code> for exactly this reason.</li>
+      </ul>
+      <div class="callout bad">The test before you commit: <b>&ldquo;would I be comfortable if this line appeared in a pull request description, a log, and a colleague&rsquo;s session?&rdquo;</b> Because it will.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 18 -->
+<section class="slide" data-sec="6 &middot; What must never be written down" data-title="Where it actually goes" data-notes="This is the slide that makes the previous one land, because people underestimate the blast radius by roughly an order of magnitude. Follow one line from an instruction file across the diagram. It goes into the context of every request, so it reaches the model provider; it lands in the session transcript, which may be retained; it flows into anything the agent generates, including the pull request description and the commit message it writes for you; it is in the repository, so it is in every teammate's context automatically, without anyone deciding to share it; and it is in git history, which means deleting the file does not remove it. That last one is the one people get wrong most often - a secret committed and then deleted in the next commit is still a leaked secret and still needs rotating. Then the point about scope: an ordinary hard-coded secret in a source file is read by whoever opens that file. A secret in an instruction file is read on every request by everyone, forever. Same class of mistake, very different blast radius. Close on the practical instruction: rotate, do not just delete." data-tier="R">
+  <h2>Where a line in an instruction file actually goes<span class="tag k">6</span></h2>
+  <div class="body g1">
+    <div>
+      <svg viewBox="0 0 1180 448" role="img" aria-label="Six destinations a line in an instruction file reaches, and the git history that outlives deletion">
+        <rect class="bx d" x="440" y="6" width="300" height="62" rx="8"/>
+        <text class="tt w" x="590" y="34" text-anchor="middle" style="font-size:16px">One line in</text>
+        <text class="tt w" x="590" y="56" text-anchor="middle" style="font-size:16px">copilot-instructions.md</text>
+
+        <path class="arr" d="M480 72 L200 116"/>
+        <path class="arr" d="M540 72 L440 116"/>
+        <path class="arr" d="M600 72 L680 116"/>
+        <path class="arr" d="M660 72 L920 116"/>
+
+        <rect class="bx r" x="4" y="122" width="284" height="112" rx="7"/>
+        <text class="lb r" x="22" y="146">THE MODEL PROVIDER</text>
+        <text class="ss" x="22" y="172">In the context of every request,</text>
+        <text class="ss" x="22" y="192">from every engineer, forever.</text>
+        <text class="ss" x="22" y="218" style="font-style:italic">You cannot un-send it.</text>
+
+        <rect class="bx r" x="300" y="122" width="284" height="112" rx="7"/>
+        <text class="lb r" x="318" y="146">SESSION TRANSCRIPTS</text>
+        <text class="ss" x="318" y="172">Retained according to a policy</text>
+        <text class="ss" x="318" y="192">you probably have not read.</text>
+        <text class="ss" x="318" y="218" style="font-style:italic">Outside your control.</text>
+
+        <rect class="bx r" x="596" y="122" width="284" height="112" rx="7"/>
+        <text class="lb r" x="614" y="146">WHAT THE AGENT WRITES</text>
+        <text class="ss" x="614" y="172">PR descriptions, commit messages,</text>
+        <text class="ss" x="614" y="192">code comments, the Confluence</text>
+        <text class="ss" x="614" y="212">page it updates in Module 8.</text>
+        <text class="ss" x="614" y="230" style="font-style:italic">It repeats what it was given.</text>
+
+        <rect class="bx r" x="892" y="122" width="284" height="112" rx="7"/>
+        <text class="lb r" x="910" y="146">EVERY TEAMMATE&rsquo;S SESSION</text>
+        <text class="ss" x="910" y="172">It is in the repository, so it is in</text>
+        <text class="ss" x="910" y="192">their context automatically &mdash;</text>
+        <text class="ss" x="910" y="212">nobody decided to share it.</text>
+        <text class="ss" x="910" y="230" style="font-style:italic">Distribution is the default.</text>
+
+        <path class="arr" d="M590 240 L590 268"/>
+        <rect class="bx d" x="240" y="272" width="700" height="76" rx="8"/>
+        <text class="lb w" x="264" y="296">AND THE ONE PEOPLE GET WRONG</text>
+        <text class="ss w" x="264" y="322" style="font-size:14.5px">It is in <tspan font-weight="700" fill="#fbbf24">git history.</tspan> Deleting the file in the next commit does not remove it.</text>
+        <text class="ss w" x="264" y="342" style="font-size:14.5px">A secret committed and then deleted is still a leaked secret. <tspan font-weight="700">Rotate it &mdash; do not just delete it.</tspan></text>
+
+        <rect class="bx a" x="4" y="362" width="576" height="86" rx="8"/>
+        <text class="lb a" x="24" y="386">THE SCOPE DIFFERENCE, STATED PLAINLY</text>
+        <text class="ss" x="24" y="410">A hard-coded secret in a source file is read by whoever opens that file.</text>
+        <text class="ss" x="24" y="432">A secret in an instruction file is read <tspan font-weight="600">on every request, by everyone.</tspan></text>
+
+        <rect class="bx g" x="600" y="362" width="576" height="86" rx="8"/>
+        <text class="lb g" x="620" y="386">THE HABIT THAT PREVENTS ALL OF IT</text>
+        <text class="ss" x="620" y="410">Treat <tspan font-weight="600">docs/ and .github/ as published</tspan>, not as internal notes. Review</text>
+        <text class="ss" x="620" y="432">them the way you would review a public README &mdash; because functionally, that is what they are.</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 19 -->
+<section class="slide" data-sec="Close" data-title="What Module 2 hands forward" data-notes="Close by converting the module into a small number of obligations and then pointing at the board. The left column is what they now owe every time they write something down - and the framing is that this is a smaller ask than it sounds, because half of it is permission to write less. The right diagram is the payoff and the honest bit: they are about to re-run the Lab 1.1 ticket against the instrumented repository, and the row gets filled in with whatever actually happens. Say explicitly that the interesting outcome is not a big number, it is understanding which of the six categories from Module 1 the delta came from - if turns dropped but clarifying questions did not, the instructions are working and the glossary is not. That diagnosis is more useful to them next week than the headline figure. And leave the last line hanging into Module 3: the repository now tells the agent what is true, and the next module is about how you ask." data-tier="R">
+  <h2>What Module 2 hands forward<span class="tag">M2</span></h2>
+  <div class="body g55">
+    <div class="pts">
+      <h3>What you now owe, every time</h3>
+      <ul>
+        <li><b>Route it to one layer.</b> Org, repository, path or task &mdash; and only one, or the copies will disagree within a quarter.</li>
+        <li><b>Justify writing it at all.</b> Unreachable, or expensive to infer. Otherwise let the agent read the code.</li>
+        <li><b>Make it findable.</b> A name that says what is inside, and something that points at it.</li>
+        <li><b>Give it an owner and a check.</b> Unowned knowledge has a first month, not a lifetime.</li>
+      </ul>
+      <div class="callout">Half of this is permission to write <em>less</em>. The shortest instruction file that carries the non-negotiables beats the thorough one nobody trusts.</div>
+      <div class="take"><b>Into Module 3:</b> the repository now tells the agent what is <em>true</em>. The next module is about how you <em>ask</em> &mdash; and what stops it inventing when the answer is not there.</div>
+    </div>
+    <div>
+      <svg viewBox="0 0 700 448" role="img" aria-label="The tally sheet row filled in after Module 2, and how to read the delta by category">
+        <text class="lb a" x="4" y="14">THE ROW YOU FILL IN NEXT &mdash; MATCHED TICKET, INSTRUMENTED REPO</text>
+        <rect class="bx" x="4" y="24" width="692" height="130" rx="8"/>
+        <line x1="20" y1="66" x2="680" y2="66" stroke="#bfe3de" stroke-width="1.5"/>
+        <text class="lb" x="20" y="48">RUN</text>
+        <text class="lb" x="290" y="48">TURNS</text>
+        <text class="lb" x="376" y="48">TOOL</text>
+        <text class="lb" x="452" y="48">ASKED</text>
+        <text class="lb" x="536" y="48">REWORK</text>
+        <text class="lb" x="628" y="48">CLOCK</text>
+        <rect class="bx a" x="16" y="74" width="668" height="32" rx="4"/>
+        <text class="tt" x="28" y="95" style="font-size:13px">1.1 &mdash; naked repo</text>
+        <text class="ss" x="300" y="95" style="font-weight:700;fill:#b45309">on the board</text>
+        <rect class="bx g" x="16" y="112" width="668" height="34" rx="4"/>
+        <text class="tt" x="28" y="134" style="font-size:13px">after Module 2 &mdash; knowledge in the repo</text>
+        <text class="ss" x="306" y="134" style="font-weight:700;fill:#047857">?</text>
+        <text class="ss" x="390" y="134" style="font-weight:700;fill:#047857">?</text>
+        <text class="ss" x="470" y="134" style="font-weight:700;fill:#047857">?</text>
+        <text class="ss" x="560" y="134" style="font-weight:700;fill:#047857">?</text>
+        <text class="ss" x="640" y="134" style="font-weight:700;fill:#047857">?</text>
+
+        <text class="lb" x="4" y="180">READ THE DELTA BY CATEGORY &mdash; MORE USEFUL THAN THE HEADLINE NUMBER</text>
+        <rect class="bx" x="4" y="190" width="692" height="150" rx="8"/>
+        <rect class="bx w grow" x="20" y="204" width="660" height="40" rx="5"/>
+        <text class="ss" x="34" y="222" style="font-weight:600">Tool calls fell, clarifying questions did not</text>
+        <text class="ss" x="34" y="238">&rarr; the map is working, the <tspan font-weight="600">glossary and ADRs are not being read</tspan></text>
+        <rect class="bx w grow w2" x="20" y="250" width="660" height="40" rx="5"/>
+        <text class="ss" x="34" y="268" style="font-weight:600">Rework fell most</text>
+        <text class="ss" x="34" y="284">&rarr; you removed <tspan font-weight="600">guessing</tspan>, not searching. That is the ADRs earning their keep.</text>
+        <rect class="bx w grow w3" x="20" y="296" width="660" height="40" rx="5"/>
+        <text class="ss" x="34" y="314" style="font-weight:600">Almost nothing moved</text>
+        <text class="ss" x="34" y="330">&rarr; the knowledge is unreachable, not absent. Go back to slide 12.</text>
+
+        <rect class="bx d" x="4" y="352" width="692" height="96" rx="8"/>
+        <text class="lb w" x="24" y="376">THE POINT OF MEASURING BY CATEGORY</text>
+        <text class="ss w" x="24" y="402" style="font-size:14px">The headline figure is what you report. <tspan font-weight="700" fill="#fbbf24">Which category moved</tspan> is what tells you</text>
+        <text class="ss w" x="24" y="424" style="font-size:14px">what to write next week &mdash; and that is the part you take back to your own repository,</text>
+        <text class="ss w" x="24" y="442" style="font-size:14px">where the ticket, the code and the gaps are all different.</text>
+      </svg>
+    </div>
+  </div>
+</section>
+<!-- 20 -->
+<section class="slide" data-sec="Review quiz" data-title="Quiz — how to run it" data-notes="Same format as Module 1: question, then answer, show of hands before advancing. This set is weighted towards the second half of the module - restraint, retrieval and maintenance - because that is the half teams skip and the half that decides whether any of this survives to month six. If you are short of time, questions 2, 4 and 6 are the three to keep: the rejected option, why a stale file is worse than none, and the same-PR rule. Those three carry the module." data-tier="R">
+  <h2>Review quiz &mdash; eight questions<span class="tag q">QUIZ</span></h2>
+  <div class="body g55">
+    <div class="pts">
+      <h3>How this runs</h3>
+      <ul>
+        <li>Question on one slide, <b>answer on the next</b>. Four options, exactly one correct.</li>
+        <li>Show of hands on each option <em>before</em> advancing &mdash; the split tells you what to spend the next two minutes on.</li>
+      </ul>
+      <h3>The weighting</h3>
+      <ul>
+        <li>Deliberately loaded towards <b>restraint, retrieval and maintenance</b> &mdash; the half of the module teams skip, and the half that decides whether any of it is still true in month six.</li>
+      </ul>
+      <h3>If time is short</h3>
+      <ul>
+        <li>Ask <b>Q2, Q4 and Q6</b>: the rejected option, why a stale file beats no file for damage, and the same-PR rule.</li>
+      </ul>
+      <div class="callout">Before the lab, this quiz is the last chance to catch someone about to write a beautiful 900-line instructions file.</div>
+    </div>
+    <div>
+      <svg viewBox="0 0 660 420" role="img" aria-label="Map of the eight quiz questions to the six module concepts">
+        <text class="lb p" x="4" y="14">WHAT EACH QUESTION CHECKS</text>
+        <rect class="bx p" x="4" y="24" width="652" height="386" rx="8"/>
+        <rect class="bx w rise" x="22" y="42" width="616" height="42" rx="5"/>
+        <text class="tt" x="38" y="60" style="font-size:13.5px">Q1 &nbsp;&middot;&nbsp; Which layer a fact belongs in</text>
+        <text class="ss" x="38" y="77">concept 1 &mdash; scope, then frequency, then volatility</text>
+        <rect class="bx w rise r2" x="22" y="92" width="616" height="42" rx="5"/>
+        <text class="tt" x="38" y="110" style="font-size:13.5px">Q2 &nbsp;&middot;&nbsp; What an ADR carries that code cannot</text>
+        <text class="ss" x="38" y="127">concept 2 &mdash; the rejected option leaves no trace</text>
+        <rect class="bx w rise r3" x="22" y="142" width="616" height="42" rx="5"/>
+        <text class="tt" x="38" y="160" style="font-size:13.5px">Q3 &nbsp;&middot;&nbsp; Whether to write a fact down at all</text>
+        <text class="ss" x="38" y="177">concept 3 &mdash; inferability against frequency</text>
+        <rect class="bx w rise r4" x="22" y="192" width="616" height="42" rx="5"/>
+        <text class="tt" x="38" y="210" style="font-size:13.5px">Q4 &nbsp;&middot;&nbsp; Why a stale document is worse than none</text>
+        <text class="ss" x="38" y="227">concept 3 &mdash; it terminates the search</text>
+        <rect class="bx w rise r5" x="22" y="242" width="616" height="42" rx="5"/>
+        <text class="tt" x="38" y="260" style="font-size:13.5px">Q5 &nbsp;&middot;&nbsp; Why correct knowledge still fails to arrive</text>
+        <text class="ss" x="38" y="277">concept 4 &mdash; written is not reachable</text>
+        <rect class="bx w rise r6" x="22" y="292" width="616" height="42" rx="5"/>
+        <text class="tt" x="38" y="310" style="font-size:13.5px">Q6 &nbsp;&middot;&nbsp; The mechanism that beats a review cadence</text>
+        <text class="ss" x="38" y="327">concept 5 &mdash; the same-PR rule</text>
+        <rect class="bx w rise r6" x="22" y="342" width="616" height="30" rx="5"/>
+        <text class="tt" x="38" y="362" style="font-size:13.5px">Q7 &nbsp;&middot;&nbsp; What CI can actually check &mdash; concept 5</text>
+        <rect class="bx w rise r6" x="22" y="380" width="616" height="30" rx="5"/>
+        <text class="tt" x="38" y="400" style="font-size:13.5px">Q8 &nbsp;&middot;&nbsp; The blast radius of a leaked line &mdash; concept 6</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 21 -->
+<section class="slide" data-sec="Review quiz" data-title="Q1 — routing a fact" data-notes="Watch for C. It is the answer that sounds most responsible and it is the trap - promoting a local rule to an org standard feels like rigour and it removes your own ability to change it." data-tier="R">
+  <h2>Q1 &middot; Where does this fact belong?<span class="tag q">1 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">&ldquo;In the <code>domain</code> package, entities take every required field in the constructor and expose no setters &mdash; objects are valid on construction.&rdquo; Which layer?</div>
+    <div class="opts">
+      <div class="opt"><span class="k">A</span><span>Repository instructions &mdash; it is a rule about this codebase, and repository-level is where codebase rules go.</span></div>
+      <div class="opt"><span class="k">B</span><span>A path-scoped instruction file on <code>domain/**</code> &mdash; it is true only in one area, so it should cost nothing on requests that never touch it.</span></div>
+      <div class="opt"><span class="k">C</span><span>An org-level standard &mdash; immutability on construction is good practice everywhere, so it should be stated once for every team.</span></div>
+      <div class="opt"><span class="k">D</span><span>Task-scoped &mdash; mention it in the prompt when a ticket happens to touch the domain layer.</span></div>
+    </div>
+    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+  </div></div>
+</section>
+
+<!-- 22 -->
+<section class="slide" data-sec="Review quiz" data-title="Q1 — answer" data-notes="If the room split between A and B, that is the healthy split and worth two minutes: A is not wrong so much as wasteful, and the cost only shows up as instruction files that have quietly grown to three pages. C is the one to name explicitly as a trap." data-tier="R">
+  <h2>Q1 &middot; Answer<span class="tag q">1 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">Where does the domain-layer immutability rule belong?</div>
+    <div class="opts">
+      <div class="opt wrong"><span class="k">A</span><span>Repository instructions.</span></div>
+      <div class="opt right"><span class="k">B</span><span>A path-scoped instruction file on <code>domain/**</code> &mdash; true in one area only, so it costs nothing elsewhere.</span></div>
+      <div class="opt wrong"><span class="k">C</span><span>An org-level standard, since immutability is good practice everywhere.</span></div>
+      <div class="opt wrong"><span class="k">D</span><span>Task-scoped &mdash; mention it in the prompt when relevant.</span></div>
+    </div>
+    <div class="why"><b>B.</b> Test 1 says one repository, so not org. Test 2 says only when one area is touched, so path-scoped rather than repository-wide. It is exactly <code>domain.instructions.md</code> in the example.
+      <span class="no"><b>A</b> is not wrong so much as wasteful &mdash; and the cost is invisible until your instructions file has quietly grown to three pages. <b>C</b> is the trap, because it sounds like rigour: promoting a local rule to an org standard hands it to a group outside your team and <em>removes your own ability to change it</em>. <b>D</b> is the re-discovery tax paid by hand &mdash; you retype it forever, and forget on the request that mattered.</span></div>
+  </div></div>
+</section>
+
+<!-- 23 -->
+<section class="slide" data-sec="Review quiz" data-title="Q2 — what an ADR carries" data-notes="This must land. If the room is not confident on D, go back to the ADR-007 slide - the whole economic argument for maintaining ADRs rests on this distinction." data-tier="R" data-after="lab">
+  <h2>Q2 &middot; What does an ADR carry that reading the code cannot recover?<span class="tag q">2 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">Given enough turns, an agent can work a great deal out from the codebase. What is the one thing it can never recover, at any price?</div>
+    <div class="opts">
+      <div class="opt"><span class="k">A</span><span>The layering rule &mdash; which package may depend on which.</span></div>
+      <div class="opt"><span class="k">B</span><span>The reason the current design is better than the obvious alternative, since the code demonstrates the design working.</span></div>
+      <div class="opt"><span class="k">C</span><span>The domain vocabulary &mdash; what words like &ldquo;posting&rdquo; and &ldquo;duplicate&rdquo; mean in this business.</span></div>
+      <div class="opt"><span class="k">D</span><span>The option that was considered and rejected &mdash; because a rejected option leaves no trace in the codebase at all.</span></div>
+    </div>
+    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+  </div></div>
+</section>
+
+<!-- 24 -->
+<section class="slide" data-sec="Review quiz" data-title="Q2 — answer" data-notes="Drive it home with ADR-007: a competent engineer and a capable agent both reach for the header-based idempotency key, and both are wrong for a reason that is completely invisible from inside the repository. That is not a failure of intelligence, it is missing information - and the only place it can live is an ADR." data-tier="R" data-after="lab">
+  <h2>Q2 &middot; Answer<span class="tag q">2 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">What can reading the code never recover?</div>
+    <div class="opts">
+      <div class="opt wrong"><span class="k">A</span><span>The layering rule.</span></div>
+      <div class="opt wrong"><span class="k">B</span><span>Why the current design beats the obvious alternative.</span></div>
+      <div class="opt wrong"><span class="k">C</span><span>The domain vocabulary.</span></div>
+      <div class="opt right"><span class="k">D</span><span>The option considered and rejected &mdash; it leaves no trace in the codebase, and absence is not readable.</span></div>
+    </div>
+    <div class="why"><b>D.</b> ADR-007 is the case: any competent engineer &mdash; and the agent &mdash; reaches for a header-based idempotency key. It is wrong here because two upstream systems do not propagate headers through their retry path, and <b>nothing inside the repository says so</b>. That is missing information, not missing intelligence.
+      <span class="no"><b>A</b> and <b>C</b> are recoverable but <em>expensive</em> &mdash; worth writing down for speed, which is a different argument. <b>B</b> is the near-miss and the interesting wrong answer: the code shows the design <em>working</em>, but working is not the same as better, and you cannot compare against an alternative that was never built. <em>Writing down the recoverable buys speed. Writing down the rejected buys correctness.</em></span></div>
+  </div></div>
+</section>
+
+<!-- 25 -->
+<section class="slide" data-sec="Review quiz" data-title="Q3 — write it or not" data-notes="A quick one, and the value is in the follow-up question: ask how many of them have a version number written into a document somewhere that is now wrong." data-tier="R" data-after="lab">
+  <h2>Q3 &middot; Which of these should <em>not</em> be written down?<span class="tag q">3 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">Four candidate lines for the Global Bank knowledge base. Which one is bloat?</div>
+    <div class="opts">
+      <div class="opt"><span class="k">A</span><span>&ldquo;We are on Spring Boot 3.5.3 and Java 25.&rdquo;</span></div>
+      <div class="opt"><span class="k">B</span><span>&ldquo;Lombok was removed deliberately in 2025 and must not be reintroduced.&rdquo;</span></div>
+      <div class="opt"><span class="k">C</span><span>&ldquo;A duplicate means the same client reference <em>and</em> the same value date &mdash; not the same amount.&rdquo;</span></div>
+      <div class="opt"><span class="k">D</span><span>&ldquo;Dependencies point inward only; a controller never touches a repository.&rdquo;</span></div>
+    </div>
+    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+  </div></div>
+</section>
+
+<!-- 26 -->
+<section class="slide" data-sec="Review quiz" data-title="Q3 — answer" data-notes="Note that A is not merely low value - it is actively dangerous, because it will be wrong after the next upgrade and then it is in the third category, misleading rather than useless. That is the progression to make explicit: bloat does not stay neutral, it ages into poison." data-tier="R" data-after="lab">
+  <h2>Q3 &middot; Answer<span class="tag q">3 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">Which line is bloat?</div>
+    <div class="opts">
+      <div class="opt right"><span class="k">A</span><span>&ldquo;We are on Spring Boot 3.5.3 and Java 25.&rdquo; &mdash; trivially inferable from <code>pom.xml</code>, and wrong after the next upgrade.</span></div>
+      <div class="opt wrong"><span class="k">B</span><span>Lombok removed deliberately &mdash; a negative constraint.</span></div>
+      <div class="opt wrong"><span class="k">C</span><span>The local meaning of &ldquo;duplicate&rdquo;.</span></div>
+      <div class="opt wrong"><span class="k">D</span><span>The layering rule.</span></div>
+    </div>
+    <div class="why"><b>A.</b> One file open answers it, so writing it down buys nothing &mdash; and it is the <em>pointer</em>, not the value, that belongs in a document: &ldquo;supported versions are in <code>pom.xml</code>&rdquo; stays true forever.
+      <span class="no"><b>B</b> is unreachable &mdash; nothing in a codebase records what was removed. <b>C</b> is domain vocabulary, where confident wrongness is hardest to catch, because a wrong <em>meaning</em> passes review. <b>D</b> is inferable but expensive, spread across many files. <em>And note what happens to A over time: bloat does not stay neutral. After the next upgrade it becomes a stale fact, and stale is the third category &mdash; actively misleading.</em></span></div>
+  </div></div>
+</section>
+
+<!-- 27 -->
+<section class="slide" data-sec="Review quiz" data-title="Q4 — the stale document" data-notes="If anyone picks B, that is worth drawing out - it is true but it is the mild version, and the mechanism in C is what makes the damage disproportionate." data-tier="K">
+  <h2>Q4 &middot; Why is a stale document worse than no document?<span class="tag q">4 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">A document describing a helper deleted last quarter is still in <code>docs/</code>. What is the mechanism that makes this <em>worse</em> than having written nothing?</div>
+    <div class="opts">
+      <div class="opt"><span class="k">A</span><span>It consumes context budget on every request, crowding out the instructions that are still accurate.</span></div>
+      <div class="opt"><span class="k">B</span><span>It gives the agent a wrong fact, and a wrong fact produces wrong code.</span></div>
+      <div class="opt"><span class="k">C</span><span>It terminates the search &mdash; the agent has an authoritative-looking answer, so it never opens the code that would have corrected it.</span></div>
+      <div class="opt"><span class="k">D</span><span>It signals that the team does not maintain its documentation, so the agent weights all of it lower.</span></div>
+    </div>
+    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+  </div></div>
+</section>
+
+<!-- 28 -->
+<section class="slide" data-sec="Review quiz" data-title="Q4 — answer" data-notes="Land the counter-intuitive consequence: the wrong-document path is FASTER than the no-document path, and that speed is a symptom. A team measuring only turns would score the stale repository as an improvement." data-tier="K">
+  <h2>Q4 &middot; Answer<span class="tag q">4 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">Why is a stale document worse than none?</div>
+    <div class="opts">
+      <div class="opt wrong"><span class="k">A</span><span>It consumes context budget.</span></div>
+      <div class="opt wrong"><span class="k">B</span><span>It gives a wrong fact, which produces wrong code.</span></div>
+      <div class="opt right"><span class="k">C</span><span>It terminates the search &mdash; the agent has an authoritative answer, so it never opens the code that would have corrected it.</span></div>
+      <div class="opt wrong"><span class="k">D</span><span>It signals poor maintenance, so the agent discounts everything.</span></div>
+    </div>
+    <div class="why"><b>C.</b> With <em>no</em> document the agent falls back to reading the code: slow, and correct. With a <em>stale</em> one it stops looking. The correct information three directories away is never opened.
+      <span class="no"><b>B</b> is true but mild &mdash; it describes the symptom, and C explains why the damage is disproportionate. <b>A</b> is a real but second-order cost. <b>D</b> ascribes a judgement the model does not make. <em>The consequence worth sitting with: the stale path is </em>faster<em> than the no-document path. A team measuring only turns would score the stale repository as an improvement.</em></span></div>
+  </div></div>
+</section>
+
+<!-- 29 -->
+<section class="slide" data-sec="Review quiz" data-title="Q5 — written but unreachable" data-notes="This is the enterprise question and most rooms will have lived it. Whatever they answer, ask how much of their own team knowledge is currently in the third tier." data-tier="R">
+  <h2>Q5 &middot; The knowledge exists and is correct. Why does the agent still guess?<span class="tag q">5 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">A team documented its retry policy accurately three years ago. The agent still invents its own. What is the most likely explanation?</div>
+    <div class="opts">
+      <div class="opt"><span class="k">A</span><span>It is reachable only by search &mdash; sitting in a system the agent cannot read, under a title nobody would ever query for.</span></div>
+      <div class="opt"><span class="k">B</span><span>The document is too long, so the relevant paragraph is lost in the middle of the context window.</span></div>
+      <div class="opt"><span class="k">C</span><span>The model was trained on a different retry convention and prefers what it already knows.</span></div>
+      <div class="opt"><span class="k">D</span><span>Retry policy is a reasoning task, so it needs a stronger model rather than better documentation.</span></div>
+    </div>
+    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+  </div></div>
+</section>
+
+<!-- 30 -->
+<section class="slide" data-sec="Review quiz" data-title="Q5 — answer" data-notes="The practical follow-through: the fix is almost never to rewrite the content, which is already fine. It is to move it into the repository, name it for the question it answers, and point at it from the instructions file. Three cheap moves, and none of them is authoring." data-tier="R">
+  <h2>Q5 &middot; Answer<span class="tag q">5 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">Correct knowledge exists. Why does the agent still guess?</div>
+    <div class="opts">
+      <div class="opt right"><span class="k">A</span><span>It is reachable only by search &mdash; in a system the agent cannot read, under a title nobody would query for.</span></div>
+      <div class="opt wrong"><span class="k">B</span><span>The document is too long and gets lost mid-window.</span></div>
+      <div class="opt wrong"><span class="k">C</span><span>The model prefers the convention it was trained on.</span></div>
+      <div class="opt wrong"><span class="k">D</span><span>It needs a stronger model.</span></div>
+    </div>
+    <div class="why"><b>A.</b> <b>Written is not reachable.</b> Tier 3 &mdash; found by search &mdash; is the weakest and the most commonly assumed, and it fails whenever the agent would have to guess your vocabulary. This is the ordinary state of most enterprise knowledge.
+      <span class="no"><b>B</b> is a real effect but it presupposes the document reached the context at all &mdash; here it never did. <b>C</b> describes what the agent falls back <em>to</em>, not why. <b>D</b> is the Module 1 reflex, and buying a bigger model to compensate for unreachable documentation is the most expensive possible non-fix. <em>The fix is not to rewrite content that is already fine: move it into the repository, name it for the question it answers, and point at it from the instructions file.</em></span></div>
+  </div></div>
+</section>
+
+<!-- 31 -->
+<section class="slide" data-sec="Review quiz" data-title="Q6 — keeping it current" data-notes="If they pick A or B, acknowledge that both are real practices that help - and then ask when the last quarterly documentation review at their organisation actually happened on schedule." data-tier="R">
+  <h2>Q6 &middot; Which mechanism most reliably keeps knowledge current?<span class="tag q">6 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">Four proposals for stopping the knowledge base from rotting. Which one actually works?</div>
+    <div class="opts">
+      <div class="opt"><span class="k">A</span><span>A quarterly documentation review, with each artifact assigned to a named owner.</span></div>
+      <div class="opt"><span class="k">B</span><span>A recurring ticket in each sprint to reconcile documentation against changes made in the previous one.</span></div>
+      <div class="opt"><span class="k">C</span><span>A CI job that fails the build whenever source files change without a corresponding change under <code>docs/</code>.</span></div>
+      <div class="opt"><span class="k">D</span><span>The rule that knowledge changes in the same pull request as the change that invalidates it, enforced as a review question.</span></div>
+    </div>
+    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+  </div></div>
+</section>
+
+<!-- 32 -->
+<section class="slide" data-sec="Review quiz" data-title="Q6 — answer" data-notes="C is the most interesting wrong answer in the whole quiz and worth the time: it is not lazy, it is a real proposal that a sensible team would make, and it fails in a way that is worse than doing nothing because it manufactures compliance. Any hard gate on documentation produces documentation-shaped edits." data-tier="R">
+  <h2>Q6 &middot; Answer<span class="tag q">6 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">Which mechanism most reliably keeps knowledge current?</div>
+    <div class="opts">
+      <div class="opt wrong"><span class="k">A</span><span>A quarterly review with named owners.</span></div>
+      <div class="opt wrong"><span class="k">B</span><span>A recurring reconciliation ticket each sprint.</span></div>
+      <div class="opt wrong"><span class="k">C</span><span>A CI job that <em>fails the build</em> when source changes without a <code>docs/</code> change.</span></div>
+      <div class="opt right"><span class="k">D</span><span>Knowledge changes in the same pull request that invalidates it, enforced as a review question.</span></div>
+    </div>
+    <div class="why"><b>D.</b> It is the only moment when the person changing the code <b>still knows what changed and why</b>. A week later the update is archaeology, and archaeology loses to whatever is urgent.
+      <span class="no"><b>A</b> and <b>B</b> are genuine practices that help at the margin &mdash; and both run on a cadence that always loses to delivery pressure. <b>C</b> is the most interesting wrong answer here: it is a sensible-sounding proposal that fails <em>worse than doing nothing</em>, because a hard gate manufactures compliance. Make documentation mandatory to merge and you get documentation-shaped edits &mdash; a whitespace change under <code>docs/</code> &mdash; plus resentment. Warn on this signal; never fail on it.</span></div>
+  </div></div>
+</section>
+
+<!-- 33 -->
+<section class="slide" data-sec="Review quiz" data-title="Q7 — what CI can check" data-notes="Quick one, and the point is the shape rather than the specific check: a decision recorded in prose, enforced by a test. Ask them which of their own ADRs could be expressed that way - usually at least one prohibition can." data-tier="R">
+  <h2>Q7 &middot; Which drift check can a machine actually run?<span class="tag q">7 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">CI cannot tell whether a paragraph is still true. Which of these <em>can</em> it decide, reliably, today?</div>
+    <div class="opts">
+      <div class="opt"><span class="k">A</span><span>Whether <code>docs/architecture.md</code> still describes the system accurately.</span></div>
+      <div class="opt"><span class="k">B</span><span>Whether the conventions file reflects how the team currently prefers to write code.</span></div>
+      <div class="opt"><span class="k">C</span><span>Whether <code>org.projectlombok</code> has appeared in the POM, which ADR-005 says it never will.</span></div>
+      <div class="opt"><span class="k">D</span><span>Whether an ADR's reasoning still holds given what the team has learned since.</span></div>
+    </div>
+    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+  </div></div>
+</section>
+
+<!-- 34 -->
+<section class="slide" data-sec="Review quiz" data-title="Q7 — answer" data-notes="Close on the generalisation: every prohibition in your ADRs is a candidate test. If a decision is worth recording and can be violated mechanically, it should fail the build rather than wait for a reviewer who remembers the history." data-tier="R">
+  <h2>Q7 &middot; Answer<span class="tag q">7 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">Which drift check can a machine run?</div>
+    <div class="opts">
+      <div class="opt wrong"><span class="k">A</span><span>Whether the architecture doc is still accurate.</span></div>
+      <div class="opt wrong"><span class="k">B</span><span>Whether the conventions match current preference.</span></div>
+      <div class="opt right"><span class="k">C</span><span>Whether <code>org.projectlombok</code> has appeared in the POM, contrary to ADR-005.</span></div>
+      <div class="opt wrong"><span class="k">D</span><span>Whether an ADR's reasoning still holds.</span></div>
+    </div>
+    <div class="why"><b>C.</b> It is a string in a file &mdash; decidable, fast, and it never gets bored. This is the shape to aim for: <b>a decision recorded in prose, enforced by a test.</b>
+      <span class="no"><b>A</b>, <b>B</b> and <b>D</b> all require judgement about meaning, which is what the human review cadence is for. <em>The generalisation: every prohibition in your ADRs is a candidate test. If a decision can be violated mechanically, it should fail the build rather than wait for a reviewer who happens to remember the history &mdash; because that reviewer eventually leaves.</em> A machine cannot check that a paragraph is true; it can check that the file it names still exists, that the ADR it points at is not deleted, and that the banned thing is still banned.</span></div>
+  </div></div>
+</section>
+
+<!-- 35 -->
+<section class="slide" data-sec="Review quiz" data-title="Q8 — blast radius" data-notes="Last one. The room will get the direction right; what they usually underestimate is the last clause of B, that deletion does not undo it. Finish on rotate, do not just delete." data-tier="K">
+  <h2>Q8 &middot; A credential is committed to an instruction file, then deleted next commit<span class="tag q">8 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">Someone pastes a live API key into <code>.github/copilot-instructions.md</code>, notices within the hour, and removes it in the following commit. What is the situation?</div>
+    <div class="opts">
+      <div class="opt"><span class="k">A</span><span>Contained &mdash; it was only in the repository for an hour, and the file is internal to the team.</span></div>
+      <div class="opt"><span class="k">B</span><span>Leaked and must be rotated &mdash; it entered every request in that window, may sit in transcripts and generated text, and remains in git history.</span></div>
+      <div class="opt"><span class="k">C</span><span>Recoverable by rewriting git history to remove the commit, after which no rotation is needed.</span></div>
+      <div class="opt"><span class="k">D</span><span>Lower risk than a hard-coded secret in source, because an instruction file is documentation rather than executed code.</span></div>
+    </div>
+    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+  </div></div>
+</section>
+
+<!-- 36 -->
+<section class="slide" data-sec="Review quiz" data-title="Q8 — answer" data-notes="End the module here. The line to leave in the room before the lab: treat docs and .github as published rather than internal, and review them the way you would review a public README - because functionally that is exactly what they are. Then send them to the lab, where they instrument the Global Bank repository and re-run the Lab 1.1 ticket." data-tier="K">
+  <h2>Q8 &middot; Answer<span class="tag q">8 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">A credential committed to an instruction file, deleted next commit.</div>
+    <div class="opts">
+      <div class="opt wrong"><span class="k">A</span><span>Contained &mdash; only an hour, and the file is internal.</span></div>
+      <div class="opt right"><span class="k">B</span><span>Leaked and must be rotated &mdash; it entered every request in the window, may sit in transcripts and generated text, and is still in git history.</span></div>
+      <div class="opt wrong"><span class="k">C</span><span>Fixed by rewriting git history; no rotation needed.</span></div>
+      <div class="opt wrong"><span class="k">D</span><span>Lower risk than a secret in source, because it is only documentation.</span></div>
+    </div>
+    <div class="why"><b>B.</b> An instruction file is the <b>most-read file in the repository</b> &mdash; in the context of every request, from every engineer. In that hour it reached the model provider, the transcripts, anything the agent generated, and every teammate whose session loaded the repo.
+      <span class="no"><b>D</b> inverts the truth: documentation status is irrelevant, and the blast radius is <em>larger</em> than a hard-coded secret, which is read only by whoever opens that file. <b>C</b> is the dangerous one &mdash; history rewriting addresses the repository and nothing else; it cannot reach a transcript or a provider log. <b>A</b> assumes internal means contained. <em>Rotate; do not just delete. And treat <code>docs/</code> and <code>.github/</code> as published &mdash; because functionally they are.</em></span></div>
+  </div></div>
+</section>
+</div></div>
+
+<div id="notes"><div class="h">SPEAKER NOTES</div><div id="notesbody"></div></div>
+
+<div id="bot">
+  <button class="navbtn" id="prev" title="Previous (&larr;)">&#8249;</button>
+  <button class="navbtn" id="next" title="Next (&rarr;)">&#8250;</button>
+  <span id="ttl"></span>
+  <div id="prog"><div id="progf"></div></div>
+  <span id="hint">&larr; &rarr; move &middot; K key path &middot; O index &middot; N notes &middot; F full</span>
+  <span id="num"></span>
+</div>
+
+<script>
+(function(){
+  var slides=[].slice.call(document.querySelectorAll('.slide'));
+  var stage=document.getElementById('stage'),toc=document.getElementById('toc');
+  var notes=document.getElementById('notes'),notesBody=document.getElementById('notesbody');
+  var elNum=document.getElementById('num'),elSec=document.getElementById('sec');
+  var elTtl=document.getElementById('ttl'),elProg=document.getElementById('progf');
+  var elTier=document.getElementById('tier'),elAfter=document.getElementById('after');
+  var elHint=document.getElementById('hint');
+  // The key path skips reference slides, and skips after-lab slides until the lab is scored.
+  var postLab=false;
+  function onPath(n){var s=slides[n];return s.dataset.tier!=='R'&&(postLab||!s.dataset.after);}
+  function paintHint(){elHint.innerHTML='&larr; &rarr; move &middot; K key path &middot; L after-lab '+(postLab?'<b>ON</b>':'off')+' &middot; O index &middot; N notes &middot; F full';}
+  var i=0;
+
+  // ---- build the index, grouped by section ----
+  var list=document.getElementById('toclist'),grp=null,last=null;
+  slides.forEach(function(s,k){
+    var sec=s.dataset.sec||'';
+    if(sec!==last){
+      grp=document.createElement('div');grp.className='grp';
+      var h=document.createElement('div');h.className='grph';h.innerHTML=sec;grp.appendChild(h);
+      list.appendChild(grp);last=sec;
+    }
+    var a=document.createElement('a');a.href='#'+(k+1);
+    var tr=s.dataset.tier||'R';
+    a.innerHTML='<span class="n">'+(k+1)+'</span><span class="tg '+tr+'">'+tr+'</span>'+(s.dataset.title||'');
+    if(s.dataset.after)a.className='aft';
+    a.onclick=function(e){e.preventDefault();go(k);toc.classList.remove('on');};
+    grp.appendChild(a);
+  });
+  var links=[].slice.call(toc.querySelectorAll('a'));
+
+  function go(n){
+    i=Math.max(0,Math.min(slides.length-1,n));
+    slides.forEach(function(s,k){s.classList.toggle('active',k===i);});
+    links.forEach(function(a,k){a.classList.toggle('cur',k===i);});
+    elNum.textContent=(i+1)+' / '+slides.length;
+    elSec.innerHTML=slides[i].dataset.sec||'';
+    elTtl.textContent=slides[i].dataset.title||'';
+    var tr=slides[i].dataset.tier||'R';
+    elTier.className='tier '+tr;elTier.textContent=(tr==='D'?'DEMO':tr==='K'?'KEY':'REF');
+    elAfter.classList.toggle('on',!!slides[i].dataset.after);
+    elProg.style.width=((i+1)/slides.length*100)+'%';
+    notesBody.textContent=slides[i].dataset.notes||'No notes for this slide.';
+    if(history.replaceState)history.replaceState(null,'','#'+(i+1));
+  }
+  function fit(){
+    var extra=notes.classList.contains('on')?notes.offsetHeight:0;
+    var s=Math.min((window.innerWidth-24)/1280,(window.innerHeight-82-extra-24)/720);
+    stage.style.transform='scale('+s+')';
+  }
+  document.getElementById('next').onclick=function(){go(i+1);};
+  document.getElementById('prev').onclick=function(){go(i-1);};
+  document.getElementById('tocbtn').onclick=function(){toc.classList.toggle('on');};
+  document.getElementById('notesbtn').onclick=function(){notes.classList.toggle('on');fit();};
+  document.getElementById('fsbtn').onclick=function(){
+    if(document.fullscreenElement)document.exitFullscreen();else document.documentElement.requestFullscreen();
+  };
+  document.addEventListener('keydown',function(e){
+    var k=e.key;
+    if(k==='ArrowRight'||k==='PageDown'||k===' '){go(i+1);e.preventDefault();}
+    else if(k==='ArrowLeft'||k==='PageUp'||k==='p'){go(i-1);e.preventDefault();}
+    else if(k==='Home'){go(0);}
+    else if(k==='End'){go(slides.length-1);}
+    else if(k==='o'||k==='O'){toc.classList.toggle('on');}
+    else if(k==='n'||k==='N'){notes.classList.toggle('on');fit();}
+    else if(k==='f'||k==='F'){document.getElementById('fsbtn').onclick();}
+    else if(k==='k'){for(var j=i+1;j<slides.length;j++){if(onPath(j)){go(j);break;}}}
+    else if(k==='K'){for(var j2=i-1;j2>=0;j2--){if(onPath(j2)){go(j2);break;}}}
+    else if(k==='l'||k==='L'){postLab=!postLab;paintHint();}
+    else if(k==='Escape'){toc.classList.remove('on');notes.classList.remove('on');fit();}
+  });
+  window.addEventListener('resize',fit);
+  window.addEventListener('hashchange',function(){
+    var n=parseInt(location.hash.replace('#',''),10);if(n)go(n-1);
+  });
+  fit();
+  paintHint();
+  var start=parseInt(location.hash.replace('#',''),10);
+  go(start?start-1:0);
+})();
+</script>
+</body>
+</html>
