@@ -4,209 +4,37 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Module 3 — Prompt &amp; Context Engineering for Accurate Output | Agentic ADLC with GitHub Copilot</title>
-<style>
-*{box-sizing:border-box}
-html,body{margin:0;padding:0;height:100%}
-body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#dbe9e7;color:#1c2b29;overflow:hidden}
-
-/* ---------- chrome ---------- */
-#top{position:fixed;top:0;left:0;right:0;height:44px;background:#062f2c;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 16px;z-index:40;font-size:13px}
-#top .l{display:flex;align-items:center;gap:12px}
-#top .mod{font-weight:600;letter-spacing:.2px}
-#top .sec{color:#5eead4;font-size:12px;border-left:1px solid #14615a;padding-left:12px}
-#top .r{display:flex;align-items:center;gap:8px}
-#top a,#top button{color:#ccfbf1;text-decoration:none;background:#0d4b46;border:1px solid #14615a;padding:5px 11px;border-radius:4px;font-size:12.5px;cursor:pointer;font-family:inherit}
-#top a:hover,#top button:hover{background:#0f766e;color:#fff}
-#bot{position:fixed;bottom:0;left:0;right:0;height:38px;background:#062f2c;color:#c3ddd9;display:flex;align-items:center;gap:12px;padding:0 16px;z-index:40;font-size:12px}
-#prog{flex:1;height:4px;background:#14403c;border-radius:2px;overflow:hidden}
-#progf{height:100%;width:3%;background:#fbbf24;transition:width .25s ease}
-.navbtn{background:#0d4b46;color:#fff;border:1px solid #14615a;border-radius:4px;padding:4px 12px;cursor:pointer;font-size:14px;line-height:1.2;font-family:inherit}
-.navbtn:hover{background:#0f766e}
-#num{min-width:66px;text-align:right;font-variant-numeric:tabular-nums}
-#hint{color:#7fada8}
-#wrap{position:fixed;top:44px;bottom:38px;left:0;right:0;display:flex;align-items:center;justify-content:center}
-#stage{width:1280px;height:720px;background:#fff;box-shadow:0 8px 34px rgba(6,47,44,.28);position:relative;transform-origin:center center;overflow:hidden}
-
-/* ---------- delivery tier: K key . D demo . R reference ---------- */
-#top .tier{font-size:11px;font-weight:700;letter-spacing:.7px;padding:3px 9px;border-radius:3px;background:#14403c;color:#7fada8}
-#top .tier.K{background:#fbbf24;color:#3b2708}
-#top .tier.D{background:#2dd4bf;color:#062f2c}
-#top .after{font-size:11px;font-weight:700;letter-spacing:.7px;padding:3px 9px;border-radius:3px;background:#b91c1c;color:#fff;display:none}
-#top .after.on{display:inline-block}
-#toc a .tg{display:inline-block;width:26px;font-size:10px;font-weight:700;letter-spacing:.4px;color:#4d7c76}
-#toc a .tg.K{color:#fbbf24}
-#toc a .tg.D{color:#2dd4bf}
-#toc a.aft{border-left-color:#b91c1c}
-#toc a.aft .tg::after{content:' !';color:#f87171}
-
-/* ---------- index overlay ---------- */
-#toc{position:fixed;inset:44px 0 38px;background:rgba(5,38,36,.975);color:#fff;z-index:35;display:none;overflow:auto;padding:22px 46px}
-#toc.on{display:block}
-#toc h3{margin:0 0 14px;font-size:15px;color:#5eead4;letter-spacing:.6px;text-transform:uppercase;font-weight:600}
-#toc .cols{column-count:2;column-gap:38px}
-#toc .grp{margin-bottom:16px;break-inside:avoid}
-#toc .grph{font-size:12px;color:#fbbf24;font-weight:700;letter-spacing:.8px;margin-bottom:5px}
-#toc a{display:block;color:#d3ece9;text-decoration:none;padding:4px 10px;border-left:2px solid #14615a;font-size:14px}
-#toc a:hover{background:#0d4b46;border-left-color:#2dd4bf}
-#toc a.cur{background:#0f766e;border-left-color:#fbbf24;color:#fff;font-weight:600}
-#toc a .n{display:inline-block;width:28px;color:#79aaa4;font-size:12px}
-
-/* ---------- slide shell ---------- */
-#notes{position:fixed;left:0;right:0;bottom:38px;max-height:34%;overflow:auto;background:#0b211f;color:#d3ece9;border-top:3px solid #fbbf24;padding:12px 22px;z-index:36;display:none;font-size:14px;line-height:1.5}
-#notes.on{display:block}
-#notes .h{font-size:11px;letter-spacing:.8px;color:#5eead4;font-weight:700;margin-bottom:5px}
-.slide{position:absolute;inset:0;padding:30px 42px 24px;display:none;flex-direction:column}
-.slide.active{display:flex}
-.slide h2{margin:0 0 13px;font-size:28px;line-height:1.14;color:#062f2c;border-bottom:2px solid #0f766e;padding-bottom:8px;font-weight:600}
-.slide h2 .tag{float:right;font-size:12px;background:#0f766e;color:#fff;padding:4px 11px;border-radius:12px;font-weight:700;position:relative;top:4px;letter-spacing:.4px}
-.slide h2 .tag.k{background:#b45309}
-.slide h2 .tag.q{background:#7c3aed}
-.body{flex:1;display:grid;gap:22px;min-height:0;align-items:center}
-.g64{grid-template-columns:1.45fr 1fr}
-.g46{grid-template-columns:1fr 1.45fr}
-.g55{grid-template-columns:1fr 1fr}
-.g1{grid-template-columns:1fr}
-.body.g1{align-items:stretch}
-.body.g1>div:only-child{height:100%;display:flex;flex-direction:column;justify-content:center}
-.pts h3{margin:0 0 7px;font-size:12.5px;letter-spacing:.7px;text-transform:uppercase;color:#0f766e;font-weight:700}
-.pts h3+h3{margin-top:13px}
-.pts ul{margin:0;padding-left:17px;font-size:15.5px;line-height:1.46}
-.pts li{margin-bottom:6px}
-.pts b{color:#062f2c}
-.pts em{color:#b45309;font-style:normal;font-weight:600}
-.pts code{background:#eefaf8;border:1px solid #cfeae6;border-radius:3px;padding:0 4px;font-size:14px;color:#0b4f4a}
-.callout{background:#eefaf8;border-left:3px solid #0f766e;padding:9px 13px;font-size:15px;border-radius:0 4px 4px 0;margin-top:11px;line-height:1.4}
-.callout.bad{background:#fef2f2;border-left-color:#dc2626;color:#7f1d1d}
-.callout.good{background:#ecfdf5;border-left-color:#059669;color:#064e3b}
-.take{margin-top:13px;background:#fffbeb;border-left:4px solid #fbbf24;padding:10px 15px;font-size:15.5px;color:#78350f;border-radius:0 4px 4px 0;line-height:1.4}
-.take b{color:#92400e}
-svg{width:100%;height:auto;display:block}
-
-/* ---------- title slide ---------- */
-.slide.title{background:linear-gradient(135deg,#062f2c 0%,#0b4f4a 58%,#0f766e 150%);color:#fff;justify-content:center;padding:0 78px}
-.slide.title h1{margin:0;font-size:50px;line-height:1.12;font-weight:600}
-.slide.title .sub{margin-top:14px;font-size:22px;color:#99f6e4;font-weight:600}
-.slide.title .rule{width:110px;height:4px;background:#fbbf24;margin:24px 0}
-.slide.title .meta{font-size:16px;color:#c3ddd9;line-height:1.85}
-.slide.title .meta b{color:#fff}
-.slide.title .chips{margin-top:24px;display:flex;gap:10px;flex-wrap:wrap}
-.slide.title .chip{background:rgba(255,255,255,.1);border:1px solid rgba(94,234,212,.45);color:#ccfbf1;padding:7px 14px;border-radius:16px;font-size:14px}
-
-/* ---------- quiz ---------- */
-.qz{font-size:20px;line-height:1.4;color:#062f2c;font-weight:600;background:#f0fbf9;border-left:4px solid #7c3aed;padding:13px 18px;border-radius:0 5px 5px 0}
-.opts{margin-top:18px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.opt{display:flex;align-items:flex-start;gap:11px;background:#fff;border:1.5px solid #d5e5e2;border-radius:6px;padding:12px 15px;font-size:17px;line-height:1.36;color:#1c2b29}
-.opt .k{flex:0 0 28px;height:28px;border-radius:50%;background:#e6f4f2;color:#0b4f4a;font-weight:700;font-size:14.5px;display:flex;align-items:center;justify-content:center;border:1.5px solid #b9ddd8}
-.opt.right{background:#ecfdf5;border-color:#34d399;box-shadow:0 0 0 3px rgba(52,211,153,.16)}
-.opt.right .k{background:#059669;color:#fff;border-color:#059669}
-.opt.wrong{opacity:.62}
-.why{margin-top:16px;background:#f0fbf9;border-left:4px solid #0f766e;padding:11px 16px;font-size:15.5px;line-height:1.45;border-radius:0 4px 4px 0}
-.why b{color:#0b4f4a}
-.why .no{display:block;margin-top:7px;color:#7f1d1d;font-size:14.5px}
-.qmeta{font-size:13px;color:#5b7a76;margin-top:12px}
-
-.file{background:#0b211f;border-radius:5px;padding:11px 14px;font-family:'DejaVu Sans Mono',Menlo,Consolas,monospace;font-size:12.5px;line-height:1.46;color:#d3ece9;overflow:hidden;white-space:pre-wrap;tab-size:2}
-.file .fn{color:#5eead4;font-weight:700;display:block;margin-bottom:5px;font-size:11.5px;letter-spacing:.4px}
-.file .c{color:#7fada8}
-.file .k{color:#fbbf24;font-weight:700}
-.file .s{color:#fca5a5}
-/* ---------- svg vocabulary ---------- */
-.bx{fill:#f0fbf9;stroke:#bfe3de;stroke-width:1.5}
-.bx.g{fill:#ecfdf5;stroke:#a7f3d0}
-.bx.a{fill:#fffbeb;stroke:#fcd34d}
-.bx.r{fill:#fef2f2;stroke:#fecaca}
-.bx.p{fill:#f5f3ff;stroke:#ddd6fe}
-.bx.d{fill:#062f2c;stroke:#062f2c}
-.bx.w{fill:#fff;stroke:#cbd5e1}
-.tt{font-size:15px;font-weight:600;fill:#062f2c}
-.tt.w{fill:#fff}
-.ss{font-size:12.5px;fill:#3f5f5c}
-.ss.w{fill:#a7f3d0}
-.lb{font-size:10.5px;font-weight:700;fill:#0f766e;letter-spacing:.7px}
-.lb.a{fill:#b45309}.lb.r{fill:#dc2626}.lb.g{fill:#047857}.lb.w{fill:#5eead4}.lb.p{fill:#6d28d9}
-.ar{fill:none;stroke:#94b8b3;stroke-width:2;marker-end:url(#arw)}
-.arr{fill:none;stroke:#dc2626;stroke-width:2;marker-end:url(#arr)}
-.arg{fill:none;stroke:#059669;stroke-width:2;marker-end:url(#arg)}
-.fl{fill:none;stroke:#0f766e;stroke-width:2.5;stroke-dasharray:7 9;marker-end:url(#arb)}
-.slide.active .fl{animation:march 1.1s linear infinite}
-@keyframes march{to{stroke-dashoffset:-16}}
-.pulse{transform-box:fill-box;transform-origin:center}
-.slide.active .pulse{animation:pl 2.2s ease-in-out infinite}
-@keyframes pl{0%,100%{opacity:.25}50%{opacity:.9}}
-.tok{opacity:0}
-.slide.active .tok{animation:tk 6s linear infinite}
-@keyframes tk{0%,8%{opacity:0}14%,86%{opacity:1}96%,100%{opacity:0}}
-.slide.active .t2{animation-delay:.6s}.slide.active .t3{animation-delay:1.2s}
-.slide.active .t4{animation-delay:1.8s}.slide.active .t5{animation-delay:2.4s}
-.slide.active .t6{animation-delay:3s}
-.rise{transform-box:fill-box;transform-origin:bottom}
-.slide.active .rise{animation:rs .9s cubic-bezier(.2,.8,.3,1) both}
-.slide.active .r2{animation-delay:.12s}.slide.active .r3{animation-delay:.24s}
-.slide.active .r4{animation-delay:.36s}.slide.active .r5{animation-delay:.48s}
-.slide.active .r6{animation-delay:.6s}
-@keyframes rs{from{transform:scaleY(.04)}to{transform:scaleY(1)}}
-.grow{transform-box:fill-box;transform-origin:left}
-.slide.active .grow{animation:gw 1.1s cubic-bezier(.2,.8,.3,1) both}
-.slide.active .w2{animation-delay:.14s}.slide.active .w3{animation-delay:.28s}
-.slide.active .w4{animation-delay:.42s}.slide.active .w5{animation-delay:.56s}
-@keyframes gw{from{transform:scaleX(.02)}to{transform:scaleX(1)}}
-.dash{stroke-dasharray:5 5}
-@media (prefers-reduced-motion:reduce){
-  .slide.active .fl,.slide.active .pulse,.slide.active .tok,.slide.active .rise,.slide.active .grow{animation:none}
-  .tok{opacity:1}
-}
-
-@media print{
-  @page{size:1280px 720px;margin:0}
-  body{background:#fff;overflow:visible}
-  #top,#bot,#toc,#notes{display:none}
-  #wrap{position:static;display:block}
-  #stage{transform:none!important;width:1280px;height:auto;overflow:visible;box-shadow:none}
-  .slide{display:flex!important;position:relative;page-break-after:always;height:720px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-}
-</style>
+<link rel="stylesheet" href="../assets/adlc-deck.css">
 </head>
-<body>
+<body data-deck="Module 3">
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
-  <marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#94b8b3"/></marker>
-  <marker id="arb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#0f766e"/></marker>
-  <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#dc2626"/></marker>
-  <marker id="arg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#059669"/></marker>
+  <marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#71809a"/></marker>
+  <marker id="arb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#6ea8fe"/></marker>
+  <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#e2726e"/></marker>
+  <marker id="arg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#5fbf8f"/></marker>
 </defs></svg>
 
-<div id="top">
-  <div class="l">
-    <span class="mod">Module 3 &middot; Prompt &amp; Context Engineering for Accurate Output</span>
-    <span class="sec" id="sec"></span>
-    <span class="tier" id="tier"></span><span class="after" id="after">AFTER LAB</span>
-  </div>
-  <div class="r">
-    <a href="../course-outline-agentic-adlc-github-copilot.html" title="Open the 2-day course outline">Course outline</a>
-    <button id="tocbtn" title="Index (O)">Index</button>
-    <button id="notesbtn" title="Speaker notes (N)">Notes</button>
-    <button id="fsbtn" title="Fullscreen (F)">Full</button>
-  </div>
-</div>
-
-<div id="toc"><h3>Module 3 &mdash; slide index</h3><div class="cols" id="toclist"></div></div>
-
-<div id="wrap"><div id="stage"><!-- 1 -->
+<div id="viewport"><div id="stage"><!-- 1 -->
 <section class="slide title" data-sec="Opening" data-title="Title" data-notes="Point back at the board one more time. Modules 1 and 2 changed what the repository knows. This module changes how they ask - and it is the last module before the course splits into specialised agents, so everything here is about the single request. The framing sentence to open with: the repository now tells the agent what is true, and this module is about what stops it inventing when the answer is not there." data-tier="R">
-  <h1>Prompt &amp; Context Engineering</h1>
-  <div class="sub">Module 3 &mdash; asking for accurate output, and proving it is accurate</div>
-  <div class="rule"></div>
-  <div class="meta">
-    <b>Agentic ADLC with GitHub Copilot</b> &mdash; From JIRA Ticket to Merged PR<br>
-    Day 1 &middot; Module 3 of 8 &nbsp;|&nbsp; Advanced &nbsp;|&nbsp; Trainer: <b>Rajesh Gheware</b>
-  </div>
-  <div class="chips">
+  <div class="wrap">
+    <span class="tier">Day 1 &middot; Module 3 of 8</span>
+    <h1>Prompt &amp; Context Engineering</h1>
+    <p class="sub">Asking for accurate output, and proving it is accurate.</p>
+    <p class="meta">
+      <span><b>Agentic ADLC with GitHub Copilot</b> &mdash; From JIRA Ticket to Merged PR</span>
+      <span>Advanced</span>
+      <span>Trainer: Rajesh Gheware</span>
+    </p>
+    <div class="chips">
     <span class="chip">Anatomy of an instruction</span>
     <span class="chip">Skill files</span>
     <span class="chip">Grounding</span>
     <span class="chip">The failure taxonomy</span>
     <span class="chip">Context hygiene</span>
     <span class="chip">Proving a prompt is better</span>
+  
+    </div>
   </div>
 </section>
 
@@ -224,7 +52,7 @@ svg{width:100%;height:auto;display:block}
         <text class="ss" x="20" y="94">instructions &middot; conventions &middot; ADRs &middot; glossary</text>
         <text class="ss" x="20" y="116">Cost is paid a single time and amortised</text>
         <text class="ss" x="20" y="136">across every ticket the team ever runs.</text>
-        <text class="ss" x="20" y="160" style="fill:#047857;font-weight:600">Done. On disk. Yesterday&rsquo;s work.</text>
+        <text class="ss" x="20" y="160" style="fill:#5fbf8f;font-weight:600">Done. On disk. Yesterday&rsquo;s work.</text>
 
         <rect class="bx a grow w2" x="356" y="22" width="340" height="150" rx="8"/>
         <text class="lb a" x="372" y="44">THE REQUEST &mdash; MODULE 3</text>
@@ -232,7 +60,7 @@ svg{width:100%;height:auto;display:block}
         <text class="ss" x="372" y="94">goal &middot; constraints &middot; inputs &middot; contract</text>
         <text class="ss" x="372" y="116">Cost is paid again on every single ticket,</text>
         <text class="ss" x="372" y="136">by the most expensive person in the loop.</text>
-        <text class="ss" x="372" y="160" style="fill:#b45309;font-weight:600">So it had better be short, and reusable.</text>
+        <text class="ss" x="372" y="160" style="fill:#d98a3d;font-weight:600">So it had better be short, and reusable.</text>
 
         <text class="lb" x="4" y="200">WHAT MODULE 3 ADDS</text>
         <rect class="bx" x="4" y="210" width="692" height="128" rx="8"/>
@@ -255,7 +83,7 @@ svg{width:100%;height:auto;display:block}
         <rect class="bx d" x="4" y="348" width="692" height="82" rx="8"/>
         <text class="lb w" x="24" y="372">THE ECONOMICS, ONE LEVEL DOWN FROM MODULE 2</text>
         <text class="ss w" x="24" y="396" style="font-size:14px">Anything you find yourself retyping into the chat is a file you have not</text>
-        <text class="ss w" x="24" y="416" style="font-size:14px"><tspan font-weight="700" fill="#fbbf24">written yet</tspan> &mdash; either a knowledge file, or a skill file. Both beat typing.</text>
+        <text class="ss w" x="24" y="416" style="font-size:14px"><tspan font-weight="700" fill="#e0b34d">written yet</tspan> &mdash; either a knowledge file, or a skill file. Both beat typing.</text>
       </svg>
     </div>
     <div class="pts">
@@ -289,50 +117,50 @@ svg{width:100%;height:auto;display:block}
         <text class="ss" x="24" y="90">one sentence, one outcome</text>
         <text class="ss" x="250" y="68">The change you want, in terms of behaviour &mdash; not the</text>
         <text class="ss" x="250" y="88">implementation you have already imagined.</text>
-        <text class="ss" x="690" y="68" style="fill:#b45309">A correct solution to a problem you did not have. The most</text>
-        <text class="ss" x="690" y="88" style="fill:#b45309">expensive failure here, because it looks like success.</text>
+        <text class="ss" x="690" y="68" style="fill:#d98a3d">A correct solution to a problem you did not have. The most</text>
+        <text class="ss" x="690" y="88" style="fill:#d98a3d">expensive failure here, because it looks like success.</text>
 
         <rect class="bx grow w2" x="4" y="110" width="1172" height="62" rx="6"/>
         <text class="tt" x="24" y="136">Constraints</text>
         <text class="ss" x="24" y="158">what it must not do</text>
         <text class="ss" x="250" y="136">Point at the files, do not restate them: &ldquo;follow</text>
         <text class="ss" x="250" y="156">docs/conventions.md&rdquo; beats retyping the conventions.</text>
-        <text class="ss" x="690" y="136" style="fill:#b45309">House style violated in a way that passes review because</text>
-        <text class="ss" x="690" y="156" style="fill:#b45309">it is plausible everywhere except here.</text>
+        <text class="ss" x="690" y="136" style="fill:#d98a3d">House style violated in a way that passes review because</text>
+        <text class="ss" x="690" y="156" style="fill:#d98a3d">it is plausible everywhere except here.</text>
 
         <rect class="bx grow w3" x="4" y="178" width="1172" height="62" rx="6"/>
         <text class="tt" x="24" y="204">Inputs</text>
         <text class="ss" x="24" y="226">where to look, named</text>
         <text class="ss" x="250" y="204">The two or three files that actually matter, plus the</text>
         <text class="ss" x="250" y="224">ticket. Naming them is cheaper than any search.</text>
-        <text class="ss" x="690" y="204" style="fill:#b45309">The twelve-file crawl you counted this morning &mdash; the</text>
-        <text class="ss" x="690" y="224" style="fill:#b45309">re-discovery tax, paid on a repository that could answer.</text>
+        <text class="ss" x="690" y="204" style="fill:#d98a3d">The twelve-file crawl you counted this morning &mdash; the</text>
+        <text class="ss" x="690" y="224" style="fill:#d98a3d">re-discovery tax, paid on a repository that could answer.</text>
 
         <rect class="bx a grow w4" x="4" y="246" width="1172" height="62" rx="6"/>
-        <text class="lb a" x="1010" y="266">UNDER-USED</text>
+        <text class="lb a" x="1162" y="260" text-anchor="end">UNDER-USED</text>
         <text class="tt" x="24" y="272">Output contract</text>
         <text class="ss" x="24" y="294">the shape of the answer</text>
         <text class="ss" x="250" y="272">Files touched, tests expected, no new dependencies,</text>
         <text class="ss" x="250" y="292">errors as ProblemDetail. The form, not the content.</text>
-        <text class="ss" x="690" y="272" style="fill:#b45309">A change that is right and unreviewable &mdash; sprawling across</text>
-        <text class="ss" x="690" y="292" style="fill:#b45309">files you never intended, in a shape you cannot diff.</text>
+        <text class="ss" x="690" y="272" style="fill:#d98a3d">A change that is right and unreviewable &mdash; sprawling across</text>
+        <text class="ss" x="690" y="292" style="fill:#d98a3d">files you never intended, in a shape you cannot diff.</text>
 
         <rect class="bx grow w5" x="4" y="314" width="1172" height="62" rx="6"/>
         <text class="tt" x="24" y="340">Done criteria</text>
         <text class="ss" x="24" y="362">how it is checked</text>
         <text class="ss" x="250" y="340">Machine-verifiable where possible: the test passes, the</text>
         <text class="ss" x="250" y="360">build is green, the endpoint returns the right status.</text>
-        <text class="ss" x="690" y="340" style="fill:#b45309">&ldquo;I think this should work.&rdquo; Handed to you as finished, and</text>
-        <text class="ss" x="690" y="360" style="fill:#b45309">it is your afternoon that discovers otherwise.</text>
+        <text class="ss" x="690" y="340" style="fill:#d98a3d">&ldquo;I think this should work.&rdquo; Handed to you as finished, and</text>
+        <text class="ss" x="690" y="360" style="fill:#d98a3d">it is your afternoon that discovers otherwise.</text>
 
         <rect class="bx r grow" x="4" y="382" width="1172" height="66" rx="6"/>
-        <text class="lb r" x="990" y="402">NOBODY WRITES THIS ONE</text>
+        <text class="lb r" x="1162" y="396" text-anchor="end">NOBODY WRITES THIS ONE</text>
         <text class="tt" x="24" y="410">Stop conditions</text>
         <text class="ss" x="24" y="432">when to come back and ask</text>
         <text class="ss" x="250" y="410">The named circumstances in which it must stop and ask</text>
         <text class="ss" x="250" y="430">you rather than choose &mdash; ambiguity, missing decision, risk.</text>
-        <text class="ss" x="690" y="410" style="fill:#dc2626;font-weight:600">The confident guess. It will not tell you it guessed, and</text>
-        <text class="ss" x="690" y="430" style="fill:#dc2626;font-weight:600">the guess is indistinguishable from knowledge in the diff.</text>
+        <text class="ss" x="690" y="410" style="fill:#e2726e;font-weight:600">The confident guess. It will not tell you it guessed, and</text>
+        <text class="ss" x="690" y="430" style="fill:#e2726e;font-weight:600">the guess is indistinguishable from knowledge in the diff.</text>
       </svg>
     </div>
   </div>
@@ -411,23 +239,23 @@ Add POST /api/v1/postings/{id}/reversal.
         <rect class="bx d" x="442" y="40" width="238" height="52" rx="6"/>
         <text class="tt w" x="561" y="62" text-anchor="middle" style="font-size:13px">The most plausible</text>
         <text class="tt w" x="561" y="80" text-anchor="middle" style="font-size:13px">continuation, produced</text>
-        <text class="ss" x="20" y="118">And in code, <tspan font-weight="600" fill="#dc2626">plausible is a very high bar</tspan> &mdash; it compiles, it matches the</text>
+        <text class="ss" x="20" y="118">And in code, <tspan font-weight="600" fill="#e2726e">plausible is a very high bar</tspan> &mdash; it compiles, it matches the</text>
         <text class="ss" x="20" y="138">surrounding style, the names are sensible, the tests it writes pass.</text>
-        <text class="ss" x="20" y="162" style="fill:#dc2626;font-weight:600">Nothing in the output distinguishes a grounded answer from an invented one.</text>
+        <text class="ss" x="20" y="162" style="fill:#e2726e;font-weight:600">Nothing in the output distinguishes a grounded answer from an invented one.</text>
 
         <text class="lb g" x="4" y="200">WHAT A STOP CONDITION CHANGES</text>
         <rect class="bx g" x="4" y="210" width="692" height="128" rx="8"/>
         <rect class="bx w rise" x="20" y="228" width="660" height="30" rx="5"/>
-        <text class="ss" x="34" y="248"><tspan font-weight="700" fill="#047857">Ambiguity</tspan> &mdash; &ldquo;if more than one reading of the acceptance criteria is defensible, stop and ask.&rdquo;</text>
+        <text class="ss" x="34" y="248"><tspan font-weight="700" fill="#5fbf8f">Ambiguity</tspan> &mdash; &ldquo;if more than one reading of the acceptance criteria is defensible, stop and ask.&rdquo;</text>
         <rect class="bx w rise r2" x="20" y="264" width="660" height="30" rx="5"/>
-        <text class="ss" x="34" y="284"><tspan font-weight="700" fill="#047857">Missing decision</tspan> &mdash; &ldquo;if no ADR covers this and the choice is architectural, stop and ask.&rdquo;</text>
+        <text class="ss" x="34" y="284"><tspan font-weight="700" fill="#5fbf8f">Missing decision</tspan> &mdash; &ldquo;if no ADR covers this and the choice is architectural, stop and ask.&rdquo;</text>
         <rect class="bx w rise r3" x="20" y="300" width="660" height="30" rx="5"/>
-        <text class="ss" x="34" y="320"><tspan font-weight="700" fill="#047857">Blast radius</tspan> &mdash; &ldquo;if the change requires touching a file outside INPUTS, stop and list it first.&rdquo;</text>
+        <text class="ss" x="34" y="320"><tspan font-weight="700" fill="#5fbf8f">Blast radius</tspan> &mdash; &ldquo;if the change requires touching a file outside INPUTS, stop and list it first.&rdquo;</text>
 
         <rect class="bx d" x="4" y="348" width="692" height="82" rx="8"/>
         <text class="lb w" x="24" y="372">WHY THIS IS CHEAP</text>
         <text class="ss w" x="24" y="396" style="font-size:14px">A stop costs one turn. An ungrounded guess costs the turn, the review,</text>
-        <text class="ss w" x="24" y="416" style="font-size:14px">the rework <tspan font-weight="700" fill="#fbbf24">and the chance it is never caught at all.</tspan></text>
+        <text class="ss w" x="24" y="416" style="font-size:14px">the rework <tspan font-weight="700" fill="#e0b34d">and the chance it is never caught at all.</tspan></text>
       </svg>
     </div>
     <div class="pts">
@@ -461,7 +289,7 @@ Add POST /api/v1/postings/{id}/reversal.
         <text class="tt" x="20" y="66">Instruction file</text>
         <text class="ss" x="20" y="88">copilot-instructions.md</text>
         <text class="ss" x="20" y="106">*.instructions.md</text>
-        <text class="ss" x="20" y="132" style="fill:#047857;font-weight:600">Module 2 &mdash; done</text>
+        <text class="ss" x="20" y="132" style="fill:#5fbf8f;font-weight:600">Module 2 &mdash; done</text>
         <text class="ss" x="210" y="72">Facts. What is</text>
         <text class="ss" x="210" y="92">true here.</text>
         <text class="ss" x="210" y="112">Nouns, rules, limits.</text>
@@ -476,7 +304,7 @@ Add POST /api/v1/postings/{id}/reversal.
         <text class="tt" x="20" y="180">Skill file</text>
         <text class="ss" x="20" y="202">a named procedure,</text>
         <text class="ss" x="20" y="222">versioned in the repo</text>
-        <text class="ss" x="20" y="246" style="fill:#6d28d9;font-weight:600">the reusable half of a prompt</text>
+        <text class="ss" x="20" y="246" style="fill:#a78bfa;font-weight:600">the reusable half of a prompt</text>
         <text class="ss" x="210" y="186">Procedure. How we</text>
         <text class="ss" x="210" y="206">do this kind of task,</text>
         <text class="ss" x="210" y="226">every time.</text>
@@ -489,7 +317,7 @@ Add POST /api/v1/postings/{id}/reversal.
         <rect class="bx a grow w3" x="4" y="268" width="692" height="98" rx="7"/>
         <text class="tt" x="20" y="294">The prompt</text>
         <text class="ss" x="20" y="316">what is left over</text>
-        <text class="ss" x="20" y="340" style="fill:#b45309;font-weight:600">and it should be small</text>
+        <text class="ss" x="20" y="340" style="fill:#d98a3d;font-weight:600">and it should be small</text>
         <text class="ss" x="210" y="300">This ticket. These</text>
         <text class="ss" x="210" y="320">files. Today&rsquo;s</text>
         <text class="ss" x="210" y="340">particulars.</text>
@@ -498,7 +326,7 @@ Add POST /api/v1/postings/{id}/reversal.
         <text class="ss" x="560" y="320">with the session.</text>
 
         <rect class="bx d" x="4" y="374" width="692" height="56" rx="7"/>
-        <text class="ss w" x="24" y="400" style="font-size:14px">The test that settles it: <tspan font-weight="700" fill="#fbbf24">is this true when nobody is asking for anything?</tspan></text>
+        <text class="ss w" x="24" y="400" style="font-size:14px">The test that settles it: <tspan font-weight="700" fill="#e0b34d">is this true when nobody is asking for anything?</tspan></text>
         <text class="ss w" x="24" y="420" style="font-size:14px">Yes &rarr; it is knowledge. Only true while doing something &rarr; it is a skill.</text>
       </svg>
     </div>
@@ -575,8 +403,8 @@ Add POST /api/v1/postings/{id}/reversal.
   <h2>What makes it an asset rather than a saved snippet<span class="tag k">2</span></h2>
   <div class="body g1">
     <div>
-      <svg viewBox="0 0 1180 452" role="img" aria-label="Versioning, review and parameterisation of skill files, and the rollout failure mode">
-        <rect class="bx grow" x="4" y="4" width="384" height="212" rx="8"/>
+      <svg viewBox="0 0 1180 468" role="img" aria-label="Versioning, review and parameterisation of skill files, and the rollout failure mode">
+        <rect class="bx grow" x="4" y="4" width="384" height="228" rx="8"/>
         <text class="lb" x="24" y="30">1 &middot; VERSIONED</text>
         <text class="tt" x="24" y="58">It changes in a pull request</text>
         <text class="ss" x="24" y="84">The diff is the argument. &ldquo;We added a stop</text>
@@ -586,42 +414,42 @@ Add POST /api/v1/postings/{id}/reversal.
         <text class="ss" x="24" y="172">so it cannot be argued with &mdash; and it cannot</text>
         <text class="ss" x="24" y="192">be rolled back when it makes things worse.</text>
 
-        <rect class="bx a grow w2" x="398" y="4" width="384" height="212" rx="8"/>
+        <rect class="bx a grow w2" x="398" y="4" width="384" height="228" rx="8"/>
         <text class="lb a" x="418" y="30">2 &middot; REVIEWED &mdash; AND THIS IS HIGH LEVERAGE</text>
         <text class="tt" x="418" y="58">One line changes every ticket</text>
         <text class="ss" x="418" y="84">A change here alters the behaviour of every</text>
         <text class="ss" x="418" y="104">future request that invokes it. That is more</text>
         <text class="ss" x="418" y="124">leverage than most code changes carry.</text>
-        <text class="ss" x="418" y="152" style="fill:#b45309;font-weight:600">So it gets a real reviewer, not a rubber stamp.</text>
+        <text class="ss" x="418" y="152" style="fill:#d98a3d;font-weight:600">So it gets a real reviewer, not a rubber stamp.</text>
         <text class="ss" x="418" y="180">The reviewer&rsquo;s question is narrow: does this</text>
         <text class="ss" x="418" y="200">line hold on tickets other than the one that</text>
-        <text class="ss" x="418" y="216">prompted it?</text>
+        <text class="ss" x="418" y="220">prompted it?</text>
 
-        <rect class="bx p grow w3" x="792" y="4" width="384" height="212" rx="8"/>
+        <rect class="bx p grow w3" x="792" y="4" width="384" height="228" rx="8"/>
         <text class="lb p" x="812" y="30">3 &middot; PARAMETERISED</text>
         <text class="tt" x="812" y="58">Slots, not particulars</text>
         <text class="ss" x="812" y="84">The reusable parts are written; the ticket,</text>
         <text class="ss" x="812" y="104">the files and the goal arrive per request.</text>
-        <text class="ss" x="812" y="132" style="fill:#6d28d9;font-weight:600">A skill file that names one ticket is a prompt</text>
-        <text class="ss" x="812" y="152" style="fill:#6d28d9;font-weight:600">with delusions of permanence.</text>
+        <text class="ss" x="812" y="132" style="fill:#a78bfa;font-weight:600">A skill file that names one ticket is a prompt</text>
+        <text class="ss" x="812" y="152" style="fill:#a78bfa;font-weight:600">with delusions of permanence.</text>
         <text class="ss" x="812" y="180">Test: could a teammate invoke this on next</text>
         <text class="ss" x="812" y="200">sprint&rsquo;s ticket without editing it? If not, the</text>
-        <text class="ss" x="812" y="216">particulars have not been factored out yet.</text>
+        <text class="ss" x="812" y="220">particulars have not been factored out yet.</text>
 
-        <text class="lb r" x="4" y="248">THE FAILURE MODE IS SOCIAL, NOT TECHNICAL</text>
-        <rect class="bx r" x="4" y="258" width="1172" height="112" rx="8"/>
-        <rect class="bx w" x="24" y="278" width="546" height="76" rx="6"/>
-        <text class="tt" x="42" y="302" style="font-size:13.5px">What actually happens</text>
-        <text class="ss" x="42" y="324">One engineer writes an excellent skill file. Nobody else invokes it.</text>
-        <text class="ss" x="42" y="344">Six weeks later it is stale, and it is used as evidence that this does not work.</text>
-        <rect class="bx g" x="586" y="278" width="570" height="76" rx="6"/>
-        <text class="tt" x="604" y="302" style="font-size:13.5px">The fix is boring, and it works</text>
-        <text class="ss" x="604" y="324">It ships in the <tspan font-weight="600" fill="#047857">same pull request as the work that proved it</tspan>, and it is</text>
-        <text class="ss" x="604" y="344">invoked in the demo. Adoption is a review habit, not an announcement.</text>
+        <text class="lb r" x="4" y="264">THE FAILURE MODE IS SOCIAL, NOT TECHNICAL</text>
+        <rect class="bx r" x="4" y="274" width="1172" height="112" rx="8"/>
+        <rect class="bx w" x="24" y="294" width="546" height="76" rx="6"/>
+        <text class="tt" x="42" y="318" style="font-size:13.5px">What actually happens</text>
+        <text class="ss" x="42" y="340">One engineer writes an excellent skill file. Nobody else invokes it.</text>
+        <text class="ss" x="42" y="360">Six weeks later it is stale, and it is used as evidence that this does not work.</text>
+        <rect class="bx g" x="586" y="294" width="570" height="76" rx="6"/>
+        <text class="tt" x="604" y="318" style="font-size:13.5px">The fix is boring, and it works</text>
+        <text class="ss" x="604" y="340">It ships in the <tspan font-weight="600" fill="#5fbf8f">same pull request as the work that proved it</tspan>, and it is</text>
+        <text class="ss" x="604" y="360">invoked in the demo. Adoption is a review habit, not an announcement.</text>
 
-        <rect class="bx d" x="4" y="382" width="1172" height="66" rx="8"/>
-        <text class="lb w" x="24" y="406">THE ONE-LINE TEST FOR WHETHER YOU HAVE A SKILL FILE OR A SAVED PROMPT</text>
-        <text class="ss w" x="24" y="434" style="font-size:14px">Can someone else invoke it, on a different ticket, without editing it &mdash; and would you <tspan font-weight="700" fill="#fbbf24">review a change to it?</tspan></text>
+        <rect class="bx d" x="4" y="398" width="1172" height="66" rx="8"/>
+        <text class="lb w" x="24" y="422">THE ONE-LINE TEST FOR WHETHER YOU HAVE A SKILL FILE OR A SAVED PROMPT</text>
+        <text class="ss w" x="24" y="450" style="font-size:14px">Can someone else invoke it, on a different ticket, without editing it &mdash; and would you <tspan font-weight="700" fill="#e0b34d">review a change to it?</tspan></text>
       </svg>
     </div>
   </div>
@@ -642,7 +470,7 @@ Add POST /api/v1/postings/{id}/reversal.
         <rect class="bx g grow w2" x="4" y="110" width="692" height="98" rx="7"/>
         <text class="lb g" x="20" y="132">2 &middot; QUOTE BEFORE YOU CHANGE &mdash; THE CHEAPEST OF THE FOUR</text>
         <text class="tt" x="20" y="158" style="font-size:14px">&ldquo;Show me the current code before proposing the edit.&rdquo;</text>
-        <text class="ss" x="20" y="180">Catches: a change written against a <tspan font-weight="600" fill="#dc2626">remembered</tspan> version of the file.</text>
+        <text class="ss" x="20" y="180">Catches: a change written against a <tspan font-weight="600" fill="#e2726e">remembered</tspan> version of the file.</text>
         <text class="ss" x="20" y="200">One extra line in the request; catches an entire class of confident rewrite.</text>
 
         <rect class="bx a grow w3" x="4" y="216" width="692" height="98" rx="7"/>
@@ -737,9 +565,9 @@ which is currently unused.
         <text class="ss" x="300" y="76">Plausible names, correct-looking signature,</text>
         <text class="ss" x="300" y="96">often the API you <tspan font-style="italic">wish</tspan> the library had.</text>
         <text class="ss" x="300" y="116">Frequently a version that existed once.</text>
-        <text class="ss" x="700" y="86" style="fill:#047857;font-weight:600">The compiler.</text>
+        <text class="ss" x="700" y="86" style="fill:#5fbf8f;font-weight:600">The compiler.</text>
         <text class="ss" x="700" y="106">Immediately, every time.</text>
-        <text class="ss" x="990" y="86" style="fill:#047857">Low &mdash; one turn.</text>
+        <text class="ss" x="990" y="86" style="fill:#5fbf8f">Low &mdash; one turn.</text>
         <text class="ss" x="990" y="106">Annoying, not dangerous.</text>
 
         <rect class="bx a grow w2" x="4" y="134" width="1172" height="86" rx="6"/>
@@ -749,8 +577,8 @@ which is currently unused.
         <text class="ss" x="300" y="168">A diff wider than the request. Renames,</text>
         <text class="ss" x="300" y="188">reformatting, a helper &ldquo;while I was there&rdquo;,</text>
         <text class="ss" x="300" y="208">an unrelated file improved.</text>
-        <text class="ss" x="700" y="178" style="fill:#b45309;font-weight:600">Reading the diff &mdash; if</text>
-        <text class="ss" x="700" y="198" style="fill:#b45309;font-weight:600">you read all of it.</text>
+        <text class="ss" x="700" y="178" style="fill:#d98a3d;font-weight:600">Reading the diff &mdash; if</text>
+        <text class="ss" x="700" y="198" style="fill:#d98a3d;font-weight:600">you read all of it.</text>
         <text class="ss" x="990" y="178">Medium &mdash; review time,</text>
         <text class="ss" x="990" y="198">and a bisect later.</text>
 
@@ -761,8 +589,8 @@ which is currently unused.
         <text class="ss" x="300" y="260">Clean, idiomatic, internally consistent, and</text>
         <text class="ss" x="300" y="280">built on an assumption that is false in <tspan font-style="italic">this</tspan></text>
         <text class="ss" x="300" y="300">codebase. Reads better than the original.</text>
-        <text class="ss" x="700" y="270" style="fill:#dc2626;font-weight:600">A human who knows the</text>
-        <text class="ss" x="700" y="290" style="fill:#dc2626;font-weight:600">system. Tests will not.</text>
+        <text class="ss" x="700" y="270" style="fill:#e2726e;font-weight:600">A human who knows the</text>
+        <text class="ss" x="700" y="290" style="fill:#e2726e;font-weight:600">system. Tests will not.</text>
         <text class="ss" x="990" y="270">High &mdash; it passes review</text>
         <text class="ss" x="990" y="290">because it is well written.</text>
 
@@ -774,13 +602,13 @@ which is currently unused.
         <text class="ss" x="300" y="352">Asserts no exception was thrown. Asserts</text>
         <text class="ss" x="300" y="372">the mock was called. Re-states the</text>
         <text class="ss" x="300" y="392">implementation instead of the behaviour.</text>
-        <text class="ss" x="700" y="362" style="fill:#dc2626;font-weight:600">Nothing automatic.</text>
-        <text class="ss" x="700" y="382" style="fill:#dc2626;font-weight:600">The suite is green.</text>
+        <text class="ss" x="700" y="362" style="fill:#e2726e;font-weight:600">Nothing automatic.</text>
+        <text class="ss" x="700" y="382" style="fill:#e2726e;font-weight:600">The suite is green.</text>
         <text class="ss" x="990" y="362">Highest &mdash; you now have</text>
         <text class="ss" x="990" y="382">false confidence, at scale.</text>
 
         <rect class="bx d" x="4" y="412" width="1172" height="36" rx="6"/>
-        <text class="ss w" x="590" y="436" text-anchor="middle" style="font-size:14px">Severity runs <tspan font-weight="700" fill="#fbbf24">opposite</tspan> to how obvious the failure is &mdash; the ones that compile cleanly and go green are the expensive ones</text>
+        <text class="ss w" x="590" y="436" text-anchor="middle" style="font-size:14px">Severity runs <tspan font-weight="700" fill="#e0b34d">opposite</tspan> to how obvious the failure is &mdash; the ones that compile cleanly and go green are the expensive ones</text>
       </svg>
     </div>
   </div>
@@ -795,28 +623,28 @@ which is currently unused.
         <rect class="bx g grow" x="4" y="4" width="692" height="92" rx="7"/>
         <text class="tt" x="20" y="30">Invented API</text>
         <text class="lb g" x="560" y="30">STRONG</text>
-        <text class="ss" x="20" y="54" style="fill:#047857;font-weight:600">Counter: your build. Nothing else needed.</text>
+        <text class="ss" x="20" y="54" style="fill:#5fbf8f;font-weight:600">Counter: your build. Nothing else needed.</text>
         <text class="ss" x="20" y="78">Do not spend prompt budget on a failure the compiler catches for free.</text>
 
         <rect class="bx g grow w2" x="4" y="104" width="692" height="92" rx="7"/>
         <text class="tt" x="20" y="130">Silent scope drift</text>
         <text class="lb g" x="560" y="130">STRONG</text>
-        <text class="ss" x="20" y="154" style="fill:#047857;font-weight:600">Counter: output contract + a bounded INPUTS list.</text>
+        <text class="ss" x="20" y="154" style="fill:#5fbf8f;font-weight:600">Counter: output contract + a bounded INPUTS list.</text>
         <text class="ss" x="20" y="178">&ldquo;Touch only these files; if you need another, stop and list it first.&rdquo;</text>
 
         <rect class="bx a grow w3" x="4" y="204" width="692" height="102" rx="7"/>
         <text class="tt" x="20" y="230">Confidently wrong refactor</text>
         <text class="lb a" x="540" y="230">MODERATE</text>
-        <text class="ss" x="20" y="254" style="fill:#b45309;font-weight:600">Counter: quote-before-you-change, cite-the-file &mdash; and ADRs.</text>
+        <text class="ss" x="20" y="254" style="fill:#d98a3d;font-weight:600">Counter: quote-before-you-change, cite-the-file &mdash; and ADRs.</text>
         <text class="ss" x="20" y="278">This failure is a <tspan font-style="italic">missing constraint</tspan> before it is a prompting problem, which</text>
         <text class="ss" x="20" y="298">is why it gets cheaper after Module 2 and not before.</text>
 
         <rect class="bx r grow w4" x="4" y="314" width="692" height="116" rx="7"/>
         <text class="tt" x="20" y="340">Tests written to pass</text>
         <text class="lb r" x="530" y="340">WEAKEST AUTOMATIC</text>
-        <text class="ss" x="20" y="364" style="fill:#dc2626;font-weight:600">Counter: state the assertion in the request &mdash; and read the test first.</text>
+        <text class="ss" x="20" y="364" style="fill:#e2726e;font-weight:600">Counter: state the assertion in the request &mdash; and read the test first.</text>
         <text class="ss" x="20" y="388">&ldquo;The test must fail without the change.&rdquo; Then run it against the old code.</text>
-        <text class="ss" x="20" y="412">No automatic instrument closes this one. A <tspan font-weight="600" fill="#dc2626">separate reviewer</tspan> does &mdash; Module 4.</text>
+        <text class="ss" x="20" y="412">No automatic instrument closes this one. A <tspan font-weight="600" fill="#e2726e">separate reviewer</tspan> does &mdash; Module 4.</text>
       </svg>
     </div>
     <div class="pts">
@@ -871,7 +699,7 @@ which is currently unused.
         <rect class="bx d" x="492" y="42" width="188" height="46" rx="6"/>
         <text class="tt w" x="586" y="62" text-anchor="middle" style="font-size:13px">Agreement</text>
         <text class="ss w" x="586" y="80" text-anchor="middle">proves nothing</text>
-        <text class="ss" x="20" y="132" style="fill:#dc2626;font-weight:600">If the reading was wrong, both are wrong &mdash; and the suite is green.</text>
+        <text class="ss" x="20" y="132" style="fill:#e2726e;font-weight:600">If the reading was wrong, both are wrong &mdash; and the suite is green.</text>
         <text class="ss" x="20" y="156">You have not tested the change. You have confirmed it is self-consistent.</text>
 
         <text class="lb g" x="4" y="202">THE ORDERING FIX &mdash; DO THIS TOMORROW</text>
@@ -882,19 +710,19 @@ which is currently unused.
         <path class="ar" d="M236 252 L262 252"/>
         <rect class="bx w rise r2" x="266" y="230" width="200" height="44" rx="6"/>
         <text class="ss" x="366" y="248" text-anchor="middle">2 &middot; Run it. It must</text>
-        <text class="ss" x="366" y="266" text-anchor="middle" style="font-weight:600;fill:#dc2626">fail</text>
+        <text class="ss" x="366" y="266" text-anchor="middle" style="font-weight:600;fill:#e2726e">fail</text>
         <path class="ar" d="M470 252 L496 252"/>
         <rect class="bx w rise r3" x="500" y="230" width="180" height="44" rx="6"/>
         <text class="ss" x="590" y="248" text-anchor="middle">3 &middot; Then ask for</text>
         <text class="ss" x="590" y="266" text-anchor="middle">the implementation</text>
         <text class="ss" x="20" y="300">A test that never failed has never demonstrated anything. Two extra minutes,</text>
         <text class="ss" x="20" y="320">and it converts a green tick from a feeling into evidence.</text>
-        <text class="ss" x="20" y="340" style="fill:#b45309;font-weight:600">It reduces the problem. It does not remove it &mdash; same reading, two steps.</text>
+        <text class="ss" x="20" y="340" style="fill:#d98a3d;font-weight:600">It reduces the problem. It does not remove it &mdash; same reading, two steps.</text>
 
         <rect class="bx d" x="4" y="352" width="692" height="78" rx="8"/>
         <text class="lb w" x="24" y="376">THE REAL ANSWER, AND IT IS THE NEXT MODULE</text>
         <text class="ss w" x="24" y="400" style="font-size:14px">Independence cannot come from the same session that wrote the code.</text>
-        <text class="ss w" x="24" y="420" style="font-size:14px">It comes from a <tspan font-weight="700" fill="#fbbf24">reviewer that did not author it</tspan> &mdash; Module 4.</text>
+        <text class="ss w" x="24" y="420" style="font-size:14px">It comes from a <tspan font-weight="700" fill="#e0b34d">reviewer that did not author it</tspan> &mdash; Module 4.</text>
       </svg>
     </div>
   </div>
@@ -911,31 +739,31 @@ which is currently unused.
         <text class="ss" x="24" y="46" style="font-size:11px">TURN 1</text>
         <rect class="bx g rise" x="24" y="54" width="120" height="26" rx="4"/>
         <text class="ss" x="34" y="72" style="font-size:11px">ticket + 2 files</text>
-        <text class="ss" x="150" y="72" style="font-size:11.5px;fill:#047857">all of it relevant</text>
+        <text class="ss" x="150" y="72" style="font-size:11.5px;fill:#5fbf8f">all of it relevant</text>
 
         <text class="ss" x="24" y="104" style="font-size:11px">TURN 12</text>
         <rect class="bx g rise r2" x="24" y="112" width="120" height="26" rx="4"/>
         <rect class="bx a rise r3" x="146" y="112" width="150" height="26" rx="4"/>
         <text class="ss" x="156" y="130" style="font-size:11px">an approach you left</text>
-        <text class="ss" x="302" y="130" style="font-size:11.5px;fill:#b45309">still paid for, every turn</text>
+        <text class="ss" x="302" y="130" style="font-size:11.5px;fill:#d98a3d">still paid for, every turn</text>
 
         <text class="ss" x="24" y="162" style="font-size:11px">TURN 30</text>
         <rect class="bx g rise r4" x="24" y="170" width="120" height="26" rx="4"/>
         <rect class="bx a rise r5" x="146" y="170" width="150" height="26" rx="4"/>
         <rect class="bx r rise r6" x="298" y="170" width="230" height="26" rx="4"/>
         <text class="ss" x="308" y="188" style="font-size:11px">3 dead ends &middot; a correction made twice</text>
-        <text class="ss" x="24" y="212" style="font-size:11.5px;fill:#dc2626;font-weight:600">The agent weights all of it. You are paying to be misled by your own history.</text>
+        <text class="ss" x="24" y="212" style="font-size:11.5px;fill:#e2726e;font-weight:600">The agent weights all of it. You are paying to be misled by your own history.</text>
 
         <text class="lb r" x="4" y="248">THE TELL &mdash; BEHAVIOURAL, NOT NUMERIC</text>
         <rect class="bx r" x="4" y="258" width="692" height="86" rx="8"/>
         <text class="tt" x="24" y="286" style="font-size:14px">It re-suggests something you already rejected.</text>
         <text class="ss" x="24" y="310">Or asks a question you answered twenty turns ago. Or reverts a decision.</text>
-        <text class="ss" x="24" y="332" style="fill:#dc2626;font-weight:600">That is not a glitch &mdash; it is the window telling you it is full of noise.</text>
+        <text class="ss" x="24" y="332" style="fill:#e2726e;font-weight:600">That is not a glitch &mdash; it is the window telling you it is full of noise.</text>
 
         <rect class="bx d" x="4" y="354" width="692" height="76" rx="8"/>
         <text class="lb w" x="24" y="378">WHY STARTING CLEAN IS CHEAPER THAN IT FEELS</text>
         <text class="ss w" x="24" y="402" style="font-size:14px">The durable half of your context is already on disk &mdash; Module 2 put it there.</text>
-        <text class="ss w" x="24" y="422" style="font-size:14px">Re-briefing costs <tspan font-weight="700" fill="#fbbf24">one paragraph</tspan>, not one morning.</text>
+        <text class="ss w" x="24" y="422" style="font-size:14px">Re-briefing costs <tspan font-weight="700" fill="#e0b34d">one paragraph</tspan>, not one morning.</text>
       </svg>
     </div>
     <div class="pts">
@@ -988,13 +816,13 @@ which is currently unused.
         <rect class="bx r" x="4" y="254" width="1172" height="118" rx="8"/>
         <rect class="bx w" x="24" y="274" width="1132" height="38" rx="6"/>
         <text class="ss" x="42" y="298">&ldquo;No, not like that.&rdquo; &nbsp;&rarr;&nbsp; &ldquo;I said not to change that file.&rdquo; &nbsp;&rarr;&nbsp; &ldquo;Go back to the version before last.&rdquo;</text>
-        <text class="ss" x="24" y="336" style="fill:#dc2626;font-weight:600">Adding noise to fix noise.</text>
+        <text class="ss" x="24" y="336" style="fill:#e2726e;font-weight:600">Adding noise to fix noise.</text>
         <text class="ss" x="230" y="336">Every corrective turn enlarges the thing causing the problem &mdash; and every one is</text>
         <text class="ss" x="24" y="358">billed. Three corrections cost more than the re-briefing paragraph you were avoiding.</text>
 
         <rect class="bx d" x="4" y="382" width="1172" height="66" rx="8"/>
         <text class="lb w" x="24" y="406">THE HABIT WORTH BUILDING</text>
-        <text class="ss w" x="24" y="434" style="font-size:14px">Treat a clean session as <tspan font-weight="700" fill="#fbbf24">free</tspan> and a long one as a cost you chose. Most people have this exactly backwards.</text>
+        <text class="ss w" x="24" y="434" style="font-size:14px">Treat a clean session as <tspan font-weight="700" fill="#e0b34d">free</tspan> and a long one as a cost you chose. Most people have this exactly backwards.</text>
       </svg>
     </div>
   </div>
@@ -1022,7 +850,7 @@ which is currently unused.
         <text class="ss" x="472" y="96" style="font-size:11px">where stopping is the pass</text>
         <text class="ss" x="20" y="126">Real tickets from your board, not invented ones &mdash; invented tickets are written</text>
         <text class="ss" x="20" y="146">to be answerable, which is exactly the property you are trying to test for.</text>
-        <text class="ss" x="20" y="172" style="fill:#b45309;font-weight:600">Six is a signal, not a statistic. Say so out loud when you report it.</text>
+        <text class="ss" x="20" y="172" style="fill:#d98a3d;font-weight:600">Six is a signal, not a statistic. Say so out loud when you report it.</text>
 
         <text class="lb g" x="4" y="218">PASS MUST BE DECIDED BEFORE YOU RUN &mdash; NOT AFTER YOU SEE THE OUTPUT</text>
         <rect class="bx g" x="4" y="228" width="692" height="122" rx="8"/>
@@ -1031,11 +859,11 @@ which is currently unused.
         <rect class="bx w" x="20" y="282" width="660" height="30" rx="5"/>
         <text class="ss" x="34" y="302">No file touched outside the stated inputs</text>
         <rect class="bx w" x="20" y="318" width="660" height="26" rx="5"/>
-        <text class="ss" x="34" y="336">On an ambiguous ticket: <tspan font-weight="600" fill="#047857">it stopped and asked</tspan> &mdash; inventing an answer is a fail</text>
+        <text class="ss" x="34" y="336">On an ambiguous ticket: <tspan font-weight="600" fill="#5fbf8f">it stopped and asked</tspan> &mdash; inventing an answer is a fail</text>
 
         <rect class="bx d" x="4" y="360" width="692" height="70" rx="8"/>
         <text class="ss w" x="24" y="386" style="font-size:14px">Deciding &ldquo;pass&rdquo; after seeing the output is how every</text>
-        <text class="ss w" x="24" y="408" style="font-size:14px">informal comparison flatters <tspan font-weight="700" fill="#fbbf24">whichever prompt you wrote yourself.</tspan></text>
+        <text class="ss w" x="24" y="408" style="font-size:14px">informal comparison flatters <tspan font-weight="700" fill="#e0b34d">whichever prompt you wrote yourself.</tspan></text>
       </svg>
     </div>
     <div class="pts">
@@ -1069,35 +897,35 @@ which is currently unused.
         <rect class="bx g grow" x="4" y="42" width="1172" height="66" rx="6"/>
         <text class="tt" x="24" y="70" style="font-size:14px">2 &middot; the weak prompt already passes</text>
         <text class="ss" x="24" y="92">the control &mdash; and the reason anyone believes the rest</text>
-        <text class="tt" x="470" y="82" style="fill:#047857">PASS</text>
-        <text class="tt" x="720" y="82" style="fill:#047857">PASS</text>
+        <text class="tt" x="470" y="82" style="fill:#5fbf8f">PASS</text>
+        <text class="tt" x="720" y="82" style="fill:#5fbf8f">PASS</text>
         <text class="ss" x="920" y="76">Expected. If these <tspan font-style="italic">regress</tspan>, your</text>
         <text class="ss" x="920" y="96">engineered prompt is over-constrained.</text>
 
         <rect class="bx a grow w2" x="4" y="116" width="1172" height="66" rx="6"/>
         <text class="tt" x="24" y="144" style="font-size:14px">2 &middot; fails in a way you have seen before</text>
         <text class="ss" x="24" y="166">taken straight from your Lab 1.1 rework column</text>
-        <text class="tt" x="470" y="156" style="fill:#dc2626">FAIL</text>
-        <text class="tt" x="720" y="156" style="fill:#047857">PASS</text>
+        <text class="tt" x="470" y="156" style="fill:#e2726e">FAIL</text>
+        <text class="tt" x="720" y="156" style="fill:#5fbf8f">PASS</text>
         <text class="ss" x="920" y="150">The constraints and output contract</text>
         <text class="ss" x="920" y="170">are doing the work.</text>
 
         <rect class="bx r grow w3" x="4" y="190" width="1172" height="66" rx="6"/>
         <text class="tt" x="24" y="218" style="font-size:14px">2 &middot; genuinely ambiguous</text>
         <text class="ss" x="24" y="240">pass = it stopped and asked; inventing is a fail</text>
-        <text class="tt" x="470" y="230" style="fill:#dc2626">FAIL</text>
-        <text class="tt" x="720" y="230" style="fill:#047857">PASS</text>
-        <text class="ss" x="920" y="224" style="fill:#dc2626;font-weight:600">Where the biggest move lives &mdash;</text>
+        <text class="tt" x="470" y="230" style="fill:#e2726e">FAIL</text>
+        <text class="tt" x="720" y="230" style="fill:#5fbf8f">PASS</text>
+        <text class="ss" x="920" y="224" style="fill:#e2726e;font-weight:600">Where the biggest move lives &mdash;</text>
         <text class="ss" x="920" y="244">this is the stop conditions, earning out.</text>
 
         <text class="lb a" x="4" y="286">READ THE PATTERN, NOT THE HEADLINE</text>
         <rect class="bx a" x="4" y="296" width="1172" height="86" rx="8"/>
-        <text class="ss" x="24" y="322">The result that matters is <tspan font-weight="600" fill="#b45309">which rows moved</tspan>, not that the total went up. Ambiguous rows moving means you</text>
+        <text class="ss" x="24" y="322">The result that matters is <tspan font-weight="600" fill="#d98a3d">which rows moved</tspan>, not that the total went up. Ambiguous rows moving means you</text>
         <text class="ss" x="24" y="344">installed refusal. Known-failure rows moving means constraints landed. Control rows falling means you over-specified.</text>
         <text class="ss" x="24" y="370">And if <tspan font-style="italic">nothing</tspan> moves &mdash; the likely explanation is that Module 2 already did this work for this repository. A real finding.</text>
 
         <rect class="bx d" x="4" y="392" width="1172" height="56" rx="8"/>
-        <text class="ss w" x="24" y="428" style="font-size:14px">Row three of the tally sheet is a <tspan font-weight="700" fill="#fbbf24">pass rate</tspan>, not a turn count &mdash; the only row measured that way, because prompts cannot be compared any other way</text>
+        <text class="ss w" x="24" y="428" style="font-size:14px">Row three of the tally sheet is a <tspan font-weight="700" fill="#e0b34d">pass rate</tspan>, not a turn count &mdash; the only row measured that way, because prompts cannot be compared any other way</text>
       </svg>
     </div>
   </div>
@@ -1124,10 +952,10 @@ which is currently unused.
         <rect class="bx g" x="4" y="22" width="692" height="86" rx="8"/>
         <rect class="bx w" x="20" y="40" width="326" height="50" rx="5"/>
         <text class="ss" x="183" y="60" text-anchor="middle">Invented API</text>
-        <text class="ss" x="183" y="80" text-anchor="middle" style="fill:#047857;font-weight:600">the build catches it</text>
+        <text class="ss" x="183" y="80" text-anchor="middle" style="fill:#5fbf8f;font-weight:600">the build catches it</text>
         <rect class="bx w" x="354" y="40" width="326" height="50" rx="5"/>
         <text class="ss" x="517" y="60" text-anchor="middle">Silent scope drift</text>
-        <text class="ss" x="517" y="80" text-anchor="middle" style="fill:#047857;font-weight:600">output contract + bounded inputs</text>
+        <text class="ss" x="517" y="80" text-anchor="middle" style="fill:#5fbf8f;font-weight:600">output contract + bounded inputs</text>
 
         <text class="lb r" x="4" y="140">WHAT SURVIVED EVERY INSTRUMENT IN THIS MODULE</text>
         <rect class="bx r" x="4" y="150" width="692" height="130" rx="8"/>
@@ -1135,407 +963,52 @@ which is currently unused.
         <text class="tt" x="183" y="192" text-anchor="middle" style="font-size:13.5px">Confidently wrong refactor</text>
         <text class="ss" x="183" y="216" text-anchor="middle">Reads better than the original.</text>
         <text class="ss" x="183" y="236" text-anchor="middle">Internally consistent.</text>
-        <text class="ss" x="183" y="256" text-anchor="middle" style="fill:#dc2626;font-weight:600">Tests will not catch it.</text>
+        <text class="ss" x="183" y="256" text-anchor="middle" style="fill:#e2726e;font-weight:600">Tests will not catch it.</text>
         <rect class="bx w" x="354" y="168" width="326" height="94" rx="5"/>
         <text class="tt" x="517" y="192" text-anchor="middle" style="font-size:13.5px">Tests written to pass</text>
         <text class="ss" x="517" y="216" text-anchor="middle">Green suite, nothing proven.</text>
         <text class="ss" x="517" y="236" text-anchor="middle">Same reading as the code.</text>
-        <text class="ss" x="517" y="256" text-anchor="middle" style="fill:#dc2626;font-weight:600">Your safety net, defeated.</text>
+        <text class="ss" x="517" y="256" text-anchor="middle" style="fill:#e2726e;font-weight:600">Your safety net, defeated.</text>
 
         <rect class="bx d" x="4" y="296" width="692" height="134" rx="8"/>
         <text class="lb w" x="24" y="320">WHY NEITHER IS A PROMPTING PROBLEM</text>
-        <text class="ss w" x="24" y="348" style="font-size:14px">Both are failures of <tspan font-weight="700" fill="#fbbf24">independence</tspan>, not of instruction.</text>
-        <text class="ss w" x="24" y="374" style="font-size:14px">A session cannot audit its own reading of the requirement, because</text>
+        <text class="ss w" x="24" y="348" style="font-size:14px">Both are failures of <tspan font-weight="700" fill="#e0b34d">independence</tspan>, not of instruction.</text>
+        <text class="ss w" x="24" y="374" style="font-size:14px">No session audits its own reading of the requirement, because</text>
         <text class="ss w" x="24" y="394" style="font-size:14px">the reading is the thing in question.</text>
-        <text class="ss w" x="24" y="422" style="font-size:14px;fill:#5eead4">Module 4: four agents, and the review agent did not write the code.</text>
+        <text class="ss w" x="24" y="422" style="font-size:14px;fill:#6ea8fe">Module 4: four agents, and the review agent did not write the code.</text>
       </svg>
     </div>
   </div>
 </section>
 <!-- 19 -->
-<section class="slide" data-sec="Review quiz" data-title="Review quiz - eight questions" data-notes="Same format as the previous two modules. Read the question, take a show of hands on each option before advancing, then reveal. The hands matter more than the answer - a split room tells you which slide to revisit before the labs. Questions 1, 4 and 8 are the ones worth real discussion; 3 and 5 are quick. If time is short, run 1, 4, 6 and 8 and hand the rest out." data-tier="R">
+<section class="slide" data-sec="Review quiz" data-title="Review quiz - eight questions" data-notes="All eight on one slide. Take a show of hands on each option, then hover Answer to reveal. The split matters more than the score - a split room tells you which slide to revisit before the labs. If time is short, run 1, 4, 6 and 8. Q1 D: constraints are prohibitions and only help when you already know the wrong answer; ambiguity is exactly when you do not. Q2 B: is it true when nobody is asking for anything? No - it is a procedure, so a skill; C is the trap that grows instruction files to three pages. Q3 C: the compiler catches invented APIs for free; A has the weakest automatic counter. Q4 A: a test that never failed has never demonstrated anything; B and D ask the session holding the misreading to audit it; C measures lines run, not assertions. A reduces the problem rather than removing it - that is Module 4. Q5 B: the window now holds your rejection and the rejected idea together; D is a real but ambiguous signal. Q6 C: a set built only from tickets your new prompt handles can only agree with you - a measurement that can only agree is not a measurement. Q7 A: it forces the current contents into view; D proves it knows which file matters, not that it read today's contents. Q8 D: both are failures of independence, not instruction - end Day 1 on it: you cannot get independence from the session that wrote the code, which is the whole argument for Module 4." data-tier="K">
   <h2>Review quiz &mdash; eight questions<span class="tag q">QUIZ</span></h2>
-  <div class="body g55">
-    <div class="pts">
-      <h3>How this runs</h3>
-      <ul>
-        <li>Four options, one right. <b>Show of hands on each</b> before the answer slide &mdash; the split is the useful part, not the score.</li>
-        <li>Every question is drawn from something you will do in Labs 1.4 and 1.5 this afternoon.</li>
-      </ul>
-      <h3>If time is short</h3>
-      <ul>
-        <li>Run <b>1, 4, 6 and 8</b>. They cover stop conditions, the test trap, eval construction and the Module 4 handover.</li>
-      </ul>
-      <div class="take">A question the room splits on is worth more than five it gets right. <b>Say which slide it came from</b> and move on &mdash; do not re-teach the module.</div>
+  <div class="body qgrid">
+    <div class="qcol">
+      <div class="qc"><div class="qh"><b>1</b><span>A ticket had two defensible readings; the agent silently picked one. Which anatomy part was missing?</span><a class="ans" tabindex="0">Answer</a></div>
+        <div class="qo"><span><i>A</i>Constraints</span><span><i>B</i>Done criteria</span><span><i>C</i>Output contract</span><span class="c" data-why="Constraints are prohibitions &mdash; they only help when you already know what wrong looks like, and ambiguity is exactly when you do not. A stop condition says: if more than one reading is defensible, stop and ask."><i>D</i>Stop conditions</span></div></div>
+      <div class="qc"><div class="qh"><b>2</b><span>&ldquo;Before designing, read the ADR index and quote the constraint you rely on.&rdquo; Where does it belong?</span><a class="ans" tabindex="0">Answer</a></div>
+        <div class="qo"><span><i>A</i>Path-scoped instruction file</span><span class="c" data-why="Test: is it true when nobody is asking for anything? No &mdash; it is a sequence of actions, so a procedure, and procedures are skills. C is the trap that grows instruction files to three pages."><i>B</i>Skill file</span><span><i>C</i>Repository instruction file</span><span><i>D</i>The prompt</span></div></div>
+      <div class="qc"><div class="qh"><b>3</b><span>Which failure deserves the <em>least</em> space in your prompt?</span><a class="ans" tabindex="0">Answer</a></div>
+        <div class="qo"><span><i>A</i>Tests written to pass</span><span><i>B</i>Silent scope drift</span><span class="c" data-why="The compiler catches it for free, every time. Prompt lines are loaded and re-billed on every request &mdash; do not spend them on what the toolchain already closes. A needs the most words."><i>C</i>Invented API</span><span><i>D</i>Confidently wrong refactor</span></div></div>
+      <div class="qc"><div class="qh"><b>4</b><span>Change and tests came from one request; all green. Most extra confidence for least effort?</span><a class="ans" tabindex="0">Answer</a></div>
+        <div class="qo"><span class="c" data-why="A test that never failed has never demonstrated anything. B and D ask the session holding the misreading to audit it; C measures lines run, not assertions. A reduces the problem &mdash; Module 4 removes it."><i>A</i>Run the test on old code; see it fail</span><span><i>B</i>Ask the agent to self-review</span><span><i>C</i>Add cases until coverage is met</span><span><i>D</i>Ask it to justify each assertion</span></div></div>
     </div>
-    <div>
-      <svg viewBox="0 0 700 420" role="img" aria-label="What the eight quiz questions cover">
-        <rect class="bx p" x="4" y="4" width="692" height="412" rx="8"/>
-        <text class="lb p" x="24" y="32">WHAT THE EIGHT COVER</text>
-        <rect class="bx w rise" x="24" y="44" width="652" height="40" rx="5"/>
-        <text class="ss" x="40" y="69"><tspan font-weight="700">1 &middot;</tspan> The six-part anatomy &mdash; and the part everyone omits</text>
-        <rect class="bx w rise r2" x="24" y="90" width="652" height="40" rx="5"/>
-        <text class="ss" x="40" y="115"><tspan font-weight="700">2 &middot;</tspan> Instruction file, skill file or prompt &mdash; where a line belongs</text>
-        <rect class="bx w rise r3" x="24" y="136" width="652" height="40" rx="5"/>
-        <text class="ss" x="40" y="161"><tspan font-weight="700">3 &middot;</tspan> Where <tspan font-style="italic">not</tspan> to spend prompt budget</text>
-        <rect class="bx w rise r4" x="24" y="182" width="652" height="40" rx="5"/>
-        <text class="ss" x="40" y="207"><tspan font-weight="700">4 &middot;</tspan> Tests written to pass, and the ordering fix</text>
-        <rect class="bx w rise r5" x="24" y="228" width="652" height="40" rx="5"/>
-        <text class="ss" x="40" y="253"><tspan font-weight="700">5 &middot;</tspan> The strongest signal to start a clean session</text>
-        <rect class="bx w rise r6" x="24" y="274" width="652" height="40" rx="5"/>
-        <text class="ss" x="40" y="299"><tspan font-weight="700">6 &middot;</tspan> Building an eval set that can disagree with you</text>
-        <rect class="bx w rise r6" x="24" y="320" width="652" height="40" rx="5"/>
-        <text class="ss" x="40" y="345"><tspan font-weight="700">7 &middot;</tspan> Which grounding rule catches which failure</text>
-        <rect class="bx w rise r6" x="24" y="366" width="652" height="40" rx="5"/>
-        <text class="ss" x="40" y="391"><tspan font-weight="700">8 &middot;</tspan> What better prompting could not fix &mdash; and why</text>
-      </svg>
+    <div class="qcol">
+      <div class="qc"><div class="qh"><b>5</b><span>Strongest signal that it is time to start a clean session?</span><a class="ans" tabindex="0">Answer</a></div>
+        <div class="qo"><span><i>A</i>About thirty turns have passed</span><span class="c" data-why="The window now holds your rejection and the rejected idea together, and weights both &mdash; the noise is the history itself. D is real but ambiguous: the task may simply be hard."><i>B</i>It re-proposes a rejected approach</span><span><i>C</i>Responses have become slower</span><span><i>D</i>You corrected it 3 times running</span></div></div>
+      <div class="qc"><div class="qh"><b>6</b><span>Why put tickets your <em>weak</em> prompt already passes into the eval set?</span><a class="ans" tabindex="0">Answer</a></div>
+        <div class="qo"><span><i>A</i>So the pass rate does not look low</span><span><i>B</i>Easy tickets prime the hard ones</span><span class="c" data-why="If those tickets regress, the engineered prompt is over-constrained. A set built only from tickets your new prompt handles can only agree with you &mdash; that is not a measurement."><i>C</i>A control for over-constraining</span><span><i>D</i>To mirror a routine sprint</span></div></div>
+      <div class="qc"><div class="qh"><b>7</b><span>An edit is written against a method&rsquo;s pre-refactor signature. Which grounding rule catches it cheapest?</span><a class="ans" tabindex="0">Answer</a></div>
+        <div class="qo"><span class="c" data-why="It forces the current contents into view before the edit, so a stale memory shows up at once. D is the near miss: citing a file proves it knows which file matters, not what it says today."><i>A</i>Quote before you change</span><span><i>B</i>Refuse when unknown</span><span><i>C</i>Ask, do not invent</span><span><i>D</i>Cite the file</span></div></div>
+      <div class="qc"><div class="qh"><b>8</b><span>The wrong refactor and the test written to pass both resist better prompting. Why?</span><a class="ans" tabindex="0">Answer</a></div>
+        <div class="qo"><span><i>A</i>More code, more surface area</span><span><i>B</i>They come late, in a noisy window</span><span><i>C</i>They need more in the repo</span><span class="c" data-why="Code and test come from one reading of the requirement, so they agree whether or not that reading was right. A failure of independence, not instruction &mdash; the argument for Module 4."><i>D</i>No session audits its own reading</span></div></div>
     </div>
   </div>
 </section>
 
-<!-- 20 -->
-<section class="slide" data-sec="Review quiz" data-title="Q1 - the missing part" data-notes="Expect A to poll well because constraints feel like the safety mechanism. The distinction to draw out: constraints tell it what not to do when it knows what it is doing; stop conditions tell it what to do when it does not." data-tier="R">
-  <h2>Q1 &middot; The agent chose a design nobody asked it to choose. Which part was missing?<span class="tag q">1 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">A ticket had two defensible readings. The agent picked one, implemented it well, and never mentioned the other. Which part of the six-part anatomy would have prevented this?</div>
-    <div class="opts">
-      <div class="opt"><span class="k">A</span><span>Constraints &mdash; a tighter list of what it must not do would have ruled out the reading it picked.</span></div>
-      <div class="opt"><span class="k">B</span><span>Done criteria &mdash; a stricter definition of finished would have exposed that the requirement was unclear.</span></div>
-      <div class="opt"><span class="k">C</span><span>Output contract &mdash; specifying the shape of the change would have made the ambiguity visible in review.</span></div>
-      <div class="opt"><span class="k">D</span><span>Stop conditions &mdash; a named circumstance requiring it to stop and ask rather than choose.</span></div>
-    </div>
-    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
-  </div></div>
-</section>
-
-<!-- 21 -->
-<section class="slide" data-sec="Review quiz" data-title="Q1 - answer" data-notes="If A polled highest, that is the useful split and worth two minutes. Constraints are a list of prohibitions, and prohibitions only work when you already know what the wrong answer looks like. Ambiguity is precisely the case where you do not." data-tier="R">
-  <h2>Q1 &middot; Answer<span class="tag q">1 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">Two defensible readings; it picked one silently. Which part was missing?</div>
-    <div class="opts">
-      <div class="opt wrong"><span class="k">A</span><span>Constraints.</span></div>
-      <div class="opt wrong"><span class="k">B</span><span>Done criteria.</span></div>
-      <div class="opt wrong"><span class="k">C</span><span>Output contract.</span></div>
-      <div class="opt right"><span class="k">D</span><span>Stop conditions &mdash; a named circumstance requiring it to stop and ask rather than choose.</span></div>
-    </div>
-    <div class="why"><b>D.</b> The model has no state it falls back into when it cannot ground an answer &mdash; it produces the most plausible continuation. A stop condition installs the missing behaviour: <em>&ldquo;if more than one reading of the criteria is defensible, stop and ask.&rdquo;</em>
-      <span class="no"><b>A</b> is the popular answer and the instructive miss: constraints are prohibitions, and a prohibition only helps when you already know what the wrong answer looks like &mdash; ambiguity is exactly the case where you do not. <b>B</b> and <b>C</b> constrain the <em>result</em>, and both readings would have satisfied them.</span></div>
-  </div></div>
-</section>
-
-<!-- 22 -->
-<section class="slide" data-sec="Review quiz" data-title="Q2 - where does the line belong" data-notes="The trap is C. Putting a procedure in the instructions file is the most common real-world version of this mistake and it is how instruction files reach three pages." data-tier="R">
-  <h2>Q2 &middot; Where does this line belong?<span class="tag q">2 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">&ldquo;Before designing anything, read <code>docs/adr/README.md</code> and open any ADR whose subject the ticket touches; quote the constraint you are relying on.&rdquo;</div>
-    <div class="opts">
-      <div class="opt"><span class="k">A</span><span>A path-scoped instruction file &mdash; it is about the ADR directory, so it should be scoped to that path.</span></div>
-      <div class="opt"><span class="k">B</span><span>A skill file &mdash; it is a procedure, and it is only true while you are actually doing this kind of task.</span></div>
-      <div class="opt"><span class="k">C</span><span>The repository instruction file &mdash; it applies to every change in this codebase, so it should always be loaded.</span></div>
-      <div class="opt"><span class="k">D</span><span>The prompt &mdash; it is a step you want followed on this request, so state it on the request.</span></div>
-    </div>
-    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
-  </div></div>
-</section>
-
-<!-- 23 -->
-<section class="slide" data-sec="Review quiz" data-title="Q2 - answer" data-notes="Land the test rather than the answer: is this true when nobody is asking for anything? It is not - it is a sequence of actions, which makes it a procedure and therefore a skill." data-tier="R">
-  <h2>Q2 &middot; Answer<span class="tag q">2 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">&ldquo;Before designing anything, read the ADR index and quote the constraint you rely on.&rdquo;</div>
-    <div class="opts">
-      <div class="opt wrong"><span class="k">A</span><span>A path-scoped instruction file.</span></div>
-      <div class="opt right"><span class="k">B</span><span>A skill file &mdash; a procedure, true only while you are doing this kind of task.</span></div>
-      <div class="opt wrong"><span class="k">C</span><span>The repository instruction file.</span></div>
-      <div class="opt wrong"><span class="k">D</span><span>The prompt.</span></div>
-    </div>
-    <div class="why"><b>B.</b> Apply the test: <em>is this true when nobody is asking for anything?</em> No &mdash; it is a sequence of actions. That makes it a procedure, and procedures are skill files.
-      <span class="no"><b>C</b> is the trap, and the most common real mistake: procedures leak into the instructions file, which then carries steps that are irrelevant on most requests &mdash; and it grows until nobody reads it carefully. <b>A</b> misreads path-scoping: the glob matches the files being <em>changed</em>, not the files being read. <b>D</b> is the re-discovery tax paid by hand &mdash; you will forget it on the request where it mattered.</span></div>
-  </div></div>
-</section>
-
-<!-- 24 -->
-<section class="slide" data-sec="Review quiz" data-title="Q3 - where not to spend prompt budget" data-notes="Quick one. The point is that prompt words are not free and spending them on failures your toolchain already catches is the most common waste in an experienced team." data-tier="R">
-  <h2>Q3 &middot; Which failure deserves the <em>least</em> space in your prompt?<span class="tag q">3 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">You are tightening a skill file and want to spend its lines where they earn most. Which of these four failures needs the least from it?</div>
-    <div class="opts">
-      <div class="opt"><span class="k">A</span><span>Tests written to pass &mdash; the suite goes green and nothing automatic will tell you.</span></div>
-      <div class="opt"><span class="k">B</span><span>Silent scope drift &mdash; the diff quietly grows beyond what you asked for.</span></div>
-      <div class="opt"><span class="k">C</span><span>Invented API &mdash; a method or option that does not exist.</span></div>
-      <div class="opt"><span class="k">D</span><span>Confidently wrong refactor &mdash; clean, idiomatic, and false in this codebase.</span></div>
-    </div>
-    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
-  </div></div>
-</section>
-
-<!-- 25 -->
-<section class="slide" data-sec="Review quiz" data-title="Q3 - answer" data-notes="If anyone argues that invented APIs waste a turn and are therefore worth preventing - agree, and put the cost next to it. One turn against a line in a file that is loaded on every request forever." data-tier="R">
-  <h2>Q3 &middot; Answer<span class="tag q">3 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">Which failure deserves the least space in your prompt?</div>
-    <div class="opts">
-      <div class="opt wrong"><span class="k">A</span><span>Tests written to pass.</span></div>
-      <div class="opt wrong"><span class="k">B</span><span>Silent scope drift.</span></div>
-      <div class="opt right"><span class="k">C</span><span>Invented API &mdash; your build catches it, immediately and every time.</span></div>
-      <div class="opt wrong"><span class="k">D</span><span>Confidently wrong refactor.</span></div>
-    </div>
-    <div class="why"><b>C.</b> The compiler closes this one for free, on every request, with no words spent. Prompt lines are not free &mdash; they are loaded and re-billed &mdash; so spending them on a failure your toolchain already catches is pure waste.
-      <span class="no"><b>A</b> has the <em>weakest</em> automatic counter and needs the most from you. <b>B</b> is closed by the output contract and a bounded inputs list &mdash; cheap, but it does need the words. <b>D</b> needs grounding rules <em>and</em> the ADRs from Module 2.</span></div>
-  </div></div>
-</section>
-
-<!-- 26 -->
-<section class="slide" data-sec="Review quiz" data-title="Q4 - the green suite" data-notes="This is the question worth the most discussion time in the set. Expect B and D to draw votes from people who have been burned and reached for coverage or a second opinion from the same session." data-tier="K">
-  <h2>Q4 &middot; The tests are green. What have you actually proven?<span class="tag q">4 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">You asked for a change and its tests in one request. Everything passes. Which action gives you the most additional confidence, for the least effort?</div>
-    <div class="opts">
-      <div class="opt"><span class="k">A</span><span>Run the new test against the code as it was <em>before</em> the change, and confirm it fails.</span></div>
-      <div class="opt"><span class="k">B</span><span>Ask the agent to review its own change against the acceptance criteria and report any gaps.</span></div>
-      <div class="opt"><span class="k">C</span><span>Ask for additional test cases until coverage of the changed lines reaches your threshold.</span></div>
-      <div class="opt"><span class="k">D</span><span>Ask the agent to explain why each assertion is correct, and check the explanations.</span></div>
-    </div>
-    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
-  </div></div>
-</section>
-
-<!-- 27 -->
-<section class="slide" data-sec="Review quiz" data-title="Q4 - answer" data-notes="The sentence to leave them with: a test that never failed has never demonstrated anything. And be honest that A reduces rather than removes the problem - the same misreading can survive it, which is why Module 4 exists." data-tier="K">
-  <h2>Q4 &middot; Answer<span class="tag q">4 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">The tests are green. What gives you the most confidence for the least effort?</div>
-    <div class="opts">
-      <div class="opt right"><span class="k">A</span><span>Run the new test against the pre-change code and confirm it fails.</span></div>
-      <div class="opt wrong"><span class="k">B</span><span>Ask the agent to review its own change.</span></div>
-      <div class="opt wrong"><span class="k">C</span><span>Ask for more cases until coverage hits a threshold.</span></div>
-      <div class="opt wrong"><span class="k">D</span><span>Ask it to explain why each assertion is correct.</span></div>
-    </div>
-    <div class="why"><b>A.</b> A test that never failed has never demonstrated anything. Running it against the old code is the cheapest way to convert a green tick from a feeling into evidence &mdash; and it takes seconds.
-      <span class="no"><b>B</b> and <b>D</b> ask the session that holds the misreading to audit the misreading &mdash; you get a fluent confirmation, which feels like verification and is not. <b>C</b> measures which lines ran, not whether anything was asserted about them; a test that asserts nothing still gives you coverage. <b>A</b> reduces the problem rather than removing it &mdash; the same misreading survives it, which is what Module 4 is for.</span></div>
-  </div></div>
-</section>
-<!-- 28 -->
-<section class="slide" data-sec="Review quiz" data-title="Q5 - the clean-session signal" data-notes="Quick one, but the wrong answers are all things people actually use as triggers, so it is worth naming why each is weaker." data-tier="R">
-  <h2>Q5 &middot; Which is the strongest signal to start a clean session?<span class="tag q">5 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">You are deep in a session on one ticket. Which of these most reliably means the window is now working against you?</div>
-    <div class="opts">
-      <div class="opt"><span class="k">A</span><span>The session has passed roughly thirty turns.</span></div>
-      <div class="opt"><span class="k">B</span><span>It proposes again an approach you explicitly rejected earlier in the session.</span></div>
-      <div class="opt"><span class="k">C</span><span>Responses have become noticeably slower to arrive.</span></div>
-      <div class="opt"><span class="k">D</span><span>You have had to correct it three times in a row.</span></div>
-    </div>
-    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
-  </div></div>
-</section>
-
-<!-- 29 -->
-<section class="slide" data-sec="Review quiz" data-title="Q5 - answer" data-notes="D is the interesting near-miss and worth naming: repeated correction is a real signal, but it is ambiguous - it might mean the window is noisy, or simply that the task is hard and your request was vague. B is unambiguous." data-tier="R">
-  <h2>Q5 &middot; Answer<span class="tag q">5 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">Which most reliably means the window is working against you?</div>
-    <div class="opts">
-      <div class="opt wrong"><span class="k">A</span><span>Roughly thirty turns have passed.</span></div>
-      <div class="opt right"><span class="k">B</span><span>It re-proposes an approach you already rejected.</span></div>
-      <div class="opt wrong"><span class="k">C</span><span>Responses are slower.</span></div>
-      <div class="opt wrong"><span class="k">D</span><span>You have corrected it three times in a row.</span></div>
-    </div>
-    <div class="why"><b>B.</b> The window now holds both your rejection <em>and</em> the thing you rejected, and it is weighting them together. No prompt fixes that &mdash; the noise is the history itself.
-      <span class="no"><b>A</b> is a proxy for the real thing and a poor one: a focused thirty-turn session can be perfectly clean. <b>C</b> is about response size and load, not signal quality. <b>D</b> is the interesting near-miss &mdash; a real signal, but ambiguous, because it might equally mean the task is hard or your request was vague. <b>B</b> is the one that can only mean one thing.</span></div>
-  </div></div>
-</section>
-
-<!-- 30 -->
-<section class="slide" data-sec="Review quiz" data-title="Q6 - building the eval set" data-notes="This is the question that decides whether Lab 1.5 produces a believable number or a flattering one. Expect C to poll well because it sounds efficient." data-tier="R">
-  <h2>Q6 &middot; Why include tickets your <em>weak</em> prompt already passes?<span class="tag q">6 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">You are building the six-ticket eval set for Lab 1.5. Two of the six are tickets the ordinary request already handles correctly. What are they for?</div>
-    <div class="opts">
-      <div class="opt"><span class="k">A</span><span>To keep the pass rate from looking discouragingly low, so the comparison stays readable.</span></div>
-      <div class="opt"><span class="k">B</span><span>To give the agent easier examples first, so the harder tickets benefit from the pattern.</span></div>
-      <div class="opt"><span class="k">C</span><span>They are a control &mdash; if they <em>regress</em>, your engineered prompt is over-constrained, and without them you could not tell.</span></div>
-      <div class="opt"><span class="k">D</span><span>To make the set representative of a real sprint, where most tickets are routine.</span></div>
-    </div>
-    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
-  </div></div>
-</section>
-
-<!-- 31 -->
-<section class="slide" data-sec="Review quiz" data-title="Q6 - answer" data-notes="The general principle is worth stating beyond this lab: a measurement that can only agree with you is not a measurement. If they take one methodological idea from the module, this is the one." data-tier="R">
-  <h2>Q6 &middot; Answer<span class="tag q">6 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">What are the already-passing tickets for?</div>
-    <div class="opts">
-      <div class="opt wrong"><span class="k">A</span><span>To keep the pass rate from looking low.</span></div>
-      <div class="opt wrong"><span class="k">B</span><span>To give the agent easier examples first.</span></div>
-      <div class="opt right"><span class="k">C</span><span>They are a control &mdash; a regression there means you over-constrained, and nothing else would reveal it.</span></div>
-      <div class="opt wrong"><span class="k">D</span><span>To make the set representative of a real sprint.</span></div>
-    </div>
-    <div class="why"><b>C.</b> An eval set built only from tickets your new prompt handles well <em>cannot disconfirm you</em> &mdash; it can only agree. The control rows are what make the result credible to someone who did not write the prompt.
-      <span class="no"><b>A</b> is optimising the number rather than learning from it. <b>B</b> imagines the six runs influence each other; they are independent. <b>D</b> is a reasonable-sounding goal and the wrong one at this size &mdash; with six tickets you are not sampling a sprint, you are building the smallest thing that can tell you you were wrong.</span></div>
-  </div></div>
-</section>
-
-<!-- 32 -->
-<section class="slide" data-sec="Review quiz" data-title="Q7 - which grounding rule" data-notes="Quick recall question, but it checks that they hold the four rules as four distinct instruments rather than one idea in four phrasings." data-tier="R">
-  <h2>Q7 &middot; Which grounding rule catches this?<span class="tag q">7 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">The agent proposes an edit to a method &mdash; but the method was refactored last week and its current signature is different. The edit is written against the version it remembers. Which rule catches this most cheaply?</div>
-    <div class="opts">
-      <div class="opt"><span class="k">A</span><span>Quote before you change &mdash; show the current code before proposing the edit.</span></div>
-      <div class="opt"><span class="k">B</span><span>Refuse when unknown &mdash; if it cannot ground the answer, stop.</span></div>
-      <div class="opt"><span class="k">C</span><span>Ask, do not invent &mdash; never invent an identifier, value or limit.</span></div>
-      <div class="opt"><span class="k">D</span><span>Cite the file &mdash; name the source of every constraint it relies on.</span></div>
-    </div>
-    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
-  </div></div>
-</section>
-
-<!-- 33 -->
-<section class="slide" data-sec="Review quiz" data-title="Q7 - answer" data-notes="Draw out the distinction from D, which is the closest wrong answer: citing a file proves it knows which file matters, not that it read the current contents of it." data-tier="R">
-  <h2>Q7 &middot; Answer<span class="tag q">7 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">An edit written against a remembered version of the file. Which rule catches it?</div>
-    <div class="opts">
-      <div class="opt right"><span class="k">A</span><span>Quote before you change &mdash; show the current code first.</span></div>
-      <div class="opt wrong"><span class="k">B</span><span>Refuse when unknown.</span></div>
-      <div class="opt wrong"><span class="k">C</span><span>Ask, do not invent.</span></div>
-      <div class="opt wrong"><span class="k">D</span><span>Cite the file.</span></div>
-    </div>
-    <div class="why"><b>A.</b> It forces the current contents into view before the edit is proposed, so a stale mental model becomes visible immediately. One extra line in the request, and it closes an entire class of confident rewrite.
-      <span class="no"><b>D</b> is the closest miss and worth a moment: naming the file proves it knows which file <em>matters</em>, not that it read what is in there today. <b>B</b> does not fire, because nothing here felt unknown to it. <b>C</b> is about invented identifiers and values &mdash; the signature was not invented, it was remembered.</span></div>
-  </div></div>
-</section>
-
-<!-- 34 -->
-<section class="slide" data-sec="Review quiz" data-title="Q8 - what better prompting cannot fix" data-notes="The closing question, and it is the bridge into Module 4. Take the vote seriously and let someone argue for A or C before revealing - the argument itself is the transition." data-tier="K">
-  <h2>Q8 &middot; Two failures survived everything in this module. Why?<span class="tag q">8 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">The confidently wrong refactor and the test written to pass both resist better instructions. What do they have in common that the other two failures do not?</div>
-    <div class="opts">
-      <div class="opt"><span class="k">A</span><span>They involve more code, so there is more surface area for the agent to get wrong.</span></div>
-      <div class="opt"><span class="k">B</span><span>They occur later in the task, when the context window is already noisy.</span></div>
-      <div class="opt"><span class="k">C</span><span>They need domain knowledge, so they are fixed by writing more into the repository.</span></div>
-      <div class="opt"><span class="k">D</span><span>Both require judging the reading of the requirement &mdash; and a session cannot audit its own reading.</span></div>
-    </div>
-    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
-  </div></div>
-</section>
-
-<!-- 35 -->
-<section class="slide" data-sec="Review quiz" data-title="Q8 - answer" data-notes="End the module here rather than on a summary slide. The sentence to close Day 1 on: you cannot get independence from the session that wrote the code - and that is the entire argument for the next module, which they have now watched fail rather than been told." data-tier="K">
-  <h2>Q8 &middot; Answer<span class="tag q">8 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">What do the two surviving failures have in common?</div>
-    <div class="opts">
-      <div class="opt wrong"><span class="k">A</span><span>They involve more code.</span></div>
-      <div class="opt wrong"><span class="k">B</span><span>They occur later, in a noisy window.</span></div>
-      <div class="opt wrong"><span class="k">C</span><span>They need more written into the repository.</span></div>
-      <div class="opt right"><span class="k">D</span><span>Both require judging the <em>reading</em> of the requirement &mdash; and a session cannot audit its own reading.</span></div>
-    </div>
-    <div class="why"><b>D.</b> Both are failures of <em>independence</em>, not of instruction. The implementation and the test come from one reading of the requirement, so they agree with each other whether or not that reading was right &mdash; and agreement between two things with the same source proves nothing.
-      <span class="no"><b>C</b> is the strongest wrong answer and half true: Module 2 makes the confidently wrong refactor <em>less likely</em>, because ADRs rule options out. But it cannot help when the requirement itself was misread. <b>A</b> and <b>B</b> describe when these failures are more common, not why they resist instruction.
-      <b>Which is the whole argument for Module 4</b> &mdash; four agents, and the one that reviews the change did not write it.</span></div>
-  </div></div>
-</section>
-
 </div></div>
 
-<div id="notes"><div class="h">SPEAKER NOTES</div><div id="notesbody"></div></div>
-
-<div id="bot">
-  <button class="navbtn" id="prev" title="Previous (&larr;)">&#8249;</button>
-  <button class="navbtn" id="next" title="Next (&rarr;)">&#8250;</button>
-  <span id="ttl"></span>
-  <div id="prog"><div id="progf"></div></div>
-  <span id="hint">&larr; &rarr; move &middot; K key path &middot; O index &middot; N notes &middot; F full</span>
-  <span id="num"></span>
-</div>
-
-<script>
-(function(){
-  var slides=[].slice.call(document.querySelectorAll('.slide'));
-  var stage=document.getElementById('stage'),toc=document.getElementById('toc');
-  var notes=document.getElementById('notes'),notesBody=document.getElementById('notesbody');
-  var elNum=document.getElementById('num'),elSec=document.getElementById('sec');
-  var elTtl=document.getElementById('ttl'),elProg=document.getElementById('progf');
-  var elTier=document.getElementById('tier'),elAfter=document.getElementById('after');
-  var elHint=document.getElementById('hint');
-  // The key path skips reference slides, and skips after-lab slides until the lab is scored.
-  var postLab=false;
-  function onPath(n){var s=slides[n];return s.dataset.tier!=='R'&&(postLab||!s.dataset.after);}
-  function paintHint(){elHint.innerHTML='&larr; &rarr; move &middot; K key path &middot; L after-lab '+(postLab?'<b>ON</b>':'off')+' &middot; O index &middot; N notes &middot; F full';}
-  var i=0;
-
-  // ---- build the index, grouped by section ----
-  var list=document.getElementById('toclist'),grp=null,last=null;
-  slides.forEach(function(s,k){
-    var sec=s.dataset.sec||'';
-    if(sec!==last){
-      grp=document.createElement('div');grp.className='grp';
-      var h=document.createElement('div');h.className='grph';h.innerHTML=sec;grp.appendChild(h);
-      list.appendChild(grp);last=sec;
-    }
-    var a=document.createElement('a');a.href='#'+(k+1);
-    var tr=s.dataset.tier||'R';
-    a.innerHTML='<span class="n">'+(k+1)+'</span><span class="tg '+tr+'">'+tr+'</span>'+(s.dataset.title||'');
-    if(s.dataset.after)a.className='aft';
-    a.onclick=function(e){e.preventDefault();go(k);toc.classList.remove('on');};
-    grp.appendChild(a);
-  });
-  var links=[].slice.call(toc.querySelectorAll('a'));
-
-  function go(n){
-    i=Math.max(0,Math.min(slides.length-1,n));
-    slides.forEach(function(s,k){s.classList.toggle('active',k===i);});
-    links.forEach(function(a,k){a.classList.toggle('cur',k===i);});
-    elNum.textContent=(i+1)+' / '+slides.length;
-    elSec.innerHTML=slides[i].dataset.sec||'';
-    elTtl.textContent=slides[i].dataset.title||'';
-    var tr=slides[i].dataset.tier||'R';
-    elTier.className='tier '+tr;elTier.textContent=(tr==='D'?'DEMO':tr==='K'?'KEY':'REF');
-    elAfter.classList.toggle('on',!!slides[i].dataset.after);
-    elProg.style.width=((i+1)/slides.length*100)+'%';
-    notesBody.textContent=slides[i].dataset.notes||'No notes for this slide.';
-    if(history.replaceState)history.replaceState(null,'','#'+(i+1));
-  }
-  function fit(){
-    var extra=notes.classList.contains('on')?notes.offsetHeight:0;
-    var s=Math.min((window.innerWidth-24)/1280,(window.innerHeight-82-extra-24)/720);
-    stage.style.transform='scale('+s+')';
-  }
-  document.getElementById('next').onclick=function(){go(i+1);};
-  document.getElementById('prev').onclick=function(){go(i-1);};
-  document.getElementById('tocbtn').onclick=function(){toc.classList.toggle('on');};
-  document.getElementById('notesbtn').onclick=function(){notes.classList.toggle('on');fit();};
-  document.getElementById('fsbtn').onclick=function(){
-    if(document.fullscreenElement)document.exitFullscreen();else document.documentElement.requestFullscreen();
-  };
-  document.addEventListener('keydown',function(e){
-    var k=e.key;
-    if(k==='ArrowRight'||k==='PageDown'||k===' '){go(i+1);e.preventDefault();}
-    else if(k==='ArrowLeft'||k==='PageUp'||k==='p'){go(i-1);e.preventDefault();}
-    else if(k==='Home'){go(0);}
-    else if(k==='End'){go(slides.length-1);}
-    else if(k==='o'||k==='O'){toc.classList.toggle('on');}
-    else if(k==='n'||k==='N'){notes.classList.toggle('on');fit();}
-    else if(k==='f'||k==='F'){document.getElementById('fsbtn').onclick();}
-    else if(k==='k'){for(var j=i+1;j<slides.length;j++){if(onPath(j)){go(j);break;}}}
-    else if(k==='K'){for(var j2=i-1;j2>=0;j2--){if(onPath(j2)){go(j2);break;}}}
-    else if(k==='l'||k==='L'){postLab=!postLab;paintHint();}
-    else if(k==='Escape'){toc.classList.remove('on');notes.classList.remove('on');fit();}
-  });
-  window.addEventListener('resize',fit);
-  window.addEventListener('hashchange',function(){
-    var n=parseInt(location.hash.replace('#',''),10);if(n)go(n-1);
-  });
-  fit();
-  paintHint();
-  var start=parseInt(location.hash.replace('#',''),10);
-  go(start?start-1:0);
-})();
-</script>
+<script src="../assets/adlc-deck.js"></script>
 </body>
 </html>
