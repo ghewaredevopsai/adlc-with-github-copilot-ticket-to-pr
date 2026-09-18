@@ -24,7 +24,7 @@
   document.body.appendChild(el('<div id="toc"><h3>'+DECK+' &mdash; slide index</h3>'+
     '<p class="hint">click a slide, or press O to close &middot; K key &middot; D demo &middot; R reference</p>'+
     '<div class="cols" id="toclist"></div></div>'));
-  document.body.appendChild(el('<div id="notes"><div class="h">SPEAKER NOTES</div><div id="notesbody"></div></div>'));
+  document.body.appendChild(el('<div id="notes"><div class="h">NOTES &mdash; MORE ON THIS SLIDE</div><div id="notesbody"></div></div>'));
   var toc=document.getElementById('toc'),notes=document.getElementById('notes'),notesBody=document.getElementById('notesbody');
 
   // ---- chrome: progress bar and HUD ----
@@ -33,7 +33,7 @@
     '<div id="hud">'+
       '<a href="../course-outline-agentic-adlc-github-copilot.html" title="Open the 2-day course outline">OUTLINE</a><span class="sep">|</span>'+
       '<a href="#" data-act="index" title="Index (O)">index</a><span class="sep">|</span>'+
-      '<a href="#" data-act="notes" title="Speaker notes (N)">notes</a><span class="sep">|</span>'+
+      '<a href="#" data-act="notes" title="Notes on this slide (N)">notes</a><span class="sep">|</span>'+
       '<span class="lab" id="lab" title="L toggles after-lab slides on the key path"></span><span class="sep">|</span>'+
       '<span class="tier" id="tier"></span><span class="after" id="after">AFTER LAB</span>'+
       '<span id="num"></span>'+
