@@ -20,31 +20,30 @@
   <div class="wrap">
     <span class="tier">Day 2 &middot; Module 8 of 8</span>
     <h1>Closing the Loop</h1>
-    <p class="sub">Review, pull requests, and the documentation that feeds the next ticket.</p>
+    <p class="sub">Review, pull requests, and writing back what you learned.</p>
     <p class="meta">
       <span><b>Agentic ADLC with GitHub Copilot</b> &mdash; From JIRA Ticket to Merged PR</span>
       <span>Advanced</span>
       <span>Trainer: Rajesh Gheware</span>
     </p>
     <div class="chips">
-    <span class="chip">The review agent, honestly</span>
-    <span class="chip">Other people's AI code</span>
+    <span class="chip">What the review agent cannot do</span>
+    <span class="chip">Reviewing AI-written code</span>
     <span class="chip">Pull requests</span>
-    <span class="chip">Confluence write-back</span>
+    <span class="chip">Writing back to Confluence</span>
     <span class="chip">Feeding the next ticket</span>
     <span class="chip">Rollout &amp; measurement</span>
-  
     </div>
   </div>
 </section>
 
 <!-- 2 -->
-<section class="slide" data-sec="Opening" data-title="Seven modules consumed memory. None wrote to it" data-notes="The framing for the whole module and it is worth drawing slowly. Every module since the second has READ from the repository - the ADRs, the conventions, the contract document - and not one of them has written anything back. So the second ticket starts exactly where the first one did. Point at the specific losses on the right, because abstract talk about knowledge capture does not move anyone: you decided against amending in place and nobody recorded why, you discovered the mirrored type had drifted and that is in a session that is gone, you found a regulatory constraint in a closed ticket and the next person will have to find it again. Then the honest scoping line: this module is not about generating documentation. Most generated documentation is worthless, and half this module is about what NOT to write." data-tier="K">
-  <h2>Seven modules read from the repository. None of them wrote back<span class="tag">M8</span></h2>
+<section class="slide" data-sec="Opening" data-title="Seven modules consumed memory. None wrote to it" data-notes="The framing for the whole module and it is worth drawing slowly. Every module since the second has READ from the repository - the ADRs, the conventions, the contract document - and not one of them has written anything back. So the second ticket starts exactly where the first one did. Point at the specific losses in the red box, because abstract talk about knowledge capture does not move anyone: you decided against amending a posting in place (the reversal design in Lab 2.1) and nobody recorded why; you discovered the mirrored type - the consumer's hand-written copy of the service's request type from Module 7 - had drifted, and that is in a session that is gone; you found a regulatory constraint in a closed ticket and the next person will have to find it again. Then the honest scoping line: this module is not about generating documentation. Most generated documentation is worthless, and half this module is about what NOT to write. The compounding claim: everything so far makes the first ticket go better; this is what makes the second one go better." data-tier="K">
+  <h2>Modules 3 to 7 read from the repo. None of them wrote back<span class="tag">M8</span></h2>
   <div class="body g64">
     <div>
-      <svg viewBox="0 0 700 430" role="img" aria-label="Every module consuming repository knowledge with nothing writing back">
-        <text class="lb" x="4" y="13">THE COURSE SO FAR &mdash; ALL ARROWS POINT ONE WAY</text>
+      <svg viewBox="0 0 700 430" role="img" aria-label="Every module reading repository knowledge with nothing writing back">
+        <text class="lb" x="4" y="13">SO FAR &mdash; EVERY ARROW POINTS ONE WAY</text>
         <rect class="bx" x="4" y="22" width="692" height="182" rx="8"/>
         <rect class="bx g" x="20" y="42" width="150" height="144" rx="6"/>
         <text class="tt" x="95" y="98" text-anchor="middle" style="font-size:13.5px">the</text>
@@ -56,7 +55,7 @@
         <path class="fl" d="M174 138 L214 138"/>
         <path class="fl" d="M174 172 L214 172"/>
         <rect class="bx w rise" x="218" y="52" width="462" height="30" rx="5"/>
-        <text class="ss" x="234" y="72"><tspan font-weight="700">M3</tspan> &nbsp;grounding rules cite it</text>
+        <text class="ss" x="234" y="72"><tspan font-weight="700">M3</tspan> &nbsp;grounding rules quote it</text>
         <rect class="bx w rise r2" x="218" y="88" width="462" height="30" rx="5"/>
         <text class="ss" x="234" y="108"><tspan font-weight="700">M4</tspan> &nbsp;the review agent checks against it</text>
         <rect class="bx w rise r3" x="218" y="124" width="462" height="30" rx="5"/>
@@ -64,385 +63,382 @@
         <rect class="bx w rise r4" x="218" y="160" width="462" height="30" rx="5"/>
         <text class="ss" x="234" y="180"><tspan font-weight="700">M6&ndash;7</tspan> &nbsp;the ticket and the contract are read from it</text>
 
-        <text class="lb r" x="4" y="238">AND WHAT WAS LEARNED ALONG THE WAY</text>
+        <text class="lb r" x="4" y="238">WHAT YOU LEARNED &mdash; AND LOST</text>
         <rect class="bx r" x="4" y="248" width="692" height="128" rx="8"/>
         <rect class="bx w" x="20" y="266" width="660" height="28" rx="5"/>
-        <text class="ss" x="34" y="285">You decided against amending in place &mdash; nobody recorded why</text>
+        <text class="ss" x="34" y="285">You chose not to edit a posting in place. Nobody wrote down why.</text>
         <rect class="bx w" x="20" y="300" width="660" height="28" rx="5"/>
-        <text class="ss" x="34" y="319">You found the mirrored type had drifted &mdash; that session is gone</text>
+        <text class="ss" x="34" y="319">You found the copied type was out of date. That chat is gone.</text>
         <rect class="bx w" x="20" y="334" width="660" height="28" rx="5"/>
-        <text class="ss" x="34" y="353">You found a regulatory constraint in a closed ticket &mdash; and so will the next person</text>
+        <text class="ss" x="34" y="353">You found a legal rule in a closed ticket. The next person must find it again.</text>
 
         <rect class="bx d" x="4" y="388" width="692" height="42" rx="8"/>
-        <text class="ss w" x="24" y="415" style="font-size:14px">So the second ticket starts <tspan font-weight="700" fill="#e0b34d">exactly where the first one did.</tspan></text>
+        <text class="ss w" x="24" y="415" style="font-size:14px">So the next ticket <tspan font-weight="700" fill="#e0b34d">starts from zero again.</tspan></text>
       </svg>
     </div>
     <div class="pts">
-      <h3>What this module is</h3>
+      <h3>This module</h3>
       <ul>
-        <li>The write path. Review, the pull request, and the small amount of documentation <b>worth generating</b>.</li>
-        <li>It closes back to Module 2 &mdash; which makes the course a circle rather than a line.</li>
+        <li>Writing back: review, the pull request, and the <b>few documents worth writing</b>.</li>
+        <li>It links back to Module 2 (knowledge in the repo). The course becomes a <b>circle</b>.</li>
       </ul>
-      <h3>What it is not</h3>
+      <h3>Not this</h3>
       <ul>
-        <li><b>Not &ldquo;get the agent to write your documentation&rdquo;.</b> Most generated documentation is worthless, and half of this module is about what <em>not</em> to write.</li>
+        <li>Not &ldquo;let the agent write all your docs&rdquo;. <b>Most of that is useless.</b></li>
       </ul>
-      <div class="take"><b>The compounding claim:</b> everything so far makes the <em>first</em> ticket go better. This is what makes the <em>second</em> one go better &mdash; and that is the only version of this that pays back more than once.</div>
+      <div class="take"><b>Modules 1&ndash;7</b> make the <em>first</em> ticket better. This module makes the <em>next</em> one better.</div>
     </div>
   </div>
 </section>
 
 <!-- 3 -->
-<section class="slide" data-sec="1 &middot; The review agent, honestly" data-title="What it reliably catches, and what it does not" data-notes="An honest inventory, and it is the slide a sceptical senior engineer will judge the whole course by. Read the left column first - these are genuine, they are boring, and they are the bulk of what human reviewers spend attention on, which is the argument. Then the right column, and do not soften it. Whether the change is the right thing to build, whether the abstraction will hurt in six months, whether this is consistent with a decision taken in another team, whether the requirement itself was wrong - none of those are reachable from a diff and a set of criteria. The bottom line is the one to land: the review agent does not replace the reviewer, it changes what the reviewer spends attention on, and attention was named as the scarcest resource on the first morning." data-tier="K">
-  <h2>An honest inventory &mdash; and the second column is the point<span class="tag k">1</span></h2>
-  <div class="body g1">
-    <div>
-      <svg viewBox="0 0 1180 452" role="img" aria-label="What a review agent reliably catches and what it structurally cannot">
-        <rect class="bx g grow" x="4" y="4" width="580" height="290" rx="8"/>
-        <text class="lb g" x="24" y="28">RELIABLY CATCHES &mdash; AND IT IS MOST OF WHAT REVIEW TIME GOES ON</text>
-        <rect class="bx w" x="24" y="42" width="540" height="34" rx="5"/>
-        <text class="ss" x="38" y="64">A criterion in the ticket that the diff does not meet</text>
-        <rect class="bx w" x="24" y="82" width="540" height="34" rx="5"/>
-        <text class="ss" x="38" y="104">A file touched that the scope section excluded</text>
-        <rect class="bx w" x="24" y="122" width="540" height="34" rx="5"/>
-        <text class="ss" x="38" y="144">A convention or ADR contradicted, where both are written down</text>
-        <rect class="bx w" x="24" y="162" width="540" height="34" rx="5"/>
-        <text class="ss" x="38" y="184">A test that would pass against the pre-change code</text>
-        <rect class="bx w" x="24" y="202" width="540" height="34" rx="5"/>
-        <text class="ss" x="38" y="224">An error path with no handling and no test</text>
-        <rect class="bx w" x="24" y="242" width="540" height="34" rx="5"/>
-        <text class="ss" x="38" y="264">A criterion nobody covered &mdash; check five, the one humans skip</text>
-
-        <rect class="bx r grow w2" x="596" y="4" width="580" height="290" rx="8"/>
-        <text class="lb r" x="616" y="28">STRUCTURALLY CANNOT &mdash; AND DO NOT SOFTEN THIS</text>
-        <rect class="bx w" x="616" y="42" width="540" height="52" rx="5"/>
-        <text class="ss" x="630" y="62">Whether this is <tspan font-weight="600">the right thing to build</tspan></text>
-        <text class="ss" x="630" y="82" style="font-size:11.5px">It checks the change against the ticket. Not the ticket against reality.</text>
-        <rect class="bx w" x="616" y="100" width="540" height="52" rx="5"/>
-        <text class="ss" x="630" y="120">Whether the abstraction will <tspan font-weight="600">hurt in six months</tspan></text>
-        <text class="ss" x="630" y="140" style="font-size:11.5px">That needs a view of where the codebase is going, which is nowhere written.</text>
-        <rect class="bx w" x="616" y="158" width="540" height="52" rx="5"/>
-        <text class="ss" x="630" y="178">Consistency with a decision taken <tspan font-weight="600">in another team</tspan></text>
-        <text class="ss" x="630" y="198" style="font-size:11.5px">Module 7 &mdash; and the closed ticket from Module 6, both out of reach.</text>
-        <rect class="bx w" x="616" y="216" width="540" height="52" rx="5"/>
-        <text class="ss" x="630" y="236">Whether <tspan font-weight="600">the requirement itself</tspan> was wrong</text>
-        <text class="ss" x="630" y="256" style="font-size:11.5px">GB-163: every check passed and it should not have shipped.</text>
-        <text class="ss" x="616" y="286" style="fill:#e2726e;font-weight:600">None of these are reachable from a diff and a list of criteria.</text>
-
-        <rect class="bx d" x="4" y="310" width="1172" height="138" rx="8"/>
-        <text class="lb w" x="24" y="336">WHY THE HUMAN STILL SIGNS</text>
-        <text class="ss w" x="24" y="364" style="font-size:14px">Not because the agent is unreliable at the left column &mdash; it is <tspan font-style="italic">better</tspan> than a tired human at most of it.</text>
-        <text class="ss w" x="24" y="390" style="font-size:14px">Because the right column is where the expensive mistakes live, and it is the column that needs</text>
-        <text class="ss w" x="24" y="412" style="font-size:14px">someone who knows <tspan font-weight="700" fill="#e0b34d">what this system is for.</tspan></text>
-        <text class="ss w" x="24" y="440" style="font-size:13px;fill:#6ea8fe">The agent does not replace the reviewer. It changes what the reviewer spends attention on &mdash; and attention was the scarce resource on day one.</text>
-      </svg>
+<section class="slide" data-sec="Opening" data-title="Words used in this module" data-notes="Thirty seconds. The left column is a reminder of Day 2 words they will hear again in this module - read the one-liners, do not re-teach them. The right column is new. Two need a sentence each: the same-PR rule is the habit this module keeps coming back to, and anchoring is the human bias behind the review advice in section 2 - once you have read a confident summary, you judge everything against it." data-tier="K">
+  <h2>Words used in this module<span class="tag">M8</span></h2>
+  <div class="body g55">
+    <div class="pts">
+      <h3>From Modules 4&ndash;7 (reminder)</h3>
+      <ul>
+        <li><b>Review agent</b> &mdash; checks a change against the ticket. It did not write the code.</li>
+        <li><b>Test agent</b> &mdash; writes tests from the ticket, not from the code.</li>
+        <li><b>Spec</b> &mdash; <code>spec.md</code>: criteria, scope and assumptions for one ticket.</li>
+        <li><b>MCP</b> &mdash; the connection that lets the agent read Jira and Confluence.</li>
+        <li><b>Contract document</b> &mdash; how two repos talk to each other, written down.</li>
+      </ul>
+    </div>
+    <div class="pts">
+      <h3>New in this module</h3>
+      <ul>
+        <li><b>Write-back</b> &mdash; saving what you learned into the repo or Confluence.</li>
+        <li><b>Same-PR rule</b> &mdash; update the docs in the same pull request as the code.</li>
+        <li><b>Runbook</b> &mdash; step-by-step guide for fixing a problem in production.</li>
+        <li><b>Anchoring</b> &mdash; once you read a summary, you judge everything against it.</li>
+        <li><b>Capstone</b> &mdash; the final lab: one ticket, every stage.</li>
+      </ul>
     </div>
   </div>
 </section>
 
 <!-- 4 -->
+<section class="slide" data-sec="1 &middot; The review agent, honestly" data-title="What it reliably catches, and what it does not" data-notes="An honest inventory, and it is the slide a sceptical senior engineer will judge the whole course by. Read the left column first - these are genuine, they are boring, and they are the bulk of what human reviewers spend attention on, which is the argument. Then the right column, and do not soften it. Whether the change is the right thing to build, whether the abstraction will hurt in six months, whether this is consistent with a decision taken in another team, whether the requirement itself was wrong - none of those are reachable from a diff and a set of criteria. The bottom line is the one to land: the review agent does not replace the reviewer, it changes what the reviewer spends attention on, and attention was named as the scarcest resource on the first morning." data-tier="K">
+  <h2>What the review agent catches &mdash; and what it cannot<span class="tag k">1</span></h2>
+  <div class="body g1">
+    <div>
+      <svg viewBox="0 0 1180 452" role="img" aria-label="What a review agent reliably catches and what it cannot">
+        <rect class="bx g grow" x="4" y="4" width="580" height="290" rx="8"/>
+        <text class="lb g" x="24" y="28">IT CATCHES &mdash; AND MOST REVIEW TIME GOES HERE</text>
+        <rect class="bx w" x="24" y="42" width="540" height="34" rx="5"/>
+        <text class="ss" x="38" y="64">An acceptance criterion the change does not meet</text>
+        <rect class="bx w" x="24" y="82" width="540" height="34" rx="5"/>
+        <text class="ss" x="38" y="104">A file changed that the spec said not to touch</text>
+        <rect class="bx w" x="24" y="122" width="540" height="34" rx="5"/>
+        <text class="ss" x="38" y="144">A broken rule from a convention or an ADR</text>
+        <rect class="bx w" x="24" y="162" width="540" height="34" rx="5"/>
+        <text class="ss" x="38" y="184">A test that also passes on the old code</text>
+        <rect class="bx w" x="24" y="202" width="540" height="34" rx="5"/>
+        <text class="ss" x="38" y="224">An error case with no handling and no test</text>
+        <rect class="bx w" x="24" y="242" width="540" height="34" rx="5"/>
+        <text class="ss" x="38" y="264">A criterion that nobody tested</text>
+
+        <rect class="bx r grow w2" x="596" y="4" width="580" height="290" rx="8"/>
+        <text class="lb r" x="616" y="28">IT CANNOT &mdash; AND A BETTER MODEL WILL NOT CHANGE THIS</text>
+        <rect class="bx w" x="616" y="42" width="540" height="52" rx="5"/>
+        <text class="ss" x="630" y="62"><tspan font-weight="600">Is this the right thing to build?</tspan></text>
+        <text class="ss" x="630" y="82" style="font-size:11.5px">It checks the change against the ticket &mdash; not the ticket against reality.</text>
+        <rect class="bx w" x="616" y="100" width="540" height="52" rx="5"/>
+        <text class="ss" x="630" y="120"><tspan font-weight="600">Will this design hurt in six months?</tspan></text>
+        <text class="ss" x="630" y="140" style="font-size:11.5px">Where the codebase is going is not written anywhere.</text>
+        <rect class="bx w" x="616" y="158" width="540" height="52" rx="5"/>
+        <text class="ss" x="630" y="178"><tspan font-weight="600">Does it clash with another team&rsquo;s decision?</tspan></text>
+        <text class="ss" x="630" y="198" style="font-size:11.5px">That lives outside this repo &mdash; Modules 6 and 7.</text>
+        <rect class="bx w" x="616" y="216" width="540" height="52" rx="5"/>
+        <text class="ss" x="630" y="236"><tspan font-weight="600">Was the requirement itself wrong?</tspan></text>
+        <text class="ss" x="630" y="256" style="font-size:11.5px">GB-163: every check passed, and it still should not have shipped.</text>
+        <text class="ss" x="616" y="286" style="fill:#e2726e;font-weight:600">None of these can be seen in a diff.</text>
+
+        <rect class="bx d" x="4" y="310" width="1172" height="138" rx="8"/>
+        <text class="lb w" x="24" y="336">WHY A HUMAN STILL APPROVES</text>
+        <text class="ss w" x="24" y="364" style="font-size:14px">The agent does the left column <tspan font-style="italic">better</tspan> than a tired human.</text>
+        <text class="ss w" x="24" y="390" style="font-size:14px">The costly mistakes are on the right. They need someone who knows</text>
+        <text class="ss w" x="24" y="412" style="font-size:14px"><tspan font-weight="700" fill="#e0b34d">what this system is for.</tspan></text>
+        <text class="ss w" x="24" y="440" style="font-size:13px;fill:#6ea8fe">The agent does not replace the reviewer. It changes where the reviewer looks.</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 5 -->
 <section class="slide" data-sec="1 &middot; The review agent, honestly" data-title="What the human reviewer should now do" data-notes="The practical consequence, and it is the slide that changes behaviour on Monday. If the agent has already checked the criteria, the scope, the conventions and the tests, then a human repeating those checks is spending the scarce resource on the cheap column. Four questions for the human instead, and every one of them is in the right-hand column of the previous slide. Say the honest caveat: this only works if the agent's report is actually trustworthy on the left column, which is why the review report is an artifact you read rather than a tick you accept. And note the failure mode - a human who skims the report and signs has not saved time, they have moved the review from one place to nowhere." data-tier="R">
-  <h2>Four questions for the human &mdash; and none of them are in the diff<span class="tag k">1</span></h2>
+  <h2>Four questions for the human reviewer<span class="tag k">1</span></h2>
   <div class="body g46">
     <div class="pts">
-      <h3>Stop doing what the agent already did</h3>
+      <h3>Do not repeat the agent&rsquo;s checks</h3>
       <ul>
-        <li>If the report says the criteria are covered, the scope held and the tests fail against the old code &mdash; <b>do not repeat those checks</b>. That is the cheap column.</li>
-        <li>Read the report as an <em>artifact</em>, not a tick. If you cannot tell from it what was checked, that is a finding about your agent definition.</li>
+        <li>The report says criteria met, scope held, tests fail on old code? <b>Trust it and move on.</b></li>
+        <li>Read the report properly. If it does not say what was checked, fix the agent definition.</li>
       </ul>
-      <div class="callout bad"><b>The failure mode:</b> a human who skims the report and signs has not saved time. They have moved the review from one place to <em>nowhere</em> &mdash; and the pipeline now reports more confidence than anyone actually has.</div>
-      <div class="take"><b>The reframe for your team:</b> agent review is not faster review. It is review of <em>different things</em> &mdash; and the things left for the human are the ones that were always being skipped.</div>
+      <div class="callout bad"><b>Skim and approve</b> is not a review. Now nobody reviewed it.</div>
+      <div class="take"><b>Agent review is not faster review.</b> It reviews different things.</div>
     </div>
     <div>
       <svg viewBox="0 0 700 430" role="img" aria-label="Four questions a human reviewer should ask once the agent has reviewed">
         <text class="lb g" x="4" y="13">WHAT ONLY YOU CAN ANSWER</text>
         <rect class="bx g" x="4" y="22" width="692" height="248" rx="8"/>
-
         <rect class="bx w rise" x="20" y="40" width="660" height="52" rx="6"/>
-        <text class="tt" x="36" y="62" style="font-size:13px">1 &middot; Should we be doing this at all?</text>
-        <text class="ss" x="36" y="82">The agent checked the change against the ticket. Somebody has to check the ticket.</text>
-
+        <text class="tt" x="36" y="62" style="font-size:13px">1 &middot; Should we build this at all?</text>
+        <text class="ss" x="36" y="82">The agent checked the change. Someone must check the ticket.</text>
         <rect class="bx w rise r2" x="20" y="100" width="660" height="52" rx="6"/>
-        <text class="tt" x="36" y="122" style="font-size:13px">2 &middot; What will this be like to live with?</text>
-        <text class="ss" x="36" y="142">Where the codebase is going is not written down anywhere, and it is why you are here.</text>
-
+        <text class="tt" x="36" y="122" style="font-size:13px">2 &middot; Will this be easy to live with?</text>
+        <text class="ss" x="36" y="142">Where the code is going is not written down.</text>
         <rect class="bx w rise r3" x="20" y="160" width="660" height="52" rx="6"/>
-        <text class="tt" x="36" y="182" style="font-size:13px">3 &middot; Does this contradict something outside this repository?</text>
-        <text class="ss" x="36" y="202">Another team&rsquo;s decision, a closed ticket, a constraint nobody linked.</text>
-
+        <text class="tt" x="36" y="182" style="font-size:13px">3 &middot; Does it clash with anything outside this repo?</text>
+        <text class="ss" x="36" y="202">Another team&rsquo;s decision, a closed ticket, an unlinked rule.</text>
         <rect class="bx w rise r4" x="20" y="220" width="660" height="42" rx="6"/>
         <text class="tt" x="36" y="242" style="font-size:13px">4 &middot; What did the report <tspan font-style="italic">not</tspan> mention?</text>
-        <text class="ss" x="36" y="258">Silence about a whole area usually means it was not given that area.</text>
+        <text class="ss" x="36" y="258">Silence about an area often means it never saw that area.</text>
 
         <rect class="bx d" x="4" y="290" width="692" height="140" rx="8"/>
-        <text class="lb w" x="24" y="314">THE ONE-LINE VERSION FOR YOUR PULL REQUEST TEMPLATE</text>
+        <text class="lb w" x="24" y="314">ONE LINE FOR YOUR PULL REQUEST TEMPLATE</text>
         <text class="ss w" x="24" y="342" style="font-size:14px">&ldquo;The agent checked it against the ticket.</text>
-        <text class="ss w" x="24" y="366" style="font-size:14px">You are checking it against <tspan font-weight="700" fill="#e0b34d">everything the ticket did not say.</tspan>&rdquo;</text>
-        <text class="ss w" x="24" y="400" style="font-size:13px;fill:#6ea8fe">And if that feels like less work than you used to do &mdash; it is. That is the return,</text>
-        <text class="ss w" x="24" y="420" style="font-size:13px;fill:#6ea8fe">and it only holds if the left column really was covered.</text>
-      </svg>
-    </div>
-  </div>
-</section>
-<!-- 5 -->
-<section class="slide" data-sec="2 &middot; Other people's AI code" data-title="The defect classes that survive a confident PR description" data-notes="This is the slide that will generate the most discussion in a senior room, because everyone is now reviewing code they did not write and did not watch being written. Three defect classes and they all share one property - the pull request description is fluent, complete and confident, and it describes what the author INTENDED rather than what the diff does. Walk them: the plausible-but-local-wrong, where the code is idiomatic everywhere except here; the test that agrees with the code; and the silent scope, where the description mentions four changes and the diff contains six. Then the practical counter, which is deliberately mechanical rather than a matter of judgement - read the diff before the description. Once you have read a confident description you are reviewing that description, and the anchoring is strong." data-tier="K">
-  <h2>Reviewing code nobody watched being written<span class="tag k">2</span></h2>
-  <div class="body g1">
-    <div>
-      <svg viewBox="0 0 1180 452" role="img" aria-label="Three defect classes that survive a confident pull request description">
-        <rect class="bx d" x="4" y="4" width="1172" height="30" rx="6"/>
-        <text class="lb w" x="24" y="24">DEFECT CLASS</text>
-        <text class="lb w" x="360" y="24">WHY THE DESCRIPTION DOES NOT REVEAL IT</text>
-        <text class="lb w" x="800" y="24">WHAT ACTUALLY FINDS IT</text>
-
-        <rect class="bx a grow" x="4" y="42" width="1172" height="88" rx="6"/>
-        <text class="tt" x="24" y="72">Plausible, and wrong here</text>
-        <text class="ss" x="24" y="94" style="font-size:11.5px">idiomatic everywhere except</text>
-        <text class="ss" x="24" y="112" style="font-size:11.5px">in this codebase</text>
-        <text class="ss" x="360" y="72">The description says what a reasonable engineer would</text>
-        <text class="ss" x="360" y="94">have done, and it is accurate about the code. The problem</text>
-        <text class="ss" x="360" y="116">is a local constraint the description never mentions.</text>
-        <text class="ss" x="800" y="82">Someone who knows the system &mdash; or</text>
-        <text class="ss" x="800" y="104">an ADR that made the constraint explicit</text>
-
-        <rect class="bx a grow w2" x="4" y="138" width="1172" height="88" rx="6"/>
-        <text class="tt" x="24" y="168">The test that agrees</text>
-        <text class="ss" x="24" y="190" style="font-size:11.5px">written from the same reading</text>
-        <text class="ss" x="24" y="208" style="font-size:11.5px">as the code</text>
-        <text class="ss" x="360" y="168">&ldquo;Covered by tests&rdquo; is true. The tests encode the same</text>
-        <text class="ss" x="360" y="190">misunderstanding as the implementation, so they pass &mdash;</text>
-        <text class="ss" x="360" y="212">and a green suite reads as evidence.</text>
-        <text class="ss" x="800" y="178">Read the <tspan font-weight="600">test</tspan> against the <tspan font-weight="600">ticket</tspan>, not</text>
-        <text class="ss" x="800" y="200">against the code. Module 4&rsquo;s test agent.</text>
-
-        <rect class="bx a grow w3" x="4" y="234" width="1172" height="88" rx="6"/>
-        <text class="tt" x="24" y="264">Silent scope</text>
-        <text class="ss" x="24" y="286" style="font-size:11.5px">the description lists four</text>
-        <text class="ss" x="24" y="304" style="font-size:11.5px">changes; the diff has six</text>
-        <text class="ss" x="360" y="264">Not deception &mdash; the description summarises the</text>
-        <text class="ss" x="360" y="286"><tspan font-style="italic">intent</tspan>, and the two extra files were incidental to</text>
-        <text class="ss" x="360" y="308">whoever wrote it. They are not incidental to you.</text>
-        <text class="ss" x="800" y="274">The file list. Read it first, and</text>
-        <text class="ss" x="800" y="296">count it against the description.</text>
-
-        <text class="lb g" x="4" y="352">THE COUNTER, AND IT IS MECHANICAL RATHER THAN A MATTER OF JUDGEMENT</text>
-        <rect class="bx g" x="4" y="362" width="1172" height="86" rx="8"/>
-        <text class="tt" x="24" y="394" style="font-size:16px">Read the diff before the description.</text>
-        <text class="ss" x="24" y="422">Once you have read a fluent, confident description you are reviewing <tspan font-weight="600" fill="#5fbf8f">that description</tspan> &mdash; the anchoring is strong, it is</text>
-        <text class="ss" x="24" y="442">well documented in humans, and it does not care that you know about it. Change the order and the effect largely goes away.</text>
+        <text class="ss w" x="24" y="366" style="font-size:14px">You check it against <tspan font-weight="700" fill="#e0b34d">everything the ticket did not say.</tspan>&rdquo;</text>
+        <text class="ss w" x="24" y="404" style="font-size:13px;fill:#6ea8fe">Less work than before &mdash; but only if the agent&rsquo;s checks were real.</text>
       </svg>
     </div>
   </div>
 </section>
 
 <!-- 6 -->
-<section class="slide" data-sec="2 &middot; Other people's AI code" data-title="What to ask the author" data-notes="Short and practical. Three questions to ask the author of an AI-written change, and the point of all three is that they are answerable by someone who understood the change and awkward for someone who did not. Which constraint decided this - a person who reasoned about it names a file. What did you consider and reject - the answer reveals whether a design decision was made or defaulted into. And what is the riskiest part - somebody who genuinely reviewed their own change has an answer, and somebody who accepted a diff does not. Frame it carefully for a senior room: this is not a trust exercise or a gotcha. It is the same question you would ask about hand-written code, and it has simply become more important because the volume went up and the author's own scrutiny may have gone down." data-tier="R">
-  <h2>Three questions for the author &mdash; not a gotcha<span class="tag k">2</span></h2>
-  <div class="body g55">
+<section class="slide" data-sec="2 &middot; Other people's AI code" data-title="The defect classes that survive a confident PR description" data-notes="This is the slide that will generate the most discussion in a senior room, because everyone is now reviewing code they did not write and did not watch being written. Three defect classes and they all share one property - the pull request description is fluent, complete and confident, and it describes what the author INTENDED rather than what the diff does. Walk them: the plausible-but-local-wrong, where the code is idiomatic everywhere except here; the test that agrees with the code; and the silent scope, where the description mentions four changes and the diff contains six. Then the practical counter, which is deliberately mechanical rather than a matter of judgement - read the diff before the description. Once you have read a confident description you are reviewing that description, and the anchoring is strong." data-tier="K">
+  <h2>Reviewing code nobody watched being written<span class="tag k">2</span></h2>
+  <div class="body g1">
     <div>
-      <svg viewBox="0 0 700 430" role="img" aria-label="Three questions to ask the author of an AI-written change">
-        <rect class="bx g" x="4" y="4" width="692" height="232" rx="8"/>
-        <text class="lb g" x="24" y="28">ANSWERABLE IF THEY UNDERSTOOD IT &mdash; AWKWARD IF THEY DID NOT</text>
-
-        <rect class="bx w rise" x="24" y="42" width="652" height="56" rx="6"/>
-        <text class="tt" x="40" y="64" style="font-size:13px">&ldquo;Which constraint decided this?&rdquo;</text>
-        <text class="ss" x="40" y="84">Someone who reasoned about it names a file. Someone who did not describes the code.</text>
-
-        <rect class="bx w rise r2" x="24" y="106" width="652" height="56" rx="6"/>
-        <text class="tt" x="40" y="128" style="font-size:13px">&ldquo;What did you consider and reject?&rdquo;</text>
-        <text class="ss" x="40" y="148">Reveals whether a decision was <tspan font-style="italic">made</tspan> or defaulted into. Both happen; only one is fine.</text>
-
-        <rect class="bx w rise r3" x="24" y="170" width="652" height="56" rx="6"/>
-        <text class="tt" x="40" y="192" style="font-size:13px">&ldquo;What is the riskiest part of this?&rdquo;</text>
-        <text class="ss" x="40" y="212">Someone who reviewed their own change has an answer. Someone who accepted a diff does not.</text>
-
-        <rect class="bx a" x="4" y="252" width="692" height="80" rx="8"/>
-        <text class="lb a" x="24" y="276">HOW TO ASK THEM WITHOUT IT BEING AN INTERROGATION</text>
-        <text class="ss" x="24" y="302">Put them in the pull request template, so they are asked of <tspan font-weight="600">everyone</tspan>, always &mdash;</text>
-        <text class="ss" x="24" y="322">and the author answers them while writing, not while defending.</text>
-
-        <rect class="bx d" x="4" y="346" width="692" height="84" rx="8"/>
-        <text class="ss w" x="24" y="374" style="font-size:14px">These are the questions you would ask about hand-written code.</text>
-        <text class="ss w" x="24" y="398" style="font-size:14px">They matter more now because the <tspan font-weight="700" fill="#e0b34d">volume went up</tspan> and the author&rsquo;s own</text>
-        <text class="ss w" x="24" y="418" style="font-size:14px">scrutiny may have gone down. Neither of those is a moral failing.</text>
+      <svg viewBox="0 0 1180 452" role="img" aria-label="Three problems a confident pull request description can hide">
+        <rect class="bx d" x="4" y="4" width="1172" height="30" rx="6"/>
+        <text class="lb w" x="24" y="24">PROBLEM</text>
+        <text class="lb w" x="360" y="24">WHY THE DESCRIPTION HIDES IT</text>
+        <text class="lb w" x="800" y="24">WHAT FINDS IT</text>
+        <rect class="bx a grow" x="4" y="42" width="1172" height="88" rx="6"/>
+        <text class="tt" x="24" y="78">Looks right, wrong here</text>
+        <text class="ss" x="24" y="102" style="font-size:11.5px">fine in any other codebase</text>
+        <text class="ss" x="360" y="78">The description is accurate about the code.</text>
+        <text class="ss" x="360" y="100">It never mentions a local rule of this system.</text>
+        <text class="ss" x="800" y="78">Someone who knows the system,</text>
+        <text class="ss" x="800" y="100">or an ADR that states the rule</text>
+        <rect class="bx a grow w2" x="4" y="138" width="1172" height="88" rx="6"/>
+        <text class="tt" x="24" y="174">The test that agrees</text>
+        <text class="ss" x="24" y="198" style="font-size:11.5px">same understanding as the code</text>
+        <text class="ss" x="360" y="174">&ldquo;Covered by tests&rdquo; is true. But the tests</text>
+        <text class="ss" x="360" y="196">share the code&rsquo;s mistake, so they pass.</text>
+        <text class="ss" x="800" y="174">Check the test against the ticket,</text>
+        <text class="ss" x="800" y="196">not the code (Module 4&rsquo;s test agent)</text>
+        <rect class="bx a grow w3" x="4" y="234" width="1172" height="88" rx="6"/>
+        <text class="tt" x="24" y="270">Silent scope</text>
+        <text class="ss" x="24" y="294" style="font-size:11.5px">says 4 changes; the diff has 6</text>
+        <text class="ss" x="360" y="270">It describes the intent. The two extra</text>
+        <text class="ss" x="360" y="292">files are not mentioned at all.</text>
+        <text class="ss" x="800" y="270">Read the file list first.</text>
+        <text class="ss" x="800" y="292">Count it against the description.</text>
+        <text class="lb g" x="4" y="352">THE FIX IS SIMPLE</text>
+        <rect class="bx g" x="4" y="362" width="1172" height="86" rx="8"/>
+        <text class="tt" x="24" y="394" style="font-size:16px">Read the diff before the description.</text>
+        <text class="ss" x="24" y="424">After you read a confident description, you only check what it says. This is <tspan font-weight="600" fill="#5fbf8f">anchoring</tspan>.</text>
+        <text class="ss" x="24" y="442">Knowing about it does not stop it. Changing the order does.</text>
       </svg>
-    </div>
-    <div class="pts">
-      <h3>The thing not to do</h3>
-      <ul>
-        <li><b>Do not ask &ldquo;did an agent write this?&rdquo;</b> It is unanswerable in any useful way, it invites a defensive answer, and the reply changes nothing about how you should review the diff.</li>
-        <li>The questions above work regardless of how the code was produced &mdash; which is why they survive contact with a team that does not want to be policed.</li>
-      </ul>
-      <h3>What good looks like in a team</h3>
-      <ul>
-        <li>The answers are <b>in the pull request description</b> before anyone asks. That is what the spec and the review report were for.</li>
-        <li>A description that names the deciding constraint and the rejected option is doing the same job as an ADR &mdash; and it is where an ADR usually comes from.</li>
-      </ul>
-      <div class="take"><b>The uncomfortable one is the third.</b> If nobody on your team can say what the riskiest part of their change is, that was true before agents &mdash; you can just see it now.</div>
     </div>
   </div>
 </section>
 
 <!-- 7 -->
-<section class="slide" data-sec="3 &middot; Pull requests" data-title="What the agent is genuinely good at here" data-notes="A positive slide, and it is earned because everything it lists is mechanical assembly from artifacts that already exist. The description tied to the spec: it has the spec and the diff, so it can state what changed and which criterion each part serves. Test evidence: it has the test report from Module 4, one line per criterion. Risk and rollback: it has the sequencing from Module 7. Note what is common to all three - none of them require judgement, they require assembly, and assembly is the thing agents are best at and humans are worst at because it is boring. Then the constraint on the right: the description must be derived from artifacts, not written freehand, because a freehand description is a fluent narrative and we have just spent a slide on why those are dangerous." data-tier="K">
-  <h2>Assembly, not judgement &mdash; which is exactly its strength<span class="tag k">3</span></h2>
-  <div class="body g64">
+<section class="slide" data-sec="2 &middot; Other people's AI code" data-title="What to ask the author" data-notes="Short and practical. Three questions to ask the author of an AI-written change, and the point of all three is that they are answerable by someone who understood the change and awkward for someone who did not. Which constraint decided this - a person who reasoned about it names a file. What did you consider and reject - the answer reveals whether a design decision was made or defaulted into. And what is the riskiest part - somebody who genuinely reviewed their own change has an answer, and somebody who accepted a diff does not. Frame it carefully for a senior room: this is not a trust exercise or a gotcha. It is the same question you would ask about hand-written code, and it has simply become more important because the volume went up and the author's own scrutiny may have gone down." data-tier="R">
+  <h2>Three questions for the author &mdash; not a trap<span class="tag k">2</span></h2>
+  <div class="body g55">
     <div>
-      <svg viewBox="0 0 700 430" role="img" aria-label="Three parts of a pull request an agent assembles from existing artifacts">
-        <text class="lb g" x="4" y="13">EACH PART ASSEMBLED FROM SOMETHING THAT ALREADY EXISTS</text>
+      <svg viewBox="0 0 700 430" role="img" aria-label="Three questions to ask the author of an AI-written change">
+        <rect class="bx g" x="4" y="4" width="692" height="232" rx="8"/>
+        <text class="lb g" x="24" y="28">EASY IF THEY UNDERSTOOD IT &mdash; HARD IF THEY DID NOT</text>
+        <rect class="bx w rise" x="24" y="42" width="652" height="56" rx="6"/>
+        <text class="tt" x="40" y="64" style="font-size:13px">&ldquo;Which rule decided this?&rdquo;</text>
+        <text class="ss" x="40" y="84">If they understood it, they name a file.</text>
+        <rect class="bx w rise r2" x="24" y="106" width="652" height="56" rx="6"/>
+        <text class="tt" x="40" y="128" style="font-size:13px">&ldquo;What did you consider and reject?&rdquo;</text>
+        <text class="ss" x="40" y="148">Shows whether they made a choice, or just accepted one.</text>
+        <rect class="bx w rise r3" x="24" y="170" width="652" height="56" rx="6"/>
+        <text class="tt" x="40" y="192" style="font-size:13px">&ldquo;What is the riskiest part?&rdquo;</text>
+        <text class="ss" x="40" y="212">If they reviewed their own change, they know.</text>
 
-        <rect class="bx g grow" x="4" y="22" width="692" height="98" rx="8"/>
-        <text class="tt" x="24" y="48" style="font-size:14px">Description tied to the spec</text>
-        <text class="ss" x="24" y="72">What changed, and which numbered criterion each part serves.</text>
-        <text class="ss" x="24" y="94" style="fill:#5fbf8f;font-weight:600">Source: spec.md + the diff. Both already in hand.</text>
-        <text class="ss" x="24" y="112" style="font-size:11.5px">A reader can check the claim in one file open. That is the bar.</text>
-
-        <rect class="bx g grow w2" x="4" y="128" width="692" height="98" rx="8"/>
-        <text class="tt" x="24" y="154" style="font-size:14px">Test evidence</text>
-        <text class="ss" x="24" y="178">One line per criterion &mdash; covered, or not covered, and by which test.</text>
-        <text class="ss" x="24" y="200" style="fill:#5fbf8f;font-weight:600">Source: the test report from Module 4. It already has this shape.</text>
-        <text class="ss" x="24" y="218" style="font-size:11.5px">Including the criteria that were <tspan font-style="italic">not</tspan> covered &mdash; those are the useful lines.</text>
-
-        <rect class="bx g grow w3" x="4" y="234" width="692" height="98" rx="8"/>
-        <text class="tt" x="24" y="260" style="font-size:14px">Risk and rollback notes</text>
-        <text class="ss" x="24" y="284">What this depends on, what merges first, which half reverts first.</text>
-        <text class="ss" x="24" y="306" style="fill:#5fbf8f;font-weight:600">Source: the sequencing decision from Module 7.</text>
-        <text class="ss" x="24" y="324" style="font-size:11.5px">The facts a pull request has no field for &mdash; so they go in the description.</text>
+        <rect class="bx a" x="4" y="252" width="692" height="80" rx="8"/>
+        <text class="lb a" x="24" y="276">HOW TO ASK WITHOUT BLAME</text>
+        <text class="ss" x="24" y="302">Put the questions in the PR template. <tspan font-weight="600">Everyone</tspan> answers them,</text>
+        <text class="ss" x="24" y="322">every time, while writing &mdash; not while defending.</text>
 
         <rect class="bx d" x="4" y="346" width="692" height="84" rx="8"/>
-        <text class="lb w" x="24" y="370">WHAT THESE THREE HAVE IN COMMON</text>
-        <text class="ss w" x="24" y="398" style="font-size:14px">None of them requires judgement. All of them require <tspan font-weight="700" fill="#e0b34d">assembly</tspan> &mdash;</text>
-        <text class="ss w" x="24" y="420" style="font-size:14px">which agents do well and humans do badly, because it is boring.</text>
+        <text class="ss w" x="24" y="376" style="font-size:14px">You would ask these about hand-written code too.</text>
+        <text class="ss w" x="24" y="402" style="font-size:14px">They matter more now: <tspan font-weight="700" fill="#e0b34d">more code, and less checking.</tspan></text>
       </svg>
     </div>
     <div class="pts">
-      <h3>The one constraint that makes it safe</h3>
+      <h3>Do not ask</h3>
       <ul>
-        <li><b>Derived from artifacts, never written freehand.</b> A freehand description is a fluent narrative &mdash; and the previous slide was about why those are dangerous.</li>
-        <li>Every claim in the description should be traceable to the spec, the diff or the test report. If it is not in one of those, it is invention.</li>
+        <li><b>&ldquo;Did an agent write this?&rdquo;</b> The answer does not change how you review.</li>
       </ul>
-      <h3>The tell that yours is freehand</h3>
+      <h3>Good teams</h3>
       <ul>
-        <li>It reads beautifully and contains no numbers. No criterion references, no file counts, no test names.</li>
-        <li>A good agent-written description is slightly <em>dull</em> &mdash; and checkable line by line.</li>
+        <li>Answer these <b>in the PR description</b>, before anyone asks.</li>
+        <li>The deciding rule and the rejected option are an ADR in the making.</li>
       </ul>
-      <div class="take"><b>This is the least controversial thing in the course</b> and the one with the fastest payback: your team writes these by hand today, badly, at the end of the day, when they have stopped caring.</div>
+      <div class="take"><b>Nobody can name the riskiest part?</b> That was true before agents too. Now you can see it.</div>
     </div>
   </div>
 </section>
+
 <!-- 8 -->
-<section class="slide" data-sec="4 &middot; Confluence write-back" data-title="What is worth generating, and what is not" data-notes="The sharpest editorial judgement in the module, and it is worth being blunt. Three things are worth writing back and they share a property: each records something that cannot be recovered from the code. A decision and what it rejected. A contract, because it is read by the team that cannot check it. A runbook, because it is read under pressure by someone who did not write it. Then the list on the right, and read it out because everyone has seen every item on it: the narrated diff, the summary of what changed that duplicates the commit log, the auto-generated page nobody has opened since it was generated. The line to land: generated documentation that restates the code has negative value, because it takes maintenance and it is wrong the moment the code moves - and now an agent is reading it too." data-tier="K">
-  <h2>Three things worth generating &mdash; and the list nobody needs<span class="tag k">4</span></h2>
-  <div class="body g1">
+<section class="slide" data-sec="3 &middot; Pull requests" data-title="PR descriptions - assembly, not judgement" data-notes="A positive slide, and it is earned because everything it lists is mechanical assembly from artifacts that already exist. The description tied to the spec: it has the spec and the diff, so it can state what changed and which criterion each part serves. Test evidence: it has the test report from Module 4, one line per criterion. Risk and rollback: it has the sequencing from Module 7. Note what is common to all three - none of them require judgement, they require assembly, and assembly is the thing agents are best at and humans are worst at because it is boring. Then the constraint on the right: the description must be derived from artifacts, not written freehand, because a freehand description is a fluent narrative and we have just spent a slide on why those are dangerous." data-tier="K">
+  <h2>PR descriptions &mdash; the agent assembles, it does not judge<span class="tag k">3</span></h2>
+  <div class="body g64">
     <div>
-      <svg viewBox="0 0 1180 452" role="img" aria-label="What is worth writing back to Confluence and what is not">
-        <rect class="bx g grow" x="4" y="4" width="580" height="278" rx="8"/>
-        <text class="lb g" x="24" y="28">WORTH IT &mdash; EACH RECORDS SOMETHING THE CODE CANNOT</text>
+      <svg viewBox="0 0 700 430" role="img" aria-label="Three parts of a pull request an agent assembles from existing files">
+        <text class="lb g" x="4" y="13">EACH PART IS BUILT FROM SOMETHING THAT ALREADY EXISTS</text>
+        <rect class="bx g grow" x="4" y="22" width="692" height="98" rx="8"/>
+        <text class="tt" x="24" y="50" style="font-size:14px">Description tied to the spec</text>
+        <text class="ss" x="24" y="76">What changed, and which criterion each part meets.</text>
+        <text class="ss" x="24" y="102" style="fill:#5fbf8f;font-weight:600">From: spec.md + the diff</text>
+        <rect class="bx g grow w2" x="4" y="128" width="692" height="98" rx="8"/>
+        <text class="tt" x="24" y="156" style="font-size:14px">Test evidence</text>
+        <text class="ss" x="24" y="182">One line per criterion: tested or not, and by which test.</text>
+        <text class="ss" x="24" y="208" style="fill:#5fbf8f;font-weight:600">From: the test report (Module 4)</text>
+        <rect class="bx g grow w3" x="4" y="234" width="692" height="98" rx="8"/>
+        <text class="tt" x="24" y="262" style="font-size:14px">Risk and rollback notes</text>
+        <text class="ss" x="24" y="288">What merges first, and what to undo first.</text>
+        <text class="ss" x="24" y="314" style="fill:#5fbf8f;font-weight:600">From: the merge-order decision (Module 7)</text>
 
-        <rect class="bx w" x="24" y="42" width="540" height="70" rx="6"/>
-        <text class="tt" x="40" y="66" style="font-size:13.5px">A decision, and what it rejected</text>
-        <text class="ss" x="40" y="88">The one thing reading the code can never recover. This is an</text>
-        <text class="ss" x="40" y="106">ADR, and the spec you wrote is most of it already.</text>
-
-        <rect class="bx w" x="24" y="120" width="540" height="70" rx="6"/>
-        <text class="tt" x="40" y="144" style="font-size:13.5px">A contract</text>
-        <text class="ss" x="40" y="166">Read by the team that <tspan font-style="italic">cannot check it</tspan> &mdash; which is precisely</text>
-        <text class="ss" x="40" y="184">why it has to be written down rather than inferred.</text>
-
-        <rect class="bx w" x="24" y="198" width="540" height="70" rx="6"/>
-        <text class="tt" x="40" y="222" style="font-size:13.5px">A runbook</text>
-        <text class="ss" x="40" y="244">Read under pressure, by someone who did not write it, at a</text>
-        <text class="ss" x="40" y="262">time when working it out from the code is not an option.</text>
-
-        <rect class="bx r grow w2" x="596" y="4" width="580" height="278" rx="8"/>
-        <text class="lb r" x="616" y="28">NOT WORTH IT &mdash; AND YOU HAVE SEEN ALL OF THESE</text>
-        <rect class="bx w" x="616" y="42" width="540" height="38" rx="5"/>
-        <text class="ss" x="630" y="66">A narrated diff &mdash; &ldquo;we added a field called settlementDate&rdquo;</text>
-        <rect class="bx w" x="616" y="86" width="540" height="38" rx="5"/>
-        <text class="ss" x="630" y="110">A summary of what changed &mdash; the commit log, retyped</text>
-        <rect class="bx w" x="616" y="130" width="540" height="38" rx="5"/>
-        <text class="ss" x="630" y="154">A page describing what a class does &mdash; the class does that</text>
-        <rect class="bx w" x="616" y="174" width="540" height="38" rx="5"/>
-        <text class="ss" x="630" y="198">An architecture page regenerated on every merge</text>
-        <text class="ss" x="616" y="234" style="fill:#e2726e;font-weight:600">Each of these restates something already true in the code &mdash;</text>
-        <text class="ss" x="616" y="256">so it costs maintenance and is wrong the moment the code moves.</text>
-        <text class="ss" x="616" y="274" style="font-size:11.5px">And it is now read by agents, automatically, without anyone opening it.</text>
-
-        <text class="lb" x="4" y="308">THE TEST &mdash; AND IT IS MODULE 2&rsquo;S, WORD FOR WORD</text>
-        <rect class="bx d" x="4" y="318" width="1172" height="130" rx="8"/>
-        <text class="tt w" x="24" y="352" style="font-size:16px">Could a competent engineer work this out from the code, cheaply?</text>
-        <text class="ss w" x="24" y="384" style="font-size:14px">Yes &rarr; do not write it. No, or it is expensive &rarr; write it. <tspan font-weight="700" fill="#e0b34d">Unreachable at all</tspan> &rarr; write it even if it comes up twice a year.</text>
-        <text class="ss w" x="24" y="416" style="font-size:14px">Generated documentation that restates the code has <tspan font-weight="700" fill="#e0b34d">negative</tspan> value. Volume is not the goal &mdash; it never was,</text>
-        <text class="ss w" x="24" y="438" style="font-size:14px">and an agent that can produce a hundred pages an hour makes that a much more expensive mistake than it used to be.</text>
+        <rect class="bx d" x="4" y="346" width="692" height="84" rx="8"/>
+        <text class="lb w" x="24" y="370">NO JUDGEMENT NEEDED &mdash; JUST ASSEMBLY</text>
+        <text class="ss w" x="24" y="398" style="font-size:14px">Agents do this well. People find it boring,</text>
+        <text class="ss w" x="24" y="420" style="font-size:14px">so they <tspan font-weight="700" fill="#e0b34d">do it badly.</tspan></text>
       </svg>
+    </div>
+    <div class="pts">
+      <h3>The one rule</h3>
+      <ul>
+        <li>Every claim must come from the <b>spec, the diff or the test report</b>.</li>
+        <li>Anything else is invented.</li>
+      </ul>
+      <h3>Warning sign</h3>
+      <ul>
+        <li>It reads well but has <b>no numbers</b>: no criteria, no file count, no test names.</li>
+      </ul>
+      <div class="take"><b>A good agent-written description is a bit dull</b> &mdash; and every line can be checked.</div>
     </div>
   </div>
 </section>
 
 <!-- 9 -->
-<section class="slide" data-sec="4 &middot; Confluence write-back" data-title="The write-back guardrails, again" data-notes="Same tiering as Module 6 and it is worth showing that it is the same, because a rule that generalises is a rule people remember. Creating a new page under a known parent is additive and reversible. Appending a decision to an existing decision log is additive. Editing a page somebody else owns is not - it destroys their words, and the fact that Confluence has version history is not the point, because nobody reads version history. And deleting or restructuring a space is never. Then the specific Confluence trap that is worth naming: an agent asked to update a page will often rewrite the whole page in its own voice, which is technically an edit and practically a replacement. Guard against that by having it append rather than edit, and by giving it a page it owns." data-tier="R">
-  <h2>Same three tiers &mdash; and one trap specific to pages<span class="tag k">4</span></h2>
-  <div class="body g55">
+<section class="slide" data-sec="4 &middot; Confluence write-back" data-title="What is worth generating, and what is not" data-notes="The sharpest editorial judgement in the module, and it is worth being blunt. Three things are worth writing back and they share a property: each records something that cannot be recovered from the code. A decision and what it rejected. A contract, because it is read by the team that cannot check it. A runbook, because it is read under pressure by someone who did not write it. Then the list on the right, and read it out because everyone has seen every item on it: the narrated diff, the summary of what changed that duplicates the commit log, the auto-generated page nobody has opened since it was generated. The line to land: generated documentation that restates the code has negative value, because it takes maintenance and it is wrong the moment the code moves - and now an agent is reading it too." data-tier="K">
+  <h2>Three documents worth writing &mdash; and four that are not<span class="tag k">4</span></h2>
+  <div class="body g1">
     <div>
-      <svg viewBox="0 0 700 430" role="img" aria-label="Three tiers of Confluence write-back permission">
-        <rect class="bx g" x="4" y="4" width="692" height="112" rx="8"/>
-        <text class="lb g" x="24" y="28">UNATTENDED &mdash; ADDITIVE AND REVERSIBLE</text>
-        <text class="ss" x="24" y="54">Create a new page under a known parent, from a template</text>
-        <text class="ss" x="24" y="76">Append an entry to a decision log the team agreed it may append to</text>
-        <text class="ss" x="24" y="98">Add a link from a page to the ticket and the pull request</text>
+      <svg viewBox="0 0 1180 452" role="img" aria-label="What is worth writing back and what is not">
+        <rect class="bx g grow" x="4" y="4" width="580" height="278" rx="8"/>
+        <text class="lb g" x="24" y="28">WORTH IT &mdash; EACH SAYS WHAT THE CODE CANNOT</text>
+        <rect class="bx w" x="24" y="42" width="540" height="70" rx="6"/>
+        <text class="tt" x="40" y="66" style="font-size:13.5px">A decision, and what was rejected</text>
+        <text class="ss" x="40" y="88">Code never shows this. It is an ADR &mdash;</text>
+        <text class="ss" x="40" y="106">and your spec already has most of it.</text>
+        <rect class="bx w" x="24" y="120" width="540" height="70" rx="6"/>
+        <text class="tt" x="40" y="144" style="font-size:13.5px">A contract</text>
+        <text class="ss" x="40" y="166">Read by a team that <tspan font-style="italic">cannot check</tspan> your code.</text>
+        <text class="ss" x="40" y="184">So it must be written down.</text>
+        <rect class="bx w" x="24" y="198" width="540" height="70" rx="6"/>
+        <text class="tt" x="40" y="222" style="font-size:13.5px">A runbook</text>
+        <text class="ss" x="40" y="244">Read during an incident, by someone who did not</text>
+        <text class="ss" x="40" y="262">write the code and has no time to read it.</text>
 
-        <rect class="bx a" x="4" y="126" width="692" height="112" rx="8"/>
-        <text class="lb a" x="24" y="150">NEEDS A HUMAN &mdash; SOMEBODY ELSE&rsquo;S WORDS</text>
-        <text class="ss" x="24" y="176">Editing a page somebody else owns</text>
-        <text class="ss" x="24" y="198">Changing a page that other teams treat as authoritative</text>
-        <text class="ss" x="24" y="220" style="fill:#d98a3d;font-weight:600">&ldquo;There is version history&rdquo; is not an answer &mdash; nobody reads version history</text>
+        <rect class="bx r grow w2" x="596" y="4" width="580" height="278" rx="8"/>
+        <text class="lb r" x="616" y="28">NOT WORTH IT &mdash; YOU HAVE SEEN ALL OF THESE</text>
+        <rect class="bx w" x="616" y="42" width="540" height="38" rx="5"/>
+        <text class="ss" x="630" y="66">A diff in words &mdash; &ldquo;we added a field called settlementDate&rdquo;</text>
+        <rect class="bx w" x="616" y="86" width="540" height="38" rx="5"/>
+        <text class="ss" x="630" y="110">A change summary &mdash; the commit log, typed again</text>
+        <rect class="bx w" x="616" y="130" width="540" height="38" rx="5"/>
+        <text class="ss" x="630" y="154">A page saying what a class does &mdash; the class says it</text>
+        <rect class="bx w" x="616" y="174" width="540" height="38" rx="5"/>
+        <text class="ss" x="630" y="198">An architecture page regenerated on every merge</text>
+        <text class="ss" x="616" y="234" style="fill:#e2726e;font-weight:600">Each one repeats the code.</text>
+        <text class="ss" x="616" y="256">It needs upkeep, and it is wrong as soon as the code changes.</text>
 
-        <rect class="bx r" x="4" y="248" width="692" height="94" rx="8"/>
-        <text class="lb r" x="24" y="272">NEVER</text>
-        <text class="ss" x="24" y="298">Delete a page &middot; restructure a space &middot; change permissions</text>
-        <text class="ss" x="24" y="320" style="fill:#e2726e;font-weight:600">Enforce with the account&rsquo;s permissions, not with a line in a prompt.</text>
-
-        <rect class="bx d" x="4" y="354" width="692" height="76" rx="8"/>
-        <text class="lb w" x="24" y="378">THE TEST, UNCHANGED FROM MODULE 6</text>
-        <text class="ss w" x="24" y="406" style="font-size:14px">Can a human see it was the agent, and undo it in under a minute?</text>
+        <text class="lb" x="4" y="308">THE TEST &mdash; THE SAME ONE AS MODULE 2</text>
+        <rect class="bx d" x="4" y="318" width="1172" height="130" rx="8"/>
+        <text class="tt w" x="24" y="352" style="font-size:16px">Can an engineer work this out from the code, easily?</text>
+        <text class="ss w" x="24" y="384" style="font-size:14px">Yes &rarr; do not write it. &nbsp;No &rarr; <tspan font-weight="700" fill="#e0b34d">write it</tspan>, even if it is needed only twice a year.</text>
+        <text class="ss w" x="24" y="416" style="font-size:14px">Docs that repeat the code do harm. An agent can write a hundred useless pages an hour.</text>
       </svg>
-    </div>
-    <div class="pts">
-      <h3>The trap specific to pages</h3>
-      <ul>
-        <li>Asked to <em>update</em> a page, an agent will very often <b>rewrite the whole page in its own voice</b>. That is technically an edit and practically a replacement &mdash; and the previous author's phrasing, caveats and hedges are gone.</li>
-        <li>Those hedges are frequently the most valuable content on the page. <em>&ldquo;We think, but have not confirmed&rdquo;</em> does not survive a confident rewrite.</li>
-      </ul>
-      <h3>Two guards</h3>
-      <ul>
-        <li><b>Append, do not edit.</b> A dated entry under a heading, not a revision of the prose above it.</li>
-        <li><b>Give it a page it owns.</b> An agent-maintained section, clearly marked, that nobody else writes in &mdash; so the blast radius is bounded by construction.</li>
-      </ul>
-      <div class="take"><b>Start read-only here too.</b> Reading Confluence for context is most of the value and needs no write permission at all &mdash; and it is a much easier conversation to have first.</div>
     </div>
   </div>
 </section>
 
 <!-- 10 -->
-<section class="slide" data-sec="4 &middot; Confluence write-back" data-title="What the spec becomes" data-notes="The concrete mechanic that makes the loop real, and it is smaller than people expect. You already wrote the decision - it is in the spec, in the recommendation and the rejected options. So the write-back is not authoring, it is promotion: the spec's decision section becomes an ADR in the repository, and a page in Confluence for the people who do not read the repository. Note the direction on the right - the ADR belongs in the repository because that is where agents read it, and the Confluence page is a pointer for humans, not the other way round. That ordering matters and teams get it backwards, putting the authoritative copy in Confluence where no agent will ever see it and a stale copy in the repository." data-tier="D">
-  <h2>The write-back is promotion, not authoring<span class="tag k">4</span></h2>
+<section class="slide" data-sec="4 &middot; Confluence write-back" data-title="Writing to Confluence - the same three levels" data-notes="Same tiering as Module 6 and it is worth showing that it is the same, because a rule that generalises is a rule people remember. Creating a new page under a known parent is additive and reversible. Appending a decision to an existing decision log is additive. Editing a page somebody else owns is not - it destroys their words, and the fact that Confluence has version history is not the point, because nobody reads version history. And deleting or restructuring a space is never. Then the specific Confluence trap that is worth naming: an agent asked to update a page will often rewrite the whole page in its own voice, which is technically an edit and practically a replacement. Guard against that by having it append rather than edit, and by giving it a page it owns." data-tier="R">
+  <h2>Writing to Confluence &mdash; the same three levels as Module 6<span class="tag k">4</span></h2>
   <div class="body g55">
     <div>
-<div class="file"><span class="fn">spec.md — YOU ALREADY WROTE THIS, IN LAB 2.1</span><span class="k">## Recommendation</span>
+      <svg viewBox="0 0 700 430" role="img" aria-label="Three levels of Confluence write permission">
+        <rect class="bx g" x="4" y="4" width="692" height="112" rx="8"/>
+        <text class="lb g" x="24" y="28">SAFE ALONE &mdash; ONLY ADDS, EASY TO UNDO</text>
+        <text class="ss" x="24" y="54">Create a new page from a template, under a known parent</text>
+        <text class="ss" x="24" y="76">Add an entry to a decision log the team agreed on</text>
+        <text class="ss" x="24" y="98">Link a page to the ticket and the pull request</text>
+
+        <rect class="bx a" x="4" y="126" width="692" height="112" rx="8"/>
+        <text class="lb a" x="24" y="150">NEEDS A HUMAN &mdash; SOMEONE ELSE&rsquo;S WORDS</text>
+        <text class="ss" x="24" y="176">Editing a page another person owns</text>
+        <text class="ss" x="24" y="198">Changing a page other teams rely on</text>
+        <text class="ss" x="24" y="220" style="fill:#d98a3d;font-weight:600">&ldquo;It has version history&rdquo; is not enough. Nobody reads it.</text>
+
+        <rect class="bx r" x="4" y="248" width="692" height="94" rx="8"/>
+        <text class="lb r" x="24" y="272">NEVER</text>
+        <text class="ss" x="24" y="298">Delete a page &middot; reorganise a space &middot; change permissions</text>
+        <text class="ss" x="24" y="320" style="fill:#e2726e;font-weight:600">Block these with account permissions, not a line in a prompt.</text>
+
+        <rect class="bx d" x="4" y="354" width="692" height="76" rx="8"/>
+        <text class="lb w" x="24" y="378">THE TEST &mdash; SAME AS MODULE 6</text>
+        <text class="ss w" x="24" y="406" style="font-size:14px">Can a human see the agent did it, and undo it in a minute?</text>
+      </svg>
+    </div>
+    <div class="pts">
+      <h3>The trap with pages</h3>
+      <ul>
+        <li>Asked to <em>update</em> a page, the agent often <b>rewrites all of it</b> in its own words.</li>
+        <li>The author&rsquo;s careful notes, like <em>&ldquo;we think, but have not confirmed&rdquo;</em>, are lost.</li>
+      </ul>
+      <h3>Two guards</h3>
+      <ul>
+        <li><b>Add, do not edit.</b> A dated entry under a heading.</li>
+        <li><b>Give it its own section</b>, clearly marked, that nobody else edits.</li>
+      </ul>
+      <div class="take"><b>Start read-only.</b> Reading Confluence gives most of the value, with no write access.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="slide" data-sec="4 &middot; Confluence write-back" data-title="Writing back = promoting the spec" data-notes="The concrete mechanic that makes the loop real, and it is smaller than people expect. You already wrote the decision - it is in the spec, in the recommendation and the rejected options. So the write-back is not authoring, it is promotion: the spec's decision section becomes an ADR in the repository, and a page in Confluence for the people who do not read the repository. Note the direction on the right - the ADR belongs in the repository because that is where agents read it, and the Confluence page is a pointer for humans, not the other way round. That ordering matters and teams get it backwards, putting the authoritative copy in Confluence where no agent will ever see it and a stale copy in the repository." data-tier="D">
+  <h2>Writing back = promoting the spec, not writing from scratch<span class="tag k">4</span></h2>
+  <div class="body g55">
+    <div>
+<div class="file"><span class="fn">spec.md — YOU WROTE THIS IN LAB 2.1</span><span class="k">## Recommendation</span>
 Reversal creates a second posting with debit
-and credit inverted, marking the original
+and credit swapped, and marks the original
 REVERSED.
 
-<span class="k">## Why not amend in place</span>
+<span class="k">## Why not edit in place</span>
 glossary.md: reversal is a status change; we
-do not delete postings. Amending removes the
-record of what was originally instructed.
+do not delete postings. Editing removes the
+record of what was first instructed.
 
-<span class="k">## Deciding constraint</span>
-copilot-instructions.md: balances are derived
+<span class="k">## Deciding rule</span>
+copilot-instructions.md: balances are calculated
 from entries, never stored.
 </div>
-      <div class="callout good" style="margin-top:12px"><b>Every part of an ADR is already here</b> &mdash; the decision, the rejected option, and the constraint that decided it. The write-back adds a date, a number and a status.</div>
+      <div class="callout good" style="margin-top:12px"><b>Every part of an ADR is already here:</b> the decision, the rejected option, and the deciding rule. Writing back adds a date, a number and a status.</div>
     </div>
     <div>
 <div class="file"><span class="fn">docs/adr/ADR-011-reversal-as-a-second-posting.md</span><span class="c"># ADR-011 — Reversal as a second posting</span>
@@ -452,709 +448,693 @@ from entries, never stored.
 
 <span class="k">## Decision</span>
 A reversal creates a second posting with the
-debit and credit inverted, and marks the
+debit and credit swapped, and marks the
 original REVERSED.
 
 <span class="k">## Rejected</span>
-<span class="s">Amending the original in place - removes the</span>
-<span class="s">record of what was instructed, and contradicts</span>
+<span class="s">Editing the original in place - removes the</span>
+<span class="s">record of what was instructed, and breaks</span>
 <span class="s">the glossary's definition of reversal.</span>
 
 <span class="k">## Consequences</span>
-Two postings exist for one economic event.
-Reports that count postings must account for
+Two postings exist for one real event.
+Reports that count postings must allow for
 this - see GB-207.
 </div>
       <div class="pts" style="margin-top:12px">
-        <h3>The direction matters, and teams get it backwards</h3>
+        <h3>Which copy is the real one?</h3>
         <ul>
-          <li>The <b>ADR lives in the repository</b>, because that is where agents read. The Confluence page is a <em>pointer</em>, for the people who do not read the repository.</li>
-          <li>Put the authoritative copy in Confluence and no agent will ever see it &mdash; and the repository gets the stale one.</li>
+          <li>The <b>ADR lives in the repo</b>, because agents read the repo.</li>
+          <li>The Confluence page just <em>links</em> to it, for people who do not read the repo.</li>
+          <li>Keep the real copy in Confluence, and no agent ever sees it.</li>
         </ul>
       </div>
     </div>
   </div>
 </section>
-<!-- 11 -->
-<section class="slide" data-sec="5 &middot; Feeding the next ticket" data-title="The loop closes" data-notes="This is the slide the whole course has been building to, so give it room and let the diagram do the work. Trace the circle: Module 2 put knowledge in the repository, Modules 3 to 7 consumed it, and Module 8 writes back - which means the knowledge base the next ticket reads is better than the one this ticket read. That is the compounding claim and it is the only one this course makes that is about the second ticket rather than the first. Then the honest measurement point, because a senior room will ask: you cannot measure this on a two-day course. The tally sheet measures the first loop. The second loop is measured in a quarter, on your own repositories, and the number that would show it is the clarifying-questions column falling on tickets in an area somebody documented last month." data-tier="K">
-  <h2>The loop closes &mdash; and this is the only claim about the <em>second</em> ticket<span class="tag k">5</span></h2>
+
+<!-- 12 -->
+<section class="slide" data-sec="5 &middot; Feeding the next ticket" data-title="The loop closes" data-notes="This is the slide the whole course has been building to, so give it room and let the diagram do the work. Trace the circle: Module 2 put knowledge in the repository, Modules 3 to 7 consumed it, and Module 8 writes back - which means the knowledge base the next ticket reads is better than the one this ticket read. That is the compounding claim and it is the only one this course makes that is about the second ticket rather than the first. The three things worth promoting: a decision and its rejected option (from the spec, as an ADR); a constraint you had to go and find - the closed ticket, the linked issue; and a drift you discovered - the mirrored type, the stale summary - fixed in the same pull request. Most tickets produce none, and a loop that fires on every ticket is generating noise. Then the honest measurement point, because a senior room will ask: you cannot measure this on a two-day course. The tally sheet measures the first loop. The second loop is measured in a quarter, on your own repositories, and the number that would show it is the clarifying-questions column falling on tickets in an area somebody documented last month." data-tier="K">
+  <h2>The loop closes &mdash; the next ticket starts from better knowledge<span class="tag k">5</span></h2>
   <div class="body g64">
     <div>
       <svg viewBox="0 0 700 430" role="img" aria-label="The knowledge loop from Module 2 through the course and back again">
         <rect class="bx g" x="200" y="12" width="300" height="62" rx="8"/>
-        <text class="tt" x="350" y="38" text-anchor="middle" style="font-size:14px">The repository&rsquo;s knowledge</text>
+        <text class="tt" x="350" y="38" text-anchor="middle" style="font-size:14px">What the repo knows</text>
         <text class="ss" x="350" y="60" text-anchor="middle" style="font-size:11.5px">ADRs &middot; conventions &middot; glossary &middot; contract</text>
 
         <path class="fl" d="M500 44 L560 44 L560 150"/>
         <rect class="bx" x="420" y="158" width="272" height="104" rx="8"/>
-        <text class="lb" x="440" y="182">CONSUMED &mdash; M3 TO M7</text>
-        <text class="ss" x="440" y="206" style="font-size:11.5px">grounding cites it</text>
+        <text class="lb" x="440" y="182">USED &mdash; MODULES 3 TO 7</text>
+        <text class="ss" x="440" y="206" style="font-size:11.5px">grounding quotes it</text>
         <text class="ss" x="440" y="226" style="font-size:11.5px">the review agent checks against it</text>
         <text class="ss" x="440" y="246" style="font-size:11.5px">the spec is written from it</text>
 
         <path class="fl" d="M556 266 L556 330 L440 330"/>
         <rect class="bx a" x="140" y="300" width="292" height="62" rx="8"/>
-        <text class="tt" x="286" y="326" text-anchor="middle" style="font-size:13.5px">One ticket, worked</text>
-        <text class="ss" x="286" y="348" text-anchor="middle" style="font-size:11.5px">decisions taken &middot; options rejected &middot; drift found</text>
+        <text class="tt" x="286" y="326" text-anchor="middle" style="font-size:13.5px">One ticket, done</text>
+        <text class="ss" x="286" y="348" text-anchor="middle" style="font-size:11.5px">decisions made &middot; options rejected &middot; problems found</text>
 
         <path class="fl" d="M136 330 L60 330 L60 44 L196 44"/>
         <rect class="bx g" x="4" y="158" width="120" height="104" rx="8"/>
         <text class="lb g" x="20" y="182">M8</text>
-        <text class="ss" x="20" y="206" style="font-size:11.5px">promote the</text>
-        <text class="ss" x="20" y="224" style="font-size:11.5px">decision to</text>
-        <text class="ss" x="20" y="242" style="font-size:11.5px">an ADR</text>
+        <text class="ss" x="20" y="206" style="font-size:11.5px">turn the</text>
+        <text class="ss" x="20" y="224" style="font-size:11.5px">decision</text>
+        <text class="ss" x="20" y="242" style="font-size:11.5px">into an ADR</text>
 
         <rect class="bx d" x="4" y="376" width="692" height="54" rx="8"/>
-        <text class="ss w" x="24" y="404" style="font-size:14px">Now the knowledge the <tspan font-weight="700" fill="#e0b34d">next</tspan> ticket reads is better than the one this ticket read.</text>
+        <text class="ss w" x="24" y="404" style="font-size:14px">Now the <tspan font-weight="700" fill="#e0b34d">next</tspan> ticket reads better knowledge than this one did.</text>
       </svg>
     </div>
     <div class="pts">
-      <h3>What actually gets promoted</h3>
+      <h3>What to write back</h3>
       <ul>
-        <li><b>A decision and its rejected option</b> &mdash; from the spec, as an ADR.</li>
-        <li><b>A constraint you had to go and find</b> &mdash; the closed ticket, the linked issue, the thing that was not in the description.</li>
-        <li><b>A drift you discovered</b> &mdash; the mirrored type, the stale summary. Fix the document in the same pull request.</li>
+        <li><b>A decision and the rejected option</b> &rarr; an ADR.</li>
+        <li><b>A rule you had to hunt for</b>, for example in a closed ticket.</li>
+        <li><b>A doc you found out of date</b> &rarr; fix it in the same PR.</li>
       </ul>
-      <div class="callout">Three items, on a ticket that produced any of them. Most tickets produce <em>none</em>, and that is correct &mdash; a loop that fires on every ticket is generating noise.</div>
-      <div class="take"><b>The honest measurement point:</b> you cannot see this on a two-day course. The tally sheet measures the first loop. The second is measured in a quarter, on your own repositories &mdash; and the number that shows it is <em>clarifying questions falling</em> in an area somebody documented last month.</div>
-    </div>
-  </div>
-</section>
-
-<!-- 12 -->
-<section class="slide" data-sec="5 &middot; Feeding the next ticket" data-title="Why most loops never close" data-notes="The counterweight, and it is necessary because everything on the previous slide is obviously good and it still does not happen. Three reasons and none of them is laziness. It happens at the worst moment - the ticket is done, the PR is approved, everyone has moved on, and the write-back is the last thing between them and the next thing. Nobody owns it, so it is everybody's job and therefore nobody's. And there is no gate: nothing blocks, nothing fails, nothing notices. Then the fix, which is the same-PR rule for the fifth time in this course - and it is worth saying that number out loud, because a rule that answers five different problems in two days is the one to take home." data-tier="R">
-  <h2>Why the loop does not close &mdash; and it is not laziness<span class="tag k">5</span></h2>
-  <div class="body g46">
-    <div class="pts">
-      <h3>Three reasons, none of them about effort</h3>
-      <ul>
-        <li><b>The worst possible moment.</b> The ticket is done, the PR is approved, everyone has moved on. The write-back is the last thing standing between somebody and the next thing.</li>
-        <li><b>Nobody owns it.</b> It is everyone's job, which makes it nobody's, and no retrospective has ever fixed that.</li>
-        <li><b>Nothing gates it.</b> Nothing blocks, nothing fails, nothing notices. It is the only step in this entire pipeline with no consequence for skipping it.</li>
-      </ul>
-      <div class="callout"><b>The fix is the same-PR rule</b> &mdash; the knowledge changes in the pull request that produced it. That is the <em>fifth</em> time that rule has answered a different problem in two days: knowledge, skill files, agent definitions, contract documents, and now this.</div>
-      <div class="take"><b>If you take one operational habit from this course, take that one.</b> It is not the most interesting idea here and it is the one that decides whether any of the rest survives contact with a real quarter.</div>
-    </div>
-    <div>
-      <svg viewBox="0 0 700 430" role="img" aria-label="Why knowledge write-back is skipped and the gate that prevents it">
-        <text class="lb r" x="4" y="13">THE ONLY STEP WITH NO CONSEQUENCE FOR SKIPPING IT</text>
-        <rect class="bx r" x="4" y="22" width="692" height="168" rx="8"/>
-        <rect class="bx w" x="20" y="40" width="660" height="30" rx="5"/>
-        <text class="ss" x="34" y="60">Skip the spec &rarr; the agent invents, and you find out in review</text>
-        <rect class="bx w" x="20" y="76" width="660" height="30" rx="5"/>
-        <text class="ss" x="34" y="96">Skip the tests &rarr; CI fails</text>
-        <rect class="bx w" x="20" y="112" width="660" height="30" rx="5"/>
-        <text class="ss" x="34" y="132">Skip the review &rarr; the gate blocks the merge</text>
-        <rect class="bx r" x="20" y="148" width="660" height="32" rx="5"/>
-        <text class="ss" x="34" y="169" style="fill:#e2726e;font-weight:600">Skip the write-back &rarr; nothing. Nothing at all, for a quarter.</text>
-
-        <text class="lb g" x="4" y="224">THE GATE THAT COSTS A REVIEWER ONE SENTENCE</text>
-        <rect class="bx g" x="4" y="234" width="692" height="112" rx="8"/>
-        <rect class="bx w" x="20" y="252" width="660" height="76" rx="6"/>
-        <text class="ss" x="36" y="276" style="font-family:'DejaVu Sans Mono',monospace;font-size:12px">- [ ] Did this ticket produce a decision, a constraint that</text>
-        <text class="ss" x="36" y="296" style="font-family:'DejaVu Sans Mono',monospace;font-size:12px">      was hard to find, or a document that is now wrong?</text>
-        <text class="ss" x="36" y="318" style="font-family:'DejaVu Sans Mono',monospace;font-size:12px">      If yes, it is in this PR. If no, say so.</text>
-
-        <rect class="bx d" x="4" y="358" width="692" height="72" rx="8"/>
-        <text class="ss w" x="24" y="386" style="font-size:14px">&ldquo;If no, say so&rdquo; is doing the work. It converts silence into</text>
-        <text class="ss w" x="24" y="408" style="font-size:14px">an <tspan font-weight="700" fill="#e0b34d">explicit answer</tspan> &mdash; and most of the time the honest answer is no.</text>
-      </svg>
+      <div class="callout">Most tickets produce <em>none</em> of these. That is fine.</div>
+      <div class="take"><b>You cannot see this in two days.</b> Measure it over three months: fewer clarifying questions in areas someone documented.</div>
     </div>
   </div>
 </section>
 
 <!-- 13 -->
-<section class="slide" data-sec="6 &middot; Rollout" data-title="What to do in the first month" data-notes="The rollout slide, and it should be concrete enough that somebody can act on it on Monday without asking anyone's permission. Four weeks, and note the ordering principle: everything in week one is free, needs no approval, and delivers immediately. The review agent first, for the same reason as Module 4 - it is cheapest and its findings are visible. Nothing here needs a budget conversation until week three, and the MCP conversation - the one that needs risk sign-off - is deliberately last, because by then there is a track record to point at. Say the sequencing rationale explicitly, because teams do it backwards: they start with the thing that needs approval, spend six weeks waiting, and arrive with nothing to show." data-tier="K">
-  <h2>The first month &mdash; and nothing in week one needs permission<span class="tag k">6</span></h2>
-  <div class="body g1">
+<section class="slide" data-sec="5 &middot; Feeding the next ticket" data-title="Why teams skip the write-back" data-notes="The counterweight, and it is necessary because everything on the previous slide is obviously good and it still does not happen. Three reasons and none of them is laziness. It happens at the worst moment - the ticket is done, the PR is approved, everyone has moved on, and the write-back is the last thing between them and the next thing. Nobody owns it, so it is everybody's job and therefore nobody's. And there is no gate: nothing blocks, nothing fails, nothing notices. Then the fix, which is the same-PR rule for the fifth time in this course - and it is worth saying that number out loud, because a rule that answers five different problems in two days is the one to take home." data-tier="R">
+  <h2>Why teams skip the write-back &mdash; it is not laziness<span class="tag k">5</span></h2>
+  <div class="body g46">
+    <div class="pts">
+      <h3>Three reasons</h3>
+      <ul>
+        <li><b>Bad timing.</b> The PR is approved and everyone has moved on.</li>
+        <li><b>No owner.</b> Everyone&rsquo;s job is nobody&rsquo;s job.</li>
+        <li><b>No check.</b> Nothing blocks or fails if you skip it.</li>
+      </ul>
+      <div class="callout"><b>The fix is the same-PR rule:</b> update the knowledge in the same pull request. It solved five problems in this course: instruction files, skill files, agent definitions, contract documents &mdash; and now this.</div>
+      <div class="take"><b>Keep one habit from this course?</b> Keep this one.</div>
+    </div>
     <div>
-      <svg viewBox="0 0 1180 452" role="img" aria-label="A four week rollout plan ordered by what needs approval">
-        <rect class="bx g grow" x="4" y="4" width="1172" height="104" rx="8"/>
-        <text class="lb g" x="24" y="28">WEEK 1 &mdash; FREE, NO APPROVAL, IMMEDIATE</text>
-        <rect class="bx w" x="24" y="40" width="368" height="56" rx="6"/>
-        <text class="ss" x="40" y="62" style="font-weight:600">The review agent, on changes you already make</text>
-        <text class="ss" x="40" y="82" style="font-size:11.5px">Cheapest, and its findings are visible to everyone</text>
-        <rect class="bx w" x="404" y="40" width="368" height="56" rx="6"/>
-        <text class="ss" x="420" y="62" style="font-weight:600">A repository instruction file</text>
-        <text class="ss" x="420" y="82" style="font-size:11.5px">Six non-negotiables. Not three pages.</text>
-        <rect class="bx w" x="784" y="40" width="372" height="56" rx="6"/>
-        <text class="ss" x="800" y="62" style="font-weight:600">Three lines at the top of every ticket</text>
-        <text class="ss" x="800" y="82" style="font-size:11.5px">done when &middot; not doing &middot; assuming</text>
+      <svg viewBox="0 0 700 430" role="img" aria-label="Why the write-back is skipped and the checkbox that prevents it">
+        <text class="lb r" x="4" y="13">THE ONLY STEP YOU CAN SKIP WITHOUT ANYONE NOTICING</text>
+        <rect class="bx r" x="4" y="22" width="692" height="168" rx="8"/>
+        <rect class="bx w" x="20" y="40" width="660" height="30" rx="5"/>
+        <text class="ss" x="34" y="60">Skip the spec &rarr; the agent guesses, and review finds it</text>
+        <rect class="bx w" x="20" y="76" width="660" height="30" rx="5"/>
+        <text class="ss" x="34" y="96">Skip the tests &rarr; CI fails</text>
+        <rect class="bx w" x="20" y="112" width="660" height="30" rx="5"/>
+        <text class="ss" x="34" y="132">Skip the review &rarr; the merge is blocked</text>
+        <rect class="bx r" x="20" y="148" width="660" height="32" rx="5"/>
+        <text class="ss" x="34" y="169" style="fill:#e2726e;font-weight:600">Skip the write-back &rarr; nothing happens. For months.</text>
 
-        <rect class="bx g grow w2" x="4" y="116" width="1172" height="104" rx="8"/>
-        <text class="lb g" x="24" y="140">WEEK 2 &mdash; STILL FREE</text>
-        <rect class="bx w" x="24" y="152" width="368" height="56" rx="6"/>
-        <text class="ss" x="40" y="174" style="font-weight:600">The test agent, working from the ticket</text>
-        <text class="ss" x="40" y="194" style="font-size:11.5px">The first disagreement makes the argument for you</text>
-        <rect class="bx w" x="404" y="152" width="368" height="56" rx="6"/>
-        <text class="ss" x="420" y="174" style="font-weight:600">A contract document per repository</text>
-        <text class="ss" x="420" y="194" style="font-size:11.5px">A morning, and it is the multi-repo answer</text>
-        <rect class="bx w" x="784" y="152" width="372" height="56" rx="6"/>
-        <text class="ss" x="800" y="174" style="font-weight:600">Two questions in the PR template</text>
-        <text class="ss" x="800" y="194" style="font-size:11.5px">the cross-repo pair, and the write-back</text>
+        <text class="lb g" x="4" y="224">ONE CHECKBOX IN THE PR TEMPLATE</text>
+        <rect class="bx g" x="4" y="234" width="692" height="112" rx="8"/>
+        <rect class="bx w" x="20" y="252" width="660" height="76" rx="6"/>
+        <text class="ss" x="36" y="276" style="font-family:'DejaVu Sans Mono',monospace;font-size:12px">- [ ] Did this ticket produce a decision, a rule that</text>
+        <text class="ss" x="36" y="296" style="font-family:'DejaVu Sans Mono',monospace;font-size:12px">      was hard to find, or a doc that is now wrong?</text>
+        <text class="ss" x="36" y="318" style="font-family:'DejaVu Sans Mono',monospace;font-size:12px">      If yes, it is in this PR. If no, say so.</text>
 
-        <rect class="bx a grow w3" x="4" y="228" width="1172" height="104" rx="8"/>
-        <text class="lb a" x="24" y="252">WEEK 3 &mdash; NEEDS A CONVERSATION, NOT A BUDGET</text>
-        <rect class="bx w" x="24" y="264" width="560" height="56" rx="6"/>
-        <text class="ss" x="40" y="286" style="font-weight:600">The four agent definitions, owned and versioned</text>
-        <text class="ss" x="40" y="306" style="font-size:11.5px">A name in the frontmatter. Reviewed like code, because a line changes every ticket.</text>
-        <rect class="bx w" x="596" y="264" width="560" height="56" rx="6"/>
-        <text class="ss" x="612" y="286" style="font-weight:600">The definition-of-ready additions</text>
-        <text class="ss" x="612" y="306" style="font-size:11.5px">Four items at refinement. They make tickets better for humans too.</text>
-
-        <rect class="bx r grow w4" x="4" y="340" width="1172" height="108" rx="8"/>
-        <text class="lb r" x="24" y="364">WEEK 4 &mdash; THE ONE THAT NEEDS SIGN-OFF, AND IT IS LAST ON PURPOSE</text>
-        <rect class="bx w" x="24" y="376" width="560" height="58" rx="6"/>
-        <text class="ss" x="40" y="398" style="font-weight:600">MCP: read-only first, then comment</text>
-        <text class="ss" x="40" y="418" style="font-size:11.5px">A named service account, scoped to one project. Additive and reversible only.</text>
-        <text class="ss" x="612" y="396" style="fill:#e2726e;font-weight:600">Teams do this backwards:</text>
-        <text class="ss" x="612" y="418">they start with the thing that needs approval, wait six weeks,</text>
-        <text class="ss" x="612" y="438">and arrive at the meeting with nothing to point at.</text>
+        <rect class="bx d" x="4" y="358" width="692" height="72" rx="8"/>
+        <text class="ss w" x="24" y="386" style="font-size:14px">&ldquo;If no, say so&rdquo; turns silence into <tspan font-weight="700" fill="#e0b34d">an answer</tspan>.</text>
+        <text class="ss w" x="24" y="410" style="font-size:14px">Most of the time, the honest answer is no.</text>
       </svg>
     </div>
   </div>
 </section>
 
 <!-- 14 -->
+<section class="slide" data-sec="6 &middot; Rollout" data-title="What to do in the first month" data-notes="The rollout slide, and it should be concrete enough that somebody can act on it on Monday without asking anyone's permission. Four weeks, and note the ordering principle: everything in week one is free, needs no approval, and delivers immediately. The review agent first, for the same reason as Module 4 - it is cheapest and its findings are visible. Nothing here needs a budget conversation until week three, and the MCP conversation - the one that needs risk sign-off - is deliberately last, because by then there is a track record to point at. Say the sequencing rationale explicitly, because teams do it backwards: they start with the thing that needs approval, spend six weeks waiting, and arrive with nothing to show." data-tier="K">
+  <h2>Your first month &mdash; week one needs no permission<span class="tag k">6</span></h2>
+  <div class="body g1">
+    <div>
+      <svg viewBox="0 0 1180 452" role="img" aria-label="A four week rollout plan ordered by what needs approval">
+        <rect class="bx g grow" x="4" y="4" width="1172" height="104" rx="8"/>
+        <text class="lb g" x="24" y="28">WEEK 1 &mdash; FREE, NO APPROVAL</text>
+        <rect class="bx w" x="24" y="40" width="368" height="56" rx="6"/>
+        <text class="ss" x="40" y="62" style="font-weight:600">The review agent on your normal changes</text>
+        <text class="ss" x="40" y="82" style="font-size:11.5px">Cheap, and everyone sees its findings</text>
+        <rect class="bx w" x="404" y="40" width="368" height="56" rx="6"/>
+        <text class="ss" x="420" y="62" style="font-weight:600">A repo instruction file</text>
+        <text class="ss" x="420" y="82" style="font-size:11.5px">Six must-never-break rules. Not three pages.</text>
+        <rect class="bx w" x="784" y="40" width="372" height="56" rx="6"/>
+        <text class="ss" x="800" y="62" style="font-weight:600">Three lines on every ticket</text>
+        <text class="ss" x="800" y="82" style="font-size:11.5px">done when &middot; not doing &middot; assuming</text>
+        <rect class="bx g grow w2" x="4" y="116" width="1172" height="104" rx="8"/>
+        <text class="lb g" x="24" y="140">WEEK 2 &mdash; STILL FREE</text>
+        <rect class="bx w" x="24" y="152" width="368" height="56" rx="6"/>
+        <text class="ss" x="40" y="174" style="font-weight:600">The test agent, working from the ticket</text>
+        <text class="ss" x="40" y="194" style="font-size:11.5px">Its first disagreement proves the point</text>
+        <rect class="bx w" x="404" y="152" width="368" height="56" rx="6"/>
+        <text class="ss" x="420" y="174" style="font-weight:600">One contract document per repo</text>
+        <text class="ss" x="420" y="194" style="font-size:11.5px">A morning&rsquo;s work. Fixes multi-repo pain.</text>
+        <rect class="bx w" x="784" y="152" width="372" height="56" rx="6"/>
+        <text class="ss" x="800" y="174" style="font-weight:600">Two questions in the PR template</text>
+        <text class="ss" x="800" y="194" style="font-size:11.5px">cross-repo links, and the write-back</text>
+        <rect class="bx a grow w3" x="4" y="228" width="1172" height="104" rx="8"/>
+        <text class="lb a" x="24" y="252">WEEK 3 &mdash; NEEDS A CONVERSATION, NOT MONEY</text>
+        <rect class="bx w" x="24" y="264" width="560" height="56" rx="6"/>
+        <text class="ss" x="40" y="286" style="font-weight:600">The four agent definitions, each with an owner</text>
+        <text class="ss" x="40" y="306" style="font-size:11.5px">Reviewed like code: one line affects every ticket.</text>
+        <rect class="bx w" x="596" y="264" width="560" height="56" rx="6"/>
+        <text class="ss" x="612" y="286" style="font-weight:600">Additions to the definition of ready</text>
+        <text class="ss" x="612" y="306" style="font-size:11.5px">Four checks before a ticket starts. They help humans too.</text>
+        <rect class="bx r grow w4" x="4" y="340" width="1172" height="108" rx="8"/>
+        <text class="lb r" x="24" y="364">WEEK 4 &mdash; NEEDS SIGN-OFF, SO IT GOES LAST</text>
+        <rect class="bx w" x="24" y="376" width="560" height="58" rx="6"/>
+        <text class="ss" x="40" y="398" style="font-weight:600">MCP: read-only first, then comments</text>
+        <text class="ss" x="40" y="418" style="font-size:11.5px">A named service account, one project only. Only changes that add.</text>
+        <text class="ss" x="612" y="396" style="fill:#e2726e;font-weight:600">Many teams start here instead.</text>
+        <text class="ss" x="612" y="418">They wait six weeks for approval,</text>
+        <text class="ss" x="612" y="438">and reach the meeting with nothing to show.</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 15 -->
 <section class="slide" data-sec="6 &middot; Rollout" data-title="Measuring whether any of it worked" data-notes="The measurement slide, and it has to be honest because the whole course has held itself to this standard since Lab 1.1. Four numbers, and the point about each is that it is countable in a fortnight by somebody with a spreadsheet - no platform, no dashboard, no instrumentation. Findings a human agreed with. Defects that reached the branch anyway. Clarifying questions per ticket, which is the knowledge-loop number. And rework prompts, which is the prompting number. Then the honest paragraph, and deliver it plainly: none of these are clean, all of them are confounded, and having any measurement at all puts you ahead of nearly every team doing this. That is not a low bar being celebrated - it is the actual state of the industry, and it is why the tally sheet exists." data-tier="K">
-  <h2>Four numbers, countable in a fortnight with a spreadsheet<span class="tag k">6</span></h2>
+  <h2>Four numbers you can count in two weeks<span class="tag k">6</span></h2>
   <div class="body g55">
     <div>
       <svg viewBox="0 0 700 430" role="img" aria-label="Four measurements and what each one tells you">
         <rect class="bx d" x="4" y="4" width="692" height="28" rx="6"/>
         <text class="lb w" x="24" y="23">COUNT</text>
-        <text class="lb w" x="380" y="23">TELLS YOU</text>
+        <text class="lb w" x="370" y="23">TELLS YOU</text>
 
         <rect class="bx g grow" x="4" y="40" width="692" height="76" rx="6"/>
-        <text class="tt" x="24" y="66" style="font-size:13px">Review findings a human agreed with</text>
-        <text class="ss" x="24" y="88" style="font-size:11.5px">and the ones they dismissed</text>
-        <text class="ss" x="380" y="66">Whether the review agent is earning its</text>
-        <text class="ss" x="380" y="88">place &mdash; or has been tuned agreeable</text>
+        <text class="tt" x="24" y="66" style="font-size:13px">Review findings people agreed with</text>
+        <text class="ss" x="24" y="88" style="font-size:11.5px">and the ones they rejected</text>
+        <text class="ss" x="370" y="66">Is the review agent useful &mdash;</text>
+        <text class="ss" x="370" y="88">or does it just agree?</text>
 
         <rect class="bx g grow w2" x="4" y="124" width="692" height="76" rx="6"/>
-        <text class="tt" x="24" y="150" style="font-size:13px">Defects that reached the branch anyway</text>
+        <text class="tt" x="24" y="150" style="font-size:13px">Bugs that got through anyway</text>
         <text class="ss" x="24" y="172" style="font-size:11.5px">the ones review missed</text>
-        <text class="ss" x="380" y="150">The blind spots &mdash; and which of them</text>
-        <text class="ss" x="380" y="172">are cross-repo, which is Module 7</text>
+        <text class="ss" x="370" y="150">Its blind spots. Cross-repo ones</text>
+        <text class="ss" x="370" y="172">point back to Module 7.</text>
 
         <rect class="bx a grow w3" x="4" y="208" width="692" height="76" rx="6"/>
         <text class="tt" x="24" y="234" style="font-size:13px">Clarifying questions per ticket</text>
         <text class="ss" x="24" y="256" style="font-size:11.5px">the knowledge number</text>
-        <text class="ss" x="380" y="234">Whether the write-back loop is working &mdash;</text>
-        <text class="ss" x="380" y="256">this should fall in documented areas</text>
+        <text class="ss" x="370" y="234">Is the write-back working? It should</text>
+        <text class="ss" x="370" y="256">fall in areas someone documented.</text>
 
         <rect class="bx a grow w4" x="4" y="292" width="692" height="76" rx="6"/>
         <text class="tt" x="24" y="318" style="font-size:13px">Rework prompts per ticket</text>
         <text class="ss" x="24" y="340" style="font-size:11.5px">the prompting number</text>
-        <text class="ss" x="380" y="318">Whether the specs and skill files are</text>
-        <text class="ss" x="380" y="340">landing &mdash; column four of your tally sheet</text>
+        <text class="ss" x="370" y="318">Are specs and skill files working?</text>
+        <text class="ss" x="370" y="340">The Rework column of your tally sheet.</text>
 
         <rect class="bx d" x="4" y="378" width="692" height="52" rx="8"/>
-        <text class="ss w" x="24" y="412" style="font-size:14px">No platform. No dashboard. <tspan font-weight="700" fill="#e0b34d">A spreadsheet and a fortnight.</tspan></text>
+        <text class="ss w" x="24" y="412" style="font-size:14px">No platform. No dashboard. <tspan font-weight="700" fill="#e0b34d">A spreadsheet and two weeks.</tspan></text>
       </svg>
     </div>
     <div class="pts">
-      <h3>The honest paragraph</h3>
+      <h3>Be honest</h3>
       <ul>
-        <li><b>None of these are clean.</b> They are confounded by which tickets came in, who was on holiday, and whether the quarter was busy.</li>
-        <li>You are looking for <b>direction and magnitude</b>, not significance. A number that halves is telling you something even if you cannot isolate why.</li>
+        <li>These numbers are <b>noisy</b>: which tickets came in, holidays, busy weeks.</li>
+        <li>Look for <b>direction and size</b>. A number that halves still means something.</li>
       </ul>
-      <h3>And say this part out loud</h3>
+      <h3>Say this out loud</h3>
       <ul>
-        <li><b>Having any measurement at all puts you ahead of almost every team doing this.</b> That is not a low bar being celebrated &mdash; it is the actual state of the industry.</li>
-        <li>It is also why the tally sheet has been open on the board since the first morning.</li>
+        <li>Most teams measure nothing. <b>Any measurement puts you ahead.</b></li>
       </ul>
-      <div class="take"><b>Report what you measure, including when it disappoints.</b> That was the promise on slide 8 of Module 1, and it is the reason anything else in this course was worth believing.</div>
-    </div>
-  </div>
-</section>
-<!-- 15 -->
-<section class="slide" data-sec="Capstone" data-title="The capstone - one ticket, everything" data-notes="Set the capstone up as the exam for the course rather than as a demonstration. One ticket, both repositories, every stage, and the number goes on the board next to Lab 1.1. Walk the eight stages quickly - they know all of them - and then spend the time on the two rules underneath. First: measure it the same way you measured Lab 1.1, same six counters, same person counting, or the comparison is worthless. Second, and this is the one to labour: you will be tempted to pick a clean ticket and run it carefully. Do not. The baseline was an ordinary Tuesday and the capstone has to be one too, or you are comparing a careful run to a careless one and learning nothing about the method." data-tier="K">
-  <h2>The capstone &mdash; one ticket, both repositories, every stage<span class="tag">CAP</span></h2>
-  <div class="body g64">
-    <div>
-      <svg viewBox="0 0 700 430" role="img" aria-label="The eight stages of the capstone run">
-        <text class="lb" x="4" y="13">EIGHT STAGES &mdash; AND YOU HAVE DONE EVERY ONE OF THEM SEPARATELY</text>
-        <rect class="bx" x="4" y="22" width="692" height="278" rx="8"/>
-        <rect class="bx w rise" x="20" y="40" width="660" height="30" rx="5"/>
-        <text class="ss" x="34" y="60"><tspan font-weight="700">1</tspan> &nbsp;Pull the ticket and its surroundings &mdash; by key, within budget &nbsp;<tspan font-size="10.5px" fill="#6ea8fe">M6</tspan></text>
-        <rect class="bx w rise r2" x="20" y="76" width="660" height="30" rx="5"/>
-        <text class="ss" x="34" y="96"><tspan font-weight="700">2</tspan> &nbsp;Write the spec &mdash; criteria, scope, assumptions, open questions &nbsp;<tspan font-size="10.5px" fill="#6ea8fe">M5</tspan></text>
-        <rect class="bx w rise r3" x="20" y="112" width="660" height="30" rx="5"/>
-        <text class="ss" x="34" y="132"><tspan font-weight="700">3</tspan> &nbsp;Plan it, and challenge the plan before any code &nbsp;<tspan font-size="10.5px" fill="#6ea8fe">M5</tspan></text>
-        <rect class="bx w rise r4" x="20" y="148" width="660" height="30" rx="5"/>
-        <text class="ss" x="34" y="168"><tspan font-weight="700">4</tspan> &nbsp;Implement across both repositories, contract first &nbsp;<tspan font-size="10.5px" fill="#6ea8fe">M4 &middot; M7</tspan></text>
-        <rect class="bx w rise r5" x="20" y="184" width="660" height="30" rx="5"/>
-        <text class="ss" x="34" y="204"><tspan font-weight="700">5</tspan> &nbsp;Test agent, from the ticket &mdash; and the test report &nbsp;<tspan font-size="10.5px" fill="#6ea8fe">M4</tspan></text>
-        <rect class="bx w rise r6" x="20" y="220" width="660" height="30" rx="5"/>
-        <text class="ss" x="34" y="240"><tspan font-weight="700">6</tspan> &nbsp;Review agent &mdash; and the human, on the four questions &nbsp;<tspan font-size="10.5px" fill="#6ea8fe">M8</tspan></text>
-        <rect class="bx w rise r6" x="20" y="256" width="660" height="18" rx="4"/>
-        <text class="ss" x="34" y="270" style="font-size:11px"><tspan font-weight="700">7</tspan> &nbsp;Two sequenced pull requests, cross-linked, order in words &nbsp;<tspan fill="#6ea8fe">M7</tspan></text>
-        <rect class="bx g rise r6" x="20" y="278" width="660" height="18" rx="4"/>
-        <text class="ss" x="34" y="292" style="font-size:11px"><tspan font-weight="700">8</tspan> &nbsp;Write back &mdash; the ticket, the page, and the knowledge base &nbsp;<tspan fill="#6ea8fe">M8</tspan></text>
-
-        <rect class="bx d" x="4" y="312" width="692" height="118" rx="8"/>
-        <text class="lb w" x="24" y="336">TWO RULES, AND THE SECOND ONE IS THE HARD ONE</text>
-        <text class="ss w" x="24" y="362" style="font-size:14px"><tspan font-weight="700">Measure it the same way.</tspan> Same six counters, same person counting.</text>
-        <text class="ss w" x="24" y="390" style="font-size:14px"><tspan font-weight="700" fill="#e0b34d">Do not pick a clean ticket and run it carefully.</tspan> The baseline was an</text>
-        <text class="ss w" x="24" y="412" style="font-size:14px">ordinary Tuesday. This has to be one too.</text>
-      </svg>
-    </div>
-    <div class="pts">
-      <h3>What is being tested</h3>
-      <ul>
-        <li>Not whether you can do each stage &mdash; you have done all eight separately over two days.</li>
-        <li><b>Whether the stages compose</b>, and where the hand-offs cost you. That is the thing nobody finds out until they run the whole thing.</li>
-      </ul>
-      <h3>What goes on the board</h3>
-      <ul>
-        <li>The six counters, in the last row of the tally sheet, next to row one.</li>
-        <li>Plus one line: <b>which stage cost the most, and was it worth it?</b></li>
-      </ul>
-      <div class="callout bad"><b>Comparing a careful run to a careless one teaches you nothing about the method.</b> If you flatter the capstone, the only person you mislead is yourself, next quarter, when you try to justify this to your team.</div>
+      <div class="take"><b>Report what you measure, even when it disappoints.</b> That was the promise at Lab 1.1, on the first morning.</div>
     </div>
   </div>
 </section>
 
 <!-- 16 -->
-<section class="slide" data-sec="Capstone" data-title="Reading the capstone result" data-notes="Prepare them for every outcome, honestly, and prepare yourself to deliver a disappointing one without flinching. Four shapes. A large fall in rework and clarifying questions with turns roughly flat is the expected and best result - the guessing went away, the searching partly did. A fall in everything is possible and slightly suspicious, and the thing to check is whether the ticket was comparable. Roughly flat is a real outcome and it usually means the ticket was well-specified to begin with, which is itself worth knowing. And worse is possible on a first full run because the pipeline has overheads and this is the first time anyone has run all eight stages. Say the last one plainly - a first run being slower is not a failure of the method, and pretending otherwise is exactly the dishonesty the course has been arguing against since the first morning." data-tier="R" data-after="lab">
-  <h2>Every outcome is a result &mdash; including the disappointing one<span class="tag">CAP</span></h2>
-  <div class="body g1">
+<section class="slide" data-sec="Capstone" data-title="The capstone - one ticket, everything" data-notes="Set the capstone up as the exam for the course rather than as a demonstration. One ticket, both repositories, every stage, and the number goes on the board next to Lab 1.1. Walk the eight stages quickly - they know all of them - and then spend the time on the two rules underneath. First: measure it the same way you measured Lab 1.1, same six counters, same person counting, or the comparison is worthless. Second, and this is the one to labour: you will be tempted to pick a clean ticket and run it carefully. Do not. The baseline was an ordinary Tuesday and the capstone has to be one too, or you are comparing a careful run to a careless one and learning nothing about the method." data-tier="K">
+  <h2>The capstone &mdash; one ticket, both repos, every stage<span class="tag">CAP</span></h2>
+  <div class="body g64">
     <div>
-      <svg viewBox="0 0 1180 452" role="img" aria-label="Four possible capstone outcomes and how to read each">
-        <rect class="bx d" x="4" y="4" width="1172" height="30" rx="6"/>
-        <text class="lb w" x="24" y="24">WHAT YOU SEE</text>
-        <text class="lb w" x="420" y="24">WHAT IT MEANS</text>
-        <text class="lb w" x="880" y="24">WHAT TO DO WITH IT</text>
+      <svg viewBox="0 0 700 430" role="img" aria-label="The eight stages of the capstone run">
+        <text class="lb" x="4" y="13">EIGHT STAGES &mdash; YOU HAVE ALREADY DONE EACH ONE</text>
+        <rect class="bx" x="4" y="22" width="692" height="280" rx="8"/>
+        <rect class="bx w rise" x="20" y="36" width="660" height="27" rx="5"/>
+        <text class="ss" x="34" y="54"><tspan font-weight="700">1</tspan> &nbsp;Fetch the ticket and what is linked to it, within budget &nbsp;<tspan font-size="10.5px" fill="#6ea8fe">M6</tspan></text>
+        <rect class="bx w rise r2" x="20" y="68" width="660" height="27" rx="5"/>
+        <text class="ss" x="34" y="86"><tspan font-weight="700">2</tspan> &nbsp;Write the spec: criteria, scope, assumptions, open questions &nbsp;<tspan font-size="10.5px" fill="#6ea8fe">M5</tspan></text>
+        <rect class="bx w rise r3" x="20" y="100" width="660" height="27" rx="5"/>
+        <text class="ss" x="34" y="118"><tspan font-weight="700">3</tspan> &nbsp;Plan it, and challenge the plan before any code &nbsp;<tspan font-size="10.5px" fill="#6ea8fe">M5</tspan></text>
+        <rect class="bx w rise r4" x="20" y="132" width="660" height="27" rx="5"/>
+        <text class="ss" x="34" y="150"><tspan font-weight="700">4</tspan> &nbsp;Build across both repos, contract first &nbsp;<tspan font-size="10.5px" fill="#6ea8fe">M4 &middot; M7</tspan></text>
+        <rect class="bx w rise r5" x="20" y="164" width="660" height="27" rx="5"/>
+        <text class="ss" x="34" y="182"><tspan font-weight="700">5</tspan> &nbsp;Test agent writes tests from the ticket, plus a test report &nbsp;<tspan font-size="10.5px" fill="#6ea8fe">M4</tspan></text>
+        <rect class="bx w rise r6" x="20" y="196" width="660" height="27" rx="5"/>
+        <text class="ss" x="34" y="214"><tspan font-weight="700">6</tspan> &nbsp;Review agent, then a human with the four questions &nbsp;<tspan font-size="10.5px" fill="#6ea8fe">M8</tspan></text>
+        <rect class="bx w rise r6" x="20" y="228" width="660" height="27" rx="5"/>
+        <text class="ss" x="34" y="246"><tspan font-weight="700">7</tspan> &nbsp;Two linked pull requests, merge order written down &nbsp;<tspan font-size="10.5px" fill="#6ea8fe">M7</tspan></text>
+        <rect class="bx g rise r6" x="20" y="260" width="660" height="27" rx="5"/>
+        <text class="ss" x="34" y="278"><tspan font-weight="700">8</tspan> &nbsp;Write back: the ticket, the page, and the repo &nbsp;<tspan font-size="10.5px" fill="#6ea8fe">M8</tspan></text>
 
-        <rect class="bx g grow" x="4" y="42" width="1172" height="94" rx="6"/>
-        <text class="tt" x="24" y="72">Rework and clarifying</text>
-        <text class="tt" x="24" y="92">questions fall sharply;</text>
-        <text class="tt" x="24" y="112">turns roughly flat</text>
-        <text class="ss" x="420" y="72">The expected shape, and the best one. The</text>
-        <text class="ss" x="420" y="94">guessing went away; the searching partly did.</text>
-        <text class="ss" x="420" y="116" style="font-size:11.5px">Turns stay flat because the pipeline has more stages.</text>
-        <text class="ss" x="880" y="84" style="fill:#5fbf8f;font-weight:600">Report the categories,</text>
-        <text class="ss" x="880" y="106" style="fill:#5fbf8f;font-weight:600">not the headline</text>
-
-        <rect class="bx a grow w2" x="4" y="144" width="1172" height="88" rx="6"/>
-        <text class="tt" x="24" y="176">Everything falls,</text>
-        <text class="tt" x="24" y="196">including wall-clock</text>
-        <text class="ss" x="420" y="176">Possible, and slightly suspicious on a first full run.</text>
-        <text class="ss" x="420" y="198">Overheads usually offset some of the gain.</text>
-        <text class="ss" x="880" y="176">Check the ticket was</text>
-        <text class="ss" x="880" y="198">genuinely comparable</text>
-
-        <rect class="bx grow w3" x="4" y="240" width="1172" height="88" rx="6"/>
-        <text class="tt" x="24" y="272">Roughly flat</text>
-        <text class="ss" x="420" y="272">Usually means the ticket was well specified to begin</text>
-        <text class="ss" x="420" y="294">with &mdash; which is a real finding about your board.</text>
-        <text class="ss" x="880" y="272">Say so. It tells you where</text>
-        <text class="ss" x="880" y="294">the method pays and where not</text>
-
-        <rect class="bx r grow w4" x="4" y="330" width="1172" height="118" rx="6"/>
-        <text class="tt" x="24" y="362">Worse than Lab 1.1</text>
-        <text class="ss" x="24" y="384" style="font-size:11.5px">and it does happen</text>
-        <text class="ss" x="420" y="358">The pipeline has real overheads and this is the first</text>
-        <text class="ss" x="420" y="380">time anyone has run all eight stages together. Some of</text>
-        <text class="ss" x="420" y="402">the cost is learning the sequence, not the sequence itself.</text>
-        <text class="ss" x="420" y="424" style="fill:#e2726e;font-weight:600">A first run being slower is not a failure of the method &mdash; and pretending</text>
-        <text class="ss" x="420" y="442" style="fill:#e2726e;font-weight:600">otherwise is the dishonesty this course has argued against from the start.</text>
-        <text class="ss" x="880" y="372" style="fill:#e2726e;font-weight:600">Report it as measured.</text>
-        <text class="ss" x="880" y="394" style="fill:#e2726e;font-weight:600">Then ask which stage</text>
-        <text class="ss" x="880" y="414" style="fill:#e2726e;font-weight:600">you would drop.</text>
+        <rect class="bx d" x="4" y="312" width="692" height="118" rx="8"/>
+        <text class="lb w" x="24" y="336">TWO RULES &mdash; THE SECOND IS THE HARD ONE</text>
+        <text class="ss w" x="24" y="362" style="font-size:14px"><tspan font-weight="700">Measure it the same way.</tspan> Same six counts, same person counting.</text>
+        <text class="ss w" x="24" y="390" style="font-size:14px"><tspan font-weight="700" fill="#e0b34d">Do not pick an easy ticket and work extra carefully.</tspan></text>
+        <text class="ss w" x="24" y="412" style="font-size:14px">Lab 1.1 was a normal day. This must be one too.</text>
       </svg>
+    </div>
+    <div class="pts">
+      <h3>What is tested</h3>
+      <ul>
+        <li>Not each stage &mdash; you did each one already.</li>
+        <li><b>Whether the stages work together</b>, and where hand-offs cost time.</li>
+      </ul>
+      <h3>On the board</h3>
+      <ul>
+        <li>Six counts in the last row of the tally sheet, next to Lab 1.1.</li>
+        <li>Plus: <b>which stage cost most, and was it worth it?</b></li>
+      </ul>
+      <div class="callout bad"><b>A careful run against a careless one proves nothing.</b> You would only fool yourself.</div>
     </div>
   </div>
 </section>
 
 <!-- 17 -->
-<section class="slide" data-sec="Close" data-title="The four things worth keeping" data-notes="The penultimate slide and the one people photograph. Four things, and they are chosen because each is cheap, each survives a change of stack or vendor, and each answers a problem they watched rather than one they were told about. Deliberately NOT on this list: anything requiring a platform team, anything requiring a budget, and anything that only works with the exact tools used this week. Say that explicitly, because a room that leaves with a list of things they need permission for leaves with nothing. Then hand over to the last slide." data-tier="K" data-after="lab">
-  <h2>Four things worth keeping &mdash; all of them cheap<span class="tag">M8</span></h2>
+<section class="slide" data-sec="Capstone" data-title="Reading the capstone result" data-notes="Prepare them for every outcome, honestly, and prepare yourself to deliver a disappointing one without flinching. Four shapes. A large fall in rework and clarifying questions with turns roughly flat is the expected and best result - the guessing went away, the searching partly did. A fall in everything is possible and slightly suspicious, and the thing to check is whether the ticket was comparable. Roughly flat is a real outcome and it usually means the ticket was well-specified to begin with, which is itself worth knowing. And worse is possible on a first full run because the pipeline has overheads and this is the first time anyone has run all eight stages. Say the last one plainly - a first run being slower is not a failure of the method, and pretending otherwise is exactly the dishonesty the course has been arguing against since the first morning." data-tier="R" data-after="lab">
+  <h2>Every result counts &mdash; even a disappointing one<span class="tag">CAP</span></h2>
   <div class="body g1">
     <div>
-      <svg viewBox="0 0 1180 452" role="img" aria-label="Four practices to keep, with what each one answers">
-        <rect class="bx g grow" x="4" y="4" width="1172" height="98" rx="8"/>
-        <text class="lb g" x="24" y="28">1 &middot; THE SAME-PR RULE</text>
-        <text class="tt" x="24" y="56" style="font-size:15px">Knowledge changes in the pull request that invalidates it.</text>
-        <text class="ss" x="24" y="82">Answered five different problems in two days: instruction files, skill files, agent definitions, contract documents,</text>
-        <text class="ss" x="24" y="98">and the write-back loop. It is not the most interesting idea here. It decides whether the rest survives.</text>
+      <svg viewBox="0 0 1180 452" role="img" aria-label="Four possible capstone results and how to read each">
+        <rect class="bx d" x="4" y="4" width="1172" height="30" rx="6"/>
+        <text class="lb w" x="24" y="24">WHAT YOU SEE</text>
+        <text class="lb w" x="420" y="24">WHAT IT MEANS</text>
+        <text class="lb w" x="880" y="24">WHAT TO DO</text>
 
-        <rect class="bx g grow w2" x="4" y="110" width="1172" height="98" rx="8"/>
-        <text class="lb g" x="24" y="134">2 &middot; THREE LINES AT THE TOP OF A TICKET</text>
-        <text class="tt" x="24" y="162" style="font-size:15px">Done when &middot; not doing &middot; assuming</text>
-        <text class="ss" x="24" y="188">Thirty seconds, and it carries most of the value of a full spec. Use the whole chain only where a ticket fails one</text>
-        <text class="ss" x="24" y="204">of the three tests &mdash; a team that specs everything abandons the practice inside a month.</text>
+        <rect class="bx g grow" x="4" y="42" width="1172" height="94" rx="6"/>
+        <text class="tt" x="24" y="76">Rework and questions fall;</text>
+        <text class="tt" x="24" y="98">turns stay about the same</text>
+        <text class="ss" x="420" y="76">The best case. Less guessing, less searching.</text>
+        <text class="ss" x="420" y="98">Turns stay flat because there are more stages.</text>
+        <text class="ss" x="880" y="76" style="fill:#5fbf8f;font-weight:600">Report each column,</text>
+        <text class="ss" x="880" y="98" style="fill:#5fbf8f;font-weight:600">not just the total</text>
 
-        <rect class="bx g grow w3" x="4" y="216" width="1172" height="98" rx="8"/>
-        <text class="lb g" x="24" y="240">3 &middot; A REVIEWER THAT DID NOT WRITE THE CODE</text>
-        <text class="tt" x="24" y="268" style="font-size:15px">And is not shown why it was written that way.</text>
-        <text class="ss" x="24" y="294">The cheapest of the four agents and the one that closes the two failures better prompting could not.</text>
-        <text class="ss" x="24" y="310">Start here when you roll this out &mdash; not with design, which is the most expensive and the least visible.</text>
+        <rect class="bx a grow w2" x="4" y="144" width="1172" height="88" rx="6"/>
+        <text class="tt" x="24" y="176">Everything falls,</text>
+        <text class="tt" x="24" y="196">even the time taken</text>
+        <text class="ss" x="420" y="176">Possible, but check it. Extra stages</text>
+        <text class="ss" x="420" y="198">usually cost something.</text>
+        <text class="ss" x="880" y="176">Check the ticket was</text>
+        <text class="ss" x="880" y="198">really comparable</text>
 
-        <rect class="bx g grow w4" x="4" y="322" width="1172" height="98" rx="8"/>
-        <text class="lb g" x="24" y="346">4 &middot; A NUMBER BEFORE AN OPINION</text>
-        <text class="tt" x="24" y="374" style="font-size:15px">Six tickets and a pass rate beats any argument about phrasing.</text>
-        <text class="ss" x="24" y="400">And whatever it says, report it as measured. That promise on the first morning is the reason anything else</text>
-        <text class="ss" x="24" y="416">in these two days was worth believing.</text>
+        <rect class="bx grow w3" x="4" y="240" width="1172" height="84" rx="6"/>
+        <text class="tt" x="24" y="272">About the same</text>
+        <text class="ss" x="420" y="272">Often the ticket was clear to begin with.</text>
+        <text class="ss" x="420" y="294">That is a real finding about your board.</text>
+        <text class="ss" x="880" y="272">Say so. It shows where</text>
+        <text class="ss" x="880" y="294">the method helps, and where not</text>
 
-        <rect class="bx d" x="4" y="428" width="1172" height="20" rx="5"/>
-        <text class="ss w" x="590" y="443" text-anchor="middle" style="font-size:12.5px">Deliberately not on this list: anything needing a platform team, a budget, or this week&rsquo;s exact tools</text>
+        <rect class="bx r grow w4" x="4" y="332" width="1172" height="116" rx="6"/>
+        <text class="tt" x="24" y="366">Worse than Lab 1.1</text>
+        <text class="ss" x="24" y="388" style="font-size:11.5px">it does happen</text>
+        <text class="ss" x="420" y="362">First full run of all eight stages.</text>
+        <text class="ss" x="420" y="384">Part of the cost is learning the steps.</text>
+        <text class="ss" x="420" y="414" style="fill:#e2726e;font-weight:600">A slower first run does not mean</text>
+        <text class="ss" x="420" y="434" style="fill:#e2726e;font-weight:600">the method failed.</text>
+        <text class="ss" x="880" y="376" style="fill:#e2726e;font-weight:600">Report it as measured.</text>
+        <text class="ss" x="880" y="398" style="fill:#e2726e;font-weight:600">Then ask which stage</text>
+        <text class="ss" x="880" y="418" style="fill:#e2726e;font-weight:600">you would drop.</text>
       </svg>
     </div>
   </div>
 </section>
 
 <!-- 18 -->
+<section class="slide" data-sec="Close" data-title="The four things worth keeping" data-notes="The penultimate slide and the one people photograph. Four things, and they are chosen because each is cheap, each survives a change of stack or vendor, and each answers a problem they watched rather than one they were told about. Deliberately NOT on this list: anything requiring a platform team, anything requiring a budget, and anything that only works with the exact tools used this week. Say that explicitly, because a room that leaves with a list of things they need permission for leaves with nothing. Then hand over to the last slide." data-tier="K" data-after="lab">
+  <h2>Four things worth keeping &mdash; all of them cheap<span class="tag">M8</span></h2>
+  <div class="body g1">
+    <div>
+      <svg viewBox="0 0 1180 452" role="img" aria-label="Four practices to keep">
+        <rect class="bx g grow" x="4" y="4" width="1172" height="98" rx="8"/>
+        <text class="lb g" x="24" y="28">1 &middot; THE SAME-PR RULE</text>
+        <text class="tt" x="24" y="58" style="font-size:15px">Update the knowledge in the same PR that makes it wrong.</text>
+        <text class="ss" x="24" y="86">It solved five problems in two days. It decides whether everything else lasts.</text>
+        <rect class="bx g grow w2" x="4" y="110" width="1172" height="98" rx="8"/>
+        <text class="lb g" x="24" y="134">2 &middot; THREE LINES ON EVERY TICKET</text>
+        <text class="tt" x="24" y="164" style="font-size:15px">Done when &middot; not doing &middot; assuming</text>
+        <text class="ss" x="24" y="192">Thirty seconds, and most of the value of a full spec. Write a full spec only when a ticket needs it.</text>
+        <rect class="bx g grow w3" x="4" y="216" width="1172" height="98" rx="8"/>
+        <text class="lb g" x="24" y="240">3 &middot; A REVIEWER THAT DID NOT WRITE THE CODE</text>
+        <text class="tt" x="24" y="270" style="font-size:15px">And is not told why it was written that way.</text>
+        <text class="ss" x="24" y="298">The cheapest agent, and it catches what better prompts cannot. Start your rollout here.</text>
+        <rect class="bx g grow w4" x="4" y="322" width="1172" height="98" rx="8"/>
+        <text class="lb g" x="24" y="346">4 &middot; A NUMBER BEFORE AN OPINION</text>
+        <text class="tt" x="24" y="376" style="font-size:15px">Six tickets and a pass rate beat any debate about wording.</text>
+        <text class="ss" x="24" y="404">Report it as measured, whatever it says.</text>
+        <rect class="bx d" x="4" y="428" width="1172" height="20" rx="5"/>
+        <text class="ss w" x="590" y="443" text-anchor="middle" style="font-size:12.5px">Not on this list: anything that needs a platform team, a budget, or this week&rsquo;s exact tools</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 19 -->
 <section class="slide" data-sec="Close" data-title="Where this leaves you" data-notes="The last content slide of the course. Do not summarise - the summary is the previous slide. Use this one to name what changed and what did not. What changed: four decisions you now make deliberately per request, a repository that answers, a specification that can be checked, and a reviewer that is genuinely independent. What did not change: the agent is not more capable than it was on Monday morning, and nothing here made it smarter. Every improvement over two days came from arranging the work differently - what it can see, what it was asked to optimise, and who checks. Then the closing line and stop: the number on the board is yours, it is honest, and it is the only claim this course made about itself." data-tier="K" data-after="lab">
-  <h2>What changed over two days &mdash; and what did not<span class="tag">M8</span></h2>
+  <h2>What changed in two days &mdash; and what did not<span class="tag">M8</span></h2>
   <div class="body g55">
     <div class="pts">
       <h3>What changed</h3>
       <ul>
-        <li>The repository <b>answers</b> &mdash; so the tax is paid once rather than per request.</li>
-        <li>You make <b>four decisions deliberately</b> on every request that you were making by habit.</li>
-        <li>&ldquo;Done&rdquo; is something a <b>machine can check</b>, which is what made delegation safe.</li>
-        <li>The thing that checks the work is <b>not the thing that did it</b>.</li>
+        <li>The repo <b>answers questions</b>, so the re-discovery tax is paid once.</li>
+        <li>You make <b>four choices on purpose</b> for each request: task type, mode, context, hand-off.</li>
+        <li>&ldquo;Done&rdquo; is something a <b>machine can check</b>.</li>
+        <li>The checker is <b>not the one who did the work</b>.</li>
       </ul>
       <h3>What did not</h3>
       <ul>
-        <li><b>The agent is no more capable than it was on Monday morning.</b> Same model, same weights.</li>
-        <li>Every gain came from arranging the work differently &mdash; what it can see, what it was asked to optimise, and who checks.</li>
+        <li><b>The model is the same</b> as on Monday morning.</li>
+        <li>Every gain came from how the work was arranged: what the agent sees, what it aims for, and who checks.</li>
       </ul>
-      <div class="callout"><b>Which is the good news.</b> None of it depends on the next model release, and none of it is invalidated by one.</div>
+      <div class="callout"><b>Good news:</b> none of this depends on the next model release.</div>
     </div>
     <div>
       <svg viewBox="0 0 700 430" role="img" aria-label="The tally sheet as the course's only claim about itself">
         <text class="lb a" x="4" y="13">THE ONLY CLAIM THIS COURSE MADE ABOUT ITSELF</text>
         <rect class="bx d" x="4" y="22" width="692" height="30" rx="6"/>
         <text class="lb w" x="24" y="42">RUN</text>
-        <text class="lb w" x="300" y="42">MEASURED AS</text>
+        <text class="lb w" x="330" y="42">MEASURED AS</text>
         <text class="lb w" x="540" y="42">WHEN</text>
 
         <rect class="bx grow" x="4" y="58" width="692" height="46" rx="6"/>
-        <text class="ss" x="24" y="86">1.1 &mdash; unprepared repository</text>
-        <text class="ss" x="300" y="86">six counters</text>
+        <text class="ss" x="24" y="86">Lab 1.1 &mdash; no preparation</text>
+        <text class="ss" x="330" y="86">six counts</text>
         <text class="ss" x="540" y="86">yesterday, 09:40</text>
 
         <rect class="bx grow w2" x="4" y="112" width="692" height="46" rx="6"/>
-        <text class="ss" x="24" y="140">1.3 &mdash; your knowledge in the repo</text>
-        <text class="ss" x="300" y="140">six counters</text>
+        <text class="ss" x="24" y="140">Lab 1.3 &mdash; team knowledge in the repo</text>
+        <text class="ss" x="330" y="140">six counts</text>
         <text class="ss" x="540" y="140">yesterday, 15:20</text>
 
         <rect class="bx grow w3" x="4" y="166" width="692" height="46" rx="6"/>
-        <text class="ss" x="24" y="194">1.5 &mdash; engineered request</text>
-        <text class="ss" x="300" y="194">pass rate</text>
+        <text class="ss" x="24" y="194">Lab 1.5 &mdash; better prompts</text>
+        <text class="ss" x="330" y="194">pass rate</text>
         <text class="ss" x="540" y="194">yesterday, 17:00</text>
 
         <rect class="bx g grow w4" x="4" y="220" width="692" height="52" rx="6"/>
-        <text class="ss" x="24" y="252" style="font-weight:600">capstone &mdash; the full pipeline</text>
-        <text class="ss" x="300" y="252" style="font-weight:600">six counters</text>
+        <text class="ss" x="24" y="252" style="font-weight:600">Capstone &mdash; the full pipeline</text>
+        <text class="ss" x="330" y="252" style="font-weight:600">six counts</text>
         <text class="ss" x="540" y="252" style="font-weight:600;fill:#5fbf8f">an hour ago</text>
 
         <rect class="bx d" x="4" y="290" width="692" height="140" rx="8"/>
-        <text class="ss w" x="24" y="322" style="font-size:15px">Two runs of comparable work, measured the same way,</text>
-        <text class="ss w" x="24" y="348" style="font-size:15px">forty-eight hours apart.</text>
-        <text class="ss w" x="24" y="382" style="font-size:15px">Everything between them was the argument &mdash;</text>
-        <text class="ss w" x="24" y="410" style="font-size:15px">and <tspan font-weight="700" fill="#e0b34d">you held the tally sheet.</tspan></text>
-      </svg>
-    </div>
-  </div>
-</section>
-<!-- 19 -->
-<section class="slide" data-sec="Review quiz" data-title="Review quiz - eight questions" data-notes="Last quiz of the course. Run it before the capstone rather than after, so the answers are fresh while they work. Questions 1, 4 and 8 carry the most. If short, run 1, 4, 6 and 8." data-tier="R">
-  <h2>Review quiz &mdash; eight questions<span class="tag q">QUIZ</span></h2>
-  <div class="body g55">
-    <div class="pts">
-      <h3>How this runs</h3>
-      <ul>
-        <li>Four options, one right. <b>Show of hands on each</b> before the answer.</li>
-        <li>Run this <em>before</em> the capstone, so the answers are fresh while you work.</li>
-      </ul>
-      <h3>If time is short</h3>
-      <ul>
-        <li>Run <b>1, 4, 6 and 8</b>. The reviewer's limits, what to write back, the loop, and what actually changed.</li>
-      </ul>
-      <div class="take">Question 8 is the course. If the room gets it, they can explain this to their own team on Monday without a slide.</div>
-    </div>
-    <div>
-      <svg viewBox="0 0 700 420" role="img" aria-label="What the eight quiz questions cover">
-        <rect class="bx p" x="4" y="4" width="692" height="412" rx="8"/>
-        <text class="lb p" x="24" y="32">WHAT THE EIGHT COVER</text>
-        <rect class="bx w rise" x="24" y="44" width="652" height="40" rx="5"/>
-        <text class="ss" x="40" y="69"><tspan font-weight="700">1 &middot;</tspan> What the review agent cannot do, and why the human signs</text>
-        <rect class="bx w rise r2" x="24" y="90" width="652" height="40" rx="5"/>
-        <text class="ss" x="40" y="115"><tspan font-weight="700">2 &middot;</tspan> Reviewing a confident pull request description</text>
-        <rect class="bx w rise r3" x="24" y="136" width="652" height="40" rx="5"/>
-        <text class="ss" x="40" y="161"><tspan font-weight="700">3 &middot;</tspan> What makes an agent-written PR description safe</text>
-        <rect class="bx w rise r4" x="24" y="182" width="652" height="40" rx="5"/>
-        <text class="ss" x="40" y="207"><tspan font-weight="700">4 &middot;</tspan> Which page is worth generating</text>
-        <rect class="bx w rise r5" x="24" y="228" width="652" height="40" rx="5"/>
-        <text class="ss" x="40" y="253"><tspan font-weight="700">5 &middot;</tspan> Updating a page somebody else owns</text>
-        <rect class="bx w rise r6" x="24" y="274" width="652" height="40" rx="5"/>
-        <text class="ss" x="40" y="299"><tspan font-weight="700">6 &middot;</tspan> Why the write-back loop is the step that gets skipped</text>
-        <rect class="bx w rise r6" x="24" y="320" width="652" height="40" rx="5"/>
-        <text class="ss" x="40" y="345"><tspan font-weight="700">7 &middot;</tspan> What to roll out first</text>
-        <rect class="bx w rise r6" x="24" y="366" width="652" height="40" rx="5"/>
-        <text class="ss" x="40" y="391"><tspan font-weight="700">8 &middot;</tspan> What actually changed over two days</text>
+        <text class="ss w" x="24" y="322" style="font-size:15px">Two runs of similar work, measured the same way,</text>
+        <text class="ss w" x="24" y="348" style="font-size:15px">48 hours apart.</text>
+        <text class="ss w" x="24" y="382" style="font-size:15px">Everything in between was the argument &mdash;</text>
+        <text class="ss w" x="24" y="410" style="font-size:15px">and <tspan font-weight="700" fill="#e0b34d">you kept the tally sheet.</tspan></text>
       </svg>
     </div>
   </div>
 </section>
 
 <!-- 20 -->
-<section class="slide" data-sec="Review quiz" data-title="Q1 - why the human signs" data-notes="Expect A to poll - it is the polite answer and it is wrong in an important way." data-tier="R">
-  <h2>Q1 &middot; Why does a human still sign the pull request?<span class="tag q">1 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">Your review agent checks the criteria, the scope, the conventions and the tests &mdash; and does it well. Why does a human still have to sign?</div>
-    <div class="opts">
-      <div class="opt"><span class="k">A</span><span>Because the expensive questions &mdash; is this the right thing, will it hurt in six months, does it contradict another team &mdash; are not reachable from a diff and a list of criteria.</span></div>
-      <div class="opt"><span class="k">B</span><span>Because the agent is not yet reliable enough at those checks to be trusted without oversight.</span></div>
-      <div class="opt"><span class="k">C</span><span>Because accountability cannot be delegated to a tool, whatever the tool's accuracy.</span></div>
-      <div class="opt"><span class="k">D</span><span>Because the agent cannot see the production environment, so it cannot judge operational risk.</span></div>
+<section class="slide" data-sec="Review quiz" data-title="Review quiz - eight questions" data-notes="Last quiz of the course. Run it before the capstone rather than after, so the answers are fresh while they work. Questions 1, 4 and 8 carry the most. If short, run 1, 4, 6 and 8." data-tier="R">
+  <h2>Review quiz &mdash; eight questions<span class="tag q">QUIZ</span></h2>
+  <div class="body g55">
+    <div class="pts">
+      <h3>How it runs</h3>
+      <ul>
+        <li>Four options, one right answer. <b>Hands up for each</b> before the answer.</li>
+        <li>Run it <em>before</em> the capstone, while it is fresh.</li>
+      </ul>
+      <h3>Short on time?</h3>
+      <ul>
+        <li>Run <b>1, 4, 6 and 8</b>.</li>
+      </ul>
+      <div class="take"><b>Question 8</b> sums up the whole course.</div>
     </div>
-    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
-  </div></div>
+    <div>
+      <svg viewBox="0 0 700 420" role="img" aria-label="What the eight quiz questions cover">
+        <rect class="bx p" x="4" y="4" width="692" height="412" rx="8"/>
+        <text class="lb p" x="24" y="32">WHAT THE EIGHT COVER</text>
+        <rect class="bx w rise" x="24" y="44" width="652" height="40" rx="5"/>
+        <text class="ss" x="40" y="69"><tspan font-weight="700">1 &middot;</tspan> Why a human still approves the PR</text>
+        <rect class="bx w rise r2" x="24" y="90" width="652" height="40" rx="5"/>
+        <text class="ss" x="40" y="115"><tspan font-weight="700">2 &middot;</tspan> Reviewing a confident PR description</text>
+        <rect class="bx w rise r3" x="24" y="136" width="652" height="40" rx="5"/>
+        <text class="ss" x="40" y="161"><tspan font-weight="700">3 &middot;</tspan> Making an agent-written PR description safe</text>
+        <rect class="bx w rise r4" x="24" y="182" width="652" height="40" rx="5"/>
+        <text class="ss" x="40" y="207"><tspan font-weight="700">4 &middot;</tspan> Which page is worth writing</text>
+        <rect class="bx w rise r5" x="24" y="228" width="652" height="40" rx="5"/>
+        <text class="ss" x="40" y="253"><tspan font-weight="700">5 &middot;</tspan> Updating another team&rsquo;s page</text>
+        <rect class="bx w rise r6" x="24" y="274" width="652" height="40" rx="5"/>
+        <text class="ss" x="40" y="299"><tspan font-weight="700">6 &middot;</tspan> Why teams skip the write-back</text>
+        <rect class="bx w rise r6" x="24" y="320" width="652" height="40" rx="5"/>
+        <text class="ss" x="40" y="345"><tspan font-weight="700">7 &middot;</tspan> What to start with</text>
+        <rect class="bx w rise r6" x="24" y="366" width="652" height="40" rx="5"/>
+        <text class="ss" x="40" y="391"><tspan font-weight="700">8 &middot;</tspan> What really changed in two days</text>
+      </svg>
+    </div>
+  </div>
 </section>
 
 <!-- 21 -->
-<section class="slide" data-sec="Review quiz" data-title="Q1 - answer" data-notes="Kill A carefully: it is the polite answer and it implies that a better model would remove the need for a human, which is false and which will lead a team to stop reviewing when the next model ships. B is true and it is not a reason - it explains who is responsible, not what they should look at." data-tier="R">
-  <h2>Q1 &middot; Answer<span class="tag q">1 of 8</span></h2>
+<section class="slide" data-sec="Review quiz" data-title="Q1 - why the human signs" data-notes="Expect B to poll - it is the polite answer and it is wrong in an important way." data-tier="R">
+  <h2>Q1 &middot; Why does a human still approve the pull request?<span class="tag q">1 of 8</span></h2>
   <div class="body g1"><div>
-    <div class="qz">Why does a human still sign?</div>
+    <div class="qz">Your review agent checks criteria, scope, conventions and tests &mdash; and does it well. Why must a human still approve?</div>
     <div class="opts">
-      <div class="opt right"><span class="k">A</span><span>The expensive questions are not reachable from a diff and a list of criteria.</span></div>
-      <div class="opt wrong"><span class="k">B</span><span>The agent is not reliable enough.</span></div>
-      <div class="opt wrong"><span class="k">C</span><span>Accountability cannot be delegated.</span></div>
-      <div class="opt wrong"><span class="k">D</span><span>It cannot see production.</span></div>
+      <div class="opt"><span class="k">A</span><span>The costly questions cannot be seen in a diff or a criteria list.</span></div>
+      <div class="opt"><span class="k">B</span><span>The agent is not yet reliable enough to be trusted alone.</span></div>
+      <div class="opt"><span class="k">C</span><span>Responsibility cannot be handed to a tool, however accurate.</span></div>
+      <div class="opt"><span class="k">D</span><span>The agent cannot see production, so it misses operational risk.</span></div>
     </div>
-    <div class="why"><b>A.</b> On the checks it can do, the agent is often <em>better</em> than a tired human. What it cannot reach is whether this should be built, whether the abstraction will hurt, and whether it contradicts a decision in another team.
-      <span class="no"><b>B</b> is the polite answer and the dangerous one: it implies a better model would remove the need for a human, so a team that believes it stops reviewing when the next model ships. <b>C</b> is true and is not a <em>reason</em> &mdash; it says who is responsible, not what they should look at. <b>D</b> is out of scope for this course by design, and would not explain GB-163 either.</span></div>
+    <div class="qmeta">Hands up for each option before moving on &middot; answer on the next slide</div>
   </div></div>
 </section>
 
 <!-- 22 -->
-<section class="slide" data-sec="Review quiz" data-title="Q2 - the confident description" data-notes="Practical. The answer is deliberately mechanical rather than a matter of vigilance." data-tier="R">
-  <h2>Q2 &middot; A fluent, confident PR description. What do you do first?<span class="tag q">2 of 8</span></h2>
+<section class="slide" data-sec="Review quiz" data-title="Q1 - answer" data-notes="Kill B carefully: it is the polite answer and it implies that a better model would remove the need for a human, which is false and which will lead a team to stop reviewing when the next model ships. C is true and it is not a reason - it explains who is responsible, not what they should look at." data-tier="R">
+  <h2>Q1 &middot; Answer<span class="tag q">1 of 8</span></h2>
   <div class="body g1"><div>
-    <div class="qz">You are reviewing a change you did not write. The description is complete, well-organised and confident. What is your first action?</div>
+    <div class="qz">Why does a human still approve?</div>
     <div class="opts">
-      <div class="opt"><span class="k">A</span><span>Read the description carefully, then check the diff against each claim it makes.</span></div>
-      <div class="opt"><span class="k">B</span><span>Ask the author which parts were agent-written, so you know where to concentrate.</span></div>
-      <div class="opt"><span class="k">C</span><span>Check that the test suite is green and that coverage on the changed lines has not dropped.</span></div>
-      <div class="opt"><span class="k">D</span><span>Read the file list and the diff first &mdash; before the description.</span></div>
+      <div class="opt right"><span class="k">A</span><span>The costly questions are not visible in a diff.</span></div>
+      <div class="opt wrong"><span class="k">B</span><span>The agent is not reliable enough.</span></div>
+      <div class="opt wrong"><span class="k">C</span><span>Responsibility cannot be handed over.</span></div>
+      <div class="opt wrong"><span class="k">D</span><span>It cannot see production.</span></div>
     </div>
-    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+    <div class="why"><b>A.</b> On the checks it can do, the agent often beats a tired human. It cannot judge whether this should be built, whether the design will hurt, or whether it clashes with another team.
+      <span class="no"><b>B</b> sounds polite but is dangerous: it suggests a better model removes the need for review. <b>C</b> is true, but it says who is responsible, not what to look at. <b>D</b> is outside this course, and does not explain GB-163.</span></div>
   </div></div>
 </section>
 
 <!-- 23 -->
+<section class="slide" data-sec="Review quiz" data-title="Q2 - the confident description" data-notes="Practical. The answer is deliberately mechanical rather than a matter of vigilance." data-tier="R">
+  <h2>Q2 &middot; A confident PR description. What do you do first?<span class="tag q">2 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">You are reviewing a change you did not write. Its description is complete and confident. What do you do first?</div>
+    <div class="opts">
+      <div class="opt"><span class="k">A</span><span>Read the description, then check the diff against each claim.</span></div>
+      <div class="opt"><span class="k">B</span><span>Ask the author which parts an agent wrote.</span></div>
+      <div class="opt"><span class="k">C</span><span>Check that tests are green and coverage has not dropped.</span></div>
+      <div class="opt"><span class="k">D</span><span>Read the file list and the diff, before the description.</span></div>
+    </div>
+    <div class="qmeta">Hands up for each option before moving on &middot; answer on the next slide</div>
+  </div></div>
+</section>
+
+<!-- 24 -->
 <section class="slide" data-sec="Review quiz" data-title="Q2 - answer" data-notes="A is the sophisticated wrong answer and worth unpicking: checking the diff against the description's claims still means the description sets the agenda, so a change the description never mentions is not on your list to check. Silent scope survives A completely." data-tier="R">
   <h2>Q2 &middot; Answer<span class="tag q">2 of 8</span></h2>
   <div class="body g1"><div>
     <div class="qz">What first?</div>
     <div class="opts">
-      <div class="opt wrong"><span class="k">A</span><span>Read the description, then check the diff against its claims.</span></div>
-      <div class="opt wrong"><span class="k">B</span><span>Ask which parts were agent-written.</span></div>
-      <div class="opt wrong"><span class="k">C</span><span>Check the suite is green and coverage held.</span></div>
-      <div class="opt right"><span class="k">D</span><span>Read the file list and the diff first &mdash; before the description.</span></div>
+      <div class="opt wrong"><span class="k">A</span><span>Read the description, then check the diff.</span></div>
+      <div class="opt wrong"><span class="k">B</span><span>Ask which parts an agent wrote.</span></div>
+      <div class="opt wrong"><span class="k">C</span><span>Check tests are green and coverage held.</span></div>
+      <div class="opt right"><span class="k">D</span><span>Read the file list and diff first.</span></div>
     </div>
-    <div class="why"><b>D.</b> Once you have read a fluent description you are reviewing <em>that description</em>. The anchoring is well documented in humans and it does not care that you know about it &mdash; changing the order is the only reliable counter.
-      <span class="no"><b>A</b> is the sophisticated miss: checking the diff against the description's claims still lets the description set the agenda, so a change it never mentions is never on your list. Silent scope survives <b>A</b> completely. <b>B</b> is unanswerable in any useful way and changes nothing about how you review. <b>C</b> is the check that agrees with itself &mdash; Module 3.</span></div>
-  </div></div>
-</section>
-
-<!-- 24 -->
-<section class="slide" data-sec="Review quiz" data-title="Q3 - safe PR descriptions" data-notes="Quick. The word 'derived' is the whole answer." data-tier="R">
-  <h2>Q3 &middot; What makes an agent-written PR description trustworthy?<span class="tag q">3 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">You let the agent write your pull request descriptions. What is the one constraint that keeps that safe?</div>
-    <div class="opts">
-      <div class="opt"><span class="k">A</span><span>A length limit, so it summarises rather than narrating the whole change.</span></div>
-      <div class="opt"><span class="k">B</span><span>Every claim is derived from the spec, the diff or the test report &mdash; nothing written freehand.</span></div>
-      <div class="opt"><span class="k">C</span><span>A required template, so every description has the same sections in the same order.</span></div>
-      <div class="opt"><span class="k">D</span><span>The author reads and edits it before opening the pull request.</span></div>
-    </div>
-    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+    <div class="why"><b>D.</b> Once you read a confident description, you only check what it says. That is anchoring. Knowing about it does not stop it; changing the order does.
+      <span class="no"><b>A</b> still lets the description decide what you check, so a change it never mentions is missed. <b>B</b> does not change how you review. <b>C</b> is the check that agrees with itself &mdash; Module 3&rsquo;s tests written to pass.</span></div>
   </div></div>
 </section>
 
 <!-- 25 -->
+<section class="slide" data-sec="Review quiz" data-title="Q3 - safe PR descriptions" data-notes="Quick. The word 'derived' is the whole answer." data-tier="R">
+  <h2>Q3 &middot; What makes an agent-written PR description safe?<span class="tag q">3 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">The agent writes your pull request descriptions. Which one rule keeps that safe?</div>
+    <div class="opts">
+      <div class="opt"><span class="k">A</span><span>A length limit, so it summarises instead of narrating.</span></div>
+      <div class="opt"><span class="k">B</span><span>Every claim comes from the spec, diff or test report.</span></div>
+      <div class="opt"><span class="k">C</span><span>A fixed template, so every description has the same sections.</span></div>
+      <div class="opt"><span class="k">D</span><span>The author reads and edits it before opening the PR.</span></div>
+    </div>
+    <div class="qmeta">Hands up for each option before moving on &middot; answer on the next slide</div>
+  </div></div>
+</section>
+
+<!-- 26 -->
 <section class="slide" data-sec="Review quiz" data-title="Q3 - answer" data-notes="D is reasonable and insufficient, and it is worth saying why: an author editing a fluent description is subject to exactly the anchoring from question 2, and they wrote the change, so they are the least independent reader available." data-tier="R">
   <h2>Q3 &middot; Answer<span class="tag q">3 of 8</span></h2>
   <div class="body g1"><div>
     <div class="qz">What keeps it safe?</div>
     <div class="opts">
       <div class="opt wrong"><span class="k">A</span><span>A length limit.</span></div>
-      <div class="opt right"><span class="k">B</span><span>Every claim derived from the spec, the diff or the test report &mdash; nothing freehand.</span></div>
-      <div class="opt wrong"><span class="k">C</span><span>A required template.</span></div>
+      <div class="opt right"><span class="k">B</span><span>Every claim comes from the spec, diff or test report.</span></div>
+      <div class="opt wrong"><span class="k">C</span><span>A fixed template.</span></div>
       <div class="opt wrong"><span class="k">D</span><span>The author edits it first.</span></div>
     </div>
-    <div class="why"><b>B.</b> The agent is doing <em>assembly</em>, which it is good at. The moment it writes freehand it is producing a fluent narrative &mdash; and question 2 was about why those are dangerous. A good agent-written description is slightly dull and checkable line by line.
-      <span class="no"><b>D</b> is reasonable and insufficient: an author editing a fluent description is subject to the same anchoring, and they wrote the change, so they are the least independent reader available. <b>C</b> helps and does not constrain <em>content</em>. <b>A</b> is a proxy &mdash; a short invented claim is still invented.</span></div>
-  </div></div>
-</section>
-
-<!-- 26 -->
-<section class="slide" data-sec="Review quiz" data-title="Q4 - worth generating" data-notes="The editorial judgement of the module. Expect a split - all four sound useful." data-tier="R">
-  <h2>Q4 &middot; Which of these is worth generating?<span class="tag q">4 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">Your agent can write any of these back to Confluence at the end of a ticket. Which one earns its maintenance cost?</div>
-    <div class="opts">
-      <div class="opt"><span class="k">A</span><span>A page describing what the new endpoint does and which fields it accepts.</span></div>
-      <div class="opt"><span class="k">B</span><span>An architecture overview, regenerated on every merge so it is never out of date.</span></div>
-      <div class="opt"><span class="k">C</span><span>A summary of what changed in this release, assembled from the merged pull requests.</span></div>
-      <div class="opt"><span class="k">D</span><span>A record of the decision taken, the option rejected, and the constraint that decided it.</span></div>
-    </div>
-    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+    <div class="why"><b>B.</b> Then the agent is assembling facts, which it does well. Written freely, it produces a smooth story &mdash; and question 2 showed why that is risky.
+      <span class="no"><b>D</b> helps too little: the author is anchored by the same text, and wrote the change. <b>C</b> fixes the sections, not the content. <b>A</b>: a short made-up claim is still made up.</span></div>
   </div></div>
 </section>
 
 <!-- 27 -->
-<section class="slide" data-sec="Review quiz" data-title="Q4 - answer" data-notes="B is the trap worth the most time: regenerated on every merge sounds like it solves staleness, and it does - by guaranteeing the page always describes the code, which means it carries no information the code does not already carry. Always current and always worthless." data-tier="R">
-  <h2>Q4 &middot; Answer<span class="tag q">4 of 8</span></h2>
+<section class="slide" data-sec="Review quiz" data-title="Q4 - worth generating" data-notes="The editorial judgement of the module. Expect a split - all four sound useful." data-tier="R">
+  <h2>Q4 &middot; Which of these is worth writing?<span class="tag q">4 of 8</span></h2>
   <div class="body g1"><div>
-    <div class="qz">Which earns its maintenance cost?</div>
+    <div class="qz">The agent can write any of these to Confluence after a ticket. Which one is worth keeping up to date?</div>
     <div class="opts">
-      <div class="opt wrong"><span class="k">A</span><span>What the endpoint does and which fields it accepts.</span></div>
-      <div class="opt wrong"><span class="k">B</span><span>An architecture overview, regenerated every merge.</span></div>
-      <div class="opt wrong"><span class="k">C</span><span>A release summary from the merged PRs.</span></div>
-      <div class="opt right"><span class="k">D</span><span>The decision, the rejected option, and the constraint that decided it.</span></div>
+      <div class="opt"><span class="k">A</span><span>A page on what the new endpoint does and its fields.</span></div>
+      <div class="opt"><span class="k">B</span><span>An architecture overview, regenerated on every merge.</span></div>
+      <div class="opt"><span class="k">C</span><span>A release summary built from the merged pull requests.</span></div>
+      <div class="opt"><span class="k">D</span><span>The decision, the rejected option, and the deciding rule.</span></div>
     </div>
-    <div class="why"><b>D.</b> It is the only one recording something the code cannot. Reading the code tells you what it does; nothing tells you what was considered and ruled out, or why.
-      <span class="no"><b>B</b> is the trap and worth the time: &ldquo;regenerated on every merge&rdquo; sounds like it solves staleness, and it does &mdash; by guaranteeing the page always describes the code, which means it carries <em>no information the code does not already carry</em>. Always current, always worthless, and now somebody maintains the generator. <b>A</b> is the endpoint definition, retyped. <b>C</b> is the commit log with a different heading.</span></div>
+    <div class="qmeta">Hands up for each option before moving on &middot; answer on the next slide</div>
   </div></div>
 </section>
 
 <!-- 28 -->
-<section class="slide" data-sec="Review quiz" data-title="Q5 - somebody else's page" data-notes="Governance. B is what most teams would configure and it is the one that loses the hedges." data-tier="R">
-  <h2>Q5 &middot; The agent needs to update a page another team owns<span class="tag q">5 of 8</span></h2>
+<section class="slide" data-sec="Review quiz" data-title="Q4 - answer" data-notes="B is the trap worth the most time: regenerated on every merge sounds like it solves staleness, and it does - by guaranteeing the page always describes the code, which means it carries no information the code does not already carry. Always current and always worthless." data-tier="R">
+  <h2>Q4 &middot; Answer<span class="tag q">4 of 8</span></h2>
   <div class="body g1"><div>
-    <div class="qz">A decision on your ticket makes one paragraph of another team's runbook wrong. What should the agent be allowed to do?</div>
+    <div class="qz">Which is worth keeping up to date?</div>
     <div class="opts">
-      <div class="opt"><span class="k">A</span><span>Rewrite the page so it is correct, since leaving a known-wrong runbook in place is the greater risk.</span></div>
-      <div class="opt"><span class="k">B</span><span>Edit only the affected paragraph, leaving the rest of the page untouched.</span></div>
-      <div class="opt"><span class="k">C</span><span>Append a dated note under a heading it owns, and flag it for the page's owner.</span></div>
-      <div class="opt"><span class="k">D</span><span>Nothing &mdash; raise it with the owning team and let them decide, since it is their page.</span></div>
+      <div class="opt wrong"><span class="k">A</span><span>What the endpoint does, and its fields.</span></div>
+      <div class="opt wrong"><span class="k">B</span><span>An architecture overview, regenerated every merge.</span></div>
+      <div class="opt wrong"><span class="k">C</span><span>A release summary from merged PRs.</span></div>
+      <div class="opt right"><span class="k">D</span><span>The decision, the rejected option, the deciding rule.</span></div>
     </div>
-    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+    <div class="why"><b>D.</b> It is the only one the code cannot tell you. Code shows what it does &mdash; not what was ruled out, or why.
+      <span class="no"><b>B</b> is the trap: regenerating on every merge keeps it current, but it only repeats the code. Now someone must maintain the generator too. <b>A</b> retypes the endpoint definition. <b>C</b> is the commit log with a new heading.</span></div>
   </div></div>
 </section>
 
 <!-- 29 -->
-<section class="slide" data-sec="Review quiz" data-title="Q5 - answer" data-notes="D is the honourable wrong answer and worth two minutes: it is safe, it is polite, and it is how a known-wrong runbook stays wrong for a quarter, because raising it with a team competes with everything else on their board. C is safe AND leaves a trace where the next reader will see it." data-tier="R">
-  <h2>Q5 &middot; Answer<span class="tag q">5 of 8</span></h2>
+<section class="slide" data-sec="Review quiz" data-title="Q5 - somebody else's page" data-notes="Governance. B is what most teams would configure and it is the one that loses the hedges." data-tier="R">
+  <h2>Q5 &middot; The agent must update another team&rsquo;s page<span class="tag q">5 of 8</span></h2>
   <div class="body g1"><div>
-    <div class="qz">What should it be allowed to do?</div>
+    <div class="qz">Your ticket makes one paragraph of another team&rsquo;s runbook wrong. What may the agent do?</div>
     <div class="opts">
-      <div class="opt wrong"><span class="k">A</span><span>Rewrite the page so it is correct.</span></div>
-      <div class="opt wrong"><span class="k">B</span><span>Edit only the affected paragraph.</span></div>
-      <div class="opt right"><span class="k">C</span><span>Append a dated note under a heading it owns, and flag it for the owner.</span></div>
-      <div class="opt wrong"><span class="k">D</span><span>Nothing &mdash; raise it and let them decide.</span></div>
+      <div class="opt"><span class="k">A</span><span>Rewrite the page, since a wrong runbook is the bigger risk.</span></div>
+      <div class="opt"><span class="k">B</span><span>Edit only the wrong paragraph and leave the rest.</span></div>
+      <div class="opt"><span class="k">C</span><span>Add a dated note under its own heading, and tell the owner.</span></div>
+      <div class="opt"><span class="k">D</span><span>Nothing. Tell the owning team and let them decide.</span></div>
     </div>
-    <div class="why"><b>C.</b> Additive, reversible, attributed, and it leaves the correction where the next reader of that runbook will actually see it &mdash; which a message to a team does not.
-      <span class="no"><b>A</b> is the page-specific trap: asked to update, an agent rewrites in its own voice, and the previous author's hedges &mdash; <em>&ldquo;we think, but have not confirmed&rdquo;</em> &mdash; do not survive a confident rewrite. <b>B</b> is what most teams would configure and it loses the same hedges, in the one paragraph that mattered. <b>D</b> is honourable and it is how a known-wrong runbook stays wrong for a quarter, because raising it competes with everything else on their board.</span></div>
+    <div class="qmeta">Hands up for each option before moving on &middot; answer on the next slide</div>
   </div></div>
 </section>
 
 <!-- 30 -->
-<section class="slide" data-sec="Review quiz" data-title="Q6 - the skipped step" data-notes="The loop question. The answer is structural rather than about motivation." data-tier="R">
-  <h2>Q6 &middot; Why is the write-back the step that gets skipped?<span class="tag q">6 of 8</span></h2>
+<section class="slide" data-sec="Review quiz" data-title="Q5 - answer" data-notes="D is the honourable wrong answer and worth two minutes: it is safe, it is polite, and it is how a known-wrong runbook stays wrong for a quarter, because raising it with a team competes with everything else on their board. C is safe AND leaves a trace where the next reader will see it." data-tier="R">
+  <h2>Q5 &middot; Answer<span class="tag q">5 of 8</span></h2>
   <div class="body g1"><div>
-    <div class="qz">Every team agrees knowledge capture is valuable. Almost none of them do it. What is the structural reason?</div>
+    <div class="qz">What may the agent do?</div>
     <div class="opts">
-      <div class="opt"><span class="k">A</span><span>It takes longer than the other steps, and time pressure at the end of a ticket is real.</span></div>
-      <div class="opt"><span class="k">B</span><span>It is the only step in the pipeline with no consequence for skipping it &mdash; nothing blocks, nothing fails, nothing notices.</span></div>
-      <div class="opt"><span class="k">C</span><span>Engineers dislike writing documentation, and no process change alters that.</span></div>
-      <div class="opt"><span class="k">D</span><span>The value is real but arrives too late to motivate anyone at the moment the work is done.</span></div>
+      <div class="opt wrong"><span class="k">A</span><span>Rewrite the page.</span></div>
+      <div class="opt wrong"><span class="k">B</span><span>Edit only the wrong paragraph.</span></div>
+      <div class="opt right"><span class="k">C</span><span>Add a dated note under its own heading, and tell the owner.</span></div>
+      <div class="opt wrong"><span class="k">D</span><span>Nothing &mdash; tell the owners.</span></div>
     </div>
-    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+    <div class="why"><b>C.</b> It only adds, it can be undone, it shows who did it, and the next reader of that runbook sees it.
+      <span class="no"><b>A</b>: an agent rewrites in its own voice, and careful notes like <em>&ldquo;we think, but have not confirmed&rdquo;</em> are lost. <b>B</b> loses them too, in the paragraph that mattered. <b>D</b> is polite, but the runbook stays wrong for months while the request waits in their queue.</span></div>
   </div></div>
 </section>
 
 <!-- 31 -->
+<section class="slide" data-sec="Review quiz" data-title="Q6 - the skipped step" data-notes="The loop question. The answer is structural rather than about motivation." data-tier="R">
+  <h2>Q6 &middot; Why do teams skip the write-back?<span class="tag q">6 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">Every team says writing knowledge back is valuable. Almost none do it. What is the structural reason?</div>
+    <div class="opts">
+      <div class="opt"><span class="k">A</span><span>It takes longer than the other steps, and time is short.</span></div>
+      <div class="opt"><span class="k">B</span><span>Skipping it has no consequence: nothing blocks or fails.</span></div>
+      <div class="opt"><span class="k">C</span><span>Engineers dislike writing documentation, and that will not change.</span></div>
+      <div class="opt"><span class="k">D</span><span>The benefit comes too late to motivate anyone at the time.</span></div>
+    </div>
+    <div class="qmeta">Hands up for each option before moving on &middot; answer on the next slide</div>
+  </div></div>
+</section>
+
+<!-- 32 -->
 <section class="slide" data-sec="Review quiz" data-title="Q6 - answer" data-notes="D is the near-miss and it is genuinely part of the picture - but it describes a motivation problem, and motivation problems are not fixable by exhortation. B is structural, and structural problems have structural fixes: a checklist item that requires an explicit answer." data-tier="R">
   <h2>Q6 &middot; Answer<span class="tag q">6 of 8</span></h2>
   <div class="body g1"><div>
     <div class="qz">Why is it skipped?</div>
     <div class="opts">
-      <div class="opt wrong"><span class="k">A</span><span>It takes longer than the other steps.</span></div>
-      <div class="opt right"><span class="k">B</span><span>It is the only step with no consequence for skipping it.</span></div>
-      <div class="opt wrong"><span class="k">C</span><span>Engineers dislike writing documentation.</span></div>
-      <div class="opt wrong"><span class="k">D</span><span>The value arrives too late to motivate anyone.</span></div>
+      <div class="opt wrong"><span class="k">A</span><span>It takes longer than other steps.</span></div>
+      <div class="opt right"><span class="k">B</span><span>Skipping it has no consequence.</span></div>
+      <div class="opt wrong"><span class="k">C</span><span>Engineers dislike writing docs.</span></div>
+      <div class="opt wrong"><span class="k">D</span><span>The benefit comes too late.</span></div>
     </div>
-    <div class="why"><b>B.</b> Skip the spec and the agent invents. Skip the tests and CI fails. Skip the review and the gate blocks. Skip the write-back and <em>nothing happens at all</em>, for a quarter.
-      <span class="no"><b>D</b> is the near-miss and genuinely part of it &mdash; but it describes a <em>motivation</em> problem, and motivation problems are not fixed by exhortation. <b>B</b> is structural, and structural problems have structural fixes: one checklist line that requires an explicit answer, including &ldquo;no&rdquo;. <b>A</b> is false &mdash; it is usually two minutes. <b>C</b> is a story about people that stops you looking for the fix.</span></div>
-  </div></div>
-</section>
-
-<!-- 32 -->
-<section class="slide" data-sec="Review quiz" data-title="Q7 - what to roll out first" data-notes="Quick, and it should be automatic by now - the same answer as Module 4's rollout slide." data-tier="R">
-  <h2>Q7 &middot; You have one week and no approvals. What first?<span class="tag q">7 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">You go back on Monday wanting to start. Nothing has been approved and nothing has a budget. What do you do in week one?</div>
-    <div class="opts">
-      <div class="opt"><span class="k">A</span><span>The review agent on changes you already make, plus a short repository instruction file.</span></div>
-      <div class="opt"><span class="k">B</span><span>Open the MCP conversation with your platform and risk teams, since it has the longest lead time.</span></div>
-      <div class="opt"><span class="k">C</span><span>All four agent definitions, so the full pipeline is available from the start.</span></div>
-      <div class="opt"><span class="k">D</span><span>Multi-root workspaces, so the team can work across both repositories immediately.</span></div>
-    </div>
-    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+    <div class="why"><b>B.</b> Skip the spec: the agent guesses. Skip the tests: CI fails. Skip the review: the merge is blocked. Skip the write-back: <em>nothing happens</em>, for months.
+      <span class="no"><b>D</b> is partly true, but it is a motivation problem, and speeches do not fix those. <b>B</b> has a structural fix: one checkbox that needs an answer, even &ldquo;no&rdquo;. <b>A</b> is false &mdash; it usually takes two minutes. <b>C</b> blames people and stops you looking for the fix.</span></div>
   </div></div>
 </section>
 
 <!-- 33 -->
+<section class="slide" data-sec="Review quiz" data-title="Q7 - what to roll out first" data-notes="Quick, and it should be automatic by now - the same answer as Module 4's rollout slide." data-tier="R">
+  <h2>Q7 &middot; One week, no approvals. What first?<span class="tag q">7 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">You are back at work on Monday. No approvals, no budget. What do you start in week one?</div>
+    <div class="opts">
+      <div class="opt"><span class="k">A</span><span>The review agent, plus a short repo instruction file.</span></div>
+      <div class="opt"><span class="k">B</span><span>The MCP discussion with platform and risk teams, as it takes longest.</span></div>
+      <div class="opt"><span class="k">C</span><span>All four agent definitions, so the full pipeline is ready.</span></div>
+      <div class="opt"><span class="k">D</span><span>Multi-root workspaces, so the team works across both repos.</span></div>
+    </div>
+    <div class="qmeta">Hands up for each option before moving on &middot; answer on the next slide</div>
+  </div></div>
+</section>
+
+<!-- 34 -->
 <section class="slide" data-sec="Review quiz" data-title="Q7 - answer" data-notes="B is the plausible wrong answer and it is what an organised person does - start the long-lead item first. The problem is you arrive at that meeting in six weeks with nothing to point at, and the meeting goes badly for that reason rather than on the merits." data-tier="R">
   <h2>Q7 &middot; Answer<span class="tag q">7 of 8</span></h2>
   <div class="body g1"><div>
     <div class="qz">What in week one?</div>
     <div class="opts">
-      <div class="opt right"><span class="k">A</span><span>The review agent, plus a short repository instruction file.</span></div>
-      <div class="opt wrong"><span class="k">B</span><span>Open the MCP conversation, since it has the longest lead time.</span></div>
+      <div class="opt right"><span class="k">A</span><span>The review agent, plus a short instruction file.</span></div>
+      <div class="opt wrong"><span class="k">B</span><span>Start the MCP discussion.</span></div>
       <div class="opt wrong"><span class="k">C</span><span>All four agent definitions.</span></div>
       <div class="opt wrong"><span class="k">D</span><span>Multi-root workspaces.</span></div>
     </div>
-    <div class="why"><b>A.</b> Free, needs nobody's permission, and its findings are visible to everyone by Friday. Same answer as Module 4's rollout: start with review, because it is cheapest and it closes the failures your team has actually been bitten by.
-      <span class="no"><b>B</b> is what an organised person does &mdash; start the long-lead item &mdash; and you arrive at that meeting in six weeks with nothing to point at, so it goes badly for that reason rather than on the merits. <b>C</b> is four files nobody has a habit for yet; design is the most expensive and least visible. <b>D</b> is the most visible change, the most expensive, and it delivers least.</span></div>
-  </div></div>
-</section>
-
-<!-- 34 -->
-<section class="slide" data-sec="Review quiz" data-title="Q8 - what actually changed" data-notes="The last question of the course. Let it run and let people argue. Then the answer, and then the capstone." data-tier="R">
-  <h2>Q8 &middot; What actually changed over these two days?<span class="tag q">8 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">Your tally sheet has moved. Same model, same editor, same repositories. What produced the difference?</div>
-    <div class="opts">
-      <div class="opt"><span class="k">A</span><span>The agent got better at the work, because it was given better instructions and better context.</span></div>
-      <div class="opt"><span class="k">B</span><span>The work got easier, because specifications and knowledge removed most of the difficulty from it.</span></div>
-      <div class="opt"><span class="k">C</span><span>The work was arranged differently &mdash; what the agent can see, what it was asked to optimise, and who checks.</span></div>
-      <div class="opt"><span class="k">D</span><span>Everyone got more practised with the tool, which is most of what a two-day course produces.</span></div>
-    </div>
-    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+    <div class="why"><b>A.</b> It is free, needs no permission, and everyone sees its findings by Friday. Same answer as Module 4: start with review &mdash; it is cheapest and fixes failures you have really had.
+      <span class="no"><b>B</b> is what an organised person does, but in six weeks you reach that meeting with nothing to show. <b>C</b> is four files nobody has a habit for yet; the design agent costs most and shows least. <b>D</b> is the most visible change, costs the most, and delivers least.</span></div>
   </div></div>
 </section>
 
 <!-- 35 -->
-<section class="slide" data-sec="Review quiz" data-title="Q8 - answer" data-notes="Close the course on this. A is the tempting one and the distinction matters enormously for what they do next: if the agent got better, the next model release is the strategy and there is nothing to build. If the work was arranged differently, then what they built this week keeps working and keeps working with whatever ships next. Say the last line and go to the capstone." data-tier="R">
-  <h2>Q8 &middot; Answer<span class="tag q">8 of 8</span></h2>
+<section class="slide" data-sec="Review quiz" data-title="Q8 - what actually changed" data-notes="The last question of the course. Let it run and let people argue. Then the answer, and then the capstone." data-tier="R">
+  <h2>Q8 &middot; What really changed in these two days?<span class="tag q">8 of 8</span></h2>
   <div class="body g1"><div>
-    <div class="qz">What produced the difference?</div>
+    <div class="qz">Your tally sheet numbers moved. Same model, same editor, same repos. What caused the change?</div>
     <div class="opts">
-      <div class="opt wrong"><span class="k">A</span><span>The agent got better.</span></div>
-      <div class="opt wrong"><span class="k">B</span><span>The work got easier.</span></div>
-      <div class="opt right"><span class="k">C</span><span>The work was arranged differently &mdash; what it can see, what it optimises for, and who checks.</span></div>
-      <div class="opt wrong"><span class="k">D</span><span>Everyone got more practised.</span></div>
+      <div class="opt"><span class="k">A</span><span>The agent got better, thanks to better instructions and context.</span></div>
+      <div class="opt"><span class="k">B</span><span>The work got easier, because specs and knowledge removed the difficulty.</span></div>
+      <div class="opt"><span class="k">C</span><span>The work was arranged differently: what the agent sees, aims for, and who checks.</span></div>
+      <div class="opt"><span class="k">D</span><span>Everyone got more practice with the tool over two days.</span></div>
     </div>
-    <div class="why"><b>C.</b> Same model, same weights, on Monday morning and now. The repository answers instead of being re-derived; the request has a shape; &ldquo;done&rdquo; is checkable; and the thing that checks the work is not the thing that did it.
-      <span class="no"><b>A</b> is tempting and the distinction decides what you do next: if the <em>agent</em> got better, then the next model release is your strategy and there is nothing to build. It did not, so what you built this week keeps working &mdash; and keeps working with whatever ships next. <b>B</b> inverts it: the work is exactly as hard, and you stopped re-doing the parts that were already solved. <b>D</b> is real and small, and it is not on the tally sheet.
-      <b>Now the capstone.</b> One ticket, every stage, and the number goes on the board next to Lab 1.1 &mdash; whatever it says.</span></div>
+    <div class="qmeta">Hands up for each option before moving on &middot; answer on the next slide</div>
   </div></div>
 </section>
 
-
-
-
-
+<!-- 36 -->
+<section class="slide" data-sec="Review quiz" data-title="Q8 - answer" data-notes="Close the course on this. A is the tempting one and the distinction matters enormously for what they do next: if the agent got better, the next model release is the strategy and there is nothing to build. If the work was arranged differently, then what they built this week keeps working and keeps working with whatever ships next. Say the last line and go to the capstone." data-tier="R">
+  <h2>Q8 &middot; Answer<span class="tag q">8 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">What caused the change?</div>
+    <div class="opts">
+      <div class="opt wrong"><span class="k">A</span><span>The agent got better.</span></div>
+      <div class="opt wrong"><span class="k">B</span><span>The work got easier.</span></div>
+      <div class="opt right"><span class="k">C</span><span>The work was arranged differently.</span></div>
+      <div class="opt wrong"><span class="k">D</span><span>Everyone got more practice.</span></div>
+    </div>
+    <div class="why"><b>C.</b> Same model before and after. The repo answers questions, the request has a shape, &ldquo;done&rdquo; can be checked, and the checker did not do the work.
+      <span class="no"><b>A</b> is tempting, and it changes what you do next. If the agent got better, you just wait for the next model. It did not &mdash; so what you built keeps working with any model. <b>B</b>: the work is as hard as before; you stopped redoing solved parts. <b>D</b> is real but small, and it is not on the tally sheet.
+      <b>Now the capstone.</b> One ticket, every stage, and the number goes next to Lab 1.1 &mdash; whatever it says.</span></div>
+  </div></div>
+</section>
 
 </div></div>
 

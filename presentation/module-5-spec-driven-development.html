@@ -20,320 +20,324 @@
   <div class="wrap">
     <span class="tier">Day 2 &middot; Module 5 of 8</span>
     <h1>Spec-Driven Development</h1>
-    <p class="sub">Making &ldquo;done&rdquo; something a machine can check.</p>
+    <p class="sub">Making &ldquo;done&rdquo; something a test can check.</p>
     <p class="meta">
       <span><b>Agentic ADLC with GitHub Copilot</b> &mdash; From JIRA Ticket to Merged PR</span>
       <span>Advanced</span>
       <span>Trainer: Rajesh Gheware</span>
     </p>
     <div class="chips">
-    <span class="chip">Spec-first vs prompt-first</span>
-    <span class="chip">The chain, with gates</span>
-    <span class="chip">Machine-verifiable criteria</span>
+    <span class="chip">Spec first, not prompt first</span>
+    <span class="chip">Five steps, with checks</span>
+    <span class="chip">Criteria a test can check</span>
     <span class="chip">Challenging the plan</span>
-    <span class="chip">Spec drift</span>
-    <span class="chip">When it is overkill</span>
-  
+    <span class="chip">Keeping the spec up to date</span>
+    <span class="chip">When to skip it</span>
     </div>
   </div>
 </section>
 
 <!-- 2 -->
 <section class="slide" data-sec="Opening" data-title="Day 2 opens on the question Day 1 could not answer" data-notes="Do not recap Day 1 - point at the tally sheet and at gate 1, which has been unanswered since the first morning. The left diagram is the argument in one picture: yesterday's four modules all sit downstream of a requirement nobody improved, and quality downstream is bounded by it. Say the bounded word carefully because it is the strong claim of this module - a better prompt, better knowledge and four independent agents cannot recover information the requirement never contained. On the right, the honest framing for a senior room: they have all seen specification-heavy processes fail, and this module is not a return to those. The difference is that a spec here has to be executable by an agent and checkable by a test, which is a much harder and much more useful bar than a document somebody signs." data-tier="K">
-  <h2>Everything yesterday sits downstream of a requirement nobody improved<span class="tag">M5</span></h2>
+  <h2>Day 1 made the agent better. It still works from the ticket as written<span class="tag">M5</span></h2>
   <div class="body g64">
     <div>
-      <svg viewBox="0 0 700 430" role="img" aria-label="Day 1 modules all sit downstream of the requirement, which bounds their quality">
-        <text class="lb a" x="4" y="13">GATE 1, UNANSWERED SINCE YESTERDAY MORNING</text>
+      <svg viewBox="0 0 700 430" role="img" aria-label="Every Day 1 module works from the ticket as written, and cannot add what it never said">
+        <text class="lb a" x="4" y="13">GATE 1 FROM MODULE 1 &mdash; STILL NOT ANSWERED</text>
         <rect class="bx a" x="4" y="22" width="692" height="56" rx="8"/>
-        <text class="tt" x="24" y="52" style="font-size:16px">&ldquo;Can you write down what &lsquo;done&rsquo; means?&rdquo;</text>
-        <text class="ss" x="24" y="70">Precisely enough that someone else could check it without asking you.</text>
+        <text class="tt" x="24" y="50" style="font-size:16px">&ldquo;Can you write down what &lsquo;done&rsquo; means?&rdquo;</text>
+        <text class="ss" x="24" y="70">So clearly that someone else could check it without asking you.</text>
 
-        <text class="lb" x="4" y="106">EVERYTHING DAY 1 BUILT &mdash; ALL OF IT DOWNSTREAM</text>
+        <text class="lb" x="4" y="106">EVERYTHING DAY 1 BUILT WORKS FROM THE TICKET</text>
         <rect class="bx" x="4" y="116" width="692" height="180" rx="8"/>
         <rect class="bx w" x="20" y="134" width="130" height="146" rx="6"/>
-        <text class="tt" x="85" y="196" text-anchor="middle" style="font-size:14px">the</text>
-        <text class="tt" x="85" y="216" text-anchor="middle" style="font-size:14px">requirement</text>
-        <text class="ss" x="85" y="240" text-anchor="middle" style="font-size:11px">as it arrived</text>
+        <text class="tt" x="85" y="200" text-anchor="middle" style="font-size:14px">the ticket,</text>
+        <text class="tt" x="85" y="220" text-anchor="middle" style="font-size:14px">as written</text>
         <path class="fl" d="M154 207 L192 207"/>
         <rect class="bx g rise" x="196" y="134" width="484" height="32" rx="5"/>
-        <text class="ss" x="212" y="155"><tspan font-weight="700">M2</tspan> &nbsp;knowledge &mdash; answers what is <tspan font-style="italic">true</tspan>, not what is <tspan font-style="italic">wanted</tspan></text>
+        <text class="ss" x="212" y="155"><tspan font-weight="700">M2</tspan> &nbsp;repo knowledge &mdash; what is true, not what is wanted</text>
         <rect class="bx g rise r2" x="196" y="172" width="484" height="32" rx="5"/>
-        <text class="ss" x="212" y="193"><tspan font-weight="700">M3</tspan> &nbsp;prompting &mdash; asks precisely for whatever you asked for</text>
+        <text class="ss" x="212" y="193"><tspan font-weight="700">M3</tspan> &nbsp;prompts &mdash; ask clearly for what you asked</text>
         <rect class="bx g rise r3" x="196" y="210" width="484" height="32" rx="5"/>
-        <text class="ss" x="212" y="231"><tspan font-weight="700">M4</tspan> &nbsp;test agent &mdash; works <tspan font-style="italic">from the acceptance criteria</tspan></text>
+        <text class="ss" x="212" y="231"><tspan font-weight="700">M4</tspan> &nbsp;test agent &mdash; tests against the acceptance criteria</text>
         <rect class="bx g rise r4" x="196" y="248" width="484" height="32" rx="5"/>
-        <text class="ss" x="212" y="269"><tspan font-weight="700">M4</tspan> &nbsp;review agent &mdash; checks <tspan font-style="italic">against the acceptance criteria</tspan></text>
+        <text class="ss" x="212" y="269"><tspan font-weight="700">M4</tspan> &nbsp;review agent &mdash; checks against the acceptance criteria</text>
 
         <rect class="bx r" x="4" y="306" width="692" height="58" rx="8"/>
-        <text class="tt" x="24" y="332" style="font-size:14px">None of them can recover information the requirement never contained.</text>
-        <text class="ss" x="24" y="354" style="fill:#e2726e;font-weight:600">Quality downstream is bounded by it. That is the strong claim of this module.</text>
+        <text class="tt" x="24" y="332" style="font-size:14px">None of them can add what the ticket never said.</text>
+        <text class="ss" x="24" y="354" style="fill:#e2726e;font-weight:600">A weak ticket limits everything after it.</text>
 
         <rect class="bx d" x="4" y="376" width="692" height="54" rx="8"/>
-        <text class="ss w" x="24" y="412" style="font-size:14px">A vague ticket does not produce a vague change. It produces a <tspan font-weight="700" fill="#e0b34d">confident, specific, wrong one.</tspan></text>
+        <text class="ss w" x="24" y="408" style="font-size:14px">A vague ticket does not give a vague change. It gives a <tspan font-weight="700" fill="#e0b34d">confident, wrong one.</tspan></text>
       </svg>
     </div>
     <div class="pts">
-      <h3>What this module is not</h3>
+      <h3>This is not heavy paperwork</h3>
       <ul>
-        <li>Not a return to the specification-heavy processes you have watched fail. Those produced <b>documents somebody signed</b> and nobody executed.</li>
-        <li>The bar here is harder and more useful: a spec an <b>agent can execute</b> and a <b>test can check</b>. A spec that cannot be checked has not been written yet.</li>
+        <li>Old spec processes made documents people <b>signed</b> and nobody used.</li>
+        <li>Here a spec must be something an <b>agent can follow</b> and a <b>test can check</b>.</li>
       </ul>
-      <h3>Why this is the hinge of the course</h3>
+      <h3>Why this module matters</h3>
       <ul>
-        <li>Everything before today made the agent better at doing <em>what it was told</em>.</li>
-        <li>This is about being able to tell it something <b>worth doing</b> &mdash; and about knowing, before any code exists, whether you can.</li>
+        <li>Day 1 taught the agent to do what it is told.</li>
+        <li>Today is about telling it something <b>worth doing</b>.</li>
       </ul>
-      <div class="take"><b>The measurable version:</b> gate 1 was the delegation gate that failed most often on Day 1. After this module, tickets that had to be interactive yesterday become safely delegable &mdash; and that shift is the whole argument.</div>
+      <div class="take"><b>The result:</b> tickets that failed gate 1 on Day 1 can now be handed to the agent safely.</div>
     </div>
   </div>
 </section>
 
 <!-- 3 -->
-<section class="slide" data-sec="1 &middot; Spec-first vs prompt-first" data-title="One artifact survives, one does not" data-notes="The core distinction and it is worth making concretely rather than abstractly. In prompt-first working the requirement exists in three places - the ticket, your head, and a chat transcript - and the only complete version is the transcript, which is disposable, unreviewable and gone in a week. In spec-first the requirement exists once, in a file, in the repository, in the pull request. Then the killer question on the right: six months from now, when somebody asks why the system behaves this way, what do you show them? The transcript is gone. The code shows what, never why. The spec is the only artifact that answers the question, and it is the same argument Module 2 made about ADRs - which is the point, because a spec is an ADR for a change that has not happened yet." data-tier="K">
-  <h2>The transcript is disposable. The spec is the artifact<span class="tag k">1</span></h2>
+<section class="slide" data-sec="Opening" data-title="Words used in this module" data-notes="Thirty seconds. The left column is this module's new vocabulary - say spec and technical plan out loud once, because the whole module turns on the difference between them. The right column is reminders: gate 1 and the four agents are the two Day 1 ideas this module builds on most, and the three Global Bank date and money terms appear in the GB-147 and GB-207 examples. If the room is quick, skip straight on." data-tier="K">
+  <h2>Words used in this module<span class="tag">M5</span></h2>
+  <div class="body g55">
+    <div class="pts">
+      <h3>New in this module</h3>
+      <ul>
+        <li><b>Spec</b> &mdash; a short file (<code>spec.md</code>) that says what &ldquo;done&rdquo; means for one ticket.</li>
+        <li><b>Spec-driven development</b> &mdash; write the spec first, then the plan, then the code.</li>
+        <li><b>Technical plan</b> &mdash; how the code will meet the spec (<code>plan.md</code>).</li>
+        <li><b>Gate</b> &mdash; a check by a person between two steps. The answer can be &ldquo;no&rdquo;.</li>
+        <li><b>Spec drift</b> &mdash; the code changes, and the spec does not.</li>
+      </ul>
+    </div>
+    <div class="pts">
+      <h3>Reminders</h3>
+      <ul>
+        <li><b>Gate 1</b> (Module 1) &mdash; &ldquo;Can you say what done means?&rdquo; Asked before handing a ticket to the agent.</li>
+        <li><b>The four agents</b> (Module 4) &mdash; design, coding, test and review.</li>
+        <li><b>Value date</b> &mdash; the date a posting takes effect, not the date it arrived.</li>
+        <li><b>Business date</b> &mdash; the bank&rsquo;s working date. It can differ from the calendar date.</li>
+        <li><b>Minor units</b> &mdash; amounts stored in paise or cents.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="slide" data-sec="1 &middot; Spec-first vs prompt-first" data-title="The chat is thrown away; the spec stays" data-notes="The core distinction and it is worth making concretely rather than abstractly. In prompt-first working the requirement exists in three places - the ticket, your head, and a chat transcript - and the only complete version is the transcript, which is disposable, unreviewable and gone in a week. In spec-first the requirement exists once, in a file, in the repository, in the pull request. Then the killer question on the right: six months from now, when somebody asks why the system behaves this way, what do you show them? The transcript is gone. The code shows what, never why. The spec is the only artifact that answers the question, and it is the same argument Module 2 made about ADRs - which is the point, because a spec is an ADR for a change that has not happened yet." data-tier="K">
+  <h2>The chat is thrown away. The spec stays<span class="tag k">1</span></h2>
   <div class="body g1">
     <div>
       <svg viewBox="0 0 1180 452" role="img" aria-label="Prompt-first and spec-first compared by where the requirement lives and what survives">
         <rect class="bx r grow" x="4" y="4" width="580" height="266" rx="8"/>
-        <text class="lb r" x="24" y="28">PROMPT-FIRST &mdash; WHERE THE REQUIREMENT ACTUALLY LIVES</text>
+        <text class="lb r" x="24" y="28">PROMPT FIRST &mdash; WHERE THE REQUIREMENT LIVES</text>
         <rect class="bx w" x="24" y="44" width="540" height="34" rx="5"/>
-        <text class="ss" x="40" y="66">The ticket &mdash; <tspan font-style="italic">partial.</tspan> Written before anyone thought hard about it.</text>
+        <text class="ss" x="40" y="66" style="font-size:14px">The ticket &mdash; only part of it.</text>
         <rect class="bx w" x="24" y="86" width="540" height="34" rx="5"/>
-        <text class="ss" x="40" y="108">Your head &mdash; <tspan font-style="italic">the real one.</tspan> Not written anywhere, and it changed twice today.</text>
+        <text class="ss" x="40" y="108" style="font-size:14px">Your head &mdash; the real version. Not written down.</text>
         <rect class="bx w" x="24" y="128" width="540" height="34" rx="5"/>
-        <text class="ss" x="40" y="150">The chat transcript &mdash; <tspan font-weight="600" fill="#e2726e">the only complete version that exists.</tspan></text>
-        <text class="ss" x="24" y="186">And that transcript is disposable, unreviewable, unsearchable by anyone else,</text>
-        <text class="ss" x="24" y="206">and gone within the week. It is also where every clarification you made lives.</text>
-        <rect class="bx d" x="24" y="220" width="540" height="38" rx="5"/>
-        <text class="ss w" x="40" y="244" style="font-size:13px">Three sources, and the authoritative one is the one you cannot keep.</text>
+        <text class="ss" x="40" y="150" style="font-size:14px">The chat &mdash; <tspan font-weight="600" fill="#e2726e">the only full version.</tspan></text>
+        <text class="ss" x="24" y="196" style="font-size:14px">The chat is lost within a week.</text>
+        <text class="ss" x="24" y="218" style="font-size:14px">Nobody else can review it.</text>
+        <rect class="bx d" x="24" y="226" width="540" height="36" rx="5"/>
+        <text class="ss w" x="40" y="249" style="font-size:13.5px">Three places, and the complete one is the one you lose.</text>
 
         <rect class="bx g grow w2" x="596" y="4" width="580" height="266" rx="8"/>
-        <text class="lb g" x="616" y="28">SPEC-FIRST &mdash; THE REQUIREMENT EXISTS ONCE</text>
+        <text class="lb g" x="616" y="28">SPEC FIRST &mdash; WRITTEN ONCE</text>
         <rect class="bx w" x="616" y="44" width="540" height="118" rx="5"/>
-        <text class="tt" x="632" y="70" style="font-size:14px">One file. In the repository. In the pull request.</text>
-        <text class="ss" x="632" y="96">Reviewable before code exists &mdash; and cheap to change at that point.</text>
-        <text class="ss" x="632" y="118">Executable by an agent. Checkable by a test.</text>
-        <text class="ss" x="632" y="140">Diffable, blameable, and still there in a year.</text>
-        <text class="ss" x="616" y="186">The chat is still disposable &mdash; and that stops mattering, because nothing</text>
-        <text class="ss" x="616" y="206">important is only in it. The transcript becomes what it should be: workings.</text>
-        <rect class="bx d" x="616" y="220" width="540" height="38" rx="5"/>
-        <text class="ss w" x="632" y="244" style="font-size:13px">One source, and it is the one that survives.</text>
+        <text class="tt" x="632" y="70" style="font-size:14px">One file. In the repo. In the pull request.</text>
+        <text class="ss" x="632" y="96" style="font-size:14px">Reviewed before any code exists.</text>
+        <text class="ss" x="632" y="118" style="font-size:14px">An agent can follow it. A test can check it.</text>
+        <text class="ss" x="632" y="140" style="font-size:14px">Still there next year.</text>
+        <text class="ss" x="616" y="196" style="font-size:14px">The chat can still be thrown away.</text>
+        <text class="ss" x="616" y="218" style="font-size:14px">Nothing important lives only there.</text>
+        <rect class="bx d" x="616" y="226" width="540" height="36" rx="5"/>
+        <text class="ss w" x="632" y="249" style="font-size:13.5px">One place, and it is the one that lasts.</text>
 
-        <text class="lb a" x="4" y="300">THE QUESTION THAT SETTLES IT &mdash; ASK THE ROOM BEFORE YOU ANSWER</text>
+        <text class="lb a" x="4" y="300">ASK THE ROOM BEFORE YOU ANSWER</text>
         <rect class="bx a" x="4" y="310" width="1172" height="138" rx="8"/>
-        <text class="tt" x="24" y="342" style="font-size:16px">Six months from now, somebody asks why the system behaves this way. What do you show them?</text>
+        <text class="tt" x="24" y="342" style="font-size:16px">In six months, someone asks why the code works this way. What do you show them?</text>
         <rect class="bx w" x="24" y="356" width="368" height="76" rx="6"/>
-        <text class="tt" x="40" y="380" style="font-size:13px">The transcript?</text>
-        <text class="ss" x="40" y="402">Gone. And it was never reviewed by</text>
-        <text class="ss" x="40" y="422">anyone, so it proves nothing anyway.</text>
+        <text class="tt" x="40" y="382" style="font-size:13.5px">The chat?</text>
+        <text class="ss" x="40" y="408">Gone. And nobody reviewed it.</text>
         <rect class="bx w" x="404" y="356" width="368" height="76" rx="6"/>
-        <text class="tt" x="420" y="380" style="font-size:13px">The code?</text>
-        <text class="ss" x="420" y="402">It shows <tspan font-style="italic">what</tspan>. It has never once</text>
-        <text class="ss" x="420" y="422">shown <tspan font-style="italic">why</tspan>, or what was rejected.</text>
+        <text class="tt" x="420" y="382" style="font-size:13.5px">The code?</text>
+        <text class="ss" x="420" y="408">It shows <tspan font-style="italic">what</tspan>, never <tspan font-style="italic">why</tspan>.</text>
         <rect class="bx g" x="784" y="356" width="372" height="76" rx="6"/>
-        <text class="tt" x="800" y="380" style="font-size:13px">The spec.</text>
-        <text class="ss" x="800" y="402" style="fill:#5fbf8f;font-weight:600">The only artifact that answers it &mdash; and</text>
-        <text class="ss" x="800" y="422" style="fill:#5fbf8f;font-weight:600">it is Module 2's ADR argument, again.</text>
-      </svg>
-    </div>
-  </div>
-</section>
-<!-- 4 -->
-<section class="slide" data-sec="1 &middot; Spec-first vs prompt-first" data-title="What prompt-first actually costs" data-notes="Make the cost concrete rather than moral. Four costs and they are all things this room has lived through. The re-clarification cost is the one they will recognise fastest - the same question answered three times across three sessions because the answer only ever lived in a window that got compacted. The review cost is the sharpest: a reviewer handed a diff with no spec has to reconstruct intent from the code, which is exactly the confidently-wrong-refactor failure from Module 3 seen from the other side. The handover cost is the organisational one and it is what makes this a management argument as well as an engineering one. Then the honest note at the bottom - prompt-first is not wrong for everything, and section six of this module says when it is right. Do not let the room leave thinking every ticket needs a spec, because that is how this gets abandoned in three weeks." data-tier="R">
-  <h2>Four costs, and you have paid all four<span class="tag k">1</span></h2>
-  <div class="body g46">
-    <div class="pts">
-      <h3>Where the cost shows up</h3>
-      <ul>
-        <li><b>Re-clarification.</b> The same question answered three times in three sessions, because the answer only ever lived in a window that got compacted.</li>
-        <li><b>Review.</b> A reviewer handed a diff and no spec has to <em>reconstruct intent from the code</em> &mdash; which is the confidently wrong refactor, seen from the other side.</li>
-        <li><b>Handover.</b> The person who holds the requirement goes on leave, and it goes with them.</li>
-        <li><b>Drift.</b> Nobody can tell whether the code still does what was asked, because what was asked is not written down anywhere checkable.</li>
-      </ul>
-      <div class="callout bad">Every one of these is a <b>cost of the requirement being unwritten</b> &mdash; not a cost of the agent, the model, or the prompt. No amount of Module 3 touches any of them.</div>
-      <div class="take"><b>And yet:</b> prompt-first is right for a great many tickets. Section 6 says which, and it matters &mdash; a room that leaves believing every ticket needs a spec will abandon this within three weeks.</div>
-    </div>
-    <div>
-      <svg viewBox="0 0 700 430" role="img" aria-label="The compounding cost of an unwritten requirement across a ticket's life">
-        <text class="lb r" x="4" y="13">ONE TICKET, PROMPT-FIRST &mdash; WHERE THE SAME ANSWER GETS RE-GIVEN</text>
-        <rect class="bx r" x="4" y="22" width="692" height="196" rx="8"/>
-
-        <rect class="bx w rise" x="20" y="40" width="660" height="38" rx="5"/>
-        <text class="ss" x="34" y="63"><tspan font-weight="700">Mon</tspan> &nbsp;you explain the edge case in the chat &mdash; agent gets it right</text>
-        <rect class="bx w rise r2" x="20" y="84" width="660" height="38" rx="5"/>
-        <text class="ss" x="34" y="107"><tspan font-weight="700">Tue</tspan> &nbsp;new session for the tests &mdash; <tspan fill="#e2726e">you explain the edge case again</tspan></text>
-        <rect class="bx w rise r3" x="20" y="128" width="660" height="38" rx="5"/>
-        <text class="ss" x="34" y="151"><tspan font-weight="700">Wed</tspan> &nbsp;reviewer asks why the code does that &mdash; <tspan fill="#e2726e">you explain it a third time</tspan></text>
-        <rect class="bx w rise r4" x="20" y="172" width="660" height="38" rx="5"/>
-        <text class="ss" x="34" y="195"><tspan font-weight="700">Mar</tspan> &nbsp;someone changes it back, because nothing recorded that it was deliberate</text>
-
-        <text class="lb a" x="4" y="248">THE SAME TICKET, SPEC-FIRST</text>
-        <rect class="bx g" x="4" y="258" width="692" height="102" rx="8"/>
-        <rect class="bx w" x="20" y="276" width="660" height="34" rx="5"/>
-        <text class="ss" x="34" y="298"><tspan font-weight="700">Mon</tspan> &nbsp;you write the edge case into the spec &mdash; <tspan font-weight="600" fill="#5fbf8f">once</tspan></text>
-        <rect class="bx w" x="20" y="316" width="660" height="34" rx="5"/>
-        <text class="ss" x="34" y="338">Every later reader &mdash; agent, reviewer, you in March &mdash; reads the same line</text>
-
-        <rect class="bx d" x="4" y="372" width="692" height="58" rx="8"/>
-        <text class="ss w" x="24" y="398" style="font-size:14px">This is the <tspan font-weight="700" fill="#e0b34d">re-discovery tax</tspan> from Module 1 &mdash; except the thing</text>
-        <text class="ss w" x="24" y="420" style="font-size:14px">being re-derived is not the codebase. It is <tspan font-style="italic">what you wanted.</tspan></text>
+        <text class="tt" x="800" y="382" style="font-size:13.5px">The spec.</text>
+        <text class="ss" x="800" y="408" style="fill:#5fbf8f;font-weight:600">The only answer &mdash; like an ADR (Module 2).</text>
       </svg>
     </div>
   </div>
 </section>
 
 <!-- 5 -->
-<section class="slide" data-sec="2 &middot; The chain" data-title="Five stages, four gates" data-notes="The chain is the operational core of the module. Walk it left to right but emphasise that the value is in the GATES rather than the stages - the stages are what you were doing anyway, and the gates are what is new. Each gate is a place where a wrong direction costs one artifact to fix instead of a change set. The economics line is the one to land: the cost of correcting a mistake rises by roughly an order of magnitude at each stage, and the gates exist to catch it at the cheapest stage where it is visible. Then say the thing that stops this becoming waterfall, because a senior room is already thinking it: the whole chain for a small ticket is fifteen minutes, not two weeks, and stages collapse when the ticket does not need them. The shape is the same at every size - what changes is how long each stage takes." data-tier="K">
-  <h2>Principles &rarr; spec &rarr; plan &rarr; tasks &rarr; code &mdash; and the gates between<span class="tag k">2</span></h2>
-  <div class="body g1">
+<section class="slide" data-sec="1 &middot; Spec-first vs prompt-first" data-title="What prompt-first actually costs" data-notes="Make the cost concrete rather than moral. Four costs and they are all things this room has lived through. The re-clarification cost is the one they will recognise fastest - the same question answered three times across three sessions because the answer only ever lived in a window that got compacted. The review cost is the sharpest: a reviewer handed a diff with no spec has to reconstruct intent from the code, which is exactly the confidently-wrong-refactor failure from Module 3 seen from the other side. The handover cost is the organisational one and it is what makes this a management argument as well as an engineering one. Then the honest note at the bottom - prompt-first is not wrong for everything, and section six of this module says when it is right. Do not let the room leave thinking every ticket needs a spec, because that is how this gets abandoned in three weeks." data-tier="R">
+  <h2>Four costs of an unwritten requirement<span class="tag k">1</span></h2>
+  <div class="body g46">
+    <div class="pts">
+      <h3>Where you pay</h3>
+      <ul>
+        <li><b>Re-explaining.</b> The same answer, given in three chats.</li>
+        <li><b>Review.</b> The reviewer must guess the intent from the code.</li>
+        <li><b>Handover.</b> The person who knows goes on leave. So does the requirement.</li>
+        <li><b>Drift.</b> Nobody can say if the code still does what was asked.</li>
+      </ul>
+      <div class="callout bad">None of these comes from the agent or the prompt. They come from the <b>unwritten requirement</b>.</div>
+      <div class="take"><b>But:</b> many tickets do not need a spec. Section 6 shows which.</div>
+    </div>
     <div>
-      <svg viewBox="0 0 1180 452" role="img" aria-label="The five-stage chain with human gates and the rising cost of correction">
-        <text class="lb" x="4" y="14">THE CHAIN &mdash; THE STAGES ARE OLD, THE GATES ARE THE NEW PART</text>
+      <svg viewBox="0 0 700 430" role="img" aria-label="The same answer given again and again when the requirement is unwritten">
+        <text class="lb r" x="4" y="13">PROMPT FIRST &mdash; THE SAME ANSWER, AGAIN AND AGAIN</text>
+        <rect class="bx r" x="4" y="22" width="692" height="196" rx="8"/>
+        <rect class="bx w rise" x="20" y="40" width="660" height="38" rx="5"/>
+        <text class="ss" x="34" y="63"><tspan font-weight="700">Mon</tspan> &nbsp;you explain the edge case in chat &mdash; the agent gets it right</text>
+        <rect class="bx w rise r2" x="20" y="84" width="660" height="38" rx="5"/>
+        <text class="ss" x="34" y="107"><tspan font-weight="700">Tue</tspan> &nbsp;new chat for the tests &mdash; <tspan fill="#e2726e">you explain it again</tspan></text>
+        <rect class="bx w rise r3" x="20" y="128" width="660" height="38" rx="5"/>
+        <text class="ss" x="34" y="151"><tspan font-weight="700">Wed</tspan> &nbsp;the reviewer asks why &mdash; <tspan fill="#e2726e">you explain it a third time</tspan></text>
+        <rect class="bx w rise r4" x="20" y="172" width="660" height="38" rx="5"/>
+        <text class="ss" x="34" y="195"><tspan font-weight="700">Later</tspan> &nbsp;someone changes it back. Nothing said it was on purpose.</text>
 
-        <rect class="bx" x="4" y="24" width="196" height="66" rx="7"/>
-        <text class="tt" x="102" y="50" text-anchor="middle" style="font-size:13.5px">Principles</text>
-        <text class="ss" x="102" y="70" text-anchor="middle" style="font-size:11px">standing &mdash; written once</text>
-        <text class="ss" x="102" y="84" text-anchor="middle" style="font-size:10.5px;fill:#5fbf8f">this was Module 2</text>
+        <text class="lb g" x="4" y="248">SPEC FIRST</text>
+        <rect class="bx g" x="4" y="258" width="692" height="102" rx="8"/>
+        <rect class="bx w" x="20" y="276" width="660" height="34" rx="5"/>
+        <text class="ss" x="34" y="298"><tspan font-weight="700">Mon</tspan> &nbsp;you write the edge case in the spec &mdash; <tspan font-weight="600" fill="#5fbf8f">once</tspan></text>
+        <rect class="bx w" x="20" y="316" width="660" height="34" rx="5"/>
+        <text class="ss" x="34" y="338">The agent, the reviewer and future you all read the same line</text>
 
-        <path class="fl" d="M204 57 L236 57"/>
-        <rect class="bx g" x="240" y="24" width="196" height="66" rx="7"/>
-        <text class="tt" x="338" y="50" text-anchor="middle" style="font-size:13.5px">Specification</text>
-        <text class="ss" x="338" y="70" text-anchor="middle" style="font-size:11px">what and why</text>
-        <text class="ss" x="338" y="84" text-anchor="middle" style="font-size:10.5px">never how</text>
-
-        <path class="fl" d="M440 57 L472 57"/>
-        <rect class="bx g" x="476" y="24" width="196" height="66" rx="7"/>
-        <text class="tt" x="574" y="50" text-anchor="middle" style="font-size:13.5px">Technical plan</text>
-        <text class="ss" x="574" y="70" text-anchor="middle" style="font-size:11px">how, and what it touches</text>
-        <text class="ss" x="574" y="84" text-anchor="middle" style="font-size:10.5px">still no code</text>
-
-        <path class="fl" d="M676 57 L708 57"/>
-        <rect class="bx a" x="712" y="24" width="196" height="66" rx="7"/>
-        <text class="tt" x="810" y="50" text-anchor="middle" style="font-size:13.5px">Task breakdown</text>
-        <text class="ss" x="810" y="70" text-anchor="middle" style="font-size:11px">independently checkable</text>
-        <text class="ss" x="810" y="84" text-anchor="middle" style="font-size:10.5px">each one reviewable alone</text>
-
-        <path class="fl" d="M912 57 L944 57"/>
-        <rect class="bx" x="948" y="24" width="228" height="66" rx="7"/>
-        <text class="tt" x="1062" y="50" text-anchor="middle" style="font-size:13.5px">Implementation</text>
-        <text class="ss" x="1062" y="70" text-anchor="middle" style="font-size:11px">the Day 1 pipeline</text>
-        <text class="ss" x="1062" y="84" text-anchor="middle" style="font-size:10.5px;fill:#5fbf8f">four agents, hand-offs</text>
-
-        <text class="lb r" x="4" y="118">THE GATES &mdash; A HUMAN, AND A DECISION THAT CAN BE &ldquo;NO&rdquo;</text>
-        <rect class="bx r" x="240" y="128" width="196" height="52" rx="6"/>
-        <text class="ss" x="338" y="150" text-anchor="middle" style="font-size:11.5px">Is this the right thing</text>
-        <text class="ss" x="338" y="168" text-anchor="middle" style="font-size:11.5px">to build at all?</text>
-        <rect class="bx r" x="476" y="128" width="196" height="52" rx="6"/>
-        <text class="ss" x="574" y="150" text-anchor="middle" style="font-size:11.5px">Is this the right way</text>
-        <text class="ss" x="574" y="168" text-anchor="middle" style="font-size:11.5px">to build it?</text>
-        <rect class="bx r" x="712" y="128" width="196" height="52" rx="6"/>
-        <text class="ss" x="810" y="150" text-anchor="middle" style="font-size:11.5px">Is each task small</text>
-        <text class="ss" x="810" y="168" text-anchor="middle" style="font-size:11.5px">enough to check?</text>
-        <rect class="bx r" x="948" y="128" width="228" height="52" rx="6"/>
-        <text class="ss" x="1062" y="150" text-anchor="middle" style="font-size:11.5px">Does the change match</text>
-        <text class="ss" x="1062" y="168" text-anchor="middle" style="font-size:11.5px">the spec it came from?</text>
-
-        <text class="lb a" x="4" y="210">WHY GATES, AND NOT ONE REVIEW AT THE END</text>
-        <rect class="bx a" x="4" y="220" width="1172" height="130" rx="8"/>
-        <rect class="bx w rise" x="24" y="238" width="150" height="94" rx="5"/>
-        <text class="ss" x="99" y="272" text-anchor="middle" style="font-size:11.5px">wrong spec</text>
-        <text class="ss" x="99" y="294" text-anchor="middle" style="font-weight:700;fill:#5fbf8f">rewrite a page</text>
-        <rect class="bx w rise r2" x="182" y="238" width="150" height="94" rx="5"/>
-        <text class="ss" x="257" y="272" text-anchor="middle" style="font-size:11.5px">wrong plan</text>
-        <text class="ss" x="257" y="294" text-anchor="middle" style="font-weight:700;fill:#5fbf8f">rewrite a plan</text>
-        <rect class="bx w rise r3" x="340" y="238" width="150" height="94" rx="5"/>
-        <text class="ss" x="415" y="272" text-anchor="middle" style="font-size:11.5px">wrong tasks</text>
-        <text class="ss" x="415" y="294" text-anchor="middle" style="font-weight:700;fill:#d98a3d">re-split the work</text>
-        <rect class="bx w rise r4" x="498" y="238" width="150" height="94" rx="5"/>
-        <text class="ss" x="573" y="264" text-anchor="middle" style="font-size:11.5px">wrong code</text>
-        <text class="ss" x="573" y="286" text-anchor="middle" style="font-weight:700;fill:#e2726e">rewrite a change</text>
-        <text class="ss" x="573" y="308" text-anchor="middle" style="font-size:11px;fill:#e2726e">set, and its tests</text>
-        <text class="ss" x="676" y="266">The cost of correcting a mistake rises by roughly an order of magnitude</text>
-        <text class="ss" x="676" y="288">at every stage. The gates exist to catch it at the <tspan font-weight="600" fill="#d98a3d">cheapest stage where</tspan></text>
-        <text class="ss" x="676" y="310" style="fill:#d98a3d;font-weight:600">it is visible at all</tspan> &mdash; which for a wrong direction is the first one.</text>
-
-        <rect class="bx d" x="4" y="362" width="1172" height="86" rx="8"/>
-        <text class="lb w" x="24" y="386">&ldquo;THIS IS WATERFALL&rdquo; &mdash; THE OBJECTION, ANSWERED BEFORE IT IS ASKED</text>
-        <text class="ss w" x="24" y="412" style="font-size:14px">The whole chain on a small ticket is <tspan font-weight="700" fill="#e0b34d">fifteen minutes, not two weeks</tspan>. Stages collapse when the</text>
-        <text class="ss w" x="24" y="434" style="font-size:14px">ticket does not need them. The shape is the same at every size &mdash; only the time per stage changes.</text>
+        <rect class="bx d" x="4" y="372" width="692" height="58" rx="8"/>
+        <text class="ss w" x="24" y="398" style="font-size:14px">The <tspan font-weight="700" fill="#e0b34d">re-discovery tax</tspan> from Module 1 &mdash; paying again to re-learn</text>
+        <text class="ss w" x="24" y="420" style="font-size:14px">something known. Here, what is re-learned is <tspan font-style="italic">what you wanted.</tspan></text>
       </svg>
     </div>
   </div>
 </section>
+
 <!-- 6 -->
-<section class="slide" data-sec="2 &middot; The chain" data-title="What each stage produces, and who owns the gate" data-notes="Reference table - let them scan it. The column that matters is who owns the gate, because that is the question that decides whether this survives contact with an organisation. Notice that only two of the four gates need someone other than the engineer: the spec gate needs whoever can answer the open questions, which is usually a product or ops person, and the merge gate needs someone accountable. The plan and task gates are the engineer's own, and they take two minutes each. Say that plainly, because the fear in the room is that this introduces two new approval queues. It does not - it introduces one conversation with the person who actually knows the answer, held BEFORE the code exists rather than after." data-tier="K">
-  <h2>Five stages &mdash; the artifact, the gate, and who owns it<span class="tag k">2</span></h2>
+<section class="slide" data-sec="2 &middot; The chain" data-title="Five steps, four checks" data-notes="The chain is the operational core of the module. Walk it left to right but emphasise that the value is in the GATES (the human checks) rather than the stages - the stages are what you were doing anyway, and the gates are what is new. Each gate is a place where a wrong direction costs one artifact to fix instead of a change set. The economics line is the one to land: the cost of correcting a mistake rises by roughly ten times at each stage, and the gates exist to catch it at the cheapest stage where it is visible. Then say the thing that stops this becoming waterfall, because a senior room is already thinking it: the whole chain for a small ticket is fifteen minutes, not two weeks, and stages collapse when the ticket does not need them. The shape is the same at every size - what changes is how long each stage takes." data-tier="K">
+  <h2>Principles &rarr; spec &rarr; plan &rarr; tasks &rarr; code, with checks<span class="tag k">2</span></h2>
   <div class="body g1">
     <div>
-      <svg viewBox="0 0 1180 452" role="img" aria-label="Each stage with its artifact, its gate question and the gate owner">
-        <rect class="bx d" x="4" y="4" width="1172" height="30" rx="6"/>
-        <text class="lb w" x="24" y="24">STAGE</text>
-        <text class="lb w" x="230" y="24">ARTIFACT</text>
-        <text class="lb w" x="470" y="24">THE GATE ASKS</text>
-        <text class="lb w" x="800" y="24">WHO</text>
-        <text class="lb w" x="1010" y="24">TYPICAL TIME</text>
+      <svg viewBox="0 0 1180 452" role="img" aria-label="Five steps from principles to code, with a human check between each, and the rising cost of fixing mistakes late">
+        <text class="lb" x="4" y="14">FIVE STEPS &mdash; THE STEPS ARE FAMILIAR, THE CHECKS ARE NEW</text>
+        <rect class="bx" x="4" y="24" width="196" height="66" rx="7"/>
+        <text class="tt" x="102" y="48" text-anchor="middle" style="font-size:14px">Principles</text>
+        <text class="ss" x="102" y="68" text-anchor="middle" style="font-size:11.5px">written once</text>
+        <text class="ss" x="102" y="84" text-anchor="middle" style="font-size:11px;fill:#5fbf8f">Module 2</text>
+        <path class="fl" d="M204 57 L236 57"/>
+        <rect class="bx g" x="240" y="24" width="196" height="66" rx="7"/>
+        <text class="tt" x="338" y="48" text-anchor="middle" style="font-size:14px">Spec</text>
+        <text class="ss" x="338" y="68" text-anchor="middle" style="font-size:11.5px">what and why</text>
+        <text class="ss" x="338" y="84" text-anchor="middle" style="font-size:11px">never how</text>
+        <path class="fl" d="M440 57 L472 57"/>
+        <rect class="bx g" x="476" y="24" width="196" height="66" rx="7"/>
+        <text class="tt" x="574" y="48" text-anchor="middle" style="font-size:14px">Plan</text>
+        <text class="ss" x="574" y="68" text-anchor="middle" style="font-size:11.5px">how, and which files</text>
+        <text class="ss" x="574" y="84" text-anchor="middle" style="font-size:11px">still no code</text>
+        <path class="fl" d="M676 57 L708 57"/>
+        <rect class="bx a" x="712" y="24" width="196" height="66" rx="7"/>
+        <text class="tt" x="810" y="48" text-anchor="middle" style="font-size:14px">Tasks</text>
+        <text class="ss" x="810" y="68" text-anchor="middle" style="font-size:11.5px">small steps</text>
+        <text class="ss" x="810" y="84" text-anchor="middle" style="font-size:11px">each checked alone</text>
+        <path class="fl" d="M912 57 L944 57"/>
+        <rect class="bx" x="948" y="24" width="228" height="66" rx="7"/>
+        <text class="tt" x="1062" y="48" text-anchor="middle" style="font-size:14px">Code</text>
+        <text class="ss" x="1062" y="68" text-anchor="middle" style="font-size:11.5px">the Day 1 agents</text>
+        <text class="ss" x="1062" y="84" text-anchor="middle" style="font-size:11px;fill:#5fbf8f">design, code, test, review</text>
+        <text class="lb r" x="4" y="118">THE CHECKS &mdash; A PERSON DECIDES, AND &ldquo;NO&rdquo; IS ALLOWED</text>
+        <rect class="bx r" x="240" y="128" width="196" height="52" rx="6"/>
+        <text class="ss" x="338" y="150" text-anchor="middle" style="font-size:12px">Is this the right thing</text>
+        <text class="ss" x="338" y="168" text-anchor="middle" style="font-size:12px">to build?</text>
+        <rect class="bx r" x="476" y="128" width="196" height="52" rx="6"/>
+        <text class="ss" x="574" y="150" text-anchor="middle" style="font-size:12px">Is this the right way</text>
+        <text class="ss" x="574" y="168" text-anchor="middle" style="font-size:12px">to build it?</text>
+        <rect class="bx r" x="712" y="128" width="196" height="52" rx="6"/>
+        <text class="ss" x="810" y="150" text-anchor="middle" style="font-size:12px">Is each task small</text>
+        <text class="ss" x="810" y="168" text-anchor="middle" style="font-size:12px">enough to check?</text>
+        <rect class="bx r" x="948" y="128" width="228" height="52" rx="6"/>
+        <text class="ss" x="1062" y="150" text-anchor="middle" style="font-size:12px">Does the change match</text>
+        <text class="ss" x="1062" y="168" text-anchor="middle" style="font-size:12px">the spec?</text>
+        <text class="lb a" x="4" y="210">WHY CHECK AT EACH STEP</text>
+        <rect class="bx a" x="4" y="220" width="1172" height="130" rx="8"/>
+        <rect class="bx w rise" x="24" y="238" width="150" height="94" rx="5"/>
+        <text class="ss" x="99" y="272" text-anchor="middle" style="font-size:12px">wrong spec</text>
+        <text class="ss" x="99" y="294" text-anchor="middle" style="font-weight:700;fill:#5fbf8f">rewrite a page</text>
+        <rect class="bx w rise r2" x="182" y="238" width="150" height="94" rx="5"/>
+        <text class="ss" x="257" y="272" text-anchor="middle" style="font-size:12px">wrong plan</text>
+        <text class="ss" x="257" y="294" text-anchor="middle" style="font-weight:700;fill:#5fbf8f">rewrite a plan</text>
+        <rect class="bx w rise r3" x="340" y="238" width="150" height="94" rx="5"/>
+        <text class="ss" x="415" y="272" text-anchor="middle" style="font-size:12px">wrong tasks</text>
+        <text class="ss" x="415" y="294" text-anchor="middle" style="font-weight:700;fill:#d98a3d">split them again</text>
+        <rect class="bx w rise r4" x="498" y="238" width="150" height="94" rx="5"/>
+        <text class="ss" x="573" y="264" text-anchor="middle" style="font-size:12px">wrong code</text>
+        <text class="ss" x="573" y="286" text-anchor="middle" style="font-weight:700;fill:#e2726e">redo the code</text>
+        <text class="ss" x="573" y="306" text-anchor="middle" style="font-size:11.5px;fill:#e2726e">and its tests</text>
+        <text class="ss" x="676" y="276" style="font-size:14px">Each step later costs about <tspan font-weight="600" fill="#d98a3d">ten times more</tspan> to fix.</text>
+        <text class="ss" x="676" y="302" style="font-size:14px">So catch a mistake at the earliest step.</text>
 
-        <rect class="bx grow" x="4" y="42" width="1172" height="72" rx="6"/>
-        <text class="tt" x="24" y="72">Principles</text>
-        <text class="ss" x="24" y="94">standing context</text>
-        <text class="ss" x="230" y="72">ADRs, conventions,</text>
-        <text class="ss" x="230" y="94">instruction files</text>
-        <text class="ss" x="470" y="83">Already answered &mdash; this is Module 2, done once</text>
-        <text class="ss" x="800" y="83">the team</text>
-        <text class="ss" x="1010" y="83" style="fill:#5fbf8f">zero, per ticket</text>
-
-        <rect class="bx g grow w2" x="4" y="122" width="1172" height="76" rx="6"/>
-        <text class="tt" x="24" y="152">Specification</text>
-        <text class="ss" x="24" y="174">what and why</text>
-        <text class="ss" x="230" y="152" style="font-weight:600;fill:#5fbf8f">spec.md</text>
-        <text class="ss" x="230" y="174">criteria, scope, assumptions</text>
-        <text class="ss" x="470" y="152">Is this the right thing to build &mdash; and are</text>
-        <text class="ss" x="470" y="174">the open questions answered?</text>
-        <text class="ss" x="800" y="146" style="font-weight:600">whoever can answer</text>
-        <text class="ss" x="800" y="166">the open questions</text>
-        <text class="ss" x="800" y="186" style="font-size:11px">usually product or ops</text>
-        <text class="ss" x="1010" y="163">one conversation</text>
-
-        <rect class="bx grow w3" x="4" y="206" width="1172" height="72" rx="6"/>
-        <text class="tt" x="24" y="236">Technical plan</text>
-        <text class="ss" x="24" y="258">how, and what it touches</text>
-        <text class="ss" x="230" y="247" style="font-weight:600">plan.md</text>
-        <text class="ss" x="470" y="236">Is this the right way &mdash; and does anything</text>
-        <text class="ss" x="470" y="258">here contradict an ADR?</text>
-        <text class="ss" x="800" y="247">the engineer</text>
-        <text class="ss" x="1010" y="247" style="fill:#5fbf8f">two minutes</text>
-
-        <rect class="bx a grow w4" x="4" y="286" width="1172" height="72" rx="6"/>
-        <text class="tt" x="24" y="316">Task breakdown</text>
-        <text class="ss" x="24" y="338">independently checkable</text>
-        <text class="ss" x="230" y="327">a list, in the plan</text>
-        <text class="ss" x="470" y="316">Is each task small enough that its result</text>
-        <text class="ss" x="470" y="338">can be checked on its own?</text>
-        <text class="ss" x="800" y="327">the engineer</text>
-        <text class="ss" x="1010" y="327" style="fill:#5fbf8f">two minutes</text>
-
-        <rect class="bx r grow" x="4" y="366" width="1172" height="82" rx="6"/>
-        <text class="tt" x="24" y="396">Implementation</text>
-        <text class="ss" x="24" y="418">the Day 1 pipeline</text>
-        <text class="ss" x="24" y="438" style="font-size:11px;fill:#5fbf8f">four agents, five artifacts</text>
-        <text class="ss" x="230" y="407">the diff, test report, review report</text>
-        <text class="ss" x="470" y="396">Does the change match the spec it came</text>
-        <text class="ss" x="470" y="418">from &mdash; and does anything block the merge?</text>
-        <text class="ss" x="800" y="396" style="font-weight:600">someone accountable</text>
-        <text class="ss" x="800" y="418" style="font-size:11px">on client money, always</text>
-        <text class="ss" x="1010" y="407">the PR review</text>
+        <rect class="bx d" x="4" y="362" width="1172" height="86" rx="8"/>
+        <text class="lb w" x="24" y="386">&ldquo;IS THIS WATERFALL?&rdquo; &mdash; NO</text>
+        <text class="ss w" x="24" y="414" style="font-size:14px">On a small ticket, all five steps take <tspan font-weight="700" fill="#e0b34d">fifteen minutes, not two weeks</tspan>.</text>
+        <text class="ss w" x="24" y="436" style="font-size:14px">Skip the steps a ticket does not need. Only the time per step changes.</text>
       </svg>
     </div>
   </div>
 </section>
 
 <!-- 7 -->
+<section class="slide" data-sec="2 &middot; The chain" data-title="What each step produces, and who checks it" data-notes="Reference table - let them scan it. The column that matters is who owns the gate, because that is the question that decides whether this survives contact with an organisation. Notice that only two of the four gates need someone other than the engineer: the spec gate needs whoever can answer the open questions, which is usually a product or ops person, and the merge gate needs someone accountable. The plan and task gates are the engineer's own, and they take two minutes each. Say that plainly, because the fear in the room is that this introduces two new approval queues. It does not - it introduces one conversation with the person who actually knows the answer, held BEFORE the code exists rather than after." data-tier="K">
+  <h2>Five steps &mdash; the output, the check, and who does it<span class="tag k">2</span></h2>
+  <div class="body g1">
+    <div>
+      <svg viewBox="0 0 1180 452" role="img" aria-label="Each step with its output, the check it faces, who does the check, and how long it takes">
+        <rect class="bx d" x="4" y="4" width="1172" height="30" rx="6"/>
+        <text class="lb w" x="24" y="24">STEP</text>
+        <text class="lb w" x="200" y="24">OUTPUT</text>
+        <text class="lb w" x="470" y="24">THE CHECK ASKS</text>
+        <text class="lb w" x="780" y="24">WHO CHECKS</text>
+        <text class="lb w" x="1010" y="24">TIME</text>
+        <rect class="bx grow" x="4" y="42" width="1172" height="74" rx="6"/>
+        <text class="tt" x="24" y="84">Principles</text>
+        <text class="ss" x="200" y="74" style="font-size:13.5px">ADRs, conventions,</text>
+        <text class="ss" x="200" y="94" style="font-size:12.5px">instruction files</text>
+        <text class="ss" x="470" y="84" style="font-size:13.5px">Already done in Module 2.</text>
+        <text class="ss" x="780" y="84" style="font-size:13.5px;font-weight:600">the team</text>
+        <text class="ss" x="1010" y="84" style="font-size:13.5px;fill:#5fbf8f">none per ticket</text>
+        <rect class="bx g grow w2" x="4" y="124" width="1172" height="74" rx="6"/>
+        <text class="tt" x="24" y="166">Spec</text>
+        <text class="ss" x="200" y="156" style="font-size:13.5px">spec.md &mdash; criteria,</text>
+        <text class="ss" x="200" y="176" style="font-size:12.5px">scope, assumptions</text>
+        <text class="ss" x="470" y="156" style="font-size:13.5px">Right thing to build?</text>
+        <text class="ss" x="470" y="176" style="font-size:12.5px">Open questions answered?</text>
+        <text class="ss" x="780" y="156" style="font-size:13.5px;font-weight:600">whoever can answer</text>
+        <text class="ss" x="780" y="176" style="font-size:12.5px">often product or ops</text>
+        <text class="ss" x="1010" y="166" style="font-size:13.5px">one conversation</text>
+        <rect class="bx grow w3" x="4" y="206" width="1172" height="74" rx="6"/>
+        <text class="tt" x="24" y="248">Plan</text>
+        <text class="ss" x="200" y="248" style="font-size:13.5px">plan.md</text>
+        <text class="ss" x="470" y="238" style="font-size:13.5px">Right way to build it?</text>
+        <text class="ss" x="470" y="258" style="font-size:12.5px">Does it break an ADR?</text>
+        <text class="ss" x="780" y="248" style="font-size:13.5px;font-weight:600">the engineer</text>
+        <text class="ss" x="1010" y="248" style="font-size:13.5px;fill:#5fbf8f">two minutes</text>
+        <rect class="bx a grow w4" x="4" y="288" width="1172" height="74" rx="6"/>
+        <text class="tt" x="24" y="330">Tasks</text>
+        <text class="ss" x="200" y="330" style="font-size:13.5px">a list in the plan</text>
+        <text class="ss" x="470" y="320" style="font-size:13.5px">Can each task be</text>
+        <text class="ss" x="470" y="340" style="font-size:12.5px">checked on its own?</text>
+        <text class="ss" x="780" y="330" style="font-size:13.5px;font-weight:600">the engineer</text>
+        <text class="ss" x="1010" y="330" style="font-size:13.5px;fill:#5fbf8f">two minutes</text>
+        <rect class="bx r grow" x="4" y="370" width="1172" height="74" rx="6"/>
+        <text class="tt" x="24" y="412">Code</text>
+        <text class="ss" x="200" y="402" style="font-size:13.5px">the diff, test report,</text>
+        <text class="ss" x="200" y="422" style="font-size:12.5px">review report</text>
+        <text class="ss" x="470" y="402" style="font-size:13.5px">Does it match the spec?</text>
+        <text class="ss" x="470" y="422" style="font-size:12.5px">Anything blocking merge?</text>
+        <text class="ss" x="780" y="402" style="font-size:13.5px;font-weight:600">someone accountable</text>
+        <text class="ss" x="780" y="422" style="font-size:12.5px">always, for client money</text>
+        <text class="ss" x="1010" y="412" style="font-size:13.5px">the PR review</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 8 -->
 <section class="slide" data-sec="2 &middot; The chain" data-title="Spec says what; plan says how" data-notes="This is the boundary people get wrong, and getting it wrong is what makes specs useless. A spec that names classes and endpoints has pre-decided the design, which means the design gate has nothing left to decide and the design agent from yesterday has nothing to explore. A plan that restates the requirement is duplication that will drift. The test on the right is the practical one: could two competent engineers read this spec and produce genuinely different plans? If not, the spec has smuggled a plan into itself. Use the GB-207 example - the spec says the balance excludes postings that have not taken economic effect on that date; the plan says filter on Posting.valueDate via the entry's posting id. Same requirement, and only one of them is a decision." data-tier="K">
-  <h2>The boundary people get wrong &mdash; and it makes specs useless<span class="tag k">2</span></h2>
+  <h2>The spec says <em>what</em>. The plan says <em>how</em><span class="tag k">2</span></h2>
   <div class="body g55">
     <div>
-      <div class="callout bad" style="margin-top:0"><b>A spec that has smuggled a plan into it</b></div>
+      <div class="callout bad" style="margin-top:0"><b>A spec with a plan hidden inside</b></div>
 <div class="file"><span class="fn">SPEC.MD &mdash; WRONG</span>Add a method <span class="s">findByAccountIdAndValueDateBefore</span>
 to LedgerEntryRepository. Call it from
 <span class="s">BalanceService.balanceMinorFor</span>, adding an
@@ -341,136 +345,131 @@ to LedgerEntryRepository. Call it from
 a new query parameter on the controller.
 </div>
       <div class="pts" style="margin-top:12px">
-        <h3>What this has destroyed</h3>
+        <h3>What goes wrong</h3>
         <ul>
-          <li>The <b>design gate has nothing left to decide</b> &mdash; the decision was taken in the document that was supposed to state the problem.</li>
-          <li>Yesterday's design agent has <b>nothing to explore</b>, so it produces a rationalisation instead of options.</li>
-          <li>And the choice was made by whoever wrote the ticket, who may not have known the entry carries its own <code>valueDate</code>.</li>
+          <li>The design is already decided. The plan check has <b>nothing left to decide</b>.</li>
+          <li>The design agent (Module 4) has <b>no options to explore</b>.</li>
+          <li>The ticket writer chose &mdash; and may not know each entry has its own <code>valueDate</code>.</li>
         </ul>
       </div>
     </div>
     <div>
-      <div class="callout good" style="margin-top:0"><b>The same requirement, stated as a requirement</b></div>
+      <div class="callout good" style="margin-top:0"><b>The same need, written as a spec</b></div>
 <div class="file"><span class="fn">SPEC.MD &mdash; RIGHT</span>The balance for an account as at a date must
 exclude any posting that has <span class="k">not yet taken</span>
-<span class="k">economic effect</span> on that date.
+<span class="k">effect</span> on that date.
 
-Value date is the date of economic effect,
-not the date of receipt - docs/glossary.md.
+Value date is the date a posting takes
+effect, not the date it arrived
+- docs/glossary.md.
 
-<span class="c">Verifiable: a posting dated tomorrow is</span>
-<span class="c">excluded from today's as-at balance.</span>
+<span class="c">Checkable: a posting dated tomorrow is</span>
+<span class="c">excluded from today's balance.</span>
 </div>
       <div class="pts" style="margin-top:12px">
-        <h3>The test that separates them</h3>
+        <h3>The test</h3>
         <ul>
-          <li><b>Could two competent engineers read this and produce genuinely different plans?</b></li>
-          <li>If yes, it is a spec. If no, a plan has been smuggled in &mdash; and the design stage has been deleted without anyone deciding to delete it.</li>
+          <li><b>Could two good engineers read it and write different plans?</b></li>
+          <li>Yes &rarr; it is a spec. No &rarr; a plan is hidden inside.</li>
         </ul>
       </div>
-      <div class="take"><b>Spec: what must be true.</b> Plan: how we will make it true. Only one of the two is a <em>decision</em>, and it is the one that belongs to the engineer.</div>
-    </div>
-  </div>
-</section>
-<!-- 8 -->
-<section class="slide" data-sec="3 &middot; Machine-verifiable criteria" data-title="A criterion a test can check" data-notes="This is the most practically useful slide in the module and the one to spend real time on. Read the left column out loud and let the room hear how reasonable each one sounds - these are not strawmen, they are what acceptance criteria actually look like on real boards. Then read the right column and let them notice what changed: every rewrite names a concrete input and a concrete observable outcome. The three-part test at the bottom is the tool they take away. Could you write a failing test from this sentence alone, without asking anyone anything - that is the bar, and it is a much higher bar than reads clearly. Worth saying explicitly: the point is not pedantry. An unverifiable criterion cannot be handed to the test agent, cannot be checked by the review agent, and cannot be gated on in CI, so it silently drops out of the entire pipeline you built yesterday." data-tier="K" data-after="lab">
-  <h2>Criteria a test can check &mdash; and the ones that quietly drop out<span class="tag k">3</span></h2>
-  <div class="body g1">
-    <div>
-      <svg viewBox="0 0 1180 452" role="img" aria-label="Unverifiable acceptance criteria rewritten as machine-checkable ones">
-        <rect class="bx d" x="4" y="4" width="1172" height="30" rx="6"/>
-        <text class="lb w" x="24" y="24">AS WRITTEN &mdash; AND THESE ARE REAL, NOT STRAWMEN</text>
-        <text class="lb w" x="600" y="24">REWRITTEN &mdash; A FAILING TEST CAN BE WRITTEN FROM THIS ALONE</text>
-
-        <rect class="bx r grow" x="4" y="42" width="580" height="66" rx="6"/>
-        <text class="ss" x="24" y="70">&ldquo;The endpoint should perform well.&rdquo;</text>
-        <text class="ss" x="24" y="94" style="font-size:11.5px;fill:#e2726e">No input, no threshold, no observation.</text>
-        <rect class="bx g grow w2" x="596" y="42" width="580" height="66" rx="6"/>
-        <text class="ss" x="616" y="70">&ldquo;Returns within 300&thinsp;ms for an account with</text>
-        <text class="ss" x="616" y="94">10,000 entries, measured at the service boundary.&rdquo;</text>
-
-        <rect class="bx r grow w2" x="4" y="116" width="580" height="66" rx="6"/>
-        <text class="ss" x="24" y="144">&ldquo;Handle errors gracefully.&rdquo;</text>
-        <text class="ss" x="24" y="168" style="font-size:11.5px;fill:#e2726e">Gracefully is not a behaviour anyone can assert.</text>
-        <rect class="bx g grow w3" x="596" y="116" width="580" height="66" rx="6"/>
-        <text class="ss" x="616" y="144">&ldquo;An unknown account returns 404 with a</text>
-        <text class="ss" x="616" y="168">ProblemDetail whose reason is <tspan font-weight="600">unknown-account</tspan>.&rdquo;</text>
-
-        <rect class="bx r grow w3" x="4" y="190" width="580" height="66" rx="6"/>
-        <text class="ss" x="24" y="218">&ldquo;Ops can see the postings.&rdquo;</text>
-        <text class="ss" x="24" y="242" style="font-size:11.5px;fill:#e2726e">Which postings? Seen how? This is GB-147, verbatim.</text>
-        <rect class="bx g grow w4" x="596" y="190" width="580" height="66" rx="6"/>
-        <text class="ss" x="616" y="218">&ldquo;Given postings on 3 March, a request for that</text>
-        <text class="ss" x="616" y="242">date returns exactly those, newest first.&rdquo;</text>
-
-        <rect class="bx r grow w4" x="4" y="264" width="580" height="66" rx="6"/>
-        <text class="ss" x="24" y="292">&ldquo;Existing behaviour must not change.&rdquo;</text>
-        <text class="ss" x="24" y="316" style="font-size:11.5px;fill:#e2726e">Sounds rigorous. Names nothing, so it checks nothing.</text>
-        <rect class="bx g grow w5" x="596" y="264" width="580" height="66" rx="6"/>
-        <text class="ss" x="616" y="292">&ldquo;The balance endpoint without <tspan font-weight="600">asAt</tspan> returns the</text>
-        <text class="ss" x="616" y="316">same value as before &mdash; existing tests unchanged.&rdquo;</text>
-
-        <text class="lb a" x="4" y="358">THE TEST, AND IT IS A HIGHER BAR THAN &ldquo;READS CLEARLY&rdquo;</text>
-        <rect class="bx a" x="4" y="368" width="1172" height="80" rx="8"/>
-        <text class="tt" x="24" y="398" style="font-size:15px">Could you write a failing test from this sentence alone &mdash; naming an input and an observable outcome &mdash; without asking anyone?</text>
-        <text class="ss" x="24" y="424">This is not pedantry. An unverifiable criterion <tspan font-weight="600" fill="#d98a3d">cannot be handed to the test agent, cannot be checked by the</tspan></text>
-        <text class="ss" x="24" y="442" style="fill:#d98a3d;font-weight:600">review agent, and cannot be gated on in CI</tspan> &mdash; so it silently drops out of the whole pipeline you built yesterday.</text>
-      </svg>
+      <div class="take"><b>Spec:</b> what must be true. <b>Plan:</b> how we make it true.</div>
     </div>
   </div>
 </section>
 
 <!-- 9 -->
-<section class="slide" data-sec="3 &middot; Machine-verifiable criteria" data-title="Out of scope, and stated assumptions" data-notes="Two sections nobody writes and both are cheap. Out-of-scope is the direct fix for the silent scope drift from Module 3 - it converts a vague boundary into a named list the review agent can check a diff against, and it also protects you from the helpful agent that improves something adjacent. Stated assumptions is the subtler one and it is where the honesty of the whole method lives: an assumption written down is a thing somebody can contradict at the gate, which is exactly what you want to happen before code exists. An assumption not written down is a thing you will discover in review, or in March. The line to land: writing down an assumption is not an admission of ignorance, it is how the gate gets something to bite on." data-tier="K">
-  <h2>Two sections nobody writes, and both are cheap<span class="tag k">3</span></h2>
-  <div class="body g64">
+<section class="slide" data-sec="3 &middot; Machine-verifiable criteria" data-title="A criterion a test can check" data-notes="This is the most practically useful slide in the module and the one to spend real time on. Read the left column out loud and let the room hear how reasonable each one sounds - these are not strawmen, they are what acceptance criteria actually look like on real boards. Then read the right column and let them notice what changed: every rewrite names a concrete input and a concrete observable outcome. The three-part test at the bottom is the tool they take away. Could you write a failing test from this sentence alone, without asking anyone anything - that is the bar, and it is a much higher bar than reads clearly. Worth saying explicitly: the point is not pedantry. An unverifiable criterion cannot be handed to the test agent, cannot be checked by the review agent, and cannot be gated on in CI, so it silently drops out of the entire pipeline you built yesterday." data-tier="K" data-after="lab">
+  <h2>Criteria a test can check &mdash; and the ones that quietly drop out<span class="tag k">3</span></h2>
+  <div class="body g1">
     <div>
-      <svg viewBox="0 0 700 430" role="img" aria-label="Out of scope and stated assumptions, and what each one buys">
-        <text class="lb g" x="4" y="13">OUT OF SCOPE &mdash; A NAMED LIST, NOT A VAGUE BOUNDARY</text>
-        <rect class="bx g" x="4" y="22" width="692" height="176" rx="8"/>
-        <rect class="bx w" x="20" y="40" width="660" height="30" rx="5"/>
-        <text class="ss" x="34" y="60">&ldquo;Not in this change: the consumer, the settlement fields, any migration.&rdquo;</text>
-        <text class="ss" x="20" y="96">Three things it buys, all of them mechanical:</text>
-        <rect class="bx w" x="20" y="106" width="660" height="28" rx="5"/>
-        <text class="ss" x="34" y="125" style="font-size:11.5px">The coding agent has a <tspan font-weight="600">bounded inputs list</tspan> &mdash; Module 3's fix for scope drift</text>
-        <rect class="bx w" x="20" y="140" width="660" height="28" rx="5"/>
-        <text class="ss" x="34" y="159" style="font-size:11.5px">The review agent can check a diff <tspan font-weight="600">against a list</tspan> instead of against a feeling</text>
-        <rect class="bx w" x="20" y="174" width="660" height="24" rx="5"/>
-        <text class="ss" x="34" y="191" style="font-size:11.5px">You are protected from the helpful agent that improves something adjacent</text>
-
-        <text class="lb a" x="4" y="230">STATED ASSUMPTIONS &mdash; WHERE THE HONESTY LIVES</text>
-        <rect class="bx a" x="4" y="240" width="692" height="128" rx="8"/>
-        <rect class="bx w" x="20" y="258" width="660" height="30" rx="5"/>
-        <text class="ss" x="34" y="278">&ldquo;Assumes ops mean calendar date, not our business date. <tspan font-weight="600">Unconfirmed.</tspan>&rdquo;</text>
-        <text class="ss" x="20" y="312">An assumption <tspan font-weight="600" fill="#d98a3d">written down</tspan> is a thing somebody can contradict at the gate &mdash;</text>
-        <text class="ss" x="20" y="332">which is exactly what you want, before any code exists.</text>
-        <text class="ss" x="20" y="356" style="fill:#e2726e;font-weight:600">An assumption not written down is discovered in review. Or in March.</text>
-
-        <rect class="bx d" x="4" y="380" width="692" height="50" rx="8"/>
-        <text class="ss w" x="24" y="412" style="font-size:14px">Writing one down is not admitting ignorance. It is <tspan font-weight="700" fill="#e0b34d">giving the gate something to bite on.</tspan></text>
+      <svg viewBox="0 0 1180 452" role="img" aria-label="Acceptance criteria as usually written, rewritten so a test can check them">
+        <rect class="bx d" x="4" y="4" width="1172" height="30" rx="6"/>
+        <text class="lb w" x="24" y="24">AS WRITTEN &mdash; REAL EXAMPLES</text>
+        <text class="lb w" x="616" y="24">REWRITTEN &mdash; A FAILING TEST CAN BE WRITTEN FROM THIS</text>
+        <rect class="bx r grow" x="4" y="42" width="580" height="66" rx="6"/>
+        <text class="ss" x="24" y="70" style="font-size:14px">&ldquo;The endpoint should perform well.&rdquo;</text>
+        <text class="ss" x="24" y="94" style="font-size:12px;fill:#e2726e">No input, no limit, nothing to measure.</text>
+        <rect class="bx g grow" x="596" y="42" width="580" height="66" rx="6"/>
+        <text class="ss" x="616" y="70" style="font-size:14px">&ldquo;Returns within 300&thinsp;ms for an account</text>
+        <text class="ss" x="616" y="94" style="font-size:14px">with 10,000 entries.&rdquo;</text>
+        <rect class="bx r grow w2" x="4" y="116" width="580" height="66" rx="6"/>
+        <text class="ss" x="24" y="144" style="font-size:14px">&ldquo;Handle errors gracefully.&rdquo;</text>
+        <text class="ss" x="24" y="168" style="font-size:12px;fill:#e2726e">&ldquo;Gracefully&rdquo; cannot be tested.</text>
+        <rect class="bx g grow w2" x="596" y="116" width="580" height="66" rx="6"/>
+        <text class="ss" x="616" y="144" style="font-size:14px">&ldquo;An unknown account returns 404,</text>
+        <text class="ss" x="616" y="168" style="font-size:14px">with reason <tspan font-weight="600">unknown-account</tspan>.&rdquo;</text>
+        <rect class="bx r grow w3" x="4" y="190" width="580" height="66" rx="6"/>
+        <text class="ss" x="24" y="218" style="font-size:14px">&ldquo;Ops can see the postings.&rdquo;</text>
+        <text class="ss" x="24" y="242" style="font-size:12px;fill:#e2726e">Which postings? How? This is GB-147, word for word.</text>
+        <rect class="bx g grow w3" x="596" y="190" width="580" height="66" rx="6"/>
+        <text class="ss" x="616" y="218" style="font-size:14px">&ldquo;Given postings on 3 March, a request for that</text>
+        <text class="ss" x="616" y="242" style="font-size:14px">date returns exactly those, newest first.&rdquo;</text>
+        <rect class="bx r grow w4" x="4" y="264" width="580" height="66" rx="6"/>
+        <text class="ss" x="24" y="292" style="font-size:14px">&ldquo;Existing behaviour must not change.&rdquo;</text>
+        <text class="ss" x="24" y="316" style="font-size:12px;fill:#e2726e">Sounds strict. Names nothing, so checks nothing.</text>
+        <rect class="bx g grow w4" x="596" y="264" width="580" height="66" rx="6"/>
+        <text class="ss" x="616" y="292" style="font-size:14px">&ldquo;The balance without <tspan font-weight="600">asAt</tspan> returns</text>
+        <text class="ss" x="616" y="316" style="font-size:14px">the same value as before.&rdquo;</text>
+        <text class="lb a" x="4" y="358">THE TEST</text>
+        <rect class="bx a" x="4" y="368" width="1172" height="80" rx="8"/>
+        <text class="tt" x="24" y="398" style="font-size:15.5px">Could you write a failing test from this sentence alone, without asking anyone?</text>
+        <text class="ss" x="24" y="428" style="font-size:14px">If not, the test agent and review agent cannot use it, and CI cannot check it. <tspan font-weight="600" fill="#d98a3d">It silently drops out.</tspan></text>
       </svg>
-    </div>
-    <div class="pts">
-      <h3>Where the content comes from</h3>
-      <ul>
-        <li><b>Out of scope</b> &mdash; write the things a reasonable reader might think are included. If nothing comes to mind, the ticket is smaller than you think or you have not read it carefully.</li>
-        <li><b>Assumptions</b> &mdash; every question you answered <em>for yourself</em> while writing the spec. Each one is an assumption whether you name it or not.</li>
-      </ul>
-      <h3>The rule that makes assumptions work</h3>
-      <ul>
-        <li>Mark each one <b>confirmed</b> or <b>unconfirmed</b>. An unconfirmed assumption on a material point is a <em>blocking</em> item at the spec gate, not a footnote.</li>
-        <li>That is the mechanism by which a spec stops the agent inventing: the open question is raised at the gate rather than resolved silently in a diff.</li>
-      </ul>
-      <div class="take"><b>Both sections take three minutes.</b> They are skipped because they feel like paperwork, and they are the two that most often prevent the expensive mistake.</div>
     </div>
   </div>
 </section>
+
 <!-- 10 -->
+<section class="slide" data-sec="3 &middot; Machine-verifiable criteria" data-title="Out of scope, and assumptions" data-notes="Two sections nobody writes and both are cheap. Out-of-scope is the direct fix for the silent scope drift from Module 3 - it converts a vague boundary into a named list the review agent can check a diff against, and it also protects you from the helpful agent that improves something adjacent. Stated assumptions is the subtler one and it is where the honesty of the whole method lives: an assumption written down is a thing somebody can contradict at the gate, which is exactly what you want to happen before code exists. An assumption not written down is a thing you will discover in review, or in March. The line to land: writing down an assumption is not an admission of ignorance, it is how the gate gets something to bite on." data-tier="K">
+  <h2>Two short sections nobody writes: out of scope, and assumptions<span class="tag k">3</span></h2>
+  <div class="body g64">
+    <div>
+      <svg viewBox="0 0 700 430" role="img" aria-label="Out of scope and stated assumptions, and what each one gives you">
+        <text class="lb g" x="4" y="13">OUT OF SCOPE &mdash; A LIST, NOT A FEELING</text>
+        <rect class="bx g" x="4" y="22" width="692" height="176" rx="8"/>
+        <rect class="bx w" x="20" y="40" width="660" height="30" rx="5"/>
+        <text class="ss" x="34" y="60">&ldquo;Not in this change: the consumer, the settlement fields, any migration.&rdquo;</text>
+        <rect class="bx w" x="20" y="84" width="660" height="30" rx="5"/>
+        <text class="ss" x="34" y="104">The coding agent knows which files to leave alone.</text>
+        <rect class="bx w" x="20" y="120" width="660" height="30" rx="5"/>
+        <text class="ss" x="34" y="140">The review agent checks the diff against a list.</text>
+        <rect class="bx w" x="20" y="156" width="660" height="30" rx="5"/>
+        <text class="ss" x="34" y="176">The agent cannot &ldquo;improve&rdquo; something next door.</text>
+
+        <text class="lb a" x="4" y="230">ASSUMPTIONS &mdash; WRITE THEM DOWN</text>
+        <rect class="bx a" x="4" y="240" width="692" height="128" rx="8"/>
+        <rect class="bx w" x="20" y="258" width="660" height="30" rx="5"/>
+        <text class="ss" x="34" y="278">&ldquo;Assumes ops mean calendar date, not business date. <tspan font-weight="600">Unconfirmed.</tspan>&rdquo;</text>
+        <text class="ss" x="20" y="316">Written down, someone can correct it <tspan font-weight="600" fill="#d98a3d">before any code exists</tspan>.</text>
+        <text class="ss" x="20" y="348" style="fill:#e2726e;font-weight:600">Not written down, you find it in review &mdash; or in production.</text>
+
+        <rect class="bx d" x="4" y="380" width="692" height="50" rx="8"/>
+        <text class="ss w" x="24" y="411" style="font-size:14px">Writing an assumption down gives the check <tspan font-weight="700" fill="#e0b34d">something to catch.</tspan></text>
+      </svg>
+    </div>
+    <div class="pts">
+      <h3>What to write</h3>
+      <ul>
+        <li><b>Out of scope:</b> things a reader might think are included.</li>
+        <li><b>Assumptions:</b> every question you answered for yourself.</li>
+      </ul>
+      <h3>The rule</h3>
+      <ul>
+        <li>Mark each assumption <b>confirmed</b> or <b>unconfirmed</b>.</li>
+        <li>An important unconfirmed one <b>blocks</b> the spec check.</li>
+      </ul>
+      <div class="take"><b>Both sections take three minutes.</b> They often prevent the most expensive mistake.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 -->
 <section class="slide" data-sec="3 &middot; Machine-verifiable criteria" data-title="GB-147 before and after" data-notes="The worked example, and it is the ticket they specify in Lab 2.1. Read the original out loud in full - it takes eight seconds and the room will laugh, because everyone has been handed this ticket. Ops can see the postings. Then the point that stops it being a joke: an agent handed this does not refuse. It produces a report, confidently, with columns somebody invented, a date range somebody invented, and a permission model nobody thought about. It looks finished. The right-hand spec is what fifteen minutes of thinking produces, and the interesting part is the open questions section - three questions that a human answers in one conversation, and each of which would otherwise have been silently invented. Say the number: three invented decisions avoided, for fifteen minutes of work, before any code existed." data-tier="D" data-after="lab">
-  <h2>GB-147 &mdash; eight words, and what they have to become<span class="tag k">3</span></h2>
+  <h2>GB-147 &mdash; a vague ticket, and the spec it needs<span class="tag k">3</span></h2>
   <div class="body g55">
     <div>
-      <div class="callout bad" style="margin-top:0"><b>The ticket, verbatim &mdash; and you have all been handed this one</b></div>
+      <div class="callout bad" style="margin-top:0"><b>The ticket, word for word &mdash; you have all seen one like it</b></div>
 <div class="file"><span class="fn">GB-147 — ADD REPORTING FOR THE OPS TEAM</span>Ops need to be able to see what's been posted
 so they can check things at the end of the
 day. Can we add a report?
@@ -485,8 +484,9 @@ straightforward.
       <div class="pts" style="margin-top:12px">
         <h3>What an agent does with this</h3>
         <ul>
-          <li><b>It does not refuse.</b> It produces a report &mdash; with columns somebody invented, a date range somebody invented, and no permission model at all.</li>
-          <li>And it looks finished. That is the failure: not a bad output, a <em>confident</em> one.</li>
+          <li><b>It does not refuse.</b> It builds a report.</li>
+          <li>It invents the columns, the date range, and who may see it.</li>
+          <li>It looks finished. The danger is its <em>confidence</em>.</li>
         </ul>
       </div>
     </div>
@@ -498,7 +498,7 @@ straightforward.
    first. Postings on other dates: excluded.
 2. A date with no postings returns an empty
    list and 200, not 404.
-3. Amounts are returned in minor units, as
+3. Amounts are in minor units, as
    everywhere else (ADR-003).
 4. Existing endpoints are unchanged.
 
@@ -516,222 +516,215 @@ existing endpoints already enforce.
 <span class="s">- Which fields does ops actually need?</span>
 <span class="s">- Is this a screen, or an API for a screen?</span>
 </div>
-      <div class="take"><b>Three invented decisions avoided</b>, for fifteen minutes, before a line of code existed &mdash; and each one is a question a human answers in a single conversation.</div>
+      <div class="take"><b>Three guesses avoided</b> for fifteen minutes of work. A person answers each in one conversation.</div>
     </div>
   </div>
 </section>
 
-<!-- 11 -->
+<!-- 12 -->
 <section class="slide" data-sec="3 &middot; Machine-verifiable criteria" data-title="The spec is the test agent's input" data-notes="Close the loop back to Module 4 explicitly, because this is what makes the module more than good practice. The test agent's source of truth is the acceptance criteria - that was its stated input yesterday - and the test report is one line per criterion. So the quality of every test report you will ever get is decided by the numbering on the left. Four verifiable criteria produce four checkable lines. One unverifiable criterion produces a line that says covered when nothing was proven, or quietly disappears. Then the review agent's fifth check, what is missing, is only answerable against a list. No list, no fifth check. Say the summary sentence: the spec is not documentation for humans, it is the input to two of the four agents you built yesterday." data-tier="R">
-  <h2>The spec is not documentation &mdash; it is an agent's input<span class="tag k">3</span></h2>
+  <h2>The spec is not just documentation &mdash; agents read it<span class="tag k">3</span></h2>
   <div class="body g64">
     <div>
-      <svg viewBox="0 0 700 430" role="img" aria-label="How the specification feeds the test agent and the review agent">
-        <text class="lb g" x="4" y="13">THE SPEC FEEDS TWO OF YESTERDAY&rsquo;S FOUR AGENTS DIRECTLY</text>
+      <svg viewBox="0 0 700 430" role="img" aria-label="How the spec feeds the test agent and the review agent">
+        <text class="lb g" x="4" y="13">THE SPEC FEEDS TWO OF THE FOUR AGENTS</text>
         <rect class="bx g" x="4" y="22" width="692" height="180" rx="8"/>
         <rect class="bx w" x="20" y="42" width="180" height="140" rx="6"/>
         <text class="tt" x="110" y="70" text-anchor="middle" style="font-size:13px">spec.md</text>
-        <text class="ss" x="110" y="94" text-anchor="middle" style="font-size:11.5px">criterion 1</text>
-        <text class="ss" x="110" y="114" text-anchor="middle" style="font-size:11.5px">criterion 2</text>
-        <text class="ss" x="110" y="134" text-anchor="middle" style="font-size:11.5px">criterion 3</text>
-        <text class="ss" x="110" y="154" text-anchor="middle" style="font-size:11.5px">criterion 4</text>
-        <text class="ss" x="110" y="174" text-anchor="middle" style="font-size:11px;fill:#5fbf8f">out of scope: 4 items</text>
+        <text class="ss" x="110" y="94" text-anchor="middle" style="font-size:12px">criterion 1</text>
+        <text class="ss" x="110" y="114" text-anchor="middle" style="font-size:12px">criterion 2</text>
+        <text class="ss" x="110" y="134" text-anchor="middle" style="font-size:12px">criterion 3</text>
+        <text class="ss" x="110" y="154" text-anchor="middle" style="font-size:12px">criterion 4</text>
+        <text class="ss" x="110" y="174" text-anchor="middle" style="font-size:11.5px;fill:#5fbf8f">out of scope: 4 items</text>
         <path class="arg" d="M204 90 L246 76"/>
         <path class="arg" d="M204 140 L246 156"/>
         <rect class="bx a" x="250" y="48" width="200" height="62" rx="6"/>
-        <text class="tt" x="350" y="72" text-anchor="middle" style="font-size:12.5px">Test agent</text>
-        <text class="ss" x="350" y="92" text-anchor="middle" style="font-size:11px">one report line per criterion</text>
+        <text class="tt" x="350" y="72" text-anchor="middle" style="font-size:13px">Test agent</text>
+        <text class="ss" x="350" y="92" text-anchor="middle" style="font-size:11.5px">one report line per criterion</text>
         <rect class="bx r" x="250" y="126" width="200" height="62" rx="6"/>
-        <text class="tt" x="350" y="150" text-anchor="middle" style="font-size:12.5px">Review agent</text>
-        <text class="ss" x="350" y="170" text-anchor="middle" style="font-size:11px">check 1, and check 5</text>
+        <text class="tt" x="350" y="150" text-anchor="middle" style="font-size:13px">Review agent</text>
+        <text class="ss" x="350" y="170" text-anchor="middle" style="font-size:11.5px">check 5: what is missing?</text>
         <path class="ar" d="M454 79 L494 100"/>
         <path class="ar" d="M454 157 L494 128"/>
         <rect class="bx d" x="498" y="86" width="182" height="56" rx="6"/>
-        <text class="ss w" x="589" y="110" text-anchor="middle" style="font-size:12px">a checkable</text>
-        <text class="ss w" x="589" y="128" text-anchor="middle" style="font-size:12px">verdict per criterion</text>
+        <text class="ss w" x="589" y="110" text-anchor="middle" style="font-size:12.5px">a clear result</text>
+        <text class="ss w" x="589" y="128" text-anchor="middle" style="font-size:12.5px">for each criterion</text>
 
-        <text class="lb r" x="4" y="234">AND THE FAILURE MODE, WHICH IS SILENT</text>
+        <text class="lb r" x="4" y="234">WHEN A CRITERION IS UNCLEAR &mdash; AND NOBODY NOTICES</text>
         <rect class="bx r" x="4" y="244" width="692" height="118" rx="8"/>
         <rect class="bx w" x="20" y="262" width="660" height="30" rx="5"/>
-        <text class="ss" x="34" y="282">An unverifiable criterion produces a report line that says <tspan font-weight="600">covered</tspan> &mdash; and nothing was proven</text>
+        <text class="ss" x="34" y="282">The report says <tspan font-weight="600">covered</tspan> &mdash; but nothing was proven</text>
         <rect class="bx w" x="20" y="298" width="660" height="30" rx="5"/>
-        <text class="ss" x="34" y="318">Or it quietly disappears from the report, and nobody notices a missing line</text>
-        <text class="ss" x="20" y="352" style="fill:#e2726e;font-weight:600">Check 5 &mdash; &ldquo;what is missing&rdquo; &mdash; can only be answered against a list. No list, no check 5.</text>
+        <text class="ss" x="34" y="318">Or the line silently disappears from the report</text>
+        <text class="ss" x="20" y="350" style="fill:#e2726e;font-weight:600">&ldquo;What is missing?&rdquo; needs a list. No list, no check 5.</text>
 
         <rect class="bx d" x="4" y="374" width="692" height="56" rx="8"/>
-        <text class="ss w" x="24" y="408" style="font-size:14px">The quality of every test report you will ever get is <tspan font-weight="700" fill="#e0b34d">decided by the numbering on the left.</tspan></text>
+        <text class="ss w" x="24" y="408" style="font-size:14px">Your test reports are only as good as your <tspan font-weight="700" fill="#e0b34d">numbered criteria.</tspan></text>
       </svg>
     </div>
     <div class="pts">
-      <h3>Why this makes it more than good practice</h3>
+      <h3>Why it matters</h3>
       <ul>
-        <li>Yesterday the test agent's stated source of truth was <b>the acceptance criteria</b>. This is where those come from.</li>
-        <li>The review agent's fifth check &mdash; <em>what is missing</em> &mdash; is unanswerable without an enumerated list to check against.</li>
+        <li>The <b>test agent</b> (Module 4) tests against the acceptance criteria. They come from the spec.</li>
+        <li>The <b>review agent&rsquo;s</b> check 5, &ldquo;what is missing?&rdquo;, needs a list.</li>
       </ul>
-      <h3>The practical consequence</h3>
+      <h3>So</h3>
       <ul>
-        <li><b>Number your criteria.</b> The numbering is not cosmetic &mdash; it is what makes a report line traceable to a requirement.</li>
-        <li>One criterion per line, one behaviour per criterion. A criterion containing &ldquo;and&rdquo; is usually two.</li>
+        <li><b>Number your criteria.</b></li>
+        <li>One behaviour each. An &ldquo;and&rdquo; usually means two.</li>
       </ul>
-      <div class="take"><b>The whole Day 1 pipeline was waiting for this.</b> Four independent agents checking against a vague requirement produce four confident, independent, unverifiable opinions.</div>
-    </div>
-  </div>
-</section>
-<!-- 12 -->
-<section class="slide" data-sec="4 &middot; Challenging the plan" data-title="Challenge it before any code exists" data-notes="The cheapest quality intervention in the entire course, and it takes four minutes. The framing that makes it land: at this point the plan is a page of text, so a wrong direction costs a rewrite of a page. After implementation the same wrongness costs a change set, its tests, and a review. Four questions on the right and the fourth is the one people skip - what would have to be true for this to be the wrong approach. That question is doing pre-mortem work: it forces an explicit statement of the conditions under which you would regret this, and if you cannot name any, you have not understood the problem yet. Then the who-challenges-it point: yesterday's design agent is the natural challenger because it is already blind to the implementation, and there is no implementation yet, so its independence is free here rather than expensive." data-tier="K">
-  <h2>Challenging the plan &mdash; four minutes, before any code<span class="tag k">4</span></h2>
-  <div class="body g46">
-    <div class="pts">
-      <h3>Why here, and not at review</h3>
-      <ul>
-        <li>Right now the plan is <b>a page of text</b>. A wrong direction costs a rewrite of a page.</li>
-        <li>After implementation the same wrongness costs a change set, its tests, its review, and the conversation about whether it is worth redoing &mdash; which is usually lost.</li>
-      </ul>
-      <h3>Who does the challenging</h3>
-      <ul>
-        <li><b>Yesterday's design agent</b> is the natural challenger: it is defined as blind to the implementation, and here there <em>is</em> no implementation. Its independence costs nothing at this stage.</li>
-        <li>Or a colleague, for four minutes. The cost is trivial either way; the reason it does not happen is that nobody scheduled it.</li>
-      </ul>
-      <div class="callout"><b>Do not skip this when the plan looks obvious.</b> An obvious plan on an ambiguous ticket is the exact shape of the confidently wrong refactor &mdash; obviousness is a property of your reading, not of the problem.</div>
-    </div>
-    <div>
-      <svg viewBox="0 0 700 430" role="img" aria-label="Four challenge questions to put to a plan before implementation">
-        <text class="lb a" x="4" y="13">FOUR QUESTIONS, PUT TO THE PLAN AND NOT TO THE PERSON</text>
-        <rect class="bx a" x="4" y="22" width="692" height="270" rx="8"/>
-
-        <rect class="bx w rise" x="20" y="40" width="660" height="56" rx="6"/>
-        <text class="tt" x="36" y="62" style="font-size:13px">1 &middot; Which acceptance criterion does each step serve?</text>
-        <text class="ss" x="36" y="84">A step serving none is scope. A criterion served by none is a gap.</text>
-
-        <rect class="bx w rise r2" x="20" y="104" width="660" height="56" rx="6"/>
-        <text class="tt" x="36" y="126" style="font-size:13px">2 &middot; What does this contradict?</text>
-        <text class="ss" x="36" y="148">Name the ADR, the convention or the existing behaviour. &ldquo;Nothing&rdquo; needs evidence.</text>
-
-        <rect class="bx w rise r3" x="20" y="168" width="660" height="56" rx="6"/>
-        <text class="tt" x="36" y="190" style="font-size:13px">3 &middot; What is the smallest change that satisfies the spec?</text>
-        <text class="ss" x="36" y="212">If the plan is bigger than that, the difference is a decision somebody should see.</text>
-
-        <rect class="bx r rise r4" x="20" y="232" width="660" height="52" rx="6"/>
-        <text class="tt" x="36" y="254" style="font-size:13px">4 &middot; What would have to be true for this to be the wrong approach?</text>
-        <text class="ss" x="36" y="276" style="fill:#e2726e;font-weight:600">The one people skip &mdash; and if you cannot name anything, you do not understand it yet.</text>
-
-        <rect class="bx d" x="4" y="304" width="692" height="126" rx="8"/>
-        <text class="lb w" x="24" y="328">WHY QUESTION 4 IS THE VALUABLE ONE</text>
-        <text class="ss w" x="24" y="354" style="font-size:14px">It is a pre-mortem. It forces an explicit statement of the conditions</text>
-        <text class="ss w" x="24" y="376" style="font-size:14px">under which you would regret this &mdash; and those conditions are</text>
-        <text class="ss w" x="24" y="398" style="font-size:14px">either checkable now, or they are <tspan font-weight="700" fill="#e0b34d">assumptions you just discovered.</tspan></text>
-        <text class="ss w" x="24" y="422" style="font-size:13px;fill:#6ea8fe">Either outcome is worth four minutes. Most plans yield one new assumption.</text>
-      </svg>
     </div>
   </div>
 </section>
 
 <!-- 13 -->
-<section class="slide" data-sec="4 &middot; Challenging the plan" data-title="Task breakdown is a checkability decision" data-notes="Short slide, one idea, and it is a genuinely under-appreciated one. Breaking work into tasks is usually taught as a planning or estimation activity. It is not - it is a decision about how often you get to check. Each task boundary is a place where you can look at a result and say yes or no before more work is built on it. So the size of a task is really the size of the mistake you are willing to discover late. The rule on the right is the practical one: a task whose result you cannot check without doing the next task is not a task, it is half of one. Connect it forward to delegation from Module 1 - small checkable tasks are what make a long unattended run safe, because the run can be stopped at a boundary rather than unwound." data-tier="R">
-  <h2>Task size is not an estimate &mdash; it is how often you get to check<span class="tag k">4</span></h2>
-  <div class="body g64">
-    <div>
-      <svg viewBox="0 0 700 430" role="img" aria-label="Task boundaries as checkpoints, and the cost of discovering a mistake late">
-        <text class="lb r" x="4" y="13">THREE BIG TASKS &mdash; THREE CHANCES TO NOTICE</text>
-        <rect class="bx r" x="4" y="22" width="692" height="112" rx="8"/>
-        <rect class="bx w" x="20" y="42" width="212" height="44" rx="5"/>
-        <text class="ss" x="126" y="69" text-anchor="middle" style="font-size:11.5px">build the endpoint</text>
-        <rect class="bx w" x="240" y="42" width="212" height="44" rx="5"/>
-        <text class="ss" x="346" y="69" text-anchor="middle" style="font-size:11.5px">wire the service</text>
-        <rect class="bx w" x="460" y="42" width="220" height="44" rx="5"/>
-        <text class="ss" x="570" y="69" text-anchor="middle" style="font-size:11.5px">add the tests</text>
-        <text class="ss" x="20" y="110">A wrong assumption in task one is discovered while checking task three &mdash;</text>
-        <text class="ss" x="20" y="128" style="fill:#e2726e;font-weight:600">by which point tasks two and three were built on top of it.</text>
-
-        <text class="lb g" x="4" y="166">SEVEN SMALL ONES &mdash; SEVEN CHANCES</text>
-        <rect class="bx g" x="4" y="176" width="692" height="118" rx="8"/>
-        <rect class="bx w rise" x="20" y="196" width="90" height="40" rx="4"/>
-        <text class="ss" x="65" y="221" text-anchor="middle" style="font-size:10px">query param</text>
-        <rect class="bx w rise r2" x="116" y="196" width="90" height="40" rx="4"/>
-        <text class="ss" x="161" y="221" text-anchor="middle" style="font-size:10px">repo method</text>
-        <rect class="bx w rise r3" x="212" y="196" width="90" height="40" rx="4"/>
-        <text class="ss" x="257" y="221" text-anchor="middle" style="font-size:10px">filter logic</text>
-        <rect class="bx w rise r4" x="308" y="196" width="90" height="40" rx="4"/>
-        <text class="ss" x="353" y="221" text-anchor="middle" style="font-size:10px">empty case</text>
-        <rect class="bx w rise r5" x="404" y="196" width="90" height="40" rx="4"/>
-        <text class="ss" x="449" y="221" text-anchor="middle" style="font-size:10px">ordering</text>
-        <rect class="bx w rise r6" x="500" y="196" width="90" height="40" rx="4"/>
-        <text class="ss" x="545" y="221" text-anchor="middle" style="font-size:10px">error path</text>
-        <rect class="bx w rise r6" x="596" y="196" width="84" height="40" rx="4"/>
-        <text class="ss" x="638" y="221" text-anchor="middle" style="font-size:10px">regression</text>
-        <text class="ss" x="20" y="262">Each boundary is a place you can say <tspan font-weight="600" fill="#5fbf8f">yes</tspan> or <tspan font-weight="600" fill="#e2726e">no</tspan> before more work rests on it.</text>
-        <text class="ss" x="20" y="284">The wrong assumption surfaces at boundary two, not boundary three.</text>
-
-        <rect class="bx d" x="4" y="306" width="692" height="124" rx="8"/>
-        <text class="lb w" x="24" y="330">THE RULE</text>
-        <text class="ss w" x="24" y="356" style="font-size:14px">A task whose result you cannot check without doing the next task</text>
-        <text class="ss w" x="24" y="378" style="font-size:14px">is not a task &mdash; it is <tspan font-weight="700" fill="#e0b34d">half of one.</tspan></text>
-        <text class="ss w" x="24" y="406" style="font-size:13.5px;fill:#6ea8fe">Task size is really the size of the mistake you are willing to find late.</text>
-      </svg>
-    </div>
+<section class="slide" data-sec="4 &middot; Challenging the plan" data-title="Challenge it before any code exists" data-notes="The cheapest quality intervention in the entire course, and it takes four minutes. The framing that makes it land: at this point the plan is a page of text, so a wrong direction costs a rewrite of a page. After implementation the same wrongness costs a change set, its tests, and a review. Four questions on the right and the fourth is the one people skip - what would have to be true for this to be the wrong approach. That question is doing pre-mortem work: it forces an explicit statement of the conditions under which you would regret this, and if you cannot name any, you have not understood the problem yet. Then the who-challenges-it point: yesterday's design agent is the natural challenger because it is already blind to the implementation, and there is no implementation yet, so its independence is free here rather than expensive." data-tier="K">
+  <h2>Challenge the plan &mdash; four minutes, before any code<span class="tag k">4</span></h2>
+  <div class="body g46">
     <div class="pts">
-      <h3>Why this connects to delegation</h3>
+      <h3>Why now</h3>
       <ul>
-        <li>Module 1's gate 3 asked whether success could be checked <em>without reading all of it</em>. Small checkable tasks are how that becomes true.</li>
-        <li>A long unattended run is safe when it can be <b>stopped at a boundary</b> rather than unwound from the end.</li>
+        <li>The plan is one page of text. Fixing it is <b>cheap</b>.</li>
+        <li>After coding, the same mistake costs the code, the tests and the review.</li>
       </ul>
-      <h3>What this is not</h3>
+      <h3>Who challenges it</h3>
       <ul>
-        <li>Not estimation. Not story points. The question is <b>&ldquo;can I check this on its own?&rdquo;</b>, not &ldquo;how long will it take?&rdquo;</li>
-        <li>Two tasks of equal effort can differ completely in checkability &mdash; and that is the property that matters here.</li>
+        <li>The <b>design agent</b> (Module 4). It never sees the code &mdash; and there is none yet.</li>
+        <li>Or a colleague, for four minutes.</li>
       </ul>
-      <div class="take"><b>The tell:</b> if your plan's tasks each end with &ldquo;&hellip;then continue&rdquo;, you have written a narrative, not a breakdown.</div>
+      <div class="callout"><b>Do it even when the plan looks obvious.</b> On an unclear ticket, an obvious plan is how a confidently wrong refactor starts.</div>
+    </div>
+    <div>
+      <svg viewBox="0 0 700 430" role="img" aria-label="Four questions to ask of a plan before any code is written">
+        <text class="lb a" x="4" y="13">FOUR QUESTIONS &mdash; ASK THEM OF THE PLAN, NOT THE PERSON</text>
+        <rect class="bx a" x="4" y="22" width="692" height="270" rx="8"/>
+        <rect class="bx w rise" x="20" y="40" width="660" height="56" rx="6"/>
+        <text class="tt" x="36" y="62" style="font-size:13.5px">1 &middot; Which acceptance criterion does each step serve?</text>
+        <text class="ss" x="36" y="84">A step with none is extra scope. A criterion with none is a gap.</text>
+        <rect class="bx w rise r2" x="20" y="103" width="660" height="56" rx="6"/>
+        <text class="tt" x="36" y="125" style="font-size:13.5px">2 &middot; What does this conflict with?</text>
+        <text class="ss" x="36" y="147">Name the ADR, convention or behaviour. &ldquo;Nothing&rdquo; needs proof.</text>
+        <rect class="bx w rise r3" x="20" y="166" width="660" height="56" rx="6"/>
+        <text class="tt" x="36" y="188" style="font-size:13.5px">3 &middot; What is the smallest change that meets the spec?</text>
+        <text class="ss" x="36" y="210">Anything bigger is a choice someone should see.</text>
+        <rect class="bx r rise r4" x="20" y="229" width="660" height="56" rx="6"/>
+        <text class="tt" x="36" y="251" style="font-size:13.5px">4 &middot; What would make this the wrong approach?</text>
+        <text class="ss" x="36" y="273" style="fill:#e2726e;font-weight:600">Most people skip this. No answer means you do not understand it yet.</text>
+        <rect class="bx d" x="4" y="304" width="692" height="126" rx="8"/>
+        <text class="lb w" x="24" y="328">WHY QUESTION 4 MATTERS</text>
+        <text class="ss w" x="24" y="356" style="font-size:14px">It is a <tspan font-weight="700" fill="#e0b34d">pre-mortem</tspan>: imagine the plan has failed, and ask why.</text>
+        <text class="ss w" x="24" y="382" style="font-size:14px">Each answer is either checkable now,</text>
+        <text class="ss w" x="24" y="406" style="font-size:14px">or a new assumption to write down.</text>
+      </svg>
     </div>
   </div>
 </section>
+
 <!-- 14 -->
-<section class="slide" data-sec="5 &middot; Spec drift" data-title="Keeping spec, tests and code in lockstep" data-notes="Drift is where every specification practice dies, and it dies quietly. The mechanism is on the left and it is worth being precise about: nobody edits the spec to be wrong. The code changes, the spec stays, and the gap opens. Within a quarter the spec describes a system that no longer exists, at which point people stop reading it, at which point it is worse than nothing because it is actively misleading the agents that DO read it. The parallel with Module 2's stale ADR is exact, and the fix is the same-PR rule, unchanged. The right-hand side is the part that makes it stick: three checks CI can actually run today. Say plainly that none of them verifies that the spec is CORRECT - they verify that it has been looked at, which is all a machine can do and considerably more than nothing." data-tier="R">
-  <h2>Drift &mdash; where every specification practice quietly dies<span class="tag k">5</span></h2>
-  <div class="body g55">
+<section class="slide" data-sec="4 &middot; Challenging the plan" data-title="Task size decides how often you can check" data-notes="Short slide, one idea, and it is a genuinely under-appreciated one. Breaking work into tasks is usually taught as a planning or estimation activity. It is not - it is a decision about how often you get to check. Each task boundary is a place where you can look at a result and say yes or no before more work is built on it. So the size of a task is really the size of the mistake you are willing to discover late. The rule on the right is the practical one: a task whose result you cannot check without doing the next task is not a task, it is half of one. Connect it forward to delegation from Module 1 - small checkable tasks are what make a long unattended run safe, because the run can be stopped at a boundary rather than unwound." data-tier="R">
+  <h2>Task size decides how often you can check<span class="tag k">4</span></h2>
+  <div class="body g64">
     <div>
-      <svg viewBox="0 0 700 430" role="img" aria-label="How spec drift happens and why it makes the spec worse than nothing">
-        <text class="lb r" x="4" y="13">NOBODY EDITS THE SPEC TO BE WRONG. IT HAPPENS ANYWAY</text>
-        <rect class="bx r" x="4" y="22" width="692" height="176" rx="8"/>
-        <rect class="bx w rise" x="20" y="40" width="660" height="34" rx="5"/>
-        <text class="ss" x="34" y="62"><tspan font-weight="700">Week 1</tspan> &nbsp;spec written, code matches it exactly</text>
-        <rect class="bx w rise r2" x="20" y="80" width="660" height="34" rx="5"/>
-        <text class="ss" x="34" y="102"><tspan font-weight="700">Week 3</tspan> &nbsp;a hotfix changes the empty-list behaviour. Spec untouched.</text>
-        <rect class="bx w rise r3" x="20" y="120" width="660" height="34" rx="5"/>
-        <text class="ss" x="34" y="142"><tspan font-weight="700">Week 9</tspan> &nbsp;two more changes. The gap is now three behaviours wide.</text>
-        <rect class="bx r rise r4" x="20" y="160" width="660" height="32" rx="5"/>
-        <text class="ss" x="34" y="181" style="fill:#e2726e;font-weight:600">Month 4 &nbsp;people stop reading it &mdash; correctly, because it is wrong</text>
+      <svg viewBox="0 0 700 430" role="img" aria-label="Task boundaries as places to check, and the cost of finding a mistake late">
+        <text class="lb r" x="4" y="13">THREE BIG TASKS &mdash; THREE CHECKS</text>
+        <rect class="bx r" x="4" y="22" width="692" height="112" rx="8"/>
+        <rect class="bx w" x="20" y="42" width="212" height="44" rx="5"/>
+        <text class="ss" x="126" y="69" text-anchor="middle" style="font-size:12px">build the endpoint</text>
+        <rect class="bx w" x="240" y="42" width="212" height="44" rx="5"/>
+        <text class="ss" x="346" y="69" text-anchor="middle" style="font-size:12px">connect the service</text>
+        <rect class="bx w" x="460" y="42" width="220" height="44" rx="5"/>
+        <text class="ss" x="570" y="69" text-anchor="middle" style="font-size:12px">add the tests</text>
+        <text class="ss" x="20" y="110">A wrong idea in task 1 is found while checking task 3.</text>
+        <text class="ss" x="20" y="128" style="fill:#e2726e;font-weight:600">By then, tasks 2 and 3 are built on it.</text>
 
-        <text class="lb r" x="4" y="232">AND NOW IT IS WORSE THAN HAVING NONE</text>
-        <rect class="bx d" x="4" y="242" width="692" height="82" rx="8"/>
-        <text class="ss w" x="24" y="270" style="font-size:14px">A stale spec is still read by the <tspan font-weight="700" fill="#e0b34d">test agent and the review agent</tspan>,</text>
-        <text class="ss w" x="24" y="292" style="font-size:14px">which check the code against a description of a system that no longer</text>
-        <text class="ss w" x="24" y="314" style="font-size:14px">exists &mdash; automatically, on every ticket, without a human opening it.</text>
+        <text class="lb g" x="4" y="166">SEVEN SMALL TASKS &mdash; SEVEN CHECKS</text>
+        <rect class="bx g" x="4" y="176" width="692" height="118" rx="8"/>
+        <rect class="bx w rise" x="20" y="196" width="90" height="40" rx="4"/>
+        <text class="ss" x="65" y="221" text-anchor="middle" style="font-size:10.5px">query param</text>
+        <rect class="bx w rise r2" x="116" y="196" width="90" height="40" rx="4"/>
+        <text class="ss" x="161" y="221" text-anchor="middle" style="font-size:10.5px">repo method</text>
+        <rect class="bx w rise r3" x="212" y="196" width="90" height="40" rx="4"/>
+        <text class="ss" x="257" y="221" text-anchor="middle" style="font-size:10.5px">filter logic</text>
+        <rect class="bx w rise r4" x="308" y="196" width="90" height="40" rx="4"/>
+        <text class="ss" x="353" y="221" text-anchor="middle" style="font-size:10.5px">empty case</text>
+        <rect class="bx w rise r5" x="404" y="196" width="90" height="40" rx="4"/>
+        <text class="ss" x="449" y="221" text-anchor="middle" style="font-size:10.5px">ordering</text>
+        <rect class="bx w rise r6" x="500" y="196" width="90" height="40" rx="4"/>
+        <text class="ss" x="545" y="221" text-anchor="middle" style="font-size:10.5px">error path</text>
+        <rect class="bx w rise r6" x="596" y="196" width="84" height="40" rx="4"/>
+        <text class="ss" x="638" y="221" text-anchor="middle" style="font-size:10.5px">regression</text>
+        <text class="ss" x="20" y="262">After each one you can say <tspan font-weight="600" fill="#5fbf8f">yes</tspan> or <tspan font-weight="600" fill="#e2726e">no</tspan> before building more.</text>
+        <text class="ss" x="20" y="284">A wrong idea shows up at step 2, not at the end.</text>
 
-        <text class="lb g" x="4" y="352">THE FIX IS MODULE 2&rsquo;S, WORD FOR WORD</text>
-        <rect class="bx g" x="4" y="362" width="692" height="68" rx="8"/>
-        <text class="tt" x="24" y="392" style="font-size:15px">The spec changes in the pull request that invalidates it.</text>
-        <text class="ss" x="24" y="416">Not a follow-up ticket. Not a documentation sprint. Not next quarter.</text>
+        <rect class="bx d" x="4" y="306" width="692" height="124" rx="8"/>
+        <text class="lb w" x="24" y="330">THE RULE</text>
+        <text class="ss w" x="24" y="358" style="font-size:14px">If you cannot check a task without doing the next one,</text>
+        <text class="ss w" x="24" y="382" style="font-size:14px">it is only <tspan font-weight="700" fill="#e0b34d">half a task.</tspan></text>
+        <text class="ss w" x="24" y="410" style="font-size:13.5px;fill:#6ea8fe">Task size = the size of mistake you accept finding late.</text>
       </svg>
     </div>
     <div class="pts">
-      <h3>Three drift checks CI can run today</h3>
+      <h3>Why it matters</h3>
       <ul>
-        <li><b>1 &middot; A changed behaviour with an unchanged spec.</b> If the diff touches a file the spec names and the spec is untouched, ask for a sentence in the PR. Not a block &mdash; a question.</li>
-        <li><b>2 &middot; Every criterion has a test that references it.</b> Number the criteria, tag the tests, and a missing number is a failing build.</li>
-        <li><b>3 &middot; The spec's named files still exist.</b> Catches the spec that survived a refactor &mdash; the cheapest check and the most frequently triggered.</li>
+        <li>Module 1&rsquo;s gate 3 asked: can you check the result without reading all of it? <b>Small tasks</b> make that possible.</li>
+        <li>A long agent run can then <b>stop at a step</b>, instead of being undone.</li>
       </ul>
-      <div class="callout bad"><b>None of these verifies the spec is <em>correct</em>.</b> They verify it has been <em>looked at</em> &mdash; which is all a machine can do, and considerably more than nothing.</div>
-      <div class="take"><b>Where the spec lives matters:</b> in the repository, next to the code, in the same pull request. A spec in a wiki drifts because updating it is a second, separate act &mdash; and second acts do not happen.</div>
+      <h3>It is not estimation</h3>
+      <ul>
+        <li>Ask &ldquo;can I check this alone?&rdquo;, not &ldquo;how long will it take?&rdquo;</li>
+      </ul>
+      <div class="take"><b>Warning sign:</b> every task ends with &ldquo;&hellip;then continue&rdquo;.</div>
     </div>
   </div>
 </section>
 
 <!-- 15 -->
-<section class="slide" data-sec="5 &middot; Spec drift" data-title="Detecting drift at pull-request time" data-notes="Concrete mechanics for the drift checks, because a senior room will otherwise treat the previous slide as aspiration. The criterion-tagging convention on the left is the highest-value one and it is genuinely cheap - a comment or an annotation naming the criterion number, and a script that fails the build when a numbered criterion has no test referencing it. That single check makes the test report from Module 4 mechanically verifiable rather than a claim. On the right, the pull request template is the social half, and it is what actually changes behaviour: three lines that a reviewer sees on every PR, one of which asks whether the spec still describes what the code does. Note the honest limitation at the bottom - all of this catches omission, none of it catches a spec that was wrong from the start, and that is what the gates on slide 5 are for." data-tier="R">
-  <h2>Making the checks real &mdash; two mechanics<span class="tag k">5</span></h2>
+<section class="slide" data-sec="5 &middot; Spec drift" data-title="Keeping spec, tests and code together" data-notes="Drift is where every specification practice dies, and it dies quietly. The mechanism is on the left and it is worth being precise about: nobody edits the spec to be wrong. The code changes, the spec stays, and the gap opens. Within a quarter the spec describes a system that no longer exists, at which point people stop reading it, at which point it is worse than nothing because it is actively misleading the agents that DO read it. The parallel with Module 2's stale ADR is exact, and the fix is the same-PR rule, unchanged. The right-hand side is the part that makes it stick: three checks CI can actually run today. Say plainly that none of them verifies that the spec is CORRECT - they verify that it has been looked at, which is all a machine can do and considerably more than nothing." data-tier="R">
+  <h2>Spec drift &mdash; how a spec quietly goes out of date<span class="tag k">5</span></h2>
   <div class="body g55">
     <div>
-      <div class="callout" style="margin-top:0"><b>1 &middot; Tag tests with the criterion they prove</b></div>
+      <svg viewBox="0 0 700 430" role="img" aria-label="How spec drift happens and why a stale spec is worse than none">
+        <text class="lb r" x="4" y="13">NOBODY MAKES THE SPEC WRONG ON PURPOSE</text>
+        <rect class="bx r" x="4" y="22" width="692" height="176" rx="8"/>
+        <rect class="bx w rise" x="20" y="40" width="660" height="34" rx="5"/>
+        <text class="ss" x="34" y="62"><tspan font-weight="700">Week 1</tspan> &nbsp;spec written; the code matches it</text>
+        <rect class="bx w rise r2" x="20" y="80" width="660" height="34" rx="5"/>
+        <text class="ss" x="34" y="102"><tspan font-weight="700">Week 3</tspan> &nbsp;a hotfix changes the empty-list case. Spec not updated.</text>
+        <rect class="bx w rise r3" x="20" y="120" width="660" height="34" rx="5"/>
+        <text class="ss" x="34" y="142"><tspan font-weight="700">Week 9</tspan> &nbsp;two more changes. Three behaviours now differ.</text>
+        <rect class="bx r rise r4" x="20" y="160" width="660" height="32" rx="5"/>
+        <text class="ss" x="34" y="181" style="fill:#e2726e;font-weight:600">Month 4 &nbsp;people stop reading it &mdash; rightly, because it is wrong</text>
+
+        <text class="lb r" x="4" y="232">THEN IT IS WORSE THAN NO SPEC</text>
+        <rect class="bx d" x="4" y="242" width="692" height="82" rx="8"/>
+        <text class="ss w" x="24" y="272" style="font-size:14px">The <tspan font-weight="700" fill="#e0b34d">test and review agents</tspan> still read it.</text>
+        <text class="ss w" x="24" y="298" style="font-size:14px">They check the code against a system that no longer exists.</text>
+
+        <text class="lb g" x="4" y="352">THE FIX &mdash; THE SAME-PR RULE FROM MODULE 2</text>
+        <rect class="bx g" x="4" y="362" width="692" height="68" rx="8"/>
+        <text class="tt" x="24" y="392" style="font-size:15px">Update the spec in the pull request that changes the behaviour.</text>
+        <text class="ss" x="24" y="416">Not in a follow-up ticket. Not later.</text>
+      </svg>
+    </div>
+    <div class="pts">
+      <h3>Three checks CI can run today</h3>
+      <ul>
+        <li><b>1 &middot;</b> The diff changes a file the spec names, but not the spec &rarr; ask for a note in the PR.</li>
+        <li><b>2 &middot;</b> Every numbered criterion has a test that mentions it &rarr; otherwise the build fails.</li>
+        <li><b>3 &middot;</b> Every file the spec names still exists.</li>
+      </ul>
+      <div class="callout bad">These checks show the spec was <b>looked at</b>. They cannot show it is <b>correct</b>.</div>
+      <div class="take"><b>Keep the spec in the repo</b>, next to the code. A spec in a wiki needs a second, separate update &mdash; and that update rarely happens.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 16 -->
+<section class="slide" data-sec="5 &middot; Spec drift" data-title="Catching drift at pull-request time" data-notes="Concrete mechanics for the drift checks, because a senior room will otherwise treat the previous slide as aspiration. The criterion-tagging convention on the left is the highest-value one and it is genuinely cheap - a comment or an annotation naming the criterion number, and a script that fails the build when a numbered criterion has no test referencing it. That single check makes the test report from Module 4 mechanically verifiable rather than a claim. On the right, the pull request template is the social half, and it is what actually changes behaviour: three lines that a reviewer sees on every PR, one of which asks whether the spec still describes what the code does. Note the honest limitation at the bottom - all of this catches omission, none of it catches a spec that was wrong from the start, and that is what the human gates in section 2 are for." data-tier="R">
+  <h2>Two ways to catch drift in a pull request<span class="tag k">5</span></h2>
+  <div class="body g55">
+    <div>
+      <div class="callout" style="margin-top:0"><b>1 &middot; Tag each test with the criterion it proves</b></div>
 <div class="file"><span class="fn">PostingReportTest.java</span><span class="c">/** Spec GB-147 AC2: a date with no postings</span>
 <span class="c">    returns an empty list and 200. */</span>
 <span class="k">@Test</span>
@@ -746,9 +739,8 @@ grep -ro 'AC[0-9]*' src/test | sort -u &gt; have
 <span class="k">comm</span> -23 wanted have | <span class="k">grep</span> . &amp;&amp; exit 1
 </div>
       <div class="pts" style="margin-top:11px">
-        <h3>What this buys</h3>
         <ul>
-          <li>The Module 4 <b>test report becomes mechanically verifiable</b> &mdash; &ldquo;covered&rdquo; is now a fact the build checks, not a claim the agent makes.</li>
+          <li>&ldquo;Covered&rdquo; in the test report becomes <b>a fact the build checks</b>.</li>
         </ul>
       </div>
     </div>
@@ -764,47 +756,46 @@ Link: <span class="c">&lt;path to spec.md&gt;</span>
       in this diff is outside it.
 </div>
       <div class="pts" style="margin-top:11px">
-        <h3>Why the template is the half that works</h3>
         <ul>
-          <li>The CI check catches <b>omission</b>. The template catches <b>judgement</b> &mdash; and it costs a reviewer one sentence.</li>
-          <li>It is the same intervention Module 2 recommended for knowledge: <em>&ldquo;does this change make anything in <code>docs/</code> wrong?&rdquo;</em></li>
+          <li>CI catches a <b>missing test</b>. The template makes a <b>person think</b> &mdash; one sentence per PR.</li>
+          <li>Same idea as Module 2: <em>&ldquo;does this change make anything in <code>docs/</code> wrong?&rdquo;</em></li>
         </ul>
       </div>
-      <div class="callout bad"><b>The honest limit:</b> all of this catches drift. None of it catches a spec that was <em>wrong on day one</em> &mdash; that is what the gates are for, and no automation replaces them.</div>
+      <div class="callout bad"><b>The limit:</b> this catches drift. It cannot catch a spec that was wrong from day one. The human checks are for that.</div>
     </div>
   </div>
 </section>
-<!-- 16 -->
+
+<!-- 17 -->
 <section class="slide" data-sec="6 &middot; When it is overkill" data-title="When not to do this" data-notes="This slide is what stops the module being abandoned in three weeks, so give it real time. A room that leaves believing every ticket needs a five-stage chain will apply it to a dependency bump on Monday, find it absurd, and conclude the whole method is process theatre. The three tests on the left decide it and they are the Module 1 gates again, one level up. On the right is the lighter mechanic, and it is genuinely lighter - three lines at the top of the ticket, thirty seconds, and it captures the eighty percent that matters: what done means, what is out, what you assumed. Say the number honestly - most tickets on most boards want the three-line version, and the full chain is for the minority that are ambiguous, expensive to get wrong, or touch more than one repository. Getting that proportion right is the difference between a practice that survives and one that gets quietly dropped." data-tier="K">
-  <h2>When this is overkill &mdash; and the thirty-second version<span class="tag k">6</span></h2>
+  <h2>When a spec is too much &mdash; and the thirty-second version<span class="tag k">6</span></h2>
   <div class="body g55">
     <div>
-      <svg viewBox="0 0 700 430" role="img" aria-label="Three tests for whether a ticket needs the full chain">
-        <text class="lb" x="4" y="13">THREE TESTS &mdash; ANY ONE OF THEM IS ENOUGH</text>
+      <svg viewBox="0 0 700 430" role="img" aria-label="Three tests for whether a ticket needs a full spec">
+        <text class="lb" x="4" y="13">THREE TESTS &mdash; ANY ONE &ldquo;YES&rdquo; MEANS WRITE A SPEC</text>
         <rect class="bx" x="4" y="22" width="692" height="196" rx="8"/>
         <rect class="bx w rise" x="20" y="40" width="660" height="52" rx="6"/>
-        <text class="tt" x="36" y="62" style="font-size:13px">Is more than one reading of &ldquo;done&rdquo; defensible?</text>
-        <text class="ss" x="36" y="82">Gate 1 from Module 1. It is still the one that fails most often.</text>
+        <text class="tt" x="36" y="62" style="font-size:13.5px">Could &ldquo;done&rdquo; mean more than one thing?</text>
+        <text class="ss" x="36" y="82">Gate 1 from Module 1 &mdash; still the one that fails most.</text>
         <rect class="bx w rise r2" x="20" y="100" width="660" height="52" rx="6"/>
-        <text class="tt" x="36" y="122" style="font-size:13px">Is the cost of being wrong high?</text>
-        <text class="ss" x="36" y="142">Client money, irreversible, regulated, or read by someone outside the team.</text>
+        <text class="tt" x="36" y="122" style="font-size:13.5px">Is being wrong expensive?</text>
+        <text class="ss" x="36" y="142">Client money, cannot be undone, regulated, or seen outside the team.</text>
         <rect class="bx w rise r3" x="20" y="160" width="660" height="50" rx="6"/>
-        <text class="tt" x="36" y="182" style="font-size:13px">Will more than one person or repository touch it?</text>
-        <text class="ss" x="36" y="202">Then the spec is the coordination artifact, and there is no substitute.</text>
+        <text class="tt" x="36" y="182" style="font-size:13.5px">Will more than one person or repo touch it?</text>
+        <text class="ss" x="36" y="202">Then the spec is how they coordinate.</text>
 
-        <text class="lb g" x="4" y="250">NONE OF THE THREE &rarr; DO NOT WRITE A SPEC</text>
+        <text class="lb g" x="4" y="250">ALL THREE &ldquo;NO&rdquo; &rarr; NO SPEC</text>
         <rect class="bx g" x="4" y="260" width="692" height="106" rx="8"/>
-        <text class="ss" x="24" y="288">Dependency bumps &middot; renames &middot; format and lint conformance &middot; adding a log line</text>
-        <text class="ss" x="24" y="310">A one-line fix whose correctness the compiler or an existing test settles</text>
-        <text class="ss" x="24" y="338" style="fill:#5fbf8f;font-weight:600">On these, the full chain costs more than the mistake it prevents &mdash;</text>
-        <text class="ss" x="24" y="358" style="fill:#5fbf8f;font-weight:600">and doing it anyway is how the practice gets abandoned.</text>
+        <text class="ss" x="24" y="288">Dependency bumps &middot; renames &middot; lint fixes &middot; adding a log line</text>
+        <text class="ss" x="24" y="310">A one-line fix that the compiler or an existing test checks</text>
+        <text class="ss" x="24" y="344" style="fill:#5fbf8f;font-weight:600">Here, the full process costs more than the mistake it prevents.</text>
 
         <rect class="bx d" x="4" y="378" width="692" height="52" rx="8"/>
-        <text class="ss w" x="24" y="410" style="font-size:14px">Most tickets on most boards want the <tspan font-weight="700" fill="#e0b34d">thirty-second version</tspan>, not the chain.</text>
+        <text class="ss w" x="24" y="410" style="font-size:14px">Most tickets need only the <tspan font-weight="700" fill="#e0b34d">thirty-second version</tspan>.</text>
       </svg>
     </div>
     <div>
-      <div class="callout good" style="margin-top:0"><b>The lighter mechanic &mdash; three lines at the top of the ticket</b></div>
+      <div class="callout good" style="margin-top:0"><b>The thirty-second version &mdash; three lines at the top of the ticket</b></div>
 <div class="file"><span class="fn">THE THIRTY-SECOND SPEC</span><span class="k">Done when:</span>
   a request for a date returns that date's
   postings, newest first; an empty date
@@ -817,350 +808,349 @@ Link: <span class="c">&lt;path to spec.md&gt;</span>
   calendar date, not business date.
 </div>
       <div class="pts" style="margin-top:12px">
-        <h3>Why this captures most of the value</h3>
+        <h3>Why it is enough</h3>
         <ul>
-          <li>It is the <b>three sections that do the work</b> &mdash; verifiable criteria, out of scope, stated assumptions. Everything else in the chain is scaffolding around these.</li>
-          <li>It fits in the ticket, so there is no second artifact to drift.</li>
-          <li>And it still gives the test agent something to work from, and the reviewer something to check against.</li>
+          <li>It has the <b>three parts that matter</b>: criteria, out of scope, assumptions.</li>
+          <li>It lives in the ticket, so there is no second file to drift.</li>
         </ul>
       </div>
-      <div class="take"><b>Getting the proportion right is the whole game.</b> A team that writes a full spec for everything abandons the practice within a month; a team that writes three lines for everything and a full chain for the ambiguous minority keeps it for years.</div>
+      <div class="take"><b>Three lines for most tickets.</b> The full process only for the unclear or risky few.</div>
     </div>
   </div>
 </section>
 
-<!-- 17 -->
-<section class="slide" data-sec="6 &middot; When it is overkill" data-title="The failure this prevents, priced" data-notes="Close the section with the economics, because this room responds to numbers rather than to principle. Walk the comparison honestly: the spec costs fifteen minutes on a ticket like GB-147, and what it prevents is a change set built on three invented decisions, discovered at review or later. Be careful not to oversell - most of the time the invented decision happens to be right, and that is precisely why the practice erodes, because the failure is intermittent. That is the honest framing for a senior audience: you are buying out a tail risk, not a certainty, and the argument for it is the same argument as for tests. Then land the connection to the tally sheet - a spec makes gate 1 passable, which converts an interactive ticket into a delegable one, and that shows up as a real number tomorrow." data-tier="R">
-  <h2>What fifteen minutes buys &mdash; priced honestly<span class="tag k">6</span></h2>
+<!-- 18 -->
+<section class="slide" data-sec="6 &middot; When it is overkill" data-title="What fifteen minutes buys" data-notes="Close the section with the economics, because this room responds to numbers rather than to principle. Walk the comparison honestly: the spec costs fifteen minutes on a ticket like GB-147, and what it prevents is a change set built on three invented decisions, discovered at review or later. Be careful not to oversell - most of the time the invented decision happens to be right, and that is precisely why the practice erodes, because the failure is intermittent. That is the honest framing for a senior audience: you are buying out a tail risk, not a certainty, and the argument for it is the same argument as for tests. Then land the connection to the tally sheet - a spec makes gate 1 passable, which converts an interactive ticket into a delegable one, and that shows up as a real number in the capstone." data-tier="R">
+  <h2>What fifteen minutes buys &mdash; honestly<span class="tag k">6</span></h2>
   <div class="body g1">
     <div>
       <svg viewBox="0 0 1180 452" role="img" aria-label="The cost of writing a spec against the cost of the failure it prevents">
         <rect class="bx g grow" x="4" y="4" width="580" height="180" rx="8"/>
         <text class="lb g" x="24" y="28">WHAT IT COSTS</text>
         <text class="tt" x="24" y="58" style="font-size:16px">Fifteen minutes on a ticket like GB-147</text>
-        <text class="ss" x="24" y="86">Plus one conversation with whoever can answer the open questions &mdash;</text>
-        <text class="ss" x="24" y="106">a conversation you were going to have anyway, later, more expensively.</text>
-        <text class="ss" x="24" y="134">Plus four minutes challenging the plan.</text>
-        <text class="ss" x="24" y="162" style="fill:#5fbf8f;font-weight:600">On a small ticket: thirty seconds, three lines, no conversation.</text>
+        <text class="ss" x="24" y="88" style="font-size:14px">Plus one talk with the person who can answer the questions.</text>
+        <text class="ss" x="24" y="110" style="font-size:14px">You would have that talk anyway &mdash; later, at higher cost.</text>
+        <text class="ss" x="24" y="136" style="font-size:14px">Plus four minutes challenging the plan.</text>
+        <text class="ss" x="24" y="166" style="fill:#5fbf8f;font-weight:600;font-size:14px">Small ticket: thirty seconds, three lines.</text>
 
         <rect class="bx r grow w2" x="596" y="4" width="580" height="180" rx="8"/>
         <text class="lb r" x="616" y="28">WHAT IT PREVENTS</text>
-        <text class="tt" x="616" y="58" style="font-size:16px">A change set built on invented decisions</text>
-        <text class="ss" x="616" y="86">Three of them on GB-147: the date semantics, whether reversed postings</text>
-        <text class="ss" x="616" y="106">count, and what ops actually needed to see.</text>
-        <text class="ss" x="616" y="134">Discovered at review if you are lucky. In March if you are not.</text>
-        <text class="ss" x="616" y="162" style="fill:#e2726e;font-weight:600">And each rediscovery costs more than the spec would have.</text>
+        <text class="tt" x="616" y="58" style="font-size:16px">Code built on guesses</text>
+        <text class="ss" x="616" y="88" style="font-size:14px">On GB-147, three guesses: the date meaning, whether</text>
+        <text class="ss" x="616" y="110" style="font-size:14px">reversed postings count, and which fields ops need.</text>
+        <text class="ss" x="616" y="136" style="font-size:14px">Found in review if you are lucky. In production if not.</text>
+        <text class="ss" x="616" y="166" style="fill:#e2726e;font-weight:600;font-size:14px">Each late fix costs more than the spec.</text>
 
-        <text class="lb a" x="4" y="216">THE HONEST PART &mdash; SAY THIS, OR AN EXPERIENCED ROOM WILL SAY IT FOR YOU</text>
+        <text class="lb a" x="4" y="216">BE HONEST ABOUT THIS</text>
         <rect class="bx a" x="4" y="226" width="1172" height="112" rx="8"/>
-        <text class="tt" x="24" y="256" style="font-size:15px">Most of the time, the invented decision happens to be right.</text>
-        <text class="ss" x="24" y="284">That is exactly why this practice erodes: the failure is <tspan font-weight="600" fill="#d98a3d">intermittent</tspan>, so skipping the spec is</text>
-        <text class="ss" x="24" y="306">rewarded four times out of five, and the fifth time is attributed to the ticket being hard.</text>
-        <text class="ss" x="24" y="330">You are buying out a <tspan font-weight="600">tail risk</tspan>, not a certainty &mdash; which is exactly the argument for writing tests at all.</text>
+        <text class="tt" x="24" y="256" style="font-size:15px">Most of the time, the agent&rsquo;s guess happens to be right.</text>
+        <text class="ss" x="24" y="284" style="font-size:14px">So skipping the spec usually seems fine &mdash; until the one time it is not.</text>
+        <text class="ss" x="24" y="310" style="font-size:14px">It is like writing tests: you pay a little, every time, to avoid a <tspan font-weight="600" fill="#d98a3d">rare, costly failure</tspan>.</text>
 
         <rect class="bx d" x="4" y="348" width="1172" height="100" rx="8"/>
-        <text class="lb w" x="24" y="374">AND THE PART THAT SHOWS UP ON THE BOARD TOMORROW</text>
-        <text class="ss w" x="24" y="402" style="font-size:14px">A spec makes <tspan font-weight="700" fill="#e0b34d">gate 1 passable</tspan> &mdash; and gate 1 is what sent tickets to interactive on Day 1.</text>
-        <text class="ss w" x="24" y="426" style="font-size:14px">A ticket that had to be supervised yesterday becomes safely delegable today. That is a measurable change,</text>
-        <text class="ss w" x="24" y="444" style="font-size:14px">and the capstone measures it.</text>
+        <text class="lb w" x="24" y="374">WHAT THE CAPSTONE MEASURES</text>
+        <text class="ss w" x="24" y="402" style="font-size:14px">A spec lets a ticket pass <tspan font-weight="700" fill="#e0b34d">gate 1</tspan> &mdash; the gate that kept tickets interactive on Day 1.</text>
+        <text class="ss w" x="24" y="428" style="font-size:14px">A ticket that needed close supervision can now be handed to the agent.</text>
       </svg>
     </div>
   </div>
 </section>
 
-<!-- 18 -->
-<section class="slide" data-sec="Close" data-title="What Module 5 hands forward" data-notes="Close the module and set up Module 6. The four obligations on the left are the module in one screen. The transition is the important part: you now have a specification worth executing, and it is sitting in a file on your laptop, written from a ticket somebody pasted into a chat window. Module 6 connects the front of the pipeline to where tickets actually live, so the criteria arrive from JIRA rather than by copy and paste, and the questions you raised at the spec gate go back to the ticket where the person who can answer them will see them. That is the honest framing - the specification does not become better by being connected, it becomes real work rather than a private document." data-tier="R">
-  <h2>What Module 5 hands forward<span class="tag">M5</span></h2>
+<!-- 19 -->
+<section class="slide" data-sec="Close" data-title="What to take into Module 6" data-notes="Close the module and set up Module 6. The four obligations on the left are the module in one screen. The transition is the important part: you now have a specification worth executing, and it is sitting in a file on your laptop, written from a ticket somebody pasted into a chat window. Module 6 connects the front of the pipeline to where tickets actually live, so the criteria arrive from JIRA rather than by copy and paste, and the questions you raised at the spec gate go back to the ticket where the person who can answer them will see them. That is the honest framing - the specification does not become better by being connected, it becomes real work rather than a private document." data-tier="R">
+  <h2>What to take into Module 6<span class="tag">M5</span></h2>
   <div class="body g46">
     <div class="pts">
-      <h3>What you now owe, per ticket</h3>
+      <h3>For each ticket</h3>
       <ul>
-        <li><b>Decide whether this ticket needs a spec at all.</b> Three tests, and most tickets fail all three &mdash; those get three lines.</li>
-        <li><b>Write criteria a test can check.</b> Numbered, one behaviour each, naming an input and an observable outcome.</li>
-        <li><b>State what is out, and what you assumed.</b> An unconfirmed assumption on a material point blocks the gate.</li>
-        <li><b>Challenge the plan before code exists.</b> Four minutes, and question four is the one that finds things.</li>
+        <li>Decide if it needs a spec. <b>Most get three lines.</b></li>
+        <li>Write criteria <b>a test can check</b>. Number them.</li>
+        <li>List what is <b>out of scope</b>, and what you <b>assumed</b>.</li>
+        <li><b>Challenge the plan</b> before any code.</li>
       </ul>
-      <div class="callout">The spec is <em>where</em> yesterday's four agents get their source of truth. Without it they check confidently against nothing.</div>
-      <div class="take"><b>Into Module 6:</b> your spec is a file on your laptop, written from a ticket somebody pasted into a chat. The criteria live in JIRA, and the questions you raised belong back on the ticket &mdash; where the person who can answer them will see them.</div>
+      <div class="callout">The spec is where the four agents get their facts. Without it, they check against nothing.</div>
+      <div class="take"><b>Next, Module 6:</b> your spec is still a file on your laptop. The ticket, and its open questions, belong in JIRA.</div>
     </div>
     <div>
-      <svg viewBox="0 0 700 430" role="img" aria-label="The pipeline so far and the disconnection Module 6 closes">
-        <text class="lb g" x="4" y="13">WHAT YOU NOW HAVE &mdash; AND IT IS COMPLETE, INSIDE THE EDITOR</text>
+      <svg viewBox="0 0 700 430" role="img" aria-label="What the pipeline has now, and where it is still disconnected">
+        <text class="lb g" x="4" y="13">WHAT YOU HAVE NOW &mdash; INSIDE THE EDITOR</text>
         <rect class="bx g" x="4" y="22" width="692" height="162" rx="8"/>
         <rect class="bx w rise" x="20" y="40" width="660" height="30" rx="5"/>
-        <text class="ss" x="34" y="60"><tspan font-weight="700">M2</tspan> &nbsp;the repository answers what is true</text>
+        <text class="ss" x="34" y="60"><tspan font-weight="700">M2</tspan> &nbsp;the repo knows what is true</text>
         <rect class="bx w rise r2" x="20" y="76" width="660" height="30" rx="5"/>
-        <text class="ss" x="34" y="96"><tspan font-weight="700">M3</tspan> &nbsp;the request is precise, and provably better</text>
+        <text class="ss" x="34" y="96"><tspan font-weight="700">M3</tspan> &nbsp;the request is clear, and measured</text>
         <rect class="bx w rise r3" x="20" y="112" width="660" height="30" rx="5"/>
-        <text class="ss" x="34" y="132"><tspan font-weight="700">M4</tspan> &nbsp;four agents, five artifacts, independence protected</text>
+        <text class="ss" x="34" y="132"><tspan font-weight="700">M4</tspan> &nbsp;four agents, and no agent reviews its own work</text>
         <rect class="bx g rise r4" x="20" y="148" width="660" height="30" rx="5"/>
-        <text class="ss" x="34" y="168" style="fill:#5fbf8f"><tspan font-weight="700">M5</tspan> &nbsp;and now a specification worth executing</text>
+        <text class="ss" x="34" y="168" style="fill:#5fbf8f"><tspan font-weight="700">M5</tspan> &nbsp;a spec worth following</text>
 
-        <text class="lb r" x="4" y="212">WHERE IT IS DISCONNECTED</text>
+        <text class="lb r" x="4" y="212">STILL DISCONNECTED</text>
         <rect class="bx r" x="4" y="222" width="692" height="136" rx="8"/>
         <rect class="bx w" x="20" y="238" width="200" height="52" rx="6"/>
-        <text class="ss" x="120" y="260" text-anchor="middle" style="font-size:11.5px">the ticket</text>
-        <text class="ss" x="120" y="278" text-anchor="middle" style="font-size:11px;fill:#e2726e">pasted in by hand</text>
+        <text class="ss" x="120" y="260" text-anchor="middle" style="font-size:12px">the ticket</text>
+        <text class="ss" x="120" y="278" text-anchor="middle" style="font-size:11.5px;fill:#e2726e">pasted in by hand</text>
         <path class="arr dash" d="M224 264 L262 264"/>
         <rect class="bx w" x="266" y="238" width="200" height="52" rx="6"/>
-        <text class="ss" x="366" y="260" text-anchor="middle" style="font-size:11.5px">spec.md</text>
-        <text class="ss" x="366" y="278" text-anchor="middle" style="font-size:11px;fill:#e2726e">on your laptop</text>
+        <text class="ss" x="366" y="260" text-anchor="middle" style="font-size:12px">spec.md</text>
+        <text class="ss" x="366" y="278" text-anchor="middle" style="font-size:11.5px;fill:#e2726e">on your laptop</text>
         <path class="arr dash" d="M470 264 L508 264"/>
         <rect class="bx w" x="512" y="238" width="168" height="52" rx="6"/>
-        <text class="ss" x="596" y="260" text-anchor="middle" style="font-size:11.5px">open questions</text>
-        <text class="ss" x="596" y="278" text-anchor="middle" style="font-size:11px;fill:#e2726e">in a file nobody reads</text>
-        <text class="ss" x="20" y="312">The three people who could answer those questions are not looking at your</text>
-        <text class="ss" x="20" y="332">laptop. They are looking at the ticket &mdash; which is where the answers belong.</text>
+        <text class="ss" x="596" y="260" text-anchor="middle" style="font-size:12px">open questions</text>
+        <text class="ss" x="596" y="278" text-anchor="middle" style="font-size:11.5px;fill:#e2726e">in a file nobody reads</text>
+        <text class="ss" x="20" y="316">The people who can answer are looking at the ticket,</text>
+        <text class="ss" x="20" y="338">not at your laptop.</text>
 
         <rect class="bx d" x="4" y="370" width="692" height="60" rx="8"/>
-        <text class="ss w" x="24" y="398" style="font-size:14px">Module 6 &mdash; the ticket as the unit of work, pulled and</text>
-        <text class="ss w" x="24" y="420" style="font-size:14px">written back over <tspan font-weight="700" fill="#e0b34d">MCP</tspan>. The spec stops being a private document.</text>
-      </svg>
-    </div>
-  </div>
-</section>
-<!-- 19 -->
-<section class="slide" data-sec="Review quiz" data-title="Review quiz - eight questions" data-notes="First quiz of Day 2. Questions 3, 6 and 8 carry the most - 3 because verifiability is the practical skill, 6 because the overkill question is what determines whether any of this survives, and 8 because it sets up MCP. If short, run 3, 5, 6 and 8." data-tier="R">
-  <h2>Review quiz &mdash; eight questions<span class="tag q">QUIZ</span></h2>
-  <div class="body g55">
-    <div class="pts">
-      <h3>How this runs</h3>
-      <ul>
-        <li>Four options, one right. <b>Show of hands on each</b> before the answer &mdash; the split is the useful part.</li>
-        <li>Every question comes from something you will do in Labs 2.1 and 2.2.</li>
-      </ul>
-      <h3>If time is short</h3>
-      <ul>
-        <li>Run <b>3, 5, 6 and 8</b>. Verifiability, drift, when to skip it, and the hand-over to MCP.</li>
-      </ul>
-      <div class="take">Question 6 is the one that decides whether this practice survives contact with your team. Do not rush it.</div>
-    </div>
-    <div>
-      <svg viewBox="0 0 700 420" role="img" aria-label="What the eight quiz questions cover">
-        <rect class="bx p" x="4" y="4" width="692" height="412" rx="8"/>
-        <text class="lb p" x="24" y="32">WHAT THE EIGHT COVER</text>
-        <rect class="bx w rise" x="24" y="44" width="652" height="40" rx="5"/>
-        <text class="ss" x="40" y="69"><tspan font-weight="700">1 &middot;</tspan> Why the spec, and not the transcript</text>
-        <rect class="bx w rise r2" x="24" y="90" width="652" height="40" rx="5"/>
-        <text class="ss" x="40" y="115"><tspan font-weight="700">2 &middot;</tspan> Spec or plan &mdash; which one is this sentence?</text>
-        <rect class="bx w rise r3" x="24" y="136" width="652" height="40" rx="5"/>
-        <text class="ss" x="40" y="161"><tspan font-weight="700">3 &middot;</tspan> Is this criterion machine-verifiable?</text>
-        <rect class="bx w rise r4" x="24" y="182" width="652" height="40" rx="5"/>
-        <text class="ss" x="40" y="207"><tspan font-weight="700">4 &middot;</tspan> What an unconfirmed assumption should do</text>
-        <rect class="bx w rise r5" x="24" y="228" width="652" height="40" rx="5"/>
-        <text class="ss" x="40" y="253"><tspan font-weight="700">5 &middot;</tspan> Why a stale spec is worse than none</text>
-        <rect class="bx w rise r6" x="24" y="274" width="652" height="40" rx="5"/>
-        <text class="ss" x="40" y="299"><tspan font-weight="700">6 &middot;</tspan> Which ticket does <tspan font-style="italic">not</tspan> need a spec</text>
-        <rect class="bx w rise r6" x="24" y="320" width="652" height="40" rx="5"/>
-        <text class="ss" x="40" y="345"><tspan font-weight="700">7 &middot;</tspan> Task breakdown &mdash; what the size decides</text>
-        <rect class="bx w rise r6" x="24" y="366" width="652" height="40" rx="5"/>
-        <text class="ss" x="40" y="391"><tspan font-weight="700">8 &middot;</tspan> What is still disconnected at the end of this module</text>
+        <text class="ss w" x="24" y="396" style="font-size:14px">Module 6: the agent reads and updates the ticket through <tspan font-weight="700" fill="#e0b34d">MCP</tspan></text>
+        <text class="ss w" x="24" y="418" style="font-size:13px">(a standard way to connect an agent to tools like JIRA).</text>
       </svg>
     </div>
   </div>
 </section>
 
 <!-- 20 -->
-<section class="slide" data-sec="Review quiz" data-title="Q1 - why the spec" data-notes="Warm-up. C is the tempting one because it is true and it is not the reason." data-tier="R">
-  <h2>Q1 &middot; Why is the spec the artifact and the transcript not?<span class="tag q">1 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">Both contain the requirement. Both were written by you. What makes one the artifact?</div>
-    <div class="opts">
-      <div class="opt"><span class="k">A</span><span>The spec is written more carefully, because you know it will be read by someone else.</span></div>
-      <div class="opt"><span class="k">B</span><span>The spec is reviewable before code exists, executable by an agent, checkable by a test, and still there in a year.</span></div>
-      <div class="opt"><span class="k">C</span><span>The transcript contains a great deal of irrelevant conversation, which makes it a poor record.</span></div>
-      <div class="opt"><span class="k">D</span><span>The spec is shorter, so it costs less context when handed to an agent.</span></div>
+<section class="slide" data-sec="Review quiz" data-title="Review quiz - eight questions" data-notes="First quiz of Day 2. Questions 3, 6 and 8 carry the most - 3 because verifiability is the practical skill, 6 because the overkill question is what determines whether any of this survives, and 8 because it sets up MCP. If short, run 3, 5, 6 and 8." data-tier="R">
+  <h2>Review quiz &mdash; eight questions<span class="tag q">QUIZ</span></h2>
+  <div class="body g55">
+    <div class="pts">
+      <h3>How this runs</h3>
+      <ul>
+        <li>Four options, one right. <b>Raise hands for each option</b> before the answer.</li>
+        <li>Each question matches something you do in Labs 2.1 and 2.2.</li>
+      </ul>
+      <h3>Short on time?</h3>
+      <ul>
+        <li>Run <b>3, 5, 6 and 8</b>.</li>
+      </ul>
+      <div class="take">Question 6 decides whether your team keeps this practice. Take your time on it.</div>
     </div>
-    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
-  </div></div>
+    <div>
+      <svg viewBox="0 0 700 420" role="img" aria-label="What the eight quiz questions cover">
+        <rect class="bx p" x="4" y="4" width="692" height="412" rx="8"/>
+        <text class="lb p" x="24" y="32">WHAT THE EIGHT COVER</text>
+        <rect class="bx w rise" x="24" y="44" width="652" height="40" rx="5"/>
+        <text class="ss" x="40" y="69"><tspan font-weight="700">1 &middot;</tspan> Why the spec, not the chat</text>
+        <rect class="bx w rise r2" x="24" y="90" width="652" height="40" rx="5"/>
+        <text class="ss" x="40" y="115"><tspan font-weight="700">2 &middot;</tspan> Spec or plan?</text>
+        <rect class="bx w rise r3" x="24" y="136" width="652" height="40" rx="5"/>
+        <text class="ss" x="40" y="161"><tspan font-weight="700">3 &middot;</tspan> Can a test check this criterion?</text>
+        <rect class="bx w rise r4" x="24" y="182" width="652" height="40" rx="5"/>
+        <text class="ss" x="40" y="207"><tspan font-weight="700">4 &middot;</tspan> What to do with an unconfirmed assumption</text>
+        <rect class="bx w rise r5" x="24" y="228" width="652" height="40" rx="5"/>
+        <text class="ss" x="40" y="253"><tspan font-weight="700">5 &middot;</tspan> Why an old spec is worse than none</text>
+        <rect class="bx w rise r6" x="24" y="274" width="652" height="40" rx="5"/>
+        <text class="ss" x="40" y="299"><tspan font-weight="700">6 &middot;</tspan> Which ticket does <tspan font-style="italic">not</tspan> need a spec</text>
+        <rect class="bx w rise r6" x="24" y="320" width="652" height="40" rx="5"/>
+        <text class="ss" x="40" y="345"><tspan font-weight="700">7 &middot;</tspan> What task size decides</text>
+        <rect class="bx w rise r6" x="24" y="366" width="652" height="40" rx="5"/>
+        <text class="ss" x="40" y="391"><tspan font-weight="700">8 &middot;</tspan> What is still disconnected</text>
+      </svg>
+    </div>
+  </div>
 </section>
 
 <!-- 21 -->
-<section class="slide" data-sec="Review quiz" data-title="Q1 - answer" data-notes="The four properties are the answer, and the six-months question is the memorable version of it. Note that A and C are both true statements that are not the reason - a carefully written transcript is still gone in a week." data-tier="R">
-  <h2>Q1 &middot; Answer<span class="tag q">1 of 8</span></h2>
+<section class="slide" data-sec="Review quiz" data-title="Q1 - why the spec" data-notes="Warm-up. C is the tempting one because it is true and it is not the reason." data-tier="R">
+  <h2>Q1 &middot; Why keep the spec, and not the chat?<span class="tag q">1 of 8</span></h2>
   <div class="body g1"><div>
-    <div class="qz">What makes the spec the artifact?</div>
+    <div class="qz">Both hold the requirement. You wrote both. Why is the spec the one to keep?</div>
     <div class="opts">
-      <div class="opt wrong"><span class="k">A</span><span>It is written more carefully.</span></div>
-      <div class="opt right"><span class="k">B</span><span>Reviewable before code, executable by an agent, checkable by a test, and still there in a year.</span></div>
-      <div class="opt wrong"><span class="k">C</span><span>The transcript is full of irrelevant conversation.</span></div>
-      <div class="opt wrong"><span class="k">D</span><span>It is shorter.</span></div>
+      <div class="opt"><span class="k">A</span><span>It is written more carefully, because others will read it.</span></div>
+      <div class="opt"><span class="k">B</span><span>It is reviewed early, agents can follow it, tests can check it, and it lasts.</span></div>
+      <div class="opt"><span class="k">C</span><span>The chat has too much off-topic talk to be a good record.</span></div>
+      <div class="opt"><span class="k">D</span><span>It is shorter, so it uses less of the context window.</span></div>
     </div>
-    <div class="why"><b>B.</b> Four properties, and the transcript has none of them. The memorable version: six months from now somebody asks why the system behaves this way &mdash; the transcript is gone, the code shows <em>what</em> and never <em>why</em>, and the spec is the only thing that answers.
-      <span class="no"><b>A</b> and <b>C</b> are both true and neither is the reason &mdash; a beautifully written transcript is still gone in a week and was still never reviewed. <b>D</b> is often false: a good spec is frequently longer than the chat that would have replaced it, and it is worth it anyway.</span></div>
+    <div class="qmeta">Raise hands for each option &middot; answer on the next slide</div>
   </div></div>
 </section>
 
 <!-- 22 -->
-<section class="slide" data-sec="Review quiz" data-title="Q2 - spec or plan" data-notes="Quick, and it checks the boundary from slide 7. Anyone answering A has smuggled a plan into a spec, which is the most common way specs become useless." data-tier="R">
-  <h2>Q2 &middot; Does this belong in the spec, or the plan?<span class="tag q">2 of 8</span></h2>
+<section class="slide" data-sec="Review quiz" data-title="Q1 - answer" data-notes="The four properties are the answer, and the six-months question is the memorable version of it. Note that A and C are both true statements that are not the reason - a carefully written transcript is still gone in a week." data-tier="R">
+  <h2>Q1 &middot; Answer<span class="tag q">1 of 8</span></h2>
   <div class="body g1"><div>
-    <div class="qz">&ldquo;Add a <code>findByAccountIdAndValueDateLessThanEqual</code> method to <code>LedgerEntryRepository</code> and call it from <code>BalanceService</code>.&rdquo;</div>
+    <div class="qz">Why keep the spec?</div>
     <div class="opts">
-      <div class="opt"><span class="k">A</span><span>The plan &mdash; it names how the requirement will be met, and the spec should stay to what must be true.</span></div>
-      <div class="opt"><span class="k">B</span><span>The spec &mdash; being concrete about the mechanism removes ambiguity, which is the point of a spec.</span></div>
-      <div class="opt"><span class="k">C</span><span>Either &mdash; the distinction is stylistic, provided the information is written down somewhere durable.</span></div>
-      <div class="opt"><span class="k">D</span><span>The task breakdown &mdash; it is a single unit of implementable work.</span></div>
+      <div class="opt wrong"><span class="k">A</span><span>Written more carefully.</span></div>
+      <div class="opt right"><span class="k">B</span><span>Reviewed early, agents can follow it, tests can check it, and it lasts.</span></div>
+      <div class="opt wrong"><span class="k">C</span><span>The chat is full of off-topic talk.</span></div>
+      <div class="opt wrong"><span class="k">D</span><span>It is shorter.</span></div>
     </div>
-    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+    <div class="why"><b>B.</b> The chat has none of these four. In six months, only the spec can say <em>why</em> the code works this way.
+      <span class="no"><b>A</b> and <b>C</b> are true, but not the reason: even a careful chat is gone in a week, and nobody reviewed it. <b>D</b> is often false &mdash; a good spec can be longer than the chat.</span></div>
   </div></div>
 </section>
 
 <!-- 23 -->
+<section class="slide" data-sec="Review quiz" data-title="Q2 - spec or plan" data-notes="Quick, and it checks the boundary from the spec-says-what, plan-says-how slide. Anyone answering A has smuggled a plan into a spec, which is the most common way specs become useless." data-tier="R">
+  <h2>Q2 &middot; Does this belong in the spec, or the plan?<span class="tag q">2 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">&ldquo;Add a <code>findByAccountIdAndValueDateLessThanEqual</code> method to <code>LedgerEntryRepository</code> and call it from <code>BalanceService</code>.&rdquo;</div>
+    <div class="opts">
+      <div class="opt"><span class="k">A</span><span>The plan &mdash; it says how. The spec says only what must be true.</span></div>
+      <div class="opt"><span class="k">B</span><span>The spec &mdash; naming the method removes doubt, which is its job.</span></div>
+      <div class="opt"><span class="k">C</span><span>Either &mdash; it does not matter, as long as it is written down.</span></div>
+      <div class="opt"><span class="k">D</span><span>The task list &mdash; it is one small unit of work to build.</span></div>
+    </div>
+    <div class="qmeta">Raise hands for each option &middot; answer on the next slide</div>
+  </div></div>
+</section>
+
+<!-- 24 -->
 <section class="slide" data-sec="Review quiz" data-title="Q2 - answer" data-notes="Draw out what B costs: the design gate has nothing left to decide, and the design agent has nothing to explore, so it produces a rationalisation. The decision got made by whoever wrote the ticket - who may not have known the entry carries its own value date." data-tier="R">
   <h2>Q2 &middot; Answer<span class="tag q">2 of 8</span></h2>
   <div class="body g1"><div>
     <div class="qz">Where does the repository-method sentence belong?</div>
     <div class="opts">
-      <div class="opt right"><span class="k">A</span><span>The plan &mdash; the spec stays to what must be true.</span></div>
-      <div class="opt wrong"><span class="k">B</span><span>The spec &mdash; concreteness removes ambiguity.</span></div>
-      <div class="opt wrong"><span class="k">C</span><span>Either &mdash; the distinction is stylistic.</span></div>
-      <div class="opt wrong"><span class="k">D</span><span>The task breakdown.</span></div>
+      <div class="opt right"><span class="k">A</span><span>The plan &mdash; it says how.</span></div>
+      <div class="opt wrong"><span class="k">B</span><span>The spec &mdash; it removes doubt.</span></div>
+      <div class="opt wrong"><span class="k">C</span><span>Either.</span></div>
+      <div class="opt wrong"><span class="k">D</span><span>The task list.</span></div>
     </div>
-    <div class="why"><b>A.</b> Spec: what must be true. Plan: how we make it true. The test is whether two competent engineers could read the spec and produce genuinely different plans &mdash; if not, a plan has been smuggled in.
-      <span class="no"><b>B</b> is the common and costly mistake: it deletes the design stage without anyone deciding to. The design gate has nothing left to decide, and the choice was made by whoever wrote the ticket &mdash; who may not have known the ledger entry carries its own <code>valueDate</code>. <b>D</b> is downstream of the plan, so it inherits the same problem. <b>C</b> treats as stylistic the one boundary that decides whether a spec is worth writing.</span></div>
-  </div></div>
-</section>
-<!-- 24 -->
-<section class="slide" data-sec="Review quiz" data-title="Q3 - is this verifiable" data-notes="The practical skill of the module. Expect a split between B and D, and the split is worth two minutes because D sounds the most rigorous." data-tier="K">
-  <h2>Q3 &middot; Which of these can a test actually check?<span class="tag q">3 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">One of these four acceptance criteria could be turned into a failing test by someone who has only read that sentence. Which?</div>
-    <div class="opts">
-      <div class="opt"><span class="k">A</span><span>&ldquo;The report must be usable by the ops team without training.&rdquo;</span></div>
-      <div class="opt"><span class="k">B</span><span>&ldquo;The change must not degrade performance of the existing endpoints.&rdquo;</span></div>
-      <div class="opt"><span class="k">C</span><span>&ldquo;All existing behaviour must be preserved exactly as it is today.&rdquo;</span></div>
-      <div class="opt"><span class="k">D</span><span>&ldquo;A request for a date with no postings returns 200 and an empty list.&rdquo;</span></div>
-    </div>
-    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+    <div class="why"><b>A.</b> Spec: what must be true. Plan: how. The test: could two good engineers write different plans from the spec?
+      <span class="no"><b>B</b> is the common, costly mistake. The design gets decided by whoever wrote the ticket &mdash; who may not know each ledger entry has its own <code>valueDate</code>. <b>D</b> comes after the plan, so it has the same problem. <b>C</b> ignores the one boundary that makes a spec useful.</span></div>
   </div></div>
 </section>
 
 <!-- 25 -->
-<section class="slide" data-sec="Review quiz" data-title="Q3 - answer" data-notes="D is the instructive miss because it sounds like the most rigorous option on the slide. Ask the room what test they would write for it - the answer is you cannot write one, you can only run the tests you already have, which is a fine practice and not a criterion." data-tier="K">
-  <h2>Q3 &middot; Answer<span class="tag q">3 of 8</span></h2>
+<section class="slide" data-sec="Review quiz" data-title="Q3 - is this verifiable" data-notes="The practical skill of the module. Expect a split between C and D, and the split is worth two minutes because C sounds the most rigorous." data-tier="K">
+  <h2>Q3 &middot; Which of these can a test actually check?<span class="tag q">3 of 8</span></h2>
   <div class="body g1"><div>
-    <div class="qz">Which one could become a failing test from that sentence alone?</div>
+    <div class="qz">Which acceptance criterion could become a failing test, using only that sentence?</div>
     <div class="opts">
-      <div class="opt wrong"><span class="k">A</span><span>&ldquo;Usable without training.&rdquo;</span></div>
-      <div class="opt wrong"><span class="k">B</span><span>&ldquo;Must not degrade performance.&rdquo;</span></div>
-      <div class="opt wrong"><span class="k">C</span><span>&ldquo;All existing behaviour preserved exactly.&rdquo;</span></div>
-      <div class="opt right"><span class="k">D</span><span>&ldquo;A date with no postings returns 200 and an empty list&rdquo; &mdash; an input and an observable outcome.</span></div>
+      <div class="opt"><span class="k">A</span><span>&ldquo;The report must be easy for the ops team to use without training.&rdquo;</span></div>
+      <div class="opt"><span class="k">B</span><span>&ldquo;The change must not make the existing endpoints any slower.&rdquo;</span></div>
+      <div class="opt"><span class="k">C</span><span>&ldquo;All existing behaviour must stay exactly as it is today.&rdquo;</span></div>
+      <div class="opt"><span class="k">D</span><span>&ldquo;A date with no postings returns 200 and an empty list.&rdquo;</span></div>
     </div>
-    <div class="why"><b>D.</b> It names an input (a date with no postings) and an observable outcome (200, empty list). That is the whole bar.
-      <span class="no"><b>C</b> is the instructive miss because it sounds like the most rigorous option here. Ask what test you would write for it: you cannot write one &mdash; you can only run the tests you already have, which is a good practice and not a criterion. Rewrite it as <em>&ldquo;the balance endpoint without <code>asAt</code> returns the same value as before; existing tests unchanged&rdquo;</em>. <b>B</b> needs a threshold, a workload and a measurement point. <b>A</b> is a real goal and belongs in the spec's <em>context</em>, not its criteria.</span></div>
+    <div class="qmeta">Raise hands for each option &middot; answer on the next slide</div>
   </div></div>
 </section>
 
 <!-- 26 -->
-<section class="slide" data-sec="Review quiz" data-title="Q4 - the unconfirmed assumption" data-notes="This one checks whether they understood what assumptions are FOR. B is the trap and it is what most people do." data-tier="R">
-  <h2>Q4 &middot; You wrote an assumption and cannot confirm it. Then what?<span class="tag q">4 of 8</span></h2>
+<section class="slide" data-sec="Review quiz" data-title="Q3 - answer" data-notes="C is the instructive miss because it sounds like the most rigorous option on the slide. Ask the room what test they would write for it - the answer is you cannot write one, you can only run the tests you already have, which is a fine practice and not a criterion." data-tier="K">
+  <h2>Q3 &middot; Answer<span class="tag q">3 of 8</span></h2>
   <div class="body g1"><div>
-    <div class="qz">Your spec assumes &ldquo;end of day&rdquo; means calendar date rather than business date. It is material, and the person who knows is unavailable. What do you do?</div>
+    <div class="qz">Which one could become a failing test from that sentence alone?</div>
     <div class="opts">
-      <div class="opt"><span class="k">A</span><span>Pick the more likely reading, note it in the spec, and proceed &mdash; the note means it can be revisited later.</span></div>
-      <div class="opt"><span class="k">B</span><span>Implement both behaviours behind a flag, so whichever answer arrives is already supported.</span></div>
-      <div class="opt"><span class="k">C</span><span>Mark it blocking at the spec gate &mdash; the gate does not pass until someone who can answer it does.</span></div>
-      <div class="opt"><span class="k">D</span><span>Leave it out of the spec and raise it in the pull request, where the reviewer will have more context.</span></div>
+      <div class="opt wrong"><span class="k">A</span><span>&ldquo;Easy to use without training.&rdquo;</span></div>
+      <div class="opt wrong"><span class="k">B</span><span>&ldquo;Not any slower.&rdquo;</span></div>
+      <div class="opt wrong"><span class="k">C</span><span>&ldquo;All existing behaviour stays the same.&rdquo;</span></div>
+      <div class="opt right"><span class="k">D</span><span>&ldquo;A date with no postings returns 200 and an empty list.&rdquo;</span></div>
     </div>
-    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+    <div class="why"><b>D.</b> It names an input (a date with no postings) and a result you can see (200, empty list). That is the whole bar.
+      <span class="no"><b>C</b> sounds the strictest, but you cannot write a test for it &mdash; only re-run the old ones. Rewrite it as <em>&ldquo;the balance without <code>asAt</code> returns the same value as before&rdquo;</em>. <b>B</b> needs a limit, a load and a place to measure. <b>A</b> is a real goal: put it in the spec&rsquo;s background, not its criteria.</span></div>
   </div></div>
 </section>
 
 <!-- 27 -->
-<section class="slide" data-sec="Review quiz" data-title="Q4 - answer" data-notes="A is the popular answer and it is worth being precise about why it fails: a note in a document nobody is required to act on is not a mechanism, it is a hope. The gate is what converts it into something that has to be dealt with. B is the expensive one - building both is more work than one conversation, and it ships a flag you will own forever." data-tier="R">
-  <h2>Q4 &middot; Answer<span class="tag q">4 of 8</span></h2>
+<section class="slide" data-sec="Review quiz" data-title="Q4 - the unconfirmed assumption" data-notes="This one checks whether they understood what assumptions are FOR. B is the trap and it is what most people do." data-tier="R">
+  <h2>Q4 &middot; You cannot confirm an assumption. Then what?<span class="tag q">4 of 8</span></h2>
   <div class="body g1"><div>
-    <div class="qz">A material assumption you cannot confirm.</div>
+    <div class="qz">Your spec assumes &ldquo;end of day&rdquo; means calendar date, not business date. It matters, and the person who knows is away. What do you do?</div>
     <div class="opts">
-      <div class="opt wrong"><span class="k">A</span><span>Pick the likelier reading and note it.</span></div>
-      <div class="opt wrong"><span class="k">B</span><span>Implement both behind a flag.</span></div>
-      <div class="opt right"><span class="k">C</span><span>Mark it blocking at the spec gate &mdash; it does not pass until someone who can answer does.</span></div>
-      <div class="opt wrong"><span class="k">D</span><span>Leave it out and raise it in the PR.</span></div>
+      <div class="opt"><span class="k">A</span><span>Pick the likelier reading, note it in the spec, and carry on.</span></div>
+      <div class="opt"><span class="k">B</span><span>Build both behaviours behind a flag, so either answer works.</span></div>
+      <div class="opt"><span class="k">C</span><span>Mark it blocking; the spec check waits for an answer.</span></div>
+      <div class="opt"><span class="k">D</span><span>Leave it out, and raise it in the pull request later.</span></div>
     </div>
-    <div class="why"><b>C.</b> That is what the gate is <em>for</em>. Writing the assumption down gives the gate something to bite on; marking it blocking is what converts a note into a decision somebody has to make.
-      <span class="no"><b>A</b> is the popular answer and the precise failure is this: a note in a document nobody is required to act on is not a mechanism, it is a hope. <b>B</b> is more work than the conversation you are avoiding, and it ships a flag you own forever. <b>D</b> raises it at the most expensive moment &mdash; after the code exists, when changing the answer means changing the change set.</span></div>
+    <div class="qmeta">Raise hands for each option &middot; answer on the next slide</div>
   </div></div>
 </section>
 
 <!-- 28 -->
-<section class="slide" data-sec="Review quiz" data-title="Q5 - the stale spec" data-notes="Direct parallel to Module 2's stale ADR question. If they got that one, they should get this one - and if the room splits, it is worth revisiting because the same-PR rule is the operational habit both modules depend on." data-tier="R">
-  <h2>Q5 &middot; Why is a stale spec worse than no spec?<span class="tag q">5 of 8</span></h2>
+<section class="slide" data-sec="Review quiz" data-title="Q4 - answer" data-notes="A is the popular answer and it is worth being precise about why it fails: a note in a document nobody is required to act on is not a mechanism, it is a hope. The gate is what converts it into something that has to be dealt with. B is the expensive one - building both is more work than one conversation, and it ships a flag you will own forever." data-tier="R">
+  <h2>Q4 &middot; Answer<span class="tag q">4 of 8</span></h2>
   <div class="body g1"><div>
-    <div class="qz">Four months on, the spec describes behaviour the code no longer has. Why is that worse than never having written it?</div>
+    <div class="qz">An important assumption you cannot confirm.</div>
     <div class="opts">
-      <div class="opt"><span class="k">A</span><span>Because the test agent and review agent still read it, and check the code against a system that no longer exists &mdash; automatically, without a human opening it.</span></div>
-      <div class="opt"><span class="k">B</span><span>Because the effort spent writing and maintaining it has been wasted, making the practice harder to justify next time.</span></div>
-      <div class="opt"><span class="k">C</span><span>Because engineers who notice it is wrong lose confidence in the other documents in the repository.</span></div>
-      <div class="opt"><span class="k">D</span><span>Because a wrong spec in the pull request template makes the review checklist impossible to complete honestly.</span></div>
+      <div class="opt wrong"><span class="k">A</span><span>Pick the likelier reading and note it.</span></div>
+      <div class="opt wrong"><span class="k">B</span><span>Build both behind a flag.</span></div>
+      <div class="opt right"><span class="k">C</span><span>Mark it blocking; the spec check waits for an answer.</span></div>
+      <div class="opt wrong"><span class="k">D</span><span>Leave it out; raise it in the PR.</span></div>
     </div>
-    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+    <div class="why"><b>C.</b> This is what the spec check is <em>for</em>. Marking it blocking turns a note into a decision someone must make.
+      <span class="no"><b>A</b> is popular, but a note nobody must act on is only a hope. <b>B</b> is more work than one conversation, and you keep the flag forever. <b>D</b> raises it at the most expensive time &mdash; after the code exists.</span></div>
   </div></div>
 </section>
 
 <!-- 29 -->
+<section class="slide" data-sec="Review quiz" data-title="Q5 - the stale spec" data-notes="Direct parallel to Module 2's stale ADR question. If they got that one, they should get this one - and if the room splits, it is worth revisiting because the same-PR rule is the operational habit both modules depend on." data-tier="R">
+  <h2>Q5 &middot; Why is an out-of-date spec worse than none?<span class="tag q">5 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">Four months later, the spec describes behaviour the code no longer has. Why is that worse than having no spec?</div>
+    <div class="opts">
+      <div class="opt"><span class="k">A</span><span>The test and review agents still check the code against it.</span></div>
+      <div class="opt"><span class="k">B</span><span>The time spent writing it was wasted, so the next spec is harder to justify.</span></div>
+      <div class="opt"><span class="k">C</span><span>Engineers who spot it stop trusting the other docs in the repo.</span></div>
+      <div class="opt"><span class="k">D</span><span>The pull request checklist can no longer be ticked honestly.</span></div>
+    </div>
+    <div class="qmeta">Raise hands for each option &middot; answer on the next slide</div>
+  </div></div>
+</section>
+
+<!-- 30 -->
 <section class="slide" data-sec="Review quiz" data-title="Q5 - answer" data-notes="Land the automation point: this is exactly Module 2's stale ADR, except now it is applied on every ticket by two agents without anyone reading it. And the fix is the same-PR rule, word for word - if they take one operational habit from the whole course, it is this one, and it has now appeared three times." data-tier="R">
   <h2>Q5 &middot; Answer<span class="tag q">5 of 8</span></h2>
   <div class="body g1"><div>
-    <div class="qz">Why is a stale spec worse than none?</div>
+    <div class="qz">Why is an out-of-date spec worse than none?</div>
     <div class="opts">
-      <div class="opt right"><span class="k">A</span><span>Two agents still read it, and check against a system that no longer exists &mdash; automatically, on every ticket.</span></div>
-      <div class="opt wrong"><span class="k">B</span><span>The effort was wasted.</span></div>
-      <div class="opt wrong"><span class="k">C</span><span>It erodes confidence in other documents.</span></div>
-      <div class="opt wrong"><span class="k">D</span><span>It makes the PR checklist impossible to complete.</span></div>
+      <div class="opt right"><span class="k">A</span><span>The test and review agents still check the code against it.</span></div>
+      <div class="opt wrong"><span class="k">B</span><span>The time was wasted.</span></div>
+      <div class="opt wrong"><span class="k">C</span><span>It erodes trust in other docs.</span></div>
+      <div class="opt wrong"><span class="k">D</span><span>The PR checklist cannot be ticked honestly.</span></div>
     </div>
-    <div class="why"><b>B.</b> It is Module 2's stale ADR with automation attached: applied to every ticket, by the test agent and the review agent, without a human opening the file. A human reading a wrong document usually notices. An agent does not.
-      <span class="no"><b>B</b> and <b>C</b> are real costs and both are about people; the answer is about the pipeline, which is what makes it worse rather than merely wasteful. <b>D</b> is a symptom.
-      <b>And the fix is the same-PR rule</b>, word for word from Module 2 &mdash; that habit has now appeared three times in this course, which is the strongest signal it is the one to take home.</span></div>
-  </div></div>
-</section>
-<!-- 30 -->
-<section class="slide" data-sec="Review quiz" data-title="Q6 - which ticket does not need a spec" data-notes="The question that decides whether the practice survives. Let it run - a room that gets this wrong will apply the full chain to everything on Monday and abandon it by Friday." data-tier="K">
-  <h2>Q6 &middot; Which of these does <em>not</em> need a spec?<span class="tag q">6 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">Four tickets on your board this morning. Which one should get the thirty-second version at most?</div>
-    <div class="opts">
-      <div class="opt"><span class="k">A</span><span>Add a <code>settlementDate</code> to the posting contract and populate it from the payroll consumer.</span></div>
-      <div class="opt"><span class="k">B</span><span>Bump the Spring Boot patch version and fix whatever the build complains about.</span></div>
-      <div class="opt"><span class="k">C</span><span>Reject postings dated more than 30 days in the future, returning a client error.</span></div>
-      <div class="opt"><span class="k">D</span><span>Let operations correct a narrative on an existing posting.</span></div>
-    </div>
-    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+    <div class="why"><b>A.</b> Like Module 2&rsquo;s stale ADR, but automatic: two agents use it on every ticket, and no person opens the file. A person usually notices a wrong document. An agent does not.
+      <span class="no"><b>B</b> and <b>C</b> are real costs, but they are about people; the answer is about the pipeline. <b>D</b> is a symptom. <b>The fix is the same-PR rule</b> from Module 2: update the spec in the pull request that changes the behaviour.</span></div>
   </div></div>
 </section>
 
 <!-- 31 -->
+<section class="slide" data-sec="Review quiz" data-title="Q6 - which ticket does not need a spec" data-notes="The question that decides whether the practice survives. Let it run - a room that gets this wrong will apply the full chain to everything on Monday and abandon it by Friday." data-tier="K">
+  <h2>Q6 &middot; Which of these does <em>not</em> need a spec?<span class="tag q">6 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">Four tickets on your board. Which one needs the thirty-second version at most?</div>
+    <div class="opts">
+      <div class="opt"><span class="k">A</span><span>Add a <code>settlementDate</code> to the posting contract, filled by the payroll consumer.</span></div>
+      <div class="opt"><span class="k">B</span><span>Bump the Spring Boot patch version and fix whatever the build reports.</span></div>
+      <div class="opt"><span class="k">C</span><span>Reject postings dated more than 30 days ahead, with a client error.</span></div>
+      <div class="opt"><span class="k">D</span><span>Let operations correct the description text on an existing posting.</span></div>
+    </div>
+    <div class="qmeta">Raise hands for each option &middot; answer on the next slide</div>
+  </div></div>
+</section>
+
+<!-- 32 -->
 <section class="slide" data-sec="Review quiz" data-title="Q6 - answer" data-notes="Walk all four against the three tests, briefly, because the method matters more than this answer. C is the interesting near-miss - it looks small and it is genuinely unambiguous, so the three-line version is right for it, but it is not the answer because it still has a criterion worth writing down. B is the only one where the compiler and the existing suite settle correctness entirely." data-tier="K">
   <h2>Q6 &middot; Answer<span class="tag q">6 of 8</span></h2>
   <div class="body g1"><div>
     <div class="qz">Which needs the thirty-second version at most?</div>
     <div class="opts">
-      <div class="opt wrong"><span class="k">A</span><span>Add <code>settlementDate</code>, across two repositories.</span></div>
-      <div class="opt right"><span class="k">B</span><span>Bump the patch version and fix what the build complains about.</span></div>
-      <div class="opt wrong"><span class="k">C</span><span>Reject postings dated far in the future.</span></div>
-      <div class="opt wrong"><span class="k">D</span><span>Let ops correct a narrative on an existing posting.</span></div>
+      <div class="opt wrong"><span class="k">A</span><span>Add <code>settlementDate</code>, across two repos.</span></div>
+      <div class="opt right"><span class="k">B</span><span>Bump the patch version; fix what the build reports.</span></div>
+      <div class="opt wrong"><span class="k">C</span><span>Reject postings dated far ahead.</span></div>
+      <div class="opt wrong"><span class="k">D</span><span>Let ops correct a posting&rsquo;s description.</span></div>
     </div>
-    <div class="why"><b>B.</b> Run the three tests: one reading of done, low cost of being wrong, one repository. And the compiler plus the existing suite settle correctness entirely &mdash; there is nothing a spec would add.
-      <span class="no"><b>A</b> fails the third test outright: two repositories, so the spec <em>is</em> the coordination artifact. <b>D</b> fails the first badly &mdash; amend in place contradicts the domain rules, reverse-and-repost changes the ledger for a typo, and both are defensible. <b>C</b> is the interesting near-miss: genuinely unambiguous and small, so the three-line version fits it well &mdash; but it still has a criterion worth writing down, which <b>B</b> does not.</span></div>
-  </div></div>
-</section>
-
-<!-- 32 -->
-<section class="slide" data-sec="Review quiz" data-title="Q7 - what task size decides" data-notes="Quick recall. The reframe from estimation to checkability is the whole point." data-tier="R">
-  <h2>Q7 &middot; What does task size actually decide?<span class="tag q">7 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">You are breaking a plan into tasks. What is the property you are really choosing?</div>
-    <div class="opts">
-      <div class="opt"><span class="k">A</span><span>How accurately the work can be estimated, and therefore how predictable the delivery is.</span></div>
-      <div class="opt"><span class="k">B</span><span>How much context each request needs, and therefore what each one costs.</span></div>
-      <div class="opt"><span class="k">C</span><span>How many tasks can be run in parallel by different agents without conflicting.</span></div>
-      <div class="opt"><span class="k">D</span><span>How often you get to check a result before more work is built on top of it.</span></div>
-    </div>
-    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+    <div class="why"><b>B.</b> One meaning of done, low cost if wrong, one repo. The compiler and existing tests fully check it.
+      <span class="no"><b>A</b> touches two repos, so the spec is how they coordinate. <b>D</b> can be read two ways: editing in place breaks the ledger rule, and reverse-and-repost is heavy for a typo. <b>C</b> is the near miss: clear and small, so three lines fit &mdash; but it still has a criterion worth writing, and <b>B</b> does not.</span></div>
   </div></div>
 </section>
 
 <!-- 33 -->
+<section class="slide" data-sec="Review quiz" data-title="Q7 - what task size decides" data-notes="Quick recall. The reframe from estimation to checkability is the whole point." data-tier="R">
+  <h2>Q7 &middot; What does task size really decide?<span class="tag q">7 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">When you split a plan into tasks, what are you really choosing?</div>
+    <div class="opts">
+      <div class="opt"><span class="k">A</span><span>How accurately you can estimate the work and the delivery date.</span></div>
+      <div class="opt"><span class="k">B</span><span>How much context each request needs, and so what it costs.</span></div>
+      <div class="opt"><span class="k">C</span><span>How many tasks different agents can run at the same time.</span></div>
+      <div class="opt"><span class="k">D</span><span>How often you can check a result before building on it.</span></div>
+    </div>
+    <div class="qmeta">Raise hands for each option &middot; answer on the next slide</div>
+  </div></div>
+</section>
+
+<!-- 34 -->
 <section class="slide" data-sec="Review quiz" data-title="Q7 - answer" data-notes="Connect it to Module 1 gate 3 - can success be checked without reading all of it. Small checkable tasks are how that becomes true, which is why this slide sits in a module about specification rather than in one about planning." data-tier="R">
   <h2>Q7 &middot; Answer<span class="tag q">7 of 8</span></h2>
   <div class="body g1"><div>
@@ -1168,48 +1158,44 @@ Link: <span class="c">&lt;path to spec.md&gt;</span>
     <div class="opts">
       <div class="opt wrong"><span class="k">A</span><span>Estimation accuracy.</span></div>
       <div class="opt wrong"><span class="k">B</span><span>Context cost per request.</span></div>
-      <div class="opt wrong"><span class="k">C</span><span>Parallelism.</span></div>
-      <div class="opt right"><span class="k">D</span><span>How often you get to check a result before more work rests on it.</span></div>
+      <div class="opt wrong"><span class="k">C</span><span>Running tasks in parallel.</span></div>
+      <div class="opt right"><span class="k">D</span><span>How often you can check a result before building on it.</span></div>
     </div>
-    <div class="why"><b>D.</b> Each boundary is a place you can say yes or no. So task size is really <em>the size of the mistake you are willing to discover late</em> &mdash; and the rule follows: a task whose result you cannot check without doing the next task is half a task.
-      <span class="no"><b>A</b> is the traditional framing and it is why this gets taught as a planning activity rather than a quality one. <b>B</b> is a real effect and a side one. <b>C</b> matters for orchestration &mdash; and note that two tasks of identical effort can differ completely in checkability, which is the property that actually matters here.
-      This is Module 1's gate 3: <em>can success be checked without reading all of it?</em></span></div>
-  </div></div>
-</section>
-
-<!-- 34 -->
-<section class="slide" data-sec="Review quiz" data-title="Q8 - what is still disconnected" data-notes="Sets up Module 6 and the MCP half of Day 2. Let someone argue for B before revealing - it is a reasonable answer and it is the next module after that one." data-tier="R">
-  <h2>Q8 &middot; You have a good spec. What is still disconnected?<span class="tag q">8 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">The spec is written, the criteria are verifiable, the plan is challenged. What has this module <em>not</em> fixed?</div>
-    <div class="opts">
-      <div class="opt"><span class="k">A</span><span>The four agents still cannot see each other's artifacts, so the hand-offs remain manual.</span></div>
-      <div class="opt"><span class="k">B</span><span>The outcome is not written back anywhere, so the next ticket starts from the same standing knowledge as this one.</span></div>
-      <div class="opt"><span class="k">C</span><span>The spec sits on your laptop, written from a pasted ticket &mdash; and the open questions are in a file the people who could answer them will never see.</span></div>
-      <div class="opt"><span class="k">D</span><span>Nothing verifies that the criteria are the <em>right</em> criteria, only that they are checkable.</span></div>
-    </div>
-    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+    <div class="why"><b>D.</b> Each task end is a place to say yes or no. Task size is really <em>the size of mistake you accept finding late</em>.
+      <span class="no"><b>A</b> is the traditional view &mdash; that is why this is taught as planning, not quality. <b>B</b> is real but minor. <b>C</b> matters for running agents in parallel. This is Module 1&rsquo;s gate 3: <em>can you check success without reading all of it?</em></span></div>
   </div></div>
 </section>
 
 <!-- 35 -->
+<section class="slide" data-sec="Review quiz" data-title="Q8 - what is still disconnected" data-notes="Sets up Module 6 and the MCP half of Day 2. Let someone argue for B before revealing - it is a reasonable answer and it is the next module after that one." data-tier="R">
+  <h2>Q8 &middot; You have a good spec. What is still disconnected?<span class="tag q">8 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">The spec is written, the criteria are testable, and the plan is challenged. What has this module <em>not</em> fixed?</div>
+    <div class="opts">
+      <div class="opt"><span class="k">A</span><span>The four agents cannot see each other&rsquo;s outputs, so hand-offs are manual.</span></div>
+      <div class="opt"><span class="k">B</span><span>The result is not saved anywhere, so the next ticket learns nothing.</span></div>
+      <div class="opt"><span class="k">C</span><span>The spec is on your laptop, and its open questions never reach the ticket.</span></div>
+      <div class="opt"><span class="k">D</span><span>Nothing checks the criteria are the <em>right</em> ones, only that they are testable.</span></div>
+    </div>
+    <div class="qmeta">Raise hands for each option &middot; answer on the next slide</div>
+  </div></div>
+</section>
+
+<!-- 36 -->
 <section class="slide" data-sec="Review quiz" data-title="Q8 - answer" data-notes="Close on the connection point. The framing to leave them with before the break: the specification does not get better by being connected to JIRA - it becomes real work rather than a private document, and the questions reach the people who can answer them. Then Module 6 opens on MCP." data-tier="R">
   <h2>Q8 &middot; Answer<span class="tag q">8 of 8</span></h2>
   <div class="body g1"><div>
     <div class="qz">What has Module 5 not fixed?</div>
     <div class="opts">
-      <div class="opt wrong"><span class="k">A</span><span>The agents cannot see each other's artifacts.</span></div>
-      <div class="opt wrong"><span class="k">B</span><span>The outcome is not written back anywhere.</span></div>
-      <div class="opt right"><span class="k">C</span><span>The spec is on your laptop, from a pasted ticket &mdash; and the open questions are where nobody who can answer them is looking.</span></div>
-      <div class="opt wrong"><span class="k">D</span><span>Nothing verifies the criteria are the <em>right</em> ones.</span></div>
+      <div class="opt wrong"><span class="k">A</span><span>Agents cannot see each other&rsquo;s outputs.</span></div>
+      <div class="opt wrong"><span class="k">B</span><span>The result is not saved anywhere.</span></div>
+      <div class="opt right"><span class="k">C</span><span>The spec is on your laptop; its questions never reach the ticket.</span></div>
+      <div class="opt wrong"><span class="k">D</span><span>Nothing checks the criteria are right.</span></div>
     </div>
-    <div class="why"><b>C.</b> The three people who could answer your open questions are not looking at your laptop &mdash; they are looking at the ticket. Until the spec is connected to where the work lives, it is a private document, however good it is.
-      <span class="no"><b>A</b> is false as stated: the hand-offs are artifacts precisely so they can be passed. <b>B</b> is real and it is Module 8, not this one. <b>D</b> is true, permanently, and no module fixes it &mdash; that is what the human gate is for, and it is why gate 1 needs someone who can answer rather than someone who can write.
-      <b>Module 6 next:</b> the ticket as the unit of work, pulled and written back over MCP. The spec stops being private.</span></div>
+    <div class="why"><b>C.</b> The people who can answer your questions look at the ticket, not your laptop. Until the spec is connected to the ticket, it is a private document.
+      <span class="no"><b>A</b> is false: hand-offs are files so they can be passed on. <b>B</b> is real &mdash; that is Module 8. <b>D</b> is true forever; that is why gate 1 needs a person who can answer. <b>Next, Module 6:</b> the agent reads and updates the ticket through MCP.</span></div>
   </div></div>
 </section>
-
-
 
 </div></div>
 

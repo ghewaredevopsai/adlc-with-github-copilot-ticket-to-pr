@@ -20,7 +20,7 @@
   <div class="wrap">
     <span class="tier">Day 1 &middot; Module 4 of 8</span>
     <h1>Specialised Agents</h1>
-    <p class="sub">Design, coding, test and review as four narrow roles.</p>
+    <p class="sub">Four agents, four jobs: design, coding, test and review.</p>
     <p class="meta">
       <span><b>Agentic ADLC with GitHub Copilot</b> &mdash; From JIRA Ticket to Merged PR</span>
       <span>Advanced</span>
@@ -28,27 +28,26 @@
     </p>
     <div class="chips">
     <span class="chip">Why four beat one</span>
-    <span class="chip">Defining an agent</span>
+    <span class="chip">Writing an agent file</span>
     <span class="chip">The four in practice</span>
-    <span class="chip">Hand-off artifacts</span>
-    <span class="chip">Orchestration</span>
-    <span class="chip">Anti-patterns</span>
-  
+    <span class="chip">Passing files between agents</span>
+    <span class="chip">Running them together</span>
+    <span class="chip">Common mistakes</span>
     </div>
   </div>
 </section>
 
 <!-- 2 -->
-<section class="slide" data-sec="Opening" data-title="The unfinished business from Module 3" data-notes="Do not summarise Module 3 - point at the two failures it could not close and let the room supply the reason, because they answered it in the quiz an hour ago. The diagram makes the structural claim: with one agent, the thing that reads the requirement, the thing that writes the code and the thing that writes the test are all the same thing, so their agreement is guaranteed and worthless. With four, the reading is done twice from the same source and independently. The right-hand honesty note matters in a senior room: this costs more per ticket in wall-clock and in orchestration effort, and it is not free. What it buys is that agreement between two components now means something. Close by naming what this module is NOT - it is not about making the agent smarter, and nothing here would be needed if verification were cheap." data-tier="K">
-  <h2>Two failures survived Module 3. Both need the same thing<span class="tag">M4</span></h2>
+<section class="slide" data-sec="Opening" data-title="The unfinished business from Module 3" data-notes="Do not summarise Module 3 - point at the two failures it could not close and let the room supply the reason, because they answered it in the quiz an hour ago. The diagram makes the structural claim: with one agent, the thing that reads the requirement, the thing that writes the code and the thing that writes the test are all the same thing, so their agreement is guaranteed and worthless. With four, the reading is done twice from the same source and independently. The cost note on the right matters in a senior room: this costs more per ticket in wall-clock and in orchestration effort, and it is not free. What it buys is that agreement between two components now means something. Close on the bottom band - it is not about making the agent smarter - and add the line from the old slide if the room is sceptical: none of this would be needed if verification were cheap, and Module 1 priced review as the scarcest resource on the first morning. The next slide defines the new words this module uses." data-tier="K">
+  <h2>Two failures survived Module 3. Both need a separate checker<span class="tag">M4</span></h2>
   <div class="body g64">
     <div>
       <svg viewBox="0 0 700 430" role="img" aria-label="One agent produces guaranteed agreement; four agents produce independent checks">
-        <text class="lb r" x="4" y="13">ONE GENERAL AGENT &mdash; WHY THE GREEN TICK IS WORTHLESS</text>
+        <text class="lb r" x="4" y="13">ONE AGENT &mdash; A GREEN TICK THAT PROVES NOTHING</text>
         <rect class="bx r" x="4" y="22" width="692" height="140" rx="8"/>
         <rect class="bx w" x="20" y="42" width="150" height="46" rx="6"/>
         <text class="ss" x="95" y="62" text-anchor="middle">one reading of</text>
-        <text class="ss" x="95" y="80" text-anchor="middle">the requirement</text>
+        <text class="ss" x="95" y="80" text-anchor="middle">the ticket</text>
         <path class="arr" d="M174 65 L212 50"/>
         <path class="arr" d="M174 65 L212 80"/>
         <rect class="bx w" x="216" y="32" width="180" height="34" rx="6"/>
@@ -58,16 +57,14 @@
         <path class="arr" d="M400 49 L438 62"/>
         <path class="arr" d="M400 91 L438 70"/>
         <rect class="bx d" x="442" y="44" width="238" height="44" rx="6"/>
-        <text class="tt w" x="561" y="64" text-anchor="middle" style="font-size:13px">They agree</text>
-        <text class="ss w" x="561" y="82" text-anchor="middle">because they had to</text>
-        <text class="ss" x="20" y="128" style="fill:#e2726e;font-weight:600">Agreement between two things with one source is not evidence.</text>
-        <text class="ss" x="20" y="150">If the reading was wrong, the code and the test are wrong together &mdash; and green.</text>
+        <text class="tt w" x="561" y="64" text-anchor="middle" style="font-size:13px">They agree.</text>
+        <text class="ss w" x="561" y="82" text-anchor="middle">That proves nothing.</text>
+        <text class="ss" x="20" y="136" style="fill:#e2726e;font-weight:600">If the reading was wrong, both are wrong &mdash; and the tests still pass.</text>
 
-        <text class="lb g" x="4" y="192">FOUR NARROW AGENTS &mdash; THE READING IS DONE TWICE, INDEPENDENTLY</text>
+        <text class="lb g" x="4" y="192">FOUR AGENTS &mdash; THE TICKET IS READ TWICE, SEPARATELY</text>
         <rect class="bx g" x="4" y="202" width="692" height="146" rx="8"/>
         <rect class="bx w" x="20" y="214" width="140" height="44" rx="6"/>
-        <text class="ss" x="90" y="234" text-anchor="middle">the ticket</text>
-        <text class="ss" x="90" y="250" text-anchor="middle" style="font-size:11px">the shared source</text>
+        <text class="ss" x="90" y="241" text-anchor="middle">the ticket</text>
         <path class="ar" d="M164 228 L200 226"/>
         <path class="ar" d="M164 246 L200 266"/>
         <rect class="bx w rise" x="204" y="212" width="176" height="32" rx="6"/>
@@ -79,90 +76,106 @@
         <rect class="bx g" x="424" y="226" width="256" height="44" rx="6"/>
         <text class="tt" x="552" y="245" text-anchor="middle" style="font-size:13px">Now agreement means</text>
         <text class="ss" x="552" y="262" text-anchor="middle" style="fill:#5fbf8f;font-weight:600">two readings matched</text>
-        <text class="ss" x="20" y="306">The test agent never sees why the code was written the way it was &mdash;</text>
-        <text class="ss" x="20" y="324">so a shared misreading has two chances to be caught instead of none.</text>
-        <text class="ss" x="20" y="342" style="fill:#5fbf8f;font-weight:600">And the review agent did not write any of it.</text>
+        <text class="ss" x="20" y="312">The test agent never sees why the code was written that way.</text>
+        <text class="ss" x="20" y="334" style="fill:#5fbf8f;font-weight:600">The review agent did not write any of it.</text>
 
         <rect class="bx d" x="4" y="358" width="692" height="72" rx="8"/>
-        <text class="ss w" x="24" y="384" style="font-size:14px">This module is not about making the agent smarter.</text>
-        <text class="ss w" x="24" y="408" style="font-size:14px">It is about arranging for the thing that <tspan font-weight="700" fill="#e0b34d">checks</tspan> the work to be a different thing.</text>
+        <text class="ss w" x="24" y="386" style="font-size:14px">The agent does not get smarter.</text>
+        <text class="ss w" x="24" y="410" style="font-size:14px">The checker is simply <tspan font-weight="700" fill="#e0b34d">a different agent</tspan>.</text>
       </svg>
     </div>
     <div class="pts">
       <h3>Where we are</h3>
       <ul>
-        <li>Module 3 closed the invented API and scope drift. It could not close the <b>confidently wrong refactor</b> or the <b>test written to pass</b>.</li>
-        <li>You answered why in the quiz: a session cannot audit its own reading of the requirement, <em>because the reading is the thing in question</em>.</li>
+        <li>Module 3 could not fix two failures: the <b>confidently wrong refactor</b> and the <b>test written to pass</b>.</li>
+        <li>The reason: an agent <b>cannot check its own understanding</b> of the ticket.</li>
       </ul>
-      <h3>The honest cost</h3>
+      <h3>The cost</h3>
       <ul>
-        <li>Four agents cost more per ticket &mdash; more wall-clock, more orchestration, four definitions to maintain.</li>
-        <li>What you buy is that <b>agreement between two of them now carries information</b>. Nothing else in this course buys that.</li>
+        <li>Four agents take more time and more requests per ticket.</li>
+        <li>In return, when two agents agree, <b>it means something</b>.</li>
       </ul>
-      <div class="take"><b>None of this would be needed if verification were cheap.</b> It is not &mdash; and Module 1 said so on the first morning, when it priced review as your scarcest resource.</div>
     </div>
   </div>
 </section>
 
 <!-- 3 -->
-<section class="slide" data-sec="1 &middot; Why four beat one" data-title="Three reasons, and only one is about accuracy" data-notes="Three distinct arguments and they are worth separating, because teams usually only know the third one and it is the weakest of the three to lead with. Context pollution is the cheapest win and the easiest to explain: a general agent carries the design conversation into the implementation and the implementation into the review, so by the time anything is reviewed the window is full of justifications. Conflicting goals is the subtle one - a single agent asked to implement AND to be critical of the implementation has been given two objectives that trade against each other, and it will satisfy the one you emphasised most recently. Reviewer independence is the structural one from the last slide. The bottom band is the honest boundary: none of these say a narrow agent is smarter. Same model, same weights, different context and different instructions." data-tier="K">
-  <h2>Three reasons &mdash; and not one of them is &ldquo;narrow agents are smarter&rdquo;<span class="tag k">1</span></h2>
+<section class="slide" data-sec="Opening" data-title="Words used in this module" data-notes="Thirty seconds. The room met the basic AI words in Module 1 and the repository words in Module 2; these are the new ones this module leans on. The two worth saying aloud are rationale - the coding agent's own explanation of why it wrote the code, which is exactly what some agents are NOT given - and independent, which in this module means did not write the work and was not told why. Everything else is vocabulary for the pipeline: artifacts are the files agents pass to each other, and a human gate is a point where a person approves before work continues." data-tier="K">
+  <h2>Words used in this module<span class="tag">M4</span></h2>
+  <div class="body g55">
+    <div class="pts">
+      <h3>Agent words</h3>
+      <ul>
+        <li><b>Custom agent</b> &mdash; an agent you define yourself, with its own job and rules.</li>
+        <li><b>Agent file</b> &mdash; where that definition lives: <code>.github/agents/&lt;name&gt;.agent.md</code>.</li>
+        <li><b>Role</b> &mdash; the one job an agent does: design, coding, test or review.</li>
+        <li><b>Rationale</b> &mdash; the coding agent&rsquo;s own explanation of why it wrote the code.</li>
+        <li><b>Independent</b> &mdash; did not write the work, and was not told why.</li>
+      </ul>
+    </div>
+    <div class="pts">
+      <h3>Pipeline words</h3>
+      <ul>
+        <li><b>Artifact</b> &mdash; a file one agent hands to the next.</li>
+        <li><b>spec.md</b> &mdash; the design agent&rsquo;s written plan for the change.</li>
+        <li><b>Orchestration</b> &mdash; deciding which agent runs when.</li>
+        <li><b>Human gate</b> &mdash; a point where a person must approve.</li>
+        <li><b>AC1, AC2&hellip;</b> &mdash; acceptance criterion 1, 2 of the ticket.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="slide" data-sec="1 &middot; Why four beat one" data-title="Three reasons, and smarter is not one" data-notes="Three distinct arguments and they are worth separating, because teams usually only know the third one and it is the weakest of the three to lead with. Context pollution is the cheapest win and the easiest to explain: a general agent carries the design conversation into the implementation and the implementation into the review, so by the time anything is reviewed the window is full of justifications. Conflicting goals is the subtle one - a single agent asked to implement AND to be critical of the implementation has been given two objectives that trade against each other, and it will satisfy the one you emphasised most recently. Reviewer independence is the structural one from the last slide. The bottom band is the honest boundary: none of these say a narrow agent is smarter. Same model, same weights, different context and different instructions." data-tier="K">
+  <h2>Three reasons four agents beat one &mdash; and &ldquo;smarter&rdquo; is not one<span class="tag k">1</span></h2>
   <div class="body g1">
     <div>
       <svg viewBox="0 0 1180 452" role="img" aria-label="Context pollution, conflicting goals and reviewer independence compared">
         <rect class="bx grow" x="4" y="4" width="384" height="292" rx="8"/>
-        <text class="lb" x="24" y="30">1 &middot; CONTEXT POLLUTION</text>
-        <text class="tt" x="24" y="58">The window carries the argument</text>
-        <text class="ss" x="24" y="86">A general agent takes the design discussion into the</text>
-        <text class="ss" x="24" y="106">implementation, and the implementation into the review.</text>
-        <text class="ss" x="24" y="134">By the time anything is reviewed, the window is full of</text>
-        <text class="ss" x="24" y="154">reasons the change is correct &mdash; written by the thing</text>
-        <text class="ss" x="24" y="174">now being asked whether it is correct.</text>
+        <text class="lb" x="24" y="30">1 &middot; A CLUTTERED CHAT</text>
+        <text class="tt" x="24" y="58">The chat carries the argument</text>
+        <text class="ss" x="24" y="90">One agent carries the design talk into</text>
+        <text class="ss" x="24" y="110">coding, and the coding talk into review.</text>
+        <text class="ss" x="24" y="140">So the reviewer&rsquo;s window is full of</text>
+        <text class="ss" x="24" y="160">reasons why the change is right.</text>
         <rect class="bx w" x="24" y="192" width="344" height="88" rx="6"/>
-        <text class="lb" x="40" y="214">THE FIX IS STRUCTURAL, NOT VERBAL</text>
-        <text class="ss" x="40" y="238">Each agent gets the inputs its role needs and</text>
-        <text class="ss" x="40" y="258">no others. The review agent is not <tspan font-style="italic">told</tspan> to ignore</text>
-        <text class="ss" x="40" y="276">the rationale &mdash; it is never given it.</text>
+        <text class="lb" x="40" y="214">THE FIX</text>
+        <text class="ss" x="40" y="240">Give each agent only what its role</text>
+        <text class="ss" x="40" y="260">needs. Nothing else.</text>
 
         <rect class="bx a grow w2" x="398" y="4" width="384" height="292" rx="8"/>
-        <text class="lb a" x="418" y="30">2 &middot; CONFLICTING GOALS &mdash; THE SUBTLE ONE</text>
-        <text class="tt" x="418" y="58">Two objectives that trade off</text>
-        <text class="ss" x="418" y="86">&ldquo;Implement this, and be critical of your</text>
-        <text class="ss" x="418" y="106">implementation&rdquo; is two goals, and they pull apart.</text>
-        <text class="ss" x="418" y="134">It will satisfy whichever you emphasised most</text>
-        <text class="ss" x="418" y="154">recently &mdash; usually the one in the last sentence.</text>
-        <rect class="bx w" x="418" y="172" width="344" height="108" rx="6"/>
-        <text class="lb a" x="434" y="194" style="font-size:10.5px">THE HUMAN VERSION, WHICH YOU ALREADY BELIEVE</text>
-        <text class="ss" x="434" y="218">You would not ask an engineer to review their own</text>
-        <text class="ss" x="434" y="238">pull request and expect much. Not because they</text>
-        <text class="ss" x="434" y="258">lack skill &mdash; because they already decided, and</text>
-        <text class="ss" x="434" y="276">reviewing means re-opening the decision.</text>
+        <text class="lb a" x="418" y="30">2 &middot; TWO GOALS THAT PULL APART</text>
+        <text class="tt" x="418" y="58">&ldquo;Write it, and criticise it&rdquo;</text>
+        <text class="ss" x="418" y="90">That is two goals in one request.</text>
+        <text class="ss" x="418" y="120">The agent follows whichever one</text>
+        <text class="ss" x="418" y="140">you said last.</text>
+        <rect class="bx w" x="418" y="192" width="344" height="88" rx="6"/>
+        <text class="lb a" x="434" y="214">SAME WITH PEOPLE</text>
+        <text class="ss" x="434" y="240">You would not ask an engineer to</text>
+        <text class="ss" x="434" y="260">review their own pull request.</text>
 
         <rect class="bx r grow w3" x="792" y="4" width="384" height="292" rx="8"/>
-        <text class="lb r" x="812" y="30">3 &middot; REVIEWER INDEPENDENCE &mdash; THE STRUCTURAL ONE</text>
-        <text class="tt" x="812" y="58">Not skill. Not authorship.</text>
-        <text class="ss" x="812" y="86">The review agent&rsquo;s value is entirely that it did not</text>
-        <text class="ss" x="812" y="106">write this and has not been told why.</text>
-        <text class="ss" x="812" y="134">It is the same model. It is not better at reading</text>
-        <text class="ss" x="812" y="154">code. It is simply <tspan font-weight="600" fill="#e2726e">not already committed.</tspan></text>
+        <text class="lb r" x="812" y="30">3 &middot; A SEPARATE CHECKER</text>
+        <text class="tt" x="812" y="58">It did not write this</text>
+        <text class="ss" x="812" y="90">Same model. Not better at reading code.</text>
+        <text class="ss" x="812" y="120">It has simply <tspan font-weight="600" fill="#e2726e">not decided already.</tspan></text>
         <rect class="bx w" x="812" y="172" width="344" height="108" rx="6"/>
-        <text class="lb r" x="828" y="194">WHAT THIS CLOSES</text>
-        <text class="ss" x="828" y="218">The confidently wrong refactor &mdash; caught by</text>
-        <text class="ss" x="828" y="238">someone who does not share the assumption.</text>
-        <text class="ss" x="828" y="258">The test written to pass &mdash; caught by someone</text>
-        <text class="ss" x="828" y="276">who reads the test against the <tspan font-style="italic">ticket</tspan>.</text>
+        <text class="lb r" x="828" y="194">WHAT THIS FIXES</text>
+        <text class="ss" x="828" y="220">The confidently wrong refactor</text>
+        <text class="ss" x="828" y="244">The test written to pass</text>
 
         <rect class="bx d" x="4" y="312" width="1172" height="136" rx="8"/>
-        <text class="lb w" x="24" y="338">THE BOUNDARY &mdash; SAY THIS PLAINLY OR THE ROOM WILL OVERSELL IT INTERNALLY</text>
-        <text class="ss w" x="24" y="366" style="font-size:14px">Same model. Same weights. A narrow agent is not more capable than a general one.</text>
-        <text class="ss w" x="24" y="392" style="font-size:14px">What differs is <tspan font-weight="700" fill="#e0b34d">what it can see</tspan> and <tspan font-weight="700" fill="#e0b34d">what it has been asked to optimise</tspan> &mdash; and that is enough,</text>
-        <text class="ss w" x="24" y="414" style="font-size:14px">because the failures we could not close were failures of independence, not of capability.</text>
-        <text class="ss w" x="24" y="440" style="font-size:13px;fill:#6ea8fe">If you pitch this to your team as &ldquo;specialist agents are better at their jobs&rdquo;, it will not survive contact with a sceptic.</text>
+        <text class="lb w" x="24" y="338">SAY THIS CLEARLY</text>
+        <text class="ss w" x="24" y="368" style="font-size:15px">Same model, same weights. A narrow agent is <tspan font-weight="700" fill="#e0b34d">not more skilled</tspan>.</text>
+        <text class="ss w" x="24" y="396" style="font-size:15px">What changes is what each agent sees, and what it is asked to do.</text>
+        <text class="ss w" x="24" y="428" style="font-size:14px;fill:#6ea8fe">Do not tell your team &ldquo;specialist agents are smarter&rdquo;. It is not true.</text>
       </svg>
     </div>
   </div>
 </section>
-<!-- 4 -->
+
+<!-- 5 -->
 <section class="slide" data-sec="1 &middot; Why four beat one" data-title="What each agent must not see" data-notes="This is the operational heart of the module and it is the slide people photograph. Read it as a table of deliberate blindness rather than a table of inputs. Design does not see the code, so it cannot quietly design around whatever is already there - that is how you get an option set that is really a rationalisation. Coding does not see the tests, because knowing the assertions turns implementation into targeting the assertions. Test does not see the coding agent's rationale, which is the single most important cell on this slide, because that rationale is precisely the reading you are trying to check. Review sees the diff and the ticket and nothing else. Expect the objection that this is wasteful - the same file gets read three times. Agree, and reframe: you are paying tokens to buy independence, and tokens are the cheap resource. Reviewer attention is the expensive one, and Module 1 established that on day one." data-tier="K">
   <h2>Deliberate blindness &mdash; what each agent is <em>not</em> given<span class="tag k">1</span></h2>
   <div class="body g1">
@@ -170,174 +183,138 @@
       <svg viewBox="0 0 1180 452" role="img" aria-label="What each of the four agents sees and is deliberately not given">
         <rect class="bx d" x="4" y="4" width="1172" height="30" rx="6"/>
         <text class="lb w" x="24" y="24">AGENT</text>
-        <text class="lb w" x="230" y="24">SEES</text>
-        <text class="lb w" x="600" y="24">DELIBERATELY DOES NOT SEE</text>
-        <text class="lb w" x="960" y="24">BECAUSE</text>
-
+        <text class="lb w" x="200" y="24">SEES</text>
+        <text class="lb w" x="520" y="24">NEVER SEES</text>
+        <text class="lb w" x="800" y="24">WHY</text>
         <rect class="bx grow" x="4" y="42" width="1172" height="78" rx="6"/>
-        <text class="tt" x="24" y="70">Design</text>
-        <text class="ss" x="24" y="92">options &amp; trade-offs</text>
-        <text class="ss" x="230" y="70">the ticket &middot; the ADRs</text>
-        <text class="ss" x="230" y="92">architecture &middot; glossary</text>
-        <text class="ss" x="600" y="80" style="fill:#e2726e;font-weight:600">the implementation</text>
-        <text class="ss" x="960" y="70">Otherwise it designs around what</text>
-        <text class="ss" x="960" y="92" style="font-size:12.5px">exists &mdash; a rationalisation, not options.</text>
-
-        <rect class="bx grow w2" x="4" y="128" width="1172" height="78" rx="6"/>
-        <text class="tt" x="24" y="156">Coding</text>
-        <text class="ss" x="24" y="178">inside the architecture</text>
-        <text class="ss" x="230" y="156">the spec &middot; the named files</text>
-        <text class="ss" x="230" y="178">conventions &amp; instructions</text>
-        <text class="ss" x="600" y="166" style="fill:#e2726e;font-weight:600">the tests that will judge it</text>
-        <text class="ss" x="960" y="156">Knowing the assertions turns</text>
-        <text class="ss" x="960" y="178">implementation into targeting them.</text>
-
-        <rect class="bx a grow w3" x="4" y="214" width="1172" height="82" rx="6"/>
-        <text class="lb a" x="600" y="234">THE MOST IMPORTANT CELL ON THIS SLIDE</text>
-        <text class="tt" x="24" y="246">Test</text>
-        <text class="ss" x="24" y="268">proving requirements,</text>
-        <text class="ss" x="24" y="288">not code</text>
-        <text class="ss" x="230" y="256">the ticket &amp; its criteria</text>
-        <text class="ss" x="230" y="278">the public surface</text>
-        <text class="ss" x="600" y="266" style="fill:#e2726e;font-weight:700">the coder&rsquo;s rationale</text>
-        <text class="ss" x="960" y="256">That rationale <tspan font-style="italic">is</tspan> the reading you</text>
-        <text class="ss" x="960" y="278">are trying to check independently.</text>
-
-        <rect class="bx r grow w4" x="4" y="304" width="1172" height="78" rx="6"/>
-        <text class="tt" x="24" y="332">Review</text>
-        <text class="ss" x="24" y="354">adversarial, blind</text>
-        <text class="ss" x="230" y="332">the diff &middot; the ticket</text>
-        <text class="ss" x="230" y="354">ADRs &amp; conventions</text>
-        <text class="ss" x="600" y="342" style="fill:#e2726e;font-weight:600">every word of the rationale</text>
-        <text class="ss" x="960" y="332">A reviewer given the argument</text>
-        <text class="ss" x="960" y="354">reviews the argument, not the code.</text>
-
+        <text class="tt" x="24" y="87" style="font-size:16px">Design</text>
+        <text class="ss" x="200" y="87" style="font-size:14px">the ticket, ADRs, architecture</text>
+        <text class="ss" x="520" y="87" style="font-size:14px;fill:#e2726e;font-weight:600">the existing code</text>
+        <text class="ss" x="800" y="87" style="font-size:14px">It would just describe what exists.</text>
+        <rect class="bx w2 grow" x="4" y="128" width="1172" height="78" rx="6"/>
+        <text class="tt" x="24" y="173" style="font-size:16px">Coding</text>
+        <text class="ss" x="200" y="173" style="font-size:14px">the spec, the named files, conventions</text>
+        <text class="ss" x="520" y="173" style="font-size:14px;fill:#e2726e;font-weight:600">the tests that judge it</text>
+        <text class="ss" x="800" y="173" style="font-size:14px">It would write code to pass the tests.</text>
+        <rect class="bx a grow w3" x="4" y="214" width="1172" height="78" rx="6"/>
+        <text class="tt" x="24" y="259" style="font-size:16px">Test</text>
+        <text class="ss" x="200" y="259" style="font-size:14px">the ticket and its criteria</text>
+        <text class="ss" x="520" y="259" style="font-size:14px;fill:#e2726e;font-weight:600">the coder&rsquo;s rationale</text>
+        <text class="ss" x="800" y="259" style="font-size:14px">That is the reading we want to check.</text>
+        <text class="lb a" x="1162" y="230" text-anchor="end">MOST IMPORTANT ROW</text>
+        <rect class="bx r grow w4" x="4" y="300" width="1172" height="78" rx="6"/>
+        <text class="tt" x="24" y="345" style="font-size:16px">Review</text>
+        <text class="ss" x="200" y="345" style="font-size:14px">the diff, the ticket, ADRs</text>
+        <text class="ss" x="520" y="345" style="font-size:14px;fill:#e2726e;font-weight:600">any of the rationale</text>
+        <text class="ss" x="800" y="345" style="font-size:14px">It would review the argument, not the code.</text>
         <rect class="bx d" x="4" y="390" width="1172" height="58" rx="8"/>
-        <text class="ss w" x="24" y="414" style="font-size:14px">&ldquo;But the same file gets read three times.&rdquo; &nbsp;Yes &mdash; you are spending <tspan font-weight="700" fill="#e0b34d">tokens</tspan> to buy independence.</text>
-        <text class="ss w" x="24" y="436" style="font-size:14px">Tokens are the cheap resource. Reviewer attention is the expensive one, and Module 1 priced it on the first morning.</text>
-      </svg>
-    </div>
-  </div>
-</section>
-
-<!-- 5 -->
-<section class="slide" data-sec="1 &middot; Why four beat one" data-title="Why four, and not nine" data-notes="Pre-empt the obvious over-application, because a room that buys this module will go back and build eleven agents. Four is not a magic number - it is the number of genuinely distinct JOBS in the lifecycle up to a merged pull request, where distinct means the inputs differ, the definition of done differs, and the failure modes differ. Walk the test on the right: if two candidate agents would take the same inputs and be judged the same way, they are one agent with two prompts. Documentation is the example worth using because everyone proposes it: a docs agent takes the same inputs as the coding agent and is judged by whether the doc matches the change - that is a step, not a role, and it belongs in the coding agent's output contract. Then land the cost line: every agent is a definition somebody maintains, and unmaintained definitions are the anti-pattern at the end of this module." data-tier="R">
-  <h2>Four, not nine &mdash; the test for whether a role is real<span class="tag k">1</span></h2>
-  <div class="body g46">
-    <div class="pts">
-      <h3>Four is not a magic number</h3>
-      <ul>
-        <li>It is the count of genuinely distinct <b>jobs</b> between a ticket and a merged pull request &mdash; and this course stops at the merge, deliberately.</li>
-        <li>Distinct means three things differ: the <b>inputs</b>, the <b>definition of done</b>, and the <b>failure modes</b>.</li>
-      </ul>
-      <h3>The test, applied to the one everybody proposes</h3>
-      <ul>
-        <li>A <em>documentation agent</em> takes the same inputs as the coding agent and is judged the same way &mdash; does the artifact match the change?</li>
-        <li>Same inputs, same done, same failures. So it is <b>a step in the coding agent's output contract</b>, not a role.</li>
-      </ul>
-      <div class="callout bad">Two agents that would take the same inputs and be judged the same way are <b>one agent with two prompts</b> &mdash; and you now maintain two files that will disagree.</div>
-      <div class="take"><b>Every agent is a definition somebody owns.</b> Nine agents is nine files, drifting at nine different rates &mdash; which is the last section of this module.</div>
-    </div>
-    <div>
-      <svg viewBox="0 0 700 430" role="img" aria-label="A three-part test for whether a proposed agent is a real role or a step">
-        <text class="lb" x="4" y="13">A PROPOSED AGENT &mdash; RUN IT THROUGH THREE QUESTIONS</text>
-        <rect class="bx" x="4" y="22" width="692" height="238" rx="8"/>
-
-        <rect class="bx w rise" x="20" y="40" width="660" height="62" rx="6"/>
-        <text class="tt" x="36" y="64" style="font-size:13.5px">1 &middot; Do the inputs differ?</text>
-        <text class="ss" x="36" y="86">If it reads the same files as an agent you already have, it is not separate work.</text>
-
-        <rect class="bx w rise r2" x="20" y="110" width="660" height="62" rx="6"/>
-        <text class="tt" x="36" y="134" style="font-size:13.5px">2 &middot; Does &ldquo;done&rdquo; differ?</text>
-        <text class="ss" x="36" y="156">Judged by the same artifact and the same check &rarr; the same role, split in two.</text>
-
-        <rect class="bx w rise r3" x="20" y="180" width="660" height="62" rx="6"/>
-        <text class="tt" x="36" y="204" style="font-size:13.5px">3 &middot; Do the failure modes differ?</text>
-        <text class="ss" x="36" y="226">If it fails the way an existing agent fails, it needs no separate guardrails.</text>
-
-        <rect class="bx g" x="4" y="276" width="340" height="70" rx="7"/>
-        <text class="lb g" x="24" y="298">THREE YESES</text>
-        <text class="ss" x="24" y="322">A real role. Give it a definition</text>
-        <text class="ss" x="24" y="340">and an owner.</text>
-
-        <rect class="bx r" x="356" y="276" width="340" height="70" rx="7"/>
-        <text class="lb r" x="376" y="298">ANYTHING LESS</text>
-        <text class="ss" x="376" y="322">A step. It belongs in an existing</text>
-        <text class="ss" x="376" y="340">agent&rsquo;s output contract.</text>
-
-        <rect class="bx d" x="4" y="360" width="692" height="70" rx="8"/>
-        <text class="lb w" x="24" y="384">AND THE ONE THIS COURSE DOES NOT HAVE</text>
-        <text class="ss w" x="24" y="410" style="font-size:14px">No deploy or operations agent &mdash; out of scope, and the pipelines are yours already.</text>
+        <text class="ss w" x="24" y="425" style="font-size:15px">Yes, the same file is read three times. <tspan font-weight="700" fill="#e0b34d">Tokens are cheap. Your review time is not.</tspan></text>
       </svg>
     </div>
   </div>
 </section>
 
 <!-- 6 -->
-<section class="slide" data-sec="2 &middot; Defining an agent" data-title="Seven parts of a definition" data-notes="Same move as Module 3's six-part anatomy, one level up: seven parts, each preventing something specific. Role and goal are what people write and they are the least interesting. Allowed tools is where most definitions are far too generous - an agent with edit access that should never edit will eventually edit, and the guardrail that prevented it was a sentence rather than a permission. Inputs is where the deliberate blindness from slide 4 becomes concrete. The hand-off contract is the part almost nobody writes and it is what makes orchestration possible at all - if the artifact is not specified, the next agent gets whatever prose the last one felt like producing. And NEVER is the one to dwell on, for the same reason stop conditions mattered in Module 3: it is the only part that constrains behaviour when the agent is doing well and feels confident." data-tier="K">
-  <h2>Seven parts &mdash; and the two nobody writes<span class="tag k">2</span></h2>
-  <div class="body g1">
+<section class="slide" data-sec="1 &middot; Why four beat one" data-title="Four agents, not nine" data-notes="Pre-empt the obvious over-application, because a room that buys this module will go back and build eleven agents. Four is not a magic number - it is the number of genuinely distinct JOBS in the lifecycle up to a merged pull request, where distinct means the inputs differ, the definition of done differs, and the failure modes differ. Walk the test on the right: if two candidate agents would take the same inputs and be judged the same way, they are one agent with two prompts. Documentation is the example worth using because everyone proposes it: a docs agent takes the same inputs as the coding agent and is judged by whether the doc matches the change - that is a step, not a role, and it belongs in the coding agent's output contract. Then land the cost line: every agent is a definition somebody maintains, and unmaintained definitions are the anti-pattern at the end of this module." data-tier="R">
+  <h2>Four agents, not nine &mdash; how to tell if a role is real<span class="tag k">1</span></h2>
+  <div class="body g46">
+    <div class="pts">
+      <h3>Why four</h3>
+      <ul>
+        <li>Four different jobs sit between a ticket and a merged PR.</li>
+        <li>Different means: different <b>inputs</b>, a different <b>&ldquo;done&rdquo;</b>, different ways to <b>fail</b>.</li>
+      </ul>
+      <h3>Example: a documentation agent</h3>
+      <ul>
+        <li>Same inputs and same &ldquo;done&rdquo; as the coding agent.</li>
+        <li>So it is <b>a step in the coding agent&rsquo;s job</b>, not a new role.</li>
+      </ul>
+      <div class="take"><b>Every agent is a file someone must keep up to date.</b> Nine agents means nine files going stale.</div>
+    </div>
     <div>
-      <svg viewBox="0 0 1180 452" role="img" aria-label="The seven parts of an agent definition and what each prevents">
-        <rect class="bx d" x="4" y="4" width="1172" height="30" rx="6"/>
-        <text class="lb w" x="24" y="24">PART</text>
-        <text class="lb w" x="330" y="24">WHAT IT PINS DOWN</text>
-        <text class="lb w" x="760" y="24">WITHOUT IT</text>
+      <svg viewBox="0 0 700 430" role="img" aria-label="Three questions that decide whether a proposed agent is a real role or a step">
+        <text class="lb" x="4" y="13">A NEW AGENT IS PROPOSED &mdash; ASK THREE QUESTIONS</text>
+        <rect class="bx" x="4" y="22" width="692" height="238" rx="8"/>
+        <rect class="bx w rise" x="20" y="40" width="660" height="62" rx="6"/>
+        <text class="tt" x="36" y="64" style="font-size:13.5px">1 &middot; Different inputs?</text>
+        <text class="ss" x="36" y="86">Reads the same files as an existing agent? Not a new role.</text>
+        <rect class="bx w rise r2" x="20" y="110" width="660" height="62" rx="6"/>
+        <text class="tt" x="36" y="134" style="font-size:13.5px">2 &middot; Different &ldquo;done&rdquo;?</text>
+        <text class="ss" x="36" y="156">Checked the same way? Then it is one role split in two.</text>
+        <rect class="bx w rise r3" x="20" y="180" width="660" height="62" rx="6"/>
+        <text class="tt" x="36" y="204" style="font-size:13.5px">3 &middot; Different failures?</text>
+        <text class="ss" x="36" y="226">Fails the same way? It needs no rules of its own.</text>
 
-        <rect class="bx grow" x="4" y="42" width="1172" height="52" rx="6"/>
-        <text class="tt" x="24" y="74">Role</text>
-        <text class="ss" x="330" y="74">One sentence: what this agent is for.</text>
-        <text class="ss" x="760" y="74">It drifts into whatever the last prompt implied.</text>
+        <rect class="bx g" x="4" y="276" width="340" height="70" rx="7"/>
+        <text class="lb g" x="24" y="298">THREE YESES</text>
+        <text class="ss" x="24" y="324">A real role. Give it a file and an owner.</text>
+        <rect class="bx r" x="356" y="276" width="340" height="70" rx="7"/>
+        <text class="lb r" x="376" y="298">ANYTHING LESS</text>
+        <text class="ss" x="376" y="324">A step inside an existing agent.</text>
 
-        <rect class="bx grow w2" x="4" y="100" width="1172" height="52" rx="6"/>
-        <text class="tt" x="24" y="132">Goal</text>
-        <text class="ss" x="330" y="132">The artifact it exists to produce.</text>
-        <text class="ss" x="760" y="132">It produces conversation instead of an artifact.</text>
-
-        <rect class="bx a grow w3" x="4" y="158" width="1172" height="56" rx="6"/>
-        <text class="lb a" x="1162" y="171" text-anchor="end">USUALLY TOO GENEROUS</text>
-        <text class="tt" x="24" y="192">Allowed tools</text>
-        <text class="ss" x="330" y="192">Read, edit, terminal, tests &mdash; enumerated.</text>
-        <text class="ss" x="760" y="192">A &ldquo;never edits&rdquo; reviewer that can edit,</text>
-        <text class="ss" x="760" y="210" style="fill:#d98a3d">eventually will. Make it a permission, not a sentence.</text>
-
-        <rect class="bx grow w4" x="4" y="220" width="1172" height="52" rx="6"/>
-        <text class="tt" x="24" y="252">Inputs</text>
-        <text class="ss" x="330" y="252">What it is given &mdash; and what it is not.</text>
-        <text class="ss" x="760" y="252">The blindness from the last slide evaporates.</text>
-
-        <rect class="bx grow w5" x="4" y="278" width="1172" height="52" rx="6"/>
-        <text class="tt" x="24" y="310">Guardrails</text>
-        <text class="ss" x="330" y="310">The house rules that bind this role.</text>
-        <text class="ss" x="760" y="310">Every ADR gets re-litigated, per ticket.</text>
-
-        <rect class="bx a grow" x="4" y="336" width="1172" height="52" rx="6"/>
-        <text class="lb a" x="1162" y="349" text-anchor="end">RARELY WRITTEN</text>
-        <text class="tt" x="24" y="368">Hand-off contract</text>
-        <text class="ss" x="330" y="368">The shape of the artifact it passes on.</text>
-        <text class="ss" x="760" y="365">Orchestration is impossible &mdash; the next agent</text>
-        <text class="ss" x="760" y="383" style="fill:#d98a3d">receives whatever prose this one felt like writing.</text>
-
-        <rect class="bx r grow" x="4" y="394" width="1172" height="54" rx="6"/>
-        <text class="lb r" x="1162" y="407" text-anchor="end">THE ONE THAT DOES THE WORK</text>
-        <text class="tt" x="24" y="424">Never</text>
-        <text class="ss" x="330" y="424">The named things it must not do,</text>
-        <text class="ss" x="330" y="442">however reasonable they seem.</text>
-        <text class="ss" x="760" y="424" style="fill:#e2726e;font-weight:600">Nothing constrains it when it is doing well and</text>
-        <text class="ss" x="760" y="442" style="fill:#e2726e;font-weight:600">feels confident &mdash; which is exactly when it drifts.</text>
+        <rect class="bx d" x="4" y="360" width="692" height="70" rx="8"/>
+        <text class="lb w" x="24" y="384">NOT IN THIS COURSE</text>
+        <text class="ss w" x="24" y="410" style="font-size:14px">No deploy or operations agent. Your pipelines already do that.</text>
       </svg>
     </div>
   </div>
 </section>
+
 <!-- 7 -->
-<section class="slide" data-sec="2 &middot; Defining an agent" data-title="Anatomy of a real one - the review agent" data-notes="This is a real file and it will be in the repository for the labs. Walk it top to bottom but spend the time on two places. First, allowed tools: read, search, run tests, NO edits - and say why that is a permission and not a preference. A reviewer that fixes what it finds has become an author, and you have destroyed the only property that made the review worth having. Second, the guardrail list is ordered deliberately and the fifth item is the point: what is MISSING is the check that humans skip and agents skip, because both are drawn to what is present on the screen. Note also that the inputs section names what is withheld, in the file, as a line - that is how you keep a deliberate blindness from being quietly undone six months later by somebody who thinks they are being helpful." data-tier="D">
-  <h2>Anatomy of a real one &mdash; <code>review.agent.md</code><span class="tag k">2</span></h2>
+<section class="slide" data-sec="2 &middot; Defining an agent" data-title="Seven parts of an agent file" data-notes="Same move as Module 3's six-part anatomy, one level up: seven parts, each preventing something specific. Role and goal are what people write and they are the least interesting. Allowed tools is where most definitions are far too generous - an agent with edit access that should never edit will eventually edit, and the guardrail that prevented it was a sentence rather than a permission. Inputs is where the deliberate blindness from the what-each-agent-is-not-given slide becomes concrete. The hand-off contract is the part almost nobody writes and it is what makes orchestration possible at all - if the artifact is not specified, the next agent gets whatever prose the last one felt like producing. And NEVER is the one to dwell on, for the same reason stop conditions mattered in Module 3: it is the only part that constrains behaviour when the agent is doing well and feels confident." data-tier="K">
+  <h2>Seven parts of an agent file &mdash; and the two nobody writes<span class="tag k">2</span></h2>
+  <div class="body g1">
+    <div>
+      <svg viewBox="0 0 1180 452" role="img" aria-label="The seven parts of an agent file and what goes wrong without each">
+        <rect class="bx d" x="4" y="4" width="1172" height="30" rx="6"/>
+        <text class="lb w" x="24" y="24">PART</text>
+        <text class="lb w" x="250" y="24">WHAT IT SAYS</text>
+        <text class="lb w" x="700" y="24">WITHOUT IT</text>
+        <rect class="bx grow" x="4" y="42" width="1172" height="52" rx="6"/>
+        <text class="tt" x="24" y="74">Role</text>
+        <text class="ss" x="250" y="74" style="font-size:14px">One sentence: what this agent is for.</text>
+        <text class="ss" x="700" y="74" style="font-size:14px;fill:#d98a3d">It drifts to whatever the last prompt said.</text>
+        <rect class="bx grow w2" x="4" y="100" width="1172" height="52" rx="6"/>
+        <text class="tt" x="24" y="132">Goal</text>
+        <text class="ss" x="250" y="132" style="font-size:14px">The file it must produce.</text>
+        <text class="ss" x="700" y="132" style="font-size:14px;fill:#d98a3d">It chats instead of producing a file.</text>
+        <rect class="bx a grow w3" x="4" y="158" width="1172" height="52" rx="6"/>
+        <text class="tt" x="24" y="190">Allowed tools</text>
+        <text class="ss" x="250" y="190" style="font-size:14px">Read, edit, terminal, tests &mdash; listed.</text>
+        <text class="ss" x="700" y="190" style="font-size:14px;fill:#d98a3d">A reviewer that can edit, will. Remove the permission.</text>
+        <text class="lb a" x="1162" y="172" text-anchor="end">OFTEN TOO WIDE</text>
+        <rect class="bx grow w4" x="4" y="216" width="1172" height="52" rx="6"/>
+        <text class="tt" x="24" y="248">Inputs</text>
+        <text class="ss" x="250" y="248" style="font-size:14px">What it gets &mdash; and what it does not.</text>
+        <text class="ss" x="700" y="248" style="font-size:14px;fill:#d98a3d">The deliberate blindness is lost.</text>
+        <rect class="bx grow w5" x="4" y="274" width="1172" height="52" rx="6"/>
+        <text class="tt" x="24" y="306">Guardrails</text>
+        <text class="ss" x="250" y="306" style="font-size:14px">The team rules for this role.</text>
+        <text class="ss" x="700" y="306" style="font-size:14px;fill:#d98a3d">Every ADR gets argued again, per ticket.</text>
+        <rect class="bx a grow" x="4" y="332" width="1172" height="52" rx="6"/>
+        <text class="tt" x="24" y="364">Hand-off contract</text>
+        <text class="ss" x="250" y="364" style="font-size:14px">The shape of the file it passes on.</text>
+        <text class="ss" x="700" y="364" style="font-size:14px;fill:#d98a3d">The next agent gets random prose.</text>
+        <text class="lb a" x="1162" y="346" text-anchor="end">RARELY WRITTEN</text>
+        <rect class="bx r grow" x="4" y="390" width="1172" height="52" rx="6"/>
+        <text class="tt" x="24" y="422">Never</text>
+        <text class="ss" x="250" y="422" style="font-size:14px">What it must not do, even if it seems reasonable.</text>
+        <text class="ss" x="700" y="422" style="font-size:14px;fill:#e2726e;font-weight:600">Nothing stops it when it feels confident.</text>
+        <text class="lb r" x="1162" y="404" text-anchor="end">THE ONE THAT MATTERS MOST</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="slide" data-sec="2 &middot; Defining an agent" data-title="A real agent file - the review agent" data-notes="This is a real file and it will be in the repository for the labs. Walk it top to bottom but spend the time on two places. First, allowed tools: read, search, run tests, NO edits - and say why that is a permission and not a preference. A reviewer that fixes what it finds has become an author, and you have destroyed the only property that made the review worth having. Second, the guardrail list is ordered deliberately and the fifth item is the point: what is MISSING is the check that humans skip and agents skip, because both are drawn to what is present on the screen. Note also that the inputs section names what is withheld, in the file, as a line - that is how you keep a deliberate blindness from being quietly undone six months later by somebody who thinks they are being helpful." data-tier="D">
+  <h2>A real agent file &mdash; <code>review.agent.md</code><span class="tag k">2</span></h2>
   <div class="body g55">
     <div>
 <div class="file"><span class="fn">.github/agents/review.agent.md</span><span class="c">---</span>
 <span class="k">name:</span> review
-<span class="k">description:</span> Adversarially review a change set.
-  Blind to the coder's rationale by design.
+<span class="k">description:</span> Find what is wrong or missing in
+  a change. Blind to the coder's rationale by design.
 <span class="k">version:</span> 5
 <span class="k">owner:</span> payments-platform
 <span class="c">---</span>
@@ -366,120 +343,95 @@ Read, search, run the tests.
 </div>
     </div>
     <div class="pts">
-      <h3>The guardrails are an ordered list, and that matters</h3>
+      <h3>Its checks, in order</h3>
       <ul>
-        <li><b>1</b> acceptance criteria &middot; <b>2</b> scope &middot; <b>3</b> ADRs and conventions &middot; <b>4</b> would the tests fail against the old code &middot; <b>5</b> <em>what is missing</em>.</li>
-        <li><b>Five is last because five is what gets skipped</b> &mdash; by humans and agents alike. Both are drawn to what is on the screen, and an absent error path is on nobody's screen.</li>
+        <li><b>1</b> criteria &middot; <b>2</b> scope &middot; <b>3</b> ADRs &middot; <b>4</b> do the tests fail on the old code? &middot; <b>5</b> <em>what is missing</em></li>
+        <li>Number 5 is last because <b>everyone skips it</b>. Missing things are not on the screen.</li>
       </ul>
-      <h3>Two lines doing structural work</h3>
+      <h3>Two important lines</h3>
       <ul>
-        <li><b>&ldquo;No edits&rdquo; is a permission, not a preference.</b> A reviewer that fixes what it finds is an author, and the independence is gone.</li>
-        <li><b>The withheld input is named in the file.</b> Written down, a deliberate blindness survives the helpful colleague who would otherwise quietly restore it.</li>
+        <li><b>&ldquo;No edits&rdquo; is a permission.</b> A reviewer that fixes things becomes an author.</li>
+        <li><b>The withheld input is written down</b>, so nobody adds it back by mistake.</li>
       </ul>
-      <div class="take"><b>Note what is not here:</b> no instruction to be thorough, careful or rigorous. Adjectives do not survive contact with a real diff. Named checks and named prohibitions do.</div>
-    </div>
-  </div>
-</section>
-
-<!-- 8 -->
-<section class="slide" data-sec="3 &middot; The four in practice" data-title="The four at a glance" data-notes="A reference slide - do not read it aloud line by line, let them scan it while you name the through-line. Each row's NEVER is the load-bearing part and each one gives up something that feels like efficiency. Design not writing code feels wasteful when the change is obvious. Coding not writing its own tests feels like an extra step. Test not reading the rationale feels like withholding useful information. Review not fixing what it finds feels actively obstructive, and it is the one teams remove first. Every one of those instincts is correct about the local cost and wrong about what it buys. That is the sentence to leave hanging before the next three slides go deeper on the two that matter most." data-tier="K">
-  <h2>The four, at a glance<span class="tag k">3</span></h2>
-  <div class="body g1">
-    <div>
-      <svg viewBox="0 0 1180 452" role="img" aria-label="The four agents with their goal, artifact and the thing each is never allowed to do">
-        <rect class="bx d" x="4" y="4" width="1172" height="30" rx="6"/>
-        <text class="lb w" x="24" y="24">AGENT</text>
-        <text class="lb w" x="230" y="24">EXISTS TO</text>
-        <text class="lb w" x="560" y="24">HANDS OVER</text>
-        <text class="lb w" x="790" y="24">NEVER &mdash; AND THIS IS THE LOAD-BEARING PART</text>
-
-        <rect class="bx grow" x="4" y="42" width="1172" height="94" rx="6"/>
-        <text class="tt" x="24" y="72" style="font-size:16px">Design</text>
-        <text class="ss" x="24" y="96">options &amp; trade-offs</text>
-        <text class="ss" x="24" y="118">reads ADRs first</text>
-        <text class="ss" x="230" y="78">Narrow the solution space to a</text>
-        <text class="ss" x="230" y="98">recommendation, with the constraint</text>
-        <text class="ss" x="230" y="118">that decides it named.</text>
-        <text class="ss" x="560" y="88" style="font-weight:600;fill:#5fbf8f">spec.md</text>
-        <text class="ss" x="560" y="110">options &middot; open questions</text>
-        <text class="ss" x="790" y="78" style="fill:#e2726e;font-weight:600">Never writes or modifies code.</text>
-        <text class="ss" x="790" y="100">Feels wasteful when the change is obvious &mdash; and that</text>
-        <text class="ss" x="790" y="120">is exactly when a rejected option gets silently rebuilt.</text>
-
-        <rect class="bx grow w2" x="4" y="144" width="1172" height="94" rx="6"/>
-        <text class="tt" x="24" y="174" style="font-size:16px">Coding</text>
-        <text class="ss" x="24" y="198">inside the architecture</text>
-        <text class="ss" x="24" y="220">does not re-decide</text>
-        <text class="ss" x="230" y="180">Land an agreed spec without</text>
-        <text class="ss" x="230" y="200">disturbing the architecture, touching</text>
-        <text class="ss" x="230" y="220">nothing outside its inputs.</text>
-        <text class="ss" x="560" y="190" style="font-weight:600;fill:#5fbf8f">the diff</text>
-        <text class="ss" x="560" y="212">+ files touched, and why</text>
-        <text class="ss" x="790" y="180" style="fill:#e2726e;font-weight:600">Never writes the tests that judge it.</text>
-        <text class="ss" x="790" y="202">And never changes a design decision because a better</text>
-        <text class="ss" x="790" y="222">one occurred to it &mdash; it stops and hands back.</text>
-
-        <rect class="bx a grow w3" x="4" y="246" width="1172" height="94" rx="6"/>
-        <text class="tt" x="24" y="276" style="font-size:16px">Test</text>
-        <text class="ss" x="24" y="300">proves requirements,</text>
-        <text class="ss" x="24" y="322">not code</text>
-        <text class="ss" x="230" y="282">Show each acceptance criterion holds</text>
-        <text class="ss" x="230" y="302">&mdash; working from the <tspan font-style="italic">ticket</tspan>, which is the</text>
-        <text class="ss" x="230" y="322">source of truth, not the diff.</text>
-        <text class="ss" x="560" y="292" style="font-weight:600;fill:#d98a3d">test report</text>
-        <text class="ss" x="560" y="314">one line per criterion</text>
-        <text class="ss" x="790" y="282" style="fill:#e2726e;font-weight:600">Never reads the coder&rsquo;s rationale.</text>
-        <text class="ss" x="790" y="304">Feels like withholding useful information. It is &mdash; and</text>
-        <text class="ss" x="790" y="324">the information is the reading you are trying to check.</text>
-
-        <rect class="bx r grow w4" x="4" y="348" width="1172" height="100" rx="6"/>
-        <text class="tt" x="24" y="378" style="font-size:16px">Review</text>
-        <text class="ss" x="24" y="402">adversarial, blind</text>
-        <text class="ss" x="24" y="424">reports, does not fix</text>
-        <text class="ss" x="230" y="384">Find what is wrong and what is</text>
-        <text class="ss" x="230" y="404">missing, ranked, each naming the rule</text>
-        <text class="ss" x="230" y="424">or criterion it breaches.</text>
-        <text class="ss" x="560" y="394" style="font-weight:600;fill:#e2726e">review report</text>
-        <text class="ss" x="560" y="416">findings by severity</text>
-        <text class="ss" x="790" y="384" style="fill:#e2726e;font-weight:600">Never fixes what it finds.</text>
-        <text class="ss" x="790" y="406">The rule teams remove first, because it looks</text>
-        <text class="ss" x="790" y="426">obstructive &mdash; and removing it ends the independence.</text>
-      </svg>
+      <div class="take"><b>No &ldquo;be thorough&rdquo; or &ldquo;be careful&rdquo;.</b> Named checks and named &ldquo;nevers&rdquo; work. Adjectives do not.</div>
     </div>
   </div>
 </section>
 
 <!-- 9 -->
-<section class="slide" data-sec="3 &middot; The four in practice" data-title="The test agent - proving requirements, not code" data-notes="Two slides on the agents that carry the module, and this is the first. The distinction in the title is the whole thing: a test derived from the diff asks does this code do what it does, which is always yes. A test derived from the ticket asks does this code do what was asked, which is the question. The test report on the right is the artifact and it is more important than it looks - one line per acceptance criterion, each marked covered or not, because the criterion nobody covered is invisible in a green suite and glaring in a report with a gap in it. Make the point about run-it-against-the-old-code again here even though Module 3 made it, because now it is somebody's stated guardrail rather than a habit you hope they remember." data-tier="K">
-  <h2>The test agent &mdash; the ticket is the source of truth, not the diff<span class="tag k">3</span></h2>
+<section class="slide" data-sec="3 &middot; The four in practice" data-title="The four at a glance" data-notes="A reference-style slide on the key path - do not read it aloud line by line, let them scan it while you name the through-line. Each row's NEVER is the part that carries the weight, and each one gives up something that feels like efficiency. Design not writing code feels wasteful when the change is obvious - and that is exactly when a rejected option gets silently rebuilt. Coding not writing its own tests feels like an extra step; coding also never changes a design decision because a better one occurred to it - it stops and hands back. Test not reading the rationale feels like withholding useful information; it is, and that information is the reading you are trying to check. Review not fixing what it finds feels obstructive, and it is the rule teams remove first - removing it ends the independence. Every one of those instincts is correct about the local cost and wrong about what it buys." data-tier="K">
+  <h2>The four agents, at a glance<span class="tag k">3</span></h2>
+  <div class="body g1">
+    <div>
+      <svg viewBox="0 0 1180 452" role="img" aria-label="The four agents with their job, what they hand over, and what each must never do">
+        <rect class="bx d" x="4" y="4" width="1172" height="30" rx="6"/>
+        <text class="lb w" x="24" y="24">AGENT</text>
+        <text class="lb w" x="200" y="24">ITS JOB</text>
+        <text class="lb w" x="560" y="24">HANDS OVER</text>
+        <text class="lb w" x="790" y="24">NEVER</text>
+        <rect class="bx grow" x="4" y="42" width="1172" height="84" rx="6"/>
+        <text class="tt" x="24" y="90" style="font-size:16px">Design</text>
+        <text class="ss" x="200" y="78" style="font-size:14px">Recommend one option, and name</text>
+        <text class="ss" x="200" y="100" style="font-size:14px">the rule that decides it.</text>
+        <text class="ss" x="560" y="90" style="font-size:14px;font-weight:600;fill:#5fbf8f">spec.md</text>
+        <text class="ss" x="790" y="90" style="font-size:14px;fill:#e2726e;font-weight:600">Never writes code.</text>
+        <rect class="bx grow w2" x="4" y="134" width="1172" height="84" rx="6"/>
+        <text class="tt" x="24" y="182" style="font-size:16px">Coding</text>
+        <text class="ss" x="200" y="170" style="font-size:14px">Build what the spec says.</text>
+        <text class="ss" x="200" y="192" style="font-size:14px">Touch only the listed files.</text>
+        <text class="ss" x="560" y="182" style="font-size:14px;font-weight:600;fill:#5fbf8f">the diff</text>
+        <text class="ss" x="790" y="170" style="font-size:14px;fill:#e2726e;font-weight:600">Never writes its own tests.</text>
+        <text class="ss" x="790" y="192" style="font-size:14px;fill:#e2726e;font-weight:600">Never changes the design.</text>
+        <rect class="bx a grow w3" x="4" y="226" width="1172" height="84" rx="6"/>
+        <text class="tt" x="24" y="274" style="font-size:16px">Test</text>
+        <text class="ss" x="200" y="262" style="font-size:14px">Prove each acceptance criterion,</text>
+        <text class="ss" x="200" y="284" style="font-size:14px">working from the ticket.</text>
+        <text class="ss" x="560" y="274" style="font-size:14px;font-weight:600;fill:#d98a3d">test report</text>
+        <text class="ss" x="790" y="274" style="font-size:14px;fill:#e2726e;font-weight:600">Never reads the coder&rsquo;s rationale.</text>
+        <rect class="bx r grow w4" x="4" y="318" width="1172" height="84" rx="6"/>
+        <text class="tt" x="24" y="366" style="font-size:16px">Review</text>
+        <text class="ss" x="200" y="354" style="font-size:14px">Find what is wrong or missing,</text>
+        <text class="ss" x="200" y="376" style="font-size:14px">ranked by severity.</text>
+        <text class="ss" x="560" y="366" style="font-size:14px;font-weight:600;fill:#e2726e">review report</text>
+        <text class="ss" x="790" y="366" style="font-size:14px;fill:#e2726e;font-weight:600">Never fixes what it finds.</text>
+        <rect class="bx d" x="4" y="412" width="1172" height="38" rx="6"/>
+        <text class="ss w" x="590" y="437" text-anchor="middle" style="font-size:15px">Each &ldquo;never&rdquo; feels slower. Each one <tspan font-weight="700" fill="#e0b34d">protects the separate check</tspan>.</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="slide" data-sec="3 &middot; The four in practice" data-title="The test agent - from the ticket, not the code" data-notes="Two slides on the agents that carry the module, and this is the first. The distinction in the title is the whole thing: a test derived from the diff asks does this code do what it does, which is always yes. A test derived from the ticket asks does this code do what was asked, which is the question. The test report on the right is the artifact and it is more important than it looks - one line per acceptance criterion, each marked covered or not, because the criterion nobody covered is invisible in a green suite and glaring in a report with a gap in it. Make the point about run-it-against-the-old-code again here even though Module 3 made it, because now it is somebody's stated guardrail rather than a habit you hope they remember." data-tier="K">
+  <h2>The test agent &mdash; it works from the ticket, not the code<span class="tag k">3</span></h2>
   <div class="body g64">
     <div>
-      <svg viewBox="0 0 700 430" role="img" aria-label="Tests derived from the diff versus tests derived from the ticket, and the test report artifact">
-        <text class="lb r" x="4" y="13">DERIVED FROM THE DIFF &mdash; ASKS THE WRONG QUESTION</text>
+      <svg viewBox="0 0 700 430" role="img" aria-label="Tests derived from the diff versus tests derived from the ticket, and the test report">
+        <text class="lb r" x="4" y="13">TESTS FROM THE CODE &mdash; THE WRONG QUESTION</text>
         <rect class="bx r" x="4" y="22" width="692" height="106" rx="8"/>
         <rect class="bx w" x="20" y="42" width="200" height="42" rx="6"/>
         <text class="ss" x="120" y="68" text-anchor="middle">read the diff</text>
         <path class="arr" d="M224 63 L262 63"/>
         <rect class="bx w" x="266" y="42" width="200" height="42" rx="6"/>
-        <text class="ss" x="366" y="68" text-anchor="middle">assert what it does</text>
+        <text class="ss" x="366" y="68" text-anchor="middle">check what it does</text>
         <path class="arr" d="M470 63 L508 63"/>
         <rect class="bx d" x="512" y="42" width="168" height="42" rx="6"/>
-        <text class="tt w" x="596" y="68" text-anchor="middle" style="font-size:13px">always green</text>
-        <text class="ss" x="20" y="112" style="fill:#e2726e;font-weight:600">&ldquo;Does this code do what it does?&rdquo; &mdash; a question with only one answer.</text>
+        <text class="tt w" x="596" y="68" text-anchor="middle" style="font-size:13px">always passes</text>
+        <text class="ss" x="20" y="112" style="fill:#e2726e;font-weight:600">&ldquo;Does the code do what it does?&rdquo; The answer is always yes.</text>
 
-        <text class="lb g" x="4" y="158">DERIVED FROM THE TICKET &mdash; CAN FAIL, WHICH IS THE POINT</text>
+        <text class="lb g" x="4" y="158">TESTS FROM THE TICKET &mdash; CAN FAIL, WHICH IS GOOD</text>
         <rect class="bx g" x="4" y="168" width="692" height="106" rx="8"/>
         <rect class="bx w" x="20" y="188" width="200" height="42" rx="6"/>
         <text class="ss" x="120" y="214" text-anchor="middle">read the criteria</text>
         <path class="arg" d="M224 209 L262 209"/>
         <rect class="bx w" x="266" y="188" width="200" height="42" rx="6"/>
-        <text class="ss" x="366" y="214" text-anchor="middle">assert what was asked</text>
+        <text class="ss" x="366" y="214" text-anchor="middle">check what was asked</text>
         <path class="arg" d="M470 209 L508 209"/>
         <rect class="bx g" x="512" y="188" width="168" height="42" rx="6"/>
         <text class="tt" x="596" y="214" text-anchor="middle" style="font-size:13px">can disagree</text>
-        <text class="ss" x="20" y="258" style="fill:#5fbf8f;font-weight:600">&ldquo;Does this code do what was asked?&rdquo; &mdash; and it may well not.</text>
+        <text class="ss" x="20" y="258" style="fill:#5fbf8f;font-weight:600">&ldquo;Does the code do what was asked?&rdquo; Maybe not.</text>
 
-        <text class="lb a" x="4" y="304">THE ARTIFACT &mdash; ONE LINE PER CRITERION, GAPS INCLUDED</text>
+        <text class="lb a" x="4" y="304">THE TEST REPORT &mdash; ONE LINE PER CRITERION, GAPS INCLUDED</text>
         <rect class="bx a" x="4" y="314" width="692" height="116" rx="8"/>
         <rect class="bx w" x="20" y="332" width="660" height="24" rx="4"/>
         <text class="ss" x="34" y="349" style="font-size:11.5px">AC1 balances back to pre-posting values &nbsp;&mdash;&nbsp; <tspan font-weight="700" fill="#5fbf8f">covered</tspan> &nbsp; reversalRestoresBothBalances</text>
@@ -487,136 +439,131 @@ Read, search, run the tests.
         <text class="ss" x="34" y="377" style="font-size:11.5px">AC2 reversal visible after the fact &nbsp;&mdash;&nbsp; <tspan font-weight="700" fill="#5fbf8f">covered</tspan> &nbsp; reversedPostingKeepsStatus</text>
         <rect class="bx r" x="20" y="388" width="660" height="24" rx="4"/>
         <text class="ss" x="34" y="405" style="font-size:11.5px">AC3 second reversal rejected &nbsp;&mdash;&nbsp; <tspan font-weight="700" fill="#e2726e">NOT COVERED</tspan> &nbsp; no test written</text>
-        <text class="ss" x="20" y="426" style="fill:#d98a3d;font-weight:600">The gap is glaring here. In a green suite it is invisible.</text>
+        <text class="ss" x="20" y="426" style="fill:#d98a3d;font-weight:600">In a passing test suite, this gap is invisible.</text>
       </svg>
     </div>
     <div class="pts">
-      <h3>Why the report, and not just the tests</h3>
+      <h3>Why a report?</h3>
       <ul>
-        <li>A suite tells you what <b>was</b> written. A report tells you what was <b>not</b> &mdash; and the uncovered criterion is the one that reaches production.</li>
-        <li>Criteria it could not cover are <b>listed, never quietly dropped</b>. A test agent that silently narrows the ticket has done the most expensive possible thing.</li>
+        <li>Tests show what was checked. The report <b>also shows what was not</b>.</li>
+        <li>Criteria it could not cover are <b>listed, never dropped</b>.</li>
       </ul>
-      <h3>The guardrail carried over from Module 3</h3>
+      <h3>A rule from Module 3</h3>
       <ul>
-        <li><b>Run every new test against the pre-change code first.</b> It is now a written guardrail in <code>test.agent.md</code>, not a habit you hope somebody remembers.</li>
+        <li><b>Run every new test on the old code first.</b> It must fail. Now this rule is written in <code>test.agent.md</code>.</li>
       </ul>
-      <div class="take"><b>The blindness earns its keep here.</b> The test agent is not shown the coder's rationale &mdash; so if the coder misread the ticket, the test is written against the ticket and the two disagree. That disagreement is the whole return on this module.</div>
-    </div>
-  </div>
-</section>
-<!-- 10 -->
-<section class="slide" data-sec="3 &middot; The four in practice" data-title="The review agent - adversarial and blind" data-notes="The second of the two that carry the module. Adversarial is a word people nod at and then implement as please check this carefully, which produces a polite summary of the change and a compliment. The framing that works is on the left: the review agent's job is to try to REFUTE the claim that this change satisfies the ticket, and to report what it could not refute. That is a different instruction and it produces different output. The right-hand side is the failure mode to name explicitly because it is what teams actually get - a review that agrees. If your review agent has never blocked anything, it is not independent, it is a rubber stamp with extra steps, and you should check whether it is being handed the rationale. Then the honest limit: it will produce false findings, and that is the correct trade. A reviewer that never cries wolf is one that never barks." data-tier="R">
-  <h2>The review agent &mdash; try to refute it, then report what survived<span class="tag k">3</span></h2>
-  <div class="body g46">
-    <div class="pts">
-      <h3>&ldquo;Adversarial&rdquo; is an instruction, not an adjective</h3>
-      <ul>
-        <li>&ldquo;Please check this carefully&rdquo; produces a <b>polite summary and a compliment</b>. Every team that tries this gets it once and concludes the idea does not work.</li>
-        <li>The instruction that works: <b>try to refute the claim that this change satisfies the ticket</b>, then report what you could not refute.</li>
-      </ul>
-      <h3>The tell that yours is not independent</h3>
-      <ul>
-        <li><b>It has never blocked anything.</b> A review agent that always agrees is a rubber stamp with extra steps.</li>
-        <li>The usual cause is mechanical: it is being handed the coder's summary. Check the inputs before you rewrite the prompt.</li>
-      </ul>
-      <div class="callout bad"><b>The honest limit:</b> it will raise findings that are wrong. That is the correct trade &mdash; a reviewer that never cries wolf is one that never barks. Budget for triage; do not tune it into agreeableness.</div>
-    </div>
-    <div>
-      <svg viewBox="0 0 700 430" role="img" aria-label="What the review agent checks, in order, and where each check pays">
-        <text class="lb r" x="4" y="13">THE ORDERED CHECKLIST &mdash; AND WHY THIS ORDER</text>
-        <rect class="bx r" x="4" y="22" width="692" height="286" rx="8"/>
-
-        <rect class="bx w rise" x="20" y="40" width="660" height="46" rx="6"/>
-        <text class="tt" x="36" y="60" style="font-size:13px">1 &middot; Acceptance criteria</text>
-        <text class="ss" x="36" y="78">Actually met &mdash; or only <tspan font-style="italic">apparently</tspan> met? Read each one against the diff.</text>
-
-        <rect class="bx w rise r2" x="20" y="94" width="660" height="46" rx="6"/>
-        <text class="tt" x="36" y="114" style="font-size:13px">2 &middot; Scope</text>
-        <text class="ss" x="36" y="132">Anything here the ticket did not ask for? Catches the drift Module 3 named.</text>
-
-        <rect class="bx w rise r3" x="20" y="148" width="660" height="46" rx="6"/>
-        <text class="tt" x="36" y="168" style="font-size:13px">3 &middot; ADRs and conventions</text>
-        <text class="ss" x="36" y="186">Does anything contradict a decision already taken? This is Module 2, cashed in.</text>
-
-        <rect class="bx w rise r4" x="20" y="202" width="660" height="46" rx="6"/>
-        <text class="tt" x="36" y="222" style="font-size:13px">4 &middot; The tests themselves</text>
-        <text class="ss" x="36" y="240">Would they fail against the pre-change code? A green suite is not evidence.</text>
-
-        <rect class="bx a rise r5" x="20" y="256" width="660" height="46" rx="6"/>
-        <text class="tt" x="36" y="276" style="font-size:13px">5 &middot; What is missing</text>
-        <text class="ss" x="36" y="294" style="fill:#d98a3d;font-weight:600">The uncovered criterion. The unhandled error path. The check everyone skips.</text>
-
-        <rect class="bx d" x="4" y="324" width="692" height="106" rx="8"/>
-        <text class="lb w" x="24" y="348">WHY FIVE IS LAST, AND WHY IT IS THE MOST VALUABLE</text>
-        <text class="ss w" x="24" y="374" style="font-size:14px">Everything above it is a question about something <tspan font-style="italic">on the screen</tspan>.</text>
-        <text class="ss w" x="24" y="398" style="font-size:14px">Five is a question about something that is not there &mdash; which is why humans</text>
-        <text class="ss w" x="24" y="420" style="font-size:14px">skip it too, and why <tspan font-weight="700" fill="#e0b34d">it has to be written down to happen at all.</tspan></text>
-      </svg>
+      <div class="take"><b>The test agent never sees the rationale.</b> If the coder misread the ticket, the test and the code disagree. That disagreement is the point of this module.</div>
     </div>
   </div>
 </section>
 
 <!-- 11 -->
-<section class="slide" data-sec="3 &middot; The four in practice" data-title="Design and coding - the boundary that leaks" data-notes="Shorter slide, and the point is one specific leak. The design-coding boundary is the one that erodes in practice, because the coding agent constantly encounters small decisions the spec did not anticipate, and each one individually looks too small to hand back. That is how a spec-driven process quietly becomes an implementation-driven one - not through a big violation but through forty small ones. The test on the right is the practical rule and it is deliberately crude: would this decision have changed the spec's recommendation if design had known about it? If yes, hand back. If no, decide it and note it. Crude beats precise here, because the alternative is a judgement call made forty times under time pressure." data-tier="R">
-  <h2>Design and coding &mdash; the boundary that erodes<span class="tag k">3</span></h2>
-  <div class="body g64">
-    <div>
-      <svg viewBox="0 0 700 430" role="img" aria-label="How the design-coding boundary erodes through small decisions, and the test that holds it">
-        <text class="lb a" x="4" y="13">HOW IT ACTUALLY ERODES &mdash; NOT IN ONE VIOLATION</text>
-        <rect class="bx a" x="4" y="22" width="692" height="150" rx="8"/>
-        <rect class="bx w rise" x="20" y="42" width="150" height="52" rx="6"/>
-        <text class="ss" x="95" y="62" text-anchor="middle" style="font-size:11.5px">spec says use</text>
-        <text class="ss" x="95" y="80" text-anchor="middle" style="font-size:11.5px">the status enum</text>
-        <path class="ar" d="M174 68 L206 68"/>
-        <rect class="bx w rise r2" x="210" y="42" width="180" height="52" rx="6"/>
-        <text class="ss" x="300" y="62" text-anchor="middle" style="font-size:11.5px">&ldquo;a timestamp would</text>
-        <text class="ss" x="300" y="80" text-anchor="middle" style="font-size:11.5px">be useful here too&rdquo;</text>
-        <path class="ar" d="M394 68 L426 68"/>
-        <rect class="bx r rise r3" x="430" y="42" width="250" height="52" rx="6"/>
-        <text class="ss" x="555" y="62" text-anchor="middle" style="font-size:11.5px">too small to hand back &mdash;</text>
-        <text class="ss" x="555" y="80" text-anchor="middle" style="font-size:11.5px">so it is decided in the diff</text>
-        <text class="ss" x="20" y="122">Individually reasonable. Forty times, and the spec is decoration:</text>
-        <text class="ss" x="20" y="144" style="fill:#e2726e;font-weight:600">a spec-driven process becomes an implementation-driven one, quietly.</text>
-        <text class="ss" x="20" y="164">Nobody violated anything. That is what makes it hard to notice.</text>
-
-        <text class="lb g" x="4" y="206">THE TEST &mdash; DELIBERATELY CRUDE</text>
-        <rect class="bx g" x="4" y="216" width="692" height="120" rx="8"/>
-        <text class="tt" x="24" y="248" style="font-size:15px">Would design have recommended differently, had it known?</text>
-        <rect class="bx w" x="24" y="264" width="326" height="58" rx="6"/>
-        <text class="lb g" x="40" y="286">YES</text>
-        <text class="ss" x="40" y="308">Hand back. One cheap turn.</text>
-        <rect class="bx w" x="358" y="264" width="322" height="58" rx="6"/>
-        <text class="lb" x="374" y="286">NO</text>
-        <text class="ss" x="374" y="308">Decide it, and note it in the summary.</text>
-
-        <rect class="bx d" x="4" y="352" width="692" height="78" rx="8"/>
-        <text class="ss w" x="24" y="380" style="font-size:14px">Crude beats precise here. The alternative is a fine judgement</text>
-        <text class="ss w" x="24" y="404" style="font-size:14px">call made forty times, <tspan font-weight="700" fill="#e0b34d">under time pressure, by the party that benefits.</tspan></text>
-      </svg>
-    </div>
+<section class="slide" data-sec="3 &middot; The four in practice" data-title="The review agent - ask it to disagree" data-notes="The second of the two that carry the module. Adversarial is a word people nod at and then implement as please check this carefully, which produces a polite summary of the change and a compliment. The framing that works is on the left: the review agent's job is to try to REFUTE the claim that this change satisfies the ticket, and to report what it could not refute. That is a different instruction and it produces different output. The right-hand side is the failure mode to name explicitly because it is what teams actually get - a review that agrees. If your review agent has never blocked anything, it is not independent, it is a rubber stamp with extra steps, and you should check whether it is being handed the rationale. Then the honest limit: it will produce false findings, and that is the correct trade. A reviewer that never cries wolf is one that never barks." data-tier="R">
+  <h2>The review agent &mdash; ask it to disagree<span class="tag k">3</span></h2>
+  <div class="body g46">
     <div class="pts">
-      <h3>Why this boundary and not the others</h3>
+      <h3>How to ask</h3>
       <ul>
-        <li>Test and review are protected by <b>what they are not shown</b>. Blindness holds on its own.</li>
-        <li>Design and coding are protected only by a <b>rule about when to stop</b> &mdash; and rules erode where blindness does not.</li>
+        <li>&ldquo;Please check carefully&rdquo; gets a <b>polite summary</b>.</li>
+        <li>Better: <b>&ldquo;Try to prove this change does not meet the ticket. Report what you could not disprove.&rdquo;</b></li>
       </ul>
-      <h3>What the coding agent must never do</h3>
+      <h3>Warning sign</h3>
       <ul>
-        <li><b>Never change a design decision</b> because a better one occurred to it mid-implementation. Stop and hand back.</li>
-        <li>That is cheaper than the alternative: a diff nobody expected, reviewed by someone holding a spec that no longer describes it.</li>
+        <li><b>It has never blocked anything.</b></li>
+        <li>The usual cause: it is given the coder&rsquo;s summary. Check its inputs first.</li>
       </ul>
-      <div class="take"><b>Watch for this in your own rollout.</b> If your specs stop matching your diffs after a month, nothing broke &mdash; this boundary eroded, one reasonable decision at a time.</div>
+      <div class="callout bad"><b>It will raise some wrong findings.</b> That is fine. Do not tune it to always agree.</div>
+    </div>
+    <div>
+      <svg viewBox="0 0 700 430" role="img" aria-label="What the review agent checks, in order">
+        <text class="lb r" x="4" y="13">THE CHECKLIST, IN ORDER</text>
+        <rect class="bx r" x="4" y="22" width="692" height="286" rx="8"/>
+        <rect class="bx w rise" x="20" y="40" width="660" height="46" rx="6"/>
+        <text class="tt" x="36" y="60" style="font-size:13px">1 &middot; Acceptance criteria</text>
+        <text class="ss" x="36" y="78">Really met &mdash; or only looks met?</text>
+        <rect class="bx w rise r2" x="20" y="94" width="660" height="46" rx="6"/>
+        <text class="tt" x="36" y="114" style="font-size:13px">2 &middot; Scope</text>
+        <text class="ss" x="36" y="132">Anything the ticket did not ask for? (silent scope drift)</text>
+        <rect class="bx w rise r3" x="20" y="148" width="660" height="46" rx="6"/>
+        <text class="tt" x="36" y="168" style="font-size:13px">3 &middot; ADRs and conventions</text>
+        <text class="ss" x="36" y="186">Does it break a decision already taken?</text>
+        <rect class="bx w rise r4" x="20" y="202" width="660" height="46" rx="6"/>
+        <text class="tt" x="36" y="222" style="font-size:13px">4 &middot; The tests</text>
+        <text class="ss" x="36" y="240">Would they fail on the old code?</text>
+        <rect class="bx a rise r5" x="20" y="256" width="660" height="46" rx="6"/>
+        <text class="tt" x="36" y="276" style="font-size:13px">5 &middot; What is missing</text>
+        <text class="ss" x="36" y="294" style="fill:#d98a3d;font-weight:600">An uncovered criterion. An error that is not handled.</text>
+
+        <rect class="bx d" x="4" y="324" width="692" height="106" rx="8"/>
+        <text class="lb w" x="24" y="348">WHY NUMBER 5 IS LAST</text>
+        <text class="ss w" x="24" y="376" style="font-size:14px">Checks 1&ndash;4 look at what is on the screen.</text>
+        <text class="ss w" x="24" y="400" style="font-size:14px">Check 5 looks for what is not there. People skip it too,</text>
+        <text class="ss w" x="24" y="422" style="font-size:14px">so <tspan font-weight="700" fill="#e0b34d">it must be written down</tspan>.</text>
+      </svg>
     </div>
   </div>
 </section>
 
 <!-- 12 -->
-<section class="slide" data-sec="4 &middot; Hand-off artifacts" data-title="Five artifacts, one interface" data-notes="The framing that makes this land with engineers: artifacts are the interface between agents, and an interface with no defined shape is not an interface. If the spec is whatever prose the design agent felt like producing, the coding agent has to interpret it, and interpretation is exactly where the readings diverge. Walk the five and note that each is reviewable by a human independently - that is the second reason for artifacts and it is the one that matters for adoption, because it means a human can sit at any join without reading the whole session. The bottom band is the durability argument: the artifacts outlive the sessions. Six months later the session is gone and the spec, the test report and the review report are still in the pull request, which is where the audit trail this course promises actually comes from." data-tier="K">
-  <h2>Artifacts are the interface &mdash; and an interface needs a shape<span class="tag k">4</span></h2>
+<section class="slide" data-sec="3 &middot; The four in practice" data-title="Design and coding - the boundary that wears away" data-notes="Shorter slide, and the point is one specific leak. The design-coding boundary is the one that erodes in practice, because the coding agent constantly encounters small decisions the spec did not anticipate, and each one individually looks too small to hand back. That is how a spec-driven process quietly becomes an implementation-driven one - not through a big violation but through forty small ones. The test on the right is the practical rule and it is deliberately crude: would this decision have changed the spec's recommendation if design had known about it? If yes, hand back. If no, decide it and note it. Crude beats precise here, because the alternative is a judgement call made forty times under time pressure." data-tier="R">
+  <h2>Design and coding &mdash; the boundary that wears away<span class="tag k">3</span></h2>
+  <div class="body g64">
+    <div>
+      <svg viewBox="0 0 700 430" role="img" aria-label="How the design-coding boundary wears away through small decisions, and the rule that holds it">
+        <text class="lb a" x="4" y="13">HOW IT HAPPENS &mdash; ONE SMALL CHOICE AT A TIME</text>
+        <rect class="bx a" x="4" y="22" width="692" height="150" rx="8"/>
+        <rect class="bx w rise" x="20" y="42" width="150" height="52" rx="6"/>
+        <text class="ss" x="95" y="62" text-anchor="middle" style="font-size:11.5px">spec says: use</text>
+        <text class="ss" x="95" y="80" text-anchor="middle" style="font-size:11.5px">the status field</text>
+        <path class="ar" d="M174 68 L206 68"/>
+        <rect class="bx w rise r2" x="210" y="42" width="180" height="52" rx="6"/>
+        <text class="ss" x="300" y="62" text-anchor="middle" style="font-size:11.5px">coder: &ldquo;a timestamp</text>
+        <text class="ss" x="300" y="80" text-anchor="middle" style="font-size:11.5px">would help too&rdquo;</text>
+        <path class="ar" d="M394 68 L426 68"/>
+        <rect class="bx r rise r3" x="430" y="42" width="250" height="52" rx="6"/>
+        <text class="ss" x="555" y="62" text-anchor="middle" style="font-size:11.5px">too small to ask about &mdash;</text>
+        <text class="ss" x="555" y="80" text-anchor="middle" style="font-size:11.5px">so it goes into the code</text>
+        <text class="ss" x="20" y="126">Each choice is reasonable. After forty of them,</text>
+        <text class="ss" x="20" y="146" style="fill:#e2726e;font-weight:600">the spec no longer matches the code.</text>
+        <text class="ss" x="20" y="166">Nobody broke a rule, so nobody notices.</text>
+
+        <text class="lb g" x="4" y="206">THE RULE &mdash; SIMPLE ON PURPOSE</text>
+        <rect class="bx g" x="4" y="216" width="692" height="120" rx="8"/>
+        <text class="tt" x="24" y="248" style="font-size:15px">Would design have chosen differently, if it had known?</text>
+        <rect class="bx w" x="24" y="264" width="326" height="58" rx="6"/>
+        <text class="lb g" x="40" y="286">YES</text>
+        <text class="ss" x="40" y="308">Hand back. One quick turn.</text>
+        <rect class="bx w" x="358" y="264" width="322" height="58" rx="6"/>
+        <text class="lb" x="374" y="286">NO</text>
+        <text class="ss" x="374" y="308">Decide it, and note it in the summary.</text>
+
+        <rect class="bx d" x="4" y="352" width="692" height="78" rx="8"/>
+        <text class="ss w" x="24" y="386" style="font-size:14px">A simple rule beats <tspan font-weight="700" fill="#e0b34d">forty judgement calls</tspan></text>
+        <text class="ss w" x="24" y="410" style="font-size:14px">made under time pressure.</text>
+      </svg>
+    </div>
+    <div class="pts">
+      <h3>Why this boundary breaks</h3>
+      <ul>
+        <li>Test and review are protected by <b>what they cannot see</b>.</li>
+        <li>Design and coding are protected only by <b>a rule</b>. Rules get bent.</li>
+      </ul>
+      <h3>The coding agent must never</h3>
+      <ul>
+        <li>Change a design decision because it found a better idea. <b>Stop and hand back.</b></li>
+      </ul>
+      <div class="take"><b>Watch for this:</b> if your specs stop matching your code after a month, this boundary has worn away.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 13 -->
+<section class="slide" data-sec="4 &middot; Hand-off artifacts" data-title="Agents pass files, not chats" data-notes="The framing that makes this land with engineers: artifacts are the interface between agents, and an interface with no defined shape is not an interface. If the spec is whatever prose the design agent felt like producing, the coding agent has to interpret it, and interpretation is exactly where the readings diverge. Walk the five and note that each is reviewable by a human independently - that is the second reason for artifacts and it is the one that matters for adoption, because it means a human can sit at any join without reading the whole session. The bottom band is the durability argument: the artifacts outlive the sessions. Six months later the session is gone and the spec, the test report and the review report are still in the pull request, which is where the audit trail this course promises actually comes from." data-tier="K">
+  <h2>Agents pass files, not chats &mdash; and each file has a fixed shape<span class="tag k">4</span></h2>
   <div class="body g1">
     <div>
-      <svg viewBox="0 0 1180 452" role="img" aria-label="The five hand-off artifacts passing between the four agents, with human gates">
-        <text class="lb" x="4" y="14">THE CHAIN &mdash; EACH ARROW IS A FILE, NOT A CONVERSATION</text>
+      <svg viewBox="0 0 1180 452" role="img" aria-label="The files passed between the four agents, with a human gate">
+        <text class="lb" x="4" y="14">THE CHAIN &mdash; EACH ARROW IS A FILE, NOT A CHAT</text>
 
         <rect class="bx w" x="4" y="26" width="120" height="60" rx="6"/>
         <text class="tt" x="64" y="52" text-anchor="middle" style="font-size:13px">ticket</text>
@@ -652,74 +599,70 @@ Read, search, run the tests.
         <text class="ss w" x="1081" y="72" text-anchor="middle" style="font-size:11px">then the PR</text>
 
         <path class="ar dash" d="M653 92 L653 118 L64 118 L64 96"/>
-        <text class="ss" x="360" y="136" text-anchor="middle" style="font-size:11.5px;fill:#d98a3d">the test agent reads the ticket directly &mdash; not the diff, and not the coder&rsquo;s summary</text>
+        <text class="ss" x="360" y="136" text-anchor="middle" style="font-size:11.5px;fill:#d98a3d">the test agent reads the ticket directly &mdash; not the diff, not the coder&rsquo;s summary</text>
 
         <rect class="bx d" x="4" y="152" width="1172" height="30" rx="6"/>
-        <text class="lb w" x="24" y="172">ARTIFACT</text>
-        <text class="lb w" x="300" y="172">MUST CONTAIN</text>
-        <text class="lb w" x="800" y="172">A HUMAN CAN JUDGE IT WITHOUT READING THE SESSION</text>
-
+        <text class="lb w" x="24" y="172">FILE</text>
+        <text class="lb w" x="220" y="172">WHAT IT CONTAINS</text>
+        <text class="lb w" x="800" y="172">A PERSON CAN ASK, WITHOUT READING THE CHAT</text>
         <rect class="bx grow" x="4" y="190" width="1172" height="48" rx="6"/>
         <text class="tt" x="24" y="220">spec.md</text>
-        <text class="ss" x="300" y="220">options, a recommendation, the deciding constraint, open questions</text>
-        <text class="ss" x="800" y="220">Is the recommendation defensible?</text>
-
+        <text class="ss" x="220" y="220" style="font-size:14px">options, a recommendation, the deciding rule, open questions</text>
+        <text class="ss" x="800" y="220" style="font-size:14px">Is the recommendation sound?</text>
         <rect class="bx grow w2" x="4" y="246" width="1172" height="48" rx="6"/>
         <text class="tt" x="24" y="276">the diff</text>
-        <text class="ss" x="300" y="276">the change, plus every file touched and why</text>
-        <text class="ss" x="800" y="276">Is anything here that the spec did not ask for?</text>
-
+        <text class="ss" x="220" y="276" style="font-size:14px">the change, plus each file touched and why</text>
+        <text class="ss" x="800" y="276" style="font-size:14px">Did it change more than the spec asked?</text>
         <rect class="bx a grow w3" x="4" y="302" width="1172" height="48" rx="6"/>
         <text class="tt" x="24" y="332">test report</text>
-        <text class="ss" x="300" y="332">one line per acceptance criterion &mdash; covered, or <tspan font-weight="600" fill="#d98a3d">not covered</tspan></text>
-        <text class="ss" x="800" y="332">Which criterion has nobody proven?</text>
-
+        <text class="ss" x="220" y="332" style="font-size:14px">one line per criterion &mdash; covered or <tspan font-weight="600" fill="#d98a3d">not covered</tspan></text>
+        <text class="ss" x="800" y="332" style="font-size:14px">Which criterion is not proven?</text>
         <rect class="bx r grow w4" x="4" y="358" width="1172" height="48" rx="6"/>
         <text class="tt" x="24" y="388">review report</text>
-        <text class="ss" x="300" y="388">findings by severity, each naming file, line, and rule breached</text>
-        <text class="ss" x="800" y="388">Does anything here block the merge?</text>
-
+        <text class="ss" x="220" y="388" style="font-size:14px">findings by severity, each with file, line and rule</text>
+        <text class="ss" x="800" y="388" style="font-size:14px">Does anything block the merge?</text>
         <rect class="bx d" x="4" y="414" width="1172" height="34" rx="6"/>
-        <text class="ss w" x="590" y="436" text-anchor="middle" style="font-size:13.5px">The sessions are gone in a week. <tspan font-weight="700" fill="#e0b34d">The artifacts are still in the pull request</tspan> &mdash; which is where the audit trail actually comes from</text>
+        <text class="ss w" x="590" y="436" text-anchor="middle" style="font-size:14px">The chats are gone in a week. <tspan font-weight="700" fill="#e0b34d">The files stay in the pull request</tspan> &mdash; that is your audit trail.</text>
       </svg>
     </div>
   </div>
 </section>
-<!-- 13 -->
+
+<!-- 14 -->
 <section class="slide" data-sec="4 &middot; Hand-off artifacts" data-title="A worked hand-off on GB-151" data-notes="Make it concrete with the reversal ticket they ran in Lab 1.3. Read the spec extract first and note it names the constraint and the file it came from - that is what makes it checkable by a human in thirty seconds. Then the interesting part, which is the disagreement at the bottom: the coding agent implemented reversal as a status change only, the test agent read AC1 from the ticket and wrote a test asserting balances return to their pre-posting values, and that test fails. Neither agent is broken. They read the ticket differently, and because they read it independently the difference surfaced as a failing test rather than as a defect in March. Say plainly that this is the whole return on the module, in one screen. With a single agent this disagreement cannot happen - not because it is less likely, but because there is only one reading." data-tier="K">
-  <h2>A worked hand-off &mdash; and the disagreement that pays for the module<span class="tag k">4</span></h2>
+  <h2>A worked hand-off on GB-151 &mdash; and the disagreement that pays off<span class="tag k">4</span></h2>
   <div class="body g55">
     <div>
 <div class="file"><span class="fn">spec.md &mdash; FROM THE DESIGN AGENT</span><span class="k">## Recommendation</span>
 Reversal creates a <span class="k">second posting</span> with the
-debit and credit inverted, and marks the
+debit and credit swapped, and marks the
 original REVERSED.
 
-<span class="k">## Why not amend in place</span>
+<span class="k">## Why not change it in place</span>
 docs/glossary.md: "Reversal - a status change
 on the original posting. We do not delete
-postings." Amending would remove the record
-of what was originally instructed.
+postings." Changing it in place would lose
+the original instruction.
 
-<span class="k">## Deciding constraint</span>
-copilot-instructions.md: balances are derived
+<span class="k">## Deciding rule</span>
+copilot-instructions.md: balances are calculated
 from entries, never stored. So the reversal
-must produce entries, not adjust a total.
+must create entries, not adjust a total.
 
 <span class="k">## Open questions</span>
 <span class="s">- Value date of the reversing posting: the</span>
 <span class="s">  original's, or today's? No ADR. ASKED.</span>
 </div>
       <div class="pts" style="margin-top:12px">
-        <h3>Why this is checkable in thirty seconds</h3>
+        <h3>You can check this in 30 seconds</h3>
         <ul>
-          <li>Every claim names <b>the file it came from</b>. You verify by opening two files, not by re-reading a session.</li>
-          <li>The open question is <em>raised, not resolved</em> &mdash; design stopped rather than choosing.</li>
+          <li>Every claim <b>names its source file</b>.</li>
+          <li>The open question is <em>asked, not guessed</em>.</li>
         </ul>
       </div>
     </div>
     <div>
-<div class="file"><span class="fn">test-report.md &mdash; FROM THE TEST AGENT, WHICH NEVER SAW THE SPEC</span><span class="k">AC1</span> balances back to pre-posting values
+<div class="file"><span class="fn">test-report.md &mdash; FROM THE TEST AGENT (NEVER SAW THE SPEC)</span><span class="k">AC1</span> balances back to pre-posting values
     <span class="s">NOT MET</span> - reversalRestoresBalances
     <span class="s">FAILS against the change.</span>
 
@@ -731,541 +674,530 @@ must produce entries, not adjust a total.
 
 <span class="k">## Note</span>
 The change marks the original REVERSED but
-writes no inverting entries, so derived
-balances are unchanged. AC1 asks for the
+writes no reversing entries, so the calculated
+balances do not change. AC1 asks for the
 balances to move back.
 </div>
-      <div class="callout bad" style="margin-top:12px"><b>Neither agent is broken.</b> They read the same ticket differently &mdash; and because they read it <em>independently</em>, the difference surfaced as a failing test this afternoon instead of a reconciliation break in March.</div>
-      <div class="take"><b>This is the entire return on the module, in one screen.</b> With one agent this disagreement cannot occur &mdash; not because it is less likely, but because there is only ever one reading.</div>
-    </div>
-  </div>
-</section>
-
-<!-- 14 -->
-<section class="slide" data-sec="5 &middot; Orchestration" data-title="Four shapes, and where the human sits" data-notes="Four orchestration patterns and they are not alternatives - most real pipelines use three of them. Sequential hand-off is the default and it is what the artifacts chain describes. Parallel drafts is the one people under-use: two design agents given the same ticket and different emphases produce genuinely different option sets, and comparing them is cheaper than iterating one. The review-before-merge gate is the non-negotiable one. And the human gate placement is the question that actually matters for a regulated environment, which is why it gets the bottom band. The rule to state plainly: a human sits wherever the cost of being wrong exceeds the cost of the person's attention - and on money-moving code that is at the spec and at the merge, always, regardless of how good the agents get." data-tier="R">
-  <h2>Four shapes &mdash; and the two places a human must sit<span class="tag k">5</span></h2>
-  <div class="body g1">
-    <div>
-      <svg viewBox="0 0 1180 452" role="img" aria-label="Four orchestration patterns and the placement of human gates">
-        <rect class="bx grow" x="4" y="4" width="580" height="130" rx="8"/>
-        <text class="lb" x="24" y="28">1 &middot; SEQUENTIAL HAND-OFF &mdash; THE DEFAULT</text>
-        <text class="ss" x="24" y="52">design &rarr; coding &rarr; test &rarr; review, each consuming the last artifact.</text>
-        <text class="ss" x="24" y="74">Simple, auditable, slow. Every arrow is a file, so any join is inspectable.</text>
-        <text class="ss" x="24" y="102" style="fill:#5fbf8f;font-weight:600">Use it until you have a measured reason not to.</text>
-        <text class="ss" x="24" y="124">A failure anywhere stops the chain, which is a feature.</text>
-
-        <rect class="bx a grow w2" x="596" y="4" width="580" height="130" rx="8"/>
-        <text class="lb a" x="616" y="28">2 &middot; PARALLEL DRAFTS &mdash; THE UNDER-USED ONE</text>
-        <text class="ss" x="616" y="52">Two design agents, one ticket, deliberately different emphases &mdash;</text>
-        <text class="ss" x="616" y="74">&ldquo;minimise change&rdquo; against &ldquo;minimise future cost&rdquo;.</text>
-        <text class="ss" x="616" y="102" style="fill:#d98a3d;font-weight:600">Comparing two option sets is cheaper than iterating one.</text>
-        <text class="ss" x="616" y="124">Works for design. Does not work for coding &mdash; you get two diffs and no winner.</text>
-
-        <rect class="bx r grow w3" x="4" y="142" width="580" height="130" rx="8"/>
-        <text class="lb r" x="24" y="166">3 &middot; REVIEW-BEFORE-MERGE GATE &mdash; NON-NEGOTIABLE</text>
-        <text class="ss" x="24" y="190">No change reaches a pull request without a review report attached.</text>
-        <text class="ss" x="24" y="212">Not &ldquo;without findings&rdquo; &mdash; without a <tspan font-style="italic">report</tspan>. Clean is a valid report.</text>
-        <text class="ss" x="24" y="240" style="fill:#e2726e;font-weight:600">The gate is on the artifact existing, because that is machine-checkable.</text>
-        <text class="ss" x="24" y="262">&ldquo;Was it reviewed properly?&rdquo; is not. Gate on what CI can actually enforce.</text>
-
-        <rect class="bx grow w4" x="596" y="142" width="580" height="130" rx="8"/>
-        <text class="lb" x="616" y="166">4 &middot; LOOP-BACK &mdash; WHERE THE DISAGREEMENTS GO</text>
-        <text class="ss" x="616" y="190">A failing test report returns to <tspan font-weight="600">coding</tspan>. A blocking review finding</text>
-        <text class="ss" x="616" y="212">returns to <tspan font-weight="600">coding</tspan>. A contradicted assumption returns to <tspan font-weight="600">design</tspan>.</text>
-        <text class="ss" x="616" y="240" style="fill:#e2726e;font-weight:600">Never loop back to the agent that raised the finding to &ldquo;resolve&rdquo; it.</text>
-        <text class="ss" x="616" y="262">That is how an independent check quietly becomes a negotiation.</text>
-
-        <text class="lb r" x="4" y="300">WHERE A HUMAN MUST SIT &mdash; AND THIS IS THE QUESTION YOUR RISK FUNCTION WILL ASK</text>
-        <rect class="bx d" x="4" y="310" width="1172" height="138" rx="8"/>
-        <rect class="bx w" x="24" y="330" width="556" height="70" rx="6"/>
-        <text class="tt" x="42" y="354" style="font-size:13.5px">Gate 1 &mdash; after the spec, before any code</text>
-        <text class="ss" x="42" y="376">The cheapest place to catch a wrong direction: one document, no diff to</text>
-        <text class="ss" x="42" y="394">unpick. Also where the open questions get answered by someone who can.</text>
-        <rect class="bx w" x="596" y="330" width="556" height="70" rx="6"/>
-        <text class="tt" x="614" y="354" style="font-size:13.5px">Gate 2 &mdash; the merge</text>
-        <text class="ss" x="614" y="376">Someone accountable reads the review report and decides. On money-moving</text>
-        <text class="ss" x="614" y="394">code this does not become optional however good the agents get.</text>
-        <text class="ss w" x="24" y="428" style="font-size:14px">The rule: <tspan font-weight="700" fill="#e0b34d">a human sits wherever the cost of being wrong exceeds the cost of their attention.</tspan> On client money, that is both gates.</text>
-      </svg>
+      <div class="callout bad" style="margin-top:12px"><b>Neither agent is broken.</b> They read the ticket differently. Because they worked <em>separately</em>, you see it today as a failing test &mdash; not months later as a wrong balance.</div>
+      <div class="take"><b>With one agent, this cannot happen.</b> There is only one reading.</div>
     </div>
   </div>
 </section>
 
 <!-- 15 -->
-<section class="slide" data-sec="5 &middot; Orchestration" data-title="What this costs, honestly" data-notes="An experienced room will have been doing arithmetic since slide 2, so do it for them before they do it against you. Four agents on one ticket is roughly three to four times the requests of one agent, plus orchestration effort, plus four definitions to maintain. That is real and it should not be waved away. The argument is on the right and it is an argument about WHICH tickets, not about whether. Full pipeline on a money-moving change with an ambiguous requirement is obviously worth it. Full pipeline on a dependency bump is obviously not. The middle is where judgement lives and the honest answer is that you decide per ticket using the same gates from Module 1 - which is why that module opened with cost of being wrong on an axis. Close by connecting to the capstone: tomorrow they run the full pipeline once, end to end, and the number goes on the board next to Lab 1.1." data-tier="K">
-  <h2>What four agents cost &mdash; and which tickets justify it<span class="tag k">5</span></h2>
-  <div class="body g55">
+<section class="slide" data-sec="5 &middot; Orchestration" data-title="Four ways to run the agents, and where a person sits" data-notes="Four orchestration patterns and they are not alternatives - most real pipelines use three of them. Sequential hand-off is the default and it is what the artifacts chain describes. Parallel drafts is the one people under-use: two design agents given the same ticket and different emphases produce genuinely different option sets, and comparing them is cheaper than iterating one. The review-before-merge gate is the non-negotiable one. And the human gate placement is the question that actually matters for a regulated environment, which is why it gets the bottom band. The rule to state plainly: a human sits wherever the cost of being wrong exceeds the cost of the person's attention - and on money-moving code that is at the spec and at the merge, always, regardless of how good the agents get." data-tier="R">
+  <h2>Four ways to run the agents &mdash; and two places a person must sit<span class="tag k">5</span></h2>
+  <div class="body g1">
     <div>
-      <svg viewBox="0 0 700 430" role="img" aria-label="The cost of a four-agent pipeline against a single agent">
-        <text class="lb r" x="4" y="13">THE ARITHMETIC, DONE HONESTLY</text>
-        <rect class="bx r" x="4" y="22" width="692" height="176" rx="8"/>
-        <rect class="bx w" x="20" y="42" width="660" height="34" rx="5"/>
-        <text class="ss" x="34" y="64"><tspan font-weight="700">Requests</tspan> &nbsp;&mdash;&nbsp; roughly 3&ndash;4&times; a single agent on the same ticket</text>
-        <rect class="bx w" x="20" y="82" width="660" height="34" rx="5"/>
-        <text class="ss" x="34" y="104"><tspan font-weight="700">Wall-clock</tspan> &nbsp;&mdash;&nbsp; longer, and the hand-offs are where it goes, not the thinking</text>
-        <rect class="bx w" x="20" y="122" width="660" height="34" rx="5"/>
-        <text class="ss" x="34" y="144"><tspan font-weight="700">Maintenance</tspan> &nbsp;&mdash;&nbsp; four definitions, four owners, four things that can drift</text>
-        <text class="ss" x="20" y="180" style="fill:#e2726e;font-weight:600">Do not pretend this is free. A room that finds the cost themselves stops believing the rest.</text>
+      <svg viewBox="0 0 1180 452" role="img" aria-label="Four orchestration patterns and the placement of human gates">
+        <rect class="bx grow" x="4" y="4" width="580" height="130" rx="8"/>
+        <text class="lb" x="24" y="28">1 &middot; ONE AFTER ANOTHER &mdash; THE DEFAULT</text>
+        <text class="ss" x="24" y="56">design &rarr; coding &rarr; test &rarr; review.</text>
+        <text class="ss" x="24" y="80">Simple and easy to audit, but slow.</text>
+        <text class="ss" x="24" y="112" style="fill:#5fbf8f;font-weight:600">Use this unless you have measured a reason not to.</text>
 
-        <text class="lb g" x="4" y="226">SO IT IS A QUESTION ABOUT WHICH TICKETS, NOT WHETHER</text>
-        <rect class="bx g" x="4" y="236" width="692" height="128" rx="8"/>
-        <rect class="bx w rise" x="20" y="254" width="212" height="94" rx="6"/>
-        <text class="lb g" x="36" y="276">FULL PIPELINE</text>
-        <text class="ss" x="36" y="298" style="font-size:11.5px">Money-moving. Ambiguous</text>
-        <text class="ss" x="36" y="316" style="font-size:11.5px">requirement. Irreversible.</text>
-        <text class="ss" x="36" y="336" style="font-size:11.5px">Anything a regulator reads.</text>
-        <rect class="bx w rise r2" x="240" y="254" width="212" height="94" rx="6"/>
-        <text class="lb a" x="256" y="276">PART OF IT</text>
-        <text class="ss" x="256" y="298" style="font-size:11.5px">Coding + review, skipping</text>
-        <text class="ss" x="256" y="316" style="font-size:11.5px">design when an ADR already</text>
-        <text class="ss" x="256" y="336" style="font-size:11.5px">decided the question.</text>
-        <rect class="bx w rise r3" x="460" y="254" width="220" height="94" rx="6"/>
-        <text class="lb" x="476" y="276">ONE AGENT</text>
-        <text class="ss" x="476" y="298" style="font-size:11.5px">Dependency bumps. Renames.</text>
-        <text class="ss" x="476" y="316" style="font-size:11.5px">Anything the compiler fully</text>
-        <text class="ss" x="476" y="336" style="font-size:11.5px">verifies.</text>
+        <rect class="bx a grow w2" x="596" y="4" width="580" height="130" rx="8"/>
+        <text class="lb a" x="616" y="28">2 &middot; TWO DESIGN DRAFTS &mdash; UNDER-USED</text>
+        <text class="ss" x="616" y="56">Two design agents, two aims: &ldquo;change least&rdquo;</text>
+        <text class="ss" x="616" y="80">and &ldquo;cost least later&rdquo;. Then compare the plans.</text>
+        <text class="ss" x="616" y="112" style="fill:#d98a3d;font-weight:600">Good for design. Not for coding.</text>
 
-        <rect class="bx d" x="4" y="376" width="692" height="54" rx="8"/>
-        <text class="ss w" x="24" y="410" style="font-size:14px">Same axes as Module 1: <tspan font-weight="700" fill="#e0b34d">ambiguity against the cost of being wrong.</tspan></text>
+        <rect class="bx r grow w3" x="4" y="142" width="580" height="130" rx="8"/>
+        <text class="lb r" x="24" y="166">3 &middot; REVIEW BEFORE MERGE &mdash; ALWAYS</text>
+        <text class="ss" x="24" y="194">No PR without a review report attached.</text>
+        <text class="ss" x="24" y="218">&ldquo;Nothing found&rdquo; is a valid report.</text>
+        <text class="ss" x="24" y="250" style="fill:#e2726e;font-weight:600">CI checks that the report exists.</text>
+
+        <rect class="bx grow w4" x="596" y="142" width="580" height="130" rx="8"/>
+        <text class="lb" x="616" y="166">4 &middot; SEND PROBLEMS BACK</text>
+        <text class="ss" x="616" y="194">Failing test or review finding &rarr; back to coding.</text>
+        <text class="ss" x="616" y="218">Wrong assumption &rarr; back to design.</text>
+        <text class="ss" x="616" y="250" style="fill:#e2726e;font-weight:600">Never ask the agent that found it to settle it.</text>
+
+        <text class="lb r" x="4" y="300">WHERE A PERSON MUST SIT &mdash; YOUR RISK TEAM WILL ASK</text>
+        <rect class="bx d" x="4" y="310" width="1172" height="138" rx="8"/>
+        <rect class="bx w" x="24" y="330" width="556" height="70" rx="6"/>
+        <text class="tt" x="42" y="354" style="font-size:13.5px">Gate 1 &mdash; after the spec, before any code</text>
+        <text class="ss" x="42" y="380">Cheapest place to catch a wrong direction.</text>
+        <rect class="bx w" x="596" y="330" width="556" height="70" rx="6"/>
+        <text class="tt" x="614" y="354" style="font-size:13.5px">Gate 2 &mdash; the merge</text>
+        <text class="ss" x="614" y="380">A responsible person reads the review report and decides.</text>
+        <text class="ss w" x="24" y="430" style="font-size:14px">A person sits wherever <tspan font-weight="700" fill="#e0b34d">a mistake costs more than their time</tspan>. For client money: both gates.</text>
       </svg>
-    </div>
-    <div class="pts">
-      <h3>Decide per ticket, with the gates you already have</h3>
-      <ul>
-        <li>The Module 1 delegation gates still apply, one level up. <b>Gate 1 &mdash; can you write down what done means?</b> If not, you need the design agent before anything else.</li>
-        <li>An ADR that already settles the question is a legitimate reason to <b>skip design entirely</b>. That is what Module 2 bought you.</li>
-      </ul>
-      <h3>What never gets skipped</h3>
-      <ul>
-        <li><b>Review.</b> It is the cheapest of the four and it closes the two failures nothing else could.</li>
-        <li>If you are cutting the pipeline for time, cut design first and test last.</li>
-      </ul>
-      <div class="take"><b>Tomorrow's capstone runs the full pipeline once, end to end</b> &mdash; and that number goes on the board next to Lab 1.1. You will find out then what it cost and what it bought.</div>
     </div>
   </div>
 </section>
+
 <!-- 16 -->
-<section class="slide" data-sec="6 &middot; Anti-patterns" data-title="Three ways this goes wrong" data-notes="These are the three failure modes teams actually hit, and they are ordered by how long they take to appear. Agent sprawl shows up in week two, when everyone who liked the module builds one. Overlapping roles shows up in month one, when two agents both think they own the tests and their definitions disagree in ways nobody notices until a ticket goes through both. Unmaintained definitions is the six-month one and it is the fatal one, because a stale agent definition is worse than none - it is confidently applying last quarter's rules and nobody is reading it. Note the symmetry with Module 2 and say it out loud: the same-PR rule applies here exactly as it applied to knowledge. An agent definition changes in the pull request that invalidates it, or it does not change." data-tier="R">
-  <h2>Three anti-patterns, in the order you will meet them<span class="tag k">6</span></h2>
-  <div class="body g1">
+<section class="slide" data-sec="5 &middot; Orchestration" data-title="What four agents cost" data-notes="An experienced room will have been doing arithmetic since slide 2, so do it for them before they do it against you. Four agents on one ticket is roughly three to four times the requests of one agent, plus orchestration effort, plus four definitions to maintain. That is real and it should not be waved away. The argument is on the right and it is an argument about WHICH tickets, not about whether. Full pipeline on a money-moving change with an ambiguous requirement is obviously worth it. Full pipeline on a dependency bump is obviously not. The middle is where judgement lives and the honest answer is that you decide per ticket using the same gates from Module 1 - which is why that module opened with cost of being wrong on an axis. Close by connecting to the capstone: tomorrow they run the full pipeline once, end to end, and the number goes on the board next to Lab 1.1." data-tier="K">
+  <h2>What four agents cost &mdash; and which tickets are worth it<span class="tag k">5</span></h2>
+  <div class="body g55">
     <div>
-      <svg viewBox="0 0 1180 452" role="img" aria-label="Agent sprawl, overlapping roles and unmaintained definitions, with the fix for each">
-        <rect class="bx a grow" x="4" y="4" width="1172" height="128" rx="8"/>
-        <text class="lb a" x="24" y="28">WEEK TWO &mdash; AGENT SPRAWL</text>
-        <text class="tt" x="24" y="56" style="font-size:15px">Everyone who liked this module builds one</text>
-        <text class="ss" x="24" y="82">Eleven agents, of which four are used. The other seven are somebody&rsquo;s good afternoon,</text>
-        <text class="ss" x="24" y="102">and they are now seven files that will drift and seven ways to be inconsistent.</text>
-        <rect class="bx w" x="700" y="44" width="456" height="72" rx="6"/>
-        <text class="lb g" x="716" y="66">THE FIX</text>
-        <text class="ss" x="716" y="88">The three-part test from slide 5. Different inputs, different done,</text>
-        <text class="ss" x="716" y="108">different failure modes &mdash; or it is a step, not a role.</text>
+      <svg viewBox="0 0 700 430" role="img" aria-label="The cost of a four-agent pipeline and which tickets justify it">
+        <text class="lb r" x="4" y="13">THE COST</text>
+        <rect class="bx r" x="4" y="22" width="692" height="176" rx="8"/>
+        <rect class="bx w" x="20" y="42" width="660" height="34" rx="5"/>
+        <text class="ss" x="34" y="64"><tspan font-weight="700">Requests</tspan> &nbsp;&mdash;&nbsp; about 3&ndash;4&times; one agent on the same ticket</text>
+        <rect class="bx w" x="20" y="82" width="660" height="34" rx="5"/>
+        <text class="ss" x="34" y="104"><tspan font-weight="700">Time</tspan> &nbsp;&mdash;&nbsp; longer; the hand-offs take the time</text>
+        <rect class="bx w" x="20" y="122" width="660" height="34" rx="5"/>
+        <text class="ss" x="34" y="144"><tspan font-weight="700">Upkeep</tspan> &nbsp;&mdash;&nbsp; four agent files, four owners</text>
+        <text class="ss" x="20" y="182" style="fill:#e2726e;font-weight:600">This is not free. Say so openly.</text>
 
-        <rect class="bx a grow w2" x="4" y="140" width="1172" height="128" rx="8"/>
-        <text class="lb a" x="24" y="164">MONTH ONE &mdash; OVERLAPPING ROLES</text>
-        <text class="tt" x="24" y="192" style="font-size:15px">Two agents both think they own the tests</text>
-        <text class="ss" x="24" y="218">Their definitions disagree in small ways nobody notices, until a ticket goes through</text>
-        <text class="ss" x="24" y="238">both and the second quietly undoes the first. Hard to debug, because nothing errored.</text>
-        <rect class="bx w" x="700" y="180" width="456" height="72" rx="6"/>
-        <text class="lb g" x="716" y="202">THE FIX</text>
-        <text class="ss" x="716" y="224">Every artifact has <tspan font-weight="600">exactly one</tspan> producing agent. If two can write it,</text>
-        <text class="ss" x="716" y="244">one of them is wrong &mdash; and the definitions say which.</text>
+        <text class="lb g" x="4" y="226">SO THE QUESTION IS: WHICH TICKETS?</text>
+        <rect class="bx g" x="4" y="236" width="692" height="128" rx="8"/>
+        <rect class="bx w rise" x="20" y="254" width="212" height="94" rx="6"/>
+        <text class="lb g" x="36" y="276">ALL FOUR</text>
+        <text class="ss" x="36" y="298" style="font-size:11.5px">Moves money. Unclear</text>
+        <text class="ss" x="36" y="316" style="font-size:11.5px">ticket. Hard to undo.</text>
+        <text class="ss" x="36" y="336" style="font-size:11.5px">Read by a regulator.</text>
+        <rect class="bx w rise r2" x="240" y="254" width="212" height="94" rx="6"/>
+        <text class="lb a" x="256" y="276">SOME OF THEM</text>
+        <text class="ss" x="256" y="298" style="font-size:11.5px">Coding + review. Skip</text>
+        <text class="ss" x="256" y="316" style="font-size:11.5px">design if an ADR already</text>
+        <text class="ss" x="256" y="336" style="font-size:11.5px">decides it.</text>
+        <rect class="bx w rise r3" x="460" y="254" width="220" height="94" rx="6"/>
+        <text class="lb" x="476" y="276">ONE AGENT</text>
+        <text class="ss" x="476" y="298" style="font-size:11.5px">Dependency bumps.</text>
+        <text class="ss" x="476" y="316" style="font-size:11.5px">Renames. Anything the</text>
+        <text class="ss" x="476" y="336" style="font-size:11.5px">compiler fully checks.</text>
 
-        <rect class="bx r grow w3" x="4" y="276" width="1172" height="136" rx="8"/>
-        <text class="lb r" x="24" y="300">SIX MONTHS &mdash; DEFINITIONS NOBODY MAINTAINS &nbsp;&middot;&nbsp; THE FATAL ONE</text>
-        <text class="tt" x="24" y="328" style="font-size:15px">A stale definition is worse than no definition</text>
-        <text class="ss" x="24" y="354">It is confidently applying last quarter&rsquo;s conventions to this quarter&rsquo;s code, and</text>
-        <text class="ss" x="24" y="374">because it produces plausible output, nobody re-reads it. Same failure as a stale ADR,</text>
-        <text class="ss" x="24" y="394" style="fill:#e2726e;font-weight:600">except this one is applied automatically, on every ticket, without being opened.</text>
-        <rect class="bx w" x="700" y="316" width="456" height="80" rx="6"/>
-        <text class="lb g" x="716" y="338">THE FIX &mdash; AND IT IS MODULE 2&rsquo;S, UNCHANGED</text>
-        <text class="ss" x="716" y="360">The <tspan font-weight="600">same-PR rule</tspan>: a definition changes in the pull request that</text>
-        <text class="ss" x="716" y="380">invalidates it. Plus an owner in the frontmatter, and a version.</text>
-
-        <rect class="bx d" x="4" y="420" width="1172" height="28" rx="6"/>
-        <text class="ss w" x="590" y="440" text-anchor="middle" style="font-size:13.5px">Agent definitions are knowledge. Everything Module 2 said about ownership, staleness and drift applies here <tspan font-weight="700" fill="#e0b34d">without modification</tspan></text>
+        <rect class="bx d" x="4" y="376" width="692" height="54" rx="8"/>
+        <text class="ss w" x="24" y="408" style="font-size:14px">As in Module 1: <tspan font-weight="700" fill="#e0b34d">how unclear is it, and what does a mistake cost?</tspan></text>
       </svg>
+    </div>
+    <div class="pts">
+      <h3>Decide per ticket</h3>
+      <ul>
+        <li>Can you write down what &ldquo;done&rdquo; means? If not, <b>start with the design agent</b>.</li>
+        <li>An ADR already answers it? <b>Skip design.</b></li>
+      </ul>
+      <h3>Never skip</h3>
+      <ul>
+        <li><b>Review.</b> It is cheap, and it fixes the two failures nothing else could.</li>
+        <li>Short on time? Cut design first, test last.</li>
+      </ul>
+      <div class="take"><b>In tomorrow&rsquo;s capstone</b> you run all four once. The result goes on the board next to Lab 1.1.</div>
     </div>
   </div>
 </section>
 
 <!-- 17 -->
-<section class="slide" data-sec="6 &middot; Anti-patterns" data-title="Rolling this out without losing the room" data-notes="Practical slide for the seniors, and the one most likely to be acted on next week. The failure is social, exactly as it was for skill files: one enthusiast builds four agents, nobody else uses them, and six weeks later the experiment is cited as evidence that this does not work. The sequencing on the left is deliberate and it is the opposite of what people do - start with review only, because it is the cheapest, it is the one that closes the failures they have personally been bitten by, and it produces visible findings that make the argument for you. Adding design first is the common mistake: it is the most expensive, the most disruptive to how people already work, and its value is the least visible on any single ticket. The right-hand side is the measurement point, tied back to the tally sheet." data-tier="R">
-  <h2>Rolling this out &mdash; start with review, not design<span class="tag k">6</span></h2>
-  <div class="body g55">
+<section class="slide" data-sec="6 &middot; Anti-patterns" data-title="Three common mistakes" data-notes="These are the three failure modes teams actually hit, and they are ordered by how long they take to appear. Agent sprawl shows up in week two, when everyone who liked the module builds one. Overlapping roles shows up in month one, when two agents both think they own the tests and their definitions disagree in ways nobody notices until a ticket goes through both. Unmaintained definitions is the six-month one and it is the fatal one, because a stale agent definition is worse than none - it is confidently applying last quarter's rules and nobody is reading it. Note the symmetry with Module 2 and say it out loud: the same-PR rule applies here exactly as it applied to knowledge. An agent definition changes in the pull request that invalidates it, or it does not change." data-tier="R">
+  <h2>Three common mistakes, in the order you will meet them<span class="tag k">6</span></h2>
+  <div class="body g1">
     <div>
-      <svg viewBox="0 0 700 430" role="img" aria-label="A sequenced rollout starting with the review agent">
-        <text class="lb g" x="4" y="13">THE ORDER THAT WORKS</text>
-        <rect class="bx g" x="4" y="22" width="692" height="216" rx="8"/>
-        <rect class="bx w rise" x="20" y="40" width="660" height="62" rx="6"/>
-        <text class="tt" x="36" y="62" style="font-size:13.5px">1 &middot; Review only, on changes you already make by hand</text>
-        <text class="ss" x="36" y="84">Cheapest. Closes the failures they have personally been bitten by. Findings are visible.</text>
-        <rect class="bx w rise r2" x="20" y="110" width="660" height="62" rx="6"/>
-        <text class="tt" x="36" y="132" style="font-size:13.5px">2 &middot; Add test &mdash; working from the ticket</text>
-        <text class="ss" x="36" y="154">The first time a test disagrees with the code, the module has argued for itself.</text>
-        <rect class="bx w rise r3" x="20" y="180" width="660" height="48" rx="6"/>
-        <text class="tt" x="36" y="202" style="font-size:13.5px">3 &middot; Then design and coding, once the artifacts are habitual</text>
-        <text class="ss" x="36" y="222">Now a spec has somewhere to go, and somebody who reads it.</text>
+      <svg viewBox="0 0 1180 452" role="img" aria-label="Agent sprawl, overlapping roles and unmaintained agent files, with the fix for each">
+        <rect class="bx a grow" x="4" y="4" width="1172" height="128" rx="8"/>
+        <text class="lb a" x="24" y="28">WEEK 2 &mdash; TOO MANY AGENTS (AGENT SPRAWL)</text>
+        <text class="tt" x="24" y="58" style="font-size:15px">Everyone builds their own agent</text>
+        <text class="ss" x="24" y="86">Eleven agents, only four used.</text>
+        <text class="ss" x="24" y="106">Seven files that slowly go out of date.</text>
+        <rect class="bx w" x="700" y="44" width="456" height="72" rx="6"/>
+        <text class="lb g" x="716" y="66">THE FIX</text>
+        <text class="ss" x="716" y="90">Ask the three questions from &ldquo;Four agents, not nine&rdquo;.</text>
 
-        <text class="lb r" x="4" y="268">THE COMMON MISTAKE</text>
-        <rect class="bx r" x="4" y="278" width="692" height="80" rx="8"/>
-        <text class="tt" x="24" y="304" style="font-size:14px">Starting with design, because it is first in the sequence.</text>
-        <text class="ss" x="24" y="326">Most expensive, most disruptive to how people already work, and its value is</text>
-        <text class="ss" x="24" y="346" style="fill:#e2726e;font-weight:600">the least visible on any single ticket. It is the easiest one to abandon.</text>
+        <rect class="bx a grow w2" x="4" y="140" width="1172" height="128" rx="8"/>
+        <text class="lb a" x="24" y="164">MONTH 1 &mdash; OVERLAPPING ROLES</text>
+        <text class="tt" x="24" y="194" style="font-size:15px">Two agents both think they own the tests</text>
+        <text class="ss" x="24" y="222">The second one quietly undoes the first.</text>
+        <text class="ss" x="24" y="242">Nothing errors, so it is hard to find.</text>
+        <rect class="bx w" x="700" y="180" width="456" height="72" rx="6"/>
+        <text class="lb g" x="716" y="202">THE FIX</text>
+        <text class="ss" x="716" y="226">Each file has <tspan font-weight="600">exactly one</tspan> agent that writes it.</text>
 
-        <rect class="bx d" x="4" y="372" width="692" height="58" rx="8"/>
-        <text class="ss w" x="24" y="398" style="font-size:14px">Adoption is a review habit, not an announcement &mdash; the same</text>
-        <text class="ss w" x="24" y="420" style="font-size:14px">conclusion the skill files reached in Module 3.</text>
+        <rect class="bx r grow w3" x="4" y="276" width="1172" height="136" rx="8"/>
+        <text class="lb r" x="24" y="300">6 MONTHS &mdash; NOBODY MAINTAINS THE AGENT FILES &middot; THE WORST ONE</text>
+        <text class="tt" x="24" y="330" style="font-size:15px">An out-of-date agent file is worse than none</text>
+        <text class="ss" x="24" y="358">It applies old rules to new code.</text>
+        <text class="ss" x="24" y="380" style="fill:#e2726e;font-weight:600">It runs on every ticket, and nobody opens it.</text>
+        <rect class="bx w" x="700" y="316" width="456" height="80" rx="6"/>
+        <text class="lb g" x="716" y="338">THE FIX &mdash; MODULE 2&rsquo;S SAME-PR RULE</text>
+        <text class="ss" x="716" y="362">Update the agent file in the PR that changes the rule.</text>
+        <text class="ss" x="716" y="382">Give it an owner and a version.</text>
+
+        <rect class="bx d" x="4" y="420" width="1172" height="28" rx="6"/>
+        <text class="ss w" x="590" y="440" text-anchor="middle" style="font-size:13.5px">Agent files are team knowledge. <tspan font-weight="700" fill="#e0b34d">Module 2&rsquo;s rules apply to them unchanged.</tspan></text>
       </svg>
-    </div>
-    <div class="pts">
-      <h3>Make it somebody's, in writing</h3>
-      <ul>
-        <li><b>Owner in the frontmatter.</b> Not a team inbox &mdash; a name. Unowned definitions have a first month, not a lifetime.</li>
-        <li><b>Version it, and review changes properly.</b> One line here changes the behaviour of every future ticket, which is more leverage than most code changes carry.</li>
-      </ul>
-      <h3>Measure it, or the argument is taste</h3>
-      <ul>
-        <li>Count <b>findings the review agent raised that a human would have missed</b>, and <b>defects that reached the branch anyway</b>. Both are countable in a fortnight.</li>
-        <li>If neither moves, say so. That is the standard this course has held itself to since Lab 1.1.</li>
-      </ul>
-      <div class="take"><b>The failure here is social, not technical</b> &mdash; one enthusiast, four excellent definitions, nobody else invoking them, and in six weeks it is cited as evidence that agents do not work.</div>
     </div>
   </div>
 </section>
 
 <!-- 18 -->
+<section class="slide" data-sec="6 &middot; Anti-patterns" data-title="Rolling this out without losing the room" data-notes="Practical slide for the seniors, and the one most likely to be acted on next week. The failure is social, exactly as it was for skill files: one enthusiast builds four agents, nobody else uses them, and six weeks later the experiment is cited as evidence that this does not work. The sequencing on the left is deliberate and it is the opposite of what people do - start with review only, because it is the cheapest, it is the one that closes the failures they have personally been bitten by, and it produces visible findings that make the argument for you. Adding design first is the common mistake: it is the most expensive, the most disruptive to how people already work, and its value is the least visible on any single ticket. The right-hand side is the measurement point, tied back to the tally sheet." data-tier="R">
+  <h2>Rolling this out &mdash; start with review, not design<span class="tag k">6</span></h2>
+  <div class="body g55">
+    <div>
+      <svg viewBox="0 0 700 430" role="img" aria-label="A rollout order starting with the review agent">
+        <text class="lb g" x="4" y="13">THE ORDER THAT WORKS</text>
+        <rect class="bx g" x="4" y="22" width="692" height="216" rx="8"/>
+        <rect class="bx w rise" x="20" y="40" width="660" height="62" rx="6"/>
+        <text class="tt" x="36" y="62" style="font-size:13.5px">1 &middot; Review only, on changes you already make by hand</text>
+        <text class="ss" x="36" y="86">Cheapest. It fixes problems people already feel.</text>
+        <rect class="bx w rise r2" x="20" y="110" width="660" height="62" rx="6"/>
+        <text class="tt" x="36" y="132" style="font-size:13.5px">2 &middot; Then the test agent, working from the ticket</text>
+        <text class="ss" x="36" y="156">When a test disagrees with the code, people see the value.</text>
+        <rect class="bx w rise r3" x="20" y="180" width="660" height="48" rx="6"/>
+        <text class="tt" x="36" y="202" style="font-size:13.5px">3 &middot; Then design and coding</text>
+        <text class="ss" x="36" y="222">By now people are used to the files.</text>
+
+        <text class="lb r" x="4" y="268">THE COMMON MISTAKE</text>
+        <rect class="bx r" x="4" y="278" width="692" height="80" rx="8"/>
+        <text class="tt" x="24" y="304" style="font-size:14px">Starting with design, because it comes first.</text>
+        <text class="ss" x="24" y="330" style="fill:#e2726e;font-weight:600">It costs most, changes most, and its value is hardest to see.</text>
+
+        <rect class="bx d" x="4" y="372" width="692" height="58" rx="8"/>
+        <text class="ss w" x="24" y="398" style="font-size:14px">People adopt it through review habits, not announcements</text>
+        <text class="ss w" x="24" y="420" style="font-size:14px">&mdash; same as skill files in Module 3.</text>
+      </svg>
+    </div>
+    <div class="pts">
+      <h3>Give it an owner</h3>
+      <ul>
+        <li>A named person in the file header. <b>Not a team mailbox.</b></li>
+        <li>Review changes carefully. One line affects every future ticket.</li>
+      </ul>
+      <h3>Measure it</h3>
+      <ul>
+        <li>Count issues the review agent found that <b>a person would have missed</b>.</li>
+        <li>Count defects that <b>got through anyway</b>.</li>
+      </ul>
+      <div class="take"><b>If the numbers do not move, say so</b> &mdash; the same standard as Lab 1.1.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 19 -->
 <section class="slide" data-sec="Close" data-title="What Module 4 hands forward" data-notes="Close Day 1. The four obligations on the left are the module in one screen. Then make the transition to Day 2 explicit and honest: everything on Day 1 happened inside the editor, on a repository, with tickets pasted in by hand. Day 2 connects the pipeline to the systems the work actually lives in - JIRA at the front, Confluence at the back, multiple repositories in the middle - and it starts with the piece that makes delegation safe, which is a specification precise enough to be checked by a machine. Point at gate 1 from Module 1 one last time: can you write down what done means. Module 5 is the answer to that question, and everything built today has been waiting for it." data-tier="R">
   <h2>What Module 4 hands forward &mdash; and what Day 1 did not do<span class="tag">M4</span></h2>
   <div class="body g46">
     <div class="pts">
-      <h3>What you now owe, per ticket</h3>
+      <h3>On every ticket</h3>
       <ul>
-        <li><b>Decide which agents this ticket needs.</b> Ambiguity against the cost of being wrong &mdash; not the full pipeline out of habit.</li>
-        <li><b>Protect the blindness structurally.</b> The test agent does not read the rationale; the reviewer does not fix. Both are permissions, not requests.</li>
-        <li><b>Hand off artifacts, not conversations.</b> Five shapes, each judgeable by a human who was not in the session.</li>
-        <li><b>Put a human at the spec and at the merge.</b> On client money, neither becomes optional.</li>
+        <li><b>Choose</b> which agents this ticket needs.</li>
+        <li><b>Keep the blindness:</b> the test agent never sees the rationale; the reviewer never fixes.</li>
+        <li><b>Pass files</b>, not chats.</li>
+        <li><b>Put a person</b> at the spec and at the merge.</li>
       </ul>
-      <div class="callout">Everything today happened <em>inside the editor</em> &mdash; one repository, tickets pasted in by hand, artifacts in files nobody else can see.</div>
-      <div class="take"><b>Into Day 2:</b> the pipeline gets connected to where the work actually lives &mdash; JIRA at the front, Confluence at the back, more than one repository in the middle. It starts with the thing that makes delegation safe at all.</div>
+      <div class="callout">Today everything happened <em>inside the editor</em>, with tickets pasted in by hand.</div>
+      <div class="take"><b>Day 2</b> connects this to JIRA, Confluence and more than one repo.</div>
     </div>
     <div>
       <svg viewBox="0 0 700 430" role="img" aria-label="What Day 1 built and what Day 2 connects it to">
-        <text class="lb g" x="4" y="13">DAY 1 &mdash; FOUR THINGS, EACH ANSWERING THE LAST</text>
+        <text class="lb g" x="4" y="13">DAY 1 IN FOUR LINES</text>
         <rect class="bx g" x="4" y="22" width="692" height="168" rx="8"/>
         <rect class="bx w rise" x="20" y="40" width="660" height="32" rx="5"/>
-        <text class="ss" x="34" y="61"><tspan font-weight="700">M1</tspan> &nbsp;the tax is real, and here is your number &mdash; on the board since this morning</text>
+        <text class="ss" x="34" y="61"><tspan font-weight="700">M1</tspan> &nbsp;the re-discovery tax is real &mdash; you measured it</text>
         <rect class="bx w rise r2" x="20" y="78" width="660" height="32" rx="5"/>
-        <text class="ss" x="34" y="99"><tspan font-weight="700">M2</tspan> &nbsp;the repository can answer &mdash; so it stops being re-derived</text>
+        <text class="ss" x="34" y="99"><tspan font-weight="700">M2</tspan> &nbsp;put team knowledge in the repo</text>
         <rect class="bx w rise r3" x="20" y="116" width="660" height="32" rx="5"/>
-        <text class="ss" x="34" y="137"><tspan font-weight="700">M3</tspan> &nbsp;ask precisely, and prove the asking is better &mdash; two failures survived</text>
+        <text class="ss" x="34" y="137"><tspan font-weight="700">M3</tspan> &nbsp;ask clearly, and prove it &mdash; two failures remained</text>
         <rect class="bx w rise r4" x="20" y="154" width="660" height="32" rx="5"/>
-        <text class="ss" x="34" y="175"><tspan font-weight="700">M4</tspan> &nbsp;those two needed independence, not instruction &mdash; four narrow roles</text>
+        <text class="ss" x="34" y="175"><tspan font-weight="700">M4</tspan> &nbsp;those two needed a separate checker &mdash; four agents</text>
 
-        <text class="lb a" x="4" y="222">WHAT IS STILL MISSING &mdash; AND IT IS GATE 1 FROM THIS MORNING</text>
+        <text class="lb a" x="4" y="222">STILL MISSING &mdash; MODULE 1&rsquo;S FIRST QUESTION</text>
         <rect class="bx a" x="4" y="232" width="692" height="106" rx="8"/>
         <text class="tt" x="24" y="262" style="font-size:15px">&ldquo;Can you write down what &lsquo;done&rsquo; means?&rdquo;</text>
-        <text class="ss" x="24" y="288">Every agent above consumes a requirement it did not write. The test agent</text>
-        <text class="ss" x="24" y="308">works from the criteria; the reviewer checks against them.</text>
-        <text class="ss" x="24" y="330" style="fill:#d98a3d;font-weight:600">All four are only as good as the specification they were handed.</text>
+        <text class="ss" x="24" y="290">Every agent works from a ticket it did not write.</text>
+        <text class="ss" x="24" y="316" style="fill:#d98a3d;font-weight:600">All four are only as good as that ticket.</text>
 
         <rect class="bx d" x="4" y="350" width="692" height="80" rx="8"/>
         <text class="lb w" x="24" y="374">DAY 2 &mdash; SPEC-DRIVEN DELIVERY</text>
-        <text class="ss w" x="24" y="400" style="font-size:14px">M5 makes the specification machine-checkable. Then M6 pulls the ticket,</text>
-        <text class="ss w" x="24" y="420" style="font-size:14px">M7 crosses repositories, M8 closes the loop &mdash; <tspan font-weight="700" fill="#e0b34d">JIRA to merged PR.</tspan></text>
-      </svg>
-    </div>
-  </div>
-</section>
-<!-- 19 -->
-<section class="slide" data-sec="Review quiz" data-title="Review quiz - eight questions" data-notes="Last quiz of Day 1. Same format. Questions 2, 4 and 8 are the ones worth real discussion - 2 because the sprawl instinct is strong in a senior room, 4 because it is the independence point stated as a practical choice, and 8 because it sets up Day 2. If time is short run 2, 4, 6 and 8. End the day on question 8 rather than a summary slide." data-tier="R">
-  <h2>Review quiz &mdash; eight questions<span class="tag q">QUIZ</span></h2>
-  <div class="body g55">
-    <div class="pts">
-      <h3>How this runs</h3>
-      <ul>
-        <li>Four options, one right. <b>Show of hands on each</b> before the answer &mdash; the split is the useful part.</li>
-        <li>Every question comes from something you will do in Labs 1.6 and 1.7.</li>
-      </ul>
-      <h3>If time is short</h3>
-      <ul>
-        <li>Run <b>2, 4, 6 and 8</b>. They cover sprawl, independence, the hand-off contract, and the Day 2 handover.</li>
-      </ul>
-      <div class="take">End the day on question 8, not on a summary slide. It is the one that makes tomorrow morning make sense.</div>
-    </div>
-    <div>
-      <svg viewBox="0 0 700 420" role="img" aria-label="What the eight quiz questions cover">
-        <rect class="bx p" x="4" y="4" width="692" height="412" rx="8"/>
-        <text class="lb p" x="24" y="32">WHAT THE EIGHT COVER</text>
-        <rect class="bx w rise" x="24" y="44" width="652" height="40" rx="5"/>
-        <text class="ss" x="40" y="69"><tspan font-weight="700">1 &middot;</tspan> Why four agents beat one &mdash; and why not for the obvious reason</text>
-        <rect class="bx w rise r2" x="24" y="90" width="652" height="40" rx="5"/>
-        <text class="ss" x="40" y="115"><tspan font-weight="700">2 &middot;</tspan> Is a proposed agent a role, or a step?</text>
-        <rect class="bx w rise r3" x="24" y="136" width="652" height="40" rx="5"/>
-        <text class="ss" x="40" y="161"><tspan font-weight="700">3 &middot;</tspan> The part of a definition that does the work</text>
-        <rect class="bx w rise r4" x="24" y="182" width="652" height="40" rx="5"/>
-        <text class="ss" x="40" y="207"><tspan font-weight="700">4 &middot;</tspan> What the test agent must not be given</text>
-        <rect class="bx w rise r5" x="24" y="228" width="652" height="40" rx="5"/>
-        <text class="ss" x="40" y="253"><tspan font-weight="700">5 &middot;</tspan> A review agent that has never blocked anything</text>
-        <rect class="bx w rise r6" x="24" y="274" width="652" height="40" rx="5"/>
-        <text class="ss" x="40" y="299"><tspan font-weight="700">6 &middot;</tspan> What a review-before-merge gate should actually gate on</text>
-        <rect class="bx w rise r6" x="24" y="320" width="652" height="40" rx="5"/>
-        <text class="ss" x="40" y="345"><tspan font-weight="700">7 &middot;</tspan> The anti-pattern that takes six months to appear</text>
-        <rect class="bx w rise r6" x="24" y="366" width="652" height="40" rx="5"/>
-        <text class="ss" x="40" y="391"><tspan font-weight="700">8 &middot;</tspan> What all four agents depend on &mdash; and Day 1 never built</text>
+        <text class="ss w" x="24" y="400" style="font-size:14px">M5 makes the spec checkable by a machine. M6 pulls the ticket,</text>
+        <text class="ss w" x="24" y="420" style="font-size:14px">M7 crosses repos, M8 closes the loop &mdash; <tspan font-weight="700" fill="#e0b34d">JIRA to merged PR.</tspan></text>
       </svg>
     </div>
   </div>
 </section>
 
 <!-- 20 -->
-<section class="slide" data-sec="Review quiz" data-title="Q1 - why four beat one" data-notes="Expect C to poll well - it is the intuitive answer and it is the one people will repeat to their teams, which is why it is worth killing here." data-tier="R">
-  <h2>Q1 &middot; Why does a four-agent pipeline outperform one general agent?<span class="tag q">1 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">Same model, same weights, four narrow roles instead of one broad one. Where does the improvement actually come from?</div>
-    <div class="opts">
-      <div class="opt"><span class="k">A</span><span>Each agent sees less, and is asked to optimise one thing &mdash; so the check on the work is genuinely separate from the work.</span></div>
-      <div class="opt"><span class="k">B</span><span>Four passes over the same code means more total scrutiny, and more scrutiny finds more defects.</span></div>
-      <div class="opt"><span class="k">C</span><span>A narrow agent performs better at a narrow task than a general one does &mdash; specialisation improves capability.</span></div>
-      <div class="opt"><span class="k">D</span><span>Splitting the work into four smaller requests keeps each context window short, which reduces errors.</span></div>
+<section class="slide" data-sec="Review quiz" data-title="Review quiz - eight questions" data-notes="Last quiz of Day 1. Same format. Questions 2, 4 and 8 are the ones worth real discussion - 2 because the sprawl instinct is strong in a senior room, 4 because it is the independence point stated as a practical choice, and 8 because it sets up Day 2. If time is short run 2, 4, 6 and 8. End the day on question 8 rather than a summary slide." data-tier="R">
+  <h2>Review quiz &mdash; eight questions<span class="tag q">QUIZ</span></h2>
+  <div class="body g55">
+    <div class="pts">
+      <h3>How it works</h3>
+      <ul>
+        <li>Four options, one right. <b>Raise hands for each option</b> before the answer.</li>
+        <li>The questions come from Labs 1.6 and 1.7.</li>
+      </ul>
+      <h3>Short on time?</h3>
+      <ul>
+        <li>Run <b>2, 4, 6 and 8</b>.</li>
+      </ul>
+      <div class="take">End the day on question 8. It sets up tomorrow.</div>
     </div>
-    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
-  </div></div>
+    <div>
+      <svg viewBox="0 0 700 420" role="img" aria-label="What the eight quiz questions cover">
+        <rect class="bx p" x="4" y="4" width="692" height="412" rx="8"/>
+        <text class="lb p" x="24" y="32">WHAT THE EIGHT COVER</text>
+        <rect class="bx w rise" x="24" y="44" width="652" height="40" rx="5"/>
+        <text class="ss" x="40" y="69"><tspan font-weight="700">1 &middot;</tspan> Why four agents beat one</text>
+        <rect class="bx w rise r2" x="24" y="90" width="652" height="40" rx="5"/>
+        <text class="ss" x="40" y="115"><tspan font-weight="700">2 &middot;</tspan> Is a new agent a role, or a step?</text>
+        <rect class="bx w rise r3" x="24" y="136" width="652" height="40" rx="5"/>
+        <text class="ss" x="40" y="161"><tspan font-weight="700">3 &middot;</tspan> Which part of an agent file matters most</text>
+        <rect class="bx w rise r4" x="24" y="182" width="652" height="40" rx="5"/>
+        <text class="ss" x="40" y="207"><tspan font-weight="700">4 &middot;</tspan> What the test agent must not see</text>
+        <rect class="bx w rise r5" x="24" y="228" width="652" height="40" rx="5"/>
+        <text class="ss" x="40" y="253"><tspan font-weight="700">5 &middot;</tspan> A review agent that never blocks</text>
+        <rect class="bx w rise r6" x="24" y="274" width="652" height="40" rx="5"/>
+        <text class="ss" x="40" y="299"><tspan font-weight="700">6 &middot;</tspan> What a merge gate should check</text>
+        <rect class="bx w rise r6" x="24" y="320" width="652" height="40" rx="5"/>
+        <text class="ss" x="40" y="345"><tspan font-weight="700">7 &middot;</tspan> The problem that takes six months to show</text>
+        <rect class="bx w rise r6" x="24" y="366" width="652" height="40" rx="5"/>
+        <text class="ss" x="40" y="391"><tspan font-weight="700">8 &middot;</tspan> What all four agents depend on</text>
+      </svg>
+    </div>
+  </div>
 </section>
 
 <!-- 21 -->
-<section class="slide" data-sec="Review quiz" data-title="Q1 - answer" data-notes="Kill C explicitly and give them the sentence to use instead. If they pitch this internally as specialist agents are better at their jobs, the first sceptic asks why the same model would be better at a task because you told it it was a specialist - and there is no good answer, because the claim is false." data-tier="R">
-  <h2>Q1 &middot; Answer<span class="tag q">1 of 8</span></h2>
+<section class="slide" data-sec="Review quiz" data-title="Q1 - why four beat one" data-notes="Expect C to poll well - it is the intuitive answer and it is the one people will repeat to their teams, which is why it is worth killing here." data-tier="R">
+  <h2>Q1 &middot; Why do four agents do better than one general agent?<span class="tag q">1 of 8</span></h2>
   <div class="body g1"><div>
-    <div class="qz">Where does the improvement come from?</div>
+    <div class="qz">All four use the same model. Where does the gain come from?</div>
     <div class="opts">
-      <div class="opt right"><span class="k">A</span><span>Each sees less and optimises one thing &mdash; so the check is genuinely separate from the work.</span></div>
-      <div class="opt wrong"><span class="k">B</span><span>Four passes means more total scrutiny.</span></div>
-      <div class="opt wrong"><span class="k">C</span><span>A narrow agent is better at a narrow task.</span></div>
-      <div class="opt wrong"><span class="k">D</span><span>Four shorter context windows reduce errors.</span></div>
+      <div class="opt"><span class="k">A</span><span>Each sees less and does one job, so the checker is separate from the work.</span></div>
+      <div class="opt"><span class="k">B</span><span>Four passes over the code means more checking, so more bugs get found.</span></div>
+      <div class="opt"><span class="k">C</span><span>A narrow agent is more skilled at a narrow task than a general one.</span></div>
+      <div class="opt"><span class="k">D</span><span>Four small requests keep each context window short, so fewer errors.</span></div>
     </div>
-    <div class="why"><b>A.</b> The gain is structural: context pollution, conflicting goals and reviewer independence. The two failures Module 3 could not close were failures of independence, and independence is the one thing a single session cannot manufacture.
-      <span class="no"><b>C</b> is the intuitive answer, it is false, and it is the one people repeat to their teams &mdash; so kill it now. Same model, same weights; telling it that it is a specialist does not make it more capable. <b>B</b> would predict that running one agent four times works equally well. It does not, because all four passes share a reading. <b>D</b> is a real effect and much smaller than the structural one &mdash; and it would not close either surviving failure.</span></div>
+    <div class="qmeta">Raise hands for each option &middot; answer on the next slide</div>
   </div></div>
 </section>
 
 <!-- 22 -->
-<section class="slide" data-sec="Review quiz" data-title="Q2 - role or step" data-notes="The sprawl question. Expect a genuine split, and it is worth letting someone argue for A before revealing." data-tier="R">
-  <h2>Q2 &middot; Someone proposes a fifth agent. Is it a role?<span class="tag q">2 of 8</span></h2>
+<section class="slide" data-sec="Review quiz" data-title="Q1 - answer" data-notes="Kill C explicitly and give them the sentence to use instead. If they pitch this internally as specialist agents are better at their jobs, the first sceptic asks why the same model would be better at a task because you told it it was a specialist - and there is no good answer, because the claim is false." data-tier="R">
+  <h2>Q1 &middot; Answer<span class="tag q">1 of 8</span></h2>
   <div class="body g1"><div>
-    <div class="qz">A colleague suggests a <strong>documentation agent</strong>: after the change lands, it updates the architecture notes and the ADR index. Is that a real role, or a step in an existing one?</div>
+    <div class="qz">Where does the gain come from?</div>
     <div class="opts">
-      <div class="opt"><span class="k">A</span><span>A role &mdash; writing documentation is a genuinely different skill from writing code, and it deserves its own guardrails.</span></div>
-      <div class="opt"><span class="k">B</span><span>A role &mdash; keeping knowledge current is Module 2's central concern, so it warrants a dedicated agent.</span></div>
-      <div class="opt"><span class="k">C</span><span>A step &mdash; it takes the same inputs as the coding agent and is judged the same way, so it belongs in that agent's output contract.</span></div>
-      <div class="opt"><span class="k">D</span><span>A step &mdash; documentation is low-risk, so it does not need the overhead of a definition and an owner.</span></div>
+      <div class="opt right"><span class="k">A</span><span>Each sees less and does one job &mdash; the checker is separate.</span></div>
+      <div class="opt wrong"><span class="k">B</span><span>More passes, more checking.</span></div>
+      <div class="opt wrong"><span class="k">C</span><span>Narrow agents are more skilled.</span></div>
+      <div class="opt wrong"><span class="k">D</span><span>Shorter context windows.</span></div>
     </div>
-    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+    <div class="why"><b>A.</b> The gain comes from structure: a cleaner chat, one goal each, and a separate checker. Module 3&rsquo;s two failures need independence, and one chat cannot give it.
+      <span class="no"><b>C</b> sounds right but is false &mdash; same model, same skill. Say this clearly to your team. <b>B:</b> four passes by one agent still share one reading. <b>D</b> is real, but small, and fixes neither failure.</span></div>
   </div></div>
 </section>
 
 <!-- 23 -->
+<section class="slide" data-sec="Review quiz" data-title="Q2 - role or step" data-notes="The sprawl question. Expect a genuine split, and it is worth letting someone argue for A before revealing." data-tier="R">
+  <h2>Q2 &middot; Someone proposes a fifth agent. Is it a role?<span class="tag q">2 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">A colleague suggests a <strong>documentation agent</strong>. After a change, it updates the architecture notes and the ADR list. A role, or a step?</div>
+    <div class="opts">
+      <div class="opt"><span class="k">A</span><span>A role &mdash; writing docs is a different skill from writing code.</span></div>
+      <div class="opt"><span class="k">B</span><span>A role &mdash; keeping knowledge current is Module 2&rsquo;s main concern.</span></div>
+      <div class="opt"><span class="k">C</span><span>A step &mdash; same inputs and same &ldquo;done&rdquo; as the coding agent.</span></div>
+      <div class="opt"><span class="k">D</span><span>A step &mdash; docs are low-risk, so no agent file is needed.</span></div>
+    </div>
+    <div class="qmeta">Raise hands for each option &middot; answer on the next slide</div>
+  </div></div>
+</section>
+
+<!-- 24 -->
 <section class="slide" data-sec="Review quiz" data-title="Q2 - answer" data-notes="Draw out that D reaches the right answer through the wrong reasoning, which matters because the wrong reasoning generalises badly - it would also justify skipping the review agent on a small change." data-tier="R">
   <h2>Q2 &middot; Answer<span class="tag q">2 of 8</span></h2>
   <div class="body g1"><div>
     <div class="qz">A documentation agent &mdash; role, or step?</div>
     <div class="opts">
       <div class="opt wrong"><span class="k">A</span><span>A role &mdash; a different skill.</span></div>
-      <div class="opt wrong"><span class="k">B</span><span>A role &mdash; knowledge currency matters.</span></div>
-      <div class="opt right"><span class="k">C</span><span>A step &mdash; same inputs, same definition of done, so it belongs in the coding agent's output contract.</span></div>
+      <div class="opt wrong"><span class="k">B</span><span>A role &mdash; knowledge must stay current.</span></div>
+      <div class="opt right"><span class="k">C</span><span>A step &mdash; same inputs, same &ldquo;done&rdquo; as coding.</span></div>
       <div class="opt wrong"><span class="k">D</span><span>A step &mdash; it is low-risk.</span></div>
     </div>
-    <div class="why"><b>C.</b> Run the three-part test: the inputs are the same (the diff and the ticket), &ldquo;done&rdquo; is the same (the artifact matches the change), and the failure modes are the same. Three noes &mdash; a step. And it is Module 2's <em>same-PR rule</em>, which already said the knowledge changes in the pull request that invalidates it.
-      <span class="no"><b>A</b> and <b>B</b> are how you get eleven agents and four that are used. <b>D</b> reaches the right answer by the wrong route, and the route matters: &ldquo;low-risk, so skip the definition&rdquo; would equally justify skipping the review agent on a small change &mdash; which is where the expensive defects live.</span></div>
-  </div></div>
-</section>
-<!-- 24 -->
-<section class="slide" data-sec="Review quiz" data-title="Q3 - the part that does the work" data-notes="Quick one. The parallel with Module 3's stop conditions is the teaching point - both are the part that constrains behaviour when the agent feels confident." data-tier="R">
-  <h2>Q3 &middot; Which part of an agent definition does the most work?<span class="tag q">3 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">Your coding agent keeps making small design decisions the spec did not cover. Which part of its definition is the one that should stop this?</div>
-    <div class="opts">
-      <div class="opt"><span class="k">A</span><span>Role &mdash; a sharper statement of what the agent is for.</span></div>
-      <div class="opt"><span class="k">B</span><span>Never &mdash; the named things it must not do, however reasonable they look in the moment.</span></div>
-      <div class="opt"><span class="k">C</span><span>Goal &mdash; a tighter description of the artifact it must produce.</span></div>
-      <div class="opt"><span class="k">D</span><span>Guardrails &mdash; a fuller list of the house rules that bind the role.</span></div>
-    </div>
-    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+    <div class="why"><b>C.</b> Ask the three questions. Same inputs (the diff and the ticket). Same &ldquo;done&rdquo; (the docs match the change). Same failures. So it is a step in the coding agent&rsquo;s job. Module 2&rsquo;s <em>same-PR rule</em> already says docs change in the same PR.
+      <span class="no"><b>A</b> and <b>B</b> lead to eleven agents with four in use. <b>D</b> gets the right answer for the wrong reason: &ldquo;low-risk, so skip it&rdquo; would also skip review on small changes &mdash; where costly bugs hide.</span></div>
   </div></div>
 </section>
 
 <!-- 25 -->
+<section class="slide" data-sec="Review quiz" data-title="Q3 - the part that does the work" data-notes="Quick one. The parallel with Module 3's stop conditions is the teaching point - both are the part that constrains behaviour when the agent feels confident." data-tier="R">
+  <h2>Q3 &middot; Which part of an agent file does the most work?<span class="tag q">3 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">Your coding agent keeps making small design choices the spec did not cover. Which part of its file should stop this?</div>
+    <div class="opts">
+      <div class="opt"><span class="k">A</span><span>Role &mdash; a clearer sentence about what the agent is for.</span></div>
+      <div class="opt"><span class="k">B</span><span>Never &mdash; named things it must not do, even when they seem reasonable.</span></div>
+      <div class="opt"><span class="k">C</span><span>Goal &mdash; a tighter description of the file it must produce.</span></div>
+      <div class="opt"><span class="k">D</span><span>Guardrails &mdash; a longer list of the team rules for this role.</span></div>
+    </div>
+    <div class="qmeta">Raise hands for each option &middot; answer on the next slide</div>
+  </div></div>
+</section>
+
+<!-- 26 -->
 <section class="slide" data-sec="Review quiz" data-title="Q3 - answer" data-notes="D is the closest miss and worth thirty seconds: guardrails describe how to do the work well, and an agent making a small design call believes it IS doing the work well. Only a prohibition binds there." data-tier="R">
   <h2>Q3 &middot; Answer<span class="tag q">3 of 8</span></h2>
   <div class="body g1"><div>
     <div class="qz">Which part stops the coding agent from quietly re-deciding?</div>
     <div class="opts">
       <div class="opt wrong"><span class="k">A</span><span>Role.</span></div>
-      <div class="opt right"><span class="k">B</span><span>Never &mdash; the named prohibitions, including &ldquo;never change a design decision; stop and hand back&rdquo;.</span></div>
+      <div class="opt right"><span class="k">B</span><span>Never &mdash; &ldquo;never change a design decision; stop and hand back&rdquo;.</span></div>
       <div class="opt wrong"><span class="k">C</span><span>Goal.</span></div>
       <div class="opt wrong"><span class="k">D</span><span>Guardrails.</span></div>
     </div>
-    <div class="why"><b>B.</b> It is the only part that binds when the agent is doing well and feels confident &mdash; which is exactly when it drifts. Same logic as Module 3's stop conditions, one level up.
-      <span class="no"><b>D</b> is the closest miss: guardrails describe how to do the work <em>well</em>, and an agent making a small design call believes it is doing precisely that. Only a prohibition reaches it. <b>A</b> and <b>C</b> describe the job; nothing in either says what to do at the moment a better idea arrives.</span></div>
-  </div></div>
-</section>
-
-<!-- 26 -->
-<section class="slide" data-sec="Review quiz" data-title="Q4 - what the test agent must not see" data-notes="The independence question stated as a practical choice. Expect C to draw votes because it sounds efficient and collaborative, which is exactly why it is the trap." data-tier="K">
-  <h2>Q4 &middot; What must the test agent <em>not</em> be given?<span class="tag q">4 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">You are wiring up the hand-off into the test agent. Which of these must you withhold, even though passing it would be easy and would seem helpful?</div>
-    <div class="opts">
-      <div class="opt"><span class="k">A</span><span>The acceptance criteria &mdash; it should derive expected behaviour from the code, so the tests match what was built.</span></div>
-      <div class="opt"><span class="k">B</span><span>The public surface of the code under test &mdash; otherwise its tests are coupled to implementation detail.</span></div>
-      <div class="opt"><span class="k">C</span><span>The house test conventions &mdash; they belong to the coding agent, and repeating them wastes context.</span></div>
-      <div class="opt"><span class="k">D</span><span>The coding agent's summary of what it changed and why.</span></div>
-    </div>
-    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+    <div class="why"><b>B.</b> It is the only part that works when the agent feels confident &mdash; exactly when it drifts. It is Module 3&rsquo;s stop conditions, one level up.
+      <span class="no"><b>D</b> is close: guardrails say how to do the job well, and the agent believes it is doing that. Only a &ldquo;never&rdquo; stops it. <b>A</b> and <b>C</b> describe the job, not what to do when a better idea appears.</span></div>
   </div></div>
 </section>
 
 <!-- 27 -->
-<section class="slide" data-sec="Review quiz" data-title="Q4 - answer" data-notes="Land the sentence: the rationale IS the reading you are trying to check independently. And note that A inverts the module entirely - deriving tests from the code is exactly the test-written-to-pass failure, now industrialised." data-tier="K">
-  <h2>Q4 &middot; Answer<span class="tag q">4 of 8</span></h2>
+<section class="slide" data-sec="Review quiz" data-title="Q4 - what the test agent must not see" data-notes="The independence question stated as a practical choice. Expect C to draw votes because it sounds efficient and collaborative, which is exactly why it is the trap." data-tier="K">
+  <h2>Q4 &middot; What must the test agent <em>not</em> be given?<span class="tag q">4 of 8</span></h2>
   <div class="body g1"><div>
-    <div class="qz">What must be withheld from the test agent?</div>
+    <div class="qz">You are setting up the test agent&rsquo;s inputs. Which one must you hold back, even though it seems helpful?</div>
     <div class="opts">
-      <div class="opt wrong"><span class="k">A</span><span>The acceptance criteria.</span></div>
-      <div class="opt wrong"><span class="k">B</span><span>The public surface of the code.</span></div>
-      <div class="opt wrong"><span class="k">C</span><span>The house test conventions.</span></div>
-      <div class="opt right"><span class="k">D</span><span>The coding agent's summary of what it changed and why.</span></div>
+      <div class="opt"><span class="k">A</span><span>The acceptance criteria &mdash; so the tests match what was built.</span></div>
+      <div class="opt"><span class="k">B</span><span>The code&rsquo;s public methods &mdash; so tests do not depend on internals.</span></div>
+      <div class="opt"><span class="k">C</span><span>The team&rsquo;s test conventions &mdash; they belong to the coding agent.</span></div>
+      <div class="opt"><span class="k">D</span><span>The coding agent&rsquo;s summary of what it changed and why.</span></div>
     </div>
-    <div class="why"><b>D.</b> That rationale <em>is</em> the reading you are trying to check. Given it, the test agent writes tests that confirm the coder's interpretation &mdash; and you are back to two things agreeing because they had to.
-      <span class="no"><b>A</b> inverts the module: the criteria are the test agent's <em>source of truth</em>, and deriving tests from the code instead is the test-written-to-pass failure, industrialised. <b>B</b> is needed to write a test at all &mdash; the discipline is asserting behaviour through that surface, not being blind to it. <b>C</b> is how you get a <code>@SpringBootTest</code> in a codebase that forbids them.</span></div>
+    <div class="qmeta">Raise hands for each option &middot; answer on the next slide</div>
   </div></div>
 </section>
 
 <!-- 28 -->
-<section class="slide" data-sec="Review quiz" data-title="Q5 - the agreeable reviewer" data-notes="Practical diagnosis question. The lesson is to check the plumbing before rewriting the prompt, which is a habit worth having generally." data-tier="K">
-  <h2>Q5 &middot; Your review agent has never blocked anything. What first?<span class="tag q">5 of 8</span></h2>
+<section class="slide" data-sec="Review quiz" data-title="Q4 - answer" data-notes="Land the sentence: the rationale IS the reading you are trying to check independently. And note that A inverts the module entirely - deriving tests from the code is exactly the test-written-to-pass failure, now industrialised." data-tier="K">
+  <h2>Q4 &middot; Answer<span class="tag q">4 of 8</span></h2>
   <div class="body g1"><div>
-    <div class="qz">Three weeks in, the review agent has produced only approvals and mild suggestions. What is the first thing to check?</div>
+    <div class="qz">What must the test agent not be given?</div>
     <div class="opts">
-      <div class="opt"><span class="k">A</span><span>Whether the prompt is emphatic enough &mdash; strengthen the wording and ask it to be more critical.</span></div>
-      <div class="opt"><span class="k">B</span><span>Whether the changes have simply been good &mdash; three weeks is a small sample, so wait for more data.</span></div>
-      <div class="opt"><span class="k">C</span><span>Whether it is being handed the coding agent's summary or rationale along with the diff.</span></div>
-      <div class="opt"><span class="k">D</span><span>Whether a stronger model would be more willing to raise findings against plausible-looking code.</span></div>
+      <div class="opt wrong"><span class="k">A</span><span>The acceptance criteria.</span></div>
+      <div class="opt wrong"><span class="k">B</span><span>The code&rsquo;s public methods.</span></div>
+      <div class="opt wrong"><span class="k">C</span><span>The team&rsquo;s test conventions.</span></div>
+      <div class="opt right"><span class="k">D</span><span>The coding agent&rsquo;s summary of what it changed and why.</span></div>
     </div>
-    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+    <div class="why"><b>D.</b> That summary is the reading you want to check. With it, the test agent confirms the coder&rsquo;s view &mdash; and the two agree because they had to.
+      <span class="no"><b>A</b> reverses the module: the criteria are the test agent&rsquo;s source of truth. Tests built from the code are &ldquo;tests written to pass&rdquo;. <b>B</b> is needed to write any test at all. <b>C</b> leads to a <code>@SpringBootTest</code> in a codebase that bans them.</span></div>
   </div></div>
 </section>
 
 <!-- 29 -->
+<section class="slide" data-sec="Review quiz" data-title="Q5 - the agreeable reviewer" data-notes="Practical diagnosis question. The lesson is to check the plumbing before rewriting the prompt, which is a habit worth having generally." data-tier="K">
+  <h2>Q5 &middot; Your review agent has never blocked anything. What first?<span class="tag q">5 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">After three weeks, the review agent has only approved changes and made mild suggestions. What do you check first?</div>
+    <div class="opts">
+      <div class="opt"><span class="k">A</span><span>The prompt wording &mdash; make it stronger and ask it to be critical.</span></div>
+      <div class="opt"><span class="k">B</span><span>Nothing yet &mdash; the changes may be good, so wait for more data.</span></div>
+      <div class="opt"><span class="k">C</span><span>Its inputs &mdash; is it being given the coding agent&rsquo;s summary?</span></div>
+      <div class="opt"><span class="k">D</span><span>The model &mdash; would a stronger model raise more findings?</span></div>
+    </div>
+    <div class="qmeta">Raise hands for each option &middot; answer on the next slide</div>
+  </div></div>
+</section>
+
+<!-- 30 -->
 <section class="slide" data-sec="Review quiz" data-title="Q5 - answer" data-notes="Generalise it at the end: check the plumbing before you rewrite the prompt. Most disappointing agent behaviour is an inputs problem wearing a prompt problem's clothes." data-tier="K">
   <h2>Q5 &middot; Answer<span class="tag q">5 of 8</span></h2>
   <div class="body g1"><div>
     <div class="qz">The review agent never blocks anything. What first?</div>
     <div class="opts">
-      <div class="opt wrong"><span class="k">A</span><span>Strengthen the prompt wording.</span></div>
-      <div class="opt wrong"><span class="k">B</span><span>Wait for a larger sample.</span></div>
-      <div class="opt right"><span class="k">C</span><span>Check whether it is being handed the coder's summary or rationale.</span></div>
+      <div class="opt wrong"><span class="k">A</span><span>Stronger prompt wording.</span></div>
+      <div class="opt wrong"><span class="k">B</span><span>Wait for more data.</span></div>
+      <div class="opt right"><span class="k">C</span><span>Check whether it gets the coder&rsquo;s summary.</span></div>
       <div class="opt wrong"><span class="k">D</span><span>Try a stronger model.</span></div>
     </div>
-    <div class="why"><b>C.</b> The usual cause is mechanical, not linguistic: a reviewer given the argument reviews the argument. It is a wiring problem, and it is checkable in a minute.
-      <span class="no"><b>A</b> is what most teams do, and adjectives lose to inputs every time. <b>D</b> spends money on the wrong axis &mdash; independence is not a capability. <b>B</b> is not unreasonable and it is not <em>first</em>: rule out the free explanation before you spend three more weeks collecting data from a mis-wired pipeline.
-      <b>The general habit:</b> check the plumbing before rewriting the prompt.</span></div>
-  </div></div>
-</section>
-<!-- 30 -->
-<section class="slide" data-sec="Review quiz" data-title="Q6 - what the gate gates on" data-notes="This one separates people who have built CI gates from people who have described them. The machine-checkable point is the whole answer." data-tier="R">
-  <h2>Q6 &middot; A review-before-merge gate should block on what?<span class="tag q">6 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">You are adding a CI gate so no change reaches a pull request unreviewed. What should the gate actually check?</div>
-    <div class="opts">
-      <div class="opt"><span class="k">A</span><span>That the review agent found no findings &mdash; a clean review is the condition for merging.</span></div>
-      <div class="opt"><span class="k">B</span><span>That a review report exists and is attached to the change &mdash; including one that says it found nothing.</span></div>
-      <div class="opt"><span class="k">C</span><span>That the review was thorough &mdash; the report covers all five checks in the definition's order.</span></div>
-      <div class="opt"><span class="k">D</span><span>That a human has read the review report and recorded a decision on each finding.</span></div>
-    </div>
-    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+    <div class="why"><b>C.</b> The usual cause is wiring, not wording. A reviewer given the argument reviews the argument. You can check this in a minute.
+      <span class="no"><b>A</b> is what most teams do, but inputs beat adjectives. <b>D</b> spends money on the wrong thing. <b>B</b> is reasonable, but not first &mdash; rule out the free check before waiting three more weeks. <b>The habit:</b> check the inputs before rewriting the prompt.</span></div>
   </div></div>
 </section>
 
 <!-- 31 -->
-<section class="slide" data-sec="Review quiz" data-title="Q6 - answer" data-notes="A is the trap and it is worth naming what it does: gate on zero findings and you have given everyone a reason to want a quiet reviewer, and within a month somebody will have tuned it into agreeableness for entirely rational reasons. D is right about the human and wrong about the gate - the human gate is real, it is just not the thing CI enforces." data-tier="R">
-  <h2>Q6 &middot; Answer<span class="tag q">6 of 8</span></h2>
+<section class="slide" data-sec="Review quiz" data-title="Q6 - what the gate gates on" data-notes="This one separates people who have built CI gates from people who have described them. The machine-checkable point is the whole answer." data-tier="R">
+  <h2>Q6 &middot; A review-before-merge gate should block on what?<span class="tag q">6 of 8</span></h2>
   <div class="body g1"><div>
-    <div class="qz">What should the gate check?</div>
+    <div class="qz">You add a CI check so no change reaches a pull request unreviewed. What should it check?</div>
     <div class="opts">
-      <div class="opt wrong"><span class="k">A</span><span>That the review found no findings.</span></div>
-      <div class="opt right"><span class="k">B</span><span>That a review report exists and is attached &mdash; &ldquo;nothing found&rdquo; is a valid report.</span></div>
-      <div class="opt wrong"><span class="k">C</span><span>That the review was thorough.</span></div>
-      <div class="opt wrong"><span class="k">D</span><span>That a human recorded a decision on each finding.</span></div>
+      <div class="opt"><span class="k">A</span><span>That the review agent found no problems at all.</span></div>
+      <div class="opt"><span class="k">B</span><span>That a review report is attached, even one saying &ldquo;nothing found&rdquo;.</span></div>
+      <div class="opt"><span class="k">C</span><span>That the review covered all five checks, in order.</span></div>
+      <div class="opt"><span class="k">D</span><span>That a person recorded a decision on every finding.</span></div>
     </div>
-    <div class="why"><b>B.</b> Gate on what CI can actually enforce. The existence of an artifact is machine-checkable; the quality of a judgement is not.
-      <span class="no"><b>A</b> is the dangerous one: gate on zero findings and everybody now has a reason to prefer a quiet reviewer &mdash; and within a month someone will have tuned it into agreeableness, rationally. <b>C</b> cannot be checked by a machine without becoming a formatting rule that a thorough review can fail and a lazy one can pass. <b>D</b> describes the <em>human</em> gate, which is real and sits at the merge &mdash; it is simply not the thing CI enforces.</span></div>
+    <div class="qmeta">Raise hands for each option &middot; answer on the next slide</div>
   </div></div>
 </section>
 
 <!-- 32 -->
-<section class="slide" data-sec="Review quiz" data-title="Q7 - the six-month anti-pattern" data-notes="Quick recall, but the reason matters more than the name: a stale definition is applied automatically, on every ticket, without anyone opening it." data-tier="R">
-  <h2>Q7 &middot; Which anti-pattern is the fatal one?<span class="tag q">7 of 8</span></h2>
+<section class="slide" data-sec="Review quiz" data-title="Q6 - answer" data-notes="A is the trap and it is worth naming what it does: gate on zero findings and you have given everyone a reason to want a quiet reviewer, and within a month somebody will have tuned it into agreeableness for entirely rational reasons. D is right about the human and wrong about the gate - the human gate is real, it is just not the thing CI enforces." data-tier="R">
+  <h2>Q6 &middot; Answer<span class="tag q">6 of 8</span></h2>
   <div class="body g1"><div>
-    <div class="qz">Which of these does the most damage, and takes the longest to become visible?</div>
+    <div class="qz">What should the CI gate check?</div>
     <div class="opts">
-      <div class="opt"><span class="k">A</span><span>Agent sprawl &mdash; eleven definitions, four of them used.</span></div>
-      <div class="opt"><span class="k">B</span><span>Overlapping roles &mdash; two agents both believe they own the same artifact.</span></div>
-      <div class="opt"><span class="k">C</span><span>Human gates in the wrong place &mdash; attention spent where the cost of being wrong is low.</span></div>
-      <div class="opt"><span class="k">D</span><span>Definitions nobody maintains &mdash; applying last quarter's conventions to this quarter's code.</span></div>
+      <div class="opt wrong"><span class="k">A</span><span>No problems were found.</span></div>
+      <div class="opt right"><span class="k">B</span><span>A review report is attached &mdash; &ldquo;nothing found&rdquo; counts.</span></div>
+      <div class="opt wrong"><span class="k">C</span><span>All five checks were covered.</span></div>
+      <div class="opt wrong"><span class="k">D</span><span>A person decided on every finding.</span></div>
     </div>
-    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+    <div class="why"><b>B.</b> Check what CI can enforce: a file exists. CI cannot judge how good a review was.
+      <span class="no"><b>A</b> is dangerous: people will want a quiet reviewer, and soon someone tunes it to agree. <b>C</b> becomes a formatting rule that a lazy review can pass. <b>D</b> is the human gate at the merge &mdash; real, but not something CI enforces.</span></div>
   </div></div>
 </section>
 
 <!-- 33 -->
-<section class="slide" data-sec="Review quiz" data-title="Q7 - answer" data-notes="Connect it straight back to Module 2 - this is the stale-file problem, and the fix is the same-PR rule with no modification. If they took one operational habit from Module 2, it applies here unchanged." data-tier="R">
-  <h2>Q7 &middot; Answer<span class="tag q">7 of 8</span></h2>
+<section class="slide" data-sec="Review quiz" data-title="Q7 - the six-month anti-pattern" data-notes="Quick recall, but the reason matters more than the name: a stale definition is applied automatically, on every ticket, without anyone opening it." data-tier="R">
+  <h2>Q7 &middot; Which mistake is the worst?<span class="tag q">7 of 8</span></h2>
   <div class="body g1"><div>
-    <div class="qz">Which anti-pattern is fatal?</div>
+    <div class="qz">Which of these does the most damage, and takes the longest to notice?</div>
     <div class="opts">
-      <div class="opt wrong"><span class="k">A</span><span>Agent sprawl.</span></div>
-      <div class="opt wrong"><span class="k">B</span><span>Overlapping roles.</span></div>
-      <div class="opt wrong"><span class="k">C</span><span>Human gates in the wrong place.</span></div>
-      <div class="opt right"><span class="k">D</span><span>Definitions nobody maintains &mdash; applied automatically, on every ticket, without being opened.</span></div>
+      <div class="opt"><span class="k">A</span><span>Too many agents &mdash; eleven agent files, only four in use.</span></div>
+      <div class="opt"><span class="k">B</span><span>Overlapping roles &mdash; two agents think they own one file.</span></div>
+      <div class="opt"><span class="k">C</span><span>Human gates in the wrong place &mdash; time spent on low risk.</span></div>
+      <div class="opt"><span class="k">D</span><span>Agent files nobody maintains &mdash; old rules used on new code.</span></div>
     </div>
-    <div class="why"><b>D.</b> A stale definition is worse than no definition. It produces plausible output, so nobody re-reads it &mdash; and it is applied to every ticket without a human ever opening the file. It is Module 2's stale-file problem, with automation attached.
-      <span class="no"><b>A</b> is wasteful and visible &mdash; unused files are obvious. <b>B</b> is genuinely hard to debug but shows up within weeks, when a ticket passes through both. <b>C</b> is expensive and self-correcting, because people notice attention being wasted on them.
-      <b>The fix is Module 2's, unchanged:</b> the same-PR rule, an owner in the frontmatter, and a version.</span></div>
+    <div class="qmeta">Raise hands for each option &middot; answer on the next slide</div>
   </div></div>
 </section>
 
 <!-- 34 -->
-<section class="slide" data-sec="Review quiz" data-title="Q8 - what Day 1 never built" data-notes="Close Day 1 here. Let someone argue for B or C before revealing - both are real gaps and both are Day 2 topics, which is the point. Then land the closing line and stop: everything built today consumes a requirement, and nothing today made the requirement any better." data-tier="R">
-  <h2>Q8 &middot; All four agents depend on something Day 1 never built. What?<span class="tag q">8 of 8</span></h2>
+<section class="slide" data-sec="Review quiz" data-title="Q7 - answer" data-notes="Connect it straight back to Module 2 - this is the stale-file problem, and the fix is the same-PR rule with no modification. If they took one operational habit from Module 2, it applies here unchanged." data-tier="R">
+  <h2>Q7 &middot; Answer<span class="tag q">7 of 8</span></h2>
   <div class="body g1"><div>
-    <div class="qz">Design recommends against it, coding implements to it, test proves it, review checks against it. What is it &mdash; and what did today do to improve it?</div>
+    <div class="qz">Which mistake is the worst?</div>
     <div class="opts">
-      <div class="opt"><span class="k">A</span><span>A specification precise enough to be checked &mdash; and today did nothing to make the requirement any better than it arrived.</span></div>
-      <div class="opt"><span class="k">B</span><span>A connection to the ticketing system, so the criteria arrive automatically rather than being pasted in.</span></div>
-      <div class="opt"><span class="k">C</span><span>A place to write the outcome back to, so the next ticket benefits from what this one learned.</span></div>
-      <div class="opt"><span class="k">D</span><span>A shared context store, so the four agents can see each other's reasoning when they need to.</span></div>
+      <div class="opt wrong"><span class="k">A</span><span>Too many agents.</span></div>
+      <div class="opt wrong"><span class="k">B</span><span>Overlapping roles.</span></div>
+      <div class="opt wrong"><span class="k">C</span><span>Human gates in the wrong place.</span></div>
+      <div class="opt right"><span class="k">D</span><span>Agent files nobody maintains.</span></div>
     </div>
-    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+    <div class="why"><b>D.</b> An out-of-date agent file is worse than none. Its output looks fine, so nobody re-reads it, and it runs on every ticket. It is Module 2&rsquo;s stale-file problem, now automated.
+      <span class="no"><b>A</b> is wasteful but easy to see. <b>B</b> is hard to debug, but shows up within weeks. <b>C</b> fixes itself, because people notice wasted time. <b>The fix is Module 2&rsquo;s:</b> the same-PR rule, an owner and a version.</span></div>
   </div></div>
 </section>
 
 <!-- 35 -->
+<section class="slide" data-sec="Review quiz" data-title="Q8 - what Day 1 never built" data-notes="Close Day 1 here. Let someone argue for B or C before revealing - both are real gaps and both are Day 2 topics, which is the point. Then land the closing line and stop: everything built today consumes a requirement, and nothing today made the requirement any better." data-tier="R">
+  <h2>Q8 &middot; All four agents depend on something Day 1 never built. What?<span class="tag q">8 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">Design plans from it, coding builds to it, test proves it, review checks against it. What is it &mdash; and did Day 1 improve it?</div>
+    <div class="opts">
+      <div class="opt"><span class="k">A</span><span>A spec precise enough to check &mdash; and Day 1 did not improve it.</span></div>
+      <div class="opt"><span class="k">B</span><span>A link to JIRA, so criteria arrive without copy and paste.</span></div>
+      <div class="opt"><span class="k">C</span><span>A place to write results back, so the next ticket learns.</span></div>
+      <div class="opt"><span class="k">D</span><span>A shared memory, so agents can see each other&rsquo;s reasoning.</span></div>
+    </div>
+    <div class="qmeta">Raise hands for each option &middot; answer on the next slide</div>
+  </div></div>
+</section>
+
+<!-- 36 -->
 <section class="slide" data-sec="Review quiz" data-title="Q8 - answer" data-notes="End the day on the last line and do not add a summary slide after it. Tomorrow opens on Module 5 and this question is the reason it exists." data-tier="R">
   <h2>Q8 &middot; Answer<span class="tag q">8 of 8</span></h2>
   <div class="body g1"><div>
     <div class="qz">What do all four depend on that Day 1 never improved?</div>
     <div class="opts">
-      <div class="opt right"><span class="k">A</span><span>A specification precise enough to be checked &mdash; Day 1 consumed the requirement, it never sharpened it.</span></div>
-      <div class="opt wrong"><span class="k">B</span><span>A connection to the ticketing system.</span></div>
-      <div class="opt wrong"><span class="k">C</span><span>A place to write the outcome back to.</span></div>
-      <div class="opt wrong"><span class="k">D</span><span>A shared context store.</span></div>
+      <div class="opt right"><span class="k">A</span><span>A spec precise enough to check.</span></div>
+      <div class="opt wrong"><span class="k">B</span><span>A link to JIRA.</span></div>
+      <div class="opt wrong"><span class="k">C</span><span>A place to write results back.</span></div>
+      <div class="opt wrong"><span class="k">D</span><span>A shared memory.</span></div>
     </div>
-    <div class="why"><b>A.</b> Every agent built today consumes a requirement it did not write. The test agent works from the acceptance criteria; the reviewer checks against them. <b>All four are only as good as the specification they were handed</b> &mdash; and it is Module 1's gate 1, unanswered since the first morning: <em>can you write down what &ldquo;done&rdquo; means?</em>
-      <span class="no"><b>B</b> and <b>C</b> are real gaps and both are tomorrow &mdash; Modules 6 and 8. They move the requirement <em>around</em> more efficiently; neither makes it better. <b>D</b> is the module inverted: shared reasoning is precisely what these four are built to avoid.
-      <b>Module 5 opens tomorrow on exactly this</b> &mdash; making a specification machine-checkable, so that &ldquo;done&rdquo; stops being a matter of opinion.</span></div>
+    <div class="why"><b>A.</b> Every agent today works from a ticket it did not write. The test agent uses its criteria; the reviewer checks against them. <b>All four are only as good as that spec</b> &mdash; Module 1&rsquo;s first question: <em>can you write down what &ldquo;done&rdquo; means?</em>
+      <span class="no"><b>B</b> and <b>C</b> are real gaps, covered tomorrow in Modules 6 and 8. They move the ticket faster; they do not make it better. <b>D</b> reverses the module: shared reasoning is exactly what these four avoid. <b>Module 5 starts tomorrow here</b> &mdash; a spec a machine can check.</span></div>
   </div></div>
 </section>
-
 
 </div></div>
 

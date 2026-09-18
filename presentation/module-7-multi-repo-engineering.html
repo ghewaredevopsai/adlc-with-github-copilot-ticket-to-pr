@@ -20,253 +20,266 @@
   <div class="wrap">
     <span class="tier">Day 2 &middot; Module 7 of 8</span>
     <h1>Multi-Repo Engineering</h1>
-    <p class="sub">Contract-first change across a boundary.</p>
+    <p class="sub">Changing two repositories safely: agree the contract first.</p>
     <p class="meta">
       <span><b>Agentic ADLC with GitHub Copilot</b> &mdash; From JIRA Ticket to Merged PR</span>
       <span>Advanced</span>
       <span>Trainer: Rajesh Gheware</span>
     </p>
     <div class="chips">
-    <span class="chip">Why agents degrade</span>
-    <span class="chip">Workspace strategies</span>
-    <span class="chip">Contract-first</span>
-    <span class="chip">Coordinated PRs</span>
+    <span class="chip">Why agents struggle</span>
+    <span class="chip">Workspace options</span>
+    <span class="chip">Contract first</span>
+    <span class="chip">Paired pull requests</span>
     <span class="chip">Cheap cross-repo context</span>
     <span class="chip">Shared libraries</span>
-  
     </div>
   </div>
 </section>
 
 <!-- 2 -->
-<section class="slide" data-sec="Opening" data-title="Nothing breaks - it degrades quietly" data-notes="The important framing and it needs saying carefully. Across a repository boundary nothing throws an error. The agent still answers, still writes plausible code, still passes its own tests. What changes is that it is now reasoning about a system it can only see half of, and it does not know that. Walk the four degradations and note that each one maps to something they built and relied on: standing context becomes per-repo so the two halves disagree, search stops working so prior art is invisible, the ordering constraint has no representation anywhere, and the reviewer - the thing that closed the two failures Module 3 could not - is blind to the other side. That last one is the sharpest and it is the lab." data-tier="K">
-  <h2>Nothing breaks at a boundary. It degrades, and quietly<span class="tag">M7</span></h2>
+<section class="slide" data-sec="Opening" data-title="Across two repos, nothing breaks - it quietly gets worse" data-notes="The important framing and it needs saying carefully. Across a repository boundary nothing throws an error. The agent still answers, still writes plausible code, still passes its own tests. What changes is that it is now reasoning about a system it can only see half of, and it does not know that. Walk the four degradations and note that each one maps to something they built and relied on: standing context becomes per-repo so the two halves disagree, search stops working so prior art is invisible, the ordering constraint has no representation anywhere, and the reviewer - the thing that closed the two failures Module 3 could not - is blind to the other side. That last one is the sharpest and it is the lab." data-tier="K">
+  <h2>Across two repos, nothing breaks &mdash; it quietly gets worse<span class="tag">M7</span></h2>
   <div class="body g64">
     <div>
-      <svg viewBox="0 0 700 430" role="img" aria-label="Four ways agent-assisted work degrades across a repository boundary">
-        <text class="lb r" x="4" y="13">FOUR DEGRADATIONS &mdash; EACH ONE UNDOES SOMETHING YOU BUILT</text>
+      <svg viewBox="0 0 700 410" role="img" aria-label="Four things that stop working across a repository boundary">
+        <text class="lb r" x="4" y="13">FOUR THINGS THAT STOP WORKING</text>
         <rect class="bx r" x="4" y="22" width="692" height="248" rx="8"/>
 
         <rect class="bx w rise" x="20" y="40" width="660" height="54" rx="6"/>
-        <text class="tt" x="36" y="62" style="font-size:13px">No shared standing context</text>
-        <text class="ss" x="36" y="82">Two instruction files, two sets of conventions &mdash; and nothing reconciles them.</text>
+        <text class="tt" x="36" y="62" style="font-size:13px">No shared rules</text>
+        <text class="ss" x="36" y="82">Each repo has its own instruction files. They can disagree.</text>
 
         <rect class="bx w rise r2" x="20" y="102" width="660" height="54" rx="6"/>
-        <text class="tt" x="36" y="124" style="font-size:13px">No cross-repo search</text>
-        <text class="ss" x="36" y="144">Prior art on the other side is invisible. The agent cannot find what it cannot reach.</text>
+        <text class="tt" x="36" y="124" style="font-size:13px">No search across repos</text>
+        <text class="ss" x="36" y="144">The agent cannot find code that lives in the other repo.</text>
 
         <rect class="bx w rise r3" x="20" y="164" width="660" height="54" rx="6"/>
-        <text class="tt" x="36" y="186" style="font-size:13px">Ordering has no representation anywhere</text>
-        <text class="ss" x="36" y="206">Two pull requests, one correct sequence, and nothing in either encodes it.</text>
+        <text class="tt" x="36" y="186" style="font-size:13px">No record of the merge order</text>
+        <text class="ss" x="36" y="206">Two pull requests must merge in order. Nothing records it.</text>
 
         <rect class="bx r rise r4" x="20" y="226" width="660" height="36" rx="6"/>
-        <text class="ss" x="36" y="249" style="fill:#e2726e;font-weight:600">The reviewer is blind to the other side &mdash; and it is the one that closed your two hardest failures</text>
+        <text class="ss" x="36" y="249" style="fill:#e2726e;font-weight:600">The review agent (Module 4) cannot see the other repo.</text>
 
-        <rect class="bx d" x="4" y="286" width="692" height="144" rx="8"/>
-        <text class="lb w" x="24" y="310">WHY THIS IS HARD TO NOTICE</text>
-        <text class="ss w" x="24" y="338" style="font-size:14px">Nothing errors. The agent still answers, still writes plausible code,</text>
-        <text class="ss w" x="24" y="360" style="font-size:14px">still passes its own tests. It is reasoning about a system it can</text>
-        <text class="ss w" x="24" y="382" style="font-size:14px">see half of &mdash; <tspan font-weight="700" fill="#e0b34d">and it does not know that.</tspan></text>
-        <text class="ss w" x="24" y="412" style="font-size:13px;fill:#6ea8fe">So it reads as &ldquo;the agent got worse&rdquo; rather than &ldquo;the situation got harder&rdquo;.</text>
+        <rect class="bx d" x="4" y="286" width="692" height="120" rx="8"/>
+        <text class="lb w" x="24" y="310">WHY IT IS HARD TO NOTICE</text>
+        <text class="ss w" x="24" y="340" style="font-size:14px">There are no errors. The agent still answers, and its tests pass.</text>
+        <text class="ss w" x="24" y="368" style="font-size:14px">It sees half the system &mdash; <tspan font-weight="700" fill="#e0b34d">and it does not know that.</tspan></text>
+        <text class="ss w" x="24" y="394" style="font-size:13px;fill:#6ea8fe">So it looks like the agent got worse. Really, the task got harder.</text>
       </svg>
     </div>
     <div class="pts">
       <h3>Where we are</h3>
       <ul>
-        <li>Two days, one repository. <b>Global Bank is several services with contracts between them</b>, and the transaction service has been calling the account service all along.</li>
-        <li>The ticket key from Module 6 is currently the only thing that would hold a cross-repo change together.</li>
+        <li>Until now we worked in <b>one repo</b>. Global Bank is really several services.</li>
+        <li>The transaction service calls the account service.</li>
       </ul>
-      <h3>What this module adds</h3>
+      <h3>This module</h3>
       <ul>
-        <li>A <b>contract-first sequence</b> that never breaks either side.</li>
-        <li>Ways to give the agent the other repository <b>without putting the other repository in the window</b>.</li>
+        <li>A <b>safe order</b> for a change that spans two repos.</li>
+        <li>Cheap ways to show the agent the other repo.</li>
       </ul>
-      <div class="take"><b>The lab is the sharp end:</b> you will review a two-repository change set where the review agent catches one planted problem and misses the other &mdash; and <em>which</em> one it misses is the whole module.</div>
+      <div class="take"><b>In Lab 2.6</b> the review agent catches one planted problem and misses another. <em>Which</em> one it misses is the lesson.</div>
     </div>
   </div>
 </section>
 
 <!-- 3 -->
-<section class="slide" data-sec="1 &middot; Why agents degrade" data-title="The half-visible system" data-notes="Make the mechanism concrete rather than abstract. On the left, what the agent has when it works in the consumer repository: the consumer code, the consumer instructions, and a hand-written mirror of the producer's types. What it does not have is the producer's actual code, its ADRs, or any way to check whether the mirror is still accurate. So when it needs to know something about the producer it has three options and only one is safe - and the unsafe two are indistinguishable from the safe one in the output. Then the specific example, which is the one they will meet in the lab: the mirrored PostingRequest. It is hand-written, the contract document says so, and an agent working on either side has no mechanical way to detect that the two have diverged." data-tier="K">
-  <h2>Working in one repository, reasoning about two<span class="tag k">1</span></h2>
-  <div class="body g1">
-    <div>
-      <svg viewBox="0 0 1180 452" role="img" aria-label="What an agent has and lacks when working in one repository of a pair">
-        <rect class="bx g grow" x="4" y="4" width="380" height="210" rx="8"/>
-        <text class="lb g" x="24" y="28">WHAT IT HAS &mdash; WORKING IN THE CONSUMER</text>
-        <rect class="bx w" x="24" y="40" width="340" height="30" rx="4"/>
-        <text class="ss" x="38" y="60">The consumer&rsquo;s code, in full</text>
-        <rect class="bx w" x="24" y="76" width="340" height="30" rx="4"/>
-        <text class="ss" x="38" y="96">The consumer&rsquo;s instruction files</text>
-        <rect class="bx w" x="24" y="112" width="340" height="30" rx="4"/>
-        <text class="ss" x="38" y="132"><tspan font-family="ui-monospace,Consolas,DejaVu Sans Mono,monospace" fill="#d98a3d">docs/contract.md</tspan> &mdash; what we depend on</text>
-        <rect class="bx a" x="24" y="148" width="340" height="46" rx="4"/>
-        <text class="ss" x="38" y="168">A <tspan font-weight="600">hand-written mirror</tspan> of the producer&rsquo;s</text>
-        <text class="ss" x="38" y="186">types &mdash; accurate as of whenever</text>
-
-        <rect class="bx r grow w2" x="398" y="4" width="380" height="210" rx="8"/>
-        <text class="lb r" x="418" y="28">WHAT IT DOES NOT HAVE</text>
-        <rect class="bx w" x="418" y="40" width="340" height="30" rx="4"/>
-        <text class="ss" x="432" y="60">The producer&rsquo;s actual code</text>
-        <rect class="bx w" x="418" y="76" width="340" height="30" rx="4"/>
-        <text class="ss" x="432" y="96">The producer&rsquo;s ADRs and conventions</text>
-        <rect class="bx w" x="418" y="112" width="340" height="30" rx="4"/>
-        <text class="ss" x="432" y="132">Any way to run the producer&rsquo;s tests</text>
-        <rect class="bx r" x="418" y="148" width="340" height="46" rx="4"/>
-        <text class="ss" x="432" y="168" style="fill:#e2726e;font-weight:600">Any mechanical way to tell whether</text>
-        <text class="ss" x="432" y="186" style="fill:#e2726e;font-weight:600">the mirror is still accurate</text>
-
-        <rect class="bx d grow w3" x="792" y="4" width="384" height="210" rx="8"/>
-        <text class="lb w" x="812" y="28">SO WHEN IT NEEDS A PRODUCER FACT</text>
-        <rect class="bx w" x="812" y="40" width="344" height="44" rx="5"/>
-        <text class="ss" x="826" y="60" style="font-weight:600;fill:#5fbf8f">1 &middot; Read it from the mirror</text>
-        <text class="ss" x="826" y="78" style="font-size:11.5px">Safe &mdash; if the mirror is current</text>
-        <rect class="bx w" x="812" y="90" width="344" height="44" rx="5"/>
-        <text class="ss" x="826" y="110" style="font-weight:600;fill:#d98a3d">2 &middot; Infer it from usage</text>
-        <text class="ss" x="826" y="128" style="font-size:11.5px">Often right, and unverifiable</text>
-        <rect class="bx w" x="812" y="140" width="344" height="54" rx="5"/>
-        <text class="ss" x="826" y="160" style="font-weight:600;fill:#e2726e">3 &middot; Invent it</text>
-        <text class="ss" x="826" y="178" style="font-size:11.5px">Indistinguishable from 1 and 2</text>
-        <text class="ss" x="826" y="192" style="font-size:11.5px">in the diff you are handed</text>
-
-        <text class="lb a" x="4" y="252">THE CONCRETE CASE &mdash; AND IT IS IN YOUR LAB</text>
-        <rect class="bx a" x="4" y="262" width="1172" height="120" rx="8"/>
-        <text class="tt" x="24" y="292" style="font-size:15px"><tspan font-family="ui-monospace,Consolas,DejaVu Sans Mono,monospace" fill="#d98a3d">consumer/client/PostingRequest</tspan> is a hand-written mirror of <tspan font-family="ui-monospace,Consolas,DejaVu Sans Mono,monospace" fill="#d98a3d">service/api/PostingRequest</tspan>.</text>
-        <text class="ss" x="24" y="320">The contract document says so plainly: <tspan font-style="italic">&ldquo;there is no code generation today; the cost of keeping them in step by</tspan></text>
-        <text class="ss" x="24" y="342" style="font-style:italic">hand is accepted&rdquo;</tspan> &mdash; and the discipline that makes it safe is a sequencing rule in the <tspan font-weight="600">other</tspan> repository&rsquo;s ADR-009.</text>
-        <text class="ss" x="24" y="370" style="fill:#d98a3d;font-weight:600">An agent on either side can read its own half. Neither can check that the two halves still agree.</text>
-
-        <rect class="bx d" x="4" y="392" width="1172" height="56" rx="8"/>
-        <text class="ss w" x="24" y="428" style="font-size:14px">This is Module 2&rsquo;s unreachable-fact problem with a network boundary through the middle of it &mdash; <tspan font-weight="700" fill="#e0b34d">and absence is still not readable.</tspan></text>
-      </svg>
+<section class="slide" data-sec="Opening" data-title="Words used in this module" data-notes="Thirty seconds. Day 1 already defined the agent vocabulary; these are the new words this module leans on. Producer and consumer are the two that matter most - say once which Global Bank service is which: the account service offers the posting API, the transaction service calls it. Then point at GB-158 on the right, because it is the ticket they run in Lab 2.5 and every example in the module uses it. Leave the rest to be read." data-tier="K">
+  <h2>Words used in this module<span class="tag">M7</span></h2>
+  <div class="body g55">
+    <div class="pts">
+      <h3>Two repos, one API</h3>
+      <ul>
+        <li><b>Producer</b> &mdash; the service that offers the API. Here: the account service.</li>
+        <li><b>Consumer</b> &mdash; the service that calls it. Here: the transaction service.</li>
+        <li><b>Contract</b> &mdash; what the API accepts and returns, agreed by both sides.</li>
+        <li><b>Mirrored type</b> &mdash; a hand-written copy of a producer class, kept in the consumer.</li>
+        <li><b>Multi-root workspace</b> &mdash; one editor window with both repos open.</li>
+      </ul>
+    </div>
+    <div class="pts">
+      <h3>Changing it safely</h3>
+      <ul>
+        <li><b>Additive change</b> &mdash; adds something optional. Old callers keep working.</li>
+        <li><b>Compatibility window</b> &mdash; a period when the old and new shapes both work.</li>
+        <li><b>Blast radius</b> &mdash; everyone affected if a change is wrong.</li>
+        <li><b>Deprecation cycle</b> &mdash; mark it, announce it, wait, then remove it.</li>
+        <li><b>GB-158</b> &mdash; the lab ticket. It adds an optional <code>settlementDate</code>. If missing, <code>valueDate</code> is used.</li>
+      </ul>
     </div>
   </div>
 </section>
 
 <!-- 4 -->
-<section class="slide" data-sec="1 &middot; Why agents degrade" data-title="What breaks first" data-notes="A taxonomy, in the order these actually bite. Shape drift is the most common and the least damaging because it usually fails loudly at the boundary. The invented endpoint is the one this module is built around and it is the interesting case: it fails at runtime, not at compile time, because the client is hand-written and nothing in the consumer's build knows what the producer serves. Semantic drift is the nastiest - both sides compile, both sides pass, and they disagree about what a field MEANS, which surfaces as a reconciliation break weeks later. And ordering is the one that is not about code at all. Note the pattern in the last column and say it out loud: the further down this table you go, the later you find out and the more it costs, and none of the bottom three are caught by either repository's own tests." data-tier="R">
-  <h2>Four cross-repo failures, in the order they bite<span class="tag k">1</span></h2>
+<section class="slide" data-sec="1 &middot; Why agents degrade" data-title="One repo, reasoning about two" data-notes="Make the mechanism concrete rather than abstract. On the left, what the agent has when it works in the consumer repository: the consumer code, the consumer instructions, and a hand-written mirror of the producer's types. What it does not have is the producer's actual code, its ADRs, or any way to check whether the mirror is still accurate. So when it needs to know something about the producer it has three options and only one is safe - and the unsafe two are indistinguishable from the safe one in the output. Then the specific example, which is the one they will meet in the lab: the mirrored PostingRequest. It is hand-written, the contract document says so, and an agent working on either side has no mechanical way to detect that the two have diverged." data-tier="K">
+  <h2>The agent works in one repo, but must reason about two<span class="tag k">1</span></h2>
   <div class="body g1">
     <div>
-      <svg viewBox="0 0 1180 452" role="img" aria-label="Four cross-repo failure modes ordered by when they are discovered">
-        <rect class="bx d" x="4" y="4" width="1172" height="30" rx="6"/>
-        <text class="lb w" x="24" y="24">FAILURE</text>
-        <text class="lb w" x="330" y="24">WHAT HAPPENS</text>
-        <text class="lb w" x="760" y="24">FOUND WHEN</text>
-        <text class="lb w" x="1000" y="24">CAUGHT BY EITHER REPO?</text>
+      <svg viewBox="0 0 1180 452" role="img" aria-label="What an agent can and cannot see when working in the consumer repository">
+        <rect class="bx g grow" x="4" y="4" width="380" height="210" rx="8"/>
+        <text class="lb g" x="24" y="28">WHAT IT CAN SEE &mdash; IN THE CONSUMER</text>
+        <rect class="bx w" x="24" y="40" width="340" height="30" rx="4"/>
+        <text class="ss" x="38" y="60">The consumer&rsquo;s code</text>
+        <rect class="bx w" x="24" y="76" width="340" height="30" rx="4"/>
+        <text class="ss" x="38" y="96">The consumer&rsquo;s instruction files</text>
+        <rect class="bx w" x="24" y="112" width="340" height="30" rx="4"/>
+        <text class="ss" x="38" y="132"><tspan font-family="ui-monospace,Consolas,DejaVu Sans Mono,monospace" fill="#d98a3d">docs/contract.md</tspan> &mdash; what we use</text>
+        <rect class="bx a" x="24" y="148" width="340" height="46" rx="4"/>
+        <text class="ss" x="38" y="168">A <tspan font-weight="600">hand-written copy</tspan> of the producer&rsquo;s</text>
+        <text class="ss" x="38" y="186">types &mdash; maybe out of date</text>
 
-        <rect class="bx grow" x="4" y="42" width="1172" height="78" rx="6"/>
-        <text class="tt" x="24" y="72">Shape drift</text>
-        <text class="ss" x="24" y="94" style="font-size:11.5px">the mirrored type falls behind</text>
-        <text class="ss" x="330" y="72">A field the producer renamed, or a type that changed.</text>
-        <text class="ss" x="330" y="94">The serialised payload no longer matches.</text>
-        <text class="ss" x="760" y="82" style="fill:#5fbf8f;font-weight:600">First integration test</text>
-        <text class="ss" x="1000" y="82" style="fill:#5fbf8f">Often &mdash; it fails loudly</text>
+        <rect class="bx r grow w2" x="398" y="4" width="380" height="210" rx="8"/>
+        <text class="lb r" x="418" y="28">WHAT IT CANNOT SEE</text>
+        <rect class="bx w" x="418" y="40" width="340" height="30" rx="4"/>
+        <text class="ss" x="432" y="60">The producer&rsquo;s code</text>
+        <rect class="bx w" x="418" y="76" width="340" height="30" rx="4"/>
+        <text class="ss" x="432" y="96">The producer&rsquo;s ADRs and rules</text>
+        <rect class="bx w" x="418" y="112" width="340" height="30" rx="4"/>
+        <text class="ss" x="432" y="132">The producer&rsquo;s tests</text>
+        <rect class="bx r" x="418" y="148" width="340" height="46" rx="4"/>
+        <text class="ss" x="432" y="168" style="fill:#e2726e;font-weight:600">Any way to check that the copy</text>
+        <text class="ss" x="432" y="186" style="fill:#e2726e;font-weight:600">is still correct</text>
 
-        <rect class="bx a grow w2" x="4" y="128" width="1172" height="78" rx="6"/>
-        <text class="lb a" x="1000" y="148">THIS MODULE&rsquo;S CASE</text>
-        <text class="tt" x="24" y="158">Invented endpoint</text>
-        <text class="ss" x="24" y="180" style="font-size:11.5px">a call to something that is not served</text>
-        <text class="ss" x="330" y="158">The consumer calls a path the producer never exposed.</text>
-        <text class="ss" x="330" y="180">The client is hand-written, so nothing objects at build time.</text>
-        <text class="ss" x="760" y="168" style="fill:#d98a3d;font-weight:600">Runtime &mdash; a 404,</text>
-        <text class="ss" x="760" y="190" style="fill:#d98a3d;font-weight:600">in an environment</text>
-        <text class="ss" x="1000" y="168" style="fill:#e2726e;font-weight:600">No &mdash; the consumer&rsquo;s</text>
-        <text class="ss" x="1000" y="190" style="fill:#e2726e;font-weight:600">test mocks the client</text>
+        <rect class="bx d grow w3" x="792" y="4" width="384" height="210" rx="8"/>
+        <text class="lb w" x="812" y="28">WHEN IT NEEDS A PRODUCER FACT</text>
+        <rect class="bx w" x="812" y="40" width="344" height="44" rx="5"/>
+        <text class="ss" x="826" y="60" style="font-weight:600;fill:#5fbf8f">1 &middot; Read it from the copy</text>
+        <text class="ss" x="826" y="78" style="font-size:11.5px">Safe &mdash; if the copy is current</text>
+        <rect class="bx w" x="812" y="90" width="344" height="44" rx="5"/>
+        <text class="ss" x="826" y="110" style="font-weight:600;fill:#d98a3d">2 &middot; Guess from how it is used</text>
+        <text class="ss" x="826" y="128" style="font-size:11.5px">Often right, but cannot be checked</text>
+        <rect class="bx w" x="812" y="140" width="344" height="54" rx="5"/>
+        <text class="ss" x="826" y="160" style="font-weight:600;fill:#e2726e">3 &middot; Make it up</text>
+        <text class="ss" x="826" y="178" style="font-size:11.5px">Looks the same as 1 and 2</text>
+        <text class="ss" x="826" y="192" style="font-size:11.5px">in the diff you review</text>
 
-        <rect class="bx r grow w3" x="4" y="214" width="1172" height="78" rx="6"/>
-        <text class="tt" x="24" y="244">Semantic drift</text>
-        <text class="ss" x="24" y="266" style="font-size:11.5px">the nastiest of the four</text>
-        <text class="ss" x="330" y="244">Both sides compile, both pass, and they disagree about what</text>
-        <text class="ss" x="330" y="266">a field <tspan font-style="italic">means</tspan> &mdash; a date that is receipt on one side, effect on the other.</text>
-        <text class="ss" x="760" y="254" style="fill:#e2726e;font-weight:600">A reconciliation</text>
-        <text class="ss" x="760" y="276" style="fill:#e2726e;font-weight:600">break, weeks later</text>
-        <text class="ss" x="1000" y="254" style="fill:#e2726e;font-weight:600">No &mdash; nothing about it</text>
-        <text class="ss" x="1000" y="276" style="fill:#e2726e;font-weight:600">is a type error</text>
+        <text class="lb a" x="4" y="252">THE REAL CASE &mdash; YOU WILL MEET IT IN THE LAB</text>
+        <rect class="bx a" x="4" y="262" width="1172" height="120" rx="8"/>
+        <text class="tt" x="24" y="292" style="font-size:15px"><tspan font-family="ui-monospace,Consolas,DejaVu Sans Mono,monospace" fill="#d98a3d">consumer/client/PostingRequest</tspan> is a hand-written copy of <tspan font-family="ui-monospace,Consolas,DejaVu Sans Mono,monospace" fill="#d98a3d">service/api/PostingRequest</tspan>.</text>
+        <text class="ss" x="24" y="320">The contract file says so: there is no code generation. The two are kept in step by hand.</text>
+        <text class="ss" x="24" y="342">The rule that keeps this safe is in the <tspan font-weight="600">other</tspan> repo, in ADR-009.</text>
+        <text class="ss" x="24" y="370" style="fill:#d98a3d;font-weight:600">Each side can read its own half. Neither can check that the halves still match.</text>
 
-        <rect class="bx r grow w4" x="4" y="300" width="1172" height="78" rx="6"/>
-        <text class="tt" x="24" y="330">Ordering</text>
-        <text class="ss" x="24" y="352" style="font-size:11.5px">not about code at all</text>
-        <text class="ss" x="330" y="330">Both changes are correct. They merged in the wrong sequence,</text>
-        <text class="ss" x="330" y="352">and there was a window in which production was broken.</text>
-        <text class="ss" x="760" y="341" style="fill:#e2726e;font-weight:600">In production</text>
-        <text class="ss" x="1000" y="330" style="fill:#e2726e;font-weight:600">No &mdash; both diffs are</text>
-        <text class="ss" x="1000" y="352" style="fill:#e2726e;font-weight:600">individually correct</text>
-
-        <rect class="bx d" x="4" y="386" width="1172" height="62" rx="8"/>
-        <text class="ss w" x="24" y="414" style="font-size:14px">Read the last column downwards. <tspan font-weight="700" fill="#e0b34d">The bottom three are caught by neither repository&rsquo;s own tests</tspan> &mdash;</text>
-        <text class="ss w" x="24" y="436" style="font-size:14px">which is why a green build on both sides is not evidence that a cross-repo change is correct.</text>
+        <rect class="bx d" x="4" y="392" width="1172" height="56" rx="8"/>
+        <text class="ss w" x="24" y="428" style="font-size:14px">Module 2 showed that an agent cannot notice what is missing. <tspan font-weight="700" fill="#e0b34d">Here, the missing half is a whole repo.</tspan></text>
       </svg>
     </div>
   </div>
 </section>
 
 <!-- 5 -->
-<section class="slide" data-sec="2 &middot; Workspace strategies" data-title="Three ways to give it the other side" data-notes="Three strategies and they are not alternatives - most teams end up with two of them. The multi-root workspace is the obvious one and the trap is that it looks like the complete answer while being the most expensive: both repositories are now reachable, so the agent will reach into both, and your window fills with a codebase you were not working on. Per-repo instructions is the cheap and necessary one - each repository states its own conventions and, crucially, states what it depends on across the boundary. The shared knowledge repository is the one almost nobody does and it is where the contract, the sequencing rule and the shared glossary should live, because right now ADR-009 lives in the producer and binds the consumer, which is exactly backwards. Land the guidance: start with per-repo instructions and a contract document, and reach for a multi-root workspace only for the change that genuinely spans both." data-tier="K">
-  <h2>Three strategies, and the obvious one is the most expensive<span class="tag k">2</span></h2>
+<section class="slide" data-sec="1 &middot; Why agents degrade" data-title="What breaks first" data-notes="A taxonomy, in the order these actually bite. Shape drift is the most common and the least damaging because it usually fails loudly at the boundary. The invented endpoint is the one this module is built around and it is the interesting case: it fails at runtime, not at compile time, because the client is hand-written and nothing in the consumer's build knows what the producer serves. Semantic drift is the nastiest - both sides compile, both sides pass, and they disagree about what a field MEANS, which surfaces as a reconciliation break weeks later. And ordering is the one that is not about code at all. Note the pattern in the last column and say it out loud: the further down this table you go, the later you find out and the more it costs, and none of the bottom three are caught by either repository's own tests." data-tier="R">
+  <h2>Four cross-repo failures, in the order you find them<span class="tag k">1</span></h2>
   <div class="body g1">
     <div>
-      <svg viewBox="0 0 1180 452" role="img" aria-label="Multi-root workspace, per-repo instructions and a shared knowledge repository compared">
-        <rect class="bx a grow" x="4" y="4" width="384" height="248" rx="8"/>
-        <text class="lb a" x="24" y="28">1 &middot; MULTI-ROOT WORKSPACE</text>
-        <text class="tt" x="24" y="56">Both repositories open at once</text>
-        <text class="ss" x="24" y="82" style="fill:#5fbf8f">&#10003; Cross-repo search works</text>
-        <text class="ss" x="24" y="102" style="fill:#5fbf8f">&#10003; The agent can read both sides for real</text>
-        <text class="ss" x="24" y="128" style="fill:#e2726e">&#10007; It <tspan font-style="italic">will</tspan> reach into both, constantly</text>
-        <text class="ss" x="24" y="148" style="fill:#e2726e">&#10007; Two sets of instructions, both loaded</text>
-        <text class="ss" x="24" y="168" style="fill:#e2726e">&#10007; The window fills with a codebase you</text>
-        <text class="ss" x="24" y="186" style="fill:#e2726e">&nbsp;&nbsp;&nbsp;were not working on</text>
-        <rect class="bx w" x="24" y="198" width="344" height="42" rx="5"/>
-        <text class="ss" x="38" y="218" style="font-size:11.5px">Reach for it <tspan font-weight="600">for the change that spans both</tspan>,</text>
-        <text class="ss" x="38" y="234" style="font-size:11.5px">and close it again afterwards.</text>
-
-        <rect class="bx g grow w2" x="398" y="4" width="384" height="248" rx="8"/>
-        <text class="lb g" x="418" y="28" style="font-size:10.5px">2 &middot; PER-REPO INSTRUCTIONS &mdash; CHEAP AND NECESSARY</text>
-        <text class="tt" x="418" y="56">Each repository states its own rules</text>
-        <text class="ss" x="418" y="82">Plus &mdash; and this is the part that gets skipped &mdash;</text>
-        <text class="ss" x="418" y="102">what it <tspan font-weight="600">depends on across the boundary</tspan>.</text>
-        <rect class="bx w" x="418" y="116" width="344" height="80" rx="5"/>
-        <text class="ss" x="432" y="136" style="font-size:11.5px;font-family:'DejaVu Sans Mono',monospace">docs/contract.md</text>
-        <text class="ss" x="432" y="156" style="font-size:11.5px">what we call &middot; the mirrored types &middot; the</text>
-        <text class="ss" x="432" y="174" style="font-size:11.5px">failure semantics we rely on &middot; the</text>
-        <text class="ss" x="432" y="190" style="font-size:11.5px">sequencing rule that keeps it safe</text>
-        <text class="ss" x="418" y="216" style="fill:#5fbf8f;font-weight:600">Most repository pairs do not have this.</text>
-        <text class="ss" x="418" y="238" style="font-size:11.5px">Do this one first, whatever else you do.</text>
-
-        <rect class="bx grow w3" x="792" y="4" width="384" height="248" rx="8"/>
-        <text class="lb" x="812" y="28">3 &middot; A SHARED KNOWLEDGE REPOSITORY</text>
-        <text class="tt" x="812" y="56">Common ground both sides read</text>
-        <text class="ss" x="812" y="82">The contract. The sequencing rule. The shared</text>
-        <text class="ss" x="812" y="102">glossary. Decisions that bind <tspan font-style="italic">both</tspan> sides.</text>
-        <text class="ss" x="812" y="130" style="fill:#d98a3d;font-weight:600">Consider where ADR-009 lives today:</text>
-        <text class="ss" x="812" y="150">in the <tspan font-weight="600">producer</tspan>, binding the <tspan font-weight="600">consumer</tspan>, which</text>
-        <text class="ss" x="812" y="168">has no way to know it is bound.</text>
-        <text class="ss" x="812" y="196">That is exactly backwards &mdash; and it is the</text>
-        <text class="ss" x="812" y="214">most common cross-repo knowledge failure.</text>
-        <text class="ss" x="812" y="240" style="font-size:11.5px">Almost nobody does this. It is the highest-value gap.</text>
-
-        <text class="lb g" x="4" y="292">THE SEQUENCE TO ADOPT</text>
-        <rect class="bx g" x="4" y="302" width="1172" height="80" rx="8"/>
-        <rect class="bx w rise" x="24" y="318" width="360" height="48" rx="6"/>
-        <text class="ss" x="40" y="338"><tspan font-weight="700">1</tspan> &nbsp;A contract document in each repository</text>
-        <text class="ss" x="40" y="356" style="font-size:11.5px">A morning&rsquo;s work. No tooling.</text>
-        <rect class="bx w rise r2" x="396" y="318" width="360" height="48" rx="6"/>
-        <text class="ss" x="412" y="338"><tspan font-weight="700">2</tspan> &nbsp;Move the shared decisions somewhere shared</text>
-        <text class="ss" x="412" y="356" style="font-size:11.5px">Or at minimum, link to them from both.</text>
-        <rect class="bx w rise r3" x="768" y="318" width="388" height="48" rx="6"/>
-        <text class="ss" x="784" y="338"><tspan font-weight="700">3</tspan> &nbsp;Multi-root, per change, when it genuinely spans both</text>
-        <text class="ss" x="784" y="356" style="font-size:11.5px">Not as a standing configuration.</text>
-
-        <rect class="bx d" x="4" y="392" width="1172" height="56" rx="8"/>
-        <text class="ss w" x="24" y="428" style="font-size:14px">Opening both repositories is the expensive answer to a question that <tspan font-weight="700" fill="#e0b34d">a one-page contract document usually answers better.</tspan></text>
+      <svg viewBox="0 0 1180 452" role="img" aria-label="Four cross-repo failures ordered by when they are found">
+        <rect class="bx d" x="4" y="4" width="1172" height="30" rx="6"/>
+        <text class="lb w" x="24" y="24">FAILURE</text>
+        <text class="lb w" x="330" y="24">WHAT HAPPENS</text>
+        <text class="lb w" x="760" y="24">FOUND WHEN</text>
+        <text class="lb w" x="1000" y="24">CAUGHT BY ITS TESTS?</text>
+        <rect class="bx grow" x="4" y="42" width="1172" height="78" rx="6"/>
+        <text class="tt" x="24" y="72">Shape drift</text>
+        <text class="ss" x="24" y="94" style="font-size:11.5px">the copy falls behind</text>
+        <text class="ss" x="330" y="72">The producer renamed or changed a field.</text>
+        <text class="ss" x="330" y="94">The request no longer matches.</text>
+        <text class="ss" x="760" y="82" style="fill:#5fbf8f;font-weight:600">First integration test</text>
+        <text class="ss" x="1000" y="82" style="fill:#5fbf8f">Usually &mdash; it fails loudly</text>
+        <rect class="bx a grow w2" x="4" y="128" width="1172" height="78" rx="6"/>
+        <text class="lb a" x="1000" y="144">THIS MODULE&rsquo;S CASE</text>
+        <text class="tt" x="24" y="158">Invented endpoint</text>
+        <text class="ss" x="24" y="180" style="font-size:11.5px">a call to an API that does not exist</text>
+        <text class="ss" x="330" y="158">The consumer calls a path the producer never offered.</text>
+        <text class="ss" x="330" y="180">The client is hand-written, so the build does not object.</text>
+        <text class="ss" x="760" y="168" style="fill:#d98a3d;font-weight:600">At runtime &mdash; a 404</text>
+        <text class="ss" x="1000" y="168" style="fill:#e2726e;font-weight:600">No &mdash; the consumer&rsquo;s</text>
+        <text class="ss" x="1000" y="190" style="fill:#e2726e;font-weight:600">test mocks the client</text>
+        <rect class="bx r grow w3" x="4" y="214" width="1172" height="78" rx="6"/>
+        <text class="tt" x="24" y="244">Semantic drift</text>
+        <text class="ss" x="24" y="266" style="font-size:11.5px">the worst of the four</text>
+        <text class="ss" x="330" y="244">Both sides pass, but read a field differently: a date</text>
+        <text class="ss" x="330" y="266">means &ldquo;received&rdquo; on one side, &ldquo;takes effect&rdquo; on the other.</text>
+        <text class="ss" x="760" y="254" style="fill:#e2726e;font-weight:600">Weeks later &mdash; when</text>
+        <text class="ss" x="760" y="276" style="fill:#e2726e;font-weight:600">accounts do not match</text>
+        <text class="ss" x="1000" y="254" style="fill:#e2726e;font-weight:600">No &mdash; it is not</text>
+        <text class="ss" x="1000" y="276" style="fill:#e2726e;font-weight:600">a type error</text>
+        <rect class="bx r grow w4" x="4" y="300" width="1172" height="78" rx="6"/>
+        <text class="tt" x="24" y="330">Ordering</text>
+        <text class="ss" x="24" y="352" style="font-size:11.5px">not about code at all</text>
+        <text class="ss" x="330" y="330">Both changes are correct, but merged in the wrong order.</text>
+        <text class="ss" x="330" y="352">Production was broken for a while.</text>
+        <text class="ss" x="760" y="340" style="fill:#e2726e;font-weight:600">In production</text>
+        <text class="ss" x="1000" y="340" style="fill:#e2726e;font-weight:600">No &mdash; each diff</text>
+        <text class="ss" x="1000" y="362" style="fill:#e2726e;font-weight:600">is correct alone</text>
+        <rect class="bx d" x="4" y="386" width="1172" height="62" rx="8"/>
+        <text class="ss w" x="24" y="414" style="font-size:14px"><tspan font-weight="700" fill="#e0b34d">The bottom three pass both repos&rsquo; own tests.</tspan></text>
+        <text class="ss w" x="24" y="436" style="font-size:14px">A green build on both sides does not prove a cross-repo change is right.</text>
       </svg>
     </div>
   </div>
 </section>
 
 <!-- 6 -->
-<section class="slide" data-sec="2 &middot; Workspace strategies" data-title="What each repo must say about the other" data-notes="Concrete, and this is a worked example of the file the transaction service should carry, so it is worth reading a few lines aloud. Four sections and each answers a question an agent will otherwise answer by guessing. What we call - so it does not invent an endpoint. The mirrored types and the fact that they are hand-written - so it knows the mirror can be wrong. The failure semantics - so it does not invent an error contract. And the sequencing rule, which is the one that has to be duplicated across the boundary because it binds the side that cannot see it. Point out the last line of the example: it explains WHY the ignore-unknown annotation protects reads and not writes, which is exactly the kind of reasoning an agent cannot reconstruct and will not ask about." data-tier="R">
-  <h2>The cross-boundary section &mdash; four questions, answered once<span class="tag k">2</span></h2>
+<section class="slide" data-sec="2 &middot; Workspace strategies" data-title="Three ways to give it the other side" data-notes="Three strategies and they are not alternatives - most teams end up with two of them. The multi-root workspace (one editor window with both repositories open) is the obvious one and the trap is that it looks like the complete answer while being the most expensive: both repositories are now reachable, so the agent will reach into both, and your context window fills with a codebase you were not working on. A contract file in each repository is the cheap and necessary one - each repository states its own conventions and, crucially, states what it depends on across the boundary. The shared knowledge repository is the one almost nobody does and it is where the contract, the sequencing rule and the shared glossary should live, because right now ADR-009 lives in the producer and binds the consumer, which is exactly backwards. Land the guidance: start with a contract document in each repository, and reach for a multi-root workspace only for the change that genuinely spans both." data-tier="K">
+  <h2>Three ways to show the agent the other repo<span class="tag k">2</span></h2>
+  <div class="body g1">
+    <div>
+      <svg viewBox="0 0 1180 452" role="img" aria-label="Multi-root workspace, a contract file in each repo, and a shared knowledge repo compared">
+        <rect class="bx a grow" x="4" y="4" width="384" height="248" rx="8"/>
+        <text class="lb a" x="24" y="28">1 &middot; MULTI-ROOT WORKSPACE</text>
+        <text class="tt" x="24" y="56">Both repos open at once</text>
+        <text class="ss" x="24" y="84" style="fill:#5fbf8f">&#10003; Search works across both</text>
+        <text class="ss" x="24" y="106" style="fill:#5fbf8f">&#10003; It reads the real code</text>
+        <text class="ss" x="24" y="134" style="fill:#e2726e">&#10007; It reads both, all the time</text>
+        <text class="ss" x="24" y="156" style="fill:#e2726e">&#10007; Two sets of instructions load</text>
+        <text class="ss" x="24" y="178" style="fill:#e2726e">&#10007; The context window fills up</text>
+        <rect class="bx w" x="24" y="198" width="344" height="42" rx="5"/>
+        <text class="ss" x="38" y="224">Use it for one change, then close it.</text>
+
+        <rect class="bx g grow w2" x="398" y="4" width="384" height="248" rx="8"/>
+        <text class="lb g" x="418" y="28">2 &middot; A CONTRACT FILE IN EACH REPO</text>
+        <text class="tt" x="418" y="56">Each repo says what it uses</text>
+        <text class="tt" x="418" y="76">from the other</text>
+        <rect class="bx w" x="418" y="96" width="344" height="80" rx="5"/>
+        <text class="ss" x="432" y="118" style="font-size:12px;font-family:'DejaVu Sans Mono',monospace">docs/contract.md</text>
+        <text class="ss" x="432" y="142">what we call &middot; copied types</text>
+        <text class="ss" x="432" y="164">errors &middot; merge order</text>
+        <text class="ss" x="418" y="206" style="fill:#5fbf8f;font-weight:600">Most repo pairs do not have one.</text>
+        <text class="ss" x="418" y="230" style="fill:#5fbf8f;font-weight:600">Do this first.</text>
+
+        <rect class="bx grow w3" x="792" y="4" width="384" height="248" rx="8"/>
+        <text class="lb" x="812" y="28">3 &middot; A SHARED KNOWLEDGE REPO</text>
+        <text class="tt" x="812" y="56">One place both sides read</text>
+        <text class="ss" x="812" y="84">The contract, the merge-order rule,</text>
+        <text class="ss" x="812" y="104">the shared business words.</text>
+        <text class="ss" x="812" y="140" style="fill:#d98a3d;font-weight:600">Today ADR-009 lives in the producer,</text>
+        <text class="ss" x="812" y="160" style="fill:#d98a3d;font-weight:600">but it binds the consumer.</text>
+        <text class="ss" x="812" y="190">The consumer cannot see it.</text>
+        <text class="ss" x="812" y="212">That is backwards &mdash; and very common.</text>
+
+        <text class="lb g" x="4" y="292">THE ORDER TO ADOPT THEM</text>
+        <rect class="bx g" x="4" y="302" width="1172" height="80" rx="8"/>
+        <rect class="bx w rise" x="24" y="318" width="360" height="48" rx="6"/>
+        <text class="ss" x="40" y="338"><tspan font-weight="700">1</tspan> &nbsp;A contract file in each repo</text>
+        <text class="ss" x="40" y="356" style="font-size:11.5px">A morning&rsquo;s work. No tools.</text>
+        <rect class="bx w rise r2" x="396" y="318" width="360" height="48" rx="6"/>
+        <text class="ss" x="412" y="338"><tspan font-weight="700">2</tspan> &nbsp;Move shared decisions to a shared place</text>
+        <text class="ss" x="412" y="356" style="font-size:11.5px">Or at least link to them from both.</text>
+        <rect class="bx w rise r3" x="768" y="318" width="388" height="48" rx="6"/>
+        <text class="ss" x="784" y="338"><tspan font-weight="700">3</tspan> &nbsp;Multi-root only for a change that spans both</text>
+        <text class="ss" x="784" y="356" style="font-size:11.5px">Not open all the time.</text>
+
+        <rect class="bx d" x="4" y="392" width="1172" height="56" rx="8"/>
+        <text class="ss w" x="24" y="428" style="font-size:14px">Opening both repos is the costly answer. <tspan font-weight="700" fill="#e0b34d">A one-page contract file is usually the better one.</tspan></text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="slide" data-sec="2 &middot; Workspace strategies" data-title="The contract file - four questions, answered once" data-notes="Concrete, and this is a worked example of the file the transaction service should carry, so it is worth reading a few lines aloud. Four sections and each answers a question an agent will otherwise answer by guessing. What we call - so it does not invent an endpoint. The mirrored types and the fact that they are hand-written - so it knows the mirror can be wrong. The failure semantics - so it does not invent an error contract. And the sequencing rule, which is the one that has to be duplicated across the boundary because it binds the side that cannot see it. Point out the last line of the example: it explains WHY the ignore-unknown annotation protects reads and not writes, which is exactly the kind of reasoning an agent cannot reconstruct and will not ask about." data-tier="R">
+  <h2>The contract file &mdash; four questions, answered once<span class="tag k">2</span></h2>
   <div class="body g55">
     <div>
 <div class="file"><span class="fn">global-bank-transaction/docs/contract.md — WORKED EXAMPLE</span><span class="k"># What we depend on in global-bank-account</span>
@@ -295,101 +308,102 @@ in the producer repository: <span class="s">producer merges</span>
 </div>
     </div>
     <div class="pts">
-      <h3>Four questions it answers before they are asked</h3>
+      <h3>Four questions it answers</h3>
       <ul>
-        <li><b>What do we call?</b> So the agent does not invent an endpoint &mdash; and can notice when a diff adds one.</li>
-        <li><b>Are the types real or mirrored?</b> Knowing the mirror is hand-written is what makes an agent treat it as possibly stale.</li>
-        <li><b>What does failure look like?</b> So it does not invent an error contract that the other side does not honour.</li>
-        <li><b>What is the sequencing rule?</b> Duplicated here <em>deliberately</em>, because it binds the side that cannot see the ADR.</li>
+        <li><b>What do we call?</b> So the agent does not invent an endpoint.</li>
+        <li><b>Are the types real or copied?</b> So it knows a copy can be out of date.</li>
+        <li><b>What does an error look like?</b> So it does not invent one.</li>
+        <li><b>What is the merge order?</b> Copied here on purpose. The consumer cannot see the producer&rsquo;s ADR.</li>
       </ul>
-      <div class="callout">Read the last paragraph of the real file: it explains why <code>@JsonIgnoreProperties</code> protects <em>reads</em> and not <em>writes</em>. That is reasoning an agent cannot reconstruct from either codebase &mdash; and will not think to ask about.</div>
-      <div class="take"><b>One page, per repository, and it needs no tooling.</b> If you do one thing from this module on Monday, this is it.</div>
-    </div>
-  </div>
-</section>
-
-<!-- 7 -->
-<section class="slide" data-sec="3 &middot; Contract-first" data-title="Contract first, then producer, then consumer" data-notes="The core mechanic of the module. Three steps and a compatibility window. Agree the contract change first, as a document, before either side is touched - that is Module 5's spec, applied to an interface. Then the producer ships it ADDITIVELY, meaning the new field is optional and everything that worked before still works. Then the consumer starts sending it. The compatibility window is the bit people skip and it is what makes the whole thing safe: there is a period during which both the old and the new shape are accepted, and only after every caller has moved does the producer get to tighten. Say plainly that the ordering is not arbitrary - it follows from a single asymmetry, which is that additive producer changes are safe for existing consumers and consumer changes that send new fields are only safe once the producer accepts them." data-tier="K">
-  <h2>The sequence, and the asymmetry it follows from<span class="tag k">3</span></h2>
-  <div class="body g64">
-    <div>
-      <svg viewBox="0 0 700 430" role="img" aria-label="Contract first, producer additive, consumer second, with a compatibility window">
-        <text class="lb" x="4" y="13">THE SEQUENCE</text>
-
-        <rect class="bx g grow" x="4" y="22" width="692" height="72" rx="7"/>
-        <text class="tt" x="24" y="48" style="font-size:14px">1 &middot; Agree the contract &mdash; as a document, before either side is touched</text>
-        <text class="ss" x="24" y="70">The field, its type, whether it is optional, and what happens when it is absent.</text>
-        <text class="ss" x="24" y="88" style="fill:#5fbf8f">This is Module 5&rsquo;s spec, applied to an interface. It is not a code change.</text>
-
-        <rect class="bx g grow w2" x="4" y="102" width="692" height="72" rx="7"/>
-        <text class="tt" x="24" y="128" style="font-size:14px">2 &middot; Producer ships it &mdash; <tspan fill="#5fbf8f">additively</tspan></text>
-        <text class="ss" x="24" y="150">The new field is optional. Every existing caller continues to work, untouched.</text>
-        <text class="ss" x="24" y="168">Merged, deployed, and <tspan font-weight="600">verified in place</tspan> before anything else moves.</text>
-
-        <rect class="bx g grow w3" x="4" y="182" width="692" height="72" rx="7"/>
-        <text class="tt" x="24" y="208" style="font-size:14px">3 &middot; Consumer starts sending it</text>
-        <text class="ss" x="24" y="230">Now safe, because the producer already accepts it &mdash; and would have ignored it.</text>
-        <text class="ss" x="24" y="248">Merged second. Linked to the first.</text>
-
-        <text class="lb a" x="4" y="286">THE COMPATIBILITY WINDOW &mdash; THE STEP PEOPLE SKIP</text>
-        <rect class="bx a" x="4" y="296" width="692" height="80" rx="8"/>
-        <text class="ss" x="24" y="322">Both shapes are accepted for a period. Only once <tspan font-weight="600">every</tspan> caller has moved &mdash;</text>
-        <text class="ss" x="24" y="344">and you can show it &mdash; does the producer get to tighten and require the field.</text>
-        <text class="ss" x="24" y="366" style="fill:#d98a3d;font-weight:600">GB-158 says it out loud: unchanged for existing callers, for at least one release.</text>
-
-        <rect class="bx d" x="4" y="388" width="692" height="42" rx="8"/>
-        <text class="ss w" x="24" y="415" style="font-size:13.5px">Skip the window and you have a big-bang merge wearing a sequence&rsquo;s clothes.</text>
-      </svg>
-    </div>
-    <div class="pts">
-      <h3>The ordering is not a convention</h3>
-      <ul>
-        <li>It follows from one asymmetry: <b>an additive producer change is safe for every existing consumer</b>, and <b>a consumer that sends a new field is only safe once the producer accepts it</b>.</li>
-        <li>Reverse the order and there is a window in which the consumer sends a field the producer rejects &mdash; in production.</li>
-      </ul>
-      <h3>Why an agent gets this wrong</h3>
-      <ul>
-        <li>The rule lives in <b>one repository's ADR</b> and binds the other. An agent working in the consumer has no way to know it is bound.</li>
-        <li>And nothing in either diff <em>encodes</em> the order. It is a fact about two pull requests, and pull requests have no field for it.</li>
-      </ul>
-      <div class="take"><b>So write it into both.</b> The sequencing rule belongs in the consumer's contract document as well as the producer's ADR &mdash; duplicated deliberately, because the alternative is a rule that binds someone who cannot see it.</div>
+      <div class="callout">The real file also explains why <code>@JsonIgnoreProperties</code> protects <em>reads</em> but not <em>writes</em>. An agent cannot work that out &mdash; and will not ask.</div>
+      <div class="take"><b>One page per repo. No tools needed.</b> If you do one thing on Monday, do this.</div>
     </div>
   </div>
 </section>
 
 <!-- 8 -->
+<section class="slide" data-sec="3 &middot; Contract-first" data-title="Contract first, then producer, then consumer" data-notes="The core mechanic of the module. Three steps and a compatibility window. Agree the contract change first, as a document, before either side is touched - that is Module 5's spec, applied to an interface. Then the producer ships it ADDITIVELY, meaning the new field is optional and everything that worked before still works. Then the consumer starts sending it. The compatibility window is the bit people skip and it is what makes the whole thing safe: there is a period during which both the old and the new shape are accepted, and only after every caller has moved does the producer get to tighten. Say plainly that the ordering is not arbitrary - it follows from a single asymmetry, which is that additive producer changes are safe for existing consumers and consumer changes that send new fields are only safe once the producer accepts them." data-tier="K">
+  <h2>Contract first, then producer, then consumer<span class="tag k">3</span></h2>
+  <div class="body g64">
+    <div>
+      <svg viewBox="0 0 700 430" role="img" aria-label="Contract first, producer additive, consumer second, with a compatibility window">
+        <text class="lb" x="4" y="13">THE ORDER</text>
+
+        <rect class="bx g grow" x="4" y="22" width="692" height="72" rx="7"/>
+        <text class="tt" x="24" y="48" style="font-size:14px">1 &middot; Agree the contract &mdash; as a document, before any code</text>
+        <text class="ss" x="24" y="70">The field, its type, optional or not, and what happens if it is missing.</text>
+        <text class="ss" x="24" y="88" style="fill:#5fbf8f">This is a Module 5 spec, written for an API.</text>
+
+        <rect class="bx g grow w2" x="4" y="102" width="692" height="72" rx="7"/>
+        <text class="tt" x="24" y="128" style="font-size:14px">2 &middot; Producer ships it &mdash; as an <tspan fill="#5fbf8f">additive</tspan> change</text>
+        <text class="ss" x="24" y="150">The new field is optional. Every existing caller still works.</text>
+        <text class="ss" x="24" y="168">Merged, deployed and <tspan font-weight="600">checked</tspan> before the next step.</text>
+
+        <rect class="bx g grow w3" x="4" y="182" width="692" height="72" rx="7"/>
+        <text class="tt" x="24" y="208" style="font-size:14px">3 &middot; Consumer starts sending it</text>
+        <text class="ss" x="24" y="230">Safe now, because the producer already accepts it.</text>
+        <text class="ss" x="24" y="248">Merged second, and linked to the first.</text>
+
+        <text class="lb a" x="4" y="286">THE COMPATIBILITY WINDOW &mdash; OFTEN SKIPPED</text>
+        <rect class="bx a" x="4" y="296" width="692" height="80" rx="8"/>
+        <text class="ss" x="24" y="322">Old and new shapes both work for a while. Only when <tspan font-weight="600">every</tspan></text>
+        <text class="ss" x="24" y="344">caller has moved can the producer make the field required.</text>
+        <text class="ss" x="24" y="366" style="fill:#d98a3d;font-weight:600">GB-158 says: no change for existing callers, for at least one release.</text>
+
+        <rect class="bx d" x="4" y="388" width="692" height="42" rx="8"/>
+        <text class="ss w" x="24" y="415" style="font-size:13.5px">Skip the window, and every caller must change on the same day.</text>
+      </svg>
+    </div>
+    <div class="pts">
+      <h3>Why this order</h3>
+      <ul>
+        <li>Adding an optional field is <b>safe for every existing caller</b>.</li>
+        <li>Sending a new field is safe <b>only after the producer accepts it</b>.</li>
+        <li>Reverse the order, and production breaks for a while.</li>
+      </ul>
+      <h3>Why an agent gets it wrong</h3>
+      <ul>
+        <li>The rule is in the <b>producer&rsquo;s ADR</b>. The consumer&rsquo;s agent cannot see it.</li>
+        <li>No diff shows the merge order.</li>
+      </ul>
+      <div class="take"><b>Write the rule in both repos:</b> the producer&rsquo;s ADR and the consumer&rsquo;s contract file.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 9 -->
 <section class="slide" data-sec="3 &middot; Contract-first" data-title="GB-158 as a sequence" data-notes="The worked example, and it is the ticket they run in Lab 2.5. Walk the timeline and note what is true at every point, because the acceptance criterion demands it - there must be no commit at which main is broken in either repository. Check each state: after the producer merges, the consumer is unchanged and still works because the field is optional. After the consumer merges, both are current. And critically, at no point does the consumer send something the producer will reject. Then point at the rollback story, which is the question a release manager asks and engineers usually have not thought about: if you have to revert, you revert in the opposite order, and the reason is the same asymmetry. Reverting the producer first would leave a consumer sending a field nobody accepts." data-tier="D">
-  <h2>GB-158 &mdash; and what is true at every point<span class="tag k">3</span></h2>
+  <h2>GB-158 &mdash; and what is true at every step<span class="tag k">3</span></h2>
   <div class="body g1">
     <div>
-      <svg viewBox="0 0 1180 452" role="img" aria-label="The GB-158 merge sequence with the state of both repositories at each point">
+      <svg viewBox="0 0 1180 452" role="img" aria-label="The GB-158 merge order with the state of both repositories at each step">
         <rect class="bx d" x="4" y="4" width="1172" height="30" rx="6"/>
-        <text class="lb w" x="24" y="24">POINT IN TIME</text>
+        <text class="lb w" x="24" y="24">WHEN</text>
         <text class="lb w" x="330" y="24">PRODUCER</text>
         <text class="lb w" x="610" y="24">CONSUMER</text>
-        <text class="lb w" x="880" y="24">IS ANYTHING BROKEN?</text>
+        <text class="lb w" x="880" y="24">ANYTHING BROKEN?</text>
 
         <rect class="bx grow" x="4" y="42" width="1172" height="62" rx="6"/>
-        <text class="tt" x="24" y="72">Before either merges</text>
-        <text class="ss" x="24" y="92" style="font-size:11.5px">the agreed contract exists as a document</text>
+        <text class="tt" x="24" y="70">Before any merge</text>
+        <text class="ss" x="24" y="92" style="font-size:11.5px">the contract is agreed on paper</text>
         <text class="ss" x="330" y="80">no settlementDate</text>
         <text class="ss" x="610" y="80">does not send it</text>
         <text class="ss" x="880" y="80" style="fill:#5fbf8f;font-weight:600">No &mdash; this is today</text>
 
         <rect class="bx g grow w2" x="4" y="112" width="1172" height="76" rx="6"/>
         <text class="tt" x="24" y="142">Producer merges &mdash; PR #1</text>
-        <text class="ss" x="24" y="164" style="font-size:11.5px">additive: the field is optional,</text>
-        <text class="ss" x="24" y="180" style="font-size:11.5px">defaulting to valueDate when absent</text>
-        <text class="ss" x="330" y="150">accepts it, optional</text>
-        <text class="ss" x="330" y="172" style="font-size:11.5px">existing tests untouched</text>
+        <text class="ss" x="24" y="164" style="font-size:11.5px">the field is optional;</text>
+        <text class="ss" x="24" y="180" style="font-size:11.5px">if missing, valueDate is used</text>
+        <text class="ss" x="330" y="150">accepts it (optional)</text>
+        <text class="ss" x="330" y="172" style="font-size:11.5px">old tests unchanged</text>
         <text class="ss" x="610" y="150">unchanged</text>
         <text class="ss" x="610" y="172" style="font-size:11.5px">still does not send it</text>
-        <text class="ss" x="880" y="150" style="fill:#5fbf8f;font-weight:600">No &mdash; and this is the</text>
-        <text class="ss" x="880" y="172" style="fill:#5fbf8f;font-weight:600">whole point of additive</text>
+        <text class="ss" x="880" y="150" style="fill:#5fbf8f;font-weight:600">No &mdash; that is why the</text>
+        <text class="ss" x="880" y="172" style="fill:#5fbf8f;font-weight:600">change is additive</text>
 
         <rect class="bx g grow w3" x="4" y="196" width="1172" height="76" rx="6"/>
         <text class="tt" x="24" y="226">Consumer merges &mdash; PR #2</text>
-        <text class="ss" x="24" y="248" style="font-size:11.5px">now safe: the producer already</text>
+        <text class="ss" x="24" y="248" style="font-size:11.5px">safe: the producer already</text>
         <text class="ss" x="24" y="264" style="font-size:11.5px">accepts the field</text>
         <text class="ss" x="330" y="234">unchanged</text>
         <text class="ss" x="610" y="234">sends it</text>
@@ -397,131 +411,129 @@ in the producer repository: <span class="s">producer merges</span>
 
         <rect class="bx a grow w4" x="4" y="280" width="1172" height="76" rx="6"/>
         <text class="lb a" x="880" y="300">ONLY AFTER EVERY CALLER HAS MOVED</text>
-        <text class="tt" x="24" y="310">Producer tightens &mdash; later</text>
-        <text class="ss" x="24" y="332" style="font-size:11.5px">a separate ticket, a later release</text>
+        <text class="tt" x="24" y="310">Producer makes it required</text>
+        <text class="ss" x="24" y="332" style="font-size:11.5px">later: a separate ticket,</text>
         <text class="ss" x="24" y="348" style="font-size:11.5px">and only if it is needed at all</text>
         <text class="ss" x="330" y="326">requires the field</text>
         <text class="ss" x="610" y="326">already sends it</text>
         <text class="ss" x="880" y="326">Only if a caller was missed</text>
-        <text class="ss" x="880" y="348" style="font-size:11.5px">&mdash; which is why you show the list first</text>
+        <text class="ss" x="880" y="348" style="font-size:11.5px">&mdash; so list every caller first</text>
 
-        <text class="lb r" x="4" y="382">THE ROLLBACK STORY &mdash; THE QUESTION YOUR RELEASE MANAGER ASKS</text>
+        <text class="lb r" x="4" y="382">ROLLBACK &mdash; WHAT YOUR RELEASE MANAGER WILL ASK</text>
         <rect class="bx r" x="4" y="392" width="1172" height="56" rx="8"/>
-        <text class="ss" x="24" y="418"><tspan font-weight="600">Revert in the opposite order: consumer first, then producer.</tspan> Same asymmetry, read backwards &mdash; reverting the producer</text>
-        <text class="ss" x="24" y="440">first would leave a consumer sending a field nobody accepts. If only half of it landed, <tspan font-weight="600" fill="#e2726e">the half that landed is the producer</tspan>, and that is safe.</text>
-      </svg>
-    </div>
-  </div>
-</section>
-
-<!-- 9 -->
-<section class="slide" data-sec="3 &middot; Contract-first" data-title="When you cannot be additive" data-notes="The honest follow-up, because not every change can be additive and pretending otherwise makes the method look naive. Three shapes. Expand and contract is the standard answer and it is worth naming as a sequence of separate tickets rather than one change - add the new thing, migrate callers, remove the old thing, and the third step is a different release and often a different quarter. Versioning the endpoint is heavier and appropriate when you genuinely cannot migrate everyone. And the big-bang coordinated deploy is on the slide precisely so you can say when it is legitimate, which is narrow: both sides owned by one team, deployed together, with a rehearsed rollback. Land the framing - the question is not whether you can avoid breaking changes, it is whether the break is VISIBLE and SEQUENCED rather than discovered." data-tier="K">
-  <h2>Not everything can be additive &mdash; three honest shapes<span class="tag k">3</span></h2>
-  <div class="body g1">
-    <div>
-      <svg viewBox="0 0 1180 452" role="img" aria-label="Expand and contract, endpoint versioning and coordinated deploy compared">
-        <rect class="bx g grow" x="4" y="4" width="384" height="240" rx="8"/>
-        <text class="lb g" x="24" y="28">1 &middot; EXPAND AND CONTRACT &mdash; THE DEFAULT</text>
-        <rect class="bx w" x="24" y="42" width="344" height="34" rx="4"/>
-        <text class="ss" x="38" y="64"><tspan font-weight="700">Ticket A</tspan> &nbsp;add the new thing, optional</text>
-        <rect class="bx w" x="24" y="82" width="344" height="34" rx="4"/>
-        <text class="ss" x="38" y="104"><tspan font-weight="700">Ticket B</tspan> &nbsp;migrate every caller</text>
-        <rect class="bx w" x="24" y="122" width="344" height="34" rx="4"/>
-        <text class="ss" x="38" y="144"><tspan font-weight="700">Ticket C</tspan> &nbsp;remove the old thing</text>
-        <text class="ss" x="24" y="180">Three <tspan font-weight="600">separate tickets</tspan>, not one change with</text>
-        <text class="ss" x="24" y="200">three steps &mdash; and C is a later release,</text>
-        <text class="ss" x="24" y="220">often a later quarter.</text>
-        <text class="ss" x="24" y="240" style="fill:#5fbf8f;font-weight:600">Each is individually safe to revert.</text>
-
-        <rect class="bx a grow w2" x="398" y="4" width="384" height="240" rx="8"/>
-        <text class="lb a" x="418" y="28">2 &middot; VERSION THE ENDPOINT</text>
-        <text class="tt" x="418" y="56">/api/v2/postings</text>
-        <text class="ss" x="418" y="84">Heavier: two implementations, two sets of tests,</text>
-        <text class="ss" x="418" y="104">and a migration you still have to finish.</text>
-        <text class="ss" x="418" y="132">Right when you <tspan font-weight="600">genuinely cannot migrate</tspan></text>
-        <text class="ss" x="418" y="152">everyone &mdash; external callers, a long tail of</text>
-        <text class="ss" x="418" y="172">teams, a regulatory freeze on someone&rsquo;s side.</text>
-        <text class="ss" x="418" y="204" style="fill:#d98a3d;font-weight:600">Wrong when it is used to avoid the</text>
-        <text class="ss" x="418" y="224" style="fill:#d98a3d;font-weight:600">conversation about migrating three callers.</text>
-
-        <rect class="bx r grow w3" x="792" y="4" width="384" height="240" rx="8"/>
-        <text class="lb r" x="812" y="28">3 &middot; COORDINATED DEPLOY &mdash; NARROW</text>
-        <text class="tt" x="812" y="56">Both sides, together</text>
-        <text class="ss" x="812" y="84">Legitimate only when <tspan font-weight="600">all</tspan> of these hold:</text>
-        <text class="ss" x="812" y="110">&middot; both repositories owned by one team</text>
-        <text class="ss" x="812" y="132">&middot; deployed together, in one window</text>
-        <text class="ss" x="812" y="154">&middot; a rehearsed rollback for both halves</text>
-        <text class="ss" x="812" y="176">&middot; no other caller of the producer</text>
-        <text class="ss" x="812" y="208" style="fill:#e2726e;font-weight:600">That last one is the condition people</text>
-        <text class="ss" x="812" y="228" style="fill:#e2726e;font-weight:600">assert without checking.</text>
-
-        <text class="lb" x="4" y="284">THE FRAMING</text>
-        <rect class="bx d" x="4" y="294" width="1172" height="100" rx="8"/>
-        <text class="tt w" x="24" y="326" style="font-size:16px">The question is not whether you can avoid breaking changes.</text>
-        <text class="ss w" x="24" y="356" style="font-size:14px">It is whether the break is <tspan font-weight="700" fill="#e0b34d">visible and sequenced</tspan> &mdash; or discovered.</text>
-        <text class="ss w" x="24" y="382" style="font-size:13px;fill:#6ea8fe">And an agent will not choose between these three for you. It is a decision, so it belongs in the spec &mdash; Module 5.</text>
-
-        <rect class="bx a" x="4" y="404" width="1172" height="44" rx="8"/>
-        <text class="ss" x="24" y="432">On GB-158 the answer is <tspan font-weight="600">expand only</tspan> &mdash; the field is optional and defaults to <tspan font-family="ui-monospace,Consolas,DejaVu Sans Mono,monospace" fill="#d98a3d">valueDate</tspan>, so there is no contract step at all. That is why it is a good first cross-repo ticket.</text>
+        <text class="ss" x="24" y="418"><tspan font-weight="600">Undo in the opposite order: consumer first, then producer.</tspan> Undo the producer first, and the consumer</text>
+        <text class="ss" x="24" y="440">sends a field nobody accepts. If only one half is merged, <tspan font-weight="600" fill="#e2726e">it should be the producer</tspan> &mdash; that half is safe alone.</text>
       </svg>
     </div>
   </div>
 </section>
 
 <!-- 10 -->
-<section class="slide" data-sec="4 &middot; Coordinated pull requests" data-title="Two PRs, one change - what holds them together" data-notes="Practical mechanics. Four things, and each is cheap. Both PRs carry the ticket key, which is Module 6's anchor doing cross-repo work. Each links to the other explicitly, because a reviewer landing on one needs to know the other exists - and that is not automatic. The merge order is stated in the description in words, because nothing in either pull request encodes it. And the fourth is the one people forget: the reviewer of the second PR needs to know the first one has actually merged and deployed, not just been approved. Then the honest bit at the bottom: none of this is enforced by tooling in most organisations, so it is a discipline, and disciplines need a place to live. That place is the pull request template." data-tier="K">
-  <h2>Two pull requests, one change &mdash; four cheap disciplines<span class="tag k">4</span></h2>
-  <div class="body g55">
+<section class="slide" data-sec="3 &middot; Contract-first" data-title="When you cannot be additive" data-notes="The honest follow-up, because not every change can be additive and pretending otherwise makes the method look naive. Three shapes. Expand and contract is the standard answer and it is worth naming as a sequence of separate tickets rather than one change - add the new thing, migrate callers, remove the old thing, and the third step is a different release and often a different quarter. Versioning the endpoint is heavier and appropriate when you genuinely cannot migrate everyone. And the big-bang coordinated deploy is on the slide precisely so you can say when it is legitimate, which is narrow: both sides owned by one team, deployed together, with a rehearsed rollback. Land the framing - the question is not whether you can avoid breaking changes, it is whether the break is VISIBLE and SEQUENCED rather than discovered." data-tier="K">
+  <h2>When a change cannot be additive &mdash; three options<span class="tag k">3</span></h2>
+  <div class="body g1">
     <div>
-      <svg viewBox="0 0 700 430" role="img" aria-label="Four disciplines that hold two coordinated pull requests together">
-        <rect class="bx g" x="4" y="4" width="692" height="238" rx="8"/>
-        <text class="lb g" x="24" y="28">FOUR THINGS, ALL CHEAP</text>
+      <svg viewBox="0 0 1180 452" role="img" aria-label="Expand and contract, endpoint versioning and deploying both together compared">
+        <rect class="bx g grow" x="4" y="4" width="384" height="240" rx="8"/>
+        <text class="lb g" x="24" y="28">1 &middot; EXPAND AND CONTRACT &mdash; THE DEFAULT</text>
+        <rect class="bx w" x="24" y="42" width="344" height="34" rx="4"/>
+        <text class="ss" x="38" y="64"><tspan font-weight="700">Ticket A</tspan> &nbsp;add the new thing, optional</text>
+        <rect class="bx w" x="24" y="82" width="344" height="34" rx="4"/>
+        <text class="ss" x="38" y="104"><tspan font-weight="700">Ticket B</tspan> &nbsp;move every caller to it</text>
+        <rect class="bx w" x="24" y="122" width="344" height="34" rx="4"/>
+        <text class="ss" x="38" y="144"><tspan font-weight="700">Ticket C</tspan> &nbsp;remove the old thing</text>
+        <text class="ss" x="24" y="184">Three <tspan font-weight="600">separate tickets</tspan>, not one change.</text>
+        <text class="ss" x="24" y="206">Ticket C often comes months later.</text>
+        <text class="ss" x="24" y="232" style="fill:#5fbf8f;font-weight:600">Each ticket is safe to undo on its own.</text>
 
-        <rect class="bx w rise" x="24" y="40" width="652" height="46" rx="6"/>
-        <text class="tt" x="40" y="60" style="font-size:12.5px">1 &middot; Both carry the ticket key</text>
-        <text class="ss" x="40" y="78">Module 6&rsquo;s anchor, doing cross-repo work. Title and description.</text>
+        <rect class="bx a grow w2" x="398" y="4" width="384" height="240" rx="8"/>
+        <text class="lb a" x="418" y="28">2 &middot; VERSION THE ENDPOINT</text>
+        <text class="tt" x="418" y="56">/api/v2/postings</text>
+        <text class="ss" x="418" y="86">More work: two versions, two sets of tests,</text>
+        <text class="ss" x="418" y="106">and callers still have to move.</text>
+        <text class="ss" x="418" y="140">Right when you <tspan font-weight="600">cannot move every caller</tspan>:</text>
+        <text class="ss" x="418" y="160">outside clients, or many other teams.</text>
+        <text class="ss" x="418" y="200" style="fill:#d98a3d;font-weight:600">Wrong if it only avoids moving</text>
+        <text class="ss" x="418" y="220" style="fill:#d98a3d;font-weight:600">three callers.</text>
 
-        <rect class="bx w rise r2" x="24" y="94" width="652" height="46" rx="6"/>
-        <text class="tt" x="40" y="114" style="font-size:12.5px">2 &middot; Each links to the other, explicitly</text>
-        <text class="ss" x="40" y="132">A reviewer landing on one must know the other exists. Nothing makes that automatic.</text>
+        <rect class="bx r grow w3" x="792" y="4" width="384" height="240" rx="8"/>
+        <text class="lb r" x="812" y="28">3 &middot; DEPLOY BOTH TOGETHER &mdash; RARE</text>
+        <text class="tt" x="812" y="56">Both sides at once</text>
+        <text class="ss" x="812" y="84">Only when <tspan font-weight="600">all</tspan> of these are true:</text>
+        <text class="ss" x="812" y="110">&middot; one team owns both repos</text>
+        <text class="ss" x="812" y="132">&middot; both deploy in the same window</text>
+        <text class="ss" x="812" y="154">&middot; rollback is practised for both</text>
+        <text class="ss" x="812" y="176">&middot; no other service calls the producer</text>
+        <text class="ss" x="812" y="208" style="fill:#e2726e;font-weight:600">People often assume the last one</text>
+        <text class="ss" x="812" y="228" style="fill:#e2726e;font-weight:600">without checking.</text>
 
-        <rect class="bx w rise r3" x="24" y="148" width="652" height="46" rx="6"/>
-        <text class="tt" x="40" y="168" style="font-size:12.5px">3 &middot; The merge order is stated in words</text>
-        <text class="ss" x="40" y="186">&ldquo;Merge after #412 is deployed.&rdquo; Nothing in either diff encodes this.</text>
+        <text class="lb" x="4" y="284">THE KEY IDEA</text>
+        <rect class="bx d" x="4" y="294" width="1172" height="100" rx="8"/>
+        <text class="tt w" x="24" y="326" style="font-size:16px">You cannot always avoid a breaking change.</text>
+        <text class="ss w" x="24" y="356" style="font-size:14px">But you can make it <tspan font-weight="700" fill="#e0b34d">visible and ordered</tspan> &mdash; instead of a surprise.</text>
+        <text class="ss w" x="24" y="382" style="font-size:13px;fill:#6ea8fe">The agent will not choose for you. It is a decision, so it goes in the spec (Module 5).</text>
 
-        <rect class="bx a rise r4" x="24" y="202" width="652" height="34" rx="6"/>
-        <text class="ss" x="40" y="224"><tspan font-weight="700">4 &middot; Deployed, not merely approved</tspan> &mdash; the one people forget</text>
-
-        <text class="lb r" x="4" y="272">WHAT GOES WRONG WITHOUT THEM</text>
-        <rect class="bx r" x="4" y="282" width="692" height="90" rx="8"/>
-        <text class="ss" x="24" y="308">Both approved on the same afternoon. Whoever clicks first decides the order.</text>
-        <text class="ss" x="24" y="330">Consumer lands first, sends a field nobody accepts, and the payroll batch fails</text>
-        <text class="ss" x="24" y="352" style="fill:#e2726e;font-weight:600">in production &mdash; while both pull requests look perfectly correct in review.</text>
-
-        <rect class="bx d" x="4" y="384" width="692" height="46" rx="8"/>
-        <text class="ss w" x="24" y="413" style="font-size:13.5px">A discipline needs somewhere to live. Put it in the <tspan font-weight="700" fill="#e0b34d">pull request template.</tspan></text>
+        <rect class="bx a" x="4" y="404" width="1172" height="44" rx="8"/>
+        <text class="ss" x="24" y="432">GB-158 needs only step 1: the field is optional and defaults to <tspan font-family="ui-monospace,Consolas,DejaVu Sans Mono,monospace" fill="#d98a3d">valueDate</tspan>. That is why it is a good first cross-repo ticket.</text>
       </svg>
-    </div>
-    <div class="pts">
-      <h3>What the template asks</h3>
-      <ul>
-        <li><b>Does this change a contract another repository depends on?</b> If yes, link the paired PR and state the order.</li>
-        <li><b>Has the PR this depends on been <em>deployed</em>?</b> Not approved &mdash; deployed.</li>
-        <li><b>Is this change additive?</b> If not, name the compatibility window and how you will know every caller has moved.</li>
-      </ul>
-      <h3>What CI can check, cheaply</h3>
-      <ul>
-        <li>That a PR touching the contract's named files <b>links to a paired PR</b>. Mechanical, and it catches the solo cross-repo change.</li>
-        <li>It cannot check the <em>order</em> &mdash; that stays human, and that is why it is written in words.</li>
-      </ul>
-      <div class="take"><b>The rollback question is the good test of whether you sequenced it:</b> if you cannot say which half to revert first, you have two pull requests rather than a sequence.</div>
     </div>
   </div>
 </section>
 
 <!-- 11 -->
+<section class="slide" data-sec="4 &middot; Coordinated pull requests" data-title="Two PRs, one change - four simple habits" data-notes="Practical mechanics. Four things, and each is cheap. Both PRs carry the ticket key, which is Module 6's anchor doing cross-repo work. Each links to the other explicitly, because a reviewer landing on one needs to know the other exists - and that is not automatic. The merge order is stated in the description in words, because nothing in either pull request encodes it. And the fourth is the one people forget: the reviewer of the second PR needs to know the first one has actually merged and deployed, not just been approved. Then the honest bit at the bottom: none of this is enforced by tooling in most organisations, so it is a discipline, and disciplines need a place to live. That place is the pull request template." data-tier="K">
+  <h2>Two pull requests, one change &mdash; four simple habits<span class="tag k">4</span></h2>
+  <div class="body g55">
+    <div>
+      <svg viewBox="0 0 700 430" role="img" aria-label="Four habits that hold two paired pull requests together">
+        <rect class="bx g" x="4" y="4" width="692" height="238" rx="8"/>
+        <text class="lb g" x="24" y="28">FOUR HABITS, ALL CHEAP</text>
+
+        <rect class="bx w rise" x="24" y="40" width="652" height="46" rx="6"/>
+        <text class="tt" x="40" y="60" style="font-size:12.5px">1 &middot; Both PRs carry the ticket key</text>
+        <text class="ss" x="40" y="78">The Jira key from Module 6, in the title and description.</text>
+
+        <rect class="bx w rise r2" x="24" y="94" width="652" height="46" rx="6"/>
+        <text class="tt" x="40" y="114" style="font-size:12.5px">2 &middot; Each PR links to the other</text>
+        <text class="ss" x="40" y="132">A reviewer on one PR must know the other exists.</text>
+
+        <rect class="bx w rise r3" x="24" y="148" width="652" height="46" rx="6"/>
+        <text class="tt" x="40" y="168" style="font-size:12.5px">3 &middot; The merge order is written in words</text>
+        <text class="ss" x="40" y="186">&ldquo;Merge after #412 is deployed.&rdquo; No diff shows this.</text>
+
+        <rect class="bx a rise r4" x="24" y="202" width="652" height="34" rx="6"/>
+        <text class="ss" x="40" y="224"><tspan font-weight="700">4 &middot; Deployed, not just approved</tspan> &mdash; the one people forget</text>
+
+        <text class="lb r" x="4" y="272">WITHOUT THEM</text>
+        <rect class="bx r" x="4" y="282" width="692" height="90" rx="8"/>
+        <text class="ss" x="24" y="308">Both PRs are approved the same afternoon. Whoever clicks first sets the order.</text>
+        <text class="ss" x="24" y="330">The consumer merges first and sends a field nobody accepts.</text>
+        <text class="ss" x="24" y="352" style="fill:#e2726e;font-weight:600">The payroll batch fails in production. Both PRs looked fine in review.</text>
+
+        <rect class="bx d" x="4" y="384" width="692" height="46" rx="8"/>
+        <text class="ss w" x="24" y="413" style="font-size:13.5px">Put these habits in the <tspan font-weight="700" fill="#e0b34d">pull request template.</tspan></text>
+      </svg>
+    </div>
+    <div class="pts">
+      <h3>The template asks</h3>
+      <ul>
+        <li><b>Does this change a contract another repo uses?</b> Link the other PR and state the order.</li>
+        <li><b>Is the PR you depend on deployed?</b> Approved is not enough.</li>
+        <li><b>Is the change additive?</b> If not, how long is the compatibility window?</li>
+      </ul>
+      <h3>What CI can check</h3>
+      <ul>
+        <li>A PR that touches the contract <b>links to a paired PR</b>.</li>
+        <li>CI cannot check the <em>order</em>. People must.</li>
+      </ul>
+      <div class="take"><b>A good test:</b> can you say which PR to undo first? If not, you have two PRs, not a plan.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 12 -->
 <section class="slide" data-sec="4 &middot; Coordinated pull requests" data-title="What the two descriptions say" data-notes="Concrete and short. Two pull request descriptions for GB-158, and the point is how much of the coordination lives in prose rather than in code. Read the producer one: it says what it does, that it is additive, and that the consumer PR follows. Read the consumer one: it says explicitly do not merge until the other is DEPLOYED, and it names the number. Neither of these facts exists anywhere in the diffs. That is the whole reason this is a discipline rather than a tooling problem - and it is why the pull request template is where it has to live, because the template is the only place a reviewer is guaranteed to look." data-tier="R" data-after="lab">
-  <h2>Two descriptions &mdash; and how much lives only in prose<span class="tag k">4</span></h2>
+  <h2>Two PR descriptions &mdash; the plan lives only in the text<span class="tag k">4</span></h2>
   <div class="body g55">
     <div>
       <div class="callout" style="margin-top:0"><b>PR #1 &mdash; global-bank-account, merges first</b></div>
@@ -556,332 +568,311 @@ with the field set.
 
 <span class="k">Rollback:</span> revert this first, then #412.
 </div>
-      <div class="take"><b>Not one of those facts is in either diff.</b> Merge order, deployment state and rollback direction are properties of <em>the pair</em> &mdash; and a pull request has no field for any of them, which is why they go in the template.</div>
-    </div>
-  </div>
-</section>
-
-<!-- 12 -->
-<section class="slide" data-sec="5 &middot; Cheap cross-repo context" data-title="The other repository, without the other repository" data-notes="This is the economics section and it answers the objection that the honest answer to everything here is just open both repositories. Four cheaper substitutes, ordered by cost. An interface summary is a page and it is what the agent actually needs ninety percent of the time - the endpoints, the shapes, the failure semantics. A generated client is better where you have one because it cannot drift. An index or module map tells the agent where to look rather than what is there, which is Module 2's structure-beats-explanation point applied across a boundary. And full checkout is the last resort rather than the default. The number at the bottom is the one to say out loud - a full checkout of the other repository can be tens of thousands of tokens re-billed on every turn, and the page it replaces is a few hundred." data-tier="K">
-  <h2>Four substitutes for opening the other repository<span class="tag k">5</span></h2>
-  <div class="body g1">
-    <div>
-      <svg viewBox="0 0 1180 452" role="img" aria-label="Four ways to give an agent cross-repo context, ordered by cost">
-        <rect class="bx d" x="4" y="4" width="1172" height="30" rx="6"/>
-        <text class="lb w" x="24" y="24">SUBSTITUTE</text>
-        <text class="lb w" x="330" y="24">WHAT IT CARRIES</text>
-        <text class="lb w" x="740" y="24">COST</text>
-        <text class="lb w" x="920" y="24">DRIFTS?</text>
-
-        <rect class="bx g grow" x="4" y="42" width="1172" height="76" rx="6"/>
-        <text class="tt" x="24" y="72">Interface summary</text>
-        <text class="ss" x="24" y="94" style="font-size:11.5px">one page &mdash; <tspan font-family="ui-monospace,Consolas,DejaVu Sans Mono,monospace" fill="#d98a3d">docs/contract.md</tspan></text>
-        <text class="ss" x="330" y="66">Endpoints, request and response shapes, failure</text>
-        <text class="ss" x="330" y="88">semantics, and the sequencing rule. What an agent</text>
-        <text class="ss" x="330" y="110">actually needs nine times out of ten.</text>
-        <text class="ss" x="740" y="82" style="fill:#5fbf8f;font-weight:600">a few hundred tokens</text>
-        <text class="ss" x="920" y="72" style="fill:#d98a3d">Yes &mdash; hand-written.</text>
-        <text class="ss" x="920" y="94" style="font-size:11.5px">Same-PR rule applies.</text>
-
-        <rect class="bx g grow w2" x="4" y="126" width="1172" height="76" rx="6"/>
-        <text class="tt" x="24" y="156">Generated client</text>
-        <text class="ss" x="24" y="178" style="font-size:11.5px">from an OpenAPI spec</text>
-        <text class="ss" x="330" y="150">The real shapes, mechanically. Best available option</text>
-        <text class="ss" x="330" y="172">where you have a spec to generate from &mdash; and a</text>
-        <text class="ss" x="330" y="194">strong argument for producing one.</text>
-        <text class="ss" x="740" y="166" style="fill:#5fbf8f;font-weight:600">small, and it is code</text>
-        <text class="ss" x="920" y="156" style="fill:#5fbf8f;font-weight:600">No &mdash; it cannot.</text>
-        <text class="ss" x="920" y="178" style="font-size:11.5px">This is its whole value.</text>
-
-        <rect class="bx grow w3" x="4" y="210" width="1172" height="76" rx="6"/>
-        <text class="tt" x="24" y="240">Index or module map</text>
-        <text class="ss" x="24" y="262" style="font-size:11.5px">where to look, not what is there</text>
-        <text class="ss" x="330" y="234">&ldquo;Posting behaviour lives in <tspan font-family="ui-monospace,Consolas,DejaVu Sans Mono,monospace" fill="#d98a3d">posting/service</tspan>; the</text>
-        <text class="ss" x="330" y="256">decisions are in <tspan font-family="ui-monospace,Consolas,DejaVu Sans Mono,monospace" fill="#d98a3d">docs/adr</tspan>.&rdquo; Module 2&rsquo;s</text>
-        <text class="ss" x="330" y="278">structure-beats-explanation, across a boundary.</text>
-        <text class="ss" x="740" y="250" style="fill:#5fbf8f;font-weight:600">negligible</text>
-        <text class="ss" x="920" y="240">Rarely &mdash; paths are</text>
-        <text class="ss" x="920" y="262" style="font-size:11.5px">stabler than contents</text>
-
-        <rect class="bx r grow w4" x="4" y="294" width="1172" height="76" rx="6"/>
-        <text class="lb r" x="920" y="314">LAST RESORT, NOT DEFAULT</text>
-        <text class="tt" x="24" y="324">Full checkout in context</text>
-        <text class="ss" x="24" y="346" style="font-size:11.5px">the multi-root workspace</text>
-        <text class="ss" x="330" y="318">Everything &mdash; including all the parts irrelevant to</text>
-        <text class="ss" x="330" y="340">this change, which is most of it.</text>
-        <text class="ss" x="330" y="362" style="fill:#e2726e;font-size:11.5px">And it displaces what you meant to have in the window.</text>
-        <text class="ss" x="740" y="334" style="fill:#e2726e;font-weight:600">tens of thousands of</text>
-        <text class="ss" x="740" y="354" style="fill:#e2726e;font-weight:600">tokens, re-billed</text>
-        <text class="ss" x="920" y="344" style="fill:#5fbf8f">Never &mdash; it is the source</text>
-
-        <rect class="bx d" x="4" y="380" width="1172" height="68" rx="8"/>
-        <text class="lb w" x="24" y="404">THE RULE, AND IT IS MODULE 1&rsquo;S PLACEMENT RULE ACROSS A BOUNDARY</text>
-        <text class="ss w" x="24" y="432" style="font-size:14px">Needed every request &rarr; a file. Needed sometimes and large &rarr; behind a tool call. Needed only now &rarr; <tspan font-weight="700" fill="#e0b34d">the window.</tspan></text>
-      </svg>
+      <div class="take"><b>None of these facts is in either diff.</b> Merge order, deploy state and rollback order belong to <em>the pair</em>. A PR has no field for them, so they go in the template.</div>
     </div>
   </div>
 </section>
 
 <!-- 13 -->
-<section class="slide" data-sec="5 &middot; Cheap cross-repo context" data-title="Keeping the summary honest" data-notes="Short and it is the counterweight to the previous slide, because a summary that drifts is worse than no summary - it is Module 2's stale file with a network boundary through it, and now two teams are relying on it. Three mechanics, all cheap. The same-PR rule again, for the third or fourth time in this course, and it is worth pointing that out - if they take one operational habit from these two days, this is the one. A CI check that the endpoints named in the summary still exist on the producer side, which is genuinely runnable if the two repositories are built together anywhere. And an owner, because unowned shared knowledge has a first month rather than a lifetime." data-tier="R">
-  <h2>A drifted summary is worse than none &mdash; and now two teams rely on it<span class="tag k">5</span></h2>
-  <div class="body g46">
-    <div class="pts">
-      <h3>Three mechanics, all cheap</h3>
-      <ul>
-        <li><b>The same-PR rule.</b> A change to the contract updates the summary in the pull request that changes it. This is the fourth time this rule has appeared in two days &mdash; that is not repetition, it is the answer.</li>
-        <li><b>A CI check on the producer side</b>: every endpoint the consumer's contract document names still exists. Runnable wherever the two are built in the same pipeline.</li>
-        <li><b>An owner, named.</b> Shared knowledge with no owner has a first month, not a lifetime.</li>
-      </ul>
-      <div class="callout bad"><b>Why this matters more here than inside one repository:</b> a stale in-repo document misleads one team. A stale contract document misleads <em>the team that cannot check it</em> &mdash; which is the whole reason they were reading it.</div>
-      <div class="take"><b>And it is read by agents on both sides,</b> automatically, on every ticket, without anyone opening the file. Module 2's argument, one boundary out.</div>
-    </div>
+<section class="slide" data-sec="5 &middot; Cheap cross-repo context" data-title="The other repository, without opening it" data-notes="This is the economics section and it answers the objection that the honest answer to everything here is just open both repositories. Four cheaper substitutes, ordered by cost. An interface summary is a page and it is what the agent actually needs ninety percent of the time - the endpoints, the shapes, the failure semantics. A generated client is better where you have one because it cannot drift. An index or module map tells the agent where to look rather than what is there, which is Module 2's structure-beats-explanation point applied across a boundary. And full checkout is the last resort rather than the default. The number at the bottom is the one to say out loud - a full checkout of the other repository can be tens of thousands of tokens re-billed on every turn, and the page it replaces is a few hundred." data-tier="K">
+  <h2>Four ways to show the other repo without opening it<span class="tag k">5</span></h2>
+  <div class="body g1">
     <div>
-      <svg viewBox="0 0 700 430" role="img" aria-label="How a contract summary drifts and the three mechanics that keep it honest">
-        <text class="lb r" x="4" y="13">HOW IT DRIFTS &mdash; NOBODY DOES ANYTHING WRONG</text>
-        <rect class="bx r" x="4" y="22" width="692" height="150" rx="8"/>
-        <rect class="bx w rise" x="20" y="40" width="660" height="34" rx="5"/>
-        <text class="ss" x="34" y="62">The producer adds a validation rule. Its own tests cover it.</text>
-        <rect class="bx w rise r2" x="20" y="80" width="660" height="34" rx="5"/>
-        <text class="ss" x="34" y="102">The contract document in the <tspan font-weight="600">consumer</tspan> repository is not touched &mdash; different repo</text>
-        <rect class="bx w rise r3" x="20" y="120" width="660" height="34" rx="5"/>
-        <text class="ss" x="34" y="142">The consumer&rsquo;s agent reads the summary, and is now confidently out of date</text>
-        <text class="ss" x="34" y="166" style="fill:#e2726e;font-weight:600">Nobody did anything wrong. That is what makes it the default outcome.</text>
+      <svg viewBox="0 0 1180 452" role="img" aria-label="Four ways to give an agent cross-repo context, ordered by cost">
+        <rect class="bx d" x="4" y="4" width="1172" height="30" rx="6"/>
+        <text class="lb w" x="24" y="24">OPTION</text>
+        <text class="lb w" x="330" y="24">WHAT IT GIVES</text>
+        <text class="lb w" x="740" y="24">COST</text>
+        <text class="lb w" x="920" y="24">GOES OUT OF DATE?</text>
 
-        <text class="lb g" x="4" y="206">THREE MECHANICS</text>
-        <rect class="bx g" x="4" y="216" width="692" height="140" rx="8"/>
-        <rect class="bx w" x="20" y="234" width="660" height="34" rx="5"/>
-        <text class="ss" x="34" y="256"><tspan font-weight="700">Same PR</tspan> &mdash; the contract change updates both sides&rsquo; summaries</text>
-        <rect class="bx w" x="20" y="274" width="660" height="34" rx="5"/>
-        <text class="ss" x="34" y="296"><tspan font-weight="700">CI</tspan> &mdash; every endpoint the summary names still exists on the producer</text>
-        <rect class="bx w" x="20" y="314" width="660" height="34" rx="5"/>
-        <text class="ss" x="34" y="336"><tspan font-weight="700">An owner</tspan> &mdash; named, on both copies</text>
+        <rect class="bx g grow" x="4" y="42" width="1172" height="76" rx="6"/>
+        <text class="tt" x="24" y="72">Interface summary</text>
+        <text class="ss" x="24" y="94" style="font-size:11.5px">one page &mdash; <tspan font-family="ui-monospace,Consolas,DejaVu Sans Mono,monospace" fill="#d98a3d">docs/contract.md</tspan></text>
+        <text class="ss" x="330" y="72">Endpoints, shapes, errors and merge order.</text>
+        <text class="ss" x="330" y="94">Enough nine times out of ten.</text>
+        <text class="ss" x="740" y="82" style="fill:#5fbf8f;font-weight:600">a few hundred tokens</text>
+        <text class="ss" x="920" y="72" style="fill:#d98a3d">Yes &mdash; it is hand-written.</text>
+        <text class="ss" x="920" y="94" style="font-size:11.5px">Update it in the same PR.</text>
 
-        <rect class="bx d" x="4" y="368" width="692" height="62" rx="8"/>
-        <text class="ss w" x="24" y="396" style="font-size:14px">A stale in-repo doc misleads one team. A stale contract misleads</text>
-        <text class="ss w" x="24" y="418" style="font-size:14px"><tspan font-weight="700" fill="#e0b34d">the team that cannot check it.</tspan></text>
+        <rect class="bx g grow w2" x="4" y="126" width="1172" height="76" rx="6"/>
+        <text class="tt" x="24" y="156">Generated client</text>
+        <text class="ss" x="24" y="178" style="font-size:11.5px">from an OpenAPI spec</text>
+        <text class="ss" x="330" y="156">The real shapes, created by a tool.</text>
+        <text class="ss" x="330" y="178">Best choice if you have a spec.</text>
+        <text class="ss" x="740" y="166" style="fill:#5fbf8f;font-weight:600">small &mdash; it is code</text>
+        <text class="ss" x="920" y="156" style="fill:#5fbf8f;font-weight:600">No.</text>
+        <text class="ss" x="920" y="178" style="font-size:11.5px">That is its whole value.</text>
+
+        <rect class="bx grow w3" x="4" y="210" width="1172" height="76" rx="6"/>
+        <text class="tt" x="24" y="240">Index or module map</text>
+        <text class="ss" x="24" y="262" style="font-size:11.5px">where to look, not what is there</text>
+        <text class="ss" x="330" y="240">&ldquo;Posting logic is in <tspan font-family="ui-monospace,Consolas,DejaVu Sans Mono,monospace" fill="#d98a3d">posting/service</tspan>;</text>
+        <text class="ss" x="330" y="262">decisions are in <tspan font-family="ui-monospace,Consolas,DejaVu Sans Mono,monospace" fill="#d98a3d">docs/adr</tspan>.&rdquo;</text>
+        <text class="ss" x="740" y="250" style="fill:#5fbf8f;font-weight:600">tiny</text>
+        <text class="ss" x="920" y="240">Rarely &mdash; folder paths</text>
+        <text class="ss" x="920" y="262" style="font-size:11.5px">change slowly</text>
+
+        <rect class="bx r grow w4" x="4" y="294" width="1172" height="76" rx="6"/>
+        <text class="lb r" x="920" y="314">LAST RESORT</text>
+        <text class="tt" x="24" y="324">Full checkout</text>
+        <text class="ss" x="24" y="346" style="font-size:11.5px">the multi-root workspace</text>
+        <text class="ss" x="330" y="324">Everything &mdash; including all you do not need.</text>
+        <text class="ss" x="330" y="346" style="fill:#e2726e;font-size:11.5px">It pushes out what you meant to keep in the window.</text>
+        <text class="ss" x="740" y="334" style="fill:#e2726e;font-weight:600">tens of thousands of</text>
+        <text class="ss" x="740" y="354" style="fill:#e2726e;font-weight:600">tokens, paid every turn</text>
+        <text class="ss" x="920" y="344" style="fill:#5fbf8f">Never &mdash; it is the source</text>
+
+        <rect class="bx d" x="4" y="380" width="1172" height="68" rx="8"/>
+        <text class="lb w" x="24" y="404">MODULE 1&rsquo;S PLACEMENT RULE, ACROSS REPOS</text>
+        <text class="ss w" x="24" y="432" style="font-size:14px">Needed on every request &rarr; a file. Large, needed sometimes &rarr; a tool call. Needed now &rarr; <tspan font-weight="700" fill="#e0b34d">the chat.</tspan></text>
       </svg>
     </div>
   </div>
 </section>
 
 <!-- 14 -->
-<section class="slide" data-sec="5 &middot; Cheap cross-repo context" data-title="What earns its place in a summary" data-notes="Short editorial slide, and it exists because the first version of a contract document is always too long. Four things earn their place and each one is something the agent cannot infer from its own side. Four things do not, and the biggest is a description of how the other service works internally - that is the other team's business, it changes without telling you, and including it guarantees drift. The test at the bottom is the practical one, and it is Module 2's write-it-down test in a new setting: would an agent on this side get this wrong without the line? If no, delete it." data-tier="R">
-  <h2>What earns its place &mdash; and what guarantees drift<span class="tag k">5</span></h2>
-  <div class="body g55">
-    <div>
-      <svg viewBox="0 0 700 430" role="img" aria-label="What belongs in a contract summary and what does not">
-        <text class="lb g" x="4" y="13">EARNS ITS PLACE &mdash; UNREACHABLE FROM YOUR SIDE</text>
-        <rect class="bx g" x="4" y="22" width="692" height="178" rx="8"/>
-        <rect class="bx w rise" x="20" y="40" width="660" height="36" rx="5"/>
-        <text class="ss" x="34" y="63">What you call, and what you do <tspan font-weight="600">not</tspan> &mdash; both are useful</text>
-        <rect class="bx w rise r2" x="20" y="82" width="660" height="36" rx="5"/>
-        <text class="ss" x="34" y="105">The shapes, and whether they are mirrored or generated</text>
-        <rect class="bx w rise r3" x="20" y="124" width="660" height="36" rx="5"/>
-        <text class="ss" x="34" y="147">Failure semantics you rely on &mdash; status codes, error bodies, timeouts</text>
-        <rect class="bx w rise r4" x="20" y="166" width="660" height="30" rx="5"/>
-        <text class="ss" x="34" y="186">The sequencing rule, and any compatibility guarantee</text>
-
-        <text class="lb r" x="4" y="234">DOES NOT &mdash; AND THE FIRST ONE GUARANTEES DRIFT</text>
-        <rect class="bx r" x="4" y="244" width="692" height="130" rx="8"/>
-        <rect class="bx w" x="20" y="262" width="660" height="30" rx="5"/>
-        <text class="ss" x="34" y="282">How the other service works <tspan font-weight="600" fill="#e2726e">internally</tspan> &mdash; not yours, and it changes</text>
-        <rect class="bx w" x="20" y="298" width="660" height="30" rx="5"/>
-        <text class="ss" x="34" y="318">Their conventions, their ADRs &mdash; link, do not copy</text>
-        <rect class="bx w" x="20" y="334" width="660" height="30" rx="5"/>
-        <text class="ss" x="34" y="354">Anything you could read from your own code in one file open</text>
-
-        <rect class="bx d" x="4" y="386" width="692" height="44" rx="8"/>
-        <text class="ss w" x="24" y="414" style="font-size:13.5px">Copying their internals is <tspan font-weight="700" fill="#e0b34d">signing up to maintain a mirror of a thing you do not own.</tspan></text>
-      </svg>
-    </div>
+<section class="slide" data-sec="5 &middot; Cheap cross-repo context" data-title="Keeping the contract file honest" data-notes="Short and it is the counterweight to the previous slide, because a summary that drifts is worse than no summary - it is Module 2's stale file with a network boundary through it, and now two teams are relying on it. Three mechanics, all cheap. The same-PR rule again, for the third or fourth time in this course, and it is worth pointing that out - if they take one operational habit from these two days, this is the one. A CI check that the endpoints named in the summary still exist on the producer side, which is genuinely runnable if the two repositories are built together anywhere. And an owner, because unowned shared knowledge has a first month rather than a lifetime." data-tier="R">
+  <h2>An out-of-date contract file is worse than none<span class="tag k">5</span></h2>
+  <div class="body g46">
     <div class="pts">
-      <h3>The test</h3>
+      <h3>Three cheap habits</h3>
       <ul>
-        <li><b>Would an agent on this side get this wrong without the line?</b> If no, delete it.</li>
-        <li>Module 2's write-it-down test, in a new setting &mdash; and the same discipline applies: a shorter contract document is usually a better one.</li>
+        <li><b>Same-PR rule.</b> The PR that changes the contract also updates the file. You have seen this rule all course.</li>
+        <li><b>A CI check.</b> Every endpoint in the consumer&rsquo;s contract file still exists on the producer.</li>
+        <li><b>A named owner</b> on both copies.</li>
       </ul>
-      <h3>Why the &ldquo;what we do not call&rdquo; line is worth keeping</h3>
-      <ul>
-        <li>The example says the balance endpoint is <em>&ldquo;not used yet &mdash; reserved for the pre-flight funding check&rdquo;</em>.</li>
-        <li>That single line tells an agent both that the endpoint exists <b>and</b> that calling it is a decision somebody has deliberately not taken. Absence, made readable.</li>
-      </ul>
-      <div class="take"><b>The failure to avoid:</b> a contract document that grows into a second copy of the producer's documentation. It will drift, nobody will notice, and it will be read by agents on both sides.</div>
+      <div class="callout bad">A stale doc in one repo misleads one team. A stale contract misleads <b>the team that cannot check it</b>.</div>
+    </div>
+    <div>
+      <svg viewBox="0 0 700 250" role="img" aria-label="How a contract file goes out of date without anyone making a mistake">
+        <text class="lb r" x="4" y="13">HOW IT GOES OUT OF DATE &mdash; NOBODY MAKES A MISTAKE</text>
+        <rect class="bx r" x="4" y="22" width="692" height="224" rx="8"/>
+        <rect class="bx w rise" x="20" y="40" width="660" height="40" rx="5"/>
+        <text class="ss" x="34" y="65">1 &middot; The producer adds a validation rule. Its tests cover it.</text>
+        <rect class="bx w rise r2" x="20" y="88" width="660" height="40" rx="5"/>
+        <text class="ss" x="34" y="113">2 &middot; The consumer&rsquo;s contract file is not touched &mdash; other repo.</text>
+        <rect class="bx w rise r3" x="20" y="136" width="660" height="40" rx="5"/>
+        <text class="ss" x="34" y="161">3 &middot; The consumer&rsquo;s agent reads the file, and is now wrong.</text>
+        <text class="ss" x="34" y="210" style="fill:#e2726e;font-weight:600">Nobody did anything wrong.</text>
+        <text class="ss" x="34" y="232" style="fill:#e2726e;font-weight:600">So this is what happens by default.</text>
+      </svg>
     </div>
   </div>
 </section>
 
 <!-- 15 -->
-<section class="slide" data-sec="6 &middot; Shared libraries" data-title="What an agent may change in a shared library" data-notes="The last section and it is a governance question wearing an engineering hat. A shared library has a property that a service does not: a change to it is a change to every consumer, most of whom you cannot see and did not consult. So the tiering from Module 6 comes back in a different form. Additive and backwards-compatible - a new method, a new optional parameter - is the tier an agent can work in. Behaviour changes to existing methods need the owner, because the blast radius is every caller. And removals or signature changes are a deprecation cycle, which is a process rather than a change. The line at the bottom is the one for a senior room: in a shared library the question is never can this agent write good code, it is who finds out when this is wrong - and the answer is usually somebody else, later, in a service you have never opened." data-tier="K">
-  <h2>Shared libraries &mdash; the blast radius is everyone you cannot see<span class="tag k">6</span></h2>
-  <div class="body g64">
+<section class="slide" data-sec="5 &middot; Cheap cross-repo context" data-title="What belongs in the contract file" data-notes="Short editorial slide, and it exists because the first version of a contract document is always too long. Four things earn their place and each one is something the agent cannot infer from its own side. Four things do not, and the biggest is a description of how the other service works internally - that is the other team's business, it changes without telling you, and including it guarantees drift. The test at the bottom is the practical one, and it is Module 2's write-it-down test in a new setting: would an agent on this side get this wrong without the line? If no, delete it." data-tier="R">
+  <h2>What belongs in the contract file &mdash; and what does not<span class="tag k">5</span></h2>
+  <div class="body g55">
     <div>
-      <svg viewBox="0 0 700 430" role="img" aria-label="Three tiers of change to a shared library and who must be involved">
-        <rect class="bx g grow" x="4" y="4" width="692" height="112" rx="8"/>
-        <text class="lb g" x="24" y="28">AGENT MAY DO &mdash; ADDITIVE AND BACKWARDS-COMPATIBLE</text>
-        <text class="ss" x="24" y="52">A new method &middot; a new optional parameter &middot; a new overload</text>
-        <text class="ss" x="24" y="74">Tests, docs, an added validation that only <tspan font-style="italic">rejects what was already invalid</tspan></text>
-        <text class="ss" x="24" y="100" style="fill:#5fbf8f;font-weight:600">Existing callers keep working, and none of them had to be consulted.</text>
+      <svg viewBox="0 0 700 400" role="img" aria-label="What belongs in a contract file and what does not">
+        <text class="lb g" x="4" y="13">KEEP &mdash; THINGS YOUR SIDE CANNOT SEE</text>
+        <rect class="bx g" x="4" y="22" width="692" height="178" rx="8"/>
+        <rect class="bx w rise" x="20" y="40" width="660" height="36" rx="5"/>
+        <text class="ss" x="34" y="63">What you call &mdash; and what you do <tspan font-weight="600">not</tspan> call</text>
+        <rect class="bx w rise r2" x="20" y="82" width="660" height="36" rx="5"/>
+        <text class="ss" x="34" y="105">The shapes, and whether they are copied or generated</text>
+        <rect class="bx w rise r3" x="20" y="124" width="660" height="36" rx="5"/>
+        <text class="ss" x="34" y="147">Errors you rely on &mdash; status codes, error bodies, timeouts</text>
+        <rect class="bx w rise r4" x="20" y="166" width="660" height="30" rx="5"/>
+        <text class="ss" x="34" y="186">The merge-order rule, and any compatibility promise</text>
 
-        <rect class="bx a grow w2" x="4" y="124" width="692" height="124" rx="8"/>
-        <text class="lb a" x="24" y="148">NEEDS THE OWNER &mdash; BEHAVIOUR OF SOMETHING THAT EXISTS</text>
-        <text class="ss" x="24" y="172">A default that changes &middot; an error that becomes a different error</text>
-        <text class="ss" x="24" y="194">A performance characteristic callers may be relying on</text>
-        <text class="ss" x="24" y="216">A validation that now rejects something previously accepted</text>
-        <text class="ss" x="24" y="240" style="fill:#d98a3d;font-weight:600">The blast radius is every caller &mdash; and most of them are not in the room.</text>
-
-        <rect class="bx r grow w3" x="4" y="256" width="692" height="106" rx="8"/>
-        <text class="lb r" x="24" y="280">A PROCESS, NOT A CHANGE</text>
-        <text class="ss" x="24" y="304">Removing a method &middot; changing a signature &middot; renaming anything public</text>
-        <text class="ss" x="24" y="326">That is a <tspan font-weight="600">deprecation cycle</tspan>: mark, announce, wait, then remove.</text>
-        <text class="ss" x="24" y="350" style="fill:#e2726e;font-weight:600">An agent can do each step. It cannot decide that the cycle has completed.</text>
-
-        <rect class="bx d" x="4" y="374" width="692" height="56" rx="8"/>
-        <text class="ss w" x="24" y="402" style="font-size:14px">The question is never &ldquo;can this agent write good code&rdquo;. It is</text>
-        <text class="ss w" x="24" y="424" style="font-size:14px"><tspan font-weight="700" fill="#e0b34d">&ldquo;who finds out when this is wrong&rdquo;</tspan> &mdash; and usually: somebody else, later.</text>
+        <text class="lb r" x="4" y="234">LEAVE OUT</text>
+        <rect class="bx r" x="4" y="244" width="692" height="130" rx="8"/>
+        <rect class="bx w" x="20" y="262" width="660" height="30" rx="5"/>
+        <text class="ss" x="34" y="282">How the other service works <tspan font-weight="600" fill="#e2726e">inside</tspan> &mdash; it changes without telling you</text>
+        <rect class="bx w" x="20" y="298" width="660" height="30" rx="5"/>
+        <text class="ss" x="34" y="318">Their conventions and ADRs &mdash; link to them, do not copy</text>
+        <rect class="bx w" x="20" y="334" width="660" height="30" rx="5"/>
+        <text class="ss" x="34" y="354">Anything you can read in your own code</text>
       </svg>
     </div>
     <div class="pts">
-      <h3>Why a library is different from a service</h3>
+      <h3>The test</h3>
       <ul>
-        <li>A service change is <b>deployed once</b> and you control when. A library change is <b>adopted N times</b>, by teams on their own schedules, and you control none of it.</li>
-        <li>So the compatibility window is not a nicety &mdash; it is the only mechanism you have.</li>
+        <li><b>Would an agent on this side get it wrong without this line?</b> If not, delete it.</li>
+        <li>Shorter is usually better.</li>
       </ul>
-      <h3>What to put in the library's own instructions</h3>
+      <h3>Keep the &ldquo;not used&rdquo; lines</h3>
       <ul>
-        <li>The three tiers, named, with an example of each. <b>An agent working there should be able to place its own change.</b></li>
-        <li>The version policy, and what a breaking change costs &mdash; so &ldquo;just change the signature&rdquo; has a visible price.</li>
+        <li>The example says the balance endpoint is <em>&ldquo;not used yet &mdash; reserved for the pre-flight funding check&rdquo;</em>.</li>
+        <li>So the agent knows the endpoint exists, <b>and</b> that not calling it was a choice.</li>
       </ul>
-      <div class="take"><b>The same tiering as Module 6's write-back,</b> for the same reason: the test is whether somebody can see it went wrong, and undo it, before it hurts them.</div>
     </div>
   </div>
 </section>
 
 <!-- 16 -->
+<section class="slide" data-sec="6 &middot; Shared libraries" data-title="What an agent may change in a shared library" data-notes="The last section and it is a governance question wearing an engineering hat. A shared library has a property that a service does not: a change to it is a change to every consumer, most of whom you cannot see and did not consult. So the tiering from Module 6 comes back in a different form. Additive and backwards-compatible - a new method, a new optional parameter - is the tier an agent can work in. Behaviour changes to existing methods need the owner, because the blast radius is every caller. And removals or signature changes are a deprecation cycle, which is a process rather than a change. The line at the bottom is the one for a senior room: in a shared library the question is never can this agent write good code, it is who finds out when this is wrong - and the answer is usually somebody else, later, in a service you have never opened." data-tier="K">
+  <h2>Shared libraries &mdash; a change reaches callers you cannot see<span class="tag k">6</span></h2>
+  <div class="body g64">
+    <div>
+      <svg viewBox="0 0 700 430" role="img" aria-label="Three tiers of change to a shared library and who must be involved">
+        <rect class="bx g grow" x="4" y="4" width="692" height="112" rx="8"/>
+        <text class="lb g" x="24" y="28">AGENT MAY DO &mdash; ADD, DO NOT CHANGE</text>
+        <text class="ss" x="24" y="52">A new method &middot; a new optional parameter &middot; a new overload</text>
+        <text class="ss" x="24" y="74">Tests, docs, a check that rejects only what was already invalid</text>
+        <text class="ss" x="24" y="100" style="fill:#5fbf8f;font-weight:600">Existing callers keep working. Nobody needs to be asked.</text>
+
+        <rect class="bx a grow w2" x="4" y="124" width="692" height="124" rx="8"/>
+        <text class="lb a" x="24" y="148">NEEDS THE OWNER &mdash; CHANGES EXISTING BEHAVIOUR</text>
+        <text class="ss" x="24" y="172">A changed default &middot; a different error</text>
+        <text class="ss" x="24" y="194">Slower or faster in a way callers may depend on</text>
+        <text class="ss" x="24" y="216">A check that now rejects something it used to accept</text>
+        <text class="ss" x="24" y="240" style="fill:#d98a3d;font-weight:600">Every caller is affected &mdash; and most are not in the room.</text>
+
+        <rect class="bx r grow w3" x="4" y="256" width="692" height="106" rx="8"/>
+        <text class="lb r" x="24" y="280">A PROCESS, NOT ONE CHANGE</text>
+        <text class="ss" x="24" y="304">Removing a method &middot; changing a signature &middot; renaming anything public</text>
+        <text class="ss" x="24" y="326">This needs a <tspan font-weight="600">deprecation cycle</tspan>: mark, announce, wait, remove.</text>
+        <text class="ss" x="24" y="350" style="fill:#e2726e;font-weight:600">The agent can do each step. It cannot decide the wait is over.</text>
+
+        <rect class="bx d" x="4" y="374" width="692" height="56" rx="8"/>
+        <text class="ss w" x="24" y="402" style="font-size:14px">Ask: <tspan font-weight="700" fill="#e0b34d">&ldquo;who finds out if this is wrong?&rdquo;</tspan></text>
+        <text class="ss w" x="24" y="422" style="font-size:14px">Usually someone else, later.</text>
+      </svg>
+    </div>
+    <div class="pts">
+      <h3>Library vs service</h3>
+      <ul>
+        <li>A service change deploys <b>once</b>, when you choose.</li>
+        <li>A library change is picked up by <b>many teams</b>, when they choose.</li>
+        <li>So a compatibility window is your only protection.</li>
+      </ul>
+      <h3>Put in the library&rsquo;s instruction file</h3>
+      <ul>
+        <li>These three tiers, with an example of each.</li>
+        <li>The version policy, so a breaking change has a visible cost.</li>
+      </ul>
+      <div class="take"><b>Same idea as Module 6&rsquo;s write-back tiers:</b> can someone see a mistake, and undo it in time?</div>
+    </div>
+  </div>
+</section>
+
+<!-- 17 -->
 <section class="slide" data-sec="6 &middot; Shared libraries" data-title="The review problem this module cannot solve" data-notes="This is the honest slide and it sets up the lab, so do not rush it. Module 4 bought independence by giving the review agent a different context from the coding agent. Across a boundary that same mechanism now works against you, because the reviewer's context is one repository and the fact it needs is in the other. A reviewer looking at the consumer diff sees a call to a client method - it looks fine, the method exists in the consumer, the test passes. Whether the producer actually exposes that endpoint is simply not visible from where it is standing. And the two ways to fix it are both imperfect: give the reviewer the interface summary, which works if the summary is current, or run a cross-repo check in CI, which works only for things a machine can compare. Say the limitation plainly - some cross-repo defects are only catchable by a human who knows both sides, and that is a real constraint rather than a gap in the tooling." data-tier="K" data-after="lab">
-  <h2>The reviewer&rsquo;s independence becomes its blind spot<span class="tag k">6</span></h2>
+  <h2>Across repos, the review agent has a blind spot<span class="tag k">6</span></h2>
   <div class="body g1">
     <div>
-      <svg viewBox="0 0 1180 452" role="img" aria-label="Why a review agent cannot verify a cross-repo call, and the two imperfect fixes">
-        <text class="lb r" x="4" y="14">WHAT MODULE 4 BOUGHT, AND WHAT A BOUNDARY DOES TO IT</text>
+      <svg viewBox="0 0 1180 452" role="img" aria-label="Why a review agent cannot check a cross-repo call, and the two imperfect fixes">
+        <text class="lb r" x="4" y="14">THE MODULE 4 REVIEWER, AT A REPO BOUNDARY</text>
         <rect class="bx r" x="4" y="24" width="1172" height="150" rx="8"/>
 
         <rect class="bx w" x="24" y="44" width="330" height="110" rx="6"/>
         <text class="tt" x="189" y="70" text-anchor="middle" style="font-size:13px">The reviewer sees</text>
         <text class="ss" x="189" y="94" text-anchor="middle" style="font-size:11.5px">the consumer diff</text>
-        <text class="ss" x="189" y="114" text-anchor="middle" style="font-size:11.5px">the consumer&rsquo;s conventions</text>
+        <text class="ss" x="189" y="114" text-anchor="middle" style="font-size:11.5px">the consumer&rsquo;s rules</text>
         <text class="ss" x="189" y="134" text-anchor="middle" style="font-size:11.5px">a passing consumer test</text>
 
         <path class="arr" d="M358 99 L406 99"/>
         <rect class="bx w" x="410" y="44" width="330" height="110" rx="6"/>
-        <text class="tt" x="575" y="70" text-anchor="middle" style="font-size:13px">And concludes</text>
-        <text class="ss" x="575" y="96" text-anchor="middle" style="font-size:11.5px">the call is well-formed,</text>
-        <text class="ss" x="575" y="116" text-anchor="middle" style="font-size:11.5px">the types line up,</text>
+        <text class="tt" x="575" y="70" text-anchor="middle" style="font-size:13px">And decides</text>
+        <text class="ss" x="575" y="96" text-anchor="middle" style="font-size:11.5px">the call looks right,</text>
+        <text class="ss" x="575" y="116" text-anchor="middle" style="font-size:11.5px">the types match,</text>
         <text class="ss" x="575" y="136" text-anchor="middle" style="font-size:11.5px">the test covers it</text>
 
         <path class="arr" d="M744 99 L792 99"/>
         <rect class="bx d" x="796" y="44" width="356" height="110" rx="6"/>
         <text class="tt w" x="974" y="72" text-anchor="middle" style="font-size:13px">But cannot see</text>
         <text class="ss w" x="974" y="98" text-anchor="middle" style="font-size:12px">whether the producer</text>
-        <text class="ss w" x="974" y="118" text-anchor="middle" style="font-size:12px">exposes that endpoint</text>
+        <text class="ss w" x="974" y="118" text-anchor="middle" style="font-size:12px">offers that endpoint</text>
         <text class="ss" x="974" y="140" text-anchor="middle" style="font-size:11.5px;fill:#e2726e;font-weight:600">at all</text>
 
-        <text class="lb a" x="4" y="204">TWO FIXES, BOTH IMPERFECT &mdash; AND SAY SO</text>
+        <text class="lb a" x="4" y="204">TWO FIXES &mdash; BOTH HAVE LIMITS</text>
         <rect class="bx a grow" x="4" y="214" width="580" height="130" rx="8"/>
-        <text class="tt" x="24" y="242" style="font-size:14px">Give the reviewer the interface summary</text>
-        <text class="ss" x="24" y="268">Cheap, and it works &mdash; as long as the summary is current.</text>
-        <text class="ss" x="24" y="290">So the fix inherits the drift problem from the last section,</text>
-        <text class="ss" x="24" y="312">and a stale summary turns a blind spot into a <tspan font-style="italic">confident</tspan> one.</text>
-        <text class="ss" x="24" y="336" style="fill:#5fbf8f;font-weight:600">Do it anyway. It is the highest-return line you can add.</text>
+        <text class="tt" x="24" y="242" style="font-size:14px">Give the reviewer the contract file</text>
+        <text class="ss" x="24" y="268">Cheap, and it works &mdash; if the file is current.</text>
+        <text class="ss" x="24" y="290">If it is stale, the reviewer is wrong,</text>
+        <text class="ss" x="24" y="312">and more confident about it.</text>
+        <text class="ss" x="24" y="336" style="fill:#5fbf8f;font-weight:600">Do it anyway. It is the best single line to add.</text>
 
         <rect class="bx a grow w2" x="596" y="214" width="580" height="130" rx="8"/>
-        <text class="tt" x="616" y="242" style="font-size:14px">Run a cross-repo check in CI</text>
-        <text class="ss" x="616" y="268">Every endpoint the consumer calls exists on the producer.</text>
-        <text class="ss" x="616" y="290">Mechanical, reliable &mdash; and only for things a machine can</text>
-        <text class="ss" x="616" y="312">compare. Shapes and paths, yes. Semantics, no.</text>
-        <text class="ss" x="616" y="336" style="fill:#d98a3d;font-weight:600">And it needs the two repositories built somewhere together.</text>
+        <text class="tt" x="616" y="242" style="font-size:14px">Add a cross-repo check in CI</text>
+        <text class="ss" x="616" y="268">It checks each called endpoint exists on the producer.</text>
+        <text class="ss" x="616" y="290">Works for paths and shapes.</text>
+        <text class="ss" x="616" y="312">Not for what a field means.</text>
+        <text class="ss" x="616" y="336" style="fill:#d98a3d;font-weight:600">It needs both repos built in one place.</text>
 
         <rect class="bx d" x="4" y="356" width="1172" height="92" rx="8"/>
-        <text class="lb w" x="24" y="380">THE LIMITATION, STATED HONESTLY</text>
-        <text class="ss w" x="24" y="406" style="font-size:14px">Some cross-repo defects are catchable only by <tspan font-weight="700" fill="#e0b34d">a human who knows both sides.</tspan> That is a real</text>
-        <text class="ss w" x="24" y="428" style="font-size:14px">constraint, not a gap in the tooling &mdash; and it is the strongest argument this course makes</text>
-        <text class="ss w" x="24" y="444" style="font-size:14px">for keeping a human at the merge gate on anything that crosses a boundary.</text>
-      </svg>
-    </div>
-  </div>
-</section>
-
-<!-- 17 -->
-<section class="slide" data-sec="6 &middot; Shared libraries" data-title="What to do on Monday" data-notes="Practical closing slide, ordered by cost and by how soon it pays. The contract document is a morning and it is the highest return. The pull request template question is fifteen minutes and it catches the solo cross-repo change. Moving shared decisions somewhere shared is a conversation rather than a task. And the CI endpoint check is the only one that needs real work, and only if the two repositories are built together anywhere. Be explicit about what NOT to start with: do not begin by configuring multi-root workspaces for everyone, because it is the most visible change, the most expensive, and it delivers least. Teams that start there conclude the module was about tooling." data-tier="R">
-  <h2>Four things, in the order they pay<span class="tag k">6</span></h2>
-  <div class="body g1">
-    <div>
-      <svg viewBox="0 0 1180 452" role="img" aria-label="Four cross-repo practices ordered by cost and return">
-        <rect class="bx d" x="4" y="4" width="1172" height="30" rx="6"/>
-        <text class="lb w" x="24" y="24">DO</text>
-        <text class="lb w" x="500" y="24">COSTS</text>
-        <text class="lb w" x="720" y="24">CATCHES</text>
-
-        <rect class="bx g grow" x="4" y="42" width="1172" height="74" rx="6"/>
-        <text class="tt" x="24" y="72">1 &middot; A contract document in each repository</text>
-        <text class="ss" x="24" y="96" style="font-size:11.5px">what we call &middot; mirrored or generated &middot; failure semantics &middot; the sequencing rule</text>
-        <text class="ss" x="500" y="84" style="fill:#5fbf8f;font-weight:600">a morning</text>
-        <text class="ss" x="720" y="72">Invented endpoints, invented error contracts, and the</text>
-        <text class="ss" x="720" y="94">sequencing rule binding a side that could not see it</text>
-
-        <rect class="bx g grow w2" x="4" y="124" width="1172" height="74" rx="6"/>
-        <text class="tt" x="24" y="154">2 &middot; One question in the pull request template</text>
-        <text class="ss" x="24" y="178" style="font-size:11.5px">&ldquo;Does this change a contract another repository depends on? Link the pair and state the order.&rdquo;</text>
-        <text class="ss" x="500" y="166" style="fill:#5fbf8f;font-weight:600">fifteen minutes</text>
-        <text class="ss" x="720" y="155">The solo cross-repo change &mdash; the one where nobody</text>
-        <text class="ss" x="720" y="177">realised there was a second half</text>
-
-        <rect class="bx a grow w3" x="4" y="206" width="1172" height="74" rx="6"/>
-        <text class="tt" x="24" y="236">3 &middot; Move shared decisions somewhere shared</text>
-        <text class="ss" x="24" y="260" style="font-size:11.5px">or at minimum, link to them from both sides</text>
-        <text class="ss" x="500" y="248" style="fill:#d98a3d;font-weight:600">a conversation,</text>
-        <text class="ss" x="500" y="268" style="fill:#d98a3d;font-weight:600">not a task</text>
-        <text class="ss" x="720" y="237">A rule that lives in one repository and binds the other &mdash;</text>
-        <text class="ss" x="720" y="259">which is where ADR-009 sits today</text>
-
-        <rect class="bx grow w4" x="4" y="288" width="1172" height="74" rx="6"/>
-        <text class="tt" x="24" y="318">4 &middot; A CI check that called endpoints exist</text>
-        <text class="ss" x="24" y="342" style="font-size:11.5px">only if the two repositories are built together anywhere</text>
-        <text class="ss" x="500" y="330">real work</text>
-        <text class="ss" x="720" y="307">The invented endpoint &mdash; mechanically, which is the</text>
-        <text class="ss" x="720" y="329">only failure on this list a machine can settle</text>
-        <text class="ss" x="720" y="351" style="font-size:11.5px;fill:#d98a3d">and it is the one your review agent cannot see</text>
-
-        <rect class="bx r" x="4" y="374" width="1172" height="74" rx="8"/>
-        <text class="lb r" x="24" y="398">WHAT NOT TO START WITH</text>
-        <text class="ss" x="24" y="424">Multi-root workspaces for everyone. Most visible, most expensive, delivers least &mdash; and a team that starts there</text>
-        <text class="ss" x="24" y="444">concludes this module was <tspan font-weight="600" fill="#e2726e">about tooling.</tspan> It is about a one-page document and a question in a template.</text>
+        <text class="lb w" x="24" y="380">THE HONEST LIMIT</text>
+        <text class="ss w" x="24" y="408" style="font-size:14px">Some cross-repo bugs are caught only by <tspan font-weight="700" fill="#e0b34d">a person who knows both sides.</tspan></text>
+        <text class="ss w" x="24" y="434" style="font-size:14px">So keep a human at the merge step for anything that crosses repos.</text>
       </svg>
     </div>
   </div>
 </section>
 
 <!-- 18 -->
+<section class="slide" data-sec="6 &middot; Shared libraries" data-title="What to do on Monday" data-notes="Practical closing slide, ordered by cost and by how soon it pays. The contract document is a morning and it is the highest return. The pull request template question is fifteen minutes and it catches the solo cross-repo change. Moving shared decisions somewhere shared is a conversation rather than a task. And the CI endpoint check is the only one that needs real work, and only if the two repositories are built together anywhere. Be explicit about what NOT to start with: do not begin by configuring multi-root workspaces for everyone, because it is the most visible change, the most expensive, and it delivers least. Teams that start there conclude the module was about tooling." data-tier="R">
+  <h2>What to do on Monday &mdash; in order<span class="tag k">6</span></h2>
+  <div class="body g1">
+    <div>
+      <svg viewBox="0 0 1180 452" role="img" aria-label="Four cross-repo practices ordered by cost and return">
+        <rect class="bx d" x="4" y="4" width="1172" height="30" rx="6"/>
+        <text class="lb w" x="24" y="24">DO</text>
+        <text class="lb w" x="520" y="24">COST</text>
+        <text class="lb w" x="720" y="24">WHAT IT CATCHES</text>
+
+        <rect class="bx g grow" x="4" y="42" width="1172" height="74" rx="6"/>
+        <text class="tt" x="24" y="72">1 &middot; A contract file in each repo</text>
+        <text class="ss" x="24" y="96" style="font-size:11.5px">what we call &middot; copied or generated &middot; errors &middot; merge order</text>
+        <text class="ss" x="520" y="84" style="fill:#5fbf8f;font-weight:600">a morning</text>
+        <text class="ss" x="720" y="72">Invented endpoints and errors. A merge-order</text>
+        <text class="ss" x="720" y="94">rule the other side could not see.</text>
+
+        <rect class="bx g grow w2" x="4" y="124" width="1172" height="74" rx="6"/>
+        <text class="tt" x="24" y="154">2 &middot; One question in the PR template</text>
+        <text class="ss" x="24" y="178" style="font-size:11.5px">&ldquo;Does this change a contract another repo uses? Link the pair, state the order.&rdquo;</text>
+        <text class="ss" x="520" y="166" style="fill:#5fbf8f;font-weight:600">fifteen minutes</text>
+        <text class="ss" x="720" y="155">The change where nobody noticed</text>
+        <text class="ss" x="720" y="177">there was a second half.</text>
+
+        <rect class="bx a grow w3" x="4" y="206" width="1172" height="74" rx="6"/>
+        <text class="tt" x="24" y="236">3 &middot; Move shared decisions to a shared place</text>
+        <text class="ss" x="24" y="260" style="font-size:11.5px">or at least link them from both repos</text>
+        <text class="ss" x="520" y="248" style="fill:#d98a3d;font-weight:600">a conversation,</text>
+        <text class="ss" x="520" y="268" style="fill:#d98a3d;font-weight:600">not a task</text>
+        <text class="ss" x="720" y="237">A rule in one repo that binds the other</text>
+        <text class="ss" x="720" y="259">&mdash; like ADR-009 today.</text>
+
+        <rect class="bx grow w4" x="4" y="288" width="1172" height="74" rx="6"/>
+        <text class="tt" x="24" y="318">4 &middot; A CI check that called endpoints exist</text>
+        <text class="ss" x="24" y="342" style="font-size:11.5px">only if both repos are built together somewhere</text>
+        <text class="ss" x="520" y="330">real work</text>
+        <text class="ss" x="720" y="307">The invented endpoint &mdash; the only failure</text>
+        <text class="ss" x="720" y="329">here a machine can catch.</text>
+        <text class="ss" x="720" y="351" style="font-size:11.5px;fill:#d98a3d">It is also the one your review agent cannot see.</text>
+
+        <rect class="bx r" x="4" y="374" width="1172" height="74" rx="8"/>
+        <text class="lb r" x="24" y="394">DO NOT START WITH</text>
+        <text class="ss" x="24" y="416">Multi-root workspaces for everyone. Most visible, most costly, least useful.</text>
+        <text class="ss" x="24" y="436">This module is about <tspan font-weight="600" fill="#e2726e">a one-page file and one template question</tspan> &mdash; not tools.</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 19 -->
 <section class="slide" data-sec="Close" data-title="What Module 7 hands forward" data-notes="Close the module and set up the last one. Four obligations on the left. Then the transition, and it is the one the whole course has been building toward: everything now works, up to the merged pull request - and the knowledge the ticket produced still goes nowhere. The decision made in the spec, the option rejected, the constraint discovered in a linked issue, the fact that the mirror was stale - all of that is in artifacts attached to one ticket, and none of it is where the next ticket will look. Module 8 closes that loop back to Module 2, which is where the course started. Say the shape out loud: the course is a circle, and the last module is what makes it one." data-tier="R">
-  <h2>What Module 7 hands forward<span class="tag">M7</span></h2>
+  <h2>What to take into Module 8<span class="tag">M7</span></h2>
   <div class="body g46">
     <div class="pts">
-      <h3>What you now owe, on a change that crosses a boundary</h3>
+      <h3>For any change that crosses repos</h3>
       <ul>
-        <li><b>Agree the contract before either side is touched.</b> It is a spec for an interface, and it is not a code change.</li>
-        <li><b>Sequence it: producer additive first, consumer second</b> &mdash; and write the order in words, because no diff encodes it.</li>
-        <li><b>Give the agent a summary, not a checkout.</b> One page beats tens of thousands of re-billed tokens.</li>
-        <li><b>Keep a human at the merge gate.</b> Some cross-repo defects are catchable only by someone who knows both sides.</li>
+        <li><b>Agree the contract</b> before touching code.</li>
+        <li><b>Producer first</b> (additive), consumer second. Write the order down.</li>
+        <li>Give the agent <b>a summary</b>, not the whole repo.</li>
+        <li><b>Keep a human</b> at the merge step.</li>
       </ul>
-      <div class="callout">And the thing to do Monday, with no tooling at all: <b>a one-page contract document in each repository</b>, and one question in the pull request template.</div>
-      <div class="take"><b>Into Module 8:</b> everything now works up to the merged pull request &mdash; and every decision you made getting there is about to be forgotten.</div>
+      <div class="callout">Do this Monday, with no tools: <b>a contract file in each repo</b>, and one question in the PR template.</div>
+      <div class="take"><b>Next, Module 8:</b> everything works up to the merge &mdash; and what you learned is about to be forgotten.</div>
     </div>
     <div>
       <svg viewBox="0 0 700 430" role="img" aria-label="The course as a loop, with Module 8 closing it back to Module 2">
-        <text class="lb g" x="4" y="13">WHAT THE COURSE HAS BUILT &mdash; TICKET TO MERGED PULL REQUEST</text>
+        <text class="lb g" x="4" y="13">WHAT THE COURSE HAS BUILT</text>
         <rect class="bx g" x="4" y="22" width="692" height="112" rx="8"/>
         <rect class="bx w rise" x="20" y="40" width="200" height="34" rx="5"/>
-        <text class="ss" x="120" y="62" text-anchor="middle" style="font-size:11.5px">ticket, pulled</text>
+        <text class="ss" x="120" y="62" text-anchor="middle" style="font-size:11.5px">ticket</text>
         <path class="ar" d="M224 57 L252 57"/>
         <rect class="bx w rise r2" x="256" y="40" width="200" height="34" rx="5"/>
         <text class="ss" x="356" y="62" text-anchor="middle" style="font-size:11.5px">spec &middot; plan &middot; tasks</text>
@@ -889,324 +880,316 @@ with the field set.
         <rect class="bx w rise r3" x="492" y="40" width="188" height="34" rx="5"/>
         <text class="ss" x="586" y="62" text-anchor="middle" style="font-size:11.5px">four agents</text>
         <rect class="bx w rise r4" x="20" y="84" width="660" height="34" rx="5"/>
-        <text class="ss" x="350" y="106" text-anchor="middle" style="font-size:11.5px">&rarr; coordinated pull requests, sequenced, merged</text>
+        <text class="ss" x="350" y="106" text-anchor="middle" style="font-size:11.5px">&rarr; paired pull requests, in order, merged</text>
         <text class="ss" x="20" y="130" style="font-size:11px;fill:#5fbf8f">Modules 1&ndash;7. All of it works.</text>
 
-        <text class="lb r" x="4" y="172">AND THEN IT ALL GOES NOWHERE</text>
+        <text class="lb r" x="4" y="172">BUT WHAT YOU LEARNED IS LOST</text>
         <rect class="bx r" x="4" y="182" width="692" height="146" rx="8"/>
         <rect class="bx w" x="20" y="200" width="660" height="28" rx="5"/>
-        <text class="ss" x="34" y="219">The decision you took in the spec &mdash; and the option you rejected</text>
+        <text class="ss" x="34" y="219">The decision in the spec &mdash; and the option you rejected</text>
         <rect class="bx w" x="20" y="234" width="660" height="28" rx="5"/>
-        <text class="ss" x="34" y="253">The constraint you found in a linked issue nobody had read</text>
+        <text class="ss" x="34" y="253">A limit you found in a linked issue nobody had read</text>
         <rect class="bx w" x="20" y="268" width="660" height="28" rx="5"/>
-        <text class="ss" x="34" y="287">The fact that the mirrored type had drifted, and why</text>
-        <text class="ss" x="20" y="318" style="fill:#e2726e;font-weight:600">All attached to one ticket. None of it where the next ticket will look.</text>
+        <text class="ss" x="34" y="287">The fact that the copied type was out of date, and why</text>
+        <text class="ss" x="20" y="318" style="fill:#e2726e;font-weight:600">All stuck on one ticket. The next ticket will not find it.</text>
 
         <rect class="bx d" x="4" y="342" width="692" height="88" rx="8"/>
-        <text class="lb w" x="24" y="366">MODULE 8 &mdash; AND IT CLOSES BACK TO MODULE 2</text>
-        <text class="ss w" x="24" y="392" style="font-size:14px">Review, the pull request, and the documentation that feeds the</text>
-        <text class="ss w" x="24" y="414" style="font-size:14px">next ticket. <tspan font-weight="700" fill="#e0b34d">The course is a circle</tspan>, and the last module is what makes it one.</text>
-      </svg>
-    </div>
-  </div>
-</section>
-
-<!-- 19 -->
-<section class="slide" data-sec="Review quiz" data-title="Review quiz - eight questions" data-notes="Questions 3, 5 and 7 carry the most - 3 because sequencing is the mechanic, 5 because the reviewer blind spot is the lab, 7 because shared-library tiering is the governance answer. If short, run 3, 5, 6 and 8." data-tier="R">
-  <h2>Review quiz &mdash; eight questions<span class="tag q">QUIZ</span></h2>
-  <div class="body g55">
-    <div class="pts">
-      <h3>How this runs</h3>
-      <ul>
-        <li>Four options, one right. <b>Show of hands on each</b> before the answer.</li>
-        <li>Every question comes from something you will do in Labs 2.5 and 2.6.</li>
-      </ul>
-      <h3>If time is short</h3>
-      <ul>
-        <li>Run <b>3, 5, 6 and 8</b>. Sequencing, the reviewer's blind spot, shared libraries, and the hand-over to Module 8.</li>
-      </ul>
-      <div class="take">Question 5 is the lab in advance. If the room gets it, Lab 2.6 lands harder &mdash; they will be watching for it.</div>
-    </div>
-    <div>
-      <svg viewBox="0 0 700 420" role="img" aria-label="What the eight quiz questions cover">
-        <rect class="bx p" x="4" y="4" width="692" height="412" rx="8"/>
-        <text class="lb p" x="24" y="32">WHAT THE EIGHT COVER</text>
-        <rect class="bx w rise" x="24" y="44" width="652" height="40" rx="5"/>
-        <text class="ss" x="40" y="69"><tspan font-weight="700">1 &middot;</tspan> Why an agent degrades across a boundary</text>
-        <rect class="bx w rise r2" x="24" y="90" width="652" height="40" rx="5"/>
-        <text class="ss" x="40" y="115"><tspan font-weight="700">2 &middot;</tspan> Which cross-repo failure is found latest</text>
-        <rect class="bx w rise r3" x="24" y="136" width="652" height="40" rx="5"/>
-        <text class="ss" x="40" y="161"><tspan font-weight="700">3 &middot;</tspan> Why the producer merges first</text>
-        <rect class="bx w rise r4" x="24" y="182" width="652" height="40" rx="5"/>
-        <text class="ss" x="40" y="207"><tspan font-weight="700">4 &middot;</tspan> Rolling back half a cross-repo change</text>
-        <rect class="bx w rise r5" x="24" y="228" width="652" height="40" rx="5"/>
-        <text class="ss" x="40" y="253"><tspan font-weight="700">5 &middot;</tspan> What the review agent cannot see</text>
-        <rect class="bx w rise r6" x="24" y="274" width="652" height="40" rx="5"/>
-        <text class="ss" x="40" y="299"><tspan font-weight="700">6 &middot;</tspan> Cheapest way to give it the other side</text>
-        <rect class="bx w rise r6" x="24" y="320" width="652" height="40" rx="5"/>
-        <text class="ss" x="40" y="345"><tspan font-weight="700">7 &middot;</tspan> What an agent may change in a shared library</text>
-        <rect class="bx w rise r6" x="24" y="366" width="652" height="40" rx="5"/>
-        <text class="ss" x="40" y="391"><tspan font-weight="700">8 &middot;</tspan> What is left after the pull request merges</text>
+        <text class="lb w" x="24" y="366">MODULE 8 &mdash; BACK TO MODULE 2</text>
+        <text class="ss w" x="24" y="392" style="font-size:14px">Review, the PR, and docs that help the next ticket.</text>
+        <text class="ss w" x="24" y="414" style="font-size:14px"><tspan font-weight="700" fill="#e0b34d">The course is a loop.</tspan> Module 8 closes it.</text>
       </svg>
     </div>
   </div>
 </section>
 
 <!-- 20 -->
-<section class="slide" data-sec="Review quiz" data-title="Q1 - why it degrades" data-notes="Warm-up. D is the one to kill because it is the comfortable explanation." data-tier="R">
-  <h2>Q1 &middot; Why does an agent do worse across a boundary?<span class="tag q">1 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">Same model, same instructions, same ticket. Working in the consumer on a change that touches the producer, it makes mistakes it would not make inside one repository. Why?</div>
-    <div class="opts">
-      <div class="opt"><span class="k">A</span><span>It is reasoning about a system it can see half of, and nothing tells it which half is missing.</span></div>
-      <div class="opt"><span class="k">B</span><span>Cross-repo changes are larger, so more of the work falls outside a single context window.</span></div>
-      <div class="opt"><span class="k">C</span><span>Two sets of instruction files conflict, and the agent cannot tell which takes precedence.</span></div>
-      <div class="opt"><span class="k">D</span><span>Cross-repo work is intrinsically harder, so a higher error rate is expected and largely unavoidable.</span></div>
+<section class="slide" data-sec="Review quiz" data-title="Review quiz - eight questions" data-notes="Questions 3, 5 and 7 carry the most - 3 because sequencing is the mechanic, 5 because the reviewer blind spot is the lab, 7 because shared-library tiering is the governance answer. If short, run 3, 5, 6 and 8." data-tier="R">
+  <h2>Review quiz &mdash; eight questions<span class="tag q">QUIZ</span></h2>
+  <div class="body g55">
+    <div class="pts">
+      <h3>How this runs</h3>
+      <ul>
+        <li>Four options, one right. <b>Raise hands for each option</b> before the answer.</li>
+        <li>Every question comes from Labs 2.5 and 2.6.</li>
+      </ul>
+      <h3>Short on time?</h3>
+      <ul>
+        <li>Run questions <b>3, 5, 6 and 8</b>.</li>
+      </ul>
+      <div class="take">Question 5 is the lab in advance. If the room gets it, they will watch for it in Lab 2.6.</div>
     </div>
-    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
-  </div></div>
+    <div>
+      <svg viewBox="0 0 700 420" role="img" aria-label="What the eight quiz questions cover">
+        <rect class="bx p" x="4" y="4" width="692" height="412" rx="8"/>
+        <text class="lb p" x="24" y="32">WHAT THE EIGHT COVER</text>
+        <rect class="bx w rise" x="24" y="44" width="652" height="40" rx="5"/>
+        <text class="ss" x="40" y="69"><tspan font-weight="700">1 &middot;</tspan> Why an agent does worse across repos</text>
+        <rect class="bx w rise r2" x="24" y="90" width="652" height="40" rx="5"/>
+        <text class="ss" x="40" y="115"><tspan font-weight="700">2 &middot;</tspan> Which failure is found last</text>
+        <rect class="bx w rise r3" x="24" y="136" width="652" height="40" rx="5"/>
+        <text class="ss" x="40" y="161"><tspan font-weight="700">3 &middot;</tspan> Why the producer merges first</text>
+        <rect class="bx w rise r4" x="24" y="182" width="652" height="40" rx="5"/>
+        <text class="ss" x="40" y="207"><tspan font-weight="700">4 &middot;</tspan> Which half to undo first</text>
+        <rect class="bx w rise r5" x="24" y="228" width="652" height="40" rx="5"/>
+        <text class="ss" x="40" y="253"><tspan font-weight="700">5 &middot;</tspan> What the review agent cannot see</text>
+        <rect class="bx w rise r6" x="24" y="274" width="652" height="40" rx="5"/>
+        <text class="ss" x="40" y="299"><tspan font-weight="700">6 &middot;</tspan> Cheapest way to show the other repo</text>
+        <rect class="bx w rise r6" x="24" y="320" width="652" height="40" rx="5"/>
+        <text class="ss" x="40" y="345"><tspan font-weight="700">7 &middot;</tspan> What an agent may change in a shared library</text>
+        <rect class="bx w rise r6" x="24" y="366" width="652" height="40" rx="5"/>
+        <text class="ss" x="40" y="391"><tspan font-weight="700">8 &middot;</tspan> What is still missing after the merge</text>
+      </svg>
+    </div>
+  </div>
 </section>
 
 <!-- 21 -->
+<section class="slide" data-sec="Review quiz" data-title="Q1 - why it degrades" data-notes="Warm-up. D is the one to kill because it is the comfortable explanation." data-tier="R">
+  <h2>Q1 &middot; Why does an agent do worse across repos?<span class="tag q">1 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">Same model, same instructions, same ticket. In the consumer repo, on a change that touches the producer, it makes more mistakes. Why?</div>
+    <div class="opts">
+      <div class="opt"><span class="k">A</span><span>It sees half the system and does not know which half is missing.</span></div>
+      <div class="opt"><span class="k">B</span><span>Cross-repo changes are bigger and overflow the context window.</span></div>
+      <div class="opt"><span class="k">C</span><span>The two repos&rsquo; instruction files conflict with each other.</span></div>
+      <div class="opt"><span class="k">D</span><span>Cross-repo work is simply harder, so more errors are normal.</span></div>
+    </div>
+    <div class="qmeta">Raise hands for each option before advancing &middot; answer on the next slide</div>
+  </div></div>
+</section>
+
+<!-- 22 -->
 <section class="slide" data-sec="Review quiz" data-title="Q1 - answer" data-notes="Kill D explicitly: it is comfortable, it explains nothing, and it stops the team looking for the fix - which is a one-page document." data-tier="R">
   <h2>Q1 &middot; Answer<span class="tag q">1 of 8</span></h2>
   <div class="body g1"><div>
     <div class="qz">Why does it do worse?</div>
     <div class="opts">
-      <div class="opt right"><span class="k">A</span><span>It reasons about a system it can see half of &mdash; and nothing tells it which half is missing.</span></div>
-      <div class="opt wrong"><span class="k">B</span><span>Cross-repo changes are larger.</span></div>
-      <div class="opt wrong"><span class="k">C</span><span>Two instruction files conflict.</span></div>
-      <div class="opt wrong"><span class="k">D</span><span>It is intrinsically harder.</span></div>
+      <div class="opt right"><span class="k">A</span><span>It sees half the system &mdash; and does not know which half is missing.</span></div>
+      <div class="opt wrong"><span class="k">B</span><span>Cross-repo changes are bigger.</span></div>
+      <div class="opt wrong"><span class="k">C</span><span>The instruction files conflict.</span></div>
+      <div class="opt wrong"><span class="k">D</span><span>It is simply harder.</span></div>
     </div>
-    <div class="why"><b>A.</b> And the second clause is the important one: it does not know it is missing anything, so it does not stop, ask or hedge. It reads as the agent getting worse rather than the situation getting harder.
-      <span class="no"><b>D</b> is the comfortable answer, it explains nothing, and it stops a team looking for the fix &mdash; which is a one-page contract document. <b>B</b> is sometimes true and not the cause; a one-line cross-repo change has the same problem. <b>C</b> describes a real annoyance of multi-root workspaces, not the failure.</span></div>
-  </div></div>
-</section>
-
-<!-- 22 -->
-<section class="slide" data-sec="Review quiz" data-title="Q2 - found latest" data-notes="Checks the taxonomy. Expect a split between C and D and it is a good split - both are found late." data-tier="R">
-  <h2>Q2 &middot; Which cross-repo failure is discovered latest?<span class="tag q">2 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">All four eventually surface. Which one typically surfaces last, and costs most?</div>
-    <div class="opts">
-      <div class="opt"><span class="k">A</span><span>Shape drift &mdash; the mirrored type has fallen behind the producer's.</span></div>
-      <div class="opt"><span class="k">B</span><span>Semantic drift &mdash; both sides compile and pass, and disagree about what a field means.</span></div>
-      <div class="opt"><span class="k">C</span><span>An invented endpoint &mdash; the consumer calls a path the producer never exposed.</span></div>
-      <div class="opt"><span class="k">D</span><span>Ordering &mdash; both changes correct, merged in the wrong sequence.</span></div>
-    </div>
-    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+    <div class="why"><b>A.</b> The key part: it does not know anything is missing, so it does not stop or ask. It looks like the agent got worse.
+      <span class="no"><b>D</b> sounds comfortable but explains nothing, and it stops the team looking for the fix: a one-page contract file. <b>B</b> is sometimes true, but a one-line change has the same problem. <b>C</b> is a real annoyance of multi-root workspaces, not the cause.</span></div>
   </div></div>
 </section>
 
 <!-- 23 -->
-<section class="slide" data-sec="Review quiz" data-title="Q2 - answer" data-notes="The distinction worth drawing: ordering fails in production but it fails FAST and loudly, so it is found within minutes. Semantic drift can run for weeks producing numbers that are quietly wrong, which is why it costs most in a ledger." data-tier="R">
-  <h2>Q2 &middot; Answer<span class="tag q">2 of 8</span></h2>
+<section class="slide" data-sec="Review quiz" data-title="Q2 - found latest" data-notes="Checks the taxonomy. Expect a split between C and D and it is a good split - both are found late." data-tier="R">
+  <h2>Q2 &middot; Which cross-repo failure is found last?<span class="tag q">2 of 8</span></h2>
   <div class="body g1"><div>
-    <div class="qz">Which surfaces last?</div>
+    <div class="qz">All four show up in the end. Which one is found last, and costs the most?</div>
     <div class="opts">
-      <div class="opt wrong"><span class="k">A</span><span>Shape drift.</span></div>
-      <div class="opt right"><span class="k">B</span><span>Semantic drift &mdash; nothing about it is a type error, so nothing fails.</span></div>
-      <div class="opt wrong"><span class="k">C</span><span>An invented endpoint.</span></div>
-      <div class="opt wrong"><span class="k">D</span><span>Ordering.</span></div>
+      <div class="opt"><span class="k">A</span><span>Shape drift &mdash; the copied type has fallen behind.</span></div>
+      <div class="opt"><span class="k">B</span><span>Semantic drift &mdash; both pass, but read a field differently.</span></div>
+      <div class="opt"><span class="k">C</span><span>Invented endpoint &mdash; the consumer calls a missing path.</span></div>
+      <div class="opt"><span class="k">D</span><span>Ordering &mdash; both correct, merged in the wrong order.</span></div>
     </div>
-    <div class="why"><b>B.</b> A date that means <em>receipt</em> on one side and <em>economic effect</em> on the other produces a system that runs perfectly and reports wrong numbers. It surfaces as a reconciliation break, weeks later, and by then a lot of data carries it.
-      <span class="no"><b>D</b> is the good near-miss and worth two minutes: ordering does fail in production &mdash; but it fails <em>fast and loudly</em>, usually within minutes of the deploy. <b>C</b> fails at runtime with a 404, which is unambiguous. <b>A</b> usually fails at the first integration test.
-      <b>The pattern:</b> the failures that produce an error are the cheap ones.</span></div>
+    <div class="qmeta">Raise hands for each option before advancing &middot; answer on the next slide</div>
   </div></div>
 </section>
 
 <!-- 24 -->
-<section class="slide" data-sec="Review quiz" data-title="Q3 - why producer first" data-notes="The mechanic. If they can state the asymmetry rather than the rule, they can apply it to a case this course never showed them." data-tier="K">
-  <h2>Q3 &middot; Why does the producer merge first?<span class="tag q">3 of 8</span></h2>
+<section class="slide" data-sec="Review quiz" data-title="Q2 - answer" data-notes="The distinction worth drawing: ordering fails in production but it fails FAST and loudly, so it is found within minutes. Semantic drift can run for weeks producing numbers that are quietly wrong, which is why it costs most in a ledger." data-tier="R">
+  <h2>Q2 &middot; Answer<span class="tag q">2 of 8</span></h2>
   <div class="body g1"><div>
-    <div class="qz">GB-158 adds an optional <code>settlementDate</code>. The producer PR merges before the consumer PR. What makes that the right order rather than a convention?</div>
+    <div class="qz">Which is found last?</div>
     <div class="opts">
-      <div class="opt"><span class="k">A</span><span>The producer owns the contract, so contract changes should originate on that side.</span></div>
-      <div class="opt"><span class="k">B</span><span>The producer's tests are more comprehensive, so problems are more likely to be caught there first.</span></div>
-      <div class="opt"><span class="k">C</span><span>An additive producer change is safe for every existing consumer; a consumer sending a new field is only safe once the producer accepts it.</span></div>
-      <div class="opt"><span class="k">D</span><span>It matches the direction of the dependency &mdash; the consumer depends on the producer, so the dependency ships first.</span></div>
+      <div class="opt wrong"><span class="k">A</span><span>Shape drift.</span></div>
+      <div class="opt right"><span class="k">B</span><span>Semantic drift &mdash; it is not a type error, so nothing fails.</span></div>
+      <div class="opt wrong"><span class="k">C</span><span>Invented endpoint.</span></div>
+      <div class="opt wrong"><span class="k">D</span><span>Ordering.</span></div>
     </div>
-    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+    <div class="why"><b>B.</b> A date means &ldquo;received&rdquo; on one side and &ldquo;takes effect&rdquo; on the other. Everything runs, but the numbers are wrong. It shows up weeks later, when accounts do not match.
+      <span class="no"><b>D</b> is close: ordering fails in production too, but fast and loudly, within minutes. <b>C</b> fails with a clear 404. <b>A</b> usually fails in the first integration test. <b>The pattern:</b> failures that raise an error are the cheap ones.</span></div>
   </div></div>
 </section>
 
 <!-- 25 -->
+<section class="slide" data-sec="Review quiz" data-title="Q3 - why producer first" data-notes="The mechanic. If they can state the asymmetry rather than the rule, they can apply it to a case this course never showed them." data-tier="K">
+  <h2>Q3 &middot; Why does the producer merge first?<span class="tag q">3 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">GB-158 adds an optional <code>settlementDate</code>. The producer PR merges first. Why is that the right order, not just a habit?</div>
+    <div class="opts">
+      <div class="opt"><span class="k">A</span><span>The producer owns the contract, so changes start on its side.</span></div>
+      <div class="opt"><span class="k">B</span><span>The producer&rsquo;s tests are better, so problems show up there first.</span></div>
+      <div class="opt"><span class="k">C</span><span>Adding a field is safe for callers; sending one is safe once accepted.</span></div>
+      <div class="opt"><span class="k">D</span><span>The consumer depends on the producer, so the dependency goes first.</span></div>
+    </div>
+    <div class="qmeta">Raise hands for each option before advancing &middot; answer on the next slide</div>
+  </div></div>
+</section>
+
+<!-- 26 -->
 <section class="slide" data-sec="Review quiz" data-title="Q3 - answer" data-notes="D is the plausible wrong answer and it is worth killing carefully, because it gives the right order for the wrong reason - and the wrong reason gives the wrong answer on the rollback, where the dependency direction is unchanged but the order reverses." data-tier="K">
   <h2>Q3 &middot; Answer<span class="tag q">3 of 8</span></h2>
   <div class="body g1"><div>
     <div class="qz">Why producer first?</div>
     <div class="opts">
       <div class="opt wrong"><span class="k">A</span><span>The producer owns the contract.</span></div>
-      <div class="opt wrong"><span class="k">B</span><span>Its tests are more comprehensive.</span></div>
-      <div class="opt right"><span class="k">C</span><span>Additive producer changes are safe for existing consumers; a consumer sending a new field is not safe until the producer accepts it.</span></div>
-      <div class="opt wrong"><span class="k">D</span><span>It matches the dependency direction.</span></div>
+      <div class="opt wrong"><span class="k">B</span><span>Its tests are better.</span></div>
+      <div class="opt right"><span class="k">C</span><span>Adding is safe for callers; sending is safe only once accepted.</span></div>
+      <div class="opt wrong"><span class="k">D</span><span>The dependency goes first.</span></div>
     </div>
-    <div class="why"><b>C.</b> The asymmetry, not the convention. Learn it as the asymmetry and you can apply it to cases this course never showed you.
-      <span class="no"><b>D</b> is the dangerous one because it gives the <em>right order for the wrong reason</em> &mdash; and the wrong reason fails on the rollback, where the dependency direction is unchanged but the order reverses: <b>consumer reverts first</b>. <b>A</b> is about ownership, not safety. <b>B</b> is not reliably true and would not matter if it were.</span></div>
-  </div></div>
-</section>
-
-<!-- 26 -->
-<section class="slide" data-sec="Review quiz" data-title="Q4 - half of it landed" data-notes="Applies the asymmetry backwards. This is the release manager's question." data-tier="R">
-  <h2>Q4 &middot; You must revert. In which order?<span class="tag q">4 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">Both halves of GB-158 are merged and deployed. Something unrelated forces a rollback of the whole ticket. What goes first?</div>
-    <div class="opts">
-      <div class="opt"><span class="k">A</span><span>The producer &mdash; reverse the order it went in, so the contract change is removed at the source.</span></div>
-      <div class="opt"><span class="k">B</span><span>Both together, in one coordinated window, since the change was one ticket.</span></div>
-      <div class="opt"><span class="k">C</span><span>Whichever is riskier to leave in place, judged at the time by whoever is running the rollback.</span></div>
-      <div class="opt"><span class="k">D</span><span>The consumer &mdash; stop sending the field before the producer stops accepting it.</span></div>
-    </div>
-    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+    <div class="why"><b>C.</b> Learn the reason, not the rule, and you can use it on cases this course never showed.
+      <span class="no"><b>D</b> is the dangerous one: right order, wrong reason. On rollback the dependency is the same, but the order flips &mdash; <em>consumer first</em>. <b>A</b> is about ownership, not safety. <b>B</b> is not always true, and would not matter anyway.</span></div>
   </div></div>
 </section>
 
 <!-- 27 -->
-<section class="slide" data-sec="Review quiz" data-title="Q4 - answer" data-notes="The generalisation worth stating: reverting runs the sequence backwards, and the same asymmetry decides it. And the corollary they should take away - if only half of a cross-repo change lands, you want the half that landed to be the producer, because that half is safe on its own." data-tier="R">
-  <h2>Q4 &middot; Answer<span class="tag q">4 of 8</span></h2>
+<section class="slide" data-sec="Review quiz" data-title="Q4 - half of it landed" data-notes="Applies the asymmetry backwards. This is the release manager's question." data-tier="R">
+  <h2>Q4 &middot; You must undo it. In which order?<span class="tag q">4 of 8</span></h2>
   <div class="body g1"><div>
-    <div class="qz">Which half reverts first?</div>
+    <div class="qz">Both halves of GB-158 are merged and deployed. Something forces you to undo the whole ticket. What goes first?</div>
     <div class="opts">
-      <div class="opt wrong"><span class="k">A</span><span>The producer.</span></div>
-      <div class="opt wrong"><span class="k">B</span><span>Both together.</span></div>
-      <div class="opt wrong"><span class="k">C</span><span>Whichever is riskier, judged at the time.</span></div>
-      <div class="opt right"><span class="k">D</span><span>The consumer &mdash; stop sending the field before the producer stops accepting it.</span></div>
+      <div class="opt"><span class="k">A</span><span>The producer &mdash; undo the change where it started.</span></div>
+      <div class="opt"><span class="k">B</span><span>Both together, in one planned deploy window.</span></div>
+      <div class="opt"><span class="k">C</span><span>Whichever looks riskier, decided at the time.</span></div>
+      <div class="opt"><span class="k">D</span><span>The consumer &mdash; stop sending the field first.</span></div>
     </div>
-    <div class="why"><b>D.</b> Reverting runs the sequence backwards, decided by the same asymmetry. Revert the producer first and you leave a consumer sending a field nobody accepts &mdash; which is the exact failure the ordering existed to prevent, arrived at from the other direction.
-      <span class="no"><b>C</b> is what happens in practice when nobody wrote the order down, and it is a judgement made under pressure by whoever is on call. <b>B</b> is a coordinated deploy, which is the shape you sequenced specifically to avoid needing.
-      <b>The corollary worth keeping:</b> if only half of a cross-repo change lands, you want the half that landed to be <em>the producer</em> &mdash; it is safe on its own.</span></div>
+    <div class="qmeta">Raise hands for each option before advancing &middot; answer on the next slide</div>
   </div></div>
 </section>
 
 <!-- 28 -->
-<section class="slide" data-sec="Review quiz" data-title="Q5 - the reviewer's blind spot" data-notes="This is Lab 2.6 in advance. Let it run and let someone argue for A - being able to say why the reviewer misses it is the point." data-tier="K" data-after="lab">
-  <h2>Q5 &middot; Your review agent will miss one of these. Which?<span class="tag q">5 of 8</span></h2>
+<section class="slide" data-sec="Review quiz" data-title="Q4 - answer" data-notes="The generalisation worth stating: reverting runs the sequence backwards, and the same asymmetry decides it. And the corollary they should take away - if only half of a cross-repo change lands, you want the half that landed to be the producer, because that half is safe on its own." data-tier="R">
+  <h2>Q4 &middot; Answer<span class="tag q">4 of 8</span></h2>
   <div class="body g1"><div>
-    <div class="qz">You give the review agent the consumer diff, the ticket and the consumer's ADRs. Which of these problems is it structurally unable to catch?</div>
+    <div class="qz">Which half is undone first?</div>
     <div class="opts">
-      <div class="opt"><span class="k">A</span><span>A defaulting rule that contradicts the ticket's first acceptance criterion.</span></div>
-      <div class="opt"><span class="k">B</span><span>A new method calling <code>/api/v1/settlement-date</code> &mdash; an endpoint the producer does not serve.</span></div>
-      <div class="opt"><span class="k">C</span><span>A test that asserts only that a field is non-null, rather than asserting the value.</span></div>
-      <div class="opt"><span class="k">D</span><span>A change touching a file the ticket's scope section excluded.</span></div>
+      <div class="opt wrong"><span class="k">A</span><span>The producer.</span></div>
+      <div class="opt wrong"><span class="k">B</span><span>Both together.</span></div>
+      <div class="opt wrong"><span class="k">C</span><span>Whichever looks riskier.</span></div>
+      <div class="opt right"><span class="k">D</span><span>The consumer &mdash; stop sending the field first.</span></div>
     </div>
-    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+    <div class="why"><b>D.</b> Undo runs the order backwards, for the same reason. Undo the producer first, and the consumer sends a field nobody accepts.
+      <span class="no"><b>C</b> is what happens when nobody wrote the order down: a decision under pressure. <b>B</b> is a joint deploy &mdash; what the ordering was meant to avoid. <b>Remember:</b> if only half lands, you want it to be the producer half. It is safe alone.</span></div>
   </div></div>
 </section>
 
 <!-- 29 -->
-<section class="slide" data-sec="Review quiz" data-title="Q5 - answer" data-notes="Land the structural point: A, C and D are all checkable from inside the consumer repository, and B is not - not because the reviewer is weak, but because the fact lives on the other side of a boundary it was never given. Then tell them Lab 2.6 contains exactly this pair, and they should watch for which one their reviewer reports." data-tier="K" data-after="lab">
-  <h2>Q5 &middot; Answer<span class="tag q">5 of 8</span></h2>
+<section class="slide" data-sec="Review quiz" data-title="Q5 - the reviewer's blind spot" data-notes="This is Lab 2.6 in advance. Let it run and let someone argue for A - being able to say why the reviewer misses it is the point." data-tier="K" data-after="lab">
+  <h2>Q5 &middot; Your review agent will miss one of these. Which?<span class="tag q">5 of 8</span></h2>
   <div class="body g1"><div>
-    <div class="qz">Which is it structurally unable to catch?</div>
+    <div class="qz">You give the review agent the consumer diff, the ticket and the consumer&rsquo;s ADRs. Which problem can it never catch?</div>
     <div class="opts">
-      <div class="opt wrong"><span class="k">A</span><span>A defaulting rule contradicting a criterion.</span></div>
-      <div class="opt right"><span class="k">B</span><span>A call to an endpoint the producer does not serve.</span></div>
-      <div class="opt wrong"><span class="k">C</span><span>A test asserting only non-null.</span></div>
-      <div class="opt wrong"><span class="k">D</span><span>A change outside the stated scope.</span></div>
+      <div class="opt"><span class="k">A</span><span>A default that breaks the ticket&rsquo;s first acceptance criterion.</span></div>
+      <div class="opt"><span class="k">B</span><span>A call to <code>/api/v1/settlement-date</code>, which the producer does not serve.</span></div>
+      <div class="opt"><span class="k">C</span><span>A test that only checks that a field is not null.</span></div>
+      <div class="opt"><span class="k">D</span><span>A change to a file the ticket said not to touch.</span></div>
     </div>
-    <div class="why"><b>B.</b> <b>A</b>, <b>C</b> and <b>D</b> are all checkable from inside the consumer repository &mdash; against the ticket, against the test, against the scope list. <b>B</b> requires knowing what the <em>producer</em> serves, and that fact is on the other side of a boundary the reviewer was never given.
-      <span class="no">This is not a weak reviewer. It is Module 4's independence &mdash; a different context from the author &mdash; meeting a boundary, where the missing context is now the thing it needed. The two fixes are the interface summary and a CI check, and both are imperfect.
-      <b>Lab 2.6 contains exactly this pair.</b> Watch which one your reviewer reports, and which it does not.</span></div>
+    <div class="qmeta">Raise hands for each option before advancing &middot; answer on the next slide</div>
   </div></div>
 </section>
 
 <!-- 30 -->
-<section class="slide" data-sec="Review quiz" data-title="Q6 - cheapest context" data-notes="Quick. B is the instinct and it is the most expensive option on the slide." data-tier="R">
-  <h2>Q6 &middot; Cheapest way to give the agent the other side?<span class="tag q">6 of 8</span></h2>
+<section class="slide" data-sec="Review quiz" data-title="Q5 - answer" data-notes="Land the structural point: A, C and D are all checkable from inside the consumer repository, and B is not - not because the reviewer is weak, but because the fact lives on the other side of a boundary it was never given. Then tell them Lab 2.6 contains exactly this pair, and they should watch for which one their reviewer reports." data-tier="K" data-after="lab">
+  <h2>Q5 &middot; Answer<span class="tag q">5 of 8</span></h2>
   <div class="body g1"><div>
-    <div class="qz">Your agent needs to know what the producer serves and how it fails. What do you reach for first?</div>
+    <div class="qz">Which can it never catch?</div>
     <div class="opts">
-      <div class="opt"><span class="k">A</span><span>A one-page interface summary, maintained in this repository under the same-PR rule.</span></div>
-      <div class="opt"><span class="k">B</span><span>A multi-root workspace with both repositories open, so it can read the producer directly.</span></div>
-      <div class="opt"><span class="k">C</span><span>An MCP connection to the producer's repository, so it can fetch files on demand.</span></div>
-      <div class="opt"><span class="k">D</span><span>A copy of the producer's documentation, vendored into this repository and refreshed weekly.</span></div>
+      <div class="opt wrong"><span class="k">A</span><span>A default that breaks a criterion.</span></div>
+      <div class="opt right"><span class="k">B</span><span>A call to an endpoint the producer does not serve.</span></div>
+      <div class="opt wrong"><span class="k">C</span><span>A test that only checks not-null.</span></div>
+      <div class="opt wrong"><span class="k">D</span><span>A change outside the ticket&rsquo;s scope.</span></div>
     </div>
-    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+    <div class="why"><b>B.</b> Only B needs a fact from the producer. <b>A</b>, <b>C</b> and <b>D</b> can be checked inside the consumer repo &mdash; against the ticket, the test and the scope. The reviewer was never given the producer side.
+      <span class="no">The reviewer is not weak. Module 4 gave it a separate context on purpose. Across repos, that context is missing the one fact it needs. The fixes are the contract file and a CI check, and both have limits. <b>Lab 2.6 has exactly this pair</b> &mdash; watch which one your reviewer reports.</span></div>
   </div></div>
 </section>
 
 <!-- 31 -->
-<section class="slide" data-sec="Review quiz" data-title="Q6 - answer" data-notes="D is worth naming as the worst option even though it looks diligent - it is signing up to maintain a mirror of a thing you do not own, and refreshed weekly means wrong for up to a week, silently." data-tier="R">
-  <h2>Q6 &middot; Answer<span class="tag q">6 of 8</span></h2>
+<section class="slide" data-sec="Review quiz" data-title="Q6 - cheapest context" data-notes="Quick. B is the instinct and it is the most expensive option on the slide." data-tier="R">
+  <h2>Q6 &middot; Cheapest way to show the agent the other repo?<span class="tag q">6 of 8</span></h2>
   <div class="body g1"><div>
-    <div class="qz">What do you reach for first?</div>
+    <div class="qz">Your agent needs to know what the producer serves and how it fails. What do you try first?</div>
     <div class="opts">
-      <div class="opt right"><span class="k">A</span><span>A one-page interface summary, under the same-PR rule.</span></div>
-      <div class="opt wrong"><span class="k">B</span><span>A multi-root workspace.</span></div>
-      <div class="opt wrong"><span class="k">C</span><span>An MCP connection to the producer's repository.</span></div>
-      <div class="opt wrong"><span class="k">D</span><span>Vendor their documentation, refreshed weekly.</span></div>
+      <div class="opt"><span class="k">A</span><span>A one-page contract file in this repo, updated in the same PR.</span></div>
+      <div class="opt"><span class="k">B</span><span>A multi-root workspace, so it reads the producer&rsquo;s code directly.</span></div>
+      <div class="opt"><span class="k">C</span><span>An MCP connection to the producer&rsquo;s repo, to fetch files when needed.</span></div>
+      <div class="opt"><span class="k">D</span><span>A weekly copy of the producer&rsquo;s documentation, kept in this repo.</span></div>
     </div>
-    <div class="why"><b>A.</b> A few hundred tokens against tens of thousands, and it carries the things the agent genuinely cannot infer: what you call, whether the types are mirrored, the failure semantics, the sequencing rule.
-      <span class="no"><b>B</b> is the instinct and the most expensive option here &mdash; both repositories reachable means both get read, and the window fills with a codebase you were not working on. <b>C</b> is better than <b>B</b> and still a search waiting to happen, with the tool budget problem from Module 6. <b>D</b> looks diligent and is the worst: it is signing up to maintain a mirror of something you do not own, and &ldquo;refreshed weekly&rdquo; means wrong for up to a week, silently.</span></div>
+    <div class="qmeta">Raise hands for each option before advancing &middot; answer on the next slide</div>
   </div></div>
 </section>
 
 <!-- 32 -->
-<section class="slide" data-sec="Review quiz" data-title="Q7 - shared library tiers" data-notes="Governance. The trap is that all four look like small, reasonable changes." data-tier="R">
-  <h2>Q7 &middot; Which shared-library change needs the owner?<span class="tag q">7 of 8</span></h2>
+<section class="slide" data-sec="Review quiz" data-title="Q6 - answer" data-notes="D is worth naming as the worst option even though it looks diligent - it is signing up to maintain a mirror of a thing you do not own, and refreshed weekly means wrong for up to a week, silently." data-tier="R">
+  <h2>Q6 &middot; Answer<span class="tag q">6 of 8</span></h2>
   <div class="body g1"><div>
-    <div class="qz">Four small changes to a library used by six services you cannot see. Which one cannot be made by an agent unattended?</div>
+    <div class="qz">What do you try first?</div>
     <div class="opts">
-      <div class="opt"><span class="k">A</span><span>Adding a new overload of an existing method.</span></div>
-      <div class="opt"><span class="k">B</span><span>Adding a validation that rejects an input which was already documented as invalid.</span></div>
-      <div class="opt"><span class="k">C</span><span>Adding tests and documentation for behaviour that already exists.</span></div>
-      <div class="opt"><span class="k">D</span><span>Changing the default value of an existing optional parameter.</span></div>
+      <div class="opt right"><span class="k">A</span><span>A one-page contract file, updated in the same PR.</span></div>
+      <div class="opt wrong"><span class="k">B</span><span>A multi-root workspace.</span></div>
+      <div class="opt wrong"><span class="k">C</span><span>An MCP connection to the producer&rsquo;s repo.</span></div>
+      <div class="opt wrong"><span class="k">D</span><span>A weekly copy of their documentation.</span></div>
     </div>
-    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+    <div class="why"><b>A.</b> A few hundred tokens instead of tens of thousands. It holds what the agent cannot work out: what you call, whether types are copied, how errors look, and the merge order.
+      <span class="no"><b>B</b> is the instinct and the most costly: both repos get read, and the window fills with code you are not changing. <b>C</b> is better than B, but it is still a search each time, with Module 6&rsquo;s tool-budget problem. <b>D</b> looks careful but is worst: you maintain a copy you do not own, and it can be a week out of date without anyone knowing.</span></div>
   </div></div>
 </section>
 
 <!-- 33 -->
+<section class="slide" data-sec="Review quiz" data-title="Q7 - shared library tiers" data-notes="Governance. The trap is that all four look like small, reasonable changes." data-tier="R">
+  <h2>Q7 &middot; Which shared-library change needs the owner?<span class="tag q">7 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">Four small changes to a library that six services use. You cannot see those services. Which change must not be made by an agent alone?</div>
+    <div class="opts">
+      <div class="opt"><span class="k">A</span><span>Add a new overload of an existing method.</span></div>
+      <div class="opt"><span class="k">B</span><span>Add a check that rejects input already documented as invalid.</span></div>
+      <div class="opt"><span class="k">C</span><span>Add tests and docs for behaviour that already exists.</span></div>
+      <div class="opt"><span class="k">D</span><span>Change the default value of an existing optional parameter.</span></div>
+    </div>
+    <div class="qmeta">Raise hands for each option before advancing &middot; answer on the next slide</div>
+  </div></div>
+</section>
+
+<!-- 34 -->
 <section class="slide" data-sec="Review quiz" data-title="Q7 - answer" data-notes="B is the interesting near-miss and worth the time: rejecting something already documented as invalid is additive in principle and can still break a caller who was relying on the undocumented behaviour. The honest answer is that it is a judgement call, and the tiering exists so that judgement is made once by an owner rather than repeatedly by whoever is working." data-tier="R">
   <h2>Q7 &middot; Answer<span class="tag q">7 of 8</span></h2>
   <div class="body g1"><div>
     <div class="qz">Which needs the owner?</div>
     <div class="opts">
       <div class="opt wrong"><span class="k">A</span><span>A new overload.</span></div>
-      <div class="opt wrong"><span class="k">B</span><span>A validation rejecting something already documented as invalid.</span></div>
-      <div class="opt wrong"><span class="k">C</span><span>Tests and documentation for existing behaviour.</span></div>
-      <div class="opt right"><span class="k">D</span><span>Changing the default of an existing optional parameter.</span></div>
+      <div class="opt wrong"><span class="k">B</span><span>A check that rejects already-invalid input.</span></div>
+      <div class="opt wrong"><span class="k">C</span><span>Tests and docs for existing behaviour.</span></div>
+      <div class="opt right"><span class="k">D</span><span>A changed default for an existing parameter.</span></div>
     </div>
-    <div class="why"><b>D.</b> Every caller who relied on the old default gets new behaviour without changing a line, and none of them will see a compile error. That is the highest-blast-radius change on this slide and it looks like the smallest.
-      <span class="no"><b>B</b> is the genuine near-miss and worth naming: additive in principle, and it can still break a caller who was relying on the undocumented behaviour. The honest answer is that it is a judgement call &mdash; which is exactly why the tiering exists, so that judgement is made <em>once, by an owner</em>, rather than repeatedly by whoever happens to be working.</span></div>
-  </div></div>
-</section>
-
-<!-- 34 -->
-<section class="slide" data-sec="Review quiz" data-title="Q8 - after the merge" data-notes="Sets up the final module. Let someone argue for B before revealing - it is a real gap and it is genuinely the next thing." data-tier="R">
-  <h2>Q8 &middot; The pull requests merged. What is still missing?<span class="tag q">8 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">Both halves of GB-158 are merged, sequenced correctly, reviewed and deployed. What has none of this course addressed yet?</div>
-    <div class="opts">
-      <div class="opt"><span class="k">A</span><span>Verification that the change works in production, which no lab has covered.</span></div>
-      <div class="opt"><span class="k">B</span><span>An automated way to keep the two repositories' contract documents in step with each other.</span></div>
-      <div class="opt"><span class="k">C</span><span>Everything you learned doing it &mdash; the decision, the rejected option, the drifted mirror &mdash; goes nowhere the next ticket will look.</span></div>
-      <div class="opt"><span class="k">D</span><span>A way to measure whether the cross-repo pipeline was faster than doing it by hand.</span></div>
-    </div>
-    <div class="qmeta">Show of hands on each option before advancing &middot; answer on the next slide</div>
+    <div class="why"><b>D.</b> Every caller that relied on the old default gets new behaviour, with no compile error. It looks like the smallest change, and it has the widest effect.
+      <span class="no"><b>B</b> is close: it is additive, but it can still break a caller that relied on undocumented behaviour. That is a judgement call &mdash; which is why the tiers exist, so <em>an owner</em> decides once.</span></div>
   </div></div>
 </section>
 
 <!-- 35 -->
+<section class="slide" data-sec="Review quiz" data-title="Q8 - after the merge" data-notes="Sets up the final module. Let someone argue for B before revealing - it is a real gap and it is genuinely the next thing." data-tier="R">
+  <h2>Q8 &middot; The PRs have merged. What is still missing?<span class="tag q">8 of 8</span></h2>
+  <div class="body g1"><div>
+    <div class="qz">Both halves of GB-158 are merged in order, reviewed and deployed. What has the course not solved yet?</div>
+    <div class="opts">
+      <div class="opt"><span class="k">A</span><span>Checking that the change really works in production.</span></div>
+      <div class="opt"><span class="k">B</span><span>Keeping both repos&rsquo; contract files in step automatically.</span></div>
+      <div class="opt"><span class="k">C</span><span>What you learned on this ticket is lost to the next one.</span></div>
+      <div class="opt"><span class="k">D</span><span>Measuring whether this was faster than doing it by hand.</span></div>
+    </div>
+    <div class="qmeta">Raise hands for each option before advancing &middot; answer on the next slide</div>
+  </div></div>
+</section>
+
+<!-- 36 -->
 <section class="slide" data-sec="Review quiz" data-title="Q8 - answer" data-notes="Close on the circle. Module 2 said the repository is the agent's memory, and Module 8 is what writes to it - which means the last module is the one that makes the first one true on the second ticket rather than only on the first." data-tier="R">
   <h2>Q8 &middot; Answer<span class="tag q">8 of 8</span></h2>
   <div class="body g1"><div>
     <div class="qz">What is still missing?</div>
     <div class="opts">
-      <div class="opt wrong"><span class="k">A</span><span>Production verification.</span></div>
-      <div class="opt wrong"><span class="k">B</span><span>Automated contract-document sync.</span></div>
-      <div class="opt right"><span class="k">C</span><span>Everything you learned doing it goes nowhere the next ticket will look.</span></div>
-      <div class="opt wrong"><span class="k">D</span><span>A measurement of whether it was faster.</span></div>
+      <div class="opt wrong"><span class="k">A</span><span>Checking it in production.</span></div>
+      <div class="opt wrong"><span class="k">B</span><span>Automatic contract-file sync.</span></div>
+      <div class="opt right"><span class="k">C</span><span>What you learned is lost to the next ticket.</span></div>
+      <div class="opt wrong"><span class="k">D</span><span>Measuring whether it was faster.</span></div>
     </div>
-    <div class="why"><b>C.</b> The decision you took in the spec, the option you rejected, the constraint you found in a linked issue, the fact that the mirror had drifted &mdash; all of it is attached to one ticket, and none of it is where the next ticket will look.
-      <span class="no"><b>B</b> is a real gap and a narrower one; the same-PR rule addresses it without automation. <b>A</b> is deliberately out of scope &mdash; this course stops at the merged pull request, and the scope note says so. <b>D</b> is not missing: the tally sheet has been open since Lab 1.1 and the capstone reports against it.
-      <b>Module 8 closes the circle.</b> Module 2 said the repository is the agent's memory; Module 8 is what writes to it &mdash; which makes Module 2 true on the <em>second</em> ticket, not only the first.</span></div>
+    <div class="why"><b>C.</b> The spec decision, the rejected option, the limit found in a linked issue, the stale copy &mdash; all stuck on one ticket, where the next ticket will not look.
+      <span class="no"><b>B</b> is a real but smaller gap; the same-PR rule covers it without tools. <b>A</b> is out of scope &mdash; the course stops at the merged PR. <b>D</b> is not missing: the tally sheet has tracked it since Lab 1.1. <b>Module 8 closes the loop:</b> Module 2 said the repo is the agent&rsquo;s memory, and Module 8 writes to it.</span></div>
   </div></div>
 </section>
-
-
-
-
 
 </div></div>
 
