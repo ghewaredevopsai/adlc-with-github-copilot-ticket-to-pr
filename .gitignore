@@ -18,6 +18,9 @@
 # Local working resources: learning-outcomes tracker and video list
 resources/
 
+# The pre-course machine check: sent to participants separately, kept local
+machine-setup.md
+
 # Local tool and editor state
 .claude/
 .github/modernize/
