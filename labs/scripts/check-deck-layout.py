@@ -1,4 +1,4 @@
-import subprocess, json, re, sys, html
+import subprocess, json, re, sys, html, os
 probe = r"""
 (function(){
   document.querySelectorAll('.slide').forEach(function(s){s.style.display='flex';});
@@ -58,7 +58,9 @@ probe = r"""
 })();
 """
 path=sys.argv[1]
-inj=open(path).read().replace('</body>','<script>'+probe+'</script></body>')
+# the copy runs from /tmp: <base> points the deck's ../assets/ links back at the real folder
+base='<head>\n<base href="file://%s/">' % os.path.dirname(os.path.abspath(path))
+inj=open(path).read().replace('<head>',base,1).replace('</body>','<script>'+probe+'</script></body>')
 open('/tmp/_probe.html','w').write(inj)
 dom=subprocess.run(['google-chrome','--headless','--disable-gpu','--no-sandbox',
                     '--virtual-time-budget=4000','--dump-dom','file:///tmp/_probe.html'],

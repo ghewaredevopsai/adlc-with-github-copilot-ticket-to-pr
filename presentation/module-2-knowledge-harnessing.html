@@ -4,209 +4,37 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Module 2 — Knowledge Harnessing | Agentic ADLC with GitHub Copilot</title>
-<style>
-*{box-sizing:border-box}
-html,body{margin:0;padding:0;height:100%}
-body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#dbe9e7;color:#1c2b29;overflow:hidden}
-
-/* ---------- chrome ---------- */
-#top{position:fixed;top:0;left:0;right:0;height:44px;background:#062f2c;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 16px;z-index:40;font-size:13px}
-#top .l{display:flex;align-items:center;gap:12px}
-#top .mod{font-weight:600;letter-spacing:.2px}
-#top .sec{color:#5eead4;font-size:12px;border-left:1px solid #14615a;padding-left:12px}
-#top .r{display:flex;align-items:center;gap:8px}
-#top a,#top button{color:#ccfbf1;text-decoration:none;background:#0d4b46;border:1px solid #14615a;padding:5px 11px;border-radius:4px;font-size:12.5px;cursor:pointer;font-family:inherit}
-#top a:hover,#top button:hover{background:#0f766e;color:#fff}
-#bot{position:fixed;bottom:0;left:0;right:0;height:38px;background:#062f2c;color:#c3ddd9;display:flex;align-items:center;gap:12px;padding:0 16px;z-index:40;font-size:12px}
-#prog{flex:1;height:4px;background:#14403c;border-radius:2px;overflow:hidden}
-#progf{height:100%;width:3%;background:#fbbf24;transition:width .25s ease}
-.navbtn{background:#0d4b46;color:#fff;border:1px solid #14615a;border-radius:4px;padding:4px 12px;cursor:pointer;font-size:14px;line-height:1.2;font-family:inherit}
-.navbtn:hover{background:#0f766e}
-#num{min-width:66px;text-align:right;font-variant-numeric:tabular-nums}
-#hint{color:#7fada8}
-#wrap{position:fixed;top:44px;bottom:38px;left:0;right:0;display:flex;align-items:center;justify-content:center}
-#stage{width:1280px;height:720px;background:#fff;box-shadow:0 8px 34px rgba(6,47,44,.28);position:relative;transform-origin:center center;overflow:hidden}
-
-/* ---------- delivery tier: K key . D demo . R reference ---------- */
-#top .tier{font-size:11px;font-weight:700;letter-spacing:.7px;padding:3px 9px;border-radius:3px;background:#14403c;color:#7fada8}
-#top .tier.K{background:#fbbf24;color:#3b2708}
-#top .tier.D{background:#2dd4bf;color:#062f2c}
-#top .after{font-size:11px;font-weight:700;letter-spacing:.7px;padding:3px 9px;border-radius:3px;background:#b91c1c;color:#fff;display:none}
-#top .after.on{display:inline-block}
-#toc a .tg{display:inline-block;width:26px;font-size:10px;font-weight:700;letter-spacing:.4px;color:#4d7c76}
-#toc a .tg.K{color:#fbbf24}
-#toc a .tg.D{color:#2dd4bf}
-#toc a.aft{border-left-color:#b91c1c}
-#toc a.aft .tg::after{content:' !';color:#f87171}
-
-/* ---------- index overlay ---------- */
-#toc{position:fixed;inset:44px 0 38px;background:rgba(5,38,36,.975);color:#fff;z-index:35;display:none;overflow:auto;padding:22px 46px}
-#toc.on{display:block}
-#toc h3{margin:0 0 14px;font-size:15px;color:#5eead4;letter-spacing:.6px;text-transform:uppercase;font-weight:600}
-#toc .cols{column-count:2;column-gap:38px}
-#toc .grp{margin-bottom:16px;break-inside:avoid}
-#toc .grph{font-size:12px;color:#fbbf24;font-weight:700;letter-spacing:.8px;margin-bottom:5px}
-#toc a{display:block;color:#d3ece9;text-decoration:none;padding:4px 10px;border-left:2px solid #14615a;font-size:14px}
-#toc a:hover{background:#0d4b46;border-left-color:#2dd4bf}
-#toc a.cur{background:#0f766e;border-left-color:#fbbf24;color:#fff;font-weight:600}
-#toc a .n{display:inline-block;width:28px;color:#79aaa4;font-size:12px}
-
-/* ---------- slide shell ---------- */
-#notes{position:fixed;left:0;right:0;bottom:38px;max-height:34%;overflow:auto;background:#0b211f;color:#d3ece9;border-top:3px solid #fbbf24;padding:12px 22px;z-index:36;display:none;font-size:14px;line-height:1.5}
-#notes.on{display:block}
-#notes .h{font-size:11px;letter-spacing:.8px;color:#5eead4;font-weight:700;margin-bottom:5px}
-.slide{position:absolute;inset:0;padding:30px 42px 24px;display:none;flex-direction:column}
-.slide.active{display:flex}
-.slide h2{margin:0 0 13px;font-size:28px;line-height:1.14;color:#062f2c;border-bottom:2px solid #0f766e;padding-bottom:8px;font-weight:600}
-.slide h2 .tag{float:right;font-size:12px;background:#0f766e;color:#fff;padding:4px 11px;border-radius:12px;font-weight:700;position:relative;top:4px;letter-spacing:.4px}
-.slide h2 .tag.k{background:#b45309}
-.slide h2 .tag.q{background:#7c3aed}
-.body{flex:1;display:grid;gap:22px;min-height:0;align-items:center}
-.g64{grid-template-columns:1.45fr 1fr}
-.g46{grid-template-columns:1fr 1.45fr}
-.g55{grid-template-columns:1fr 1fr}
-.g1{grid-template-columns:1fr}
-.body.g1{align-items:stretch}
-.body.g1>div:only-child{height:100%;display:flex;flex-direction:column;justify-content:center}
-.pts h3{margin:0 0 7px;font-size:12.5px;letter-spacing:.7px;text-transform:uppercase;color:#0f766e;font-weight:700}
-.pts h3+h3{margin-top:13px}
-.pts ul{margin:0;padding-left:17px;font-size:15.5px;line-height:1.46}
-.pts li{margin-bottom:6px}
-.pts b{color:#062f2c}
-.pts em{color:#b45309;font-style:normal;font-weight:600}
-.pts code{background:#eefaf8;border:1px solid #cfeae6;border-radius:3px;padding:0 4px;font-size:14px;color:#0b4f4a}
-.callout{background:#eefaf8;border-left:3px solid #0f766e;padding:9px 13px;font-size:15px;border-radius:0 4px 4px 0;margin-top:11px;line-height:1.4}
-.callout.bad{background:#fef2f2;border-left-color:#dc2626;color:#7f1d1d}
-.callout.good{background:#ecfdf5;border-left-color:#059669;color:#064e3b}
-.take{margin-top:13px;background:#fffbeb;border-left:4px solid #fbbf24;padding:10px 15px;font-size:15.5px;color:#78350f;border-radius:0 4px 4px 0;line-height:1.4}
-.take b{color:#92400e}
-svg{width:100%;height:auto;display:block}
-
-/* ---------- title slide ---------- */
-.slide.title{background:linear-gradient(135deg,#062f2c 0%,#0b4f4a 58%,#0f766e 150%);color:#fff;justify-content:center;padding:0 78px}
-.slide.title h1{margin:0;font-size:50px;line-height:1.12;font-weight:600}
-.slide.title .sub{margin-top:14px;font-size:22px;color:#99f6e4;font-weight:600}
-.slide.title .rule{width:110px;height:4px;background:#fbbf24;margin:24px 0}
-.slide.title .meta{font-size:16px;color:#c3ddd9;line-height:1.85}
-.slide.title .meta b{color:#fff}
-.slide.title .chips{margin-top:24px;display:flex;gap:10px;flex-wrap:wrap}
-.slide.title .chip{background:rgba(255,255,255,.1);border:1px solid rgba(94,234,212,.45);color:#ccfbf1;padding:7px 14px;border-radius:16px;font-size:14px}
-
-/* ---------- quiz ---------- */
-.qz{font-size:20px;line-height:1.4;color:#062f2c;font-weight:600;background:#f0fbf9;border-left:4px solid #7c3aed;padding:13px 18px;border-radius:0 5px 5px 0}
-.opts{margin-top:18px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.opt{display:flex;align-items:flex-start;gap:11px;background:#fff;border:1.5px solid #d5e5e2;border-radius:6px;padding:12px 15px;font-size:17px;line-height:1.36;color:#1c2b29}
-.opt .k{flex:0 0 28px;height:28px;border-radius:50%;background:#e6f4f2;color:#0b4f4a;font-weight:700;font-size:14.5px;display:flex;align-items:center;justify-content:center;border:1.5px solid #b9ddd8}
-.opt.right{background:#ecfdf5;border-color:#34d399;box-shadow:0 0 0 3px rgba(52,211,153,.16)}
-.opt.right .k{background:#059669;color:#fff;border-color:#059669}
-.opt.wrong{opacity:.62}
-.why{margin-top:16px;background:#f0fbf9;border-left:4px solid #0f766e;padding:11px 16px;font-size:15.5px;line-height:1.45;border-radius:0 4px 4px 0}
-.why b{color:#0b4f4a}
-.why .no{display:block;margin-top:7px;color:#7f1d1d;font-size:14.5px}
-.qmeta{font-size:13px;color:#5b7a76;margin-top:12px}
-
-.file{background:#0b211f;border-radius:5px;padding:11px 14px;font-family:'DejaVu Sans Mono',Menlo,Consolas,monospace;font-size:12.5px;line-height:1.46;color:#d3ece9;overflow:hidden;white-space:pre-wrap;tab-size:2}
-.file .fn{color:#5eead4;font-weight:700;display:block;margin-bottom:5px;font-size:11.5px;letter-spacing:.4px}
-.file .c{color:#7fada8}
-.file .k{color:#fbbf24;font-weight:700}
-.file .s{color:#fca5a5}
-/* ---------- svg vocabulary ---------- */
-.bx{fill:#f0fbf9;stroke:#bfe3de;stroke-width:1.5}
-.bx.g{fill:#ecfdf5;stroke:#a7f3d0}
-.bx.a{fill:#fffbeb;stroke:#fcd34d}
-.bx.r{fill:#fef2f2;stroke:#fecaca}
-.bx.p{fill:#f5f3ff;stroke:#ddd6fe}
-.bx.d{fill:#062f2c;stroke:#062f2c}
-.bx.w{fill:#fff;stroke:#cbd5e1}
-.tt{font-size:15px;font-weight:600;fill:#062f2c}
-.tt.w{fill:#fff}
-.ss{font-size:12.5px;fill:#3f5f5c}
-.ss.w{fill:#a7f3d0}
-.lb{font-size:10.5px;font-weight:700;fill:#0f766e;letter-spacing:.7px}
-.lb.a{fill:#b45309}.lb.r{fill:#dc2626}.lb.g{fill:#047857}.lb.w{fill:#5eead4}.lb.p{fill:#6d28d9}
-.ar{fill:none;stroke:#94b8b3;stroke-width:2;marker-end:url(#arw)}
-.arr{fill:none;stroke:#dc2626;stroke-width:2;marker-end:url(#arr)}
-.arg{fill:none;stroke:#059669;stroke-width:2;marker-end:url(#arg)}
-.fl{fill:none;stroke:#0f766e;stroke-width:2.5;stroke-dasharray:7 9;marker-end:url(#arb)}
-.slide.active .fl{animation:march 1.1s linear infinite}
-@keyframes march{to{stroke-dashoffset:-16}}
-.pulse{transform-box:fill-box;transform-origin:center}
-.slide.active .pulse{animation:pl 2.2s ease-in-out infinite}
-@keyframes pl{0%,100%{opacity:.25}50%{opacity:.9}}
-.tok{opacity:0}
-.slide.active .tok{animation:tk 6s linear infinite}
-@keyframes tk{0%,8%{opacity:0}14%,86%{opacity:1}96%,100%{opacity:0}}
-.slide.active .t2{animation-delay:.6s}.slide.active .t3{animation-delay:1.2s}
-.slide.active .t4{animation-delay:1.8s}.slide.active .t5{animation-delay:2.4s}
-.slide.active .t6{animation-delay:3s}
-.rise{transform-box:fill-box;transform-origin:bottom}
-.slide.active .rise{animation:rs .9s cubic-bezier(.2,.8,.3,1) both}
-.slide.active .r2{animation-delay:.12s}.slide.active .r3{animation-delay:.24s}
-.slide.active .r4{animation-delay:.36s}.slide.active .r5{animation-delay:.48s}
-.slide.active .r6{animation-delay:.6s}
-@keyframes rs{from{transform:scaleY(.04)}to{transform:scaleY(1)}}
-.grow{transform-box:fill-box;transform-origin:left}
-.slide.active .grow{animation:gw 1.1s cubic-bezier(.2,.8,.3,1) both}
-.slide.active .w2{animation-delay:.14s}.slide.active .w3{animation-delay:.28s}
-.slide.active .w4{animation-delay:.42s}.slide.active .w5{animation-delay:.56s}
-@keyframes gw{from{transform:scaleX(.02)}to{transform:scaleX(1)}}
-.dash{stroke-dasharray:5 5}
-@media (prefers-reduced-motion:reduce){
-  .slide.active .fl,.slide.active .pulse,.slide.active .tok,.slide.active .rise,.slide.active .grow{animation:none}
-  .tok{opacity:1}
-}
-
-@media print{
-  @page{size:1280px 720px;margin:0}
-  body{background:#fff;overflow:visible}
-  #top,#bot,#toc,#notes{display:none}
-  #wrap{position:static;display:block}
-  #stage{transform:none!important;width:1280px;height:auto;overflow:visible;box-shadow:none}
-  .slide{display:flex!important;position:relative;page-break-after:always;height:720px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-}
-</style>
+<link rel="stylesheet" href="../assets/adlc-deck.css">
 </head>
-<body>
+<body data-deck="Module 2">
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
-  <marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#94b8b3"/></marker>
-  <marker id="arb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#0f766e"/></marker>
-  <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#dc2626"/></marker>
-  <marker id="arg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#059669"/></marker>
+  <marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#71809a"/></marker>
+  <marker id="arb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#6ea8fe"/></marker>
+  <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#e2726e"/></marker>
+  <marker id="arg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#5fbf8f"/></marker>
 </defs></svg>
 
-<div id="top">
-  <div class="l">
-    <span class="mod">Module 2 &middot; Knowledge Harnessing &mdash; the Repository as the Agent's Memory</span>
-    <span class="sec" id="sec"></span>
-    <span class="tier" id="tier"></span><span class="after" id="after">AFTER LAB</span>
-  </div>
-  <div class="r">
-    <a href="../course-outline-agentic-adlc-github-copilot.html" title="Open the 2-day course outline">Course outline</a>
-    <button id="tocbtn" title="Index (O)">Index</button>
-    <button id="notesbtn" title="Speaker notes (N)">Notes</button>
-    <button id="fsbtn" title="Fullscreen (F)">Full</button>
-  </div>
-</div>
-
-<div id="toc"><h3>Module 2 &mdash; slide index</h3><div class="cols" id="toclist"></div></div>
-
-<div id="wrap"><div id="stage"><!-- 1 -->
+<div id="viewport"><div id="stage"><!-- 1 -->
 <section class="slide title" data-sec="Opening" data-title="Title" data-notes="Open by pointing at the board. Module 1 ended with a number on the flip chart and a claim that most of it was waste - this module is where the waste gets removed, and by the end of it you re-measure and find out whether that was true. The framing sentence: everything in this module is an answer to one question, which is how a fact gets from somebody's head into the agent's context without a human retyping it every time." data-tier="R">
-  <h1>Knowledge Harnessing</h1>
-  <div class="sub">Module 2 &mdash; the repository as the agent's memory</div>
-  <div class="rule"></div>
-  <div class="meta">
-    <b>Agentic ADLC with GitHub Copilot</b> &mdash; From JIRA Ticket to Merged PR<br>
-    Day 1 &middot; Module 2 of 8 &nbsp;|&nbsp; Advanced &nbsp;|&nbsp; Trainer: <b>Rajesh Gheware</b>
-  </div>
-  <div class="chips">
+  <div class="wrap">
+    <span class="tier">Day 1 &middot; Module 2 of 8</span>
+    <h1>Knowledge Harnessing</h1>
+    <p class="sub">The repository as the agent's memory.</p>
+    <p class="meta">
+      <span><b>Agentic ADLC with GitHub Copilot</b> &mdash; From JIRA Ticket to Merged PR</span>
+      <span>Advanced</span>
+      <span>Trainer: Rajesh Gheware</span>
+    </p>
+    <div class="chips">
     <span class="chip">The layered model</span>
     <span class="chip">Standing context artifacts</span>
     <span class="chip">Signal vs. bloat</span>
     <span class="chip">Structuring for retrieval</span>
     <span class="chip">Keeping it current</span>
     <span class="chip">What must never be written down</span>
+  
+    </div>
   </div>
 </section>
 
@@ -247,12 +75,12 @@ svg{width:100%;height:auto;display:block}
         <text class="tt" x="582" y="266" text-anchor="middle" style="font-size:13.5px">Read on every request</text>
         <text class="ss" x="24" y="306">Knowledge pays back only when the third box is large. Write down something read</text>
         <text class="ss" x="24" y="326">once a quarter and you have added permanent cost for almost no return &mdash; and if</text>
-        <text class="ss" x="24" y="342" style="fill:#b45309;font-weight:600">nobody maintains it, the return goes negative. That is the ordinary fate of a wiki.</text>
+        <text class="ss" x="24" y="342" style="fill:#d98a3d;font-weight:600">nobody maintains it, the return goes negative. That is the ordinary fate of a wiki.</text>
 
         <rect class="bx d" x="4" y="360" width="692" height="70" rx="8"/>
         <text class="lb w" x="24" y="384">THE ONE QUESTION THIS MODULE ANSWERS</text>
         <text class="ss w" x="24" y="408" style="font-size:14px">How does a fact get from somebody&rsquo;s head into the agent&rsquo;s context</text>
-        <text class="ss w" x="24" y="426" style="font-size:14px"><tspan font-weight="700" fill="#fbbf24">without a human retyping it every time?</tspan></text>
+        <text class="ss w" x="24" y="426" style="font-size:14px"><tspan font-weight="700" fill="#e0b34d">without a human retyping it every time?</tspan></text>
       </svg>
     </div>
     <div class="pts">
@@ -307,7 +135,7 @@ svg{width:100%;height:auto;display:block}
         <text class="ss" x="500" y="212">moves with the code</text>
         <text class="ss" x="680" y="192">this team</text>
         <text class="ss" x="680" y="212">you can fix it today</text>
-        <text class="ss" x="870" y="184" style="font-weight:600;fill:#047857">.github/copilot-instructions.md</text>
+        <text class="ss" x="870" y="184" style="font-weight:600;fill:#5fbf8f">.github/copilot-instructions.md</text>
         <text class="ss" x="870" y="204">docs/architecture.md &middot; conventions.md</text>
         <text class="ss" x="870" y="224">docs/glossary.md &middot; docs/adr/</text>
 
@@ -322,7 +150,7 @@ svg{width:100%;height:auto;display:block}
         <text class="ss" x="500" y="318">moves with the layer</text>
         <text class="ss" x="680" y="298">this team</text>
         <text class="ss" x="680" y="318">often one owner</text>
-        <text class="ss" x="870" y="290" style="font-weight:600;fill:#b45309">.github/instructions/*.instructions.md</text>
+        <text class="ss" x="870" y="290" style="font-weight:600;fill:#d98a3d">.github/instructions/*.instructions.md</text>
         <text class="ss" x="870" y="310">domain &middot; api &middot; tests &mdash; three different</text>
         <text class="ss" x="870" y="330">sets of rules, applied by path</text>
 
@@ -336,7 +164,7 @@ svg{width:100%;height:auto;display:block}
         <text class="ss" x="870" y="398">&mdash; Module 1&rsquo;s context window, exactly</text>
 
         <rect class="bx r" x="4" y="428" width="1172" height="24" rx="5"/>
-        <text class="ss" x="590" y="445" text-anchor="middle" style="font-size:13px;fill:#dc2626;font-weight:600">The failure to watch for: everything lands in the repository layer because it is the easiest file to edit &mdash; until nothing in it is read carefully</text>
+        <text class="ss" x="590" y="445" text-anchor="middle" style="font-size:13px;fill:#e2726e;font-weight:600">The failure to watch for: everything lands in the repository layer because it is the easiest file to edit &mdash; until nothing in it is read carefully</text>
       </svg>
     </div>
   </div>
@@ -384,10 +212,10 @@ svg{width:100%;height:auto;display:block}
 
         <path class="arg" d="M350 354 L350 372"/>
         <rect class="bx g" x="40" y="376" width="620" height="30" rx="6"/>
-        <text class="tt" x="350" y="397" text-anchor="middle" style="font-size:13.5px;fill:#047857">Now it has one home &mdash; and only one</text>
+        <text class="tt" x="350" y="397" text-anchor="middle" style="font-size:13.5px;fill:#5fbf8f">Now it has one home &mdash; and only one</text>
 
         <rect class="bx r" x="40" y="414" width="620" height="34" rx="6"/>
-        <text class="ss" x="350" y="436" text-anchor="middle" style="font-size:13px;fill:#dc2626;font-weight:600">A fact written in two layers will disagree with itself within a quarter</text>
+        <text class="ss" x="350" y="436" text-anchor="middle" style="font-size:13px;fill:#e2726e;font-weight:600">A fact written in two layers will disagree with itself within a quarter</text>
       </svg>
     </div>
   </div>
@@ -397,57 +225,57 @@ svg{width:100%;height:auto;display:block}
   <h2>The standing-context artifacts &mdash; and what each one is <em>not</em><span class="tag k">2</span></h2>
   <div class="body g1">
     <div>
-      <svg viewBox="0 0 1180 448" role="img" aria-label="Six knowledge artifact types with their purpose, what they are not, and their file in Global Bank">
+      <svg class="dense" viewBox="0 0 1180 448" role="img" aria-label="Six knowledge artifact types with their purpose, what they are not, and their file in Global Bank">
         <rect class="bx d" x="4" y="4" width="1172" height="32" rx="6"/>
         <text class="lb w" x="24" y="25">ARTIFACT</text>
         <text class="lb w" x="250" y="25">ANSWERS</text>
         <text class="lb w" x="560" y="25">IS NOT &mdash; THE COLUMN THAT MATTERS</text>
-        <text class="lb w" x="900" y="25">IN GLOBAL BANK</text>
+        <text class="lb w" x="940" y="25">IN GLOBAL BANK</text>
 
         <rect class="bx g grow" x="4" y="44" width="1172" height="62" rx="6"/>
         <text class="tt" x="24" y="70">Repository instructions</text>
         <text class="ss" x="24" y="90">the entry point &mdash; always loaded</text>
         <text class="ss" x="250" y="70">&ldquo;What must I never get wrong here,</text>
         <text class="ss" x="250" y="90">and where do I look for the rest?&rdquo;</text>
-        <text class="ss" x="560" y="70" style="fill:#dc2626">Not a place to paste the architecture.</text>
-        <text class="ss" x="560" y="90" style="fill:#dc2626">It is a <tspan font-weight="600">router plus a short list of absolutes</tspan>.</text>
-        <text class="ss" x="900" y="80" style="font-weight:600;fill:#047857">.github/copilot-instructions.md</text>
+        <text class="ss" x="560" y="70" style="fill:#e2726e">Not a place to paste the architecture.</text>
+        <text class="ss" x="560" y="90" style="fill:#e2726e">It is a <tspan font-weight="600">router plus a short list of absolutes</tspan>.</text>
+        <text class="ss" x="940" y="80" style="font-weight:600;fill:#5fbf8f">.github/copilot-instructions.md</text>
 
         <rect class="bx a grow w2" x="4" y="114" width="1172" height="62" rx="6"/>
         <text class="tt" x="24" y="140">Path-scoped instructions</text>
         <text class="ss" x="24" y="160">loaded only when that area is touched</text>
         <text class="ss" x="250" y="140">&ldquo;What is different about writing code</text>
         <text class="ss" x="250" y="160">in <tspan font-style="italic">this</tspan> part of the repository?&rdquo;</text>
-        <text class="ss" x="560" y="140" style="fill:#dc2626">Not a second copy of the repository rules.</text>
-        <text class="ss" x="560" y="160" style="fill:#dc2626">Only what <tspan font-weight="600">differs</tspan> from them.</text>
-        <text class="ss" x="900" y="150" style="font-weight:600;fill:#b45309">.github/instructions/*.md</text>
+        <text class="ss" x="560" y="140" style="fill:#e2726e">Not a second copy of the repository rules.</text>
+        <text class="ss" x="560" y="160" style="fill:#e2726e">Only what <tspan font-weight="600">differs</tspan> from them.</text>
+        <text class="ss" x="940" y="150" style="font-weight:600;fill:#d98a3d">.github/instructions/*.md</text>
 
         <rect class="bx grow w3" x="4" y="184" width="1172" height="62" rx="6"/>
         <text class="tt" x="24" y="210">Architecture notes</text>
         <text class="ss" x="24" y="230">the map, and the layering rule</text>
         <text class="ss" x="250" y="210">&ldquo;What lives where, and what may</text>
         <text class="ss" x="250" y="230">depend on what?&rdquo;</text>
-        <text class="ss" x="560" y="210" style="fill:#dc2626">Not a tutorial, not onboarding prose, not a</text>
-        <text class="ss" x="560" y="230" style="fill:#dc2626">description of every class. A map, not a tour.</text>
-        <text class="ss" x="900" y="220">docs/architecture.md</text>
+        <text class="ss" x="560" y="210" style="fill:#e2726e">Not a tutorial, not onboarding prose, not a</text>
+        <text class="ss" x="560" y="230" style="fill:#e2726e">description of every class. A map, not a tour.</text>
+        <text class="ss" x="940" y="220">docs/architecture.md</text>
 
         <rect class="bx grow w4" x="4" y="254" width="1172" height="62" rx="6"/>
         <text class="tt" x="24" y="280">Conventions</text>
         <text class="ss" x="24" y="300">how we write code here</text>
         <text class="ss" x="250" y="280">&ldquo;How do I make this look like it</text>
         <text class="ss" x="250" y="300">was written by this team?&rdquo;</text>
-        <text class="ss" x="560" y="280" style="fill:#dc2626">Not a style guide a linter already enforces.</text>
-        <text class="ss" x="560" y="300" style="fill:#dc2626">If CI can check it, do not also write it down.</text>
-        <text class="ss" x="900" y="290">docs/conventions.md</text>
+        <text class="ss" x="560" y="280" style="fill:#e2726e">Not a style guide a linter already enforces.</text>
+        <text class="ss" x="560" y="300" style="fill:#e2726e">If CI can check it, do not also write it down.</text>
+        <text class="ss" x="940" y="290">docs/conventions.md</text>
 
         <rect class="bx r grow w5" x="4" y="324" width="1172" height="62" rx="6"/>
         <text class="tt" x="24" y="350">Decision records &mdash; ADRs</text>
-        <text class="ss" x="24" y="370" style="font-weight:600;fill:#dc2626">the highest-value artifact. Next slide but one.</text>
+        <text class="ss" x="24" y="370" style="font-weight:600;fill:#e2726e">the highest-value artifact</text>
         <text class="ss" x="250" y="350">&ldquo;Why is it like this, and what did</text>
         <text class="ss" x="250" y="370">we already reject?&rdquo;</text>
-        <text class="ss" x="560" y="350" style="fill:#dc2626">Not a changelog, not release notes, not a</text>
-        <text class="ss" x="560" y="370" style="fill:#dc2626">design doc. One decision, its reasons, its cost.</text>
-        <text class="ss" x="900" y="360" style="font-weight:600;fill:#dc2626">docs/adr/ADR-003 &middot; 005 &middot; 007 &middot; 009</text>
+        <text class="ss" x="560" y="350" style="fill:#e2726e">Not a changelog, not release notes, not a</text>
+        <text class="ss" x="560" y="370" style="fill:#e2726e">design doc. One decision, its reasons, its cost.</text>
+        <text class="ss" x="940" y="360" style="font-weight:600;fill:#e2726e">docs/adr/ADR-003 &middot; 005 &middot; 007 &middot; 009</text>
 
         <rect class="bx grow w5" x="4" y="394" width="1172" height="54" rx="6"/>
         <text class="tt" x="24" y="418">Glossary &amp; runbooks</text>
@@ -456,7 +284,7 @@ svg{width:100%;height:auto;display:block}
         <text class="ss" x="250" y="438">&ldquo;What do I do when it breaks?&rdquo;</text>
         <text class="ss" x="560" y="418">Glossary is highest value per line &mdash; wrong code fails a test,</text>
         <text class="ss" x="560" y="438">a wrong <tspan font-style="italic">meaning</tspan> passes review. Runbooks: write for the human.</text>
-        <text class="ss" x="900" y="428">docs/glossary.md</text>
+        <text class="ss" x="940" y="428">docs/glossary.md</text>
       </svg>
     </div>
   </div>
@@ -587,7 +415,7 @@ are relying on</span> when you propose a change.</div>
         <text class="tt" x="636" y="76" style="font-size:17px">The option you considered and rejected</text>
         <text class="ss" x="636" y="110">A rejected option leaves <tspan font-weight="600">no trace in the codebase</tspan>. There is no</text>
         <text class="ss" x="636" y="136">absence to read. No number of turns recovers it.</text>
-        <text class="ss" x="636" y="176" style="fill:#dc2626;font-weight:600">Writing this down buys correctness, not speed.</text>
+        <text class="ss" x="636" y="176" style="fill:#e2726e;font-weight:600">Writing this down buys correctness, not speed.</text>
 
         <rect class="bx d" x="4" y="232" width="1172" height="88" rx="8"/>
         <text class="ss w" x="26" y="284" style="font-size:14.5px">So: the <tspan font-weight="700">rejected-options section is not padding.</tspan> It is the part that carries the value. An ADR without it is a description of the code you already have.</text>
@@ -613,7 +441,7 @@ are relying on</span> when you propose a change.</div>
         <path class="arr" d="M390 128 L424 128"/>
         <rect class="bx r" x="430" y="8" width="380" height="240" rx="8"/>
         <text class="lb r" x="450" y="42">WHAT ADR-007 RECORDS</text>
-        <text class="ss" x="450" y="78" style="font-weight:600;fill:#dc2626">Rejected &mdash; the header scheme.</text>
+        <text class="ss" x="450" y="78" style="font-weight:600;fill:#e2726e">Rejected &mdash; the header scheme.</text>
         <text class="ss" x="450" y="110">The two systems generating most of our</text>
         <text class="ss" x="450" y="136">volume &mdash; a mainframe batch feed and a</text>
         <text class="ss" x="450" y="162">vendor gateway &mdash; <tspan font-weight="600">do not propagate a</tspan></text>
@@ -627,11 +455,11 @@ are relying on</span> when you propose a change.</div>
         <text class="ss" x="876" y="104">natural key already on the instruction.</text>
         <text class="ss" x="876" y="146">The repository method for it</text>
         <text class="ss" x="876" y="172">already exists, unused, waiting:</text>
-        <text class="ss" x="876" y="206" style="font-weight:600;fill:#047857">findByClientReference</text>
-        <text class="ss" x="876" y="228" style="font-weight:600;fill:#047857">AndValueDate</text>
+        <text class="ss" x="876" y="206" style="font-weight:600;fill:#5fbf8f">findByClientReference</text>
+        <text class="ss" x="876" y="228" style="font-weight:600;fill:#5fbf8f">AndValueDate</text>
 
         <rect class="bx d" x="4" y="276" width="1172" height="112" rx="8"/>
-        <text class="ss w" x="26" y="322" style="font-size:14.5px">Without the ADR the agent does not fail. It <tspan font-weight="700" fill="#fbbf24">succeeds, confidently, at building the wrong thing</tspan> &mdash; and only a reviewer who knows the history catches it.</text>
+        <text class="ss w" x="26" y="322" style="font-size:14.5px">Without the ADR the agent does not fail. It <tspan font-weight="700" fill="#e0b34d">succeeds, confidently, at building the wrong thing</tspan> &mdash; and only a reviewer who knows the history catches it.</text>
         <text class="ss w" x="26" y="360" style="font-size:14.5px">This is the fact no instruction file you wrote this afternoon could have contained, because no amount of reading the code recovers a rejected option.</text>
       </svg>
     </div>
@@ -647,7 +475,7 @@ are relying on</span> when you propose a change.</div>
         <text class="lb g" x="24" y="30">WRITE IT DOWN &mdash; SIGNAL</text>
         <text class="tt" x="24" y="58" style="font-size:16px">Cannot be inferred, or is</text>
         <text class="tt" x="24" y="80" style="font-size:16px">expensive to infer</text>
-        <line x1="24" y1="94" x2="364" y2="94" stroke="#a7f3d0" stroke-width="1.5"/>
+        <line x1="24" y1="94" x2="364" y2="94" stroke="#5fbf8f" stroke-width="1.5"/>
         <text class="ss" x="24" y="118">Rejected options and the reasons</text>
         <text class="ss" x="24" y="142">Negative constraints &mdash; what is banned</text>
         <text class="ss" x="24" y="166">Domain vocabulary and its local meaning</text>
@@ -658,13 +486,13 @@ are relying on</span> when you propose a change.</div>
         <text class="lb g" x="40" y="278">THE TEST</text>
         <text class="ss" x="40" y="300">Could a competent engineer recover</text>
         <text class="ss" x="40" y="320">this by reading the repository?</text>
-        <text class="ss" x="40" y="344" style="font-weight:600;fill:#047857">No, or only slowly &rarr; write it.</text>
+        <text class="ss" x="40" y="344" style="font-weight:600;fill:#5fbf8f">No, or only slowly &rarr; write it.</text>
 
         <rect class="bx a" x="400" y="6" width="380" height="368" rx="8"/>
         <text class="lb a" x="420" y="30">LET IT INFER &mdash; BLOAT</text>
         <text class="tt" x="420" y="58" style="font-size:16px">Already visible in one or</text>
         <text class="tt" x="420" y="80" style="font-size:16px">two file opens</text>
-        <line x1="420" y1="94" x2="760" y2="94" stroke="#fcd34d" stroke-width="1.5"/>
+        <line x1="420" y1="94" x2="760" y2="94" stroke="#d98a3d" stroke-width="1.5"/>
         <text class="ss" x="420" y="118">What a class does &mdash; it can read the class</text>
         <text class="ss" x="420" y="142">Formatting a linter already enforces</text>
         <text class="ss" x="420" y="166">Framework behaviour it knows better than you</text>
@@ -675,13 +503,13 @@ are relying on</span> when you propose a change.</div>
         <text class="lb a" x="436" y="278">THE COST</text>
         <text class="ss" x="436" y="300">A permanent charge on every request,</text>
         <text class="ss" x="436" y="320">for a fact it already had &mdash; and the</text>
-        <text class="ss" x="436" y="344" style="font-weight:600;fill:#b45309">signal you needed is now buried in it.</text>
+        <text class="ss" x="436" y="344" style="font-weight:600;fill:#d98a3d">signal you needed is now buried in it.</text>
 
         <rect class="bx r" x="796" y="6" width="380" height="368" rx="8"/>
         <text class="lb r" x="816" y="30">THE THIRD CATEGORY &mdash; MISLEADS</text>
         <text class="tt" x="816" y="58" style="font-size:16px">Was true. Is not any more.</text>
         <text class="tt" x="816" y="80" style="font-size:16px">Nothing marks it stale.</text>
-        <line x1="816" y1="94" x2="1156" y2="94" stroke="#fecaca" stroke-width="1.5"/>
+        <line x1="816" y1="94" x2="1156" y2="94" stroke="#e2726e" stroke-width="1.5"/>
         <text class="ss" x="816" y="118">A helper documented after it was deleted</text>
         <text class="ss" x="816" y="142">A convention the team quietly abandoned</text>
         <text class="ss" x="816" y="166">An ADR superseded in a PR, not in the ADR</text>
@@ -692,11 +520,11 @@ are relying on</span> when you propose a change.</div>
         <text class="lb r" x="832" y="278">WHY IT IS WORSE THAN SILENCE</text>
         <text class="ss" x="832" y="300">The agent <tspan font-weight="600">trusts it and stops looking.</tspan></text>
         <text class="ss" x="832" y="320">No document &rarr; it reads the code: slow, correct.</text>
-        <text class="ss" x="832" y="344" style="font-weight:600;fill:#dc2626">Wrong document &rarr; fast, confident, wrong.</text>
+        <text class="ss" x="832" y="344" style="font-weight:600;fill:#e2726e">Wrong document &rarr; fast, confident, wrong.</text>
 
         <rect class="bx d" x="4" y="388" width="1172" height="60" rx="8"/>
         <text class="ss w" x="590" y="414" text-anchor="middle" style="font-size:15px">The asymmetry that decides how you run a knowledge base:</text>
-        <text class="ss w" x="590" y="440" text-anchor="middle" style="font-size:15px">a <tspan font-weight="700">missing</tspan> fact costs you turns &middot; a <tspan font-weight="700" fill="#fbbf24">wrong</tspan> fact costs you a defect. Not the same order of magnitude.</text>
+        <text class="ss w" x="590" y="440" text-anchor="middle" style="font-size:15px">a <tspan font-weight="700">missing</tspan> fact costs you turns &middot; a <tspan font-weight="700" fill="#e0b34d">wrong</tspan> fact costs you a defect. Not the same order of magnitude.</text>
       </svg>
     </div>
   </div>
@@ -708,8 +536,8 @@ are relying on</span> when you propose a change.</div>
   <div class="body g64">
     <div>
       <svg viewBox="0 0 700 448" role="img" aria-label="Matrix of how hard a fact is to infer against how often it is needed, with the unreachable band outside it">
-        <line x1="66" y1="16" x2="66" y2="316" stroke="#94b8b3" stroke-width="2"/>
-        <line x1="66" y1="316" x2="676" y2="316" stroke="#94b8b3" stroke-width="2"/>
+        <line x1="66" y1="16" x2="66" y2="316" stroke="#71809a" stroke-width="2"/>
+        <line x1="66" y1="316" x2="676" y2="316" stroke="#71809a" stroke-width="2"/>
         <text class="lb" x="6" y="28">HARD TO</text>
         <text class="lb" x="6" y="42">INFER</text>
         <text class="lb" x="10" y="308">EASY</text>
@@ -733,12 +561,12 @@ are relying on</span> when you propose a change.</div>
         <text class="ss" x="412" y="144">file is <tspan font-weight="600">six bullets long</tspan>, and no longer.</text>
 
         <rect class="bx r" x="72" y="170" width="296" height="138" rx="7"/>
-        <text class="lb r" x="90" y="194">NOISE &mdash; WHERE OVER-DOCUMENTING LIVES</text>
+        <text class="lb r" x="90" y="194" style="font-size:10.5px">NOISE &mdash; WHERE OVER-DOCUMENTING LIVES</text>
         <text class="ss" x="90" y="220">Easy to infer, rarely needed.</text>
         <text class="ss" x="90" y="240">Most of what teams carefully write.</text>
         <rect class="bx w" x="90" y="252" width="260" height="46" rx="5"/>
-        <text class="ss" x="104" y="272" style="font-weight:600;fill:#dc2626">Every line of it dilutes the lines</text>
-        <text class="ss" x="104" y="290" style="font-weight:600;fill:#dc2626">that matter. Delete on sight.</text>
+        <text class="ss" x="104" y="272" style="font-weight:600;fill:#e2726e">Every line of it dilutes the lines</text>
+        <text class="ss" x="104" y="290" style="font-weight:600;fill:#e2726e">that matter. Delete on sight.</text>
 
         <rect class="bx" x="380" y="170" width="296" height="138" rx="7"/>
         <text class="lb" x="398" y="194">USUALLY A POINTER</text>
@@ -751,7 +579,7 @@ are relying on</span> when you propose a change.</div>
         <text class="lb r" x="4" y="366">OUTSIDE THE MATRIX ENTIRELY</text>
         <rect class="bx d" x="4" y="376" width="672" height="72" rx="8"/>
         <text class="tt w" x="24" y="402" style="font-size:15px">Unreachable facts &mdash; rejected options, prohibitions, external constraints</text>
-        <text class="ss w" x="24" y="426" style="font-size:13.5px">Not on a difficulty spectrum. They are <tspan font-weight="700" fill="#fbbf24">absent from the code</tspan>, so frequency does not enter into it.</text>
+        <text class="ss w" x="24" y="426" style="font-size:13.5px">Not on a difficulty spectrum. They are <tspan font-weight="700" fill="#e0b34d">absent from the code</tspan>, so frequency does not enter into it.</text>
         <text class="ss w" x="24" y="444" style="font-size:13.5px">Write them down even if they come up twice a year.</text>
       </svg>
     </div>
@@ -786,7 +614,7 @@ are relying on</span> when you propose a change.</div>
         <text class="ss" x="38" y="120">Falls back to reading the code</text>
         <path class="ar" d="M196 134 L196 150"/>
         <rect class="bx g" x="24" y="154" width="344" height="38" rx="5"/>
-        <text class="ss" x="38" y="178" style="font-weight:600;fill:#047857">Slow &mdash; and correct. You pay in turns.</text>
+        <text class="ss" x="38" y="178" style="font-weight:600;fill:#5fbf8f">Slow &mdash; and correct. You pay in turns.</text>
 
         <rect class="bx g" x="398" y="6" width="384" height="196" rx="8"/>
         <text class="lb g" x="418" y="30">CURRENT DOCUMENT</text>
@@ -797,7 +625,7 @@ are relying on</span> when you propose a change.</div>
         <text class="ss" x="432" y="120">Search terminates. Correctly.</text>
         <path class="arg" d="M590 134 L590 150"/>
         <rect class="bx g" x="418" y="154" width="344" height="38" rx="5"/>
-        <text class="ss" x="432" y="178" style="font-weight:600;fill:#047857">Fast and correct. This is the whole point.</text>
+        <text class="ss" x="432" y="178" style="font-weight:600;fill:#5fbf8f">Fast and correct. This is the whole point.</text>
 
         <rect class="bx r" x="792" y="6" width="384" height="196" rx="8"/>
         <text class="lb r" x="812" y="30">STALE DOCUMENT</text>
@@ -805,10 +633,10 @@ are relying on</span> when you propose a change.</div>
         <text class="ss" x="826" y="64">Agent reads it &mdash; finds an answer</text>
         <path class="arr" d="M984 78 L984 94"/>
         <rect class="bx r" x="812" y="98" width="344" height="34" rx="5"/>
-        <text class="ss" x="826" y="120" style="font-weight:600;fill:#dc2626">Search terminates. It stops looking.</text>
+        <text class="ss" x="826" y="120" style="font-weight:600;fill:#e2726e">Search terminates. It stops looking.</text>
         <path class="arr" d="M984 134 L984 150"/>
         <rect class="bx r" x="812" y="154" width="344" height="38" rx="5"/>
-        <text class="ss" x="826" y="178" style="font-weight:600;fill:#dc2626">Fast, confident, wrong.</text>
+        <text class="ss" x="826" y="178" style="font-weight:600;fill:#e2726e">Fast, confident, wrong.</text>
 
         <rect class="bx a" x="4" y="216" width="1172" height="86" rx="8"/>
         <text class="lb a" x="24" y="240">THE MECHANISM &mdash; AND IT IS NOT THE OBVIOUS ONE</text>
@@ -819,15 +647,15 @@ are relying on</span> when you propose a change.</div>
         <text class="lb r" x="24" y="340">THE SECOND-ORDER EFFECT &mdash; THE ONE THAT HURTS A TEAM</text>
         <text class="ss" x="24" y="366">One confident wrong answer that a reviewer catches, and people stop</text>
         <text class="ss" x="24" y="388">trusting the <tspan font-weight="600">whole</tspan> knowledge base &mdash; including the accurate nine-tenths.</text>
-        <text class="ss" x="24" y="416" style="font-weight:600;fill:#dc2626">A knowledge base nobody trusts is worse than none:</text>
-        <text class="ss" x="24" y="436" style="font-weight:600;fill:#dc2626">you are still paying to maintain it, and getting nothing back.</text>
+        <text class="ss" x="24" y="416" style="font-weight:600;fill:#e2726e">A knowledge base nobody trusts is worse than none:</text>
+        <text class="ss" x="24" y="436" style="font-weight:600;fill:#e2726e">you are still paying to maintain it, and getting nothing back.</text>
 
         <rect class="bx d" x="600" y="316" width="576" height="130" rx="8"/>
         <text class="lb w" x="620" y="340">WHICH IS WHY THE REST OF THIS MODULE EXISTS</text>
         <text class="ss w" x="620" y="368" style="font-size:14px">Authoring is the easy half and it is where the first month&rsquo;s</text>
         <text class="ss w" x="620" y="390" style="font-size:14px">enthusiasm goes. Ownership, cadence and drift detection are</text>
         <text class="ss w" x="620" y="412" style="font-size:14px">what decide whether any of it is still true in month six.</text>
-        <text class="ss w" x="620" y="438" style="font-size:14px"><tspan font-weight="700" fill="#fbbf24">Trust is the asset. Everything else is bookkeeping.</tspan></text>
+        <text class="ss w" x="620" y="438" style="font-size:14px"><tspan font-weight="700" fill="#e0b34d">Trust is the asset. Everything else is bookkeeping.</tspan></text>
       </svg>
     </div>
   </div>
@@ -882,7 +710,7 @@ are relying on</span> when you propose a change.</div>
         <rect class="bx d" x="4" y="352" width="1172" height="96" rx="8"/>
         <text class="lb w" x="24" y="376">THE HONEST DIAGNOSIS FOR MOST ENTERPRISES</text>
         <text class="ss w" x="24" y="404" style="font-size:14.5px">The knowledge exists. It is accurate. It is in a wiki the agent cannot reach, under a title nobody would search for, last edited by someone</text>
-        <text class="ss w" x="24" y="430" style="font-size:14.5px">who has left. Moving it into the repository is not tidying up &mdash; it is <tspan font-weight="700" fill="#fbbf24">the difference between written and reachable.</tspan></text>
+        <text class="ss w" x="24" y="430" style="font-size:14.5px">who has left. Moving it into the repository is not tidying up &mdash; it is <tspan font-weight="700" fill="#e0b34d">the difference between written and reachable.</tspan></text>
       </svg>
     </div>
   </div>
@@ -928,12 +756,12 @@ are relying on</span> when you propose a change.</div>
         <rect class="bx w grow w3" x="20" y="132" width="620" height="28" rx="3"/>
         <text class="ss" x="34" y="151" style="font-weight:600">domain</text>
         <text class="ss" x="200" y="151">JPA entities and enums</text>
-        <text class="ss" x="470" y="151" style="font-weight:600;fill:#047857">nothing</text>
+        <text class="ss" x="470" y="151" style="font-weight:600;fill:#5fbf8f">nothing</text>
         <rect class="bx w grow w4" x="20" y="164" width="620" height="28" rx="3"/>
         <text class="ss" x="34" y="183" style="font-weight:600">repository</text>
         <text class="ss" x="200" y="183">Spring Data interfaces only</text>
         <text class="ss" x="470" y="183">domain</text>
-        <text class="ss" x="20" y="210" style="font-weight:600;fill:#0f766e">&ldquo;Dependencies point inward only. A controller never touches a repository.&rdquo;</text>
+        <text class="ss" x="20" y="210" style="font-weight:600;fill:#6ea8fe">&ldquo;Dependencies point inward only. A controller never touches a repository.&rdquo;</text>
 
         <text class="lb" x="4" y="244">docs/adr/README.md &mdash; THE INDEX</text>
         <rect class="bx a" x="4" y="254" width="652" height="122" rx="8"/>
@@ -960,26 +788,26 @@ are relying on</span> when you propose a change.</div>
   <div class="body g64">
     <div>
       <svg viewBox="0 0 700 446" role="img" aria-label="Decay curve of knowledge accuracy over time with the four mechanisms that arrest it">
-        <line x1="58" y1="20" x2="58" y2="212" stroke="#94b8b3" stroke-width="2"/>
-        <line x1="58" y1="212" x2="672" y2="212" stroke="#94b8b3" stroke-width="2"/>
+        <line x1="58" y1="20" x2="58" y2="212" stroke="#71809a" stroke-width="2"/>
+        <line x1="58" y1="212" x2="672" y2="212" stroke="#71809a" stroke-width="2"/>
         <text class="lb" x="4" y="32">ACCURACY</text>
         <text class="lb" x="66" y="232">WEEK 1</text>
         <text class="lb" x="300" y="232">MONTH 3</text>
         <text class="lb" x="560" y="232">MONTH 12</text>
 
         <path d="M58 36 C160 40 250 74 340 120 C430 166 530 190 668 200"
-              fill="none" stroke="#dc2626" stroke-width="3"/>
+              fill="none" stroke="#e2726e" stroke-width="3"/>
         <path d="M58 36 C160 40 250 74 340 120 C430 166 530 190 668 200 L668 212 L58 212 Z"
-              fill="#dc2626" opacity="0.07"/>
-        <path d="M58 36 L668 44" fill="none" stroke="#059669" stroke-width="2.5" class="dash"/>
+              fill="#e2726e" opacity="0.07"/>
+        <path d="M58 36 L668 44" fill="none" stroke="#5fbf8f" stroke-width="2.5" class="dash"/>
         <text class="lb g" x="470" y="38">WITH THE MECHANISMS &rarr;</text>
 
         <rect class="bx g" x="76" y="52" width="150" height="40" rx="5"/>
-        <text class="ss" x="90" y="70" style="font-weight:600;fill:#047857">Week one: perfect</text>
+        <text class="ss" x="90" y="70" style="font-weight:600;fill:#5fbf8f">Week one: perfect</text>
         <text class="ss" x="90" y="86">someone just wrote it</text>
 
         <rect class="bx r" x="330" y="130" width="230" height="58" rx="5"/>
-        <text class="ss" x="344" y="150" style="font-weight:600;fill:#dc2626">The gap opens quietly</text>
+        <text class="ss" x="344" y="150" style="font-weight:600;fill:#e2726e">The gap opens quietly</text>
         <text class="ss" x="344" y="168">Code moves, docs do not. Nothing</text>
         <text class="ss" x="344" y="184">fails. Nothing alerts.</text>
 
@@ -1048,10 +876,10 @@ are relying on</span> when you propose a change.</div>
         <text class="ss" x="620" y="84">The ticket is created. It is real. It is also never the most important</text>
         <text class="ss" x="620" y="104">thing in any subsequent sprint, and it never will be.</text>
         <rect class="bx w" x="620" y="118" width="536" height="40" rx="5"/>
-        <text class="ss" x="636" y="144" style="font-weight:600;fill:#dc2626">Make it a review question instead &mdash; it costs a reviewer one sentence:</text>
+        <text class="ss" x="636" y="144" style="font-weight:600;fill:#e2726e">Make it a review question instead &mdash; it costs a reviewer one sentence:</text>
 
         <rect class="bx d" x="600" y="176" width="576" height="34" rx="6"/>
-        <text class="tt w" x="888" y="199" text-anchor="middle" style="font-size:14.5px">&ldquo;Does this change make anything in <tspan fill="#fbbf24">docs/</tspan> wrong?&rdquo;</text>
+        <text class="tt w" x="888" y="199" text-anchor="middle" style="font-size:14.5px">&ldquo;Does this change make anything in <tspan fill="#e0b34d">docs/</tspan> wrong?&rdquo;</text>
 
         <text class="lb" x="4" y="208">DRIFT IS NARROW, NOT IMPOSSIBLE &mdash; FIVE CHECKS CI CAN RUN TODAY</text>
         <rect class="bx" x="4" y="222" width="1172" height="164" rx="8"/>
@@ -1063,13 +891,13 @@ are relying on</span> when you propose a change.</div>
         <rect class="bx w grow w3" x="24" y="298" width="1132" height="26" rx="4"/>
         <text class="ss" x="40" y="316"><tspan font-weight="600">3 &middot; Instruction files stay under their size budget.</tspan> &nbsp; A hard cap is the only thing that reliably stops bloat, because every addition looks reasonable.</text>
         <rect class="bx r grow w4" x="24" y="328" width="1132" height="26" rx="4"/>
-        <text class="ss" x="40" y="346"><tspan font-weight="600">4 &middot; Prohibitions are enforced as tests.</tspan> &nbsp; ADR-005 says no Lombok &mdash; so <tspan font-weight="600" fill="#dc2626">fail the build if org.projectlombok appears in the POM.</tspan></text>
+        <text class="ss" x="40" y="346"><tspan font-weight="600">4 &middot; Prohibitions are enforced as tests.</tspan> &nbsp; ADR-005 says no Lombok &mdash; so <tspan font-weight="600" fill="#e2726e">fail the build if org.projectlombok appears in the POM.</tspan></text>
         <rect class="bx w grow w5" x="24" y="358" width="1132" height="26" rx="4"/>
         <text class="ss" x="40" y="376"><tspan font-weight="600">5 &middot; Source changed, docs did not &mdash; warn, do not fail.</tspan> &nbsp; A nudge on the PR. Failing here trains people to write meaningless doc edits.</text>
 
         <rect class="bx d" x="4" y="398" width="1172" height="54" rx="8"/>
         <text class="ss w" x="590" y="422" text-anchor="middle" style="font-size:14.5px">A machine cannot tell you whether a paragraph is still <tspan font-style="italic">true</tspan>. It can tell you the file it names is gone.</text>
-        <text class="ss w" x="590" y="444" text-anchor="middle" style="font-size:14.5px">Check 4 is the shape to aim for: <tspan font-weight="700" fill="#fbbf24">a decision recorded in prose, enforced by a test.</tspan></text>
+        <text class="ss w" x="590" y="444" text-anchor="middle" style="font-size:14.5px">Check 4 is the shape to aim for: <tspan font-weight="700" fill="#e0b34d">a decision recorded in prose, enforced by a test.</tspan></text>
       </svg>
     </div>
   </div>
@@ -1082,8 +910,8 @@ are relying on</span> when you propose a change.</div>
       <svg viewBox="0 0 700 446" role="img" aria-label="Why instruction files are uniquely dangerous for secrets, and the four categories that must never be written down">
         <rect class="bx d" x="4" y="4" width="692" height="92" rx="8"/>
         <text class="lb w" x="24" y="28">THE INVERSION</text>
-        <text class="ss w" x="24" y="54" style="font-size:14px">The instruction file enters the context of <tspan font-weight="700" fill="#fbbf24">every request, from every</tspan></text>
-        <text class="ss w" x="24" y="74" style="font-size:14px"><tspan font-weight="700" fill="#fbbf24">engineer, forever.</tspan> That property is what makes it valuable &mdash; and it is</text>
+        <text class="ss w" x="24" y="54" style="font-size:14px">The instruction file enters the context of <tspan font-weight="700" fill="#e0b34d">every request, from every</tspan></text>
+        <text class="ss w" x="24" y="74" style="font-size:14px"><tspan font-weight="700" fill="#e0b34d">engineer, forever.</tspan> That property is what makes it valuable &mdash; and it is</text>
         <text class="ss w" x="24" y="92" style="font-size:14px">the same property that makes it catastrophic to put a credential in.</text>
 
         <text class="lb r" x="4" y="122">NEVER WRITTEN DOWN &mdash; FOUR CATEGORIES</text>
@@ -1098,13 +926,13 @@ are relying on</span> when you propose a change.</div>
         <text class="tt" x="374" y="156">2 &middot; Client data</text>
         <text class="ss" x="374" y="178">Real account numbers, real names,</text>
         <text class="ss" x="374" y="196">real balances, real transactions</text>
-        <text class="ss" x="374" y="212" style="font-weight:600;fill:#dc2626">Leaked by making an example concrete.</text>
+        <text class="ss" x="374" y="212" style="font-weight:600;fill:#e2726e">Leaked by making an example concrete.</text>
 
         <rect class="bx r" x="4" y="226" width="340" height="86" rx="7"/>
         <text class="tt" x="22" y="250">3 &middot; Personal data</text>
         <text class="ss" x="22" y="272">Staff or customer identifiers in a</text>
         <text class="ss" x="22" y="290">sample payload or a debugging note</text>
-        <text class="ss" x="22" y="306" style="font-weight:600;fill:#dc2626">The other accidental one.</text>
+        <text class="ss" x="22" y="306" style="font-weight:600;fill:#e2726e">The other accidental one.</text>
 
         <rect class="bx r" x="356" y="226" width="340" height="86" rx="7"/>
         <text class="tt" x="374" y="250">4 &middot; Material non-public information</text>
@@ -1185,7 +1013,7 @@ are relying on</span> when you propose a change.</div>
         <path class="arr" d="M590 240 L590 268"/>
         <rect class="bx d" x="240" y="272" width="700" height="76" rx="8"/>
         <text class="lb w" x="264" y="296">AND THE ONE PEOPLE GET WRONG</text>
-        <text class="ss w" x="264" y="322" style="font-size:14.5px">It is in <tspan font-weight="700" fill="#fbbf24">git history.</tspan> Deleting the file in the next commit does not remove it.</text>
+        <text class="ss w" x="264" y="322" style="font-size:14.5px">It is in <tspan font-weight="700" fill="#e0b34d">git history.</tspan> Deleting the file in the next commit does not remove it.</text>
         <text class="ss w" x="264" y="342" style="font-size:14.5px">A secret committed and then deleted is still a leaked secret. <tspan font-weight="700">Rotate it &mdash; do not just delete it.</tspan></text>
 
         <rect class="bx a" x="4" y="362" width="576" height="86" rx="8"/>
@@ -1196,7 +1024,7 @@ are relying on</span> when you propose a change.</div>
         <rect class="bx g" x="600" y="362" width="576" height="86" rx="8"/>
         <text class="lb g" x="620" y="386">THE HABIT THAT PREVENTS ALL OF IT</text>
         <text class="ss" x="620" y="410">Treat <tspan font-weight="600">docs/ and .github/ as published</tspan>, not as internal notes. Review</text>
-        <text class="ss" x="620" y="432">them the way you would review a public README &mdash; because functionally, that is what they are.</text>
+        <text class="ss" x="620" y="432" style="font-size:12.5px">them the way you would review a public README &mdash; because functionally, that is what they are.</text>
       </svg>
     </div>
   </div>
@@ -1221,7 +1049,7 @@ are relying on</span> when you propose a change.</div>
       <svg viewBox="0 0 700 448" role="img" aria-label="The tally sheet row filled in after Module 2, and how to read the delta by category">
         <text class="lb a" x="4" y="14">THE ROW YOU FILL IN NEXT &mdash; MATCHED TICKET, INSTRUMENTED REPO</text>
         <rect class="bx" x="4" y="24" width="692" height="130" rx="8"/>
-        <line x1="20" y1="66" x2="680" y2="66" stroke="#bfe3de" stroke-width="1.5"/>
+        <line x1="20" y1="66" x2="680" y2="66" stroke="#435063" stroke-width="1.5"/>
         <text class="lb" x="20" y="48">RUN</text>
         <text class="lb" x="290" y="48">TURNS</text>
         <text class="lb" x="376" y="48">TOOL</text>
@@ -1230,14 +1058,14 @@ are relying on</span> when you propose a change.</div>
         <text class="lb" x="628" y="48">CLOCK</text>
         <rect class="bx a" x="16" y="74" width="668" height="32" rx="4"/>
         <text class="tt" x="28" y="95" style="font-size:13px">1.1 &mdash; naked repo</text>
-        <text class="ss" x="300" y="95" style="font-weight:700;fill:#b45309">on the board</text>
+        <text class="ss" x="300" y="95" style="font-weight:700;fill:#d98a3d">on the board</text>
         <rect class="bx g" x="16" y="112" width="668" height="34" rx="4"/>
         <text class="tt" x="28" y="134" style="font-size:13px">after Module 2 &mdash; knowledge in the repo</text>
-        <text class="ss" x="306" y="134" style="font-weight:700;fill:#047857">?</text>
-        <text class="ss" x="390" y="134" style="font-weight:700;fill:#047857">?</text>
-        <text class="ss" x="470" y="134" style="font-weight:700;fill:#047857">?</text>
-        <text class="ss" x="560" y="134" style="font-weight:700;fill:#047857">?</text>
-        <text class="ss" x="640" y="134" style="font-weight:700;fill:#047857">?</text>
+        <text class="ss" x="306" y="134" style="font-weight:700;fill:#5fbf8f">?</text>
+        <text class="ss" x="390" y="134" style="font-weight:700;fill:#5fbf8f">?</text>
+        <text class="ss" x="470" y="134" style="font-weight:700;fill:#5fbf8f">?</text>
+        <text class="ss" x="560" y="134" style="font-weight:700;fill:#5fbf8f">?</text>
+        <text class="ss" x="640" y="134" style="font-weight:700;fill:#5fbf8f">?</text>
 
         <text class="lb" x="4" y="180">READ THE DELTA BY CATEGORY &mdash; MORE USEFUL THAN THE HEADLINE NUMBER</text>
         <rect class="bx" x="4" y="190" width="692" height="150" rx="8"/>
@@ -1253,7 +1081,7 @@ are relying on</span> when you propose a change.</div>
 
         <rect class="bx d" x="4" y="352" width="692" height="96" rx="8"/>
         <text class="lb w" x="24" y="376">THE POINT OF MEASURING BY CATEGORY</text>
-        <text class="ss w" x="24" y="402" style="font-size:14px">The headline figure is what you report. <tspan font-weight="700" fill="#fbbf24">Which category moved</tspan> is what tells you</text>
+        <text class="ss w" x="24" y="402" style="font-size:14px">The headline figure is what you report. <tspan font-weight="700" fill="#e0b34d">Which category moved</tspan> is what tells you</text>
         <text class="ss w" x="24" y="424" style="font-size:14px">what to write next week &mdash; and that is the part you take back to your own repository,</text>
         <text class="ss w" x="24" y="442" style="font-size:14px">where the ticket, the code and the gaps are all different.</text>
       </svg>
@@ -1560,99 +1388,6 @@ are relying on</span> when you propose a change.</div>
 </section>
 </div></div>
 
-<div id="notes"><div class="h">SPEAKER NOTES</div><div id="notesbody"></div></div>
-
-<div id="bot">
-  <button class="navbtn" id="prev" title="Previous (&larr;)">&#8249;</button>
-  <button class="navbtn" id="next" title="Next (&rarr;)">&#8250;</button>
-  <span id="ttl"></span>
-  <div id="prog"><div id="progf"></div></div>
-  <span id="hint">&larr; &rarr; move &middot; K key path &middot; O index &middot; N notes &middot; F full</span>
-  <span id="num"></span>
-</div>
-
-<script>
-(function(){
-  var slides=[].slice.call(document.querySelectorAll('.slide'));
-  var stage=document.getElementById('stage'),toc=document.getElementById('toc');
-  var notes=document.getElementById('notes'),notesBody=document.getElementById('notesbody');
-  var elNum=document.getElementById('num'),elSec=document.getElementById('sec');
-  var elTtl=document.getElementById('ttl'),elProg=document.getElementById('progf');
-  var elTier=document.getElementById('tier'),elAfter=document.getElementById('after');
-  var elHint=document.getElementById('hint');
-  // The key path skips reference slides, and skips after-lab slides until the lab is scored.
-  var postLab=false;
-  function onPath(n){var s=slides[n];return s.dataset.tier!=='R'&&(postLab||!s.dataset.after);}
-  function paintHint(){elHint.innerHTML='&larr; &rarr; move &middot; K key path &middot; L after-lab '+(postLab?'<b>ON</b>':'off')+' &middot; O index &middot; N notes &middot; F full';}
-  var i=0;
-
-  // ---- build the index, grouped by section ----
-  var list=document.getElementById('toclist'),grp=null,last=null;
-  slides.forEach(function(s,k){
-    var sec=s.dataset.sec||'';
-    if(sec!==last){
-      grp=document.createElement('div');grp.className='grp';
-      var h=document.createElement('div');h.className='grph';h.innerHTML=sec;grp.appendChild(h);
-      list.appendChild(grp);last=sec;
-    }
-    var a=document.createElement('a');a.href='#'+(k+1);
-    var tr=s.dataset.tier||'R';
-    a.innerHTML='<span class="n">'+(k+1)+'</span><span class="tg '+tr+'">'+tr+'</span>'+(s.dataset.title||'');
-    if(s.dataset.after)a.className='aft';
-    a.onclick=function(e){e.preventDefault();go(k);toc.classList.remove('on');};
-    grp.appendChild(a);
-  });
-  var links=[].slice.call(toc.querySelectorAll('a'));
-
-  function go(n){
-    i=Math.max(0,Math.min(slides.length-1,n));
-    slides.forEach(function(s,k){s.classList.toggle('active',k===i);});
-    links.forEach(function(a,k){a.classList.toggle('cur',k===i);});
-    elNum.textContent=(i+1)+' / '+slides.length;
-    elSec.innerHTML=slides[i].dataset.sec||'';
-    elTtl.textContent=slides[i].dataset.title||'';
-    var tr=slides[i].dataset.tier||'R';
-    elTier.className='tier '+tr;elTier.textContent=(tr==='D'?'DEMO':tr==='K'?'KEY':'REF');
-    elAfter.classList.toggle('on',!!slides[i].dataset.after);
-    elProg.style.width=((i+1)/slides.length*100)+'%';
-    notesBody.textContent=slides[i].dataset.notes||'No notes for this slide.';
-    if(history.replaceState)history.replaceState(null,'','#'+(i+1));
-  }
-  function fit(){
-    var extra=notes.classList.contains('on')?notes.offsetHeight:0;
-    var s=Math.min((window.innerWidth-24)/1280,(window.innerHeight-82-extra-24)/720);
-    stage.style.transform='scale('+s+')';
-  }
-  document.getElementById('next').onclick=function(){go(i+1);};
-  document.getElementById('prev').onclick=function(){go(i-1);};
-  document.getElementById('tocbtn').onclick=function(){toc.classList.toggle('on');};
-  document.getElementById('notesbtn').onclick=function(){notes.classList.toggle('on');fit();};
-  document.getElementById('fsbtn').onclick=function(){
-    if(document.fullscreenElement)document.exitFullscreen();else document.documentElement.requestFullscreen();
-  };
-  document.addEventListener('keydown',function(e){
-    var k=e.key;
-    if(k==='ArrowRight'||k==='PageDown'||k===' '){go(i+1);e.preventDefault();}
-    else if(k==='ArrowLeft'||k==='PageUp'||k==='p'){go(i-1);e.preventDefault();}
-    else if(k==='Home'){go(0);}
-    else if(k==='End'){go(slides.length-1);}
-    else if(k==='o'||k==='O'){toc.classList.toggle('on');}
-    else if(k==='n'||k==='N'){notes.classList.toggle('on');fit();}
-    else if(k==='f'||k==='F'){document.getElementById('fsbtn').onclick();}
-    else if(k==='k'){for(var j=i+1;j<slides.length;j++){if(onPath(j)){go(j);break;}}}
-    else if(k==='K'){for(var j2=i-1;j2>=0;j2--){if(onPath(j2)){go(j2);break;}}}
-    else if(k==='l'||k==='L'){postLab=!postLab;paintHint();}
-    else if(k==='Escape'){toc.classList.remove('on');notes.classList.remove('on');fit();}
-  });
-  window.addEventListener('resize',fit);
-  window.addEventListener('hashchange',function(){
-    var n=parseInt(location.hash.replace('#',''),10);if(n)go(n-1);
-  });
-  fit();
-  paintHint();
-  var start=parseInt(location.hash.replace('#',''),10);
-  go(start?start-1:0);
-})();
-</script>
+<script src="../assets/adlc-deck.js"></script>
 </body>
 </html>

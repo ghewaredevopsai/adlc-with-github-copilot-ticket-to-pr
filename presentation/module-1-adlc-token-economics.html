@@ -4,205 +4,38 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Module 1 — The ADLC Operating Model &amp; Token Economics | Agentic ADLC with GitHub Copilot</title>
-<style>
-*{box-sizing:border-box}
-html,body{margin:0;padding:0;height:100%}
-body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#dbe9e7;color:#1c2b29;overflow:hidden}
-
-/* ---------- chrome ---------- */
-#top{position:fixed;top:0;left:0;right:0;height:44px;background:#062f2c;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 16px;z-index:40;font-size:13px}
-#top .l{display:flex;align-items:center;gap:12px}
-#top .mod{font-weight:600;letter-spacing:.2px}
-#top .sec{color:#5eead4;font-size:12px;border-left:1px solid #14615a;padding-left:12px}
-#top .r{display:flex;align-items:center;gap:8px}
-#top a,#top button{color:#ccfbf1;text-decoration:none;background:#0d4b46;border:1px solid #14615a;padding:5px 11px;border-radius:4px;font-size:12.5px;cursor:pointer;font-family:inherit}
-#top a:hover,#top button:hover{background:#0f766e;color:#fff}
-#bot{position:fixed;bottom:0;left:0;right:0;height:38px;background:#062f2c;color:#c3ddd9;display:flex;align-items:center;gap:12px;padding:0 16px;z-index:40;font-size:12px}
-#prog{flex:1;height:4px;background:#14403c;border-radius:2px;overflow:hidden}
-#progf{height:100%;width:3%;background:#fbbf24;transition:width .25s ease}
-.navbtn{background:#0d4b46;color:#fff;border:1px solid #14615a;border-radius:4px;padding:4px 12px;cursor:pointer;font-size:14px;line-height:1.2;font-family:inherit}
-.navbtn:hover{background:#0f766e}
-#num{min-width:66px;text-align:right;font-variant-numeric:tabular-nums}
-#hint{color:#7fada8}
-#wrap{position:fixed;top:44px;bottom:38px;left:0;right:0;display:flex;align-items:center;justify-content:center}
-#stage{width:1280px;height:720px;background:#fff;box-shadow:0 8px 34px rgba(6,47,44,.28);position:relative;transform-origin:center center;overflow:hidden}
-
-/* ---------- delivery tier: K key . D demo . R reference ---------- */
-#top .tier{font-size:11px;font-weight:700;letter-spacing:.7px;padding:3px 9px;border-radius:3px;background:#14403c;color:#7fada8}
-#top .tier.K{background:#fbbf24;color:#3b2708}
-#top .tier.D{background:#2dd4bf;color:#062f2c}
-#top .after{font-size:11px;font-weight:700;letter-spacing:.7px;padding:3px 9px;border-radius:3px;background:#b91c1c;color:#fff;display:none}
-#top .after.on{display:inline-block}
-#toc a .tg{display:inline-block;width:26px;font-size:10px;font-weight:700;letter-spacing:.4px;color:#4d7c76}
-#toc a .tg.K{color:#fbbf24}
-#toc a .tg.D{color:#2dd4bf}
-#toc a.aft{border-left-color:#b91c1c}
-#toc a.aft .tg::after{content:' !';color:#f87171}
-
-/* ---------- index overlay ---------- */
-#toc{position:fixed;inset:44px 0 38px;background:rgba(5,38,36,.975);color:#fff;z-index:35;display:none;overflow:auto;padding:22px 46px}
-#toc.on{display:block}
-#toc h3{margin:0 0 14px;font-size:15px;color:#5eead4;letter-spacing:.6px;text-transform:uppercase;font-weight:600}
-#toc .cols{column-count:2;column-gap:38px}
-#toc .grp{margin-bottom:16px;break-inside:avoid}
-#toc .grph{font-size:12px;color:#fbbf24;font-weight:700;letter-spacing:.8px;margin-bottom:5px}
-#toc a{display:block;color:#d3ece9;text-decoration:none;padding:4px 10px;border-left:2px solid #14615a;font-size:14px}
-#toc a:hover{background:#0d4b46;border-left-color:#2dd4bf}
-#toc a.cur{background:#0f766e;border-left-color:#fbbf24;color:#fff;font-weight:600}
-#toc a .n{display:inline-block;width:28px;color:#79aaa4;font-size:12px}
-
-/* ---------- slide shell ---------- */
-#notes{position:fixed;left:0;right:0;bottom:38px;max-height:34%;overflow:auto;background:#0b211f;color:#d3ece9;border-top:3px solid #fbbf24;padding:12px 22px;z-index:36;display:none;font-size:14px;line-height:1.5}
-#notes.on{display:block}
-#notes .h{font-size:11px;letter-spacing:.8px;color:#5eead4;font-weight:700;margin-bottom:5px}
-.slide{position:absolute;inset:0;padding:30px 42px 24px;display:none;flex-direction:column}
-.slide.active{display:flex}
-.slide h2{margin:0 0 13px;font-size:28px;line-height:1.14;color:#062f2c;border-bottom:2px solid #0f766e;padding-bottom:8px;font-weight:600}
-.slide h2 .tag{float:right;font-size:12px;background:#0f766e;color:#fff;padding:4px 11px;border-radius:12px;font-weight:700;position:relative;top:4px;letter-spacing:.4px}
-.slide h2 .tag.k{background:#b45309}
-.slide h2 .tag.q{background:#7c3aed}
-.body{flex:1;display:grid;gap:22px;min-height:0;align-items:center}
-.g64{grid-template-columns:1.45fr 1fr}
-.g46{grid-template-columns:1fr 1.45fr}
-.g55{grid-template-columns:1fr 1fr}
-.g1{grid-template-columns:1fr}
-.body.g1{align-items:stretch}
-.body.g1>div:only-child{height:100%;display:flex;flex-direction:column;justify-content:center}
-.pts h3{margin:0 0 7px;font-size:12.5px;letter-spacing:.7px;text-transform:uppercase;color:#0f766e;font-weight:700}
-.pts h3+h3{margin-top:13px}
-.pts ul{margin:0;padding-left:17px;font-size:15.5px;line-height:1.46}
-.pts li{margin-bottom:6px}
-.pts b{color:#062f2c}
-.pts em{color:#b45309;font-style:normal;font-weight:600}
-.pts code{background:#eefaf8;border:1px solid #cfeae6;border-radius:3px;padding:0 4px;font-size:14px;color:#0b4f4a}
-.callout{background:#eefaf8;border-left:3px solid #0f766e;padding:9px 13px;font-size:15px;border-radius:0 4px 4px 0;margin-top:11px;line-height:1.4}
-.callout.bad{background:#fef2f2;border-left-color:#dc2626;color:#7f1d1d}
-.callout.good{background:#ecfdf5;border-left-color:#059669;color:#064e3b}
-.take{margin-top:13px;background:#fffbeb;border-left:4px solid #fbbf24;padding:10px 15px;font-size:15.5px;color:#78350f;border-radius:0 4px 4px 0;line-height:1.4}
-.take b{color:#92400e}
-svg{width:100%;height:auto;display:block}
-
-/* ---------- title slide ---------- */
-.slide.title{background:linear-gradient(135deg,#062f2c 0%,#0b4f4a 58%,#0f766e 150%);color:#fff;justify-content:center;padding:0 78px}
-.slide.title h1{margin:0;font-size:50px;line-height:1.12;font-weight:600}
-.slide.title .sub{margin-top:14px;font-size:22px;color:#99f6e4;font-weight:600}
-.slide.title .rule{width:110px;height:4px;background:#fbbf24;margin:24px 0}
-.slide.title .meta{font-size:16px;color:#c3ddd9;line-height:1.85}
-.slide.title .meta b{color:#fff}
-.slide.title .chips{margin-top:24px;display:flex;gap:10px;flex-wrap:wrap}
-.slide.title .chip{background:rgba(255,255,255,.1);border:1px solid rgba(94,234,212,.45);color:#ccfbf1;padding:7px 14px;border-radius:16px;font-size:14px}
-
-/* ---------- quiz ---------- */
-.qz{font-size:20px;line-height:1.4;color:#062f2c;font-weight:600;background:#f0fbf9;border-left:4px solid #7c3aed;padding:13px 18px;border-radius:0 5px 5px 0}
-.opts{margin-top:18px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.opt{display:flex;align-items:flex-start;gap:11px;background:#fff;border:1.5px solid #d5e5e2;border-radius:6px;padding:12px 15px;font-size:17px;line-height:1.36;color:#1c2b29}
-.opt .k{flex:0 0 28px;height:28px;border-radius:50%;background:#e6f4f2;color:#0b4f4a;font-weight:700;font-size:14.5px;display:flex;align-items:center;justify-content:center;border:1.5px solid #b9ddd8}
-.opt.right{background:#ecfdf5;border-color:#34d399;box-shadow:0 0 0 3px rgba(52,211,153,.16)}
-.opt.right .k{background:#059669;color:#fff;border-color:#059669}
-.opt.wrong{opacity:.62}
-.why{margin-top:16px;background:#f0fbf9;border-left:4px solid #0f766e;padding:11px 16px;font-size:15.5px;line-height:1.45;border-radius:0 4px 4px 0}
-.why b{color:#0b4f4a}
-.why .no{display:block;margin-top:7px;color:#7f1d1d;font-size:14.5px}
-.qmeta{font-size:13px;color:#5b7a76;margin-top:12px}
-
-/* ---------- svg vocabulary ---------- */
-.bx{fill:#f0fbf9;stroke:#bfe3de;stroke-width:1.5}
-.bx.g{fill:#ecfdf5;stroke:#a7f3d0}
-.bx.a{fill:#fffbeb;stroke:#fcd34d}
-.bx.r{fill:#fef2f2;stroke:#fecaca}
-.bx.p{fill:#f5f3ff;stroke:#ddd6fe}
-.bx.d{fill:#062f2c;stroke:#062f2c}
-.bx.w{fill:#fff;stroke:#cbd5e1}
-.tt{font-size:15px;font-weight:600;fill:#062f2c}
-.tt.w{fill:#fff}
-.ss{font-size:12.5px;fill:#3f5f5c}
-.ss.w{fill:#a7f3d0}
-.lb{font-size:10.5px;font-weight:700;fill:#0f766e;letter-spacing:.7px}
-.lb.a{fill:#b45309}.lb.r{fill:#dc2626}.lb.g{fill:#047857}.lb.w{fill:#5eead4}.lb.p{fill:#6d28d9}
-.ar{fill:none;stroke:#94b8b3;stroke-width:2;marker-end:url(#arw)}
-.arr{fill:none;stroke:#dc2626;stroke-width:2;marker-end:url(#arr)}
-.arg{fill:none;stroke:#059669;stroke-width:2;marker-end:url(#arg)}
-.fl{fill:none;stroke:#0f766e;stroke-width:2.5;stroke-dasharray:7 9;marker-end:url(#arb)}
-.slide.active .fl{animation:march 1.1s linear infinite}
-@keyframes march{to{stroke-dashoffset:-16}}
-.pulse{transform-box:fill-box;transform-origin:center}
-.slide.active .pulse{animation:pl 2.2s ease-in-out infinite}
-@keyframes pl{0%,100%{opacity:.25}50%{opacity:.9}}
-.tok{opacity:0}
-.slide.active .tok{animation:tk 6s linear infinite}
-@keyframes tk{0%,8%{opacity:0}14%,86%{opacity:1}96%,100%{opacity:0}}
-.slide.active .t2{animation-delay:.6s}.slide.active .t3{animation-delay:1.2s}
-.slide.active .t4{animation-delay:1.8s}.slide.active .t5{animation-delay:2.4s}
-.slide.active .t6{animation-delay:3s}
-.rise{transform-box:fill-box;transform-origin:bottom}
-.slide.active .rise{animation:rs .9s cubic-bezier(.2,.8,.3,1) both}
-.slide.active .r2{animation-delay:.12s}.slide.active .r3{animation-delay:.24s}
-.slide.active .r4{animation-delay:.36s}.slide.active .r5{animation-delay:.48s}
-.slide.active .r6{animation-delay:.6s}
-@keyframes rs{from{transform:scaleY(.04)}to{transform:scaleY(1)}}
-.grow{transform-box:fill-box;transform-origin:left}
-.slide.active .grow{animation:gw 1.1s cubic-bezier(.2,.8,.3,1) both}
-.slide.active .w2{animation-delay:.14s}.slide.active .w3{animation-delay:.28s}
-.slide.active .w4{animation-delay:.42s}.slide.active .w5{animation-delay:.56s}
-@keyframes gw{from{transform:scaleX(.02)}to{transform:scaleX(1)}}
-.dash{stroke-dasharray:5 5}
-@media (prefers-reduced-motion:reduce){
-  .slide.active .fl,.slide.active .pulse,.slide.active .tok,.slide.active .rise,.slide.active .grow{animation:none}
-  .tok{opacity:1}
-}
-
-@media print{
-  @page{size:1280px 720px;margin:0}
-  body{background:#fff;overflow:visible}
-  #top,#bot,#toc,#notes{display:none}
-  #wrap{position:static;display:block}
-  #stage{transform:none!important;width:1280px;height:auto;overflow:visible;box-shadow:none}
-  .slide{display:flex!important;position:relative;page-break-after:always;height:720px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-}
-</style>
+<link rel="stylesheet" href="../assets/adlc-deck.css">
 </head>
-<body>
+<body data-deck="Module 1">
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
-  <marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#94b8b3"/></marker>
-  <marker id="arb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#0f766e"/></marker>
-  <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#dc2626"/></marker>
-  <marker id="arg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#059669"/></marker>
+  <marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#71809a"/></marker>
+  <marker id="arb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#6ea8fe"/></marker>
+  <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#e2726e"/></marker>
+  <marker id="arg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#5fbf8f"/></marker>
 </defs></svg>
 
-<div id="top">
-  <div class="l">
-    <span class="mod">Module 1 &middot; The ADLC Operating Model &amp; Token Economics</span>
-    <span class="sec" id="sec"></span>
-    <span class="tier" id="tier"></span><span class="after" id="after">AFTER LAB</span>
-  </div>
-  <div class="r">
-    <a href="../course-outline-agentic-adlc-github-copilot.html" title="Open the 2-day course outline">Course outline</a>
-    <button id="tocbtn" title="Index (O)">Index</button>
-    <button id="notesbtn" title="Speaker notes (N)">Notes</button>
-    <button id="fsbtn" title="Fullscreen (F)">Full</button>
-  </div>
-</div>
-
-<div id="toc"><h3>Module 1 &mdash; slide index</h3><div class="cols" id="toclist"></div></div>
-
-<div id="wrap"><div id="stage">
+<div id="viewport"><div id="stage">
 <!-- 1 -->
 <section class="slide title" data-sec="Opening" data-title="Title" data-notes="Open on the framing, not the tooling. Everyone in this room already uses Copilot agents daily - so nothing today is about whether the tool works. The whole module is about what a request costs and what makes it cost that. The one sentence to land before moving on: the agent is fast, but every request where it re-learns what your team already knows is paid for twice - once at the meter, once in the answer being wrong." data-tier="R">
-  <h1>The ADLC Operating Model<br>&amp; Token Economics</h1>
-  <div class="sub">Module 1 &mdash; what a request actually costs, and what decides that</div>
-  <div class="rule"></div>
-  <div class="meta">
-    <b>Agentic ADLC with GitHub Copilot</b> &mdash; From JIRA Ticket to Merged PR<br>
-    Day 1 &middot; Module 1 of 8 &nbsp;|&nbsp; Advanced &nbsp;|&nbsp; Trainer: <b>Rajesh Gheware</b>
-  </div>
-  <div class="chips">
+  <div class="wrap">
+    <span class="tier">Day 1 &middot; Module 1 of 8</span>
+    <h1>The ADLC Operating Model<br>&amp; Token Economics</h1>
+    <p class="sub">What a request actually costs, and what decides that.</p>
+    <p class="meta">
+      <span><b>Agentic ADLC with GitHub Copilot</b> &mdash; From JIRA Ticket to Merged PR</span>
+      <span>Advanced</span>
+      <span>Trainer: Rajesh Gheware</span>
+    </p>
+    <div class="chips">
     <span class="chip">ADLC vs. SDLC</span>
     <span class="chip">The re-discovery tax</span>
     <span class="chip">Baselining a ticket</span>
     <span class="chip">Mode &amp; model selection</span>
     <span class="chip">Context as a budget</span>
     <span class="chip">Interactive vs. delegated</span>
+  
+    </div>
   </div>
 </section>
 
@@ -237,14 +70,14 @@ svg{width:100%;height:auto;display:block}
 
         <text class="lb a" x="4" y="248">THE SPINE &mdash; MEASURED HERE, RE-MEASURED AT THE CAPSTONE</text>
         <rect class="bx d" x="4" y="258" width="692" height="76" rx="8"/>
-        <circle cx="60" cy="296" r="21" fill="#fbbf24"/>
-        <text x="60" y="301" text-anchor="middle" style="font-size:13px;font-weight:700;fill:#062f2c">M1</text>
+        <circle cx="60" cy="296" r="21" fill="#e0b34d"/>
+        <text x="60" y="301" text-anchor="middle" style="font-size:13px;font-weight:700;fill:#0e1116">M1</text>
         <path class="fl" d="M88 296 L240 296"/>
         <text class="ss w" x="252" y="291" style="font-size:13px">M2 knowledge &middot; M3 prompts &middot; M4 agents</text>
         <text class="ss w" x="252" y="310" style="font-size:13px">M5 specs &middot; M6 tickets &middot; M7 repos</text>
         <path class="fl" d="M556 296 L608 296"/>
-        <circle cx="640" cy="296" r="21" fill="#2dd4bf"/>
-        <text x="640" y="301" text-anchor="middle" style="font-size:12px;font-weight:700;fill:#062f2c">M8</text>
+        <circle cx="640" cy="296" r="21" fill="#6ea8fe"/>
+        <text x="640" y="301" text-anchor="middle" style="font-size:12px;font-weight:700;fill:#0e1116">M8</text>
 
         <rect class="bx r" x="4" y="348" width="340" height="76" rx="8"/>
         <text class="lb r" x="20" y="370">NOT THIS MODULE</text>
@@ -342,7 +175,7 @@ svg{width:100%;height:auto;display:block}
         <rect class="bx d" x="4" y="344" width="1172" height="100" rx="8"/>
         <text class="tt w" x="26" y="374" style="font-size:16px">The consequence &mdash; and the reason this module exists:</text>
         <text class="ss w" x="26" y="400" style="font-size:14.5px">The step that used to be expensive is now cheap. If your process still spends its effort where the SDLC spent it, you are</text>
-        <text class="ss w" x="26" y="424" style="font-size:14.5px">optimising a step that <tspan font-weight="700" fill="#fbbf24">stopped being the bottleneck</tspan> &mdash; and paying for the two that became one.</text>
+        <text class="ss w" x="26" y="424" style="font-size:14.5px">optimising a step that <tspan font-weight="700" fill="#e0b34d">stopped being the bottleneck</tspan> &mdash; and paying for the two that became one.</text>
       </svg>
     </div>
   </div>
@@ -380,22 +213,22 @@ svg{width:100%;height:auto;display:block}
         <text class="tt" x="430" y="64">Code review</text>
         <text class="ss" x="430" y="84">was: sampling a colleague whose intent</text>
         <text class="ss" x="430" y="102">you trust &rarr; now: the author has no intent</text>
-        <text class="ss" x="430" y="118" style="fill:#b45309;font-weight:600">sampling is now the wrong strategy</text>
+        <text class="ss" x="430" y="118" style="fill:#d98a3d;font-weight:600">sampling is now the wrong strategy</text>
         <rect class="bx w grow w2" x="414" y="130" width="338" height="80" rx="5"/>
         <text class="tt" x="430" y="152">Documentation</text>
         <text class="ss" x="430" y="172">was: a cost centre you skimp on</text>
         <text class="ss" x="430" y="190">now: executable context, paid back</text>
-        <text class="ss" x="430" y="206" style="fill:#b45309;font-weight:600">per request &mdash; the Module 2 argument</text>
+        <text class="ss" x="430" y="206" style="fill:#d98a3d;font-weight:600">per request &mdash; the Module 2 argument</text>
         <rect class="bx w grow w3" x="414" y="218" width="338" height="80" rx="5"/>
         <text class="tt" x="430" y="240">Writing the code</text>
         <text class="ss" x="430" y="260">was: the scarce, skilled bottleneck</text>
         <text class="ss" x="430" y="278">now: the cheapest step in the chain</text>
-        <text class="ss" x="430" y="294" style="fill:#b45309;font-weight:600">stop optimising it</text>
+        <text class="ss" x="430" y="294" style="fill:#d98a3d;font-weight:600">stop optimising it</text>
         <rect class="bx w grow w4" x="414" y="306" width="338" height="80" rx="5"/>
         <text class="tt" x="430" y="328">Estimation</text>
         <text class="ss" x="430" y="348">was: sized to typing and thinking time</text>
         <text class="ss" x="430" y="366">now: sized to specification clarity and</text>
-        <text class="ss" x="430" y="382" style="fill:#b45309;font-weight:600">verification cost &mdash; Module 6</text>
+        <text class="ss" x="430" y="382" style="fill:#d98a3d;font-weight:600">verification cost &mdash; Module 6</text>
 
         <rect class="bx r" x="784" y="6" width="392" height="404" rx="8"/>
         <text class="lb r" x="804" y="30">NEW &mdash; NO SDLC EQUIVALENT</text>
@@ -469,8 +302,8 @@ svg{width:100%;height:auto;display:block}
         <text class="ss" x="846" y="184">&mdash; in a Confluence page</text>
         <text class="ss" x="846" y="204">&mdash; in a pull request from last quarter</text>
         <text class="ss" x="846" y="224">&mdash; in the code, unindexed and unstated</text>
-        <text class="ss" x="846" y="256" style="fill:#b45309;font-weight:600">It rebuilt them last request too.</text>
-        <text class="ss" x="846" y="274" style="fill:#b45309;font-weight:600">It will rebuild them in the next one.</text>
+        <text class="ss" x="846" y="256" style="fill:#d98a3d;font-weight:600">It rebuilt them last request too.</text>
+        <text class="ss" x="846" y="274" style="fill:#d98a3d;font-weight:600">It will rebuild them in the next one.</text>
 
         <rect class="bx a" x="826" y="300" width="350" height="102" rx="8"/>
         <text class="lb a" x="846" y="324">WHY IT REPEATS</text>
@@ -479,7 +312,7 @@ svg{width:100%;height:auto;display:block}
         <text class="ss" x="846" y="386">repository never told it anything.</text>
 
         <rect class="bx d" x="4" y="414" width="1172" height="38" rx="6"/>
-        <text class="tt w" x="590" y="439" text-anchor="middle" style="font-size:15px">This is not a model weakness and not a prompting failure. It is the <tspan fill="#fbbf24" font-weight="700">default cost of an unprepared repository</tspan> &mdash; and it is charged on every request.</text>
+        <text class="tt w" x="590" y="439" text-anchor="middle" style="font-size:15px">This is not a model weakness and not a prompting failure. It is the <tspan fill="#e0b34d" font-weight="700">default cost of an unprepared repository</tspan> &mdash; and it is charged on every request.</text>
       </svg>
     </div>
   </div>
@@ -500,43 +333,43 @@ svg{width:100%;height:auto;display:block}
         <text class="tt" x="24" y="72">1 &middot; Topography</text>
         <text class="ss" x="24" y="92">where modules, config and entry points are</text>
         <text class="ss" x="440" y="72">The code &mdash; but only by reading a lot of it</text>
-        <text class="ss" x="440" y="92" style="fill:#b45309">every request pays the same reading cost</text>
+        <text class="ss" x="440" y="92" style="fill:#d98a3d">every request pays the same reading cost</text>
         <text class="ss" x="808" y="82">Extra turns; files opened that did not matter</text>
 
         <rect class="bx grow w2" x="4" y="114" width="1172" height="60" rx="6"/>
         <text class="tt" x="24" y="140">2 &middot; Conventions</text>
         <text class="ss" x="24" y="160">naming, layering, error handling, test style</text>
         <text class="ss" x="440" y="140">A senior engineer&rsquo;s head; a style guide</text>
-        <text class="ss" x="440" y="160" style="fill:#b45309">nobody has opened since onboarding</text>
+        <text class="ss" x="440" y="160" style="fill:#d98a3d">nobody has opened since onboarding</text>
         <text class="ss" x="808" y="150">Code that works but reads foreign &rarr; review churn</text>
 
         <rect class="bx grow w3" x="4" y="182" width="1172" height="60" rx="6"/>
         <text class="tt" x="24" y="208">3 &middot; Domain vocabulary</text>
         <text class="ss" x="24" y="228">what your nouns mean in your business</text>
         <text class="ss" x="440" y="208">Tickets, tribal knowledge, a glossary</text>
-        <text class="ss" x="440" y="228" style="fill:#b45309">that is four product names out of date</text>
+        <text class="ss" x="440" y="228" style="fill:#d98a3d">that is four product names out of date</text>
         <text class="ss" x="808" y="218">Subtly wrong logic that passes review</text>
 
         <rect class="bx r grow w4" x="4" y="250" width="1172" height="60" rx="6"/>
         <text class="tt" x="24" y="276">4 &middot; Prior decisions and their reasons</text>
         <text class="ss" x="24" y="296">the ADR, the trade-off, the thing you tried and rejected</text>
         <text class="ss" x="440" y="276">Confluence, a PR thread, a Slack scroll-back</text>
-        <text class="ss" x="440" y="296" style="fill:#b45309">effectively unreachable at request time</text>
-        <text class="ss" x="808" y="286" style="fill:#dc2626;font-weight:600">It invents a competing pattern &mdash; and now you own two</text>
+        <text class="ss" x="440" y="296" style="fill:#d98a3d">effectively unreachable at request time</text>
+        <text class="ss" x="808" y="286" style="fill:#e2726e;font-weight:600">It invents a competing pattern &mdash; and now you own two</text>
 
         <rect class="bx grow w5" x="4" y="318" width="1172" height="60" rx="6"/>
         <text class="tt" x="24" y="344">5 &middot; Environment facts</text>
         <text class="ss" x="24" y="364">library versions, platform limits, what is actually deployed</text>
         <text class="ss" x="440" y="344">Build files &mdash; if it thinks to look</text>
-        <text class="ss" x="440" y="364" style="fill:#b45309">otherwise it assumes the most common version</text>
+        <text class="ss" x="440" y="364" style="fill:#d98a3d">otherwise it assumes the most common version</text>
         <text class="ss" x="808" y="354">Code written against an API you do not have</text>
 
         <rect class="bx r grow w5" x="4" y="386" width="1172" height="60" rx="6"/>
         <text class="tt" x="24" y="412">6 &middot; Negative constraints</text>
         <text class="ss" x="24" y="432">what is forbidden, deprecated, or deliberately not done here</text>
         <text class="ss" x="440" y="412">Nowhere. Absence is not readable.</text>
-        <text class="ss" x="440" y="432" style="fill:#dc2626;font-weight:600">the agent cannot infer a prohibition</text>
-        <text class="ss" x="808" y="422" style="fill:#dc2626;font-weight:600">It reintroduces the thing you spent a quarter removing</text>
+        <text class="ss" x="440" y="432" style="fill:#e2726e;font-weight:600">the agent cannot infer a prohibition</text>
+        <text class="ss" x="808" y="422" style="fill:#e2726e;font-weight:600">It reintroduces the thing you spent a quarter removing</text>
       </svg>
     </div>
   </div>
@@ -574,7 +407,7 @@ svg{width:100%;height:auto;display:block}
         <path class="ar" d="M144 232 L144 206"/>
         <rect class="bx" x="24" y="300" width="506" height="50" rx="5"/>
         <text class="ss" x="44" y="322" style="font-size:13.5px">Annoying, visible, and budgetable. This is the half people argue about</text>
-        <text class="ss" x="44" y="340" style="font-size:13.5px">in licence reviews &mdash; and it is the <tspan font-weight="700" fill="#b45309">cheaper</tspan> half of the bill.</text>
+        <text class="ss" x="44" y="340" style="font-size:13.5px">in licence reviews &mdash; and it is the <tspan font-weight="700" fill="#d98a3d">cheaper</tspan> half of the bill.</text>
 
         <rect class="bx r" x="630" y="112" width="546" height="252" rx="8"/>
         <text class="lb r" x="650" y="136">LOOP 2 &mdash; THE INVISIBLE COST &middot; SHOWS ON NO DASHBOARD</text>
@@ -596,7 +429,7 @@ svg{width:100%;height:auto;display:block}
         <path class="arr" d="M770 232 L770 206"/>
         <rect class="bx" x="650" y="300" width="506" height="50" rx="5"/>
         <text class="ss" x="670" y="322" style="font-size:13.5px">No counter increments when the agent is confidently wrong. You pay in</text>
-        <text class="ss" x="670" y="340" style="font-size:13.5px">review time, defects and rework &mdash; the <tspan font-weight="700" fill="#dc2626">expensive</tspan> half.</text>
+        <text class="ss" x="670" y="340" style="font-size:13.5px">review time, defects and rework &mdash; the <tspan font-weight="700" fill="#e2726e">expensive</tspan> half.</text>
 
         <path class="fl" d="M550 320 L626 320"/>
         <path class="fl" d="M626 200 L550 200"/>
@@ -607,7 +440,7 @@ svg{width:100%;height:auto;display:block}
 
         <rect class="bx g" x="4" y="378" width="1172" height="70" rx="8"/>
         <text class="tt" x="26" y="404" style="font-size:16px">The asymmetry that justifies the next four modules:</text>
-        <text class="ss" x="26" y="430" style="font-size:14.5px">Both loops are fed by the same cause, so <tspan font-weight="700" fill="#047857">one intervention drains both</tspan> &mdash; write the fact down once, in the repository, where it is read instead of re-derived. That is Module 2.</text>
+        <text class="ss" x="26" y="430" style="font-size:14.5px">Both loops are fed by the same cause, so <tspan font-weight="700" fill="#5fbf8f">one intervention drains both</tspan> &mdash; write the fact down once, in the repository, where it is read instead of re-derived. That is Module 2.</text>
       </svg>
     </div>
   </div>
@@ -694,7 +527,7 @@ svg{width:100%;height:auto;display:block}
       <svg viewBox="0 0 700 442" role="img" aria-label="The baseline tally sheet and where it is re-measured across the two days">
         <text class="lb" x="4" y="14">THE TALLY SHEET &mdash; ONE ROW PER MEASURED RUN</text>
         <rect class="bx" x="4" y="24" width="692" height="196" rx="8"/>
-        <line x1="20" y1="72" x2="680" y2="72" stroke="#bfe3de" stroke-width="1.5"/>
+        <line x1="20" y1="72" x2="680" y2="72" stroke="#435063" stroke-width="1.5"/>
         <text class="lb" x="20" y="52">RUN</text>
         <text class="lb" x="250" y="52">TURNS</text>
         <text class="lb" x="330" y="52">TOOL</text>
@@ -705,12 +538,12 @@ svg{width:100%;height:auto;display:block}
 
         <rect class="bx a" x="16" y="80" width="668" height="34" rx="4"/>
         <text class="tt" x="28" y="102" style="font-size:13.5px">1.1 &mdash; today, unprepared repo</text>
-        <text class="ss" x="266" y="102" style="font-weight:700;fill:#b45309">?</text>
-        <text class="ss" x="344" y="102" style="font-weight:700;fill:#b45309">?</text>
-        <text class="ss" x="422" y="102" style="font-weight:700;fill:#b45309">?</text>
-        <text class="ss" x="506" y="102" style="font-weight:700;fill:#b45309">?</text>
-        <text class="ss" x="588" y="102" style="font-weight:700;fill:#b45309">?</text>
-        <text class="ss" x="652" y="102" style="font-weight:700;fill:#b45309">?</text>
+        <text class="ss" x="266" y="102" style="font-weight:700;fill:#d98a3d">?</text>
+        <text class="ss" x="344" y="102" style="font-weight:700;fill:#d98a3d">?</text>
+        <text class="ss" x="422" y="102" style="font-weight:700;fill:#d98a3d">?</text>
+        <text class="ss" x="506" y="102" style="font-weight:700;fill:#d98a3d">?</text>
+        <text class="ss" x="588" y="102" style="font-weight:700;fill:#d98a3d">?</text>
+        <text class="ss" x="652" y="102" style="font-weight:700;fill:#d98a3d">?</text>
 
         <rect class="bx w" x="16" y="118" width="668" height="30" rx="4"/>
         <text class="ss" x="28" y="138" style="font-size:13px">after Module 2 &mdash; knowledge in the repo</text>
@@ -724,18 +557,18 @@ svg{width:100%;height:auto;display:block}
 
         <rect class="bx g" x="16" y="186" width="668" height="30" rx="4"/>
         <text class="tt" x="28" y="206" style="font-size:13.5px">capstone &mdash; full pipeline, Day 2</text>
-        <text class="ss" x="266" y="206" style="font-weight:700;fill:#047857">?</text>
-        <text class="ss" x="344" y="206" style="font-weight:700;fill:#047857">?</text>
-        <text class="ss" x="422" y="206" style="font-weight:700;fill:#047857">?</text>
-        <text class="ss" x="506" y="206" style="font-weight:700;fill:#047857">?</text>
-        <text class="ss" x="588" y="206" style="font-weight:700;fill:#047857">?</text>
-        <text class="ss" x="652" y="206" style="font-weight:700;fill:#047857">?</text>
+        <text class="ss" x="266" y="206" style="font-weight:700;fill:#5fbf8f">?</text>
+        <text class="ss" x="344" y="206" style="font-weight:700;fill:#5fbf8f">?</text>
+        <text class="ss" x="422" y="206" style="font-weight:700;fill:#5fbf8f">?</text>
+        <text class="ss" x="506" y="206" style="font-weight:700;fill:#5fbf8f">?</text>
+        <text class="ss" x="588" y="206" style="font-weight:700;fill:#5fbf8f">?</text>
+        <text class="ss" x="652" y="206" style="font-weight:700;fill:#5fbf8f">?</text>
 
         <text class="lb a" x="4" y="248">WHY THE FIRST ROW MUST BE UNFLATTERING</text>
         <rect class="bx r" x="4" y="258" width="692" height="86" rx="8"/>
         <text class="ss" x="24" y="284">A baseline taken carefully, with a well-phrased prompt on a repo you happen to know</text>
         <text class="ss" x="24" y="304">well, is not a baseline &mdash; it is a second measurement of the thing we have not taught yet.</text>
-        <text class="tt" x="24" y="330" style="fill:#dc2626">Measure the Tuesday you actually have, not the Tuesday you would like to show.</text>
+        <text class="tt" x="24" y="330" style="fill:#e2726e">Measure the Tuesday you actually have, not the Tuesday you would like to show.</text>
 
         <rect class="bx d" x="4" y="358" width="692" height="84" rx="8"/>
         <text class="lb w" x="24" y="382">THE ONLY CLAIM THIS COURSE MAKES ABOUT ITSELF</text>
@@ -755,7 +588,7 @@ svg{width:100%;height:auto;display:block}
         <text class="lb g" x="24" y="30">MECHANICAL</text>
         <text class="tt" x="24" y="56" style="font-size:17px">The answer is already known</text>
         <text class="ss" x="24" y="80">You are asking for it to be <tspan font-weight="600">applied</tspan>, consistently.</text>
-        <line x1="24" y1="94" x2="364" y2="94" stroke="#a7f3d0" stroke-width="1.5"/>
+        <line x1="24" y1="94" x2="364" y2="94" stroke="#5fbf8f" stroke-width="1.5"/>
         <text class="lb" x="24" y="116">TYPICAL WORK</text>
         <text class="ss" x="24" y="138">DTOs, mappers, boilerplate, test scaffolds</text>
         <text class="ss" x="24" y="158">mechanical refactors, version bumps</text>
@@ -767,13 +600,13 @@ svg{width:100%;height:auto;display:block}
         <text class="ss" x="24" y="302">Cheap &mdash; the compiler or a test answers</text>
         <text class="ss" x="24" y="322">in seconds, and answers definitively</text>
         <rect class="bx w" x="24" y="334" width="340" height="30" rx="4"/>
-        <text class="ss" x="38" y="354" style="font-weight:600;fill:#047857">Failure mode: inconsistency &mdash; and it is obvious</text>
+        <text class="ss" x="38" y="354" style="font-weight:600;fill:#5fbf8f">Failure mode: inconsistency &mdash; and it is obvious</text>
 
         <rect class="bx a" x="400" y="6" width="380" height="368" rx="8"/>
         <text class="lb a" x="420" y="30">REASONING</text>
         <text class="tt" x="420" y="56" style="font-size:17px">The answer is not determined</text>
         <text class="ss" x="420" y="80">Several are defensible; you are choosing between them.</text>
-        <line x1="420" y1="94" x2="760" y2="94" stroke="#fcd34d" stroke-width="1.5"/>
+        <line x1="420" y1="94" x2="760" y2="94" stroke="#d98a3d" stroke-width="1.5"/>
         <text class="lb" x="420" y="116">TYPICAL WORK</text>
         <text class="ss" x="420" y="138">Designing the idempotency strategy</text>
         <text class="ss" x="420" y="158">a schema change and its migration path</text>
@@ -785,13 +618,13 @@ svg{width:100%;height:auto;display:block}
         <text class="ss" x="420" y="302">Expensive &mdash; needs a human who knows</text>
         <text class="ss" x="420" y="322">the system; tests passing proves little</text>
         <rect class="bx w" x="420" y="334" width="340" height="30" rx="4"/>
-        <text class="ss" x="434" y="354" style="font-weight:600;fill:#b45309">Failure mode: a defensible-looking wrong choice</text>
+        <text class="ss" x="434" y="354" style="font-weight:600;fill:#d98a3d">Failure mode: a defensible-looking wrong choice</text>
 
         <rect class="bx p" x="796" y="6" width="380" height="368" rx="8"/>
         <text class="lb p" x="816" y="30">REVIEW</text>
         <text class="tt" x="816" y="56" style="font-size:17px">Its value is independence</text>
         <text class="ss" x="816" y="80">Not skill &mdash; <tspan font-weight="600">not having been the author</tspan>.</text>
-        <line x1="816" y1="94" x2="1156" y2="94" stroke="#ddd6fe" stroke-width="1.5"/>
+        <line x1="816" y1="94" x2="1156" y2="94" stroke="#a78bfa" stroke-width="1.5"/>
         <text class="lb" x="816" y="116">TYPICAL WORK</text>
         <text class="ss" x="816" y="138">Adversarial read of a change set</text>
         <text class="ss" x="816" y="158">checking a diff against the spec</text>
@@ -803,11 +636,11 @@ svg{width:100%;height:auto;display:block}
         <text class="ss" x="816" y="302">Judged on what it caught &mdash; and you</text>
         <text class="ss" x="816" y="322">only learn that from the misses</text>
         <rect class="bx w" x="816" y="334" width="340" height="30" rx="4"/>
-        <text class="ss" x="830" y="354" style="font-weight:600;fill:#6d28d9">Failure mode: reviewing its own work, and agreeing</text>
+        <text class="ss" x="830" y="354" style="font-size:12.5px;font-weight:600;fill:#a78bfa">Failure mode: reviewing its own work, and agreeing</text>
 
         <rect class="bx d" x="4" y="386" width="1172" height="64" rx="8"/>
         <text class="tt w" x="26" y="412" style="font-size:15.5px">The diagnostic question, asked before every request:</text>
-        <text class="ss w" x="26" y="438" style="font-size:14.5px">&ldquo;Is the answer already determined and I am asking for it to be applied &mdash; or am I asking it to <tspan font-weight="700" fill="#fbbf24">choose</tspan>?&rdquo; Most work people treat as reasoning is mechanical, and priced accordingly.</text>
+        <text class="ss w" x="26" y="438" style="font-size:14.5px">&ldquo;Is the answer already determined and I am asking for it to be applied &mdash; or am I asking it to <tspan font-weight="700" fill="#e0b34d">choose</tspan>?&rdquo; Most work people treat as reasoning is mechanical, and priced accordingly.</text>
       </svg>
     </div>
   </div>
@@ -819,8 +652,8 @@ svg{width:100%;height:auto;display:block}
   <div class="body g64">
     <div>
       <svg viewBox="0 0 700 448" role="img" aria-label="Quadrant chart plotting task ambiguity against cost of being wrong, with model class recommendations">
-        <line x1="70" y1="20" x2="70" y2="386" stroke="#94b8b3" stroke-width="2"/>
-        <line x1="70" y1="386" x2="672" y2="386" stroke="#94b8b3" stroke-width="2"/>
+        <line x1="70" y1="20" x2="70" y2="386" stroke="#71809a" stroke-width="2"/>
+        <line x1="70" y1="386" x2="672" y2="386" stroke="#71809a" stroke-width="2"/>
         <text class="lb" x="8" y="32">COST OF</text>
         <text class="lb" x="8" y="46">BEING</text>
         <text class="lb" x="8" y="60">WRONG</text>
@@ -845,7 +678,7 @@ svg{width:100%;height:auto;display:block}
         <text class="ss" x="396" y="114">design &middot; diagnosis &middot; cross-cutting</text>
         <rect class="bx w" x="396" y="126" width="256" height="62" rx="5"/>
         <text class="ss" x="410" y="146">A small share of your requests &mdash;</text>
-        <text class="ss" x="410" y="164" style="font-weight:600;fill:#dc2626">and most of the consequences.</text>
+        <text class="ss" x="410" y="164" style="font-weight:600;fill:#e2726e">and most of the consequences.</text>
         <text class="ss" x="410" y="182">The quadrant worth paying for.</text>
 
         <rect class="bx g" x="76" y="204" width="292" height="178" rx="7"/>
@@ -855,7 +688,7 @@ svg{width:100%;height:auto;display:block}
         <text class="ss" x="94" y="298">renames &middot; mechanical refactors</text>
         <rect class="bx w" x="94" y="310" width="256" height="64" rx="5"/>
         <text class="ss" x="108" y="330" style="font-weight:600">Most of your requests live here.</text>
-        <text class="ss" x="108" y="348" style="font-weight:600;fill:#047857">A reasoning model here is waste</text>
+        <text class="ss" x="108" y="348" style="font-weight:600;fill:#5fbf8f">A reasoning model here is waste</text>
         <text class="ss" x="108" y="366">&mdash; and slower, costing you the loop</text>
 
         <rect class="bx a" x="378" y="204" width="292" height="178" rx="7"/>
@@ -899,7 +732,7 @@ svg{width:100%;height:auto;display:block}
         <rect class="bx g" x="4" y="28" width="376" height="238" rx="8"/>
         <text class="tt" x="24" y="58" style="font-size:19px">Ask</text>
         <rect class="bx w" x="24" y="70" width="336" height="34" rx="4"/>
-        <text class="ss" x="38" y="92" style="font-weight:600;fill:#047857">Changes nothing. Answers only.</text>
+        <text class="ss" x="38" y="92" style="font-weight:600;fill:#5fbf8f">Changes nothing. Answers only.</text>
         <text class="lb" x="24" y="128">USE IT FOR</text>
         <text class="ss" x="24" y="150">Understanding code you did not write</text>
         <text class="ss" x="24" y="170">Options and trade-offs before committing</text>
@@ -912,7 +745,7 @@ svg{width:100%;height:auto;display:block}
         <rect class="bx a" x="410" y="28" width="376" height="238" rx="8"/>
         <text class="tt" x="430" y="58" style="font-size:19px">Edit</text>
         <rect class="bx w" x="430" y="70" width="336" height="34" rx="4"/>
-        <text class="ss" x="444" y="92" style="font-weight:600;fill:#b45309">Changes what you pointed at. Nothing else.</text>
+        <text class="ss" x="444" y="92" style="font-weight:600;fill:#d98a3d">Changes what you pointed at. Nothing else.</text>
         <text class="lb" x="430" y="128">USE IT FOR</text>
         <text class="ss" x="430" y="150">A change whose location you already know</text>
         <text class="ss" x="430" y="170">Bounded, reviewable, one or a few files</text>
@@ -925,7 +758,7 @@ svg{width:100%;height:auto;display:block}
         <rect class="bx r" x="816" y="28" width="360" height="238" rx="8"/>
         <text class="tt" x="836" y="58" style="font-size:19px">Agent</text>
         <rect class="bx w" x="836" y="70" width="320" height="34" rx="4"/>
-        <text class="ss" x="850" y="92" style="font-weight:600;fill:#dc2626">Decides what to touch. Runs commands.</text>
+        <text class="ss" x="850" y="92" style="font-weight:600;fill:#e2726e">Decides what to touch. Runs commands.</text>
         <text class="lb" x="836" y="128">USE IT FOR</text>
         <text class="ss" x="836" y="150">Work spanning files you cannot enumerate</text>
         <text class="ss" x="836" y="170">Anything needing build / test feedback</text>
@@ -947,7 +780,7 @@ svg{width:100%;height:auto;display:block}
         <text class="ss" x="620" y="372" style="font-size:13.5px">choosing how much of the repository it may change while you look away.</text>
 
         <rect class="bx d" x="4" y="394" width="1172" height="52" rx="8"/>
-        <text class="tt w" x="590" y="426" text-anchor="middle" style="font-size:15px">Mode sets the blast radius &middot; model sets the reasoning &middot; context sets the accuracy &mdash; <tspan fill="#fbbf24" font-weight="700">three separate decisions, made on purpose, every time</tspan></text>
+        <text class="tt w" x="590" y="426" text-anchor="middle" style="font-size:15px">Mode sets the blast radius &middot; model sets the reasoning &middot; context sets the accuracy &mdash; <tspan fill="#e0b34d" font-weight="700">three separate decisions, made on purpose, every time</tspan></text>
       </svg>
     </div>
   </div>
@@ -962,32 +795,32 @@ svg{width:100%;height:auto;display:block}
         <text class="lb" x="4" y="14">ONE TURN, LATE IN A SESSION &mdash; WHAT THE WINDOW IS HOLDING</text>
         <rect class="bx w" x="4" y="24" width="404" height="410" rx="8"/>
 
-        <rect x="20" y="40" width="372" height="52" rx="4" fill="#e6f4f2" stroke="#bfe3de" stroke-width="1.5"/>
+        <rect x="20" y="40" width="372" height="52" rx="4" fill="#1a2029" stroke="#435063" stroke-width="1.5"/>
         <text class="tt" x="34" y="62" style="font-size:13.5px">Room left to think and answer</text>
         <text class="ss" x="34" y="82">what you are actually paying for</text>
         <text class="lb g" x="378" y="68" text-anchor="end">WANTED</text>
 
-        <rect x="20" y="98" width="372" height="86" rx="4" fill="#fef2f2" stroke="#fecaca" stroke-width="1.5"/>
+        <rect x="20" y="98" width="372" height="86" rx="4" fill="#2a1d20" stroke="#e2726e" stroke-width="1.5"/>
         <text class="tt" x="34" y="120" style="font-size:13.5px">Tool output</text>
         <text class="ss" x="34" y="140">build logs, test runs, whole-file reads,</text>
         <text class="ss" x="34" y="158">search results you did not need</text>
-        <text class="ss" x="34" y="176" style="fill:#dc2626;font-weight:600">the silent killer &mdash; one dump can outweigh the chat</text>
+        <text class="ss" x="34" y="176" style="fill:#e2726e;font-weight:600">the silent killer &mdash; one dump can outweigh the chat</text>
 
-        <rect x="20" y="190" width="372" height="70" rx="4" fill="#fffbeb" stroke="#fcd34d" stroke-width="1.5"/>
+        <rect x="20" y="190" width="372" height="70" rx="4" fill="#2a2119" stroke="#d98a3d" stroke-width="1.5"/>
         <text class="tt" x="34" y="212" style="font-size:13.5px">The transcript so far</text>
         <text class="ss" x="34" y="232">every prompt, every answer, every correction</text>
-        <text class="ss" x="34" y="250" style="fill:#b45309">grows monotonically &mdash; including your mistakes</text>
+        <text class="ss" x="34" y="250" style="fill:#d98a3d">grows monotonically &mdash; including your mistakes</text>
 
-        <rect x="20" y="266" width="372" height="62" rx="4" fill="#f0fbf9" stroke="#bfe3de" stroke-width="1.5"/>
+        <rect x="20" y="266" width="372" height="62" rx="4" fill="#1a2029" stroke="#435063" stroke-width="1.5"/>
         <text class="tt" x="34" y="288" style="font-size:13.5px">Files pulled into the conversation</text>
         <text class="ss" x="34" y="308">by you, or by the agent&rsquo;s own searching</text>
-        <text class="ss" x="34" y="324" style="fill:#0f766e">the part you have the most control over</text>
+        <text class="ss" x="34" y="324" style="fill:#6ea8fe">the part you have the most control over</text>
 
-        <rect x="20" y="334" width="372" height="46" rx="4" fill="#ecfdf5" stroke="#a7f3d0" stroke-width="1.5"/>
+        <rect x="20" y="334" width="372" height="46" rx="4" fill="#18261f" stroke="#5fbf8f" stroke-width="1.5"/>
         <text class="tt" x="34" y="356" style="font-size:13.5px">Instruction files</text>
         <text class="ss" x="34" y="374">small, standing, high-value &mdash; Module 2</text>
 
-        <rect x="20" y="386" width="372" height="34" rx="4" fill="#062f2c"/>
+        <rect x="20" y="386" width="372" height="34" rx="4" fill="#07090d"/>
         <text class="tt w" x="34" y="407" style="font-size:13px">System &amp; tool definitions &mdash; not yours to spend</text>
 
         <rect class="bx a" x="422" y="24" width="274" height="196" rx="8"/>
@@ -1005,9 +838,9 @@ svg{width:100%;height:auto;display:block}
         <text class="ss" x="440" y="284">Material in the <tspan font-weight="600">middle</tspan> of a long</text>
         <text class="ss" x="440" y="304">window gets the least attention</text>
         <text class="ss" x="440" y="324">and is first to be crowded out.</text>
-        <text class="ss" x="440" y="354" style="fill:#dc2626;font-weight:600">That is exactly where your</text>
-        <text class="ss" x="440" y="374" style="fill:#dc2626;font-weight:600">instructions and the important</text>
-        <text class="ss" x="440" y="394" style="fill:#dc2626;font-weight:600">file usually ended up.</text>
+        <text class="ss" x="440" y="354" style="fill:#e2726e;font-weight:600">That is exactly where your</text>
+        <text class="ss" x="440" y="374" style="fill:#e2726e;font-weight:600">instructions and the important</text>
+        <text class="ss" x="440" y="394" style="fill:#e2726e;font-weight:600">file usually ended up.</text>
         <text class="ss" x="440" y="422">Hence: placement, not volume.</text>
       </svg>
     </div>
@@ -1049,7 +882,7 @@ svg{width:100%;height:auto;display:block}
         <text class="lb g" x="38" y="252">ECONOMICS</text>
         <text class="ss" x="38" y="274">Written once. Read on every request</text>
         <text class="ss" x="38" y="294">at no additional authoring cost.</text>
-        <text class="ss" x="38" y="314" style="font-weight:600;fill:#047857">This is the whole argument of Module 2.</text>
+        <text class="ss" x="38" y="314" style="font-weight:600;fill:#5fbf8f">This is the whole argument of Module 2.</text>
 
         <rect class="bx" x="402" y="96" width="376" height="242" rx="8"/>
         <text class="lb" x="422" y="120">NEEDED ONLY RIGHT NOW</text>
@@ -1073,7 +906,7 @@ svg{width:100%;height:auto;display:block}
         <text class="lb a" x="834" y="252">ECONOMICS</text>
         <text class="ss" x="834" y="274">Paid only on the requests that need it.</text>
         <text class="ss" x="834" y="294">Why pulling a ticket over MCP is cheaper</text>
-        <text class="ss" x="834" y="314" style="font-weight:600;fill:#b45309">than standing context &mdash; Modules 6 and 8.</text>
+        <text class="ss" x="834" y="314" style="font-weight:600;fill:#d98a3d">than standing context &mdash; Modules 6 and 8.</text>
 
         <rect class="bx r" x="4" y="356" width="576" height="92" rx="8"/>
         <text class="lb r" x="24" y="380">PLACEMENT ERROR 1 &mdash; AND IT FEELS LIKE DILIGENCE</text>
@@ -1097,37 +930,37 @@ svg{width:100%;height:auto;display:block}
   <div class="body g64">
     <div>
       <svg viewBox="0 0 700 440" role="img" aria-label="Curve showing output quality rising then degrading as a session lengthens, with compaction and restart points">
-        <line x1="62" y1="24" x2="62" y2="250" stroke="#94b8b3" stroke-width="2"/>
-        <line x1="62" y1="250" x2="676" y2="250" stroke="#94b8b3" stroke-width="2"/>
+        <line x1="62" y1="24" x2="62" y2="250" stroke="#71809a" stroke-width="2"/>
+        <line x1="62" y1="250" x2="676" y2="250" stroke="#71809a" stroke-width="2"/>
         <text class="lb" x="6" y="36">OUTPUT</text>
         <text class="lb" x="6" y="50">QUALITY</text>
         <text class="lb" x="556" y="272">SESSION LENGTH &rarr;</text>
 
         <path d="M62 214 C130 150 190 108 268 100 C350 92 410 104 470 132 C530 160 590 200 664 236"
-              fill="none" stroke="#0f766e" stroke-width="3"/>
+              fill="none" stroke="#6ea8fe" stroke-width="3"/>
         <path d="M62 214 C130 150 190 108 268 100 C350 92 410 104 470 132 C530 160 590 200 664 236 L664 250 L62 250 Z"
-              fill="#0f766e" opacity="0.07"/>
+              fill="#6ea8fe" opacity="0.07"/>
 
         <rect class="bx g" x="78" y="40" width="150" height="44" rx="5"/>
-        <text class="ss" x="90" y="60" style="font-weight:600;fill:#047857">Warming up</text>
+        <text class="ss" x="90" y="60" style="font-weight:600;fill:#5fbf8f">Warming up</text>
         <text class="ss" x="90" y="76">useful context accrues</text>
         <path class="ar dash" d="M150 88 L176 112"/>
 
         <rect class="bx a" x="252" y="26" width="150" height="44" rx="5"/>
-        <text class="ss" x="264" y="46" style="font-weight:600;fill:#b45309">Peak &mdash; and plateau</text>
+        <text class="ss" x="264" y="46" style="font-weight:600;fill:#d98a3d">Peak &mdash; and plateau</text>
         <text class="ss" x="264" y="62">it knows the task</text>
         <path class="ar dash" d="M320 74 L308 94"/>
 
         <rect class="bx r" x="470" y="30" width="206" height="62" rx="5"/>
-        <text class="ss" x="482" y="50" style="font-weight:600;fill:#dc2626">Degrading &mdash; and not gently</text>
+        <text class="ss" x="482" y="50" style="font-weight:600;fill:#e2726e">Degrading &mdash; and not gently</text>
         <text class="ss" x="482" y="68">constraints dropped, rejected</text>
         <text class="ss" x="482" y="84">ideas returning, drift</text>
         <path class="arr dash" d="M560 96 L572 190"/>
 
-        <circle cx="440" cy="120" r="7" fill="#fbbf24" stroke="#fff" stroke-width="2" class="pulse"/>
+        <circle cx="440" cy="120" r="7" fill="#e0b34d" stroke="#0e1116" stroke-width="2" class="pulse"/>
         <text class="lb a" x="404" y="146">COMPACT HERE</text>
-        <circle cx="620" cy="212" r="7" fill="#dc2626" stroke="#fff" stroke-width="2" class="pulse"/>
-        <text class="lb r" x="576" y="238">START CLEAN HERE</text>
+        <circle cx="620" cy="212" r="7" fill="#e2726e" stroke="#0e1116" stroke-width="2" class="pulse"/>
+        <text class="lb r" x="576" y="238" style="font-size:10.5px">START CLEAN HERE</text>
 
         <rect class="bx a" x="4" y="288" width="340" height="146" rx="8"/>
         <text class="lb a" x="22" y="312">COMPACT &mdash; KEEP THE THREAD</text>
@@ -1141,9 +974,9 @@ svg{width:100%;height:auto;display:block}
         <text class="lb r" x="374" y="312">START CLEAN &mdash; DROP THE THREAD</text>
         <text class="ss" x="374" y="336">The task changed. Nothing in the</text>
         <text class="ss" x="374" y="356">history helps the next thing.</text>
-        <text class="ss" x="374" y="382" style="font-weight:600;fill:#dc2626">The tell: you are telling it to forget</text>
-        <text class="ss" x="374" y="400" style="font-weight:600;fill:#dc2626">something, or repeating a constraint</text>
-        <text class="ss" x="374" y="418" style="font-weight:600;fill:#dc2626">you already gave.</text>
+        <text class="ss" x="374" y="382" style="font-weight:600;fill:#e2726e">The tell: you are telling it to forget</text>
+        <text class="ss" x="374" y="400" style="font-weight:600;fill:#e2726e">something, or repeating a constraint</text>
+        <text class="ss" x="374" y="418" style="font-weight:600;fill:#e2726e">you already gave.</text>
       </svg>
     </div>
     <div class="pts">
@@ -1226,7 +1059,7 @@ svg{width:100%;height:auto;display:block}
 
         <rect class="bx d" x="4" y="372" width="1172" height="76" rx="8"/>
         <text class="lb w" x="26" y="396">THE TRAP &mdash; SAY THIS ONE PLAINLY</text>
-        <text class="ss w" x="26" y="420" style="font-size:14.5px">Delegation does not remove supervision. It <tspan font-weight="700" fill="#fbbf24">converts supervision time into specification time</tspan> &mdash; a poor exchange when the spec is weak,</text>
+        <text class="ss w" x="26" y="420" style="font-size:14.5px">Delegation does not remove supervision. It <tspan font-weight="700" fill="#e0b34d">converts supervision time into specification time</tspan> &mdash; a poor exchange when the spec is weak,</text>
         <text class="ss w" x="26" y="442" style="font-size:14.5px">because a vague brief returns a large, confident, wrong change set that costs more to review than the interactive session you avoided.</text>
       </svg>
     </div>
@@ -1285,7 +1118,7 @@ svg{width:100%;height:auto;display:block}
 
         <path class="arg" d="M350 410 L350 426"/>
         <rect class="bx g" x="180" y="414" width="340" height="34" rx="6"/>
-        <text class="tt" x="350" y="437" text-anchor="middle" style="font-size:14px;fill:#047857">All four pass &rarr; delegate it</text>
+        <text class="tt" x="350" y="437" text-anchor="middle" style="font-size:14px;fill:#5fbf8f">All four pass &rarr; delegate it</text>
 
         <rect class="bx r" x="656" y="60" width="40" height="330" rx="6"/>
         <text class="lb r" x="676" y="200" text-anchor="middle" transform="rotate(90 676 200)">ANY FAILURE &rarr; INTERACTIVE</text>
@@ -1650,99 +1483,6 @@ svg{width:100%;height:auto;display:block}
 </section>
 </div></div>
 
-<div id="notes"><div class="h">SPEAKER NOTES</div><div id="notesbody"></div></div>
-
-<div id="bot">
-  <button class="navbtn" id="prev" title="Previous (&larr;)">&#8249;</button>
-  <button class="navbtn" id="next" title="Next (&rarr;)">&#8250;</button>
-  <span id="ttl"></span>
-  <div id="prog"><div id="progf"></div></div>
-  <span id="hint">&larr; &rarr; move &middot; K key path &middot; O index &middot; N notes &middot; F full</span>
-  <span id="num"></span>
-</div>
-
-<script>
-(function(){
-  var slides=[].slice.call(document.querySelectorAll('.slide'));
-  var stage=document.getElementById('stage'),toc=document.getElementById('toc');
-  var notes=document.getElementById('notes'),notesBody=document.getElementById('notesbody');
-  var elNum=document.getElementById('num'),elSec=document.getElementById('sec');
-  var elTtl=document.getElementById('ttl'),elProg=document.getElementById('progf');
-  var elTier=document.getElementById('tier'),elAfter=document.getElementById('after');
-  var elHint=document.getElementById('hint');
-  // The key path skips reference slides, and skips after-lab slides until the lab is scored.
-  var postLab=false;
-  function onPath(n){var s=slides[n];return s.dataset.tier!=='R'&&(postLab||!s.dataset.after);}
-  function paintHint(){elHint.innerHTML='&larr; &rarr; move &middot; K key path &middot; L after-lab '+(postLab?'<b>ON</b>':'off')+' &middot; O index &middot; N notes &middot; F full';}
-  var i=0;
-
-  // ---- build the index, grouped by section ----
-  var list=document.getElementById('toclist'),grp=null,last=null;
-  slides.forEach(function(s,k){
-    var sec=s.dataset.sec||'';
-    if(sec!==last){
-      grp=document.createElement('div');grp.className='grp';
-      var h=document.createElement('div');h.className='grph';h.innerHTML=sec;grp.appendChild(h);
-      list.appendChild(grp);last=sec;
-    }
-    var a=document.createElement('a');a.href='#'+(k+1);
-    var tr=s.dataset.tier||'R';
-    a.innerHTML='<span class="n">'+(k+1)+'</span><span class="tg '+tr+'">'+tr+'</span>'+(s.dataset.title||'');
-    if(s.dataset.after)a.className='aft';
-    a.onclick=function(e){e.preventDefault();go(k);toc.classList.remove('on');};
-    grp.appendChild(a);
-  });
-  var links=[].slice.call(toc.querySelectorAll('a'));
-
-  function go(n){
-    i=Math.max(0,Math.min(slides.length-1,n));
-    slides.forEach(function(s,k){s.classList.toggle('active',k===i);});
-    links.forEach(function(a,k){a.classList.toggle('cur',k===i);});
-    elNum.textContent=(i+1)+' / '+slides.length;
-    elSec.innerHTML=slides[i].dataset.sec||'';
-    elTtl.textContent=slides[i].dataset.title||'';
-    var tr=slides[i].dataset.tier||'R';
-    elTier.className='tier '+tr;elTier.textContent=(tr==='D'?'DEMO':tr==='K'?'KEY':'REF');
-    elAfter.classList.toggle('on',!!slides[i].dataset.after);
-    elProg.style.width=((i+1)/slides.length*100)+'%';
-    notesBody.textContent=slides[i].dataset.notes||'No notes for this slide.';
-    if(history.replaceState)history.replaceState(null,'','#'+(i+1));
-  }
-  function fit(){
-    var extra=notes.classList.contains('on')?notes.offsetHeight:0;
-    var s=Math.min((window.innerWidth-24)/1280,(window.innerHeight-82-extra-24)/720);
-    stage.style.transform='scale('+s+')';
-  }
-  document.getElementById('next').onclick=function(){go(i+1);};
-  document.getElementById('prev').onclick=function(){go(i-1);};
-  document.getElementById('tocbtn').onclick=function(){toc.classList.toggle('on');};
-  document.getElementById('notesbtn').onclick=function(){notes.classList.toggle('on');fit();};
-  document.getElementById('fsbtn').onclick=function(){
-    if(document.fullscreenElement)document.exitFullscreen();else document.documentElement.requestFullscreen();
-  };
-  document.addEventListener('keydown',function(e){
-    var k=e.key;
-    if(k==='ArrowRight'||k==='PageDown'||k===' '){go(i+1);e.preventDefault();}
-    else if(k==='ArrowLeft'||k==='PageUp'||k==='p'){go(i-1);e.preventDefault();}
-    else if(k==='Home'){go(0);}
-    else if(k==='End'){go(slides.length-1);}
-    else if(k==='o'||k==='O'){toc.classList.toggle('on');}
-    else if(k==='n'||k==='N'){notes.classList.toggle('on');fit();}
-    else if(k==='f'||k==='F'){document.getElementById('fsbtn').onclick();}
-    else if(k==='k'){for(var j=i+1;j<slides.length;j++){if(onPath(j)){go(j);break;}}}
-    else if(k==='K'){for(var j2=i-1;j2>=0;j2--){if(onPath(j2)){go(j2);break;}}}
-    else if(k==='l'||k==='L'){postLab=!postLab;paintHint();}
-    else if(k==='Escape'){toc.classList.remove('on');notes.classList.remove('on');fit();}
-  });
-  window.addEventListener('resize',fit);
-  window.addEventListener('hashchange',function(){
-    var n=parseInt(location.hash.replace('#',''),10);if(n)go(n-1);
-  });
-  fit();
-  paintHint();
-  var start=parseInt(location.hash.replace('#',''),10);
-  go(start?start-1:0);
-})();
-</script>
+<script src="../assets/adlc-deck.js"></script>
 </body>
 </html>

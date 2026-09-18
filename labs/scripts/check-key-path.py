@@ -1,7 +1,7 @@
 # Walk a deck's key path the way the trainer does - press k from slide 1 - and
 # assert it never lands on a data-after="lab" slide while the after-lab toggle is off.
 # A spoiler reachable by k is the failure this catches; page counts and geometry do not.
-import subprocess, json, re, sys, html, glob
+import subprocess, json, re, sys, html, glob, os
 
 probe = r"""
 (function(){
@@ -23,7 +23,9 @@ probe = r"""
 
 fail = 0
 for path in sorted(glob.glob(sys.argv[1]) if len(sys.argv) > 1 else glob.glob('presentation/module-*.html')):
-    inj = open(path).read().replace('</body>', '<script>' + probe + '</script></body>')
+    # the copy runs from /tmp: <base> points the deck's ../assets/ links back at the real folder
+    base = '<head>\n<base href="file://%s/">' % os.path.dirname(os.path.abspath(path))
+    inj = open(path).read().replace('<head>', base, 1).replace('</body>', '<script>' + probe + '</script></body>')
     open('/tmp/_keypath.html', 'w').write(inj)
     dom = subprocess.run(['google-chrome', '--headless', '--disable-gpu', '--no-sandbox',
                           '--virtual-time-budget=5000', '--dump-dom', 'file:///tmp/_keypath.html'],
