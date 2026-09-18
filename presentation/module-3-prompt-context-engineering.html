@@ -832,56 +832,43 @@ which is currently unused.
   </div>
 </section>
 <!-- 16 -->
-<section class="slide" data-sec="5 &middot; Context hygiene" data-title="What a long session actually costs" data-notes="Module 1 taught the placement rule - context, file, or tool call. This slide is the same economics viewed over time rather than per request, and the shape of the curve is what people have not internalised. Everything left in the window is re-billed on every subsequent turn, so cost per turn rises even when the work gets simpler. Worse, the signal-to-noise ratio falls: by turn thirty the window contains three abandoned approaches, two files you stopped caring about, and a correction you made twice. The agent weights all of it. The tell to give them is behavioural, not numeric - when it starts re-suggesting something you already rejected, the window is working against you. That is the moment to start clean, and the cost of starting clean is one paragraph of re-briefing, which is much less than people fear because Module 2 already put the durable half on disk." data-tier="R">
-  <h2>The long session &mdash; cost rises, signal falls<span class="tag k">5</span></h2>
-  <div class="body g64">
+<section class="slide" data-sec="5 &middot; Context hygiene" data-title="Start clean, re-brief in one paragraph" data-notes="This is the context-hygiene slide on the key path; the next slide is the reference version of the four signals. Start with the right-hand column, because the mechanism is what people have not internalised. Module 1 taught the placement rule per request - context, file, or tool call. This is the same economics over time: everything left in the window is re-billed on every later turn, and the agent weights all of it, so by turn thirty three abandoned approaches and a correction made twice are still steering it. The tell is behavioural, not a token count - it re-suggests something you already rejected. Then the four signals, ordered by reliability: the task boundary is the free one, the returning rejected approach is the strongest. Compaction is worth one sentence - it keeps a summary of the noise, so compact within a task and start clean between them. Then turn to the left, which is the answer to the objection everyone has: starting clean feels expensive. Walk the re-brief line by line. It carries only what is NOT on disk - what was decided, what was rejected, what is done, what is next - and it names the inputs with #file rather than letting the new session search for them. Everything else, the conventions and the ADRs, Module 2 already put in the repository. That is why the whole cost of a clean session is this paragraph." data-tier="K">
+  <h2>Start clean &mdash; and re-brief in one paragraph<span class="tag k">5</span></h2>
+  <div class="body g55">
     <div>
-      <svg viewBox="0 0 700 430" role="img" aria-label="Cost per turn rising and signal-to-noise falling across a long session">
-        <text class="lb" x="4" y="13">ONE SESSION, THIRTY TURNS &mdash; WHAT IS ACTUALLY IN THE WINDOW</text>
-        <rect class="bx" x="4" y="22" width="692" height="196" rx="8"/>
+<div class="file"><span class="fn">new chat &mdash; the whole cost of starting clean</span>Follow the <span class="s">account-change</span> skill.
+<span class="k">Ticket:</span> GB-151 &mdash; reverse a posting.
 
-        <text class="ss" x="24" y="46" style="font-size:11px">TURN 1</text>
-        <rect class="bx g rise" x="24" y="54" width="120" height="26" rx="4"/>
-        <text class="ss" x="34" y="72" style="font-size:11px">ticket + 2 files</text>
-        <text class="ss" x="150" y="72" style="font-size:11.5px;fill:#5fbf8f">all of it relevant</text>
+<span class="k">Decided:</span>  reversal is a status change,
+  not a delete (docs/glossary.md).
+<span class="k">Rejected:</span> a stored balance column.
+  Do not propose it again.
+<span class="k">Done:</span>     service method + its test, green.
+<span class="k">Next:</span>     the controller and its slice test.
 
-        <text class="ss" x="24" y="104" style="font-size:11px">TURN 12</text>
-        <rect class="bx g rise r2" x="24" y="112" width="120" height="26" rx="4"/>
-        <rect class="bx a rise r3" x="146" y="112" width="150" height="26" rx="4"/>
-        <text class="ss" x="156" y="130" style="font-size:11px">an approach you left</text>
-        <text class="ss" x="302" y="130" style="font-size:11.5px;fill:#d98a3d">still paid for, every turn</text>
+<span class="s">#file:posting/service/PostingService.java</span>
+<span class="s">#file:controller/AccountController.java</span>
 
-        <text class="ss" x="24" y="162" style="font-size:11px">TURN 30</text>
-        <rect class="bx g rise r4" x="24" y="170" width="120" height="26" rx="4"/>
-        <rect class="bx a rise r5" x="146" y="170" width="150" height="26" rx="4"/>
-        <rect class="bx r rise r6" x="298" y="170" width="230" height="26" rx="4"/>
-        <text class="ss" x="308" y="188" style="font-size:11px">3 dead ends &middot; a correction made twice</text>
-        <text class="ss" x="24" y="212" style="font-size:11.5px;fill:#e2726e;font-weight:600">The agent weights all of it. You are paying to be misled by your own history.</text>
-
-        <text class="lb r" x="4" y="248">THE TELL &mdash; BEHAVIOURAL, NOT NUMERIC</text>
-        <rect class="bx r" x="4" y="258" width="692" height="86" rx="8"/>
-        <text class="tt" x="24" y="286" style="font-size:14px">It re-suggests something you already rejected.</text>
-        <text class="ss" x="24" y="310">Or asks a question you answered twenty turns ago. Or reverts a decision.</text>
-        <text class="ss" x="24" y="332" style="fill:#e2726e;font-weight:600">That is not a glitch &mdash; it is the window telling you it is full of noise.</text>
-
-        <rect class="bx d" x="4" y="354" width="692" height="76" rx="8"/>
-        <text class="lb w" x="24" y="378">WHY STARTING CLEAN IS CHEAPER THAN IT FEELS</text>
-        <text class="ss w" x="24" y="402" style="font-size:14px">The durable half of your context is already on disk &mdash; Module 2 put it there.</text>
-        <text class="ss w" x="24" y="422" style="font-size:14px">Re-briefing costs <tspan font-weight="700" fill="#e0b34d">one paragraph</tspan>, not one morning.</text>
-      </svg>
+<span class="c"># conventions, ADRs, constraints: not here.</span>
+<span class="c"># Module 2 already put them on disk.</span>
+</div>
     </div>
     <div class="pts">
-      <h3>The same economics as Module 1, over time</h3>
+      <h3>Why a long session goes wrong</h3>
       <ul>
-        <li>Everything you leave in the window is <b>re-billed on every later turn</b>. Cost per turn rises even as the work gets simpler.</li>
-        <li>And accuracy falls with it, which is the half people miss &mdash; this is a <em>quality</em> problem before it is a cost problem.</li>
+        <li>Everything in the window is <b>re-billed every turn</b> &mdash; and weighted. Three dead ends and a correction made twice are still steering it.</li>
+        <li>The tell is behavioural: it <b>re-suggests what you rejected</b>, or re-asks what you answered.</li>
       </ul>
-      <h3>Compaction is not the same as clean</h3>
+      <h3>Start clean when</h3>
       <ul>
-        <li>Compaction keeps a <b>summary of the noise</b>. It shortens the window; it does not remove the dead ends.</li>
-        <li>Useful mid-task. Not a substitute for a fresh session at a task boundary.</li>
+        <li>The ticket is done &mdash; the free one. A rejected approach returns &mdash; the strongest.</li>
+        <li>You move from exploring to editing, or cannot say what is in the window.</li>
       </ul>
-      <div class="take"><b>The rule:</b> compact <em>within</em> a task, start clean <em>between</em> tasks. A task boundary is a free moment to drop everything that was only ever scaffolding.</div>
+      <h3>Compaction is not clean</h3>
+      <ul>
+        <li>It keeps a <b>summary of the noise</b>. Compact <em>within</em> a task; start clean <em>between</em> tasks.</li>
+      </ul>
+      <div class="take"><b>Re-brief only what is not on disk</b> &mdash; decisions, rejections, progress &mdash; and name the inputs with <code>#file</code> instead of paying for the search again.</div>
     </div>
   </div>
 </section>
