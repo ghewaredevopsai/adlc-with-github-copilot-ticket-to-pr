@@ -20,168 +20,148 @@
   <div class="wrap">
     <span class="tier">Day 1 &middot; Module 3 of 8</span>
     <h1>Prompt &amp; Context Engineering</h1>
-    <p class="sub">Asking for accurate output, and proving it is accurate.</p>
+    <p class="sub">How to ask the agent clearly &mdash; and check that its answer is right.</p>
     <p class="meta">
       <span><b>Agentic ADLC with GitHub Copilot</b> &mdash; From JIRA Ticket to Merged PR</span>
       <span>Advanced</span>
       <span>Trainer: Rajesh Gheware</span>
     </p>
     <div class="chips">
-    <span class="chip">Anatomy of an instruction</span>
+    <span class="chip">Six parts of a request</span>
     <span class="chip">Skill files</span>
     <span class="chip">Grounding</span>
-    <span class="chip">The failure taxonomy</span>
-    <span class="chip">Context hygiene</span>
-    <span class="chip">Proving a prompt is better</span>
-  
+    <span class="chip">Four common failures</span>
+    <span class="chip">When to start a new chat</span>
+    <span class="chip">Testing a prompt</span>
     </div>
   </div>
 </section>
 
 <!-- 2 -->
-<section class="slide" data-sec="Opening" data-title="The repository knows what is true; this is how you ask" data-notes="Do not re-explain Module 2. The one sentence that connects them is on the right and it is worth saying slowly: the repository now tells the agent what is TRUE, and this module is about how you ASK - and specifically about what stops it inventing when the answer is not there. The left diagram is the split people get wrong. Standing context is written once and read on every request; the request is written every time. Most teams try to solve accuracy entirely in the request, which is the expensive half, and it is why their prompts get longer every month without getting better. The economics line at the bottom is the one to land: anything you find yourself retyping is a file you have not written yet. Close on the promise: row three of the tally sheet is measured in this module, and unlike rows one and two it is measured by pass rate on an eval set, not by turns." data-tier="K">
-  <h2>The repository knows what is <em>true</em>. This module is how you <em>ask</em><span class="tag">M3</span></h2>
+<section class="slide" data-sec="Opening" data-title="The repository knows what is true; this is how you ask" data-notes="Do not re-explain Module 2. The one sentence that connects them: the repository now tells the agent what is TRUE, and this module is about how you ASK - and specifically about what stops it inventing when the answer is not there. The left diagram is the split people get wrong. Standing context is written once and read on every request; the request is written every time. Most teams try to solve accuracy entirely in the request, which is the expensive half, and it is why their prompts get longer every month without getting better. The rule of thumb at the bottom is the one to land: anything you find yourself retyping is a file you have not written yet - a knowledge file (Module 2) or a skill file (this module). Close on the promise: row three of the tally sheet from Module 1 is measured in this module, and unlike rows one and two it is measured as a pass rate over six tickets, not by counting turns. The room is new to agentic AI, so point at the next slide: it defines the words the rest of the module uses." data-tier="K">
+  <h2>Module 2 put the facts in the repo. Now: how you <em>ask</em><span class="tag">M3</span></h2>
   <div class="body g64">
     <div>
-      <svg viewBox="0 0 700 430" role="img" aria-label="Standing context versus the request, and what Module 3 adds">
-        <text class="lb" x="4" y="13">TWO PLACES ACCURACY COMES FROM &mdash; AND ONLY ONE OF THEM IS FREE</text>
+      <svg viewBox="0 0 700 300" role="img" aria-label="Facts in the repository are written once; the request is written every time">
+        <rect class="bx g grow" x="4" y="4" width="340" height="190" rx="8"/>
+        <text class="lb g" x="20" y="30">THE REPO &mdash; MODULE 2</text>
+        <text class="tt" x="20" y="62">Written once.</text>
+        <text class="tt" x="20" y="86">Used on every request.</text>
+        <text class="ss" x="20" y="120">instructions &middot; conventions</text>
+        <text class="ss" x="20" y="142">ADRs &middot; glossary</text>
+        <text class="ss" x="20" y="176" style="fill:#5fbf8f;font-weight:600">Already done.</text>
 
-        <rect class="bx g grow" x="4" y="22" width="340" height="150" rx="8"/>
-        <text class="lb g" x="20" y="44">STANDING CONTEXT &mdash; MODULE 2</text>
-        <text class="tt" x="20" y="70">Written once. Read on every request.</text>
-        <text class="ss" x="20" y="94">instructions &middot; conventions &middot; ADRs &middot; glossary</text>
-        <text class="ss" x="20" y="116">Cost is paid a single time and amortised</text>
-        <text class="ss" x="20" y="136">across every ticket the team ever runs.</text>
-        <text class="ss" x="20" y="160" style="fill:#5fbf8f;font-weight:600">Done. On disk. Yesterday&rsquo;s work.</text>
+        <rect class="bx a grow w2" x="356" y="4" width="340" height="190" rx="8"/>
+        <text class="lb a" x="372" y="30">YOUR REQUEST &mdash; MODULE 3</text>
+        <text class="tt" x="372" y="62">Written again</text>
+        <text class="tt" x="372" y="86">for every ticket.</text>
+        <text class="ss" x="372" y="120">goal &middot; rules &middot; files &middot; checks</text>
+        <text class="ss" x="372" y="176" style="fill:#d98a3d;font-weight:600">So keep it short, and reuse it.</text>
 
-        <rect class="bx a grow w2" x="356" y="22" width="340" height="150" rx="8"/>
-        <text class="lb a" x="372" y="44">THE REQUEST &mdash; MODULE 3</text>
-        <text class="tt" x="372" y="70">Written every time. Read once.</text>
-        <text class="ss" x="372" y="94">goal &middot; constraints &middot; inputs &middot; contract</text>
-        <text class="ss" x="372" y="116">Cost is paid again on every single ticket,</text>
-        <text class="ss" x="372" y="136">by the most expensive person in the loop.</text>
-        <text class="ss" x="372" y="160" style="fill:#d98a3d;font-weight:600">So it had better be short, and reusable.</text>
-
-        <text class="lb" x="4" y="200">WHAT MODULE 3 ADDS</text>
-        <rect class="bx" x="4" y="210" width="692" height="128" rx="8"/>
-        <rect class="bx w rise" x="20" y="226" width="216" height="46" rx="6"/>
-        <text class="tt" x="34" y="246" style="font-size:13.5px">A shape for the request</text>
-        <text class="ss" x="34" y="264">six parts, none optional</text>
-        <rect class="bx w rise r2" x="244" y="226" width="216" height="46" rx="6"/>
-        <text class="tt" x="258" y="246" style="font-size:13.5px">Grounding rules</text>
-        <text class="ss" x="258" y="264">cite &middot; quote &middot; refuse &middot; ask</text>
-        <rect class="bx w rise r3" x="468" y="226" width="214" height="46" rx="6"/>
-        <text class="tt" x="482" y="246" style="font-size:13.5px">A failure taxonomy</text>
-        <text class="ss" x="482" y="264">four shapes, four counters</text>
-        <rect class="bx p rise r4" x="20" y="282" width="326" height="44" rx="6"/>
-        <text class="tt" x="34" y="302" style="font-size:13.5px">Skill files</text>
-        <text class="ss" x="34" y="320">the good request, versioned and reused</text>
-        <rect class="bx p rise r5" x="356" y="282" width="326" height="44" rx="6"/>
-        <text class="tt" x="370" y="302" style="font-size:13.5px">An eval set and a pass rate</text>
-        <text class="ss" x="370" y="320">so &ldquo;better prompt&rdquo; stops being an opinion</text>
-
-        <rect class="bx d" x="4" y="348" width="692" height="82" rx="8"/>
-        <text class="lb w" x="24" y="372">THE ECONOMICS, ONE LEVEL DOWN FROM MODULE 2</text>
-        <text class="ss w" x="24" y="396" style="font-size:14px">Anything you find yourself retyping into the chat is a file you have not</text>
-        <text class="ss w" x="24" y="416" style="font-size:14px"><tspan font-weight="700" fill="#e0b34d">written yet</tspan> &mdash; either a knowledge file, or a skill file. Both beat typing.</text>
+        <rect class="bx d" x="4" y="214" width="692" height="82" rx="8"/>
+        <text class="lb w" x="24" y="240">THE RULE OF THUMB</text>
+        <text class="ss w" x="24" y="270" style="font-size:15px">If you type the same thing twice, <tspan font-weight="700" fill="#e0b34d">save it in a file.</tspan></text>
       </svg>
     </div>
     <div class="pts">
-      <h3>Where we are</h3>
+      <h3>The problem</h3>
       <ul>
-        <li>Module 2 changed what the repository <b>knows</b>. This module changes what you <b>say</b> &mdash; and what happens when neither has the answer.</li>
-        <li>The gap this module closes: the agent will produce something <em>whether or not</em> it knows. Grounding is how you make not-knowing visible.</li>
+        <li>An AI agent always gives an answer &mdash; <b>even when it does not know</b>.</li>
+        <li>This module shows how to make it <b>stop and ask</b> instead.</li>
       </ul>
-      <h3>The shape of the module</h3>
+      <h3>What you will learn</h3>
       <ul>
-        <li>First a shape for the request, then how to stop it inventing, then how to <b>prove</b> one way of asking beats another.</li>
+        <li>A clear shape for every request.</li>
+        <li>How to check where an answer came from.</li>
+        <li>How to <b>prove</b> one prompt is better than another.</li>
       </ul>
-      <div class="take"><b>Row three of the tally sheet is measured here</b> &mdash; and not in turns. This one is measured as a <em>pass rate</em> over a set of tickets, because that is the only honest way to compare two prompts.</div>
     </div>
   </div>
 </section>
 
 <!-- 3 -->
-<section class="slide" data-sec="1 &middot; Anatomy of an instruction" data-title="Six parts, and what each one prevents" data-notes="Do not present this as a template to fill in - present it as six failure modes, each with a part that prevents it. Read the right-hand column first if the room is experienced, because that is the part they have not thought about. Goal prevents solving the wrong problem. Constraints prevent the house-style violation. Inputs prevent the twelve-file search. Output contract prevents the surprise - the change that is correct but arrives in a shape you cannot review. Done criteria prevent the it-looks-finished handover. Stop conditions prevent the confident guess, and that is the one nobody writes, which is why it gets its own slide. Worth saying out loud: none of these are about politeness or phrasing. Every one of them removes a specific class of rework that they counted this morning." data-tier="K">
-  <h2>Six parts &mdash; and the failure each one prevents<span class="tag k">1</span></h2>
-  <div class="body g1">
-    <div>
-      <svg viewBox="0 0 1180 452" role="img" aria-label="The six parts of a high-yield instruction and the failure each prevents">
-        <rect class="bx d" x="4" y="4" width="1172" height="30" rx="6"/>
-        <text class="lb w" x="24" y="24">PART</text>
-        <text class="lb w" x="250" y="24">WHAT IT SAYS</text>
-        <text class="lb w" x="690" y="24">WITHOUT IT, THE FAILURE YOU GET</text>
-
-        <rect class="bx grow" x="4" y="42" width="1172" height="62" rx="6"/>
-        <text class="tt" x="24" y="68">Goal</text>
-        <text class="ss" x="24" y="90">one sentence, one outcome</text>
-        <text class="ss" x="250" y="68">The change you want, in terms of behaviour &mdash; not the</text>
-        <text class="ss" x="250" y="88">implementation you have already imagined.</text>
-        <text class="ss" x="690" y="68" style="fill:#d98a3d">A correct solution to a problem you did not have. The most</text>
-        <text class="ss" x="690" y="88" style="fill:#d98a3d">expensive failure here, because it looks like success.</text>
-
-        <rect class="bx grow w2" x="4" y="110" width="1172" height="62" rx="6"/>
-        <text class="tt" x="24" y="136">Constraints</text>
-        <text class="ss" x="24" y="158">what it must not do</text>
-        <text class="ss" x="250" y="136">Point at the files, do not restate them: &ldquo;follow</text>
-        <text class="ss" x="250" y="156">docs/conventions.md&rdquo; beats retyping the conventions.</text>
-        <text class="ss" x="690" y="136" style="fill:#d98a3d">House style violated in a way that passes review because</text>
-        <text class="ss" x="690" y="156" style="fill:#d98a3d">it is plausible everywhere except here.</text>
-
-        <rect class="bx grow w3" x="4" y="178" width="1172" height="62" rx="6"/>
-        <text class="tt" x="24" y="204">Inputs</text>
-        <text class="ss" x="24" y="226">where to look, named</text>
-        <text class="ss" x="250" y="204">The two or three files that actually matter, plus the</text>
-        <text class="ss" x="250" y="224">ticket. Naming them is cheaper than any search.</text>
-        <text class="ss" x="690" y="204" style="fill:#d98a3d">The twelve-file crawl you counted this morning &mdash; the</text>
-        <text class="ss" x="690" y="224" style="fill:#d98a3d">re-discovery tax, paid on a repository that could answer.</text>
-
-        <rect class="bx a grow w4" x="4" y="246" width="1172" height="62" rx="6"/>
-        <text class="lb a" x="1162" y="260" text-anchor="end">UNDER-USED</text>
-        <text class="tt" x="24" y="272">Output contract</text>
-        <text class="ss" x="24" y="294">the shape of the answer</text>
-        <text class="ss" x="250" y="272">Files touched, tests expected, no new dependencies,</text>
-        <text class="ss" x="250" y="292">errors as ProblemDetail. The form, not the content.</text>
-        <text class="ss" x="690" y="272" style="fill:#d98a3d">A change that is right and unreviewable &mdash; sprawling across</text>
-        <text class="ss" x="690" y="292" style="fill:#d98a3d">files you never intended, in a shape you cannot diff.</text>
-
-        <rect class="bx grow w5" x="4" y="314" width="1172" height="62" rx="6"/>
-        <text class="tt" x="24" y="340">Done criteria</text>
-        <text class="ss" x="24" y="362">how it is checked</text>
-        <text class="ss" x="250" y="340">Machine-verifiable where possible: the test passes, the</text>
-        <text class="ss" x="250" y="360">build is green, the endpoint returns the right status.</text>
-        <text class="ss" x="690" y="340" style="fill:#d98a3d">&ldquo;I think this should work.&rdquo; Handed to you as finished, and</text>
-        <text class="ss" x="690" y="360" style="fill:#d98a3d">it is your afternoon that discovers otherwise.</text>
-
-        <rect class="bx r grow" x="4" y="382" width="1172" height="66" rx="6"/>
-        <text class="lb r" x="1162" y="396" text-anchor="end">NOBODY WRITES THIS ONE</text>
-        <text class="tt" x="24" y="410">Stop conditions</text>
-        <text class="ss" x="24" y="432">when to come back and ask</text>
-        <text class="ss" x="250" y="410">The named circumstances in which it must stop and ask</text>
-        <text class="ss" x="250" y="430">you rather than choose &mdash; ambiguity, missing decision, risk.</text>
-        <text class="ss" x="690" y="410" style="fill:#e2726e;font-weight:600">The confident guess. It will not tell you it guessed, and</text>
-        <text class="ss" x="690" y="430" style="fill:#e2726e;font-weight:600">the guess is indistinguishable from knowledge in the diff.</text>
-      </svg>
+<section class="slide" data-sec="Opening" data-title="Words used in this module" data-notes="Thirty seconds, not a lecture. Most of the room is new to agentic AI, so these are the words that will otherwise trip them up later in the module. Read the left column aloud - those are the AI terms. The right column is Global Bank vocabulary used in the GB-151 example; say once that a posting is one money movement and a reversal undoes it, and move on. Leave this slide open in a tab during the labs if people ask." data-tier="K">
+  <h2>Words used in this module<span class="tag">M3</span></h2>
+  <div class="body g55">
+    <div class="pts">
+      <h3>AI and agent words</h3>
+      <ul>
+        <li><b>Agent</b> &mdash; Copilot in agent mode. It reads files, edits code and runs commands.</li>
+        <li><b>Turn</b> &mdash; one message from you plus one reply.</li>
+        <li><b>Context window</b> &mdash; everything the agent can see in this chat.</li>
+        <li><b>Hallucination</b> &mdash; a made-up answer that looks real.</li>
+        <li><b>Grounding</b> &mdash; making the agent show where a fact came from.</li>
+      </ul>
+    </div>
+    <div class="pts">
+      <h3>Course and Global Bank words</h3>
+      <ul>
+        <li><b>ADR</b> &mdash; a short file that records one design decision (<code>docs/adr/</code>).</li>
+        <li><b>Acceptance criteria</b> &mdash; the checklist in a ticket that defines &ldquo;done&rdquo;.</li>
+        <li><b>Posting</b> &mdash; one money movement between accounts.</li>
+        <li><b>Reversal</b> &mdash; undoing a posting. Nothing is deleted.</li>
+        <li><b>Ledger entry</b> &mdash; one saved line of account history. Never edited.</li>
+      </ul>
     </div>
   </div>
 </section>
 
 <!-- 4 -->
+<section class="slide" data-sec="1 &middot; Anatomy of an instruction" data-title="Six parts, and what each one prevents" data-notes="Do not present this as a template to fill in - present it as six failure modes, each with a part that prevents it. Read one row at a time: the part, a one-line example from GB-151 (the reversal ticket they use in the labs), and what goes wrong without it. Goal prevents solving the wrong problem - the most expensive failure, because it looks like success. Constraints prevent the house-style violation; point out the example POINTS at a file instead of retyping the rules. Inputs prevent the search - the dozen file opens they counted in Lab 1.1 when the agent had to hunt for the right files. Output contract prevents the surprise: a change that is correct but spread across files you did not expect. Done criteria prevent the it-looks-finished handover. Stop conditions prevent the confident guess, and that is the one nobody writes, which is why it gets its own slide. Worth saying out loud: none of these are about politeness or phrasing. Every one removes a kind of rework they counted this morning." data-tier="K">
+  <h2>Six parts of a good request &mdash; and what goes wrong without each<span class="tag k">1</span></h2>
+  <div class="body g1">
+    <div>
+      <svg viewBox="0 0 1180 452" role="img" aria-label="The six parts of a request, an example of each, and what goes wrong without it">
+        <rect class="bx d" x="4" y="4" width="1172" height="30" rx="6"/>
+        <text class="lb w" x="24" y="24">PART</text>
+        <text class="lb w" x="250" y="24">WHAT YOU WRITE &mdash; TICKET GB-151</text>
+        <text class="lb w" x="760" y="24">WITHOUT IT</text>
+        <rect class="bx grow" x="4" y="42" width="1172" height="62" rx="6"/>
+        <text class="tt" x="24" y="79">Goal</text>
+        <text class="ss" x="250" y="79" style="font-size:14px">&ldquo;Add an API to reverse a posting.&rdquo;</text>
+        <text class="ss" x="760" y="79" style="fill:#d98a3d;font-size:14px">It solves the wrong problem.</text>
+        <rect class="bx grow w2" x="4" y="110" width="1172" height="62" rx="6"/>
+        <text class="tt" x="24" y="147">Constraints</text>
+        <text class="ss" x="250" y="147" style="font-size:14px">&ldquo;Follow docs/conventions.md.&rdquo;</text>
+        <text class="ss" x="760" y="147" style="fill:#d98a3d;font-size:14px">It breaks the team&rsquo;s rules.</text>
+        <rect class="bx grow w3" x="4" y="178" width="1172" height="62" rx="6"/>
+        <text class="tt" x="24" y="215">Inputs</text>
+        <text class="ss" x="250" y="215" style="font-size:14px">&ldquo;Use PostingService.java and Posting.java.&rdquo;</text>
+        <text class="ss" x="760" y="215" style="fill:#d98a3d;font-size:14px">It opens a dozen files to find them.</text>
+        <rect class="bx grow w4" x="4" y="246" width="1172" height="62" rx="6"/>
+        <text class="tt" x="24" y="283">Output contract</text>
+        <text class="ss" x="250" y="283" style="font-size:14px">&ldquo;Controller, service and tests. No new libraries.&rdquo;</text>
+        <text class="ss" x="760" y="283" style="fill:#d98a3d;font-size:14px">It changes files you did not expect.</text>
+        <rect class="bx grow w5" x="4" y="314" width="1172" height="62" rx="6"/>
+        <text class="tt" x="24" y="351">Done criteria</text>
+        <text class="ss" x="250" y="351" style="font-size:14px">&ldquo;mvn test passes.&rdquo;</text>
+        <text class="ss" x="760" y="351" style="fill:#d98a3d;font-size:14px">&ldquo;I think it works&rdquo; &mdash; and it does not.</text>
+        <rect class="bx r grow" x="4" y="382" width="1172" height="66" rx="6"/>
+        <text class="lb r" x="1162" y="398" text-anchor="end">MOST OFTEN MISSED</text>
+        <text class="tt" x="24" y="422">Stop conditions</text>
+        <text class="ss" x="250" y="422" style="font-size:14px">&ldquo;If the ticket is unclear, stop and ask me.&rdquo;</text>
+        <text class="ss" x="760" y="422" style="fill:#e2726e;font-weight:600;font-size:14px">It guesses, and does not tell you.</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 5 -->
 <section class="slide" data-sec="1 &middot; Anatomy of an instruction" data-title="The same ticket, asked twice" data-notes="Both of these are real requests for GB-151, the reversal ticket they run in the labs. Read the left one out loud - it is what almost everyone types, and it is not stupid, it is just doing all the work in the agent's head instead of yours. Then walk the right one part by part and let them notice how much of it is POINTERS rather than prose: it names four files and restates none of them, because Module 2 already put the content in the repository. That is the joint the two modules make. The last INPUTS line is few-shot prompting in its agentic form: instead of pasting examples into the prompt, point at a file whose shape you want copied. One real file beats three invented examples, because the agent copies its naming, error handling and layering exactly. The length objection will come, so pre-empt it: the engineered version is longer to read and shorter to WRITE the second time, because it becomes a skill file in the next section. Point at the last two lines specifically. Stop conditions on a money-moving ticket are not ceremony - reversal semantics are exactly the kind of thing where a plausible guess ships a defect that reconciles to zero and is found by Operations in March." data-tier="D">
   <h2>The same ticket, asked twice &mdash; GB-151<span class="tag k">1</span></h2>
   <div class="body g55">
     <div>
-      <div class="callout bad" style="margin-top:0"><b>What almost everyone types</b></div>
+      <div class="callout bad" style="margin-top:0"><b>What most people type</b></div>
 <div class="file"><span class="fn">THE ORDINARY REQUEST</span>Add a reversal endpoint for postings.
 </div>
       <div class="pts" style="margin-top:14px">
-        <h3>What it leaves the agent to decide</h3>
+        <h3>What the agent must now guess</h3>
         <ul>
-          <li>Whether a reversal <b>deletes</b>, <b>mutates</b>, or <b>adds</b> &mdash; and Finance already ruled two of those out, in the ticket.</li>
-          <li>Which files are in play, and whether a stored balance column would be helpful.</li>
-          <li>What &ldquo;done&rdquo; means, and what to do when it is unsure.</li>
+          <li>Should a reversal <b>delete</b> the posting, <b>change</b> it, or <b>add</b> a new one? (The ticket already answers this.)</li>
+          <li>Which files to change.</li>
+          <li>When it is finished, and what to do if unsure.</li>
         </ul>
-        <div class="callout bad">Every one of those becomes a <b>guess you cannot see</b> in the diff &mdash; and two of them become rework you counted this morning.</div>
+        <div class="callout bad">You <b>cannot see these guesses</b> in the code it writes.</div>
       </div>
     </div>
     <div>
@@ -192,225 +172,180 @@ Add POST /api/v1/postings/{id}/reversal.
 <span class="k">CONSTRAINTS</span>
 - Follow docs/conventions.md and
   .github/instructions/api.instructions.md
-- Reversal is a status change, not a delete
-  (docs/glossary.md)
-- Balances are derived; add no balance column
+- A reversal changes the posting's status.
+  It never deletes it. (docs/glossary.md)
+- Do not store balances. They are calculated.
 
 <span class="k">INPUTS</span>
 - posting/service/PostingService.java
 - posting/domain/Posting.java
 - GB-151, all six acceptance criteria
-- Shape to copy: controller/AccountController.java
+- Copy the style of controller/AccountController.java
 
 <span class="k">OUTPUT CONTRACT</span>
 - Controller + service + slice tests
 - No new dependencies
-- Errors as ProblemDetail, kebab-case reason
+- Errors in ProblemDetail format
 
 <span class="k">DONE</span>
-- mvn test green; the new test fails without
-  the change
-- Second reversal rejected; balances restored
+- mvn test passes; the new test fails on the old code
+- A second reversal is rejected
 
 <span class="k">STOP</span>
-- <span class="s">If reversal semantics are ambiguous, stop</span>
+- <span class="s">If the reversal rules are unclear, stop</span>
   <span class="s">and ask. Do not choose.</span>
-- <span class="s">Do not modify existing ledger entries.</span>
+- <span class="s">Do not change existing ledger entries.</span>
 </div>
     </div>
   </div>
 </section>
 
-<!-- 5 -->
-<section class="slide" data-sec="1 &middot; Anatomy of an instruction" data-title="Stop conditions - the part everyone omits" data-notes="This is the highest-value slide in the first third of the module, so slow down. The mechanism on the left is the thing to make vivid: a model does not have a mode where it declines by default. Asked for something it cannot ground, it produces the most plausible continuation, and plausible is a very high bar in code - it compiles, it reads like the surrounding style, it has a sensible name. Nothing about the output signals that the knowledge behind it was absent. Then the right-hand side: stop conditions are how you install the missing behaviour per request, and there are only three shapes worth writing. Land the closing line hard because it is the sentence people remember from this module - the agent will never tell you what it did not know." data-tier="K">
-  <h2>Stop conditions &mdash; installing the behaviour the model does not have<span class="tag k">1</span></h2>
+<!-- 6 -->
+<section class="slide" data-sec="1 &middot; Anatomy of an instruction" data-title="Stop conditions - the part everyone omits" data-notes="This is the highest-value slide in the first third of the module, so slow down. The mechanism at the top is the thing to make vivid for a room new to agents: a model has no built-in 'I don't know' mode. Asked for something it cannot ground, it produces the most likely-looking continuation, and in code likely-looking is a very high bar - it compiles, it matches the surrounding style, it has a sensible name. Nothing about the output signals that the knowledge behind it was absent. Then the three stop conditions: these are the only three shapes worth writing, and they can be copied as-is. The right-hand side: a stop condition must name a checkable circumstance - 'ask if unsure' does nothing because the model is never unsure in the way we are. Where they come from: every fix-up prompt they typed in Lab 1.1 (the rework column on their tally sheet) is a stop condition they did not write. Once written, they belong in a skill file - next section - not retyped per ticket. Land the closing line hard: the agent will never tell you what it did not know." data-tier="K">
+  <h2>Stop conditions &mdash; tell the agent when to stop and ask<span class="tag k">1</span></h2>
   <div class="body g64">
     <div>
-      <svg viewBox="0 0 700 430" role="img" aria-label="Why an agent does not refuse by default, and what a stop condition changes">
-        <text class="lb r" x="4" y="13">THE DEFAULT BEHAVIOUR &mdash; AND WHY IT IS NOT A BUG</text>
-        <rect class="bx r" x="4" y="22" width="692" height="150" rx="8"/>
-        <rect class="bx w" x="20" y="40" width="150" height="52" rx="6"/>
-        <text class="tt" x="95" y="62" text-anchor="middle" style="font-size:13px">A request it</text>
-        <text class="tt" x="95" y="80" text-anchor="middle" style="font-size:13px">cannot ground</text>
-        <path class="arr" d="M174 66 L212 66"/>
-        <rect class="bx w" x="216" y="40" width="180" height="52" rx="6"/>
-        <text class="ss" x="306" y="62" text-anchor="middle">no &ldquo;I don&rsquo;t know&rdquo; state</text>
-        <text class="ss" x="306" y="80" text-anchor="middle">to fall back into</text>
-        <path class="arr" d="M400 66 L438 66"/>
-        <rect class="bx d" x="442" y="40" width="238" height="52" rx="6"/>
-        <text class="tt w" x="561" y="62" text-anchor="middle" style="font-size:13px">The most plausible</text>
-        <text class="tt w" x="561" y="80" text-anchor="middle" style="font-size:13px">continuation, produced</text>
-        <text class="ss" x="20" y="118">And in code, <tspan font-weight="600" fill="#e2726e">plausible is a very high bar</tspan> &mdash; it compiles, it matches the</text>
-        <text class="ss" x="20" y="138">surrounding style, the names are sensible, the tests it writes pass.</text>
-        <text class="ss" x="20" y="162" style="fill:#e2726e;font-weight:600">Nothing in the output distinguishes a grounded answer from an invented one.</text>
+      <svg viewBox="0 0 700 400" role="img" aria-label="An agent does not say I don't know by default; three stop conditions change that">
+        <text class="lb r" x="4" y="13">WHAT THE AGENT DOES BY DEFAULT</text>
+        <rect class="bx r" x="4" y="22" width="692" height="140" rx="8"/>
+        <rect class="bx w" x="20" y="40" width="196" height="52" rx="6"/>
+        <text class="tt" x="118" y="62" text-anchor="middle" style="font-size:13px">A question it</text>
+        <text class="tt" x="118" y="80" text-anchor="middle" style="font-size:13px">cannot answer</text>
+        <path class="arr" d="M220 66 L250 66"/>
+        <rect class="bx w" x="254" y="40" width="196" height="52" rx="6"/>
+        <text class="ss" x="352" y="62" text-anchor="middle">It never says</text>
+        <text class="ss" x="352" y="80" text-anchor="middle">&ldquo;I don&rsquo;t know&rdquo;</text>
+        <path class="arr" d="M454 66 L484 66"/>
+        <rect class="bx d" x="488" y="40" width="192" height="52" rx="6"/>
+        <text class="tt w" x="584" y="62" text-anchor="middle" style="font-size:13px">It writes a likely-</text>
+        <text class="tt w" x="584" y="80" text-anchor="middle" style="font-size:13px">looking answer</text>
+        <text class="ss" x="20" y="124">The code compiles and looks right.</text>
+        <text class="ss" x="20" y="146" style="fill:#e2726e;font-weight:600">You cannot tell that it was a guess.</text>
 
-        <text class="lb g" x="4" y="200">WHAT A STOP CONDITION CHANGES</text>
-        <rect class="bx g" x="4" y="210" width="692" height="128" rx="8"/>
-        <rect class="bx w rise" x="20" y="228" width="660" height="30" rx="5"/>
-        <text class="ss" x="34" y="248"><tspan font-weight="700" fill="#5fbf8f">Ambiguity</tspan> &mdash; &ldquo;if more than one reading of the acceptance criteria is defensible, stop and ask.&rdquo;</text>
-        <rect class="bx w rise r2" x="20" y="264" width="660" height="30" rx="5"/>
-        <text class="ss" x="34" y="284"><tspan font-weight="700" fill="#5fbf8f">Missing decision</tspan> &mdash; &ldquo;if no ADR covers this and the choice is architectural, stop and ask.&rdquo;</text>
-        <rect class="bx w rise r3" x="20" y="300" width="660" height="30" rx="5"/>
-        <text class="ss" x="34" y="320"><tspan font-weight="700" fill="#5fbf8f">Blast radius</tspan> &mdash; &ldquo;if the change requires touching a file outside INPUTS, stop and list it first.&rdquo;</text>
+        <text class="lb g" x="4" y="192">THREE STOP CONDITIONS TO COPY</text>
+        <rect class="bx g" x="4" y="202" width="692" height="136" rx="8"/>
+        <rect class="bx w rise" x="20" y="218" width="660" height="32" rx="5"/>
+        <text class="ss" x="34" y="239"><tspan font-weight="700" fill="#5fbf8f">Unclear ticket</tspan> &mdash; &ldquo;If the ticket can be read two ways, stop and ask.&rdquo;</text>
+        <rect class="bx w rise r2" x="20" y="256" width="660" height="32" rx="5"/>
+        <text class="ss" x="34" y="277"><tspan font-weight="700" fill="#5fbf8f">No decision</tspan> &mdash; &ldquo;If no ADR covers this design choice, stop and ask.&rdquo;</text>
+        <rect class="bx w rise r3" x="20" y="294" width="660" height="32" rx="5"/>
+        <text class="ss" x="34" y="315"><tspan font-weight="700" fill="#5fbf8f">Extra files</tspan> &mdash; &ldquo;If you need a file not in INPUTS, tell me first.&rdquo;</text>
 
-        <rect class="bx d" x="4" y="348" width="692" height="82" rx="8"/>
-        <text class="lb w" x="24" y="372">WHY THIS IS CHEAP</text>
-        <text class="ss w" x="24" y="396" style="font-size:14px">A stop costs one turn. An ungrounded guess costs the turn, the review,</text>
-        <text class="ss w" x="24" y="416" style="font-size:14px">the rework <tspan font-weight="700" fill="#e0b34d">and the chance it is never caught at all.</tspan></text>
+        <rect class="bx d" x="4" y="350" width="692" height="46" rx="8"/>
+        <text class="ss w" x="24" y="379" style="font-size:14px">A stop costs one turn. A hidden guess can reach <tspan font-weight="700" fill="#e0b34d">production</tspan>.</text>
       </svg>
     </div>
     <div class="pts">
-      <h3>Make refusal cheap, or it will not happen</h3>
+      <h3>Make them checkable</h3>
       <ul>
-        <li>Name the <b>circumstance</b>, not the feeling. &ldquo;Ask if unsure&rdquo; does nothing; &ldquo;ask if no ADR covers this&rdquo; is checkable.</li>
-        <li>Say what to do <em>instead</em> of choosing &mdash; stop and list the options, so the turn is not wasted.</li>
+        <li>&ldquo;Ask if unsure&rdquo; is too vague.</li>
+        <li>&ldquo;Ask if no ADR covers this&rdquo; is clear.</li>
       </ul>
-      <h3>Where they come from</h3>
+      <h3>Where to find them</h3>
       <ul>
-        <li>Your <b>rework column</b> from Lab 1.1. Every rework prompt is a stop condition you did not write.</li>
-        <li>Once written, they belong in a <b>skill file</b> &mdash; next section &mdash; not retyped per ticket.</li>
+        <li>Look at the fix-up prompts you typed in Lab 1.1. Each one is a <b>missing stop condition</b>.</li>
       </ul>
-      <div class="take"><b>The line to leave with:</b> the agent will never tell you what it did not know. Stop conditions are the only way you find out <em>before</em> the diff.</div>
-    </div>
-  </div>
-</section>
-<!-- 6 -->
-<section class="slide" data-sec="1 &middot; Anatomy of an instruction" data-title="Four patterns, in their agentic form" data-notes="The room will know these four by name from every prompting guide, so do not teach them as new - teach what each one turns into when the thing on the other end edits files and runs tests. Go down the middle column, not the left one. Few-shot: in chat you paste examples; in a repository you point at one real file, and that is the INPUTS line they already saw on GB-151. Invented examples teach invented conventions. Chain of thought: 'think step by step' was a trick for models that did not reason; the models behind agent mode already do. What is still worth asking for is a PLAN you can read before any file changes - files to touch, the ADR each one relies on, then wait. That is chain of thought made reviewable. Decomposition: one ticket, split into steps that each end green, so a failure has an address - Module 1's per-ticket choice of shape applied inside one ticket. Self-critique is the one to be honest about. Asking the agent to check its diff against each done criterion does catch omissions - the missing test, the unhandled status. It cannot catch its own misreading, because the review runs on the same understanding that produced the code. Park that sentence: it comes back in section 4 with the tests written to pass, and it is the whole argument for Module 4. Close on the bottom band: a pattern earns its words only where it hands you something to check." data-tier="K">
-  <h2>Four patterns &mdash; and what each becomes when the agent edits files<span class="tag k">1</span></h2>
-  <div class="body g1">
-    <div>
-      <svg viewBox="0 0 1180 452" role="img" aria-label="Few-shot, chain of thought, decomposition and self-critique in chat and in an agentic request, with the limit of each">
-        <rect class="bx d" x="4" y="4" width="1172" height="30" rx="6"/>
-        <text class="lb w" x="24" y="24">PATTERN</text>
-        <text class="lb w" x="220" y="24">IN CHAT</text>
-        <text class="lb w" x="450" y="24">IN AN AGENTIC REQUEST &mdash; GB-151</text>
-        <text class="lb w" x="850" y="24">WHAT IT BUYS, AND WHERE IT STOPS</text>
-
-        <rect class="bx grow" x="4" y="42" width="1172" height="72" rx="6"/>
-        <text class="tt" x="24" y="72">Few-shot</text>
-        <text class="ss" x="24" y="94">show, do not describe</text>
-        <text class="ss" x="220" y="72">Paste two or three</text>
-        <text class="ss" x="220" y="92">examples into the prompt.</text>
-        <text class="ss" x="450" y="72">Point at one real file:</text>
-        <text class="ss" x="450" y="92"><tspan fill="#e0b34d">&ldquo;Shape to copy: AccountController.java&rdquo;</tspan></text>
-        <text class="ss" x="850" y="72">Invented examples teach invented</text>
-        <text class="ss" x="850" y="92">conventions. One real file wins.</text>
-
-        <rect class="bx grow w2" x="4" y="120" width="1172" height="72" rx="6"/>
-        <text class="tt" x="24" y="150">Chain of thought</text>
-        <text class="ss" x="24" y="172">reason before acting</text>
-        <text class="ss" x="220" y="150">&ldquo;Think step by step.&rdquo;</text>
-        <text class="ss" x="450" y="150"><tspan fill="#e0b34d">&ldquo;Plan first: each file you will touch and the</tspan></text>
-        <text class="ss" x="450" y="170"><tspan fill="#e0b34d">ADR it relies on. Then wait for my OK.&rdquo;</tspan></text>
-        <text class="ss" x="850" y="150">The model already reasons. The gain is</text>
-        <text class="ss" x="850" y="170">a plan you review <tspan font-weight="600" fill="#5fbf8f">before</tspan> the diff.</text>
-
-        <rect class="bx grow w3" x="4" y="198" width="1172" height="72" rx="6"/>
-        <text class="tt" x="24" y="228">Decomposition</text>
-        <text class="ss" x="24" y="250">one step, one check</text>
-        <text class="ss" x="220" y="228">Split the problem into</text>
-        <text class="ss" x="220" y="248">sub-questions.</text>
-        <text class="ss" x="450" y="228"><tspan fill="#e0b34d">&ldquo;Domain and its test, then service, then</tspan></text>
-        <text class="ss" x="450" y="248"><tspan fill="#e0b34d">controller &mdash; each green before the next.&rdquo;</tspan></text>
-        <text class="ss" x="850" y="228">A failure gets an address. Fused steps</text>
-        <text class="ss" x="850" y="248">hide which one broke.</text>
-
-        <rect class="bx r grow w4" x="4" y="276" width="1172" height="84" rx="6"/>
-        <text class="lb r" x="1162" y="290" text-anchor="end">THE LIMIT MATTERS MORE THAN THE PATTERN</text>
-        <text class="tt" x="24" y="310">Self-critique</text>
-        <text class="ss" x="24" y="332">check your own work</text>
-        <text class="ss" x="220" y="310">&ldquo;Review your answer.&rdquo;</text>
-        <text class="ss" x="450" y="310"><tspan fill="#e0b34d">&ldquo;Before handing over, check the diff against</tspan></text>
-        <text class="ss" x="450" y="330"><tspan fill="#e0b34d">each done criterion; list any you did not meet.&rdquo;</tspan></text>
-        <text class="ss" x="850" y="310">Catches <tspan font-weight="600" fill="#5fbf8f">omissions</tspan> against a checklist.</text>
-        <text class="ss" x="850" y="330" style="fill:#e2726e;font-weight:600">Cannot catch its own misreading &mdash;</text>
-        <text class="ss" x="850" y="348" style="fill:#e2726e;font-weight:600">same session, same understanding.</text>
-
-        <rect class="bx d" x="4" y="370" width="1172" height="78" rx="8"/>
-        <text class="lb w" x="24" y="394">THE TEST FOR ANY PATTERN</text>
-        <text class="ss w" x="24" y="418" style="font-size:14px">It earns its words only where it hands you <tspan font-weight="700" fill="#e0b34d">something to check</tspan>: a plan, a green step, a criteria list.</text>
-        <text class="ss w" x="24" y="438" style="font-size:14px">&ldquo;Think step by step&rdquo; on its own gives you nothing to check &mdash; and self-critique is not a reviewer. That is Module 4.</text>
-      </svg>
+      <div class="take"><b>Remember:</b> the agent will not tell you what it did not know. A stop condition makes it tell you.</div>
     </div>
   </div>
 </section>
 
 <!-- 7 -->
-<section class="slide" data-sec="2 &middot; Skill files" data-title="Three artifacts, three lifetimes" data-notes="The confusion this slide fixes is real and it costs teams months: people put procedures in their instructions file and facts in their prompts, and then wonder why the instructions file is three pages and the prompts are still long. The distinction is not topic, it is LIFETIME and TRIGGER. Instructions are facts, always loaded, true regardless of what you are doing. A skill file is a procedure, loaded when invoked, true only when you are doing that task. The prompt is what is left - and what is left should be small. Use the right-hand test out loud on two or three examples from the room. The giveaway question is: is this true when nobody is asking for anything? If yes it is knowledge; if it only makes sense while doing something, it is a skill." data-tier="R">
-  <h2>Instructions, skills, prompts &mdash; three artifacts, three lifetimes<span class="tag k">2</span></h2>
-  <div class="body g64">
+<section class="slide" data-sec="1 &middot; Anatomy of an instruction" data-title="Four patterns, in their agentic form" data-notes="The room is new to agentic AI, so name each pattern and give its plain meaning first - the grey line under each name - then show what it looks like when the thing on the other end edits files and runs tests. Few-shot means 'show an example': in chat you paste examples; in a repository you point at one real file, and that is the INPUTS line they already saw on GB-151. Invented examples teach invented conventions. Chain of thought means 'reason before acting': 'think step by step' was a trick for older models; the models behind agent mode already reason. What is still worth asking for is a PLAN you can read before any file changes - files to touch, the ADR each relies on, then wait. Decomposition: one ticket split into steps that each end with passing tests, so a failure has a clear location. Self-critique is the one to be honest about. Asking the agent to check its change against each done criterion does catch omissions - the missing test, the unhandled status. It cannot catch its own misreading, because the check runs on the same understanding that produced the code. Park that sentence: it comes back in section 4 with tests written to pass, and it is the whole argument for Module 4. Close on the bottom band." data-tier="K">
+  <h2>Four prompting patterns &mdash; and how to use them with an agent<span class="tag k">1</span></h2>
+  <div class="body g1">
     <div>
-      <svg viewBox="0 0 700 430" role="img" aria-label="Instruction files, skill files and prompts compared by content, trigger and lifetime">
-        <rect class="bx d" x="4" y="4" width="692" height="28" rx="6"/>
-        <text class="lb w" x="20" y="23">ARTIFACT</text>
-        <text class="lb w" x="210" y="23">CARRIES</text>
-        <text class="lb w" x="390" y="23">LOADED</text>
-        <text class="lb w" x="560" y="23">LIVES FOR</text>
+      <svg viewBox="0 0 1180 452" role="img" aria-label="Few-shot, chain of thought, decomposition and self-critique: what to write and what each gives you">
+        <rect class="bx d" x="4" y="4" width="1172" height="30" rx="6"/>
+        <text class="lb w" x="24" y="24">PATTERN</text>
+        <text class="lb w" x="250" y="24">WHAT TO WRITE &mdash; GB-151</text>
+        <text class="lb w" x="800" y="24">WHAT YOU GET</text>
+        <rect class="bx grow" x="4" y="42" width="1172" height="72" rx="6"/>
+        <text class="tt" x="24" y="72">Few-shot</text>
+        <text class="ss" x="24" y="94">show an example</text>
+        <text class="ss" x="250" y="84" style="font-size:14px;fill:#e0b34d">&ldquo;Copy the style of AccountController.java.&rdquo;</text>
+        <text class="ss" x="800" y="84" style="font-size:14px">One real file beats made-up examples.</text>
+        <rect class="bx grow w2" x="4" y="120" width="1172" height="72" rx="6"/>
+        <text class="tt" x="24" y="150">Chain of thought</text>
+        <text class="ss" x="24" y="172">plan before acting</text>
+        <text class="ss" x="250" y="162" style="font-size:14px;fill:#e0b34d">&ldquo;List the files you will change. Wait for my OK.&rdquo;</text>
+        <text class="ss" x="800" y="162" style="font-size:14px">You check the plan before any code changes.</text>
+        <rect class="bx grow w3" x="4" y="198" width="1172" height="72" rx="6"/>
+        <text class="tt" x="24" y="228">Decomposition</text>
+        <text class="ss" x="24" y="250">small steps</text>
+        <text class="ss" x="250" y="240" style="font-size:14px;fill:#e0b34d">&ldquo;Domain, then service, then controller. Tests pass after each.&rdquo;</text>
+        <text class="ss" x="800" y="240" style="font-size:14px">If something breaks, you know which step.</text>
+        <rect class="bx r grow w4" x="4" y="276" width="1172" height="84" rx="6"/>
+        <text class="tt" x="24" y="308">Self-critique</text>
+        <text class="ss" x="24" y="330">check your own work</text>
+        <text class="ss" x="250" y="320" style="font-size:14px;fill:#e0b34d">&ldquo;Check your change against each done criterion.&rdquo;</text>
+        <text class="ss" x="800" y="308" style="font-size:14px">Finds <tspan font-weight="600" fill="#5fbf8f">missing items</tspan>.</text>
+        <text class="ss" x="800" y="332" style="font-size:14px;fill:#e2726e;font-weight:600">Cannot find its own misunderstanding.</text>
 
-        <rect class="bx g grow" x="4" y="40" width="692" height="106" rx="7"/>
-        <text class="tt" x="20" y="66">Instruction file</text>
-        <text class="ss" x="20" y="88">copilot-instructions.md</text>
-        <text class="ss" x="20" y="106">*.instructions.md</text>
-        <text class="ss" x="20" y="132" style="fill:#5fbf8f;font-weight:600">Module 2 &mdash; done</text>
-        <text class="ss" x="210" y="72">Facts. What is</text>
-        <text class="ss" x="210" y="92">true here.</text>
-        <text class="ss" x="210" y="112">Nouns, rules, limits.</text>
-        <text class="ss" x="390" y="72">Always, or on</text>
-        <text class="ss" x="390" y="92">every request that</text>
-        <text class="ss" x="390" y="112">touches the path.</text>
-        <text class="ss" x="560" y="82">As long as the</text>
-        <text class="ss" x="560" y="102">codebase does.</text>
-
-        <rect class="bx p grow w2" x="4" y="154" width="692" height="106" rx="7"/>
-        <text class="lb p" x="580" y="176">THIS SECTION</text>
-        <text class="tt" x="20" y="180">Skill file</text>
-        <text class="ss" x="20" y="202">a named procedure,</text>
-        <text class="ss" x="20" y="222">versioned in the repo</text>
-        <text class="ss" x="20" y="246" style="fill:#a78bfa;font-weight:600">the reusable half of a prompt</text>
-        <text class="ss" x="210" y="186">Procedure. How we</text>
-        <text class="ss" x="210" y="206">do this kind of task,</text>
-        <text class="ss" x="210" y="226">every time.</text>
-        <text class="ss" x="390" y="186">When invoked &mdash;</text>
-        <text class="ss" x="390" y="206">only while you are</text>
-        <text class="ss" x="390" y="226">doing that task.</text>
-        <text class="ss" x="560" y="196">Until the procedure</text>
-        <text class="ss" x="560" y="216">changes.</text>
-
-        <rect class="bx a grow w3" x="4" y="268" width="692" height="98" rx="7"/>
-        <text class="tt" x="20" y="294">The prompt</text>
-        <text class="ss" x="20" y="316">what is left over</text>
-        <text class="ss" x="20" y="340" style="fill:#d98a3d;font-weight:600">and it should be small</text>
-        <text class="ss" x="210" y="300">This ticket. These</text>
-        <text class="ss" x="210" y="320">files. Today&rsquo;s</text>
-        <text class="ss" x="210" y="340">particulars.</text>
-        <text class="ss" x="390" y="310">Once, now.</text>
-        <text class="ss" x="560" y="300">One request. Gone</text>
-        <text class="ss" x="560" y="320">with the session.</text>
-
-        <rect class="bx d" x="4" y="374" width="692" height="56" rx="7"/>
-        <text class="ss w" x="24" y="400" style="font-size:14px">The test that settles it: <tspan font-weight="700" fill="#e0b34d">is this true when nobody is asking for anything?</tspan></text>
-        <text class="ss w" x="24" y="420" style="font-size:14px">Yes &rarr; it is knowledge. Only true while doing something &rarr; it is a skill.</text>
+        <rect class="bx d" x="4" y="372" width="1172" height="52" rx="8"/>
+        <text class="ss w" x="24" y="404" style="font-size:15px">Use a pattern when it gives you <tspan font-weight="700" fill="#e0b34d">something to check</tspan>: a plan, a passing step, a list.</text>
       </svg>
-    </div>
-    <div class="pts">
-      <h3>The mistake this prevents</h3>
-      <ul>
-        <li>Procedures leak into the <b>instructions file</b>, which then carries steps nobody needs on most requests &mdash; and it grows until it is skimmed.</li>
-        <li>Facts leak into the <b>prompt</b>, which is the re-discovery tax paid by hand, forever.</li>
-      </ul>
-      <h3>Why this one is a file and not a habit</h3>
-      <ul>
-        <li>A good procedure held in one engineer's head is a <em>single point of failure with a notice period</em>.</li>
-        <li>In the repository it can be <b>reviewed, diffed, improved and blamed</b> &mdash; like anything else you depend on.</li>
-      </ul>
-      <div class="take"><b>Sequence matters:</b> do Module 2 first. A skill file written over a repository with no standing context just re-states facts, and rots twice as fast.</div>
     </div>
   </div>
 </section>
 
 <!-- 8 -->
+<section class="slide" data-sec="2 &middot; Skill files" data-title="Three artifacts, three lifetimes" data-notes="The confusion this slide fixes is real and it costs teams months: people put procedures in their instructions file and facts in their prompts, and then wonder why the instructions file is three pages and the prompts are still long. The distinction is not topic, it is WHEN IT IS TRUE and WHEN IT IS LOADED. Instructions are facts, always loaded, true regardless of what you are doing. A skill file is a procedure, loaded when needed, true only while you are doing that task. The prompt is what is left - and what is left should be small. Use the quick test out loud on two or three examples from the room. The giveaway question is: is this true when nobody is asking for anything? If yes it is knowledge; if it only makes sense while doing something, it is a skill. Sequence matters too: do Module 2 first - a skill file written over a repository with no standing context just re-states facts and goes stale quickly." data-tier="R">
+  <h2>Instruction file, skill file, prompt &mdash; what goes where<span class="tag k">2</span></h2>
+  <div class="body g64">
+    <div>
+      <svg viewBox="0 0 700 400" role="img" aria-label="Instruction files, skill files and prompts compared by what they hold and when Copilot reads them">
+        <rect class="bx d" x="4" y="4" width="692" height="28" rx="6"/>
+        <text class="lb w" x="20" y="23">FILE</text>
+        <text class="lb w" x="250" y="23">WHAT IT HOLDS</text>
+        <text class="lb w" x="500" y="23">WHEN COPILOT READS IT</text>
+
+        <rect class="bx g grow" x="4" y="40" width="692" height="84" rx="7"/>
+        <text class="tt" x="20" y="68">Instruction file</text>
+        <text class="ss" x="20" y="90">copilot-instructions.md</text>
+        <text class="ss" x="20" y="110" style="fill:#5fbf8f;font-weight:600">Module 2 &mdash; done</text>
+        <text class="ss" x="250" y="78">Facts. Rules that are</text>
+        <text class="ss" x="250" y="98">always true here.</text>
+        <text class="ss" x="500" y="88">On every request.</text>
+
+        <rect class="bx p grow w2" x="4" y="132" width="692" height="84" rx="7"/>
+        <text class="tt" x="20" y="160">Skill file</text>
+        <text class="ss" x="20" y="182" style="fill:#a78bfa;font-weight:600">this section</text>
+        <text class="ss" x="250" y="170">Steps. How we do</text>
+        <text class="ss" x="250" y="190">one kind of task.</text>
+        <text class="ss" x="500" y="170">Only when doing</text>
+        <text class="ss" x="500" y="190">that task.</text>
+
+        <rect class="bx a grow w3" x="4" y="224" width="692" height="72" rx="7"/>
+        <text class="tt" x="20" y="252">Your prompt</text>
+        <text class="ss" x="20" y="274" style="fill:#d98a3d;font-weight:600">keep it small</text>
+        <text class="ss" x="250" y="264">This ticket, these files.</text>
+        <text class="ss" x="500" y="264">Once.</text>
+
+        <rect class="bx d" x="4" y="308" width="692" height="88" rx="7"/>
+        <text class="lb w" x="24" y="332">QUICK TEST</text>
+        <text class="ss w" x="24" y="358" style="font-size:14px">Is it true even when nobody is asking? &rarr; <tspan font-weight="700" fill="#e0b34d">instruction file</tspan>.</text>
+        <text class="ss w" x="24" y="382" style="font-size:14px">Only true while doing a task? &rarr; <tspan font-weight="700" fill="#e0b34d">skill file</tspan>.</text>
+      </svg>
+    </div>
+    <div class="pts">
+      <h3>Common mistakes</h3>
+      <ul>
+        <li><b>Steps in the instruction file:</b> it grows too long, and people stop reading it.</li>
+        <li><b>Facts in the prompt:</b> you type them again every time.</li>
+      </ul>
+      <h3>Why a file?</h3>
+      <ul>
+        <li>Steps in one person&rsquo;s head leave when that person leaves.</li>
+        <li>In the repo, anyone can review and improve them.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 9 -->
 <section class="slide" data-sec="2 &middot; Skill files" data-title="Anatomy of a skill file" data-notes="This is a worked example of a skill file for the Global Bank account service. Walk the frontmatter first - this is the real Copilot agent-skill layout, one folder per skill with a SKILL.md inside, and the name must match the folder name or the skill is not picked up. Name and description are how it gets found and invoked, version is what makes it reviewable, and owner is what stops it becoming nobody's file - both sit under metadata because they are ours, not fields Copilot reads. Then the body: notice that it is the six-part anatomy from slide 3 with the ticket-specific parts left as slots. That is the whole idea - the reusable parts are written once, the particulars arrive per request. The stop conditions are the part to dwell on: they came from counting rework on real tickets, which means this file is the accumulated result of the team's mistakes, written down where the next person does not have to repeat them. Say the honest caveat too - the first version of a skill file is usually too long, and it gets better by having lines removed after they fail to earn their place on real tickets." data-tier="K">
-  <h2>Anatomy of a skill file &mdash; the reusable half, written once<span class="tag k">2</span></h2>
+  <h2>A skill file &mdash; the reusable half of a request<span class="tag k">2</span></h2>
   <div class="body g55">
     <div>
 <div class="file"><span class="fn">.github/skills/account-change/SKILL.md</span><span class="c">---</span>
@@ -424,103 +359,88 @@ Add POST /api/v1/postings/{id}/reversal.
 
 <span class="k"># Before you write anything</span>
 1. Read docs/adr/README.md and open any ADR
-   whose subject the ticket touches.
-2. Quote the constraint you are relying on,
-   with the file it came from.
+   that the ticket touches.
+2. Quote the rule you are relying on,
+   and the file it came from.
 
-<span class="k"># Constraints that always apply</span>
-- Amounts are long minor units (ADR-003).
-- Every posting writes exactly two entries.
-- Balances are derived, never stored.
-- Slice tests only, never @SpringBootTest.
+<span class="k"># Rules that always apply</span>
+- Amounts are stored as long, in paise/cents (ADR-003).
+- Every posting writes exactly two ledger entries.
+- Balances are calculated, never stored.
+- Use slice tests, not @SpringBootTest.
 
 <span class="k"># Output contract</span>
 - Service method + controller + slice tests.
-- Errors as ProblemDetail, kebab-case reason.
+- Errors in ProblemDetail format.
 - No new dependencies without an ADR.
 
 <span class="k"># Stop and ask &mdash; do not choose</span>
-- <span class="s">Two defensible readings of the criteria.</span>
-- <span class="s">An architectural choice with no ADR.</span>
+- <span class="s">The ticket can be read two ways.</span>
+- <span class="s">A design choice with no ADR.</span>
 - <span class="s">Any change to an existing ledger entry.</span>
 </div>
     </div>
     <div class="pts">
-      <h3>What the frontmatter is for</h3>
+      <h3>The header</h3>
       <ul>
-        <li><code>name</code> and <code>description</code> &mdash; how it is found and invoked. <code>name</code> must match the folder; vague descriptions are why skill files go unused.</li>
-        <li><code>version</code> and <code>owner</code> under <code>metadata</code> &mdash; what makes it an <b>asset</b> rather than a note. Unowned files have a first month, not a lifetime.</li>
+        <li><code>name</code> &mdash; must match the folder name.</li>
+        <li><code>description</code> &mdash; Copilot reads this to decide when to use the skill. Be specific.</li>
+        <li><code>version</code>, <code>owner</code> &mdash; so someone keeps it up to date.</li>
       </ul>
-      <h3>Read the body again</h3>
+      <h3>The body</h3>
       <ul>
-        <li>It is <b>slide 3's six parts</b> with the ticket-specific slots left empty. Goal and inputs arrive per request; everything else was already true.</li>
-        <li>The stop conditions are <em>the team's counted rework</em>, written where the next person does not repeat it.</li>
+        <li>The <b>six parts</b> from slide 3, minus goal and inputs. Those come with each ticket.</li>
+        <li>&ldquo;Stop and ask&rdquo; lists mistakes the team already made once.</li>
       </ul>
-      <div class="take"><b>The honest caveat:</b> your first version will be too long. Skill files get better by having lines <em>removed</em> after they fail to earn their place on a real ticket &mdash; same discipline as Module 2.</div>
-    </div>
-  </div>
-</section>
-
-<!-- 9 -->
-<section class="slide" data-sec="2 &middot; Skill files" data-title="Versioned, reviewed, parameterised" data-notes="Three ideas here and the third is the one that turns a skill file from a nice idea into something a team actually keeps. Versioned: it changes in a pull request like anything else, and the diff is the argument. Reviewed: a change to a skill file changes the behaviour of every future ticket that invokes it, which makes it higher-leverage than most code changes and it should get a real reviewer, not a rubber stamp. Parameterised: this is the discipline of leaving slots rather than hard-coding - a skill file that names one ticket is a prompt with delusions. On the right, the rollout note is worth two minutes with a senior room because the failure mode is social, not technical - the file that one person wrote and nobody else invokes. The fix is boring and it works: it goes in the same PR as the work that proved it, and it is invoked in the demo." data-tier="R">
-  <h2>What makes it an asset rather than a saved snippet<span class="tag k">2</span></h2>
-  <div class="body g1">
-    <div>
-      <svg viewBox="0 0 1180 468" role="img" aria-label="Versioning, review and parameterisation of skill files, and the rollout failure mode">
-        <rect class="bx grow" x="4" y="4" width="384" height="228" rx="8"/>
-        <text class="lb" x="24" y="30">1 &middot; VERSIONED</text>
-        <text class="tt" x="24" y="58">It changes in a pull request</text>
-        <text class="ss" x="24" y="84">The diff is the argument. &ldquo;We added a stop</text>
-        <text class="ss" x="24" y="104">condition after GB-142 went wrong twice&rdquo; is</text>
-        <text class="ss" x="24" y="124">a sentence a reviewer can agree with.</text>
-        <text class="ss" x="24" y="152">A snippet in someone&rsquo;s notes has no history,</text>
-        <text class="ss" x="24" y="172">so it cannot be argued with &mdash; and it cannot</text>
-        <text class="ss" x="24" y="192">be rolled back when it makes things worse.</text>
-
-        <rect class="bx a grow w2" x="398" y="4" width="384" height="228" rx="8"/>
-        <text class="lb a" x="418" y="30">2 &middot; REVIEWED &mdash; AND THIS IS HIGH LEVERAGE</text>
-        <text class="tt" x="418" y="58">One line changes every ticket</text>
-        <text class="ss" x="418" y="84">A change here alters the behaviour of every</text>
-        <text class="ss" x="418" y="104">future request that invokes it. That is more</text>
-        <text class="ss" x="418" y="124">leverage than most code changes carry.</text>
-        <text class="ss" x="418" y="152" style="fill:#d98a3d;font-weight:600">So it gets a real reviewer, not a rubber stamp.</text>
-        <text class="ss" x="418" y="180">The reviewer&rsquo;s question is narrow: does this</text>
-        <text class="ss" x="418" y="200">line hold on tickets other than the one that</text>
-        <text class="ss" x="418" y="220">prompted it?</text>
-
-        <rect class="bx p grow w3" x="792" y="4" width="384" height="228" rx="8"/>
-        <text class="lb p" x="812" y="30">3 &middot; PARAMETERISED</text>
-        <text class="tt" x="812" y="58">Slots, not particulars</text>
-        <text class="ss" x="812" y="84">The reusable parts are written; the ticket,</text>
-        <text class="ss" x="812" y="104">the files and the goal arrive per request.</text>
-        <text class="ss" x="812" y="132" style="fill:#a78bfa;font-weight:600">A skill file that names one ticket is a prompt</text>
-        <text class="ss" x="812" y="152" style="fill:#a78bfa;font-weight:600">with delusions of permanence.</text>
-        <text class="ss" x="812" y="180">Test: could a teammate invoke this on next</text>
-        <text class="ss" x="812" y="200">sprint&rsquo;s ticket without editing it? If not, the</text>
-        <text class="ss" x="812" y="220">particulars have not been factored out yet.</text>
-
-        <text class="lb r" x="4" y="264">THE FAILURE MODE IS SOCIAL, NOT TECHNICAL</text>
-        <rect class="bx r" x="4" y="274" width="1172" height="112" rx="8"/>
-        <rect class="bx w" x="24" y="294" width="546" height="76" rx="6"/>
-        <text class="tt" x="42" y="318" style="font-size:13.5px">What actually happens</text>
-        <text class="ss" x="42" y="340">One engineer writes an excellent skill file. Nobody else invokes it.</text>
-        <text class="ss" x="42" y="360">Six weeks later it is stale, and it is used as evidence that this does not work.</text>
-        <rect class="bx g" x="586" y="294" width="570" height="76" rx="6"/>
-        <text class="tt" x="604" y="318" style="font-size:13.5px">The fix is boring, and it works</text>
-        <text class="ss" x="604" y="340">It ships in the <tspan font-weight="600" fill="#5fbf8f">same pull request as the work that proved it</tspan>, and it is</text>
-        <text class="ss" x="604" y="360">invoked in the demo. Adoption is a review habit, not an announcement.</text>
-
-        <rect class="bx d" x="4" y="398" width="1172" height="66" rx="8"/>
-        <text class="lb w" x="24" y="422">THE ONE-LINE TEST FOR WHETHER YOU HAVE A SKILL FILE OR A SAVED PROMPT</text>
-        <text class="ss w" x="24" y="450" style="font-size:14px">Can someone else invoke it, on a different ticket, without editing it &mdash; and would you <tspan font-weight="700" fill="#e0b34d">review a change to it?</tspan></text>
-      </svg>
+      <div class="take"><b>Tip:</b> your first version will be too long. Remove lines that do not help on real tickets.</div>
     </div>
   </div>
 </section>
 
 <!-- 10 -->
-<section class="slide" data-sec="2 &middot; Skill files" data-title="Where this lives in Copilot" data-notes="This is the Copilot-specific slide, and the point is where each thing from this section physically lives. Instruction files were Module 2. The two surfaces left are prompt files and workspace search. A prompt file sits in .github/prompts, you run it by typing a slash and its name, and its input slots are filled on the command line - so it is the parameterised half from the last slide, native to Copilot. Walk the file on the left and point out how little is in it: the slots, a pointer to the skill, and one instruction about searching. The procedure is NOT in it. The difference to land is who pulls the trigger: you invoke a prompt file; the agent loads a skill by matching its description against the task. Recent Copilot releases are steering reusable procedure towards skills, which is one more reason to keep the prompt file a thin shortcut - nothing is lost if it goes. Then the right-hand half: at-workspace in older clients and hash-codebase now both run a semantic search, and agent mode searches on its own without being asked. That is useful for finding the inputs the first time. It is not a substitute for naming them - searching on every request is the twelve-file crawl from this morning, paid again. Search to discover, name to deliver. If the room is on an older Copilot build, at-workspace is what they will see; the advice is the same." data-tier="K">
-  <h2>Where this lives in Copilot &mdash; prompt files and workspace search<span class="tag k">2</span></h2>
+<section class="slide" data-sec="2 &middot; Skill files" data-title="What makes a skill file useful to the whole team" data-notes="Three ideas here and the third is the one that turns a skill file from a nice idea into something a team actually keeps. Versioned: it changes in a pull request like anything else, and the diff is the argument. Reviewed: a change to a skill file changes the behaviour of every future ticket that invokes it, which makes it higher-leverage than most code changes and it should get a real reviewer, not a rubber stamp. Parameterised: this is the discipline of leaving slots rather than hard-coding - a skill file that names one ticket is a prompt with delusions. On the right, the rollout note is worth two minutes with a senior room because the failure mode is social, not technical - the file that one person wrote and nobody else invokes. The fix is boring and it works: it goes in the same PR as the work that proved it, and it is invoked in the demo." data-tier="R">
+  <h2>What makes a skill file useful to the whole team<span class="tag k">2</span></h2>
+  <div class="body g1">
+    <div>
+      <svg viewBox="0 0 1180 400" role="img" aria-label="Versioning, review and reuse of skill files, and the adoption problem">
+        <rect class="bx grow" x="4" y="4" width="384" height="190" rx="8"/>
+        <text class="lb" x="24" y="30">1 &middot; VERSIONED</text>
+        <text class="tt" x="24" y="60">Change it in a pull request</text>
+        <text class="ss" x="24" y="96">The history shows why each</text>
+        <text class="ss" x="24" y="118">line was added.</text>
+        <text class="ss" x="24" y="152">You can undo a bad change.</text>
+
+        <rect class="bx a grow w2" x="398" y="4" width="384" height="190" rx="8"/>
+        <text class="lb a" x="418" y="30">2 &middot; REVIEWED</text>
+        <text class="tt" x="418" y="60">One line affects every ticket</text>
+        <text class="ss" x="418" y="96">So review it like important code.</text>
+        <text class="ss" x="418" y="130">Ask: does this line help on</text>
+        <text class="ss" x="418" y="152">other tickets too?</text>
+
+        <rect class="bx p grow w3" x="792" y="4" width="384" height="190" rx="8"/>
+        <text class="lb p" x="812" y="30">3 &middot; REUSABLE</text>
+        <text class="tt" x="812" y="60">No ticket numbers inside</text>
+        <text class="ss" x="812" y="96">The ticket, files and goal come</text>
+        <text class="ss" x="812" y="118">with each request.</text>
+        <text class="ss" x="812" y="152">Test: can a teammate use it next</text>
+        <text class="ss" x="812" y="174">sprint without editing it?</text>
+
+        <rect class="bx r" x="4" y="214" width="580" height="100" rx="8"/>
+        <text class="lb r" x="24" y="240">COMMON PROBLEM</text>
+        <text class="ss" x="24" y="268">One person writes a skill file. Nobody else uses it.</text>
+        <text class="ss" x="24" y="292">In a few weeks it is out of date.</text>
+        <rect class="bx g" x="596" y="214" width="580" height="100" rx="8"/>
+        <text class="lb g" x="616" y="240">THE FIX</text>
+        <text class="ss" x="616" y="268">Add it in the same pull request as the work that used it.</text>
+        <text class="ss" x="616" y="292">Show it in the team demo.</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="slide" data-sec="2 &middot; Skill files" data-title="Where this lives in Copilot" data-notes="This is the Copilot-specific slide, and the point is where each thing from this section physically lives. Instruction files were Module 2. The two things left are prompt files and workspace search. A prompt file sits in .github/prompts, you run it by typing a slash and its name, and its input slots are filled on the command line - so it is the reusable, parameterised half from the last slide, native to Copilot. Walk the file on the left and point out how little is in it: the slots, a pointer to the skill, and one instruction about searching. The procedure is NOT in it. The difference to land is who starts it: you run a prompt file; the agent loads a skill by matching its description against the task. Recent Copilot releases are steering reusable procedure towards skills, which is one more reason to keep the prompt file a thin shortcut. Then the right-hand half: at-workspace in older clients and hash-codebase now both run a search over the repository, and agent mode searches on its own without being asked. That is useful for finding the inputs the first time. It is not a substitute for naming them - searching on every request is the dozen-file hunt from Lab 1.1, paid again. If the room is on an older Copilot build, at-workspace is what they will see; the advice is the same." data-tier="K">
+  <h2>In Copilot &mdash; prompt files and <code>#codebase</code><span class="tag k">2</span></h2>
   <div class="body g55">
     <div>
 <div class="file"><span class="fn">.github/prompts/gb-change.prompt.md</span><span class="c">---</span>
@@ -535,565 +455,480 @@ Follow the <span class="s">account-change</span> skill.
 <span class="k">Goal:</span>   <span class="s">${input:goal}</span>
 
 <span class="k">Inputs:</span> the files the ticket names, and
-  the shape to copy it points at.
+  the file whose style it says to copy.
 If you cannot name them, search #codebase,
-  list what you found, and stop for my OK.
+  list what you found, and wait for my OK.
 
 <span class="c"># in chat:</span>
 <span class="c"># /gb-change ticket=GB-151 goal="reversal"</span>
 </div>
     </div>
     <div class="pts">
-      <h3>Prompt file or skill &mdash; who pulls the trigger</h3>
+      <h3>Prompt file or skill?</h3>
       <ul>
-        <li><b>Prompt file</b> &mdash; <em>you</em> invoke it with <code>/gb-change</code>. It carries the slots (<code>${input:&hellip;}</code>) and a pointer. Nothing else.</li>
-        <li><b>Skill</b> &mdash; the <em>agent</em> loads it when the task matches its description (or you call <code>/account-change</code>). The procedure lives here, once.</li>
+        <li><b>Prompt file</b> &mdash; <em>you</em> run it by typing <code>/gb-change</code>. It only fills in the ticket and goal.</li>
+        <li><b>Skill</b> &mdash; Copilot loads it <em>by itself</em> when the task matches its description. The steps live here.</li>
       </ul>
-      <h3>@workspace and #codebase &mdash; search, not inputs</h3>
+      <h3><code>#codebase</code> (older: <code>@workspace</code>)</h3>
       <ul>
-        <li><code>@workspace</code> in older clients, <code>#codebase</code> now; agent mode searches without being asked.</li>
-        <li>Use it to <b>find</b> the inputs once, then name them. Searching every request is the twelve-file crawl, paid again.</li>
+        <li>It searches the whole repo for you.</li>
+        <li>Use it once to find the right files. Then name them in your prompt.</li>
       </ul>
-      <div class="take"><b>Search to discover, name to deliver.</b> Keep the prompt file thin &mdash; Copilot is steering reusable procedure into skills.</div>
+      <div class="take"><b>Search once to find the files.</b> After that, name them.</div>
     </div>
   </div>
 </section>
 
-<!-- 11 -->
-<section class="slide" data-sec="3 &middot; Grounding" data-title="Four grounding rules" data-notes="Present these as four separate instruments with four different jobs, not as one idea phrased four ways. Cite-the-file makes the source checkable, so YOU can verify without re-reading everything. Quote-before-you-change forces it to actually read the code it is about to modify, and it is the cheapest of the four by a distance - it catches the change written against a remembered version of a file. Refuse-when-unknown is the one that needs a stop condition to work, which is why it sits after the anatomy section. Ask-do-not-invent is narrower than it sounds and worth stating precisely: it is about identifiers and values - account ids, status values, currency codes, limits - the things that look harmless and are the most common invented content in this domain. The right-hand caution matters in an experienced room: none of these are magic words. They work because they make the invented answer expensive to produce and easy to spot, not because the model obeys instructions." data-tier="K">
-  <h2>Four grounding rules &mdash; four different jobs<span class="tag k">3</span></h2>
+<!-- 12 -->
+<section class="slide" data-sec="3 &middot; Grounding" data-title="Four grounding rules" data-notes="First say what grounding means in one sentence, because the room is new to the word: the agent has to point to where a fact came from - a file in this repository - instead of answering from general knowledge. Then present the four rules as four separate tools with four different jobs, not one idea phrased four ways. Cite-the-file makes the source checkable, so YOU can verify without re-reading everything. Quote-before-you-change forces it to actually read the code it is about to modify, and it is the cheapest of the four by a distance - it catches the change written against a remembered, older version of a file. Say-when-you-do-not-know needs a stop condition to work, which is why it sits after the stop-conditions slide. Never-invent-values is narrower than it sounds: it is about identifiers and values - account ids, status values, currency codes, limits - the things that look harmless and are the most common invented content in this domain. The caution at the bottom right: none of these are magic words. They work because they make the invented answer expensive to produce and easy to spot, not because the model obeys instructions. In the worked example, copilot-instructions.md already ends with 'quote the file you are relying on'." data-tier="K">
+  <h2>Four grounding rules &mdash; make the agent show its source<span class="tag k">3</span></h2>
   <div class="body g64">
     <div>
-      <svg viewBox="0 0 700 430" role="img" aria-label="Four grounding rules, what each catches and how to verify">
+      <svg viewBox="0 0 700 430" role="img" aria-label="Four grounding rules and what each catches">
         <rect class="bx g grow" x="4" y="4" width="692" height="98" rx="7"/>
-        <text class="lb g" x="20" y="26">1 &middot; CITE THE FILE</text>
-        <text class="tt" x="20" y="52" style="font-size:14px">&ldquo;Name the file each constraint came from.&rdquo;</text>
-        <text class="ss" x="20" y="74">Catches: a rule the agent believes but cannot source.</text>
-        <text class="ss" x="20" y="94">You verify by opening one file, not by re-reading the repository.</text>
-
+        <text class="lb g" x="20" y="28">1 &middot; CITE THE FILE</text>
+        <text class="tt" x="20" y="56" style="font-size:14px">&ldquo;Tell me which file each rule came from.&rdquo;</text>
+        <text class="ss" x="20" y="82">Catches: rules it made up. You check one file, not the whole repo.</text>
         <rect class="bx g grow w2" x="4" y="110" width="692" height="98" rx="7"/>
-        <text class="lb g" x="20" y="132">2 &middot; QUOTE BEFORE YOU CHANGE &mdash; THE CHEAPEST OF THE FOUR</text>
-        <text class="tt" x="20" y="158" style="font-size:14px">&ldquo;Show me the current code before proposing the edit.&rdquo;</text>
-        <text class="ss" x="20" y="180">Catches: a change written against a <tspan font-weight="600" fill="#e2726e">remembered</tspan> version of the file.</text>
-        <text class="ss" x="20" y="200">One extra line in the request; catches an entire class of confident rewrite.</text>
-
+        <text class="lb g" x="20" y="134">2 &middot; QUOTE BEFORE YOU CHANGE &mdash; THE EASIEST</text>
+        <text class="tt" x="20" y="162" style="font-size:14px">&ldquo;Show me the current code before you edit it.&rdquo;</text>
+        <text class="ss" x="20" y="188">Catches: edits based on an old version of the file.</text>
         <rect class="bx a grow w3" x="4" y="216" width="692" height="98" rx="7"/>
-        <text class="lb a" x="20" y="238">3 &middot; REFUSE WHEN UNKNOWN &mdash; NEEDS A STOP CONDITION TO WORK</text>
-        <text class="tt" x="20" y="264" style="font-size:14px">&ldquo;If you cannot ground it, say so and stop.&rdquo;</text>
-        <text class="ss" x="20" y="286">Catches: the plausible continuation, which is the default behaviour.</text>
-        <text class="ss" x="20" y="306">Toothless on its own &mdash; name the circumstance, or nothing changes.</text>
-
+        <text class="lb a" x="20" y="240">3 &middot; SAY WHEN YOU DO NOT KNOW</text>
+        <text class="tt" x="20" y="268" style="font-size:14px">&ldquo;If you cannot find it in the repo, say so and stop.&rdquo;</text>
+        <text class="ss" x="20" y="294">Works only with a clear stop condition (slide 5).</text>
         <rect class="bx a grow w4" x="4" y="322" width="692" height="98" rx="7"/>
-        <text class="lb a" x="20" y="344">4 &middot; ASK, DO NOT INVENT &mdash; NARROWER THAN IT SOUNDS</text>
-        <text class="tt" x="20" y="370" style="font-size:14px">&ldquo;Never invent an identifier, a value or a limit.&rdquo;</text>
-        <text class="ss" x="20" y="392">Catches: account ids, status values, currency codes, thresholds &mdash; the</text>
-        <text class="ss" x="20" y="412">things that look harmless in a diff and are wrong in production.</text>
+        <text class="lb a" x="20" y="346">4 &middot; NEVER INVENT VALUES</text>
+        <text class="tt" x="20" y="374" style="font-size:14px">&ldquo;Do not make up IDs, status names, codes or limits.&rdquo;</text>
+        <text class="ss" x="20" y="400">Catches: values that look fine but are wrong in production.</text>
       </svg>
     </div>
     <div class="pts">
-      <h3>Why these work</h3>
+      <h3>What grounding means</h3>
       <ul>
-        <li>Not because the model obeys. Because they make an invented answer <b>expensive to produce and easy to spot</b>.</li>
-        <li>A citation you can check in one file open changes the economics of your review.</li>
+        <li>The agent must point to <b>where a fact came from</b> &mdash; a file in this repo.</li>
       </ul>
-      <h3>Where they live</h3>
+      <h3>Why it works</h3>
       <ul>
-        <li>All four belong in the <b>skill file</b>, not in every prompt. You wrote them once in the last section.</li>
-        <li>In the worked example they are already half-installed: <code>copilot-instructions.md</code> ends with <em>&ldquo;quote the file you are relying on&rdquo;</em>.</li>
+        <li>A guess becomes <b>easy to spot</b>.</li>
       </ul>
-      <div class="callout bad">These are <b>not magic words.</b> A grounding rule with no named circumstance and no verification step is decoration, and it will make you more confident without making the output better.</div>
+      <h3>Where to put them</h3>
+      <ul>
+        <li>In the <b>skill file</b>, once. Not in every prompt.</li>
+      </ul>
+      <div class="callout bad">A rule with no clear trigger and no check <b>does nothing</b>.</div>
     </div>
   </div>
 </section>
-<!-- 12 -->
-<section class="slide" data-sec="3 &middot; Grounding" data-title="The same question, grounded and not" data-notes="Two answers to the same question about Global Bank, and the room should notice the important thing before you say it: the ungrounded answer is not wrong. It is correct, well-phrased and completely unverifiable, and that combination is what makes it dangerous. The grounded answer costs the agent slightly more and costs YOU dramatically less, because every claim carries the file that supports it and you can check the whole thing in three file opens. Point at the last line of the grounded version specifically - naming what it could NOT find is the behaviour you are buying with refuse-when-unknown, and it is the only line on this slide that could not be produced by a model that had read nothing. Then the practical note: this is why cite-the-file belongs in the skill file rather than in your head. You will not type it on the request where it mattered most." data-tier="R">
-  <h2>Grounded and ungrounded &mdash; the same question<span class="tag k">3</span></h2>
+
+<!-- 13 -->
+<section class="slide" data-sec="3 &middot; Grounding" data-title="The same question, with and without grounding" data-notes="Two answers to the same question about Global Bank, and the room should notice the important thing before you say it: the ungrounded answer is not wrong. It is correct, well-phrased and completely unverifiable, and that combination is what makes it dangerous. The grounded answer costs the agent slightly more and costs YOU dramatically less, because every claim carries the file that supports it and you can check the whole thing in three file opens. Point at the last line of the grounded version specifically - naming what it could NOT find is the behaviour you are buying with refuse-when-unknown, and it is the only line on this slide that could not be produced by a model that had read nothing. Then the practical note: this is why cite-the-file belongs in the skill file rather than in your head. You will not type it on the request where it mattered most." data-tier="R">
+  <h2>The same question &mdash; with and without grounding<span class="tag k">3</span></h2>
   <div class="body g55">
     <div>
-      <div class="callout bad" style="margin-top:0"><b>Ungrounded &mdash; and note that it is not <em>wrong</em></b></div>
-<div class="file"><span class="fn">&ldquo;HOW SHOULD I HANDLE A DUPLICATE POSTING?&rdquo;</span>Use an idempotency key. Have the caller send
-an Idempotency-Key header, store it against
-the posting, and return the original posting
-id if the key is seen again.
+      <div class="callout bad" style="margin-top:0"><b>Without grounding &mdash; sounds right</b></div>
+<div class="file"><span class="fn">&ldquo;HOW DO I STOP THE SAME PAYMENT BEING POSTED TWICE?&rdquo;</span>Ask the caller to send a unique
+Idempotency-Key header. Save it with the
+posting. If the same key comes again,
+return the first posting.
 
-This is the standard approach for payment
-APIs and it handles gateway retries cleanly.
+This is the usual way for payment APIs.
 </div>
       <div class="pts" style="margin-top:12px">
-        <h3>Why this is the dangerous shape</h3>
+        <h3>The problem</h3>
         <ul>
-          <li>Correct in general, <b>false here</b> &mdash; and nothing in the answer tells you which.</li>
-          <li>No claim is attached to a source, so verifying it means re-reading the repository yourself.</li>
-          <li>It is <em>more</em> confident than the grounded answer, because it has nothing to be uncertain about.</li>
+          <li>Good advice in general. <b>Wrong for this repo.</b></li>
+          <li>No source, so you must check the whole repo yourself.</li>
         </ul>
       </div>
     </div>
     <div>
-      <div class="callout good" style="margin-top:0"><b>Grounded &mdash; cite, quote, and name the gap</b></div>
-<div class="file"><span class="fn">SAME QUESTION, WITH THE GROUNDING RULES IN THE SKILL FILE</span>Duplicate suppression keys on
+      <div class="callout good" style="margin-top:0"><b>With grounding &mdash; source, code, and the gap</b></div>
+<div class="file"><span class="fn">SAME QUESTION, GROUNDING RULES IN THE SKILL FILE</span>In this repo, duplicates are found by
 clientReference + valueDate.
 
-<span class="k">Source:</span> docs/adr/ADR-007. It records that a
-header-based idempotency key was considered
-and rejected, because the two highest-volume
-upstream systems do not propagate a client
-header through their retry path.
+<span class="k">Source:</span> docs/adr/ADR-007. A header key
+was rejected: two large upstream systems
+do not send it when they retry.
 
-<span class="k">Existing code:</span> PostingRepository already
-declares findByClientReferenceAndValueDate,
-which is currently unused.
+<span class="k">Existing code:</span> PostingRepository has
+findByClientReferenceAndValueDate
+(not used yet).
 
-<span class="s">Not found: what should happen when the same</span>
-<span class="s">reference arrives with a different amount.</span>
-<span class="s">No ADR covers it. Stopping to ask.</span>
+<span class="s">Not found: what to do if the same reference</span>
+<span class="s">comes with a different amount. No ADR</span>
+<span class="s">covers it. Stopping to ask.</span>
 </div>
-    </div>
-  </div>
-</section>
-<!-- 13 -->
-<section class="slide" data-sec="4 &middot; The failure taxonomy" data-title="Four failures, and how each one looks" data-notes="The reason to teach a taxonomy rather than a general warning about hallucination is that these four have genuinely different tells and genuinely different counters, and treating them as one thing is why review feels like an unbounded task. Go across the row: what it looks like, and where you catch it. Invented API is the famous one and the least dangerous, because the compiler catches it - it costs a turn and nothing else. Silent scope drift is the most common in agent mode and the tell is a diff wider than the request. Confidently wrong refactor is the one that gets through review because it is well-written and internally consistent. Tests written to pass is the one to spend real time on, and it has its own slide next. The bottom band is the point of the whole taxonomy: severity does not track how obvious the failure is - it runs the other way, and the ones that compile cleanly are the expensive ones." data-tier="K">
-  <h2>Four failures &mdash; different tells, different counters<span class="tag k">4</span></h2>
-  <div class="body g1">
-    <div>
-      <svg viewBox="0 0 1180 452" role="img" aria-label="Four agent failure modes with their symptoms, where they are caught and their cost">
-        <rect class="bx d" x="4" y="4" width="1172" height="30" rx="6"/>
-        <text class="lb w" x="24" y="24">FAILURE</text>
-        <text class="lb w" x="300" y="24">WHAT YOU SEE</text>
-        <text class="lb w" x="700" y="24">CAUGHT BY</text>
-        <text class="lb w" x="990" y="24">COST WHEN MISSED</text>
-
-        <rect class="bx grow" x="4" y="42" width="1172" height="86" rx="6"/>
-        <text class="tt" x="24" y="70">Invented API</text>
-        <text class="ss" x="24" y="92">a method, option or</text>
-        <text class="ss" x="24" y="112">library that does not exist</text>
-        <text class="ss" x="300" y="76">Plausible names, correct-looking signature,</text>
-        <text class="ss" x="300" y="96">often the API you <tspan font-style="italic">wish</tspan> the library had.</text>
-        <text class="ss" x="300" y="116">Frequently a version that existed once.</text>
-        <text class="ss" x="700" y="86" style="fill:#5fbf8f;font-weight:600">The compiler.</text>
-        <text class="ss" x="700" y="106">Immediately, every time.</text>
-        <text class="ss" x="990" y="86" style="fill:#5fbf8f">Low &mdash; one turn.</text>
-        <text class="ss" x="990" y="106">Annoying, not dangerous.</text>
-
-        <rect class="bx a grow w2" x="4" y="134" width="1172" height="86" rx="6"/>
-        <text class="tt" x="24" y="162">Silent scope drift</text>
-        <text class="ss" x="24" y="184">it did the task, and</text>
-        <text class="ss" x="24" y="204">four other things</text>
-        <text class="ss" x="300" y="168">A diff wider than the request. Renames,</text>
-        <text class="ss" x="300" y="188">reformatting, a helper &ldquo;while I was there&rdquo;,</text>
-        <text class="ss" x="300" y="208">an unrelated file improved.</text>
-        <text class="ss" x="700" y="178" style="fill:#d98a3d;font-weight:600">Reading the diff &mdash; if</text>
-        <text class="ss" x="700" y="198" style="fill:#d98a3d;font-weight:600">you read all of it.</text>
-        <text class="ss" x="990" y="178">Medium &mdash; review time,</text>
-        <text class="ss" x="990" y="198">and a bisect later.</text>
-
-        <rect class="bx a grow w3" x="4" y="226" width="1172" height="86" rx="6"/>
-        <text class="tt" x="24" y="254">Confidently wrong</text>
-        <text class="tt" x="24" y="274">refactor</text>
-        <text class="ss" x="24" y="296">correct-looking, and wrong here</text>
-        <text class="ss" x="300" y="260">Clean, idiomatic, internally consistent, and</text>
-        <text class="ss" x="300" y="280">built on an assumption that is false in <tspan font-style="italic">this</tspan></text>
-        <text class="ss" x="300" y="300">codebase. Reads better than the original.</text>
-        <text class="ss" x="700" y="270" style="fill:#e2726e;font-weight:600">A human who knows the</text>
-        <text class="ss" x="700" y="290" style="fill:#e2726e;font-weight:600">system. Tests will not.</text>
-        <text class="ss" x="990" y="270">High &mdash; it passes review</text>
-        <text class="ss" x="990" y="290">because it is well written.</text>
-
-        <rect class="bx r grow w4" x="4" y="318" width="1172" height="86" rx="6"/>
-        <text class="lb r" x="892" y="338">THE ONE THAT DEFEATS YOUR SAFETY NET</text>
-        <text class="tt" x="24" y="346">Tests written to pass</text>
-        <text class="ss" x="24" y="368">green, and asserting</text>
-        <text class="ss" x="24" y="388">nothing that matters</text>
-        <text class="ss" x="300" y="352">Asserts no exception was thrown. Asserts</text>
-        <text class="ss" x="300" y="372">the mock was called. Re-states the</text>
-        <text class="ss" x="300" y="392">implementation instead of the behaviour.</text>
-        <text class="ss" x="700" y="362" style="fill:#e2726e;font-weight:600">Nothing automatic.</text>
-        <text class="ss" x="700" y="382" style="fill:#e2726e;font-weight:600">The suite is green.</text>
-        <text class="ss" x="990" y="362">Highest &mdash; you now have</text>
-        <text class="ss" x="990" y="382">false confidence, at scale.</text>
-
-        <rect class="bx d" x="4" y="412" width="1172" height="36" rx="6"/>
-        <text class="ss w" x="590" y="436" text-anchor="middle" style="font-size:14px">Severity runs <tspan font-weight="700" fill="#e0b34d">opposite</tspan> to how obvious the failure is &mdash; the ones that compile cleanly and go green are the expensive ones</text>
-      </svg>
     </div>
   </div>
 </section>
 
 <!-- 14 -->
-<section class="slide" data-sec="4 &middot; The failure taxonomy" data-title="The counter for each" data-notes="Now pair each failure with the instrument that actually addresses it, and be honest that they are not equally strong. Invented API needs nothing from you - let the build catch it, and resist the urge to add prompt ceremony for a failure the compiler handles for free. That is a real lesson: do not spend prompt budget on failures your toolchain already catches. Scope drift is fixed by the output contract plus a bounded INPUTS list, and it is the strongest pairing on the slide. The confidently wrong refactor is where quote-before-you-change and cite-the-file earn their place, plus the ADRs from Module 2 - which is why this failure gets cheaper after Module 2 and not before. Tests written to pass has the weakest automatic counter and the strongest human one, which is the honest answer and it sets up Module 4's review agent. The closing band is the one to leave up while you talk." data-tier="K">
-  <h2>What actually counters each &mdash; and how strong it is<span class="tag k">4</span></h2>
-  <div class="body g64">
+<section class="slide" data-sec="4 &middot; The failure taxonomy" data-title="Four failures, and how to catch each" data-notes="The reason to teach four named failures rather than a general warning about hallucination is that these four look different and are caught differently, and treating them as one thing is why reviewing agent output feels endless. Go across each row: what you see, how to catch or fix it, and the risk. Invented API - a method or library option that does not exist - is the famous one and the least dangerous, because the build catches it for free; do not spend prompt words on it. Silent scope drift - the agent did the task and four other things - is the most common in agent mode; the tell is a diff wider than the request, and the fix is the output contract plus a fixed list of allowed files. Confidently wrong refactor is the one that gets through review because it is clean and internally consistent but breaks an assumption true only in this codebase; quote-before-change, cite-the-file and the ADRs from Module 2 are the counters. Tests written to pass is the one to spend real time on, and it has its own slide next. The bottom band is the point: risk runs opposite to how obvious the failure is. The next slide (reference) has the strength of each counter if the room asks." data-tier="K">
+  <h2>Four common agent failures &mdash; and how to catch each<span class="tag k">4</span></h2>
+  <div class="body g1">
     <div>
-      <svg viewBox="0 0 700 430" role="img" aria-label="Each failure mode paired with its counter and the strength of that counter">
-        <rect class="bx g grow" x="4" y="4" width="692" height="92" rx="7"/>
-        <text class="tt" x="20" y="30">Invented API</text>
-        <text class="lb g" x="560" y="30">STRONG</text>
-        <text class="ss" x="20" y="54" style="fill:#5fbf8f;font-weight:600">Counter: your build. Nothing else needed.</text>
-        <text class="ss" x="20" y="78">Do not spend prompt budget on a failure the compiler catches for free.</text>
-
-        <rect class="bx g grow w2" x="4" y="104" width="692" height="92" rx="7"/>
-        <text class="tt" x="20" y="130">Silent scope drift</text>
-        <text class="lb g" x="560" y="130">STRONG</text>
-        <text class="ss" x="20" y="154" style="fill:#5fbf8f;font-weight:600">Counter: output contract + a bounded INPUTS list.</text>
-        <text class="ss" x="20" y="178">&ldquo;Touch only these files; if you need another, stop and list it first.&rdquo;</text>
-
-        <rect class="bx a grow w3" x="4" y="204" width="692" height="102" rx="7"/>
-        <text class="tt" x="20" y="230">Confidently wrong refactor</text>
-        <text class="lb a" x="540" y="230">MODERATE</text>
-        <text class="ss" x="20" y="254" style="fill:#d98a3d;font-weight:600">Counter: quote-before-you-change, cite-the-file &mdash; and ADRs.</text>
-        <text class="ss" x="20" y="278">This failure is a <tspan font-style="italic">missing constraint</tspan> before it is a prompting problem, which</text>
-        <text class="ss" x="20" y="298">is why it gets cheaper after Module 2 and not before.</text>
-
-        <rect class="bx r grow w4" x="4" y="314" width="692" height="116" rx="7"/>
-        <text class="tt" x="20" y="340">Tests written to pass</text>
-        <text class="lb r" x="530" y="340">WEAKEST AUTOMATIC</text>
-        <text class="ss" x="20" y="364" style="fill:#e2726e;font-weight:600">Counter: state the assertion in the request &mdash; and read the test first.</text>
-        <text class="ss" x="20" y="388">&ldquo;The test must fail without the change.&rdquo; Then run it against the old code.</text>
-        <text class="ss" x="20" y="412">No automatic instrument closes this one. A <tspan font-weight="600" fill="#e2726e">separate reviewer</tspan> does &mdash; Module 4.</text>
+      <svg viewBox="0 0 1180 452" role="img" aria-label="Four agent failures: what you see, how to catch or fix it, and the risk">
+        <rect class="bx d" x="4" y="4" width="1172" height="30" rx="6"/>
+        <text class="lb w" x="24" y="24">FAILURE</text>
+        <text class="lb w" x="300" y="24">WHAT YOU SEE</text>
+        <text class="lb w" x="690" y="24">HOW TO CATCH OR FIX IT</text>
+        <text class="lb w" x="1060" y="24">RISK</text>
+        <rect class="bx grow" x="4" y="42" width="1172" height="84" rx="6"/>
+        <text class="tt" x="24" y="90">Invented API</text>
+        <text class="ss" x="300" y="90" style="font-size:14px">A method that does not exist.</text>
+        <text class="ss" x="690" y="90" style="font-size:14px">The build fails.</text>
+        <text class="tt" x="1060" y="90" style="fill:#5fbf8f">Low</text>
+        <rect class="bx a grow w2" x="4" y="134" width="1172" height="84" rx="6"/>
+        <text class="tt" x="24" y="182">Silent scope drift</text>
+        <text class="ss" x="300" y="182" style="font-size:14px">Extra files, renames, reformatting.</text>
+        <text class="ss" x="690" y="182" style="font-size:14px">List allowed files. Read the whole diff.</text>
+        <text class="tt" x="1060" y="182" style="fill:#d98a3d">Medium</text>
+        <rect class="bx a grow w3" x="4" y="226" width="1172" height="84" rx="6"/>
+        <text class="tt" x="24" y="274">Confidently wrong refactor</text>
+        <text class="ss" x="300" y="274" style="font-size:14px">Cleaner code that breaks a rule of this system.</text>
+        <text class="ss" x="690" y="274" style="font-size:14px">Quote before change, cite the file, ADRs.</text>
+        <text class="tt" x="1060" y="274" style="fill:#e2726e">High</text>
+        <rect class="bx r grow w4" x="4" y="318" width="1172" height="84" rx="6"/>
+        <text class="tt" x="24" y="366">Tests written to pass</text>
+        <text class="ss" x="300" y="366" style="font-size:14px">Tests only check &ldquo;no error&rdquo; or &ldquo;mock called&rdquo;.</text>
+        <text class="ss" x="690" y="366" style="font-size:14px">Test first. It must fail on the old code.</text>
+        <text class="tt" x="1060" y="366" style="fill:#e2726e">Highest</text>
+        <rect class="bx d" x="4" y="410" width="1172" height="42" rx="6"/>
+        <text class="ss w" x="590" y="437" text-anchor="middle" style="font-size:15px">The failures that <tspan font-weight="700" fill="#e0b34d">compile and pass tests</tspan> are the dangerous ones.</text>
       </svg>
-    </div>
-    <div class="pts">
-      <h3>Read the pattern</h3>
-      <ul>
-        <li>The failures your <b>toolchain</b> catches need nothing from your prompt. Spending words there is the most common waste in an experienced team.</li>
-        <li>The failures that need a <b>human who knows the system</b> are the ones worth designing around &mdash; and the ones that justify Module 4.</li>
-      </ul>
-      <h3>The one habit worth taking away</h3>
-      <ul>
-        <li><b>Read the test before the implementation.</b> If the test would pass against the old code, nothing has been proven and the green tick is worse than no tick.</li>
-      </ul>
-      <div class="take"><b>Where this lands in the labs:</b> Lab 2.6 hands you a change set containing one real defect and one hallucinated API. The review agent catches one of them. Which one it misses is the lesson.</div>
     </div>
   </div>
 </section>
 
 <!-- 15 -->
+<section class="slide" data-sec="4 &middot; The failure taxonomy" data-title="The counter for each" data-notes="Reference slide - the key path now carries the fix column on the previous slide, so show this only if the room asks how strong each fix is. Pair each failure with the tool that actually addresses it, and be honest that they are not equally strong. Invented API needs nothing from you - let the build catch it, and do not add prompt ceremony for a failure the compiler handles for free. Scope drift is fixed by the output contract plus a fixed INPUTS list, and it is the strongest pairing. The confidently wrong refactor is where quote-before-you-change and cite-the-file earn their place, plus the ADRs from Module 2 - which is why this failure gets cheaper after Module 2 and not before. Tests written to pass has the weakest automatic counter and the strongest human one, which is the honest answer and it sets up Module 4's review agent." data-tier="R">
+  <h2>How strong each fix is<span class="tag k">4</span></h2>
+  <div class="body g64">
+    <div>
+      <svg viewBox="0 0 700 400" role="img" aria-label="Each failure paired with its fix and how strong that fix is">
+        <rect class="bx g grow" x="4" y="4" width="692" height="86" rx="7"/>
+        <text class="tt" x="20" y="32">Invented API</text>
+        <text class="lb g" x="600" y="32">STRONG</text>
+        <text class="ss" x="20" y="62">Fix: the build. Write nothing in the prompt.</text>
+
+        <rect class="bx g grow w2" x="4" y="98" width="692" height="86" rx="7"/>
+        <text class="tt" x="20" y="126">Silent scope drift</text>
+        <text class="lb g" x="600" y="126">STRONG</text>
+        <text class="ss" x="20" y="156">Fix: &ldquo;Touch only these files. Ask before any other.&rdquo;</text>
+
+        <rect class="bx a grow w3" x="4" y="192" width="692" height="96" rx="7"/>
+        <text class="tt" x="20" y="220">Confidently wrong refactor</text>
+        <text class="lb a" x="580" y="220">MEDIUM</text>
+        <text class="ss" x="20" y="248">Fix: quote before change, cite the file, and ADRs.</text>
+        <text class="ss" x="20" y="272">Easier after Module 2 put the rules in the repo.</text>
+
+        <rect class="bx r grow w4" x="4" y="296" width="692" height="100" rx="7"/>
+        <text class="tt" x="20" y="324">Tests written to pass</text>
+        <text class="lb r" x="600" y="324">WEAK</text>
+        <text class="ss" x="20" y="352">Fix: read the test first. It must fail on the old code.</text>
+        <text class="ss" x="20" y="378">The full fix is a <tspan font-weight="600" fill="#e2726e">separate reviewer</tspan> &mdash; Module 4.</text>
+      </svg>
+    </div>
+    <div class="pts">
+      <h3>The pattern</h3>
+      <ul>
+        <li>Do not write prompt rules for what the <b>build</b> already catches.</li>
+        <li>Spend effort on failures only a <b>person who knows the system</b> can spot.</li>
+      </ul>
+      <div class="take"><b>In Lab 2.6</b> you get a change with one real bug and one made-up API. See which one the review agent misses.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 16 -->
 <section class="slide" data-sec="4 &middot; The failure taxonomy" data-title="Tests written to pass" data-notes="Spend real time here - this is the slide senior engineers remember, because it names something they have felt and not articulated. The mechanism on the left is worth stating plainly: when you ask for the change and the tests in one request, the tests are generated from the same understanding as the implementation, including the same misunderstanding. The test is not an independent check, it is a restatement. If the model misread the requirement, the test encodes the misreading and goes green, and now you have a defect with a passing test defending it. The three tells are concrete and they should recognise all three. The fix at the bottom is deliberately simple and it is the one thing to do differently tomorrow morning. Do not oversell the ordering fix - it reduces the problem, it does not eliminate it, and the real answer is a separate reviewer, which is where Module 4 starts." data-tier="R">
-  <h2>Tests written to pass &mdash; why the green tick can be worthless<span class="tag k">4</span></h2>
+  <h2>Tests written to pass &mdash; when a green tick proves nothing<span class="tag k">4</span></h2>
   <div class="body g46">
     <div class="pts">
-      <h3>The mechanism, plainly</h3>
+      <h3>Why it happens</h3>
       <ul>
-        <li>Ask for the change <b>and</b> its tests in one request, and the tests are generated from the same understanding as the implementation &mdash; <em>including the same misunderstanding</em>.</li>
-        <li>The test is not an independent check. It is a <b>restatement</b>.</li>
-        <li>So a misread requirement produces a defect <em>and</em> a passing test that defends it.</li>
+        <li>You ask for the code <b>and</b> its tests together.</li>
+        <li>Both come from the <b>same understanding</b> of the ticket.</li>
+        <li>If that understanding is wrong, both are wrong &mdash; and the tests still pass.</li>
       </ul>
-      <h3>Three tells you can spot in seconds</h3>
+      <h3>Three warning signs</h3>
       <ul>
-        <li>It asserts <b>no exception was thrown</b>, and nothing else.</li>
-        <li>It asserts <b>the mock was called</b> &mdash; a test of the code you just wrote, not the behaviour you wanted.</li>
-        <li>It re-states the implementation. Change the implementation legitimately and the test fails: that is a <b>change detector</b>, not a test.</li>
+        <li>It only checks that <b>no error</b> was thrown.</li>
+        <li>It only checks that a <b>mock was called</b>.</li>
+        <li>It repeats the code&rsquo;s logic instead of checking the result.</li>
       </ul>
-      <div class="callout bad"><b>The example already says this</b> &mdash; <code>tests.instructions.md</code>: <em>&ldquo;A test that asserts only &lsquo;no exception was thrown&rsquo; is not a test. Assert the ledger effect.&rdquo;</em></div>
     </div>
     <div>
-      <svg viewBox="0 0 700 430" role="img" aria-label="Why generating code and tests together produces a test that cannot catch the error, and the ordering fix">
-        <text class="lb r" x="4" y="13">ONE REQUEST &mdash; CODE AND TESTS TOGETHER</text>
-        <rect class="bx r" x="4" y="22" width="692" height="152" rx="8"/>
+      <svg viewBox="0 0 700 400" role="img" aria-label="Code and tests from one understanding agree whether or not it is right; write the test first">
+        <text class="lb r" x="4" y="13">CODE AND TESTS IN ONE REQUEST</text>
+        <rect class="bx r" x="4" y="22" width="692" height="130" rx="8"/>
         <rect class="bx w" x="20" y="42" width="180" height="46" rx="6"/>
-        <text class="ss" x="110" y="62" text-anchor="middle">one reading of</text>
-        <text class="ss" x="110" y="80" text-anchor="middle">the requirement</text>
+        <text class="ss" x="110" y="62" text-anchor="middle">one understanding</text>
+        <text class="ss" x="110" y="80" text-anchor="middle">of the ticket</text>
         <path class="arr" d="M204 65 L242 48"/>
         <path class="arr" d="M204 65 L242 82"/>
         <rect class="bx w" x="246" y="28" width="200" height="38" rx="6"/>
-        <text class="ss" x="346" y="52" text-anchor="middle">the implementation</text>
+        <text class="ss" x="346" y="52" text-anchor="middle">the code</text>
         <rect class="bx w" x="246" y="72" width="200" height="38" rx="6"/>
         <text class="ss" x="346" y="96" text-anchor="middle">the test</text>
         <path class="arr" d="M450 47 L488 65"/>
         <path class="arr" d="M450 91 L488 70"/>
         <rect class="bx d" x="492" y="42" width="188" height="46" rx="6"/>
-        <text class="tt w" x="586" y="62" text-anchor="middle" style="font-size:13px">Agreement</text>
-        <text class="ss w" x="586" y="80" text-anchor="middle">proves nothing</text>
-        <text class="ss" x="20" y="132" style="fill:#e2726e;font-weight:600">If the reading was wrong, both are wrong &mdash; and the suite is green.</text>
-        <text class="ss" x="20" y="156">You have not tested the change. You have confirmed it is self-consistent.</text>
+        <text class="tt w" x="586" y="62" text-anchor="middle" style="font-size:13px">They agree.</text>
+        <text class="ss w" x="586" y="80" text-anchor="middle">That proves nothing.</text>
+        <text class="ss" x="20" y="136" style="fill:#e2726e;font-weight:600">A wrong understanding gives wrong code and a passing test.</text>
 
-        <text class="lb g" x="4" y="202">THE ORDERING FIX &mdash; DO THIS TOMORROW</text>
-        <rect class="bx g" x="4" y="212" width="692" height="132" rx="8"/>
-        <rect class="bx w rise" x="20" y="230" width="212" height="44" rx="6"/>
-        <text class="ss" x="126" y="248" text-anchor="middle">1 &middot; Ask for the test</text>
-        <text class="ss" x="126" y="266" text-anchor="middle">from the criteria only</text>
-        <path class="ar" d="M236 252 L262 252"/>
-        <rect class="bx w rise r2" x="266" y="230" width="200" height="44" rx="6"/>
-        <text class="ss" x="366" y="248" text-anchor="middle">2 &middot; Run it. It must</text>
-        <text class="ss" x="366" y="266" text-anchor="middle" style="font-weight:600;fill:#e2726e">fail</text>
-        <path class="ar" d="M470 252 L496 252"/>
-        <rect class="bx w rise r3" x="500" y="230" width="180" height="44" rx="6"/>
-        <text class="ss" x="590" y="248" text-anchor="middle">3 &middot; Then ask for</text>
-        <text class="ss" x="590" y="266" text-anchor="middle">the implementation</text>
-        <text class="ss" x="20" y="300">A test that never failed has never demonstrated anything. Two extra minutes,</text>
-        <text class="ss" x="20" y="320">and it converts a green tick from a feeling into evidence.</text>
-        <text class="ss" x="20" y="340" style="fill:#d98a3d;font-weight:600">It reduces the problem. It does not remove it &mdash; same reading, two steps.</text>
+        <text class="lb g" x="4" y="180">THE FIX &mdash; WRITE THE TEST FIRST</text>
+        <rect class="bx g" x="4" y="190" width="692" height="110" rx="8"/>
+        <rect class="bx w rise" x="20" y="208" width="212" height="44" rx="6"/>
+        <text class="ss" x="126" y="226" text-anchor="middle">1 &middot; Ask for the test,</text>
+        <text class="ss" x="126" y="244" text-anchor="middle">from the ticket only</text>
+        <path class="ar" d="M236 230 L262 230"/>
+        <rect class="bx w rise r2" x="266" y="208" width="200" height="44" rx="6"/>
+        <text class="ss" x="366" y="226" text-anchor="middle">2 &middot; Run it. It must</text>
+        <text class="ss" x="366" y="244" text-anchor="middle" style="font-weight:600;fill:#e2726e">fail</text>
+        <path class="ar" d="M470 230 L496 230"/>
+        <rect class="bx w rise r3" x="500" y="208" width="180" height="44" rx="6"/>
+        <text class="ss" x="590" y="226" text-anchor="middle">3 &middot; Then ask</text>
+        <text class="ss" x="590" y="244" text-anchor="middle">for the code</text>
+        <text class="ss" x="20" y="282">A test that never failed has never proved anything.</text>
 
-        <rect class="bx d" x="4" y="352" width="692" height="78" rx="8"/>
-        <text class="lb w" x="24" y="376">THE REAL ANSWER, AND IT IS THE NEXT MODULE</text>
-        <text class="ss w" x="24" y="400" style="font-size:14px">Independence cannot come from the same session that wrote the code.</text>
-        <text class="ss w" x="24" y="420" style="font-size:14px">It comes from a <tspan font-weight="700" fill="#e0b34d">reviewer that did not author it</tspan> &mdash; Module 4.</text>
+        <rect class="bx d" x="4" y="316" width="692" height="80" rx="8"/>
+        <text class="ss w" x="24" y="348" style="font-size:14px">This helps, but the same agent still wrote both.</text>
+        <text class="ss w" x="24" y="374" style="font-size:14px">The full fix: a <tspan font-weight="700" fill="#e0b34d">reviewer that did not write the code</tspan> &mdash; Module 4.</text>
       </svg>
-    </div>
-  </div>
-</section>
-<!-- 16 -->
-<section class="slide" data-sec="5 &middot; Context hygiene" data-title="Start clean, re-brief in one paragraph" data-notes="This is the context-hygiene slide on the key path; the next slide is the reference version of the four signals. Start with the right-hand column, because the mechanism is what people have not internalised. Module 1 taught the placement rule per request - context, file, or tool call. This is the same economics over time: everything left in the window is re-billed on every later turn, and the agent weights all of it, so by turn thirty three abandoned approaches and a correction made twice are still steering it. The tell is behavioural, not a token count - it re-suggests something you already rejected. Then the four signals, ordered by reliability: the task boundary is the free one, the returning rejected approach is the strongest. Compaction is worth one sentence - it keeps a summary of the noise, so compact within a task and start clean between them. Then turn to the left, which is the answer to the objection everyone has: starting clean feels expensive. Walk the re-brief line by line. It carries only what is NOT on disk - what was decided, what was rejected, what is done, what is next - and it names the inputs with #file rather than letting the new session search for them. Everything else, the conventions and the ADRs, Module 2 already put in the repository. That is why the whole cost of a clean session is this paragraph." data-tier="K">
-  <h2>Start clean &mdash; and re-brief in one paragraph<span class="tag k">5</span></h2>
-  <div class="body g55">
-    <div>
-<div class="file"><span class="fn">new chat &mdash; the whole cost of starting clean</span>Follow the <span class="s">account-change</span> skill.
-<span class="k">Ticket:</span> GB-151 &mdash; reverse a posting.
-
-<span class="k">Decided:</span>  reversal is a status change,
-  not a delete (docs/glossary.md).
-<span class="k">Rejected:</span> a stored balance column.
-  Do not propose it again.
-<span class="k">Done:</span>     service method + its test, green.
-<span class="k">Next:</span>     the controller and its slice test.
-
-<span class="s">#file:posting/service/PostingService.java</span>
-<span class="s">#file:controller/AccountController.java</span>
-
-<span class="c"># conventions, ADRs, constraints: not here.</span>
-<span class="c"># Module 2 already put them on disk.</span>
-</div>
-    </div>
-    <div class="pts">
-      <h3>Why a long session goes wrong</h3>
-      <ul>
-        <li>Everything in the window is <b>re-billed every turn</b> &mdash; and weighted. Three dead ends and a correction made twice are still steering it.</li>
-        <li>The tell is behavioural: it <b>re-suggests what you rejected</b>, or re-asks what you answered.</li>
-      </ul>
-      <h3>Start clean when</h3>
-      <ul>
-        <li>The ticket is done &mdash; the free one. A rejected approach returns &mdash; the strongest.</li>
-        <li>You move from exploring to editing, or cannot say what is in the window.</li>
-      </ul>
-      <h3>Compaction is not clean</h3>
-      <ul>
-        <li>It keeps a <b>summary of the noise</b>. Compact <em>within</em> a task; start clean <em>between</em> tasks.</li>
-      </ul>
-      <div class="take"><b>Re-brief only what is not on disk</b> &mdash; decisions, rejections, progress &mdash; and name the inputs with <code>#file</code> instead of paying for the search again.</div>
     </div>
   </div>
 </section>
 
 <!-- 17 -->
-<section class="slide" data-sec="5 &middot; Context hygiene" data-title="Four signals to start clean" data-notes="Four concrete triggers, and they are ordered by how reliable they are rather than how often they happen. The task boundary is the free one and it should become automatic - finishing a ticket and starting the next in the same session is the single most common hygiene failure in an experienced team, precisely because they are productive and do not want to break flow. The rejected-approach signal is the strongest quality signal on the slide. The third is about mode changes, and it is subtle: the context that served an exploratory ask-mode conversation is usually the wrong context for the focused edit that follows. The fourth is the honest catch-all. On the right, the anti-pattern is worth naming because it is what people do instead: they keep the session and add corrective prompts, which adds noise to fix noise and costs more than starting over." data-tier="R">
-  <h2>Four signals to start clean &mdash; and one anti-pattern<span class="tag k">5</span></h2>
-  <div class="body g1">
+<section class="slide" data-sec="5 &middot; Context hygiene" data-title="Start a new chat, re-brief in one paragraph" data-notes="This is the context-hygiene slide on the key path; the next slide is the reference version of the four signals. Start with the right-hand column, because the mechanism is what people new to agents have not understood yet. The context window - everything the agent can see in this chat - is sent again on every turn. So everything left in it is paid for again on every later turn, and the agent weights all of it: by turn thirty, three abandoned approaches and a correction made twice are still steering it. The tell is behavioural, not a token count - it re-suggests something you already rejected. Compaction (Copilot summarising the chat to make room) is worth one sentence if asked: it keeps a summary of the noise, so compact within a task and start clean between tasks. Then turn to the left, which answers the objection everyone has: starting clean feels expensive. Walk the re-brief line by line. It carries only what is NOT on disk - what was decided, what was rejected, what is done, what is next - and it names the inputs with #file rather than letting the new chat search for them. Everything else, the conventions and the ADRs, Module 2 already put in the repository. That is why the whole cost of a clean session is this paragraph." data-tier="K">
+  <h2>Start a new chat &mdash; and re-brief in one paragraph<span class="tag k">5</span></h2>
+  <div class="body g55">
     <div>
-      <svg viewBox="0 0 1180 452" role="img" aria-label="Four signals that it is time to start a clean session, and the anti-pattern to avoid">
-        <rect class="bx g grow" x="4" y="4" width="580" height="100" rx="7"/>
-        <text class="lb g" x="24" y="28">1 &middot; TASK BOUNDARY &mdash; THE FREE ONE</text>
-        <text class="tt" x="24" y="54" style="font-size:14px">The ticket is done. The next one is different work.</text>
-        <text class="ss" x="24" y="78">The most common hygiene failure in a productive team: not wanting to</text>
-        <text class="ss" x="24" y="96">break flow, so the next ticket inherits the last one&rsquo;s dead ends.</text>
+<div class="file"><span class="fn">new chat &mdash; all you need to type</span>Follow the <span class="s">account-change</span> skill.
+<span class="k">Ticket:</span> GB-151 &mdash; reverse a posting.
 
-        <rect class="bx a grow w2" x="596" y="4" width="580" height="100" rx="7"/>
-        <text class="lb a" x="616" y="28">2 &middot; THE REJECTED APPROACH RETURNS &mdash; STRONGEST SIGNAL</text>
-        <text class="tt" x="616" y="54" style="font-size:14px">It proposes again what you already turned down.</text>
-        <text class="ss" x="616" y="78">The window now contains both your rejection and the thing you rejected,</text>
-        <text class="ss" x="616" y="96">and it is weighting them together. No prompt fixes this.</text>
+<span class="k">Decided:</span>  a reversal changes the status.
+  It never deletes. (docs/glossary.md)
+<span class="k">Rejected:</span> a stored balance column.
+  Do not suggest it again.
+<span class="k">Done:</span>     service method + its test, passing.
+<span class="k">Next:</span>     the controller and its slice test.
 
-        <rect class="bx grow w3" x="4" y="112" width="580" height="100" rx="7"/>
-        <text class="lb" x="24" y="136">3 &middot; THE MODE CHANGED</text>
-        <text class="tt" x="24" y="162" style="font-size:14px">You explored in ask, and now you are ready to edit.</text>
-        <text class="ss" x="24" y="186">The context that served an open exploration is rarely the right context for</text>
-        <text class="ss" x="24" y="204">the focused change that follows &mdash; it is mostly options you did not take.</text>
+<span class="s">#file:posting/service/PostingService.java</span>
+<span class="s">#file:controller/AccountController.java</span>
 
-        <rect class="bx grow w4" x="596" y="112" width="580" height="100" rx="7"/>
-        <text class="lb" x="616" y="136">4 &middot; YOU CANNOT SAY WHAT IS IN THERE</text>
-        <text class="tt" x="616" y="162" style="font-size:14px">If you could not list it, you are not steering it.</text>
-        <text class="ss" x="616" y="186">The honest catch-all. A window you cannot summarise is a window you are</text>
-        <text class="ss" x="616" y="204">paying for on every turn without knowing what you are buying.</text>
-
-        <text class="lb r" x="4" y="244">THE ANTI-PATTERN &mdash; WHAT PEOPLE DO INSTEAD</text>
-        <rect class="bx r" x="4" y="254" width="1172" height="118" rx="8"/>
-        <rect class="bx w" x="24" y="274" width="1132" height="38" rx="6"/>
-        <text class="ss" x="42" y="298">&ldquo;No, not like that.&rdquo; &nbsp;&rarr;&nbsp; &ldquo;I said not to change that file.&rdquo; &nbsp;&rarr;&nbsp; &ldquo;Go back to the version before last.&rdquo;</text>
-        <text class="ss" x="24" y="336" style="fill:#e2726e;font-weight:600">Adding noise to fix noise.</text>
-        <text class="ss" x="230" y="336">Every corrective turn enlarges the thing causing the problem &mdash; and every one is</text>
-        <text class="ss" x="24" y="358">billed. Three corrections cost more than the re-briefing paragraph you were avoiding.</text>
-
-        <rect class="bx d" x="4" y="382" width="1172" height="66" rx="8"/>
-        <text class="lb w" x="24" y="406">THE HABIT WORTH BUILDING</text>
-        <text class="ss w" x="24" y="434" style="font-size:14px">Treat a clean session as <tspan font-weight="700" fill="#e0b34d">free</tspan> and a long one as a cost you chose. Most people have this exactly backwards.</text>
-      </svg>
+<span class="c"># Rules and ADRs are already in the repo</span>
+<span class="c"># (Module 2), so they are not repeated here.</span>
+</div>
+    </div>
+    <div class="pts">
+      <h3>Why long chats go wrong</h3>
+      <ul>
+        <li>The agent re-reads the <b>whole chat</b> on every turn. You pay for all of it.</li>
+        <li>Old mistakes and rejected ideas <b>still affect</b> its answers.</li>
+      </ul>
+      <h3>Start a new chat when</h3>
+      <ul>
+        <li>The ticket is done.</li>
+        <li>It suggests something you <b>already rejected</b>.</li>
+        <li>You cannot remember what is in the chat.</li>
+      </ul>
+      <div class="take"><b>In the new chat</b>, write only what is not in the repo: decisions, rejections, progress.</div>
     </div>
   </div>
 </section>
 
 <!-- 18 -->
-<section class="slide" data-sec="6 &middot; Proving a prompt is better" data-title="An eval set, and why six tickets is enough" data-notes="This is the module's answer to a question the room will otherwise ask sceptically - how do you know the engineered prompt is actually better? The answer is that you do not, until you measure it, and everyone who says otherwise is reporting a feeling. The construction rules on the left are the practical part and the second one is the one people get wrong: include tickets the weak prompt gets RIGHT, or you have built a set that can only confirm you. Six is deliberate and defensible - small enough to run in a lab, large enough that a two-ticket difference is visible, and honest about the fact that this is a signal and not a statistic. Do not oversell it. The point of the eval set is not statistical rigour, it is converting an argument about phrasing into a number that two engineers can disagree about productively." data-tier="K">
-  <h2>An eval set &mdash; six tickets, and a definition of pass<span class="tag k">6</span></h2>
-  <div class="body g64">
+<section class="slide" data-sec="5 &middot; Context hygiene" data-title="Four signs it is time for a new chat" data-notes="Four concrete triggers, and they are ordered by how reliable they are rather than how often they happen. The task boundary is the free one and it should become automatic - finishing a ticket and starting the next in the same session is the single most common hygiene failure in an experienced team, precisely because they are productive and do not want to break flow. The rejected-approach signal is the strongest quality signal on the slide. The third is about mode changes, and it is subtle: the context that served an exploratory ask-mode conversation is usually the wrong context for the focused edit that follows. The fourth is the honest catch-all. On the right, the anti-pattern is worth naming because it is what people do instead: they keep the session and add corrective prompts, which adds noise to fix noise and costs more than starting over." data-tier="R">
+  <h2>Four signs it is time for a new chat<span class="tag k">5</span></h2>
+  <div class="body g1">
     <div>
-      <svg viewBox="0 0 700 430" role="img" aria-label="How to construct a six-ticket eval set and what counts as a pass">
-        <text class="lb" x="4" y="13">THE SET &mdash; SIX TICKETS, CHOSEN DELIBERATELY</text>
-        <rect class="bx" x="4" y="22" width="692" height="168" rx="8"/>
-        <rect class="bx g rise" x="20" y="40" width="212" height="60" rx="6"/>
-        <text class="tt" x="32" y="62" style="font-size:13px">2 &middot; the weak prompt</text>
-        <text class="tt" x="32" y="80" style="font-size:13px">already gets right</text>
-        <text class="ss" x="32" y="96" style="font-size:11px">so the set can disconfirm you</text>
-        <rect class="bx a rise r2" x="240" y="40" width="212" height="60" rx="6"/>
-        <text class="tt" x="252" y="62" style="font-size:13px">2 &middot; it gets wrong in</text>
-        <text class="tt" x="252" y="80" style="font-size:13px">a way you have seen</text>
-        <text class="ss" x="252" y="96" style="font-size:11px">from your rework column</text>
-        <rect class="bx r rise r3" x="460" y="40" width="220" height="60" rx="6"/>
-        <text class="tt" x="472" y="62" style="font-size:13px">2 &middot; genuinely</text>
-        <text class="tt" x="472" y="80" style="font-size:13px">ambiguous</text>
-        <text class="ss" x="472" y="96" style="font-size:11px">where stopping is the pass</text>
-        <text class="ss" x="20" y="126">Real tickets from your board, not invented ones &mdash; invented tickets are written</text>
-        <text class="ss" x="20" y="146">to be answerable, which is exactly the property you are trying to test for.</text>
-        <text class="ss" x="20" y="172" style="fill:#d98a3d;font-weight:600">Six is a signal, not a statistic. Say so out loud when you report it.</text>
+      <svg viewBox="0 0 1180 440" role="img" aria-label="Four signals that it is time to start a new chat, and the habit to avoid">
+        <rect class="bx g grow" x="4" y="4" width="580" height="100" rx="7"/>
+        <text class="lb g" x="24" y="28">1 &middot; THE TICKET IS DONE &mdash; THE EASIEST</text>
+        <text class="tt" x="24" y="56" style="font-size:14px">Next ticket, new chat.</text>
+        <text class="ss" x="24" y="82">Otherwise the old ticket&rsquo;s mistakes carry over.</text>
+        <rect class="bx a grow w2" x="596" y="4" width="580" height="100" rx="7"/>
+        <text class="lb a" x="616" y="28">2 &middot; A REJECTED IDEA COMES BACK &mdash; THE STRONGEST</text>
+        <text class="tt" x="616" y="56" style="font-size:14px">It suggests what you already said no to.</text>
+        <text class="ss" x="616" y="82">More prompts will not fix this. Start fresh.</text>
+        <rect class="bx grow w3" x="4" y="112" width="580" height="100" rx="7"/>
+        <text class="lb" x="24" y="136">3 &middot; YOU SWITCH FROM ASKING TO EDITING</text>
+        <text class="tt" x="24" y="164" style="font-size:14px">You explored in Ask mode. Now you want code.</text>
+        <text class="ss" x="24" y="190">Most of that chat is options you did not choose.</text>
+        <rect class="bx grow w4" x="596" y="112" width="580" height="100" rx="7"/>
+        <text class="lb" x="616" y="136">4 &middot; YOU CANNOT SAY WHAT IS IN THE CHAT</text>
+        <text class="tt" x="616" y="164" style="font-size:14px">If you cannot list it, you cannot control it.</text>
+        <text class="ss" x="616" y="190">Start fresh and re-brief.</text>
+        <text class="lb r" x="4" y="244">THE HABIT TO AVOID</text>
+        <rect class="bx r" x="4" y="254" width="1172" height="104" rx="8"/>
+        <rect class="bx w" x="24" y="270" width="1132" height="38" rx="6"/>
+        <text class="ss" x="42" y="294">&ldquo;No, not like that.&rdquo; &nbsp;&rarr;&nbsp; &ldquo;I said not to change that file.&rdquo; &nbsp;&rarr;&nbsp; &ldquo;Go back to the version before last.&rdquo;</text>
+        <text class="ss" x="24" y="338">Each correction makes the chat longer and messier. Three corrections cost more than one fresh start.</text>
 
-        <text class="lb g" x="4" y="218">PASS MUST BE DECIDED BEFORE YOU RUN &mdash; NOT AFTER YOU SEE THE OUTPUT</text>
-        <rect class="bx g" x="4" y="228" width="692" height="122" rx="8"/>
-        <rect class="bx w" x="20" y="246" width="660" height="30" rx="5"/>
-        <text class="ss" x="34" y="266">Acceptance criteria met, and the test <tspan font-weight="600">fails without the change</tspan></text>
-        <rect class="bx w" x="20" y="282" width="660" height="30" rx="5"/>
-        <text class="ss" x="34" y="302">No file touched outside the stated inputs</text>
-        <rect class="bx w" x="20" y="318" width="660" height="26" rx="5"/>
-        <text class="ss" x="34" y="336">On an ambiguous ticket: <tspan font-weight="600" fill="#5fbf8f">it stopped and asked</tspan> &mdash; inventing an answer is a fail</text>
-
-        <rect class="bx d" x="4" y="360" width="692" height="70" rx="8"/>
-        <text class="ss w" x="24" y="386" style="font-size:14px">Deciding &ldquo;pass&rdquo; after seeing the output is how every</text>
-        <text class="ss w" x="24" y="408" style="font-size:14px">informal comparison flatters <tspan font-weight="700" fill="#e0b34d">whichever prompt you wrote yourself.</tspan></text>
+        <rect class="bx d" x="4" y="370" width="1172" height="66" rx="8"/>
+        <text class="ss w" x="24" y="409" style="font-size:15px">A new chat is <tspan font-weight="700" fill="#e0b34d">cheap</tspan>. A long, messy chat is expensive.</text>
       </svg>
-    </div>
-    <div class="pts">
-      <h3>Why bother</h3>
-      <ul>
-        <li>&ldquo;This prompt is better&rdquo; is an <b>opinion</b> until it is a pass rate. Teams argue about phrasing for months without one.</li>
-        <li>A number turns a taste argument into a <b>disagreement about evidence</b> &mdash; which is the kind teams can settle.</li>
-      </ul>
-      <h3>The trap in building the set</h3>
-      <ul>
-        <li>Choosing only tickets your new prompt handles well. Then the set <em>cannot</em> tell you anything &mdash; it can only agree with you.</li>
-        <li>Two tickets the <b>weak</b> prompt already passes is what makes the result credible.</li>
-      </ul>
-      <div class="take"><b>This is not research.</b> It is the smallest thing that distinguishes &ldquo;works&rdquo; from &ldquo;does not&rdquo; &mdash; and having any measurement at all puts you ahead of almost every team.</div>
     </div>
   </div>
 </section>
 
 <!-- 19 -->
-<section class="slide" data-sec="6 &middot; Proving a prompt is better" data-title="Lab 1.5 and row three" data-notes="Set the lab up honestly. They run six tickets twice - once with an ordinary request, once with the engineered request plus the skill file - and they score pass or fail against criteria they wrote down before running. The interesting outcome is not that the second column wins. It is WHICH tickets move, and the pattern is consistent enough to predict: the ambiguous ones move most, because stopping is the pass condition and stop conditions are what the engineered version added. The tickets the weak prompt already passed will mostly stay passed, and that is the control that makes the result believable. Prepare them for a null result as well - if nothing moves, the likely explanation is that Module 2 already did the work for this repository, and that is a real finding rather than a failed lab. Then close on the tally sheet: row three is a pass rate, not a turn count, and it is the only row measured that way." data-tier="K">
-  <h2>Lab 1.5 &mdash; two prompts, six tickets, one number<span class="tag k">6</span></h2>
-  <div class="body g1">
+<section class="slide" data-sec="6 &middot; Proving a prompt is better" data-title="Test your prompt on six tickets" data-notes="This is the module's answer to a question the room will otherwise ask - how do you know the engineered prompt is actually better? The answer is that you do not, until you measure it. The set of test tickets is called an eval set (evaluation set); say the term once, because they will meet it everywhere in agentic AI. The picking rules on the left are the practical part and the first one is the one people get wrong: include tickets the old prompt already gets RIGHT, or you have built a set that can only confirm you. If those start failing, the new prompt is too strict. Six is deliberate - small enough to run in a lab, large enough that a two-ticket difference is visible, and honest that this is a trend and not a statistic. Pass must be decided before running, because deciding after seeing the output flatters whichever prompt you wrote yourself. The point is not statistical rigour; it is turning an argument about phrasing into a number that two engineers can discuss." data-tier="K">
+  <h2>Test your prompt on six real tickets<span class="tag k">6</span></h2>
+  <div class="body g64">
     <div>
-      <svg viewBox="0 0 1180 452" role="img" aria-label="The Lab 1.5 A/B comparison structure and how to read the result">
-        <rect class="bx d" x="4" y="4" width="1172" height="30" rx="6"/>
-        <text class="lb w" x="24" y="24">TICKET</text>
-        <text class="lb w" x="420" y="24">ORDINARY REQUEST</text>
-        <text class="lb w" x="660" y="24">ENGINEERED + SKILL FILE</text>
-        <text class="lb w" x="920" y="24">WHAT A MOVE HERE MEANS</text>
+      <svg viewBox="0 0 700 400" role="img" aria-label="How to pick six tickets for an eval set and decide what counts as a pass">
+        <text class="lb" x="4" y="13">PICK SIX REAL TICKETS</text>
+        <rect class="bx" x="4" y="22" width="692" height="140" rx="8"/>
+        <rect class="bx g rise" x="20" y="40" width="212" height="70" rx="6"/>
+        <text class="tt" x="32" y="64" style="font-size:13px">2 &middot; old prompt passes</text>
+        <text class="ss" x="32" y="86" style="font-size:12px">checks you did not</text>
+        <text class="ss" x="32" y="102" style="font-size:12px">make things worse</text>
+        <rect class="bx a rise r2" x="240" y="40" width="212" height="70" rx="6"/>
+        <text class="tt" x="252" y="64" style="font-size:13px">2 &middot; old prompt fails</text>
+        <text class="ss" x="252" y="86" style="font-size:12px">the kind of mistake</text>
+        <text class="ss" x="252" y="102" style="font-size:12px">you saw in Lab 1.1</text>
+        <rect class="bx r rise r3" x="460" y="40" width="220" height="70" rx="6"/>
+        <text class="tt" x="472" y="64" style="font-size:13px">2 &middot; unclear tickets</text>
+        <text class="ss" x="472" y="86" style="font-size:12px">pass = it stops</text>
+        <text class="ss" x="472" y="102" style="font-size:12px">and asks</text>
+        <text class="ss" x="20" y="142">Use real tickets. Made-up tickets are too easy to answer.</text>
 
-        <rect class="bx g grow" x="4" y="42" width="1172" height="66" rx="6"/>
-        <text class="tt" x="24" y="70" style="font-size:14px">2 &middot; the weak prompt already passes</text>
-        <text class="ss" x="24" y="92">the control &mdash; and the reason anyone believes the rest</text>
-        <text class="tt" x="470" y="82" style="fill:#5fbf8f">PASS</text>
-        <text class="tt" x="720" y="82" style="fill:#5fbf8f">PASS</text>
-        <text class="ss" x="920" y="76">Expected. If these <tspan font-style="italic">regress</tspan>, your</text>
-        <text class="ss" x="920" y="96">engineered prompt is over-constrained.</text>
+        <text class="lb g" x="4" y="190">DECIDE WHAT &ldquo;PASS&rdquo; MEANS BEFORE YOU RUN</text>
+        <rect class="bx g" x="4" y="200" width="692" height="128" rx="8"/>
+        <rect class="bx w" x="20" y="216" width="660" height="30" rx="5"/>
+        <text class="ss" x="34" y="236">Acceptance criteria met; the new test <tspan font-weight="600">fails on the old code</tspan></text>
+        <rect class="bx w" x="20" y="252" width="660" height="30" rx="5"/>
+        <text class="ss" x="34" y="272">No files changed outside INPUTS</text>
+        <rect class="bx w" x="20" y="288" width="660" height="30" rx="5"/>
+        <text class="ss" x="34" y="308">Unclear ticket: <tspan font-weight="600" fill="#5fbf8f">it stopped and asked</tspan>. Guessing is a fail.</text>
 
-        <rect class="bx a grow w2" x="4" y="116" width="1172" height="66" rx="6"/>
-        <text class="tt" x="24" y="144" style="font-size:14px">2 &middot; fails in a way you have seen before</text>
-        <text class="ss" x="24" y="166">taken straight from your Lab 1.1 rework column</text>
-        <text class="tt" x="470" y="156" style="fill:#e2726e">FAIL</text>
-        <text class="tt" x="720" y="156" style="fill:#5fbf8f">PASS</text>
-        <text class="ss" x="920" y="150">The constraints and output contract</text>
-        <text class="ss" x="920" y="170">are doing the work.</text>
-
-        <rect class="bx r grow w3" x="4" y="190" width="1172" height="66" rx="6"/>
-        <text class="tt" x="24" y="218" style="font-size:14px">2 &middot; genuinely ambiguous</text>
-        <text class="ss" x="24" y="240">pass = it stopped and asked; inventing is a fail</text>
-        <text class="tt" x="470" y="230" style="fill:#e2726e">FAIL</text>
-        <text class="tt" x="720" y="230" style="fill:#5fbf8f">PASS</text>
-        <text class="ss" x="920" y="224" style="fill:#e2726e;font-weight:600">Where the biggest move lives &mdash;</text>
-        <text class="ss" x="920" y="244">this is the stop conditions, earning out.</text>
-
-        <text class="lb a" x="4" y="286">READ THE PATTERN, NOT THE HEADLINE</text>
-        <rect class="bx a" x="4" y="296" width="1172" height="86" rx="8"/>
-        <text class="ss" x="24" y="322">The result that matters is <tspan font-weight="600" fill="#d98a3d">which rows moved</tspan>, not that the total went up. Ambiguous rows moving means you</text>
-        <text class="ss" x="24" y="344">installed refusal. Known-failure rows moving means constraints landed. Control rows falling means you over-specified.</text>
-        <text class="ss" x="24" y="370">And if <tspan font-style="italic">nothing</tspan> moves &mdash; the likely explanation is that Module 2 already did this work for this repository. A real finding.</text>
-
-        <rect class="bx d" x="4" y="392" width="1172" height="56" rx="8"/>
-        <text class="ss w" x="24" y="428" style="font-size:14px">Row three of the tally sheet is a <tspan font-weight="700" fill="#e0b34d">pass rate</tspan>, not a turn count &mdash; the only row measured that way, because prompts cannot be compared any other way</text>
+        <rect class="bx d" x="4" y="340" width="692" height="56" rx="8"/>
+        <text class="ss w" x="24" y="374" style="font-size:14px">Decide after you see the output, and <tspan font-weight="700" fill="#e0b34d">your own prompt always wins.</tspan></text>
       </svg>
+    </div>
+    <div class="pts">
+      <h3>Why</h3>
+      <ul>
+        <li>&ldquo;My prompt is better&rdquo; is an <b>opinion</b>. A pass rate is a <b>fact</b>.</li>
+      </ul>
+      <h3>The trap</h3>
+      <ul>
+        <li>Picking only tickets your new prompt handles well. Then the test can only agree with you.</li>
+      </ul>
+      <div class="take"><b>Six tickets</b> show a trend, not proof. That is still far better than guessing.</div>
     </div>
   </div>
 </section>
 
 <!-- 20 -->
-<section class="slide" data-sec="Close" data-title="What Module 3 hands forward" data-notes="Close the first day here. The four obligations on the left are the per-request equivalent of Module 2's four - and the honest framing is that all four are things they were already doing implicitly and badly. Then make the joint to Module 4 explicit, because it is the strongest transition in the course: everything in this module has been about making ONE agent, in ONE session, more accurate. Two failures on the taxonomy slide could not be closed that way - the confidently wrong refactor and the test written to pass - and both need independence rather than better instructions. You cannot get independence from the session that wrote the code. That is the whole argument for specialised agents, and it is now an argument they have watched fail rather than one they have been told." data-tier="R">
-  <h2>What Module 3 hands forward<span class="tag">M3</span></h2>
+<section class="slide" data-sec="6 &middot; Proving a prompt is better" data-title="Lab 1.5 and row three" data-notes="Set the lab up honestly. They run six tickets twice - once with an ordinary request, once with the engineered request plus the skill file - and they score pass or fail against criteria they wrote down before running. The interesting outcome is not that the second column wins. It is WHICH tickets move, and the pattern is consistent enough to predict: the ambiguous ones move most, because stopping is the pass condition and stop conditions are what the engineered version added. The tickets the weak prompt already passed will mostly stay passed, and that is the control that makes the result believable. Prepare them for a null result as well - if nothing moves, the likely explanation is that Module 2 already did the work for this repository, and that is a real finding rather than a failed lab. Then close on the tally sheet: row three is a pass rate, not a turn count, and it is the only row measured that way." data-tier="K">
+  <h2>Lab 1.5 &mdash; two prompts, six tickets, one score<span class="tag k">6</span></h2>
+  <div class="body g1">
+    <div>
+      <svg viewBox="0 0 1180 420" role="img" aria-label="Lab 1.5: six tickets run with the old and new prompt, and how to read the result">
+        <rect class="bx d" x="4" y="4" width="1172" height="30" rx="6"/>
+        <text class="lb w" x="24" y="24">TICKETS</text>
+        <text class="lb w" x="400" y="24">OLD PROMPT</text>
+        <text class="lb w" x="560" y="24">NEW PROMPT + SKILL</text>
+        <text class="lb w" x="780" y="24">WHAT IT TELLS YOU</text>
+        <rect class="bx g grow" x="4" y="42" width="1172" height="62" rx="6"/>
+        <text class="tt" x="24" y="79" style="font-size:14px">2 &middot; old prompt already passes</text>
+        <text class="tt" x="420" y="79" style="fill:#5fbf8f">PASS</text>
+        <text class="tt" x="600" y="79" style="fill:#5fbf8f">PASS</text>
+        <text class="ss" x="780" y="79" style="font-size:14px">If these now fail, the new prompt is too strict.</text>
+        <rect class="bx a grow w2" x="4" y="112" width="1172" height="62" rx="6"/>
+        <text class="tt" x="24" y="149" style="font-size:14px">2 &middot; failed before (from Lab 1.1)</text>
+        <text class="tt" x="420" y="149" style="fill:#e2726e">FAIL</text>
+        <text class="tt" x="600" y="149" style="fill:#5fbf8f">PASS</text>
+        <text class="ss" x="780" y="149" style="font-size:14px">Your rules and output contract are working.</text>
+        <rect class="bx r grow w3" x="4" y="182" width="1172" height="62" rx="6"/>
+        <text class="tt" x="24" y="219" style="font-size:14px">2 &middot; unclear tickets</text>
+        <text class="tt" x="420" y="219" style="fill:#e2726e">FAIL</text>
+        <text class="tt" x="600" y="219" style="fill:#5fbf8f">PASS</text>
+        <text class="ss" x="780" y="219" style="font-size:14px">Biggest change: your stop conditions are working.</text>
+        <rect class="bx a" x="4" y="262" width="1172" height="86" rx="8"/>
+        <text class="ss" x="24" y="294" style="font-size:14px">Look at <tspan font-weight="600" fill="#d98a3d">which rows changed</tspan>, not just the total.</text>
+        <text class="ss" x="24" y="324" style="font-size:14px">If nothing changes, Module 2&rsquo;s repo files may already do the job. That is a real result.</text>
+
+        <rect class="bx d" x="4" y="358" width="1172" height="58" rx="8"/>
+        <text class="ss w" x="24" y="393" style="font-size:15px">Your tally sheet, row three: a <tspan font-weight="700" fill="#e0b34d">pass rate out of 6</tspan> &mdash; not a count of turns.</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 21 -->
+<section class="slide" data-sec="Close" data-title="What to take into Module 4" data-notes="Close the first day here. The four obligations on the left are the per-request equivalent of Module 2's four - and the honest framing is that all four are things they were already doing implicitly and badly. Then make the joint to Module 4 explicit, because it is the strongest transition in the course: everything in this module has been about making ONE agent, in ONE session, more accurate. Two failures on the taxonomy slide could not be closed that way - the confidently wrong refactor and the test written to pass - and both need independence rather than better instructions. You cannot get independence from the session that wrote the code. That is the whole argument for specialised agents, and it is now an argument they have watched fail rather than one they have been told." data-tier="R">
+  <h2>What to take into Module 4<span class="tag">M3</span></h2>
   <div class="body g46">
     <div class="pts">
-      <h3>What you now owe, on every request</h3>
+      <h3>Do this on every request</h3>
       <ul>
-        <li><b>A shape, not a sentence.</b> Goal, constraints, inputs, output contract, done criteria, stop conditions &mdash; and the last is the one you were missing.</li>
-        <li><b>A source for every constraint.</b> Cite the file, quote before changing, and make refusal a named circumstance.</li>
-        <li><b>The reusable half in a file.</b> If you typed it twice, it was a skill file the first time.</li>
-        <li><b>A number before an opinion.</b> Six tickets and a pass rate beats any argument about phrasing.</li>
+        <li>Use the <b>six parts</b>. Never skip stop conditions.</li>
+        <li>Ask for the <b>source</b> of every rule.</li>
+        <li>Typed it twice? Put it in a <b>skill file</b>.</li>
+        <li>Measure with a <b>pass rate</b>, not a feeling.</li>
       </ul>
-      <div class="callout">None of this is about writing longer prompts. Two of the four make your prompts <em>shorter</em> &mdash; the standing context and the skill file carry what you were retyping.</div>
-      <div class="take"><b>Into Module 4:</b> everything here made <em>one</em> agent, in <em>one</em> session, more accurate. Two failures resisted all of it &mdash; and neither is fixed by asking better.</div>
+      <div class="callout">Your prompts get <em>shorter</em>. The repo and the skill file carry the rest.</div>
     </div>
     <div>
-      <svg viewBox="0 0 700 430" role="img" aria-label="The two failure modes that survive better prompting, and why they require independence">
-        <text class="lb" x="4" y="13">WHAT THIS MODULE CLOSED</text>
+      <svg viewBox="0 0 700 400" role="img" aria-label="Two failures fixed in this module and two that need Module 4">
+        <text class="lb g" x="4" y="13">FIXED IN THIS MODULE</text>
         <rect class="bx g" x="4" y="22" width="692" height="86" rx="8"/>
         <rect class="bx w" x="20" y="40" width="326" height="50" rx="5"/>
         <text class="ss" x="183" y="60" text-anchor="middle">Invented API</text>
         <text class="ss" x="183" y="80" text-anchor="middle" style="fill:#5fbf8f;font-weight:600">the build catches it</text>
         <rect class="bx w" x="354" y="40" width="326" height="50" rx="5"/>
         <text class="ss" x="517" y="60" text-anchor="middle">Silent scope drift</text>
-        <text class="ss" x="517" y="80" text-anchor="middle" style="fill:#5fbf8f;font-weight:600">output contract + bounded inputs</text>
+        <text class="ss" x="517" y="80" text-anchor="middle" style="fill:#5fbf8f;font-weight:600">a list of allowed files</text>
 
-        <text class="lb r" x="4" y="140">WHAT SURVIVED EVERY INSTRUMENT IN THIS MODULE</text>
-        <rect class="bx r" x="4" y="150" width="692" height="130" rx="8"/>
-        <rect class="bx w" x="20" y="168" width="326" height="94" rx="5"/>
+        <text class="lb r" x="4" y="138">STILL OPEN</text>
+        <rect class="bx r" x="4" y="148" width="692" height="110" rx="8"/>
+        <rect class="bx w" x="20" y="166" width="326" height="74" rx="5"/>
         <text class="tt" x="183" y="192" text-anchor="middle" style="font-size:13.5px">Confidently wrong refactor</text>
-        <text class="ss" x="183" y="216" text-anchor="middle">Reads better than the original.</text>
-        <text class="ss" x="183" y="236" text-anchor="middle">Internally consistent.</text>
-        <text class="ss" x="183" y="256" text-anchor="middle" style="fill:#e2726e;font-weight:600">Tests will not catch it.</text>
-        <rect class="bx w" x="354" y="168" width="326" height="94" rx="5"/>
+        <text class="ss" x="183" y="218" text-anchor="middle" style="fill:#e2726e;font-weight:600">looks good, passes tests</text>
+        <rect class="bx w" x="354" y="166" width="326" height="74" rx="5"/>
         <text class="tt" x="517" y="192" text-anchor="middle" style="font-size:13.5px">Tests written to pass</text>
-        <text class="ss" x="517" y="216" text-anchor="middle">Green suite, nothing proven.</text>
-        <text class="ss" x="517" y="236" text-anchor="middle">Same reading as the code.</text>
-        <text class="ss" x="517" y="256" text-anchor="middle" style="fill:#e2726e;font-weight:600">Your safety net, defeated.</text>
+        <text class="ss" x="517" y="218" text-anchor="middle" style="fill:#e2726e;font-weight:600">green, but prove nothing</text>
 
-        <rect class="bx d" x="4" y="296" width="692" height="134" rx="8"/>
-        <text class="lb w" x="24" y="320">WHY NEITHER IS A PROMPTING PROBLEM</text>
-        <text class="ss w" x="24" y="348" style="font-size:14px">Both are failures of <tspan font-weight="700" fill="#e0b34d">independence</tspan>, not of instruction.</text>
-        <text class="ss w" x="24" y="374" style="font-size:14px">No session audits its own reading of the requirement, because</text>
-        <text class="ss w" x="24" y="394" style="font-size:14px">the reading is the thing in question.</text>
-        <text class="ss w" x="24" y="422" style="font-size:14px;fill:#6ea8fe">Module 4: four agents, and the review agent did not write the code.</text>
+        <rect class="bx d" x="4" y="274" width="692" height="122" rx="8"/>
+        <text class="lb w" x="24" y="300">WHY PROMPTS CANNOT FIX THESE</text>
+        <text class="ss w" x="24" y="330" style="font-size:14px">The agent cannot check its own understanding.</text>
+        <text class="ss w" x="24" y="356" style="font-size:14px">You need a <tspan font-weight="700" fill="#e0b34d">second agent that did not write the code</tspan>.</text>
+        <text class="ss w" x="24" y="382" style="font-size:14px;fill:#6ea8fe">That is Module 4.</text>
       </svg>
     </div>
   </div>
 </section>
-<!-- 21 -->
-<section class="slide" data-sec="Review quiz" data-title="Review quiz - eight questions" data-notes="All eight on one slide. Take a show of hands on each option, then hover Answer to reveal. The split matters more than the score - a split room tells you which slide to revisit before the labs. If time is short, run 1, 4, 6 and 8. Q1 D: constraints are prohibitions and only help when you already know the wrong answer; ambiguity is exactly when you do not. Q2 B: is it true when nobody is asking for anything? No - it is a procedure, so a skill; C is the trap that grows instruction files to three pages. Q3 C: the compiler catches invented APIs for free; A has the weakest automatic counter. Q4 A: a test that never failed has never demonstrated anything; B and D ask the session holding the misreading to audit it; C measures lines run, not assertions. A reduces the problem rather than removing it - that is Module 4. Q5 B: the window now holds your rejection and the rejected idea together; D is a real but ambiguous signal. Q6 C: a set built only from tickets your new prompt handles can only agree with you - a measurement that can only agree is not a measurement. Q7 A: it forces the current contents into view; D proves it knows which file matters, not that it read today's contents. Q8 D: both are failures of independence, not instruction - end Day 1 on it: you cannot get independence from the session that wrote the code, which is the whole argument for Module 4." data-tier="K">
+
+<!-- 22 -->
+<section class="slide" data-sec="Review quiz" data-title="Review quiz - eight questions" data-notes="All eight on one slide. Take a show of hands on each option, then hover Answer to reveal. The split matters more than the score - a split room tells you which slide to revisit before the labs. If time is short, run 1, 4, 6 and 8. Q1 D: constraints are prohibitions and only help when you already know the wrong answer; ambiguity is exactly when you do not. Q2 B: is it true when nobody is asking for anything? No - it is a procedure, so a skill; C is the trap that grows instruction files to three pages. Q3 C: the compiler catches invented APIs for free; A needs the most words. Q4 A: a test that never failed has never demonstrated anything; B and D ask the session holding the misreading to audit it; C measures lines run, not assertions. A reduces the problem rather than removing it - that is Module 4. Q5 B: the window now holds your rejection and the rejected idea together; D is a real but ambiguous signal. Q6 C: if those regress, the new prompt is over-constrained; a set built only from tickets your new prompt handles can only agree with you. Q7 A: it forces the current contents into view; D proves it knows which file matters, not that it read today's contents. Q8 D: both are failures of independence, not instruction - end Day 1 on it: you cannot get independence from the session that wrote the code, which is the whole argument for Module 4." data-tier="K">
   <h2>Review quiz &mdash; eight questions<span class="tag q">QUIZ</span></h2>
   <div class="body qgrid">
     <div class="qcol">
-      <div class="qc"><div class="qh"><b>1</b><span>A ticket had two defensible readings; the agent silently picked one. Which anatomy part was missing?</span><a class="ans" tabindex="0">Answer</a></div>
-        <div class="qo"><span><i>A</i>Constraints</span><span><i>B</i>Done criteria</span><span><i>C</i>Output contract</span><span class="c" data-why="Constraints are prohibitions &mdash; they only help when you already know what wrong looks like, and ambiguity is exactly when you do not. A stop condition says: if more than one reading is defensible, stop and ask."><i>D</i>Stop conditions</span></div></div>
-      <div class="qc"><div class="qh"><b>2</b><span>&ldquo;Before designing, read the ADR index and quote the constraint you rely on.&rdquo; Where does it belong?</span><a class="ans" tabindex="0">Answer</a></div>
-        <div class="qo"><span><i>A</i>Path-scoped instruction file</span><span class="c" data-why="Test: is it true when nobody is asking for anything? No &mdash; it is a sequence of actions, so a procedure, and procedures are skills. C is the trap that grows instruction files to three pages."><i>B</i>Skill file</span><span><i>C</i>Repository instruction file</span><span><i>D</i>The prompt</span></div></div>
-      <div class="qc"><div class="qh"><b>3</b><span>Which failure deserves the <em>least</em> space in your prompt?</span><a class="ans" tabindex="0">Answer</a></div>
-        <div class="qo"><span><i>A</i>Tests written to pass</span><span><i>B</i>Silent scope drift</span><span class="c" data-why="The compiler catches it for free, every time. Prompt lines are loaded and re-billed on every request &mdash; do not spend them on what the toolchain already closes. A needs the most words."><i>C</i>Invented API</span><span><i>D</i>Confidently wrong refactor</span></div></div>
-      <div class="qc"><div class="qh"><b>4</b><span>Change and tests came from one request; all green. Most extra confidence for least effort?</span><a class="ans" tabindex="0">Answer</a></div>
-        <div class="qo"><span class="c" data-why="A test that never failed has never demonstrated anything. B and D ask the session holding the misreading to audit it; C measures lines run, not assertions. A reduces the problem &mdash; Module 4 removes it."><i>A</i>Run the test on old code; see it fail</span><span><i>B</i>Ask the agent to self-review</span><span><i>C</i>Add cases until coverage is met</span><span><i>D</i>Ask it to justify each assertion</span></div></div>
+      <div class="qc"><div class="qh"><b>1</b><span>The ticket could be read two ways. The agent picked one without asking. Which part was missing?</span><a class="ans" tabindex="0">Answer</a></div>
+        <div class="qo"><span><i>A</i>Constraints</span><span><i>B</i>Done criteria</span><span><i>C</i>Output contract</span><span class="c" data-why="A stop condition says: if the ticket can be read two ways, stop and ask. Constraints only help when you already know what is wrong."><i>D</i>Stop conditions</span></div></div>
+      <div class="qc"><div class="qh"><b>2</b><span>&ldquo;Before designing, read the ADR list and quote the rule you use.&rdquo; Where should this line go?</span><a class="ans" tabindex="0">Answer</a></div>
+        <div class="qo"><span><i>A</i>Path-specific instruction file</span><span class="c" data-why="It is a step you do during a task, not a fact that is always true. Steps go in a skill file. C is the trap that makes instruction files too long."><i>B</i>Skill file</span><span><i>C</i>Main instruction file</span><span><i>D</i>The prompt</span></div></div>
+      <div class="qc"><div class="qh"><b>3</b><span>Which failure needs the <em>fewest</em> words in your prompt?</span><a class="ans" tabindex="0">Answer</a></div>
+        <div class="qo"><span><i>A</i>Tests written to pass</span><span><i>B</i>Silent scope drift</span><span class="c" data-why="The build catches a made-up method every time, for free. Save your prompt words for what the build cannot catch."><i>C</i>Invented API</span><span><i>D</i>Confidently wrong refactor</span></div></div>
+      <div class="qc"><div class="qh"><b>4</b><span>The agent wrote code and tests together. All pass. What is the quickest way to trust them more?</span><a class="ans" tabindex="0">Answer</a></div>
+        <div class="qo"><span class="c" data-why="A test that never failed has never proved anything. B and D ask the same agent to check its own understanding. C counts lines run, not what is checked."><i>A</i>Run them on the old code</span><span><i>B</i>Ask the agent to review itself</span><span><i>C</i>Add tests until coverage is high</span><span><i>D</i>Ask it to explain each assert</span></div></div>
     </div>
     <div class="qcol">
-      <div class="qc"><div class="qh"><b>5</b><span>Strongest signal that it is time to start a clean session?</span><a class="ans" tabindex="0">Answer</a></div>
-        <div class="qo"><span><i>A</i>About thirty turns have passed</span><span class="c" data-why="The window now holds your rejection and the rejected idea together, and weights both &mdash; the noise is the history itself. D is real but ambiguous: the task may simply be hard."><i>B</i>It re-proposes a rejected approach</span><span><i>C</i>Responses have become slower</span><span><i>D</i>You corrected it 3 times running</span></div></div>
-      <div class="qc"><div class="qh"><b>6</b><span>Why put tickets your <em>weak</em> prompt already passes into the eval set?</span><a class="ans" tabindex="0">Answer</a></div>
-        <div class="qo"><span><i>A</i>So the pass rate does not look low</span><span><i>B</i>Easy tickets prime the hard ones</span><span class="c" data-why="If those tickets regress, the engineered prompt is over-constrained. A set built only from tickets your new prompt handles can only agree with you &mdash; that is not a measurement."><i>C</i>A control for over-constraining</span><span><i>D</i>To mirror a routine sprint</span></div></div>
-      <div class="qc"><div class="qh"><b>7</b><span>An edit is written against a method&rsquo;s pre-refactor signature. Which grounding rule catches it cheapest?</span><a class="ans" tabindex="0">Answer</a></div>
-        <div class="qo"><span class="c" data-why="It forces the current contents into view before the edit, so a stale memory shows up at once. D is the near miss: citing a file proves it knows which file matters, not what it says today."><i>A</i>Quote before you change</span><span><i>B</i>Refuse when unknown</span><span><i>C</i>Ask, do not invent</span><span><i>D</i>Cite the file</span></div></div>
-      <div class="qc"><div class="qh"><b>8</b><span>The wrong refactor and the test written to pass both resist better prompting. Why?</span><a class="ans" tabindex="0">Answer</a></div>
-        <div class="qo"><span><i>A</i>More code, more surface area</span><span><i>B</i>They come late, in a noisy window</span><span><i>C</i>They need more in the repo</span><span class="c" data-why="Code and test come from one reading of the requirement, so they agree whether or not that reading was right. A failure of independence, not instruction &mdash; the argument for Module 4."><i>D</i>No session audits its own reading</span></div></div>
+      <div class="qc"><div class="qh"><b>5</b><span>What is the clearest sign you should start a new chat?</span><a class="ans" tabindex="0">Answer</a></div>
+        <div class="qo"><span><i>A</i>About 30 turns have passed</span><span class="c" data-why="The chat now holds both your &lsquo;no&rsquo; and the rejected idea, and the agent weighs both. D is a real sign, but the task may simply be hard."><i>B</i>It suggests an idea you already rejected</span><span><i>C</i>Answers have become slower</span><span><i>D</i>You corrected it 3 times in a row</span></div></div>
+      <div class="qc"><div class="qh"><b>6</b><span>Why include tickets the <em>old</em> prompt already passes?</span><a class="ans" tabindex="0">Answer</a></div>
+        <div class="qo"><span><i>A</i>So the score does not look low</span><span><i>B</i>Easy tickets help with hard ones</span><span class="c" data-why="If those tickets start failing, the new prompt is too strict. A test that only has tickets your new prompt handles can only agree with you."><i>C</i>To check nothing got worse</span><span><i>D</i>To look like a normal sprint</span></div></div>
+      <div class="qc"><div class="qh"><b>7</b><span>The agent edited a method using its old signature, from before a refactor. Which rule catches this most cheaply?</span><a class="ans" tabindex="0">Answer</a></div>
+        <div class="qo"><span class="c" data-why="Quoting the current code before editing shows at once that its memory is out of date. D proves it knows which file matters, not what the file says today."><i>A</i>Quote before you change</span><span><i>B</i>Say when you do not know</span><span><i>C</i>Never invent values</span><span><i>D</i>Cite the file</span></div></div>
+      <div class="qc"><div class="qh"><b>8</b><span>Why can&rsquo;t better prompts fix the wrong refactor or tests written to pass?</span><a class="ans" tabindex="0">Answer</a></div>
+        <div class="qo"><span><i>A</i>There is too much code</span><span><i>B</i>They happen late in a long chat</span><span><i>C</i>The repo needs more files</span><span class="c" data-why="Code and test come from one understanding, so they agree whether or not it is right. You need a second agent that did not write the code: Module 4."><i>D</i>It cannot check its own reading</span></div></div>
     </div>
   </div>
 </section>
