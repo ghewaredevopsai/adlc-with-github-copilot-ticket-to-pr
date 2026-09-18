@@ -1,8 +1,8 @@
 # ---------------------------------------------------------------------------
 # Agentic ADLC with GitHub Copilot — shared with participants.
 #
-# Tracked: the outline (HTML + PDF), the eight decks, the metrics board and
-# the deck-check scripts.
+# Tracked: the outline (HTML + PDF), the eight decks and their shared assets/,
+# the metrics board and the deck-check scripts.
 #
 # Nothing sensitive or client-related belongs in this folder, tracked or not.
 # Credentials, internal delivery notes and client correspondence live outside
@@ -14,6 +14,17 @@
 .env.*
 *.pem
 *.key
+
+# Trainer-only material. It lives in trainer-private/ outside this folder;
+# these lines stop a copy dropped back in here from ever being committed.
+CLAUDE.md
+TRAINER-README.md
+*-trainer.md
+runsheet.md
+delivery-map.md
+todo/
+key.md
+*cohort-snapshot*.json
 
 # Local working resources: learning-outcomes tracker and video list
 resources/
@@ -29,6 +40,10 @@ machine-setup.md
 .idea/
 *.swp
 *.swo
+.DS_Store
+Thumbs.db
+*.log
+node_modules/
 
 # Verification artifacts from the print checks
 *.pdf.tmp
