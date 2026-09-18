@@ -902,293 +902,31 @@ with the field set.
   </div>
 </section>
 
-<!-- 20 -->
-<section class="slide" data-sec="Review quiz" data-title="Review quiz - eight questions" data-notes="Questions 3, 5 and 7 carry the most - 3 because sequencing is the mechanic, 5 because the reviewer blind spot is the lab, 7 because shared-library tiering is the governance answer. If short, run 3, 5, 6 and 8." data-tier="R">
+<!-- quiz -->
+<section class="slide" data-sec="Review quiz" data-title="Review quiz - eight questions" data-notes="All eight on one slide, shown once Lab 2.5 is scored - it is marked after-lab because question 5 previews Lab 2.6 and the set draws on both labs. Take a show of hands on each option, then hover Answer to reveal. The split matters more than the score. Questions 3, 5 and 7 carry the most - 3 because sequencing is the mechanic, 5 because the reviewer blind spot is the lab, 7 because shared-library tiering is the governance answer. If short on time, run 3, 5, 6 and 8. Q1 A: warm-up. Kill D explicitly - it is the comfortable explanation, it explains nothing, and it stops the team looking for the fix, which is a one-page document. Q2 B: expect a split between C and D, and it is a good split - both are found late. Ordering fails in production but FAST and loudly, found within minutes; semantic drift runs for weeks producing numbers that are quietly wrong, which is why it costs most in a ledger. Q3 C: if they can state the asymmetry rather than the rule, they can apply it to cases the course never showed. D is the plausible wrong answer - right order for the wrong reason, and the wrong reason gives the wrong answer on rollback, where the dependency direction is unchanged but the order reverses. Q4 D: the release manager's question. Reverting runs the sequence backwards and the same asymmetry decides it; C is what happens when nobody wrote the order down, B is the joint deploy the ordering avoids. Corollary: if only half lands, you want it to be the producer half, because it is safe alone. Q5 B: Lab 2.6 in advance - let someone argue for A. A, C and D are all checkable inside the consumer repository; B is not, not because the reviewer is weak but because the fact lives on the other side of a boundary it was never given. Tell them Lab 2.6 contains exactly this pair. Q6 A: quick. B is the instinct and the most expensive option; C is better than B but still a search each time with Module 6's tool-budget problem; D looks diligent and is worst - a mirror of something you do not own, wrong for up to a week, silently. Q7 D: the trap is that all four look small. B is the near-miss worth the time: rejecting documented-invalid input is additive in principle and can still break a caller relying on undocumented behaviour - a judgement call, which is why tiering has an owner make it once. Q8 C: sets up Module 8; let someone argue for B first - it is a real gap and the next thing. A is out of scope (the course stops at the merged PR); D is not missing, the tally sheet has tracked it since Lab 1.1. Close on the circle: Module 2 said the repository is the agent's memory, and Module 8 is what writes to it." data-tier="K" data-after="lab">
   <h2>Review quiz &mdash; eight questions<span class="tag q">QUIZ</span></h2>
-  <div class="body g55">
-    <div class="pts">
-      <h3>How this runs</h3>
-      <ul>
-        <li>Four options, one right. <b>Raise hands for each option</b> before the answer.</li>
-        <li>Every question comes from Labs 2.5 and 2.6.</li>
-      </ul>
-      <h3>Short on time?</h3>
-      <ul>
-        <li>Run questions <b>3, 5, 6 and 8</b>.</li>
-      </ul>
-      <div class="take">Question 5 is the lab in advance. If the room gets it, they will watch for it in Lab 2.6.</div>
+  <div class="body qgrid">
+    <div class="qcol">
+      <div class="qc"><div class="qh"><b>1</b><span>Same model, same ticket &mdash; but across repos it makes more mistakes. Why?</span><a class="ans" tabindex="0">Answer</a></div>
+        <div class="qo"><span class="c" data-why="It sees half the system and does not know the other half is missing, so it never stops to ask. &lsquo;Simply harder&rsquo; explains nothing."><i>A</i>It sees only half the system</span><span><i>B</i>Cross-repo changes are bigger</span><span><i>C</i>The instruction files conflict</span><span><i>D</i>The work is simply harder</span></div></div>
+      <div class="qc"><div class="qh"><b>2</b><span>Which cross-repo failure is found <em>last</em>, and costs the most?</span><a class="ans" tabindex="0">Answer</a></div>
+        <div class="qo"><span><i>A</i>Shape drift</span><span class="c" data-why="Nothing fails: a date means one thing on each side, and the numbers are quietly wrong for weeks. Ordering fails in production too, but fast and loudly."><i>B</i>Semantic drift</span><span><i>C</i>Invented endpoint</span><span><i>D</i>Ordering</span></div></div>
+      <div class="qc"><div class="qh"><b>3</b><span>GB-158 adds an optional settlementDate. Why does the producer PR merge first?</span><a class="ans" tabindex="0">Answer</a></div>
+        <div class="qo"><span><i>A</i>The producer owns the contract</span><span><i>B</i>The producer has better tests</span><span class="c" data-why="The producer can accept the new field safely before anyone sends it. &lsquo;Dependency first&rsquo; is the right order for the wrong reason: on undo, the order flips."><i>C</i>Accepting is safe before sending</span><span><i>D</i>The dependency always goes first</span></div></div>
+      <div class="qc"><div class="qh"><b>4</b><span>Both GB-158 PRs are deployed. You must undo the ticket. What goes first?</span><a class="ans" tabindex="0">Answer</a></div>
+        <div class="qo"><span><i>A</i>The producer</span><span><i>B</i>Both together</span><span><i>C</i>Whichever looks riskier</span><span class="c" data-why="Stop sending the field first, then remove it. Undo runs the order backwards. Producer first leaves the consumer sending a field nobody accepts."><i>D</i>The consumer</span></div></div>
     </div>
-    <div>
-      <svg viewBox="0 0 700 420" role="img" aria-label="What the eight quiz questions cover">
-        <rect class="bx p" x="4" y="4" width="692" height="412" rx="8"/>
-        <text class="lb p" x="24" y="32">WHAT THE EIGHT COVER</text>
-        <rect class="bx w rise" x="24" y="44" width="652" height="40" rx="5"/>
-        <text class="ss" x="40" y="69"><tspan font-weight="700">1 &middot;</tspan> Why an agent does worse across repos</text>
-        <rect class="bx w rise r2" x="24" y="90" width="652" height="40" rx="5"/>
-        <text class="ss" x="40" y="115"><tspan font-weight="700">2 &middot;</tspan> Which failure is found last</text>
-        <rect class="bx w rise r3" x="24" y="136" width="652" height="40" rx="5"/>
-        <text class="ss" x="40" y="161"><tspan font-weight="700">3 &middot;</tspan> Why the producer merges first</text>
-        <rect class="bx w rise r4" x="24" y="182" width="652" height="40" rx="5"/>
-        <text class="ss" x="40" y="207"><tspan font-weight="700">4 &middot;</tspan> Which half to undo first</text>
-        <rect class="bx w rise r5" x="24" y="228" width="652" height="40" rx="5"/>
-        <text class="ss" x="40" y="253"><tspan font-weight="700">5 &middot;</tspan> What the review agent cannot see</text>
-        <rect class="bx w rise r6" x="24" y="274" width="652" height="40" rx="5"/>
-        <text class="ss" x="40" y="299"><tspan font-weight="700">6 &middot;</tspan> Cheapest way to show the other repo</text>
-        <rect class="bx w rise r6" x="24" y="320" width="652" height="40" rx="5"/>
-        <text class="ss" x="40" y="345"><tspan font-weight="700">7 &middot;</tspan> What an agent may change in a shared library</text>
-        <rect class="bx w rise r6" x="24" y="366" width="652" height="40" rx="5"/>
-        <text class="ss" x="40" y="391"><tspan font-weight="700">8 &middot;</tspan> What is still missing after the merge</text>
-      </svg>
+    <div class="qcol">
+      <div class="qc"><div class="qh"><b>5</b><span>The review agent gets the consumer diff, ticket and ADRs. What can it <em>never</em> catch?</span><a class="ans" tabindex="0">Answer</a></div>
+        <div class="qo"><span><i>A</i>A default breaking a criterion</span><span class="c" data-why="Only this needs a fact from the producer repo, which the reviewer never saw. The other three can be checked inside the consumer repo. Watch for it in Lab 2.6."><i>B</i>An endpoint the producer lacks</span><span><i>C</i>A test checking only not-null</span><span><i>D</i>A change outside ticket scope</span></div></div>
+      <div class="qc"><div class="qh"><b>6</b><span>Your agent needs to know what the producer serves. What do you try first?</span><a class="ans" tabindex="0">Answer</a></div>
+        <div class="qo"><span class="c" data-why="A few hundred tokens, holding only what the agent cannot work out. A multi-root workspace fills the context window with code you are not changing."><i>A</i>A one-page contract file, same PR</span><span><i>B</i>A multi-root workspace of both</span><span><i>C</i>An MCP link to their repo</span><span><i>D</i>A weekly copy of their docs</span></div></div>
+      <div class="qc"><div class="qh"><b>7</b><span>A library is used by six services you cannot see. Which change needs the owner?</span><a class="ans" tabindex="0">Answer</a></div>
+        <div class="qo"><span><i>A</i>Adding a new method overload</span><span><i>B</i>Rejecting documented-invalid input</span><span><i>C</i>Tests and docs, no behaviour change</span><span class="c" data-why="Every caller that relied on the old default silently gets new behaviour, with no compile error. Rejecting invalid input is a closer call &mdash; that is why an owner decides."><i>D</i>Changing a parameter&rsquo;s default</span></div></div>
+      <div class="qc"><div class="qh"><b>8</b><span>Both GB-158 PRs are merged, reviewed and deployed. What is still missing?</span><a class="ans" tabindex="0">Answer</a></div>
+        <div class="qo"><span><i>A</i>Checking the change in production</span><span><i>B</i>Syncing the contract file automatically</span><span class="c" data-why="Decisions and rejected options stay on one ticket, where the next ticket will not look. Module 8 writes them back to the repo. Speed is already on the tally sheet."><i>C</i>Saving lessons for the next ticket</span><span><i>D</i>Measuring whether it was faster</span></div></div>
     </div>
   </div>
-</section>
-
-<!-- 21 -->
-<section class="slide" data-sec="Review quiz" data-title="Q1 - why it degrades" data-notes="Warm-up. D is the one to kill because it is the comfortable explanation." data-tier="R">
-  <h2>Q1 &middot; Why does an agent do worse across repos?<span class="tag q">1 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">Same model, same instructions, same ticket. In the consumer repo, on a change that touches the producer, it makes more mistakes. Why?</div>
-    <div class="opts">
-      <div class="opt"><span class="k">A</span><span>It sees half the system and does not know which half is missing.</span></div>
-      <div class="opt"><span class="k">B</span><span>Cross-repo changes are bigger and overflow the context window.</span></div>
-      <div class="opt"><span class="k">C</span><span>The two repos&rsquo; instruction files conflict with each other.</span></div>
-      <div class="opt"><span class="k">D</span><span>Cross-repo work is simply harder, so more errors are normal.</span></div>
-    </div>
-    <div class="qmeta">Raise hands for each option before advancing &middot; answer on the next slide</div>
-  </div></div>
-</section>
-
-<!-- 22 -->
-<section class="slide" data-sec="Review quiz" data-title="Q1 - answer" data-notes="Kill D explicitly: it is comfortable, it explains nothing, and it stops the team looking for the fix - which is a one-page document." data-tier="R">
-  <h2>Q1 &middot; Answer<span class="tag q">1 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">Why does it do worse?</div>
-    <div class="opts">
-      <div class="opt right"><span class="k">A</span><span>It sees half the system &mdash; and does not know which half is missing.</span></div>
-      <div class="opt wrong"><span class="k">B</span><span>Cross-repo changes are bigger.</span></div>
-      <div class="opt wrong"><span class="k">C</span><span>The instruction files conflict.</span></div>
-      <div class="opt wrong"><span class="k">D</span><span>It is simply harder.</span></div>
-    </div>
-    <div class="why"><b>A.</b> The key part: it does not know anything is missing, so it does not stop or ask. It looks like the agent got worse.
-      <span class="no"><b>D</b> sounds comfortable but explains nothing, and it stops the team looking for the fix: a one-page contract file. <b>B</b> is sometimes true, but a one-line change has the same problem. <b>C</b> is a real annoyance of multi-root workspaces, not the cause.</span></div>
-  </div></div>
-</section>
-
-<!-- 23 -->
-<section class="slide" data-sec="Review quiz" data-title="Q2 - found latest" data-notes="Checks the taxonomy. Expect a split between C and D and it is a good split - both are found late." data-tier="R">
-  <h2>Q2 &middot; Which cross-repo failure is found last?<span class="tag q">2 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">All four show up in the end. Which one is found last, and costs the most?</div>
-    <div class="opts">
-      <div class="opt"><span class="k">A</span><span>Shape drift &mdash; the copied type has fallen behind.</span></div>
-      <div class="opt"><span class="k">B</span><span>Semantic drift &mdash; both pass, but read a field differently.</span></div>
-      <div class="opt"><span class="k">C</span><span>Invented endpoint &mdash; the consumer calls a missing path.</span></div>
-      <div class="opt"><span class="k">D</span><span>Ordering &mdash; both correct, merged in the wrong order.</span></div>
-    </div>
-    <div class="qmeta">Raise hands for each option before advancing &middot; answer on the next slide</div>
-  </div></div>
-</section>
-
-<!-- 24 -->
-<section class="slide" data-sec="Review quiz" data-title="Q2 - answer" data-notes="The distinction worth drawing: ordering fails in production but it fails FAST and loudly, so it is found within minutes. Semantic drift can run for weeks producing numbers that are quietly wrong, which is why it costs most in a ledger." data-tier="R">
-  <h2>Q2 &middot; Answer<span class="tag q">2 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">Which is found last?</div>
-    <div class="opts">
-      <div class="opt wrong"><span class="k">A</span><span>Shape drift.</span></div>
-      <div class="opt right"><span class="k">B</span><span>Semantic drift &mdash; it is not a type error, so nothing fails.</span></div>
-      <div class="opt wrong"><span class="k">C</span><span>Invented endpoint.</span></div>
-      <div class="opt wrong"><span class="k">D</span><span>Ordering.</span></div>
-    </div>
-    <div class="why"><b>B.</b> A date means &ldquo;received&rdquo; on one side and &ldquo;takes effect&rdquo; on the other. Everything runs, but the numbers are wrong. It shows up weeks later, when accounts do not match.
-      <span class="no"><b>D</b> is close: ordering fails in production too, but fast and loudly, within minutes. <b>C</b> fails with a clear 404. <b>A</b> usually fails in the first integration test. <b>The pattern:</b> failures that raise an error are the cheap ones.</span></div>
-  </div></div>
-</section>
-
-<!-- 25 -->
-<section class="slide" data-sec="Review quiz" data-title="Q3 - why producer first" data-notes="The mechanic. If they can state the asymmetry rather than the rule, they can apply it to a case this course never showed them." data-tier="K">
-  <h2>Q3 &middot; Why does the producer merge first?<span class="tag q">3 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">GB-158 adds an optional <code>settlementDate</code>. The producer PR merges first. Why is that the right order, not just a habit?</div>
-    <div class="opts">
-      <div class="opt"><span class="k">A</span><span>The producer owns the contract, so changes start on its side.</span></div>
-      <div class="opt"><span class="k">B</span><span>The producer&rsquo;s tests are better, so problems show up there first.</span></div>
-      <div class="opt"><span class="k">C</span><span>Adding a field is safe for callers; sending one is safe once accepted.</span></div>
-      <div class="opt"><span class="k">D</span><span>The consumer depends on the producer, so the dependency goes first.</span></div>
-    </div>
-    <div class="qmeta">Raise hands for each option before advancing &middot; answer on the next slide</div>
-  </div></div>
-</section>
-
-<!-- 26 -->
-<section class="slide" data-sec="Review quiz" data-title="Q3 - answer" data-notes="D is the plausible wrong answer and it is worth killing carefully, because it gives the right order for the wrong reason - and the wrong reason gives the wrong answer on the rollback, where the dependency direction is unchanged but the order reverses." data-tier="K">
-  <h2>Q3 &middot; Answer<span class="tag q">3 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">Why producer first?</div>
-    <div class="opts">
-      <div class="opt wrong"><span class="k">A</span><span>The producer owns the contract.</span></div>
-      <div class="opt wrong"><span class="k">B</span><span>Its tests are better.</span></div>
-      <div class="opt right"><span class="k">C</span><span>Adding is safe for callers; sending is safe only once accepted.</span></div>
-      <div class="opt wrong"><span class="k">D</span><span>The dependency goes first.</span></div>
-    </div>
-    <div class="why"><b>C.</b> Learn the reason, not the rule, and you can use it on cases this course never showed.
-      <span class="no"><b>D</b> is the dangerous one: right order, wrong reason. On rollback the dependency is the same, but the order flips &mdash; <em>consumer first</em>. <b>A</b> is about ownership, not safety. <b>B</b> is not always true, and would not matter anyway.</span></div>
-  </div></div>
-</section>
-
-<!-- 27 -->
-<section class="slide" data-sec="Review quiz" data-title="Q4 - half of it landed" data-notes="Applies the asymmetry backwards. This is the release manager's question." data-tier="R">
-  <h2>Q4 &middot; You must undo it. In which order?<span class="tag q">4 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">Both halves of GB-158 are merged and deployed. Something forces you to undo the whole ticket. What goes first?</div>
-    <div class="opts">
-      <div class="opt"><span class="k">A</span><span>The producer &mdash; undo the change where it started.</span></div>
-      <div class="opt"><span class="k">B</span><span>Both together, in one planned deploy window.</span></div>
-      <div class="opt"><span class="k">C</span><span>Whichever looks riskier, decided at the time.</span></div>
-      <div class="opt"><span class="k">D</span><span>The consumer &mdash; stop sending the field first.</span></div>
-    </div>
-    <div class="qmeta">Raise hands for each option before advancing &middot; answer on the next slide</div>
-  </div></div>
-</section>
-
-<!-- 28 -->
-<section class="slide" data-sec="Review quiz" data-title="Q4 - answer" data-notes="The generalisation worth stating: reverting runs the sequence backwards, and the same asymmetry decides it. And the corollary they should take away - if only half of a cross-repo change lands, you want the half that landed to be the producer, because that half is safe on its own." data-tier="R">
-  <h2>Q4 &middot; Answer<span class="tag q">4 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">Which half is undone first?</div>
-    <div class="opts">
-      <div class="opt wrong"><span class="k">A</span><span>The producer.</span></div>
-      <div class="opt wrong"><span class="k">B</span><span>Both together.</span></div>
-      <div class="opt wrong"><span class="k">C</span><span>Whichever looks riskier.</span></div>
-      <div class="opt right"><span class="k">D</span><span>The consumer &mdash; stop sending the field first.</span></div>
-    </div>
-    <div class="why"><b>D.</b> Undo runs the order backwards, for the same reason. Undo the producer first, and the consumer sends a field nobody accepts.
-      <span class="no"><b>C</b> is what happens when nobody wrote the order down: a decision under pressure. <b>B</b> is a joint deploy &mdash; what the ordering was meant to avoid. <b>Remember:</b> if only half lands, you want it to be the producer half. It is safe alone.</span></div>
-  </div></div>
-</section>
-
-<!-- 29 -->
-<section class="slide" data-sec="Review quiz" data-title="Q5 - the reviewer's blind spot" data-notes="This is Lab 2.6 in advance. Let it run and let someone argue for A - being able to say why the reviewer misses it is the point." data-tier="K" data-after="lab">
-  <h2>Q5 &middot; Your review agent will miss one of these. Which?<span class="tag q">5 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">You give the review agent the consumer diff, the ticket and the consumer&rsquo;s ADRs. Which problem can it never catch?</div>
-    <div class="opts">
-      <div class="opt"><span class="k">A</span><span>A default that breaks the ticket&rsquo;s first acceptance criterion.</span></div>
-      <div class="opt"><span class="k">B</span><span>A call to <code>/api/v1/settlement-date</code>, which the producer does not serve.</span></div>
-      <div class="opt"><span class="k">C</span><span>A test that only checks that a field is not null.</span></div>
-      <div class="opt"><span class="k">D</span><span>A change to a file the ticket said not to touch.</span></div>
-    </div>
-    <div class="qmeta">Raise hands for each option before advancing &middot; answer on the next slide</div>
-  </div></div>
-</section>
-
-<!-- 30 -->
-<section class="slide" data-sec="Review quiz" data-title="Q5 - answer" data-notes="Land the structural point: A, C and D are all checkable from inside the consumer repository, and B is not - not because the reviewer is weak, but because the fact lives on the other side of a boundary it was never given. Then tell them Lab 2.6 contains exactly this pair, and they should watch for which one their reviewer reports." data-tier="K" data-after="lab">
-  <h2>Q5 &middot; Answer<span class="tag q">5 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">Which can it never catch?</div>
-    <div class="opts">
-      <div class="opt wrong"><span class="k">A</span><span>A default that breaks a criterion.</span></div>
-      <div class="opt right"><span class="k">B</span><span>A call to an endpoint the producer does not serve.</span></div>
-      <div class="opt wrong"><span class="k">C</span><span>A test that only checks not-null.</span></div>
-      <div class="opt wrong"><span class="k">D</span><span>A change outside the ticket&rsquo;s scope.</span></div>
-    </div>
-    <div class="why"><b>B.</b> Only B needs a fact from the producer. <b>A</b>, <b>C</b> and <b>D</b> can be checked inside the consumer repo &mdash; against the ticket, the test and the scope. The reviewer was never given the producer side.
-      <span class="no">The reviewer is not weak. Module 4 gave it a separate context on purpose. Across repos, that context is missing the one fact it needs. The fixes are the contract file and a CI check, and both have limits. <b>Lab 2.6 has exactly this pair</b> &mdash; watch which one your reviewer reports.</span></div>
-  </div></div>
-</section>
-
-<!-- 31 -->
-<section class="slide" data-sec="Review quiz" data-title="Q6 - cheapest context" data-notes="Quick. B is the instinct and it is the most expensive option on the slide." data-tier="R">
-  <h2>Q6 &middot; Cheapest way to show the agent the other repo?<span class="tag q">6 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">Your agent needs to know what the producer serves and how it fails. What do you try first?</div>
-    <div class="opts">
-      <div class="opt"><span class="k">A</span><span>A one-page contract file in this repo, updated in the same PR.</span></div>
-      <div class="opt"><span class="k">B</span><span>A multi-root workspace, so it reads the producer&rsquo;s code directly.</span></div>
-      <div class="opt"><span class="k">C</span><span>An MCP connection to the producer&rsquo;s repo, to fetch files when needed.</span></div>
-      <div class="opt"><span class="k">D</span><span>A weekly copy of the producer&rsquo;s documentation, kept in this repo.</span></div>
-    </div>
-    <div class="qmeta">Raise hands for each option before advancing &middot; answer on the next slide</div>
-  </div></div>
-</section>
-
-<!-- 32 -->
-<section class="slide" data-sec="Review quiz" data-title="Q6 - answer" data-notes="D is worth naming as the worst option even though it looks diligent - it is signing up to maintain a mirror of a thing you do not own, and refreshed weekly means wrong for up to a week, silently." data-tier="R">
-  <h2>Q6 &middot; Answer<span class="tag q">6 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">What do you try first?</div>
-    <div class="opts">
-      <div class="opt right"><span class="k">A</span><span>A one-page contract file, updated in the same PR.</span></div>
-      <div class="opt wrong"><span class="k">B</span><span>A multi-root workspace.</span></div>
-      <div class="opt wrong"><span class="k">C</span><span>An MCP connection to the producer&rsquo;s repo.</span></div>
-      <div class="opt wrong"><span class="k">D</span><span>A weekly copy of their documentation.</span></div>
-    </div>
-    <div class="why"><b>A.</b> A few hundred tokens instead of tens of thousands. It holds what the agent cannot work out: what you call, whether types are copied, how errors look, and the merge order.
-      <span class="no"><b>B</b> is the instinct and the most costly: both repos get read, and the window fills with code you are not changing. <b>C</b> is better than B, but it is still a search each time, with Module 6&rsquo;s tool-budget problem. <b>D</b> looks careful but is worst: you maintain a copy you do not own, and it can be a week out of date without anyone knowing.</span></div>
-  </div></div>
-</section>
-
-<!-- 33 -->
-<section class="slide" data-sec="Review quiz" data-title="Q7 - shared library tiers" data-notes="Governance. The trap is that all four look like small, reasonable changes." data-tier="R">
-  <h2>Q7 &middot; Which shared-library change needs the owner?<span class="tag q">7 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">Four small changes to a library that six services use. You cannot see those services. Which change must not be made by an agent alone?</div>
-    <div class="opts">
-      <div class="opt"><span class="k">A</span><span>Add a new overload of an existing method.</span></div>
-      <div class="opt"><span class="k">B</span><span>Add a check that rejects input already documented as invalid.</span></div>
-      <div class="opt"><span class="k">C</span><span>Add tests and docs for behaviour that already exists.</span></div>
-      <div class="opt"><span class="k">D</span><span>Change the default value of an existing optional parameter.</span></div>
-    </div>
-    <div class="qmeta">Raise hands for each option before advancing &middot; answer on the next slide</div>
-  </div></div>
-</section>
-
-<!-- 34 -->
-<section class="slide" data-sec="Review quiz" data-title="Q7 - answer" data-notes="B is the interesting near-miss and worth the time: rejecting something already documented as invalid is additive in principle and can still break a caller who was relying on the undocumented behaviour. The honest answer is that it is a judgement call, and the tiering exists so that judgement is made once by an owner rather than repeatedly by whoever is working." data-tier="R">
-  <h2>Q7 &middot; Answer<span class="tag q">7 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">Which needs the owner?</div>
-    <div class="opts">
-      <div class="opt wrong"><span class="k">A</span><span>A new overload.</span></div>
-      <div class="opt wrong"><span class="k">B</span><span>A check that rejects already-invalid input.</span></div>
-      <div class="opt wrong"><span class="k">C</span><span>Tests and docs for existing behaviour.</span></div>
-      <div class="opt right"><span class="k">D</span><span>A changed default for an existing parameter.</span></div>
-    </div>
-    <div class="why"><b>D.</b> Every caller that relied on the old default gets new behaviour, with no compile error. It looks like the smallest change, and it has the widest effect.
-      <span class="no"><b>B</b> is close: it is additive, but it can still break a caller that relied on undocumented behaviour. That is a judgement call &mdash; which is why the tiers exist, so <em>an owner</em> decides once.</span></div>
-  </div></div>
-</section>
-
-<!-- 35 -->
-<section class="slide" data-sec="Review quiz" data-title="Q8 - after the merge" data-notes="Sets up the final module. Let someone argue for B before revealing - it is a real gap and it is genuinely the next thing." data-tier="R">
-  <h2>Q8 &middot; The PRs have merged. What is still missing?<span class="tag q">8 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">Both halves of GB-158 are merged in order, reviewed and deployed. What has the course not solved yet?</div>
-    <div class="opts">
-      <div class="opt"><span class="k">A</span><span>Checking that the change really works in production.</span></div>
-      <div class="opt"><span class="k">B</span><span>Keeping both repos&rsquo; contract files in step automatically.</span></div>
-      <div class="opt"><span class="k">C</span><span>What you learned on this ticket is lost to the next one.</span></div>
-      <div class="opt"><span class="k">D</span><span>Measuring whether this was faster than doing it by hand.</span></div>
-    </div>
-    <div class="qmeta">Raise hands for each option before advancing &middot; answer on the next slide</div>
-  </div></div>
-</section>
-
-<!-- 36 -->
-<section class="slide" data-sec="Review quiz" data-title="Q8 - answer" data-notes="Close on the circle. Module 2 said the repository is the agent's memory, and Module 8 is what writes to it - which means the last module is the one that makes the first one true on the second ticket rather than only on the first." data-tier="R">
-  <h2>Q8 &middot; Answer<span class="tag q">8 of 8</span></h2>
-  <div class="body g1"><div>
-    <div class="qz">What is still missing?</div>
-    <div class="opts">
-      <div class="opt wrong"><span class="k">A</span><span>Checking it in production.</span></div>
-      <div class="opt wrong"><span class="k">B</span><span>Automatic contract-file sync.</span></div>
-      <div class="opt right"><span class="k">C</span><span>What you learned is lost to the next ticket.</span></div>
-      <div class="opt wrong"><span class="k">D</span><span>Measuring whether it was faster.</span></div>
-    </div>
-    <div class="why"><b>C.</b> The spec decision, the rejected option, the limit found in a linked issue, the stale copy &mdash; all stuck on one ticket, where the next ticket will not look.
-      <span class="no"><b>B</b> is a real but smaller gap; the same-PR rule covers it without tools. <b>A</b> is out of scope &mdash; the course stops at the merged PR. <b>D</b> is not missing: the tally sheet has tracked it since Lab 1.1. <b>Module 8 closes the loop:</b> Module 2 said the repo is the agent&rsquo;s memory, and Module 8 writes to it.</span></div>
-  </div></div>
 </section>
 
 </div></div>
