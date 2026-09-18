@@ -167,7 +167,7 @@
 </section>
 
 <!-- 4 -->
-<section class="slide" data-sec="1 &middot; Anatomy of an instruction" data-title="The same ticket, asked twice" data-notes="Both of these are real requests for GB-151, the reversal ticket they run in the labs. Read the left one out loud - it is what almost everyone types, and it is not stupid, it is just doing all the work in the agent's head instead of yours. Then walk the right one part by part and let them notice how much of it is POINTERS rather than prose: it names four files and restates none of them, because Module 2 already put the content in the repository. That is the joint the two modules make. The length objection will come, so pre-empt it: the engineered version is longer to read and shorter to WRITE the second time, because it becomes a skill file three slides from now. Point at the last two lines specifically. Stop conditions on a money-moving ticket are not ceremony - reversal semantics are exactly the kind of thing where a plausible guess ships a defect that reconciles to zero and is found by Operations in March." data-tier="D">
+<section class="slide" data-sec="1 &middot; Anatomy of an instruction" data-title="The same ticket, asked twice" data-notes="Both of these are real requests for GB-151, the reversal ticket they run in the labs. Read the left one out loud - it is what almost everyone types, and it is not stupid, it is just doing all the work in the agent's head instead of yours. Then walk the right one part by part and let them notice how much of it is POINTERS rather than prose: it names four files and restates none of them, because Module 2 already put the content in the repository. That is the joint the two modules make. The last INPUTS line is few-shot prompting in its agentic form: instead of pasting examples into the prompt, point at a file whose shape you want copied. One real file beats three invented examples, because the agent copies its naming, error handling and layering exactly. The length objection will come, so pre-empt it: the engineered version is longer to read and shorter to WRITE the second time, because it becomes a skill file in the next section. Point at the last two lines specifically. Stop conditions on a money-moving ticket are not ceremony - reversal semantics are exactly the kind of thing where a plausible guess ships a defect that reconciles to zero and is found by Operations in March." data-tier="D">
   <h2>The same ticket, asked twice &mdash; GB-151<span class="tag k">1</span></h2>
   <div class="body g55">
     <div>
@@ -200,6 +200,7 @@ Add POST /api/v1/postings/{id}/reversal.
 - posting/service/PostingService.java
 - posting/domain/Posting.java
 - GB-151, all six acceptance criteria
+- Shape to copy: controller/AccountController.java
 
 <span class="k">OUTPUT CONTRACT</span>
 - Controller + service + slice tests
@@ -274,6 +275,67 @@ Add POST /api/v1/postings/{id}/reversal.
   </div>
 </section>
 <!-- 6 -->
+<section class="slide" data-sec="1 &middot; Anatomy of an instruction" data-title="Four patterns, in their agentic form" data-notes="The room will know these four by name from every prompting guide, so do not teach them as new - teach what each one turns into when the thing on the other end edits files and runs tests. Go down the middle column, not the left one. Few-shot: in chat you paste examples; in a repository you point at one real file, and that is the INPUTS line they already saw on GB-151. Invented examples teach invented conventions. Chain of thought: 'think step by step' was a trick for models that did not reason; the models behind agent mode already do. What is still worth asking for is a PLAN you can read before any file changes - files to touch, the ADR each one relies on, then wait. That is chain of thought made reviewable. Decomposition: one ticket, split into steps that each end green, so a failure has an address - Module 1's per-ticket choice of shape applied inside one ticket. Self-critique is the one to be honest about. Asking the agent to check its diff against each done criterion does catch omissions - the missing test, the unhandled status. It cannot catch its own misreading, because the review runs on the same understanding that produced the code. Park that sentence: it comes back in section 4 with the tests written to pass, and it is the whole argument for Module 4. Close on the bottom band: a pattern earns its words only where it hands you something to check." data-tier="K">
+  <h2>Four patterns &mdash; and what each becomes when the agent edits files<span class="tag k">1</span></h2>
+  <div class="body g1">
+    <div>
+      <svg viewBox="0 0 1180 452" role="img" aria-label="Few-shot, chain of thought, decomposition and self-critique in chat and in an agentic request, with the limit of each">
+        <rect class="bx d" x="4" y="4" width="1172" height="30" rx="6"/>
+        <text class="lb w" x="24" y="24">PATTERN</text>
+        <text class="lb w" x="220" y="24">IN CHAT</text>
+        <text class="lb w" x="450" y="24">IN AN AGENTIC REQUEST &mdash; GB-151</text>
+        <text class="lb w" x="850" y="24">WHAT IT BUYS, AND WHERE IT STOPS</text>
+
+        <rect class="bx grow" x="4" y="42" width="1172" height="72" rx="6"/>
+        <text class="tt" x="24" y="72">Few-shot</text>
+        <text class="ss" x="24" y="94">show, do not describe</text>
+        <text class="ss" x="220" y="72">Paste two or three</text>
+        <text class="ss" x="220" y="92">examples into the prompt.</text>
+        <text class="ss" x="450" y="72">Point at one real file:</text>
+        <text class="ss" x="450" y="92"><tspan fill="#e0b34d">&ldquo;Shape to copy: AccountController.java&rdquo;</tspan></text>
+        <text class="ss" x="850" y="72">Invented examples teach invented</text>
+        <text class="ss" x="850" y="92">conventions. One real file wins.</text>
+
+        <rect class="bx grow w2" x="4" y="120" width="1172" height="72" rx="6"/>
+        <text class="tt" x="24" y="150">Chain of thought</text>
+        <text class="ss" x="24" y="172">reason before acting</text>
+        <text class="ss" x="220" y="150">&ldquo;Think step by step.&rdquo;</text>
+        <text class="ss" x="450" y="150"><tspan fill="#e0b34d">&ldquo;Plan first: each file you will touch and the</tspan></text>
+        <text class="ss" x="450" y="170"><tspan fill="#e0b34d">ADR it relies on. Then wait for my OK.&rdquo;</tspan></text>
+        <text class="ss" x="850" y="150">The model already reasons. The gain is</text>
+        <text class="ss" x="850" y="170">a plan you review <tspan font-weight="600" fill="#5fbf8f">before</tspan> the diff.</text>
+
+        <rect class="bx grow w3" x="4" y="198" width="1172" height="72" rx="6"/>
+        <text class="tt" x="24" y="228">Decomposition</text>
+        <text class="ss" x="24" y="250">one step, one check</text>
+        <text class="ss" x="220" y="228">Split the problem into</text>
+        <text class="ss" x="220" y="248">sub-questions.</text>
+        <text class="ss" x="450" y="228"><tspan fill="#e0b34d">&ldquo;Domain and its test, then service, then</tspan></text>
+        <text class="ss" x="450" y="248"><tspan fill="#e0b34d">controller &mdash; each green before the next.&rdquo;</tspan></text>
+        <text class="ss" x="850" y="228">A failure gets an address. Fused steps</text>
+        <text class="ss" x="850" y="248">hide which one broke.</text>
+
+        <rect class="bx r grow w4" x="4" y="276" width="1172" height="84" rx="6"/>
+        <text class="lb r" x="1162" y="290" text-anchor="end">THE LIMIT MATTERS MORE THAN THE PATTERN</text>
+        <text class="tt" x="24" y="310">Self-critique</text>
+        <text class="ss" x="24" y="332">check your own work</text>
+        <text class="ss" x="220" y="310">&ldquo;Review your answer.&rdquo;</text>
+        <text class="ss" x="450" y="310"><tspan fill="#e0b34d">&ldquo;Before handing over, check the diff against</tspan></text>
+        <text class="ss" x="450" y="330"><tspan fill="#e0b34d">each done criterion; list any you did not meet.&rdquo;</tspan></text>
+        <text class="ss" x="850" y="310">Catches <tspan font-weight="600" fill="#5fbf8f">omissions</tspan> against a checklist.</text>
+        <text class="ss" x="850" y="330" style="fill:#e2726e;font-weight:600">Cannot catch its own misreading &mdash;</text>
+        <text class="ss" x="850" y="348" style="fill:#e2726e;font-weight:600">same session, same understanding.</text>
+
+        <rect class="bx d" x="4" y="370" width="1172" height="78" rx="8"/>
+        <text class="lb w" x="24" y="394">THE TEST FOR ANY PATTERN</text>
+        <text class="ss w" x="24" y="418" style="font-size:14px">It earns its words only where it hands you <tspan font-weight="700" fill="#e0b34d">something to check</tspan>: a plan, a green step, a criteria list.</text>
+        <text class="ss w" x="24" y="438" style="font-size:14px">&ldquo;Think step by step&rdquo; on its own gives you nothing to check &mdash; and self-critique is not a reviewer. That is Module 4.</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 7 -->
 <section class="slide" data-sec="2 &middot; Skill files" data-title="Three artifacts, three lifetimes" data-notes="The confusion this slide fixes is real and it costs teams months: people put procedures in their instructions file and facts in their prompts, and then wonder why the instructions file is three pages and the prompts are still long. The distinction is not topic, it is LIFETIME and TRIGGER. Instructions are facts, always loaded, true regardless of what you are doing. A skill file is a procedure, loaded when invoked, true only when you are doing that task. The prompt is what is left - and what is left should be small. Use the right-hand test out loud on two or three examples from the room. The giveaway question is: is this true when nobody is asking for anything? If yes it is knowledge; if it only makes sense while doing something, it is a skill." data-tier="R">
   <h2>Instructions, skills, prompts &mdash; three artifacts, three lifetimes<span class="tag k">2</span></h2>
   <div class="body g64">
@@ -346,17 +408,18 @@ Add POST /api/v1/postings/{id}/reversal.
   </div>
 </section>
 
-<!-- 7 -->
-<section class="slide" data-sec="2 &middot; Skill files" data-title="Anatomy of a skill file" data-notes="This is a worked example of a skill file for the Global Bank account service. Walk the frontmatter first - name and description are how it gets found and invoked, version is what makes it reviewable, and owner is what stops it becoming nobody's file. Then the body: notice that it is the six-part anatomy from slide 3 with the ticket-specific parts left as slots. That is the whole idea - the reusable parts are written once, the particulars arrive per request. The stop conditions are the part to dwell on: they came from counting rework on real tickets, which means this file is the accumulated result of the team's mistakes, written down where the next person does not have to repeat them. Say the honest caveat too - the first version of a skill file is usually too long, and it gets better by having lines removed after they fail to earn their place on real tickets." data-tier="K">
+<!-- 8 -->
+<section class="slide" data-sec="2 &middot; Skill files" data-title="Anatomy of a skill file" data-notes="This is a worked example of a skill file for the Global Bank account service. Walk the frontmatter first - this is the real Copilot agent-skill layout, one folder per skill with a SKILL.md inside, and the name must match the folder name or the skill is not picked up. Name and description are how it gets found and invoked, version is what makes it reviewable, and owner is what stops it becoming nobody's file - both sit under metadata because they are ours, not fields Copilot reads. Then the body: notice that it is the six-part anatomy from slide 3 with the ticket-specific parts left as slots. That is the whole idea - the reusable parts are written once, the particulars arrive per request. The stop conditions are the part to dwell on: they came from counting rework on real tickets, which means this file is the accumulated result of the team's mistakes, written down where the next person does not have to repeat them. Say the honest caveat too - the first version of a skill file is usually too long, and it gets better by having lines removed after they fail to earn their place on real tickets." data-tier="K">
   <h2>Anatomy of a skill file &mdash; the reusable half, written once<span class="tag k">2</span></h2>
   <div class="body g55">
     <div>
-<div class="file"><span class="fn">.github/skills/account-change.skill.md</span><span class="c">---</span>
+<div class="file"><span class="fn">.github/skills/account-change/SKILL.md</span><span class="c">---</span>
 <span class="k">name:</span> account-change
 <span class="k">description:</span> Implement a change to posting or
   balance behaviour in global-bank-account
-<span class="k">version:</span> 3
-<span class="k">owner:</span> payments-platform
+<span class="k">metadata:</span>
+  <span class="k">version:</span> "3"
+  <span class="k">owner:</span> payments-platform
 <span class="c">---</span>
 
 <span class="k"># Before you write anything</span>
@@ -385,8 +448,8 @@ Add POST /api/v1/postings/{id}/reversal.
     <div class="pts">
       <h3>What the frontmatter is for</h3>
       <ul>
-        <li><code>name</code> and <code>description</code> &mdash; how it is found and invoked. Vague descriptions are why skill files go unused.</li>
-        <li><code>version</code> and <code>owner</code> &mdash; what makes it an <b>asset</b> rather than a note. Unowned files have a first month, not a lifetime.</li>
+        <li><code>name</code> and <code>description</code> &mdash; how it is found and invoked. <code>name</code> must match the folder; vague descriptions are why skill files go unused.</li>
+        <li><code>version</code> and <code>owner</code> under <code>metadata</code> &mdash; what makes it an <b>asset</b> rather than a note. Unowned files have a first month, not a lifetime.</li>
       </ul>
       <h3>Read the body again</h3>
       <ul>
@@ -398,7 +461,7 @@ Add POST /api/v1/postings/{id}/reversal.
   </div>
 </section>
 
-<!-- 8 -->
+<!-- 9 -->
 <section class="slide" data-sec="2 &middot; Skill files" data-title="Versioned, reviewed, parameterised" data-notes="Three ideas here and the third is the one that turns a skill file from a nice idea into something a team actually keeps. Versioned: it changes in a pull request like anything else, and the diff is the argument. Reviewed: a change to a skill file changes the behaviour of every future ticket that invokes it, which makes it higher-leverage than most code changes and it should get a real reviewer, not a rubber stamp. Parameterised: this is the discipline of leaving slots rather than hard-coding - a skill file that names one ticket is a prompt with delusions. On the right, the rollout note is worth two minutes with a senior room because the failure mode is social, not technical - the file that one person wrote and nobody else invokes. The fix is boring and it works: it goes in the same PR as the work that proved it, and it is invoked in the demo." data-tier="R">
   <h2>What makes it an asset rather than a saved snippet<span class="tag k">2</span></h2>
   <div class="body g1">
@@ -455,7 +518,48 @@ Add POST /api/v1/postings/{id}/reversal.
   </div>
 </section>
 
-<!-- 9 -->
+<!-- 10 -->
+<section class="slide" data-sec="2 &middot; Skill files" data-title="Where this lives in Copilot" data-notes="This is the Copilot-specific slide, and the point is where each thing from this section physically lives. Instruction files were Module 2. The two surfaces left are prompt files and workspace search. A prompt file sits in .github/prompts, you run it by typing a slash and its name, and its input slots are filled on the command line - so it is the parameterised half from the last slide, native to Copilot. Walk the file on the left and point out how little is in it: the slots, a pointer to the skill, and one instruction about searching. The procedure is NOT in it. The difference to land is who pulls the trigger: you invoke a prompt file; the agent loads a skill by matching its description against the task. Recent Copilot releases are steering reusable procedure towards skills, which is one more reason to keep the prompt file a thin shortcut - nothing is lost if it goes. Then the right-hand half: at-workspace in older clients and hash-codebase now both run a semantic search, and agent mode searches on its own without being asked. That is useful for finding the inputs the first time. It is not a substitute for naming them - searching on every request is the twelve-file crawl from this morning, paid again. Search to discover, name to deliver. If the room is on an older Copilot build, at-workspace is what they will see; the advice is the same." data-tier="K">
+  <h2>Where this lives in Copilot &mdash; prompt files and workspace search<span class="tag k">2</span></h2>
+  <div class="body g55">
+    <div>
+<div class="file"><span class="fn">.github/prompts/gb-change.prompt.md</span><span class="c">---</span>
+<span class="k">description:</span> Start a Global Bank change
+  from a ticket
+<span class="k">agent:</span> agent
+<span class="k">argument-hint:</span> ticket=GB-nnn goal=...
+<span class="c">---</span>
+Follow the <span class="s">account-change</span> skill.
+
+<span class="k">Ticket:</span> <span class="s">${input:ticket}</span>
+<span class="k">Goal:</span>   <span class="s">${input:goal}</span>
+
+<span class="k">Inputs:</span> the files the ticket names, and
+  the shape to copy it points at.
+If you cannot name them, search #codebase,
+  list what you found, and stop for my OK.
+
+<span class="c"># in chat:</span>
+<span class="c"># /gb-change ticket=GB-151 goal="reversal"</span>
+</div>
+    </div>
+    <div class="pts">
+      <h3>Prompt file or skill &mdash; who pulls the trigger</h3>
+      <ul>
+        <li><b>Prompt file</b> &mdash; <em>you</em> invoke it with <code>/gb-change</code>. It carries the slots (<code>${input:&hellip;}</code>) and a pointer. Nothing else.</li>
+        <li><b>Skill</b> &mdash; the <em>agent</em> loads it when the task matches its description (or you call <code>/account-change</code>). The procedure lives here, once.</li>
+      </ul>
+      <h3>@workspace and #codebase &mdash; search, not inputs</h3>
+      <ul>
+        <li><code>@workspace</code> in older clients, <code>#codebase</code> now; agent mode searches without being asked.</li>
+        <li>Use it to <b>find</b> the inputs once, then name them. Searching every request is the twelve-file crawl, paid again.</li>
+      </ul>
+      <div class="take"><b>Search to discover, name to deliver.</b> Keep the prompt file thin &mdash; Copilot is steering reusable procedure into skills.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 -->
 <section class="slide" data-sec="3 &middot; Grounding" data-title="Four grounding rules" data-notes="Present these as four separate instruments with four different jobs, not as one idea phrased four ways. Cite-the-file makes the source checkable, so YOU can verify without re-reading everything. Quote-before-you-change forces it to actually read the code it is about to modify, and it is the cheapest of the four by a distance - it catches the change written against a remembered version of a file. Refuse-when-unknown is the one that needs a stop condition to work, which is why it sits after the anatomy section. Ask-do-not-invent is narrower than it sounds and worth stating precisely: it is about identifiers and values - account ids, status values, currency codes, limits - the things that look harmless and are the most common invented content in this domain. The right-hand caution matters in an experienced room: none of these are magic words. They work because they make the invented answer expensive to produce and easy to spot, not because the model obeys instructions." data-tier="K">
   <h2>Four grounding rules &mdash; four different jobs<span class="tag k">3</span></h2>
   <div class="body g64">
@@ -501,7 +605,7 @@ Add POST /api/v1/postings/{id}/reversal.
     </div>
   </div>
 </section>
-<!-- 10 -->
+<!-- 12 -->
 <section class="slide" data-sec="3 &middot; Grounding" data-title="The same question, grounded and not" data-notes="Two answers to the same question about Global Bank, and the room should notice the important thing before you say it: the ungrounded answer is not wrong. It is correct, well-phrased and completely unverifiable, and that combination is what makes it dangerous. The grounded answer costs the agent slightly more and costs YOU dramatically less, because every claim carries the file that supports it and you can check the whole thing in three file opens. Point at the last line of the grounded version specifically - naming what it could NOT find is the behaviour you are buying with refuse-when-unknown, and it is the only line on this slide that could not be produced by a model that had read nothing. Then the practical note: this is why cite-the-file belongs in the skill file rather than in your head. You will not type it on the request where it mattered most." data-tier="R">
   <h2>Grounded and ungrounded &mdash; the same question<span class="tag k">3</span></h2>
   <div class="body g55">
@@ -546,7 +650,7 @@ which is currently unused.
     </div>
   </div>
 </section>
-<!-- 11 -->
+<!-- 13 -->
 <section class="slide" data-sec="4 &middot; The failure taxonomy" data-title="Four failures, and how each one looks" data-notes="The reason to teach a taxonomy rather than a general warning about hallucination is that these four have genuinely different tells and genuinely different counters, and treating them as one thing is why review feels like an unbounded task. Go across the row: what it looks like, and where you catch it. Invented API is the famous one and the least dangerous, because the compiler catches it - it costs a turn and nothing else. Silent scope drift is the most common in agent mode and the tell is a diff wider than the request. Confidently wrong refactor is the one that gets through review because it is well-written and internally consistent. Tests written to pass is the one to spend real time on, and it has its own slide next. The bottom band is the point of the whole taxonomy: severity does not track how obvious the failure is - it runs the other way, and the ones that compile cleanly are the expensive ones." data-tier="K">
   <h2>Four failures &mdash; different tells, different counters<span class="tag k">4</span></h2>
   <div class="body g1">
@@ -614,7 +718,7 @@ which is currently unused.
   </div>
 </section>
 
-<!-- 12 -->
+<!-- 14 -->
 <section class="slide" data-sec="4 &middot; The failure taxonomy" data-title="The counter for each" data-notes="Now pair each failure with the instrument that actually addresses it, and be honest that they are not equally strong. Invented API needs nothing from you - let the build catch it, and resist the urge to add prompt ceremony for a failure the compiler handles for free. That is a real lesson: do not spend prompt budget on failures your toolchain already catches. Scope drift is fixed by the output contract plus a bounded INPUTS list, and it is the strongest pairing on the slide. The confidently wrong refactor is where quote-before-you-change and cite-the-file earn their place, plus the ADRs from Module 2 - which is why this failure gets cheaper after Module 2 and not before. Tests written to pass has the weakest automatic counter and the strongest human one, which is the honest answer and it sets up Module 4's review agent. The closing band is the one to leave up while you talk." data-tier="K">
   <h2>What actually counters each &mdash; and how strong it is<span class="tag k">4</span></h2>
   <div class="body g64">
@@ -662,7 +766,7 @@ which is currently unused.
   </div>
 </section>
 
-<!-- 13 -->
+<!-- 15 -->
 <section class="slide" data-sec="4 &middot; The failure taxonomy" data-title="Tests written to pass" data-notes="Spend real time here - this is the slide senior engineers remember, because it names something they have felt and not articulated. The mechanism on the left is worth stating plainly: when you ask for the change and the tests in one request, the tests are generated from the same understanding as the implementation, including the same misunderstanding. The test is not an independent check, it is a restatement. If the model misread the requirement, the test encodes the misreading and goes green, and now you have a defect with a passing test defending it. The three tells are concrete and they should recognise all three. The fix at the bottom is deliberately simple and it is the one thing to do differently tomorrow morning. Do not oversell the ordering fix - it reduces the problem, it does not eliminate it, and the real answer is a separate reviewer, which is where Module 4 starts." data-tier="R">
   <h2>Tests written to pass &mdash; why the green tick can be worthless<span class="tag k">4</span></h2>
   <div class="body g46">
@@ -727,7 +831,7 @@ which is currently unused.
     </div>
   </div>
 </section>
-<!-- 14 -->
+<!-- 16 -->
 <section class="slide" data-sec="5 &middot; Context hygiene" data-title="What a long session actually costs" data-notes="Module 1 taught the placement rule - context, file, or tool call. This slide is the same economics viewed over time rather than per request, and the shape of the curve is what people have not internalised. Everything left in the window is re-billed on every subsequent turn, so cost per turn rises even when the work gets simpler. Worse, the signal-to-noise ratio falls: by turn thirty the window contains three abandoned approaches, two files you stopped caring about, and a correction you made twice. The agent weights all of it. The tell to give them is behavioural, not numeric - when it starts re-suggesting something you already rejected, the window is working against you. That is the moment to start clean, and the cost of starting clean is one paragraph of re-briefing, which is much less than people fear because Module 2 already put the durable half on disk." data-tier="R">
   <h2>The long session &mdash; cost rises, signal falls<span class="tag k">5</span></h2>
   <div class="body g64">
@@ -782,7 +886,7 @@ which is currently unused.
   </div>
 </section>
 
-<!-- 15 -->
+<!-- 17 -->
 <section class="slide" data-sec="5 &middot; Context hygiene" data-title="Four signals to start clean" data-notes="Four concrete triggers, and they are ordered by how reliable they are rather than how often they happen. The task boundary is the free one and it should become automatic - finishing a ticket and starting the next in the same session is the single most common hygiene failure in an experienced team, precisely because they are productive and do not want to break flow. The rejected-approach signal is the strongest quality signal on the slide. The third is about mode changes, and it is subtle: the context that served an exploratory ask-mode conversation is usually the wrong context for the focused edit that follows. The fourth is the honest catch-all. On the right, the anti-pattern is worth naming because it is what people do instead: they keep the session and add corrective prompts, which adds noise to fix noise and costs more than starting over." data-tier="R">
   <h2>Four signals to start clean &mdash; and one anti-pattern<span class="tag k">5</span></h2>
   <div class="body g1">
@@ -828,7 +932,7 @@ which is currently unused.
   </div>
 </section>
 
-<!-- 16 -->
+<!-- 18 -->
 <section class="slide" data-sec="6 &middot; Proving a prompt is better" data-title="An eval set, and why six tickets is enough" data-notes="This is the module's answer to a question the room will otherwise ask sceptically - how do you know the engineered prompt is actually better? The answer is that you do not, until you measure it, and everyone who says otherwise is reporting a feeling. The construction rules on the left are the practical part and the second one is the one people get wrong: include tickets the weak prompt gets RIGHT, or you have built a set that can only confirm you. Six is deliberate and defensible - small enough to run in a lab, large enough that a two-ticket difference is visible, and honest about the fact that this is a signal and not a statistic. Do not oversell it. The point of the eval set is not statistical rigour, it is converting an argument about phrasing into a number that two engineers can disagree about productively." data-tier="K">
   <h2>An eval set &mdash; six tickets, and a definition of pass<span class="tag k">6</span></h2>
   <div class="body g64">
@@ -882,7 +986,7 @@ which is currently unused.
   </div>
 </section>
 
-<!-- 17 -->
+<!-- 19 -->
 <section class="slide" data-sec="6 &middot; Proving a prompt is better" data-title="Lab 1.5 and row three" data-notes="Set the lab up honestly. They run six tickets twice - once with an ordinary request, once with the engineered request plus the skill file - and they score pass or fail against criteria they wrote down before running. The interesting outcome is not that the second column wins. It is WHICH tickets move, and the pattern is consistent enough to predict: the ambiguous ones move most, because stopping is the pass condition and stop conditions are what the engineered version added. The tickets the weak prompt already passed will mostly stay passed, and that is the control that makes the result believable. Prepare them for a null result as well - if nothing moves, the likely explanation is that Module 2 already did the work for this repository, and that is a real finding rather than a failed lab. Then close on the tally sheet: row three is a pass rate, not a turn count, and it is the only row measured that way." data-tier="K">
   <h2>Lab 1.5 &mdash; two prompts, six tickets, one number<span class="tag k">6</span></h2>
   <div class="body g1">
@@ -931,7 +1035,7 @@ which is currently unused.
   </div>
 </section>
 
-<!-- 18 -->
+<!-- 20 -->
 <section class="slide" data-sec="Close" data-title="What Module 3 hands forward" data-notes="Close the first day here. The four obligations on the left are the per-request equivalent of Module 2's four - and the honest framing is that all four are things they were already doing implicitly and badly. Then make the joint to Module 4 explicit, because it is the strongest transition in the course: everything in this module has been about making ONE agent, in ONE session, more accurate. Two failures on the taxonomy slide could not be closed that way - the confidently wrong refactor and the test written to pass - and both need independence rather than better instructions. You cannot get independence from the session that wrote the code. That is the whole argument for specialised agents, and it is now an argument they have watched fail rather than one they have been told." data-tier="R">
   <h2>What Module 3 hands forward<span class="tag">M3</span></h2>
   <div class="body g46">
@@ -980,7 +1084,7 @@ which is currently unused.
     </div>
   </div>
 </section>
-<!-- 19 -->
+<!-- 21 -->
 <section class="slide" data-sec="Review quiz" data-title="Review quiz - eight questions" data-notes="All eight on one slide. Take a show of hands on each option, then hover Answer to reveal. The split matters more than the score - a split room tells you which slide to revisit before the labs. If time is short, run 1, 4, 6 and 8. Q1 D: constraints are prohibitions and only help when you already know the wrong answer; ambiguity is exactly when you do not. Q2 B: is it true when nobody is asking for anything? No - it is a procedure, so a skill; C is the trap that grows instruction files to three pages. Q3 C: the compiler catches invented APIs for free; A has the weakest automatic counter. Q4 A: a test that never failed has never demonstrated anything; B and D ask the session holding the misreading to audit it; C measures lines run, not assertions. A reduces the problem rather than removing it - that is Module 4. Q5 B: the window now holds your rejection and the rejected idea together; D is a real but ambiguous signal. Q6 C: a set built only from tickets your new prompt handles can only agree with you - a measurement that can only agree is not a measurement. Q7 A: it forces the current contents into view; D proves it knows which file matters, not that it read today's contents. Q8 D: both are failures of independence, not instruction - end Day 1 on it: you cannot get independence from the session that wrote the code, which is the whole argument for Module 4." data-tier="K">
   <h2>Review quiz &mdash; eight questions<span class="tag q">QUIZ</span></h2>
   <div class="body qgrid">
