@@ -156,7 +156,7 @@
 
         <text class="lb a" x="4" y="252">THE REAL CASE &mdash; YOU WILL MEET IT IN THE LAB</text>
         <rect class="bx a" x="4" y="262" width="1172" height="120" rx="8"/>
-        <text class="tt" x="24" y="292" style="font-size:15px"><tspan font-family="ui-monospace,Consolas,DejaVu Sans Mono,monospace" fill="#d98a3d">consumer/client/PostingRequest</tspan> is a hand-written copy of <tspan font-family="ui-monospace,Consolas,DejaVu Sans Mono,monospace" fill="#d98a3d">service/api/PostingRequest</tspan>.</text>
+        <text class="tt" x="24" y="292" style="font-size:15px"><tspan font-family="ui-monospace,Consolas,DejaVu Sans Mono,monospace" fill="#d98a3d">payroll/client/PostingRequest</tspan> is a hand-written copy of <tspan font-family="ui-monospace,Consolas,DejaVu Sans Mono,monospace" fill="#d98a3d">posting/api/PostingRequest</tspan>.</text>
         <text class="ss" x="24" y="320">The contract file says so: there is no code generation. The two are kept in step by hand.</text>
         <text class="ss" x="24" y="342">The rule that keeps this safe is in the <tspan font-weight="600">other</tspan> repo, in ADR-009.</text>
         <text class="ss" x="24" y="370" style="fill:#d98a3d;font-weight:600">Each side can read its own half. Neither can check that the halves still match.</text>
@@ -284,10 +284,10 @@
     <div>
 <div class="file"><span class="fn">global-bank-transaction/docs/contract.md — SHORTENED</span><span class="k"># What we depend on in global-bank-account</span>
 
-| We call                           | For           |
+| We call | For |
 |---|---|
-| POST /api/v1/postings             | Payroll items |
-| GET /api/v1/accounts/{id}/balance | Not used yet  |
+| POST /api/v1/postings | One posting per payroll item |
+| GET /api/v1/accounts/{id}/balance | Not used yet |
 
 <span class="k">## The mirrored types</span>
 client/PostingRequest and client/PostingResponse

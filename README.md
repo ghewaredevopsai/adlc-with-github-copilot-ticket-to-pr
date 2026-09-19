@@ -49,7 +49,10 @@ All repositories are public. You clone them; you do not fork them. [participants
 | [global-bank-authentication](https://github.com/brainupgrade-in/global-bank-authentication) | Sign-in and tokens (Spring Boot) |
 | [global-bank-rules](https://github.com/brainupgrade-in/global-bank-rules) | Minimum-balance and service-charge rules (Spring Boot) |
 | [global-bank-frontend](https://github.com/brainupgrade-in/global-bank-frontend) | The web app (React + Vite) |
-| [weather-app](https://github.com/brainupgrade-in/weather-app) | The Jira → agent → pull request demo |
+
+The trainer also runs a demo on a separate repository,
+[weather-app](https://github.com/brainupgrade-in/weather-app): a Jira ticket starts an agent, and the
+agent opens a pull request. You watch this demo. You do not clone weather-app.
 
 ## Using the decks
 

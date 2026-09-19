@@ -135,7 +135,7 @@ true in the code? Delete any line you cannot confirm.
 ```text
 Sort every line of global-bank-account/.github/copilot-instructions.md into these four boxes:
 1. hard to work out from the code, and needed on every request - keep
-2. hard to work out, but needed only sometimes - replace with a pointer to a file
+2. hard to work out, but needed only sometimes - write an index: move it to a file, and point to it
 3. easy to see in one or two files, but needed on every request - replace with a pointer
 4. easy to see in one or two files, and rarely needed - delete
 Show me the table first. Then make the changes, and list every line you deleted.

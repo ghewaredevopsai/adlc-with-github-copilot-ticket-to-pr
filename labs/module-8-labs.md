@@ -65,7 +65,8 @@ page, is in stretch lab 8.1+, below.
 ```text
 I want to write back what I learned in this course. Do not change any file in this step.
 1. Search the global-bank-account and global-bank-transaction folders for spec files: files
-   named spec.md, and files under a specs/ or handoff/ folder. Also look on my other local branches. Run
+   named spec.md, and files under a specs/, handoff/ or docs/contract-changes/ folder. Also look on
+   my other local branches. Run
    "git branch" in each repository, and read files there with "git show", giving the branch
    and the path.
    Do not switch branch, and do not run git stash, git checkout or git reset.
@@ -100,11 +101,11 @@ not write it from nothing. The prompt holds that spec's text as slide 11 of the 
 Write one ADR from this text, which is the design agent's spec for GB-151:
 ## Recommendation
 Reversal creates a second posting with debit and credit swapped, and marks the original REVERSED.
-## Why not edit in place
-glossary.md: reversal is a status change; we do not delete postings. Editing removes the record
-of what was first instructed.
+## Why not change it in place
+docs/glossary.md: "Reversal - a status change on the original posting. We do not delete
+postings." Changing it in place would lose the original instruction.
 ## Deciding rule
-copilot-instructions.md: balances are calculated from entries, never stored.
+copilot-instructions.md: balances are derived from entries, never stored.
 
 Create global-bank-account/docs/adr/ADR-011-reversal-as-a-second-posting.md with exactly this
 shape:
@@ -253,7 +254,8 @@ acceptance criteria and touches both repositories. Read it through the stages, n
   careful run compared with a careless one proves nothing.
 
 **Start the clock** at your first prompt. **Stop it** when you finish stage 8, or at 50 minutes, the
-earlier of the two. If the clock beats you, stop and write down which stage you reached. An honest
+earlier of the two. This is the same clock rule as every lab: stop when all the lab's checks pass, or at
+the timebox. In the capstone, "all checks pass" means stage 8 is done. If the clock beats you, stop and write down which stage you reached. An honest
 unfinished run is worth more than a rushed complete one.
 
 **One counting note.** In stage 2 the spec may raise an open question that no file in either

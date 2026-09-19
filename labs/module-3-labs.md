@@ -146,7 +146,7 @@ Start with a YAML header between two "---" lines. It holds:
 - metadata, with version: "1" and owner: payments-platform
 Then use these sections, in this order:
 # Before you write anything
-# Rules that always apply
+# Constraints that always apply
 # Output contract
 # Done criteria
 # Stop and ask — do not choose

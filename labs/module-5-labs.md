@@ -404,8 +404,11 @@ git add specs && git commit -m "GB-147: work in progress"
 
 ## Stretch lab 5.1+ (optional) — The thirty-second spec
 
-**Goal:** most tickets do not need a full spec. Write the short form for a small ticket, and put it
-where people will read it: in the ticket.
+**Goal:** most tickets do not need a full spec. Write the short form for a small ticket, and save it
+next to the code.
+
+At work, these three lines go at the top of the ticket. In this module nothing is written
+back to Jira yet. Module 6 teaches that. So here you save them at the top of a spec file instead.
 
 This uses **GB-202**, loaded in Module 3. If `labs/lab-keys.md` has no line for GB-202, run
 `python labs/scripts/setup-lab-tickets.py --module 3` first.
@@ -422,20 +425,29 @@ Then write the thirty-second spec, in three lines only:
 "Done when:" the results a test can check.
 "Not doing:" what this change leaves out.
 "Assuming:" what you assumed, each marked CONFIRMED or UNCONFIRMED.
-Show me the three lines. Do not post anything yet.
+Show me the three lines. Do not create any file yet.
 ```
 
-**Check:** edit the three lines in the chat until you agree with them. Then post them:
+**Check:** edit the three lines in the chat until you agree with them. Then save them:
 
 **Prompt 5.1+-B** · Agent mode · base model · **same chat**
 
 ```text
-Add the three lines as a comment on that Jira issue, using jira_add_comment. Start the comment
-with "Light spec (Lab 5.1+):". Do not change anything else on the issue. Tell me when it is posted.
+Create the file global-bank-account/specs/GB-202.md. Start it with a title line that names GB-202
+and says "Light spec (Lab 5.1+)". Under the title, write the three lines, exactly as we agreed
+them. Write nothing else in the file. Do not write anything to Jira.
 ```
 
-**What you should see:** Copilot asks to run `jira_add_comment`. Read the comment text in the
-request before you select **Allow**. Then open the issue in your browser and find the comment.
+**What you should see:** a new file with a title and three lines. Copilot makes no Jira tool call.
+If it asks to run `jira_add_comment`, select **Skip**.
+
+**Check:** open `specs/GB-202.md`. Could a teammate read it in thirty seconds and know what "done"
+means? Commit it:
+
+```bash
+git add specs/GB-202.md
+git commit -m "GB-202: light spec"
+```
 
 ---
 

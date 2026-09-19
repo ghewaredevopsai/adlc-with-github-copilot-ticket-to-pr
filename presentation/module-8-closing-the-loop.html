@@ -119,7 +119,7 @@
 </section>
 
 <!-- 4 -->
-<section class="slide" data-sec="1 &middot; The review agent, honestly" data-title="What it reliably catches, and what it does not" data-notes="This slide is an honest list of what the review agent does well and what it cannot do. The left column is real value. Checking criteria, scope, conventions and tests is boring work. It also takes most of a human reviewer's time. The agent does it well and does not get tired. The right column is different. Is this the right thing to build? Will the design cause pain in six months? Does it clash with another team's decision? Was the requirement wrong? None of these can be answered from a diff and a list of criteria. GB-163 is the example: every check passed, and it still should not have shipped. A better model will not change this, because the information is not in the diff. So the agent does not replace you as reviewer. It moves your attention to the questions only a person can answer." data-tier="K">
+<section class="slide" data-sec="1 &middot; The review agent, honestly" data-title="What it reliably catches, and what it does not" data-notes="This slide is an honest list of what the review agent does well and what it cannot do. The left column is real value. Checking criteria, scope, conventions and tests is boring work. It also takes most of a human reviewer's time. The agent does it well and does not get tired. The right column is different. Is this the right thing to build? Will the design cause pain in six months? Does it clash with another team's decision? Was the requirement wrong? None of these can be answered from a diff and a list of criteria. GB-163 is the example: a change for it can pass every check and still should not ship. In Module 6, the best result for GB-163 contained no code at all. A better model will not change this, because the information is not in the diff. So the agent does not replace you as reviewer. It moves your attention to the questions only a person can answer." data-tier="K">
   <h2>What the review agent catches &mdash; and what it cannot<span class="tag k">1</span></h2>
   <div class="body g1">
     <div>
@@ -152,7 +152,7 @@
         <text class="ss" x="630" y="198" style="font-size:11.5px">That lives outside this repo &mdash; Modules 6 and 7.</text>
         <rect class="bx w" x="616" y="216" width="540" height="52" rx="5"/>
         <text class="ss" x="630" y="236"><tspan font-weight="600">Was the requirement itself wrong?</tspan></text>
-        <text class="ss" x="630" y="256" style="font-size:11.5px">GB-163: every check passed, and it still should not have shipped.</text>
+        <text class="ss" x="630" y="256" style="font-size:11.5px">GB-163: a change can pass every check and still should not ship.</text>
         <text class="ss" x="616" y="286" style="fill:#e2726e;font-weight:600">None of these can be seen in a diff.</text>
 
         <rect class="bx d" x="4" y="310" width="1172" height="138" rx="8"/>
@@ -429,13 +429,14 @@ Reversal creates a second posting with debit
 and credit swapped, and marks the original
 REVERSED.
 
-<span class="k">## Why not edit in place</span>
-glossary.md: reversal is a status change; we
-do not delete postings. Editing removes the
-record of what was first instructed.
+<span class="k">## Why not change it in place</span>
+docs/glossary.md: "Reversal - a status change
+on the original posting. We do not delete
+postings." Changing it in place would lose
+the original instruction.
 
 <span class="k">## Deciding rule</span>
-copilot-instructions.md: balances are calculated
+copilot-instructions.md: balances are derived
 from entries, never stored.
 </div>
       <div class="callout good" style="margin-top:12px"><b>Every part of an ADR is already here:</b> the decision, the rejected option, and the deciding rule. Writing back adds a date, a number and a status.</div>
@@ -452,9 +453,9 @@ debit and credit swapped, and marks the
 original REVERSED.
 
 <span class="k">## Rejected</span>
-<span class="s">Editing the original in place - removes the</span>
-<span class="s">record of what was instructed, and breaks</span>
-<span class="s">the glossary's definition of reversal.</span>
+<span class="s">Changing the original in place - loses the</span>
+<span class="s">original instruction, and breaks the</span>
+<span class="s">glossary's definition of reversal.</span>
 
 <span class="k">## Consequences</span>
 Two postings exist for one real event.
@@ -820,17 +821,17 @@ this - see GB-207.
         <rect class="bx grow" x="4" y="58" width="692" height="46" rx="6"/>
         <text class="ss" x="24" y="86">Lab 1.1 &mdash; no preparation</text>
         <text class="ss" x="330" y="86">six counts</text>
-        <text class="ss" x="540" y="86">yesterday, 09:40</text>
+        <text class="ss" x="540" y="86">yesterday morning</text>
 
         <rect class="bx grow w2" x="4" y="112" width="692" height="46" rx="6"/>
         <text class="ss" x="24" y="140">Lab 2.2 &mdash; team knowledge in the repo</text>
         <text class="ss" x="330" y="140">six counts</text>
-        <text class="ss" x="540" y="140">yesterday, 15:20</text>
+        <text class="ss" x="540" y="140">yesterday, midday</text>
 
         <rect class="bx grow w3" x="4" y="166" width="692" height="46" rx="6"/>
         <text class="ss" x="24" y="194">Lab 3.2 &mdash; better prompts</text>
         <text class="ss" x="330" y="194">pass rate</text>
-        <text class="ss" x="540" y="194">yesterday, 17:00</text>
+        <text class="ss" x="540" y="194">yesterday afternoon</text>
 
         <rect class="bx g grow w4" x="4" y="220" width="692" height="52" rx="6"/>
         <text class="ss" x="24" y="252" style="font-weight:600">Capstone &mdash; the full pipeline</text>
@@ -839,7 +840,7 @@ this - see GB-207.
 
         <rect class="bx d" x="4" y="290" width="692" height="140" rx="8"/>
         <text class="ss w" x="24" y="322" style="font-size:15px">Two runs of similar work, measured the same way,</text>
-        <text class="ss w" x="24" y="348" style="font-size:15px">48 hours apart.</text>
+        <text class="ss w" x="24" y="348" style="font-size:15px">about a day and a half apart.</text>
         <text class="ss w" x="24" y="382" style="font-size:15px">Everything in between was the argument &mdash;</text>
         <text class="ss w" x="24" y="410" style="font-size:15px">and <tspan font-weight="700" fill="#e0b34d">you kept the tally sheet.</tspan></text>
       </svg>

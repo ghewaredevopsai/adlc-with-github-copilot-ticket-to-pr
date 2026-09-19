@@ -241,32 +241,31 @@
 </section>
 
 <!-- 7 -->
-<section class="slide" data-sec="2 &middot; The artifacts" data-title="A real repository instruction file" data-notes="This is a worked example of an instruction file for the Global Bank account service. Read it as an example, not a template to copy. It has three parts, in a deliberate order. First, where to look. The file cannot hold everything, so it points the agent to other files. Second, the non-negotiables. There are only six. Breaking any of them is a bug, not a style issue. Each one links to something real, such as ADR-003. Note how the money rule names the wrong answers too: double, float and BigDecimal. The agent needs to know what a wrong answer looks like. Third, when unsure, ask. Without this, the agent's default is to produce something, even a guess. The last line asks the agent to quote its source. Then you can see if an answer came from the repository or from the model's general training." data-tier="D">
+<section class="slide" data-sec="2 &middot; The artifacts" data-title="A real repository instruction file" data-notes="This is the real instruction file of the Global Bank account service, shortened to fit the slide. The lines shown use the file's own words. Read it as an example, not a template to copy. It has three parts, in a deliberate order. First, where to look. The file cannot hold everything, so it points the agent to other files. Second, the non-negotiables. There are only six. Breaking any of them is a bug, not a style issue. Each one links to something real, such as ADR-003. Note how the money rule names the wrong answers too: double, float and BigDecimal. Derived balances means the balance is calculated from the ledger entries each time. It is never saved as a number of its own. Minor units means the smallest unit of the currency, such as paise or cents. The agent needs to know what a wrong answer looks like. Third, when unsure, ask. Without this, the agent's default is to produce something, even a guess. The last line asks the agent to quote its source. Then you can see if an answer came from the repository or from the model's general training." data-tier="D">
   <h2>A real repository instruction file<span class="tag k">2</span></h2>
   <div class="body g55">
     <div>
-      <div class="file"><span class="fn">global-bank-account/.github/copilot-instructions.md</span>
+      <div class="file"><span class="fn">global-bank-account/.github/copilot-instructions.md &mdash; SHORTENED</span>
 <span class="k"># Global Bank Account Service — working agreement</span>
 
-Moves client money between accounts. Every posting
-writes two matching ledger entries, or fails.
-There is no half-finished posting.
+Every request either produces a balanced pair of
+ledger entries or fails. There is no partial posting.
 
 <span class="k">## Read these before proposing a change</span>
-<span class="c">- docs/architecture.md   — what lives where
-- docs/conventions.md    — how we write code here
-- docs/glossary.md       — what our words mean
-- docs/adr/              — decisions already made</span>
+<span class="c">- docs/architecture.md — what lives where
+- docs/conventions.md  — how we write code here
+- docs/glossary.md     — what our nouns mean
+- docs/adr/            — decisions already made</span>
   <span class="s">Check for an existing ADR before designing anything.</span>
 
 <span class="k">## Non-negotiables</span>
-- Money is a <span class="s">long</span> in minor units (paise/cents).
-  Never double, float or BigDecimal. See ADR-003.
+- Money is a <span class="s">long</span> of minor units. Never double,
+  never float, never BigDecimal. See ADR-003.
 - Every posting writes exactly two LedgerEntry rows.
-- Balances are calculated from entries, never stored.
+- Balances are derived from entries, never stored.
 - Constructor injection only.
-- <span class="s">No Lombok.</span> See ADR-005 — removed on purpose.
-- Postings between two currencies are rejected.
+- <span class="s">No Lombok.</span> See ADR-005 — a deliberate removal.
+- Cross-currency postings are rejected.
 
 <span class="k">## When you are unsure</span>
 Say so and ask. Do not invent an account id, a currency
@@ -805,7 +804,7 @@ are relying on</span> when you propose a change.</div>
 </section>
 
 <!-- 20 -->
-<section class="slide" data-sec="Close" data-title="What to take into Module 3" data-notes="This slide turns the module into four habits for every fact you write down. Keep it in one layer. Write it only if it helps. Make it easy to find. Give it an owner and a check. Half of this is permission to write less. A short file that people trust is better than a long one they do not. Next, you run a new ticket, the same size as the Lab 1.1 ticket, on the updated repository and record what happens. Do not look only at the headline number. Ask which Module 1 categories changed. For example, if turns dropped but clarifying questions did not, the instruction file may be working and the glossary may not. That diagnosis is more useful than the total. Module 3 builds on this. The repository now tells the agent what is true. Next you learn how to ask, and how to stop the agent guessing." data-tier="R">
+<section class="slide" data-sec="Close" data-title="What to take into Module 3" data-notes="This slide turns the module into four habits for every fact you write down. Keep it in one layer. Write it only if it helps. Make it easy to find. Give it an owner and a check. Half of this is permission to write less. A short file that people trust is better than a long one they do not. Next, in Lab 2.2, you run a new ticket, GB-151. It is the same size as GB-142 from Lab 1.1, but a different ticket on purpose. You run it on the updated repository and record what happens. Do not look only at the headline number. Ask which Module 1 categories changed. For example, if turns dropped but clarifying questions did not, the instruction file may be working and the glossary may not. That diagnosis is more useful than the total. Module 3 builds on this. The repository now tells the agent what is true. Next you learn how to ask, and how to stop the agent guessing." data-tier="R">
   <h2>What to take into Module 3<span class="tag">M2</span></h2>
   <div class="body g55">
     <div class="pts">
@@ -821,25 +820,27 @@ are relying on</span> when you propose a change.</div>
     </div>
     <div>
       <svg viewBox="0 0 700 448" role="img" aria-label="The tally sheet row filled in after Module 2, and how to read the delta by category">
-        <text class="lb a" x="4" y="14">THE ROW YOU FILL IN NEXT &mdash; SAME TICKET, UPDATED REPO</text>
+        <text class="lb a" x="4" y="14">THE ROW YOU FILL IN NEXT &mdash; SAME KIND OF TICKET, UPDATED REPO</text>
         <rect class="bx" x="4" y="24" width="692" height="130" rx="8"/>
         <line x1="20" y1="66" x2="680" y2="66" stroke="#435063" stroke-width="1.5"/>
         <text class="lb" x="20" y="48">RUN</text>
-        <text class="lb" x="290" y="48">TURNS</text>
-        <text class="lb" x="376" y="48">TOOL</text>
-        <text class="lb" x="452" y="48">ASKED</text>
-        <text class="lb" x="536" y="48">REWORK</text>
-        <text class="lb" x="628" y="48">CLOCK</text>
+        <text class="lb" x="250" y="48">TURNS</text>
+        <text class="lb" x="330" y="48">TOOL</text>
+        <text class="lb" x="404" y="48">ASKED</text>
+        <text class="lb" x="482" y="48">REWORK</text>
+        <text class="lb" x="572" y="48">CHURN</text>
+        <text class="lb" x="640" y="48">CLOCK</text>
         <rect class="bx a" x="16" y="74" width="668" height="32" rx="4"/>
-        <text class="tt" x="28" y="95" style="font-size:13px">1.1 &mdash; repo with no docs</text>
-        <text class="ss" x="300" y="95" style="font-weight:700;fill:#d98a3d">on the board</text>
+        <text class="tt" x="28" y="95" style="font-size:13px">1.1 &mdash; GB-142, repo as it is</text>
+        <text class="ss" x="266" y="95" style="font-weight:700;fill:#d98a3d">on the board</text>
         <rect class="bx g" x="16" y="112" width="668" height="34" rx="4"/>
-        <text class="tt" x="28" y="134" style="font-size:13px">after Module 2 &mdash; knowledge in the repo</text>
-        <text class="ss" x="306" y="134" style="font-weight:700;fill:#5fbf8f">?</text>
-        <text class="ss" x="390" y="134" style="font-weight:700;fill:#5fbf8f">?</text>
-        <text class="ss" x="470" y="134" style="font-weight:700;fill:#5fbf8f">?</text>
-        <text class="ss" x="560" y="134" style="font-weight:700;fill:#5fbf8f">?</text>
-        <text class="ss" x="640" y="134" style="font-weight:700;fill:#5fbf8f">?</text>
+        <text class="tt" x="28" y="134" style="font-size:13px">2.2 &mdash; GB-151, updated repo</text>
+        <text class="ss" x="266" y="134" style="font-weight:700;fill:#5fbf8f">?</text>
+        <text class="ss" x="344" y="134" style="font-weight:700;fill:#5fbf8f">?</text>
+        <text class="ss" x="422" y="134" style="font-weight:700;fill:#5fbf8f">?</text>
+        <text class="ss" x="506" y="134" style="font-weight:700;fill:#5fbf8f">?</text>
+        <text class="ss" x="588" y="134" style="font-weight:700;fill:#5fbf8f">?</text>
+        <text class="ss" x="652" y="134" style="font-weight:700;fill:#5fbf8f">?</text>
 
         <text class="lb" x="4" y="180">LOOK AT WHICH COLUMN CHANGED &mdash; NOT JUST THE TOTAL</text>
         <rect class="bx" x="4" y="190" width="692" height="150" rx="8"/>

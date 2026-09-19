@@ -16,7 +16,7 @@
 </defs></svg>
 
 <div id="viewport"><div id="stage"><!-- 1 -->
-<section class="slide title" data-sec="Opening" data-title="Title" data-notes="This module connects your agent to JIRA, where the work really lives. In Module 5 you wrote a spec from a ticket pasted into a chat. Its open questions stayed in a file on your laptop. The people who could answer them never saw it. Here you fix both ends. You will pull the whole ticket through MCP, a standard connection between an agent and another system. You will also write back to the ticket safely. After this module you can: name the ticket key and its surroundings in a request; set a tool budget; rank conflicting sources; post questions on the ticket; and choose which writes the agent may make alone. One limit to remember: MCP is a connection. It gives the agent access. It does not make the agent reason better." data-tier="R">
+<section class="slide title" data-sec="Opening" data-title="Title" data-notes="This module connects your agent to JIRA, where the work really lives. In Module 5 Copilot pulled one ticket by its key through MCP, a standard connection between an agent and another system. You wrote a spec from it. Its open questions stayed in a file on your laptop. The people who could answer them never saw it. Here you fix both ends. You choose what else to pull around a ticket: its comments, its linked issues and its epic. You also write back to the ticket safely. After this module you can: name the ticket key and its surroundings in a request; set a tool budget; rank conflicting sources; post questions on the ticket; and choose which writes the agent may make alone. One limit to remember: MCP is a connection. It gives the agent access. It does not make the agent reason better." data-tier="R">
   <div class="wrap">
     <span class="tier">Day 2 &middot; Module 6 of 8</span>
     <h1>The Ticket as the Unit of Work</h1>
@@ -200,7 +200,7 @@
         <rect class="bx g" x="4" y="292" width="692" height="80" rx="8"/>
         <text class="tt" x="24" y="322" style="font-size:15px">Decide how many calls a ticket is worth, before you start.</text>
         <text class="ss" x="24" y="348">A normal ticket: <tspan font-weight="600">three</tspan> &mdash; the ticket, its comments, its links.</text>
-        <text class="ss" x="24" y="366">GB-163: five &mdash; its epic and a closed ticket matter too.</text>
+        <text class="ss" x="24" y="366">A ticket with a history: about five &mdash; add its epic and a past ticket.</text>
 
         <rect class="bx d" x="4" y="384" width="692" height="46" rx="8"/>
         <text class="ss w" x="24" y="414" style="font-size:14px">Still searching after three? <tspan font-weight="700" fill="#e0b34d">More calls will not help.</tspan> Stop and ask.</text>
@@ -222,7 +222,7 @@
 </section>
 
 <!-- 6 -->
-<section class="slide" data-sec="1 &middot; MCP in practice" data-title="Why pulling beats pasting" data-notes="Pulling has four benefits. Completeness is the obvious one. Freshness is easy to miss. If you pasted a ticket on Tuesday and someone answered a question on Wednesday, you never see the answer. Traceability means the key travels with the branch, commit and pull request. Section 3 covers this. The fourth benefit changes how work flows. Until now your open questions sat in a file only you could see. So you answered them yourself, which is a guess. With write-back, the agent posts its questions as a comment on the ticket. The people who can answer already watch the ticket. Their answer stays there, and the next session pulls it too. The value is not faster copy-and-paste. It is that questions reach the people who can answer them. In Lab 6.1 you pull GB-207 into the agent instead of pasting it." data-tier="K">
+<section class="slide" data-sec="1 &middot; MCP in practice" data-title="Why pulling beats pasting" data-notes="Pulling has four benefits. Completeness is the obvious one. Freshness is easy to miss. If you pasted a ticket on Tuesday and someone answered a question on Wednesday, you never see the answer. Traceability means the key travels with the branch, commit and pull request. Section 3 covers this. The fourth benefit changes how work flows. Until now your open questions sat in a file only you could see. So you answered them yourself, which is a guess. With write-back, the agent posts its questions as a comment on the ticket. The people who can answer already watch the ticket. Their answer stays there, and the next session pulls it too. The value is not faster copy-and-paste. It is that questions reach the people who can answer them. In Lab 6.1 you pull GB-207, decide which of its surroundings are worth the calls, and write one comment back to it." data-tier="K">
   <h2>Four reasons to pull &mdash; the fourth matters most<span class="tag k">1</span></h2>
   <div class="body g46">
     <div class="pts">
@@ -306,7 +306,7 @@
         <text class="tt" x="24" y="352">4 &middot; Questions answered on the ticket</text>
         <text class="ss" x="24" y="376">not in chat or a meeting</text>
         <text class="ss" x="520" y="364" style="font-size:14px">The answer exists, but the agent cannot see it.</text>
-        <text class="ss" x="920" y="364" style="fill:#5fbf8f;font-weight:600">GB-163: a question never answered</text>
+        <text class="ss" x="920" y="364" style="fill:#5fbf8f;font-weight:600">A question asked, never answered</text>
         <rect class="bx d" x="4" y="410" width="1172" height="42" rx="6"/>
         <text class="ss w" x="590" y="437" text-anchor="middle" style="font-size:14px">Each one makes the ticket better for humans too &mdash; <tspan font-weight="700" fill="#e0b34d">which helps the team adopt it</tspan>.</text>
       </svg>
@@ -524,7 +524,7 @@
     <div>
       <div class="callout" style="margin-top:0"><b>What was in the surroundings all along</b></div>
 <div class="file"><span class="fn">FOUR PLACES, NONE OF THEM THE DESCRIPTION</span><span class="k">comment, ops:</span>  "up to 500 million so the
-  quarterly rebalancing stops failing"
+  quarterly rebalancing batch stops failing"
 
 <span class="k">comment, risk:</span> <span class="s">"not without dual approval</span>
 <span class="s">  on anything above the current limit"</span>
@@ -696,7 +696,7 @@
 </section>
 
 <!-- 16 -->
-<section class="slide" data-sec="6 &middot; Write-back guardrails" data-title="The audit trail" data-notes="In a bank, an agent that writes to JIRA must leave a clear audit trail. There are three requirements. First, attribution: every write shows which agent, on whose behalf, and for which ticket. Anyone must see this in the normal ticket history. Second, you can trace from the ticket alone to the spec, the pull request and the review report. Third, nothing is overwritten. If the agent comments and a person then edits the description, both events stay in the history. That is one reason why editing the description needs a human. Agree two things early: a named service account for the agent, never a person's login, and a fixed comment format that is easy to filter. This is not new work. It is the trail you should already have." data-tier="R">
+<section class="slide" data-sec="6 &middot; Write-back guardrails" data-title="The audit trail" data-notes="In a bank, an agent that writes to JIRA must leave a clear audit trail. There are three requirements. First, attribution: every write shows which agent, on whose behalf, and for which ticket. Anyone must see this in the normal ticket history. Second, you can trace from the ticket alone to the spec, the pull request and the review report. Third, nothing is overwritten. If the agent comments and a person then edits the description, both events stay in the history. That is one reason why editing the description needs a human. Agree two things early: a named service account for the agent, never a person's login, and a fixed comment format that is easy to filter. This is not new work. It is the trail you should already have." data-tier="R" data-after="lab">
   <h2>The audit trail &mdash; three requirements<span class="tag k">6</span></h2>
   <div class="body g64">
     <div>
@@ -704,9 +704,9 @@
         <text class="lb" x="4" y="13">1 &middot; WHO DID IT &mdash; VISIBLE TO ANYONE</text>
         <rect class="bx" x="4" y="22" width="692" height="108" rx="8"/>
         <rect class="bx w" x="20" y="40" width="660" height="74" rx="6"/>
-        <text class="ss" x="34" y="62" style="font-family:'DejaVu Sans Mono',monospace;font-size:11.5px">[copilot-agent &middot; review] on behalf of r.gheware &middot; GB-163</text>
-        <text class="ss" x="34" y="82" style="font-family:'DejaVu Sans Mono',monospace;font-size:11.5px">Not proceeding: GB-119 closed Won&rsquo;t Do for this change. RISK-402 open.</text>
-        <text class="ss" x="34" y="104" style="font-size:11.5px;fill:#5fbf8f">Which agent &middot; for whom &middot; which ticket &mdash; in the ticket history</text>
+        <text class="ss" x="34" y="62" style="font-family:'DejaVu Sans Mono',monospace;font-size:11.5px">[copilot-agent] GB-163: Not proceeding. GB-119 was closed Won&rsquo;t Do</text>
+        <text class="ss" x="34" y="82" style="font-family:'DejaVu Sans Mono',monospace;font-size:11.5px">for this change. RISK-402 is open and blocking.</text>
+        <text class="ss" x="34" y="104" style="font-size:11.5px;fill:#5fbf8f">Fixed prefix &middot; the agent&rsquo;s own account &middot; the ticket key &mdash; in the history</text>
 
         <text class="lb" x="4" y="164">2 &middot; TRACEABLE FROM THE TICKET ALONE</text>
         <rect class="bx g" x="4" y="174" width="692" height="86" rx="8"/>
@@ -791,7 +791,7 @@
 </section>
 
 <!-- 18 -->
-<section class="slide" data-sec="6 &middot; Write-back guardrails" data-title="Ticket to spec to plan, connected" data-notes="This slide shows the whole pipeline from the two days, end to end. The ticket and its surroundings are pulled. The spec carries the key. The plan and tasks come next. Then the four agents from Module 4 produce five artifacts and a pull request with GB-163 in it. Two things go back to the ticket: questions early, while changes are cheap, and the result at the end. Only two arrows are new in this module: the pull at the start and the write-back at the end. Everything in between you built in Modules 2 to 5. So MCP is not a large new capability. It is two connections added to a pipeline you already have. One gap remains: what the ticket taught is not saved anywhere yet. Module 8 covers that." data-tier="R">
+<section class="slide" data-sec="6 &middot; Write-back guardrails" data-title="Ticket to spec to plan, connected" data-notes="This slide shows the whole pipeline from the two days, end to end. The ticket and its surroundings are pulled. The spec carries the key. The plan and tasks come next. Then the four agents from Module 4 produce five artifacts and a pull request that carries the ticket key. Some tickets should stop before this point, with questions and no code. Two things go back to the ticket: questions early, while changes are cheap, and the result at the end. Only two arrows are new in this module: the pull at the start and the write-back at the end. Everything in between you built in Modules 2 to 5. So MCP is not a large new capability. It is two connections added to a pipeline you already have. One gap remains: what the ticket taught is not saved anywhere yet. Module 8 covers that." data-tier="R">
   <h2>The whole pipeline, connected at both ends<span class="tag k">6</span></h2>
   <div class="body g1">
     <div>
@@ -800,7 +800,7 @@
 
         <rect class="bx d" x="4" y="26" width="170" height="76" rx="7"/>
         <text class="tt w" x="89" y="54" text-anchor="middle" style="font-size:13.5px">JIRA</text>
-        <text class="ss w" x="89" y="74" text-anchor="middle" style="font-size:11px">GB-163 + comments,</text>
+        <text class="ss w" x="89" y="74" text-anchor="middle" style="font-size:11px">ticket + comments,</text>
         <text class="ss w" x="89" y="90" text-anchor="middle" style="font-size:11px">links, epic</text>
 
         <path class="fl" d="M178 64 L212 64"/>
@@ -825,7 +825,7 @@
         <path class="fl" d="M944 64 L978 64"/>
         <rect class="bx" x="982" y="26" width="194" height="76" rx="7"/>
         <text class="tt" x="1079" y="54" text-anchor="middle" style="font-size:13.5px">pull request</text>
-        <text class="ss" x="1079" y="76" text-anchor="middle" style="font-size:11px">carrying GB-163</text>
+        <text class="ss" x="1079" y="76" text-anchor="middle" style="font-size:11px">carrying the ticket key</text>
 
         <path class="arg" d="M296 108 L296 140 L100 140 L100 108"/>
         <text class="ss" x="112" y="158" style="font-size:11.5px;fill:#5fbf8f;font-weight:600">questions posted early, while changes are cheap</text>

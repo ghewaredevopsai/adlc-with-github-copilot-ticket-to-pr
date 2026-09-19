@@ -20,9 +20,10 @@
 					"envFile": "${workspaceFolder:course}/.env"
 				},
 				// Fallback only: lab tickets as GitHub issues.
+				// "/x/issues" turns on the issues tools only, so Copilot cannot fork, push or open pull requests here.
 				"github": {
 					"type": "http",
-					"url": "https://api.githubcopilot.com/mcp/"
+					"url": "https://api.githubcopilot.com/mcp/x/issues"
 				}
 			}
 		}

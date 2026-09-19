@@ -94,9 +94,9 @@
     <div class="pts">
       <h3>New in this module</h3>
       <ul>
-        <li><b>Spec</b> &mdash; a short file (<code>spec.md</code>) that says what &ldquo;done&rdquo; means for one ticket.</li>
+        <li><b>Spec</b> &mdash; a short file (<code>specs/GB-147.md</code>) that says what &ldquo;done&rdquo; means for one ticket.</li>
         <li><b>Spec-driven development</b> &mdash; write the spec first, then the plan, then the code.</li>
-        <li><b>Technical plan</b> &mdash; how the code will meet the spec (<code>plan.md</code>).</li>
+        <li><b>Technical plan</b> &mdash; how the code will meet the spec (<code>specs/GB-147-plan.md</code>).</li>
         <li><b>Gate</b> &mdash; a check by a person between two steps. The answer can be &ldquo;no&rdquo;.</li>
         <li><b>Spec drift</b> &mdash; the code changes, and the spec does not.</li>
       </ul>
@@ -297,8 +297,8 @@
         <text class="ss" x="1010" y="84" style="font-size:13.5px;fill:#5fbf8f">none per ticket</text>
         <rect class="bx g grow w2" x="4" y="124" width="1172" height="74" rx="6"/>
         <text class="tt" x="24" y="166">Spec</text>
-        <text class="ss" x="200" y="156" style="font-size:13.5px">spec.md &mdash; criteria,</text>
-        <text class="ss" x="200" y="176" style="font-size:12.5px">scope, assumptions</text>
+        <text class="ss" x="200" y="156" style="font-size:13.5px">specs/GB-147.md &mdash;</text>
+        <text class="ss" x="200" y="176" style="font-size:12.5px">criteria, scope, assumptions</text>
         <text class="ss" x="470" y="156" style="font-size:13.5px">Right thing to build?</text>
         <text class="ss" x="470" y="176" style="font-size:12.5px">Open questions answered?</text>
         <text class="ss" x="780" y="156" style="font-size:13.5px;font-weight:600">whoever can answer</text>
@@ -306,7 +306,7 @@
         <text class="ss" x="1010" y="166" style="font-size:13.5px">one conversation</text>
         <rect class="bx grow w3" x="4" y="206" width="1172" height="74" rx="6"/>
         <text class="tt" x="24" y="248">Plan</text>
-        <text class="ss" x="200" y="248" style="font-size:13.5px">plan.md</text>
+        <text class="ss" x="200" y="248" style="font-size:13.5px">specs/GB-147-plan.md</text>
         <text class="ss" x="470" y="238" style="font-size:13.5px">Right way to build it?</text>
         <text class="ss" x="470" y="258" style="font-size:12.5px">Does it break an ADR?</text>
         <text class="ss" x="780" y="248" style="font-size:13.5px;font-weight:600">the engineer</text>
@@ -338,7 +338,7 @@
   <div class="body g55">
     <div>
       <div class="callout bad" style="margin-top:0"><b>A spec with a plan hidden inside</b></div>
-<div class="file"><span class="fn">SPEC.MD &mdash; WRONG</span>Add a method
+<div class="file"><span class="fn">A SPEC FILE &mdash; WRONG</span>Add a method
 <span class="s">findByAccountIdAndValueDateLessThanEqual</span>
 to LedgerEntryRepository. Call it from
 <span class="s">BalanceService.balanceMinorFor</span>, adding an
@@ -356,7 +356,7 @@ a new query parameter on the controller.
     </div>
     <div>
       <div class="callout good" style="margin-top:0"><b>The same need, written as a spec</b></div>
-<div class="file"><span class="fn">SPEC.MD &mdash; RIGHT</span>The balance for an account as at a date must
+<div class="file"><span class="fn">A SPEC FILE &mdash; RIGHT</span>The balance for an account as at a date must
 exclude any posting that has <span class="k">not yet taken</span>
 <span class="k">effect</span> on that date.
 
@@ -466,14 +466,14 @@ effect, not the date it arrived
 </section>
 
 <!-- 11 -->
-<section class="slide" data-sec="3 &middot; Machine-verifiable criteria" data-title="GB-147 before and after" data-notes="This is the ticket you worked on in Lab 5.1, so compare it with your own spec. The original ticket says only: ops can see the postings. An agent does not refuse a ticket like this. It builds a report. It invents the columns, the date range and who may see it. The result looks finished, and that confidence is the danger. The spec on the right is about fifteen minutes of thinking. Look at the open questions section. It lists three questions a person can answer in one conversation. Without them, each answer would have been a silent guess in the code. Check your own spec against this one. Did you number the criteria? Did you list out of scope items? Did you mark the calendar date assumption as unconfirmed and blocking?" data-tier="D" data-after="lab">
+<section class="slide" data-sec="3 &middot; Machine-verifiable criteria" data-title="GB-147 before and after" data-notes="This is the ticket you worked on in Lab 5.1, so compare it with your own spec. The original ticket says only: ops can see the postings. An agent does not refuse a ticket like this. It builds a report. It invents the columns, the date range and who may see it. The result looks finished, and that confidence is the danger. The spec on the right is about fifteen minutes of thinking. Look at the open questions section. It lists three questions a person can answer in one conversation. Without them, each answer would have been a silent guess in the code. Check your own spec against this one. Did you label the criteria AC1, AC2 and so on? Did you list out of scope items? Did you mark the calendar date assumption as unconfirmed and blocking?" data-tier="D" data-after="lab">
   <h2>GB-147 &mdash; a vague ticket, and the spec it needs<span class="tag k">3</span></h2>
   <div class="body g55">
     <div>
       <div class="callout bad" style="margin-top:0"><b>The ticket, word for word &mdash; you have all seen one like it</b></div>
-<div class="file"><span class="fn">GB-147 — ADD REPORTING FOR THE OPS TEAM</span>Ops need to be able to see what's been posted
-so they can check things at the end of the
-day. Can we add a report?
+<div class="file"><span class="fn">GB-147 — ADD REPORTING FOR THE OPS TEAM</span>Ops need to see what has been posted, so
+they can check things at the end of the day.
+Can we add a report?
 
 <span class="k">Acceptance criteria</span>
 - <span class="s">Ops can see the postings.</span>
@@ -493,15 +493,15 @@ straightforward.
     </div>
     <div>
       <div class="callout good" style="margin-top:0"><b>Fifteen minutes of thinking, before any code</b></div>
-<div class="file"><span class="fn">SPEC.MD &mdash; EXTRACT</span><span class="k">## Acceptance criteria</span>
-1. Given postings on a date, a request for
-   that date returns exactly those, newest
-   first. Postings on other dates: excluded.
-2. A date with no postings returns an empty
-   list and 200, not 404.
-3. Amounts are in minor units, as
-   everywhere else (ADR-003).
-4. Existing endpoints are unchanged.
+<div class="file"><span class="fn">SPECS/GB-147.MD &mdash; EXTRACT</span><span class="k">## Acceptance criteria</span>
+AC1 Given postings on a date, a request for
+    that date returns exactly those, newest
+    first. Postings on other dates: excluded.
+AC2 A date with no postings returns an empty
+    list and 200, not 404.
+AC3 Amounts are in minor units, as
+    everywhere else (ADR-003).
+AC4 Existing endpoints are unchanged.
 
 <span class="k">## Out of scope</span>
 Export to file. Scheduling. Any change to
@@ -531,11 +531,11 @@ existing endpoints already enforce.
         <text class="lb g" x="4" y="13">THE SPEC FEEDS TWO OF THE FOUR AGENTS</text>
         <rect class="bx g" x="4" y="22" width="692" height="180" rx="8"/>
         <rect class="bx w" x="20" y="42" width="180" height="140" rx="6"/>
-        <text class="tt" x="110" y="70" text-anchor="middle" style="font-size:13px">spec.md</text>
-        <text class="ss" x="110" y="94" text-anchor="middle" style="font-size:12px">criterion 1</text>
-        <text class="ss" x="110" y="114" text-anchor="middle" style="font-size:12px">criterion 2</text>
-        <text class="ss" x="110" y="134" text-anchor="middle" style="font-size:12px">criterion 3</text>
-        <text class="ss" x="110" y="154" text-anchor="middle" style="font-size:12px">criterion 4</text>
+        <text class="tt" x="110" y="70" text-anchor="middle" style="font-size:13px">specs/GB-147.md</text>
+        <text class="ss" x="110" y="94" text-anchor="middle" style="font-size:12px">AC1</text>
+        <text class="ss" x="110" y="114" text-anchor="middle" style="font-size:12px">AC2</text>
+        <text class="ss" x="110" y="134" text-anchor="middle" style="font-size:12px">AC3</text>
+        <text class="ss" x="110" y="154" text-anchor="middle" style="font-size:12px">AC4</text>
         <text class="ss" x="110" y="174" text-anchor="middle" style="font-size:11.5px;fill:#5fbf8f">out of scope: 4 items</text>
         <path class="arg" d="M204 90 L246 76"/>
         <path class="arg" d="M204 140 L246 156"/>
@@ -579,7 +579,7 @@ existing endpoints already enforce.
 </section>
 
 <!-- 13 -->
-<section class="slide" data-sec="4 &middot; Challenging the plan" data-title="Challenge it before any code exists" data-notes="Challenging the plan is the cheapest quality check in the course. It takes about four minutes. At this point the plan is one page of text. A wrong direction costs a rewrite of that page. After coding, the same mistake costs the code, the tests and the review. Ask the four questions of the plan, not of the person. Question 4 is the one people skip. What would make this the wrong approach? This is a pre-mortem: you imagine the plan has failed and ask why. If you cannot name any reason, you do not understand the problem yet. The design agent from Module 4 is a good challenger here. It never sees the code, and there is no code yet anyway. In Lab 5.2 you challenge the plan for your GB-147 spec this way." data-tier="K">
+<section class="slide" data-sec="4 &middot; Challenging the plan" data-title="Challenge it before any code exists" data-notes="Challenging the plan is the cheapest quality check in the course. It takes about four minutes. At this point the plan is one page of text. A wrong direction costs a rewrite of that page. After coding, the same mistake costs the code, the tests and the review. Ask the four questions of the plan, not of the person. Question 4 is the one people skip. Imagine it is three months from now and the plan has failed. What are the most likely reasons? This is a pre-mortem. For each reason, check it now, or write it down as a new assumption. If you cannot name any reason, you do not understand the problem yet. The design agent from Module 4 is a good challenger here. It never sees the code, and there is no code yet anyway. In Lab 5.2 you challenge the plan for your GB-147 spec this way. The lab gives it eight minutes, because you also record what it finds." data-tier="K">
   <h2>Challenge the plan &mdash; four minutes, before any code<span class="tag k">4</span></h2>
   <div class="body g46">
     <div class="pts">
@@ -609,7 +609,7 @@ existing endpoints already enforce.
         <text class="tt" x="36" y="188" style="font-size:13.5px">3 &middot; What is the smallest change that meets the spec?</text>
         <text class="ss" x="36" y="210">Anything bigger is a choice someone should see.</text>
         <rect class="bx r rise r4" x="20" y="229" width="660" height="56" rx="6"/>
-        <text class="tt" x="36" y="251" style="font-size:13.5px">4 &middot; What would make this the wrong approach?</text>
+        <text class="tt" x="36" y="251" style="font-size:13.5px">4 &middot; Three months from now, the plan has failed. Why?</text>
         <text class="ss" x="36" y="273" style="fill:#e2726e;font-weight:600">Most people skip this. No answer means you do not understand it yet.</text>
         <rect class="bx d" x="4" y="304" width="692" height="126" rx="8"/>
         <text class="lb w" x="24" y="328">WHY QUESTION 4 MATTERS</text>
@@ -733,11 +733,12 @@ void returnsEmptyListForADateWithNoPostings() {
     ...
 }
 </div>
-<div class="file" style="margin-top:10px"><span class="fn">ci/check-criteria-covered.sh</span><span class="c"># every numbered criterion in the spec must be</span>
-<span class="c"># referenced by at least one test, or fail.</span>
-grep -o 'AC[0-9]*' spec.md | sort -u &gt; wanted
-grep -ro 'AC[0-9]*' src/test | sort -u &gt; have
-<span class="k">comm</span> -23 wanted have | <span class="k">grep</span> . &amp;&amp; exit 1
+<div class="file" style="margin-top:10px"><span class="fn">ci/check-criteria-covered.sh &mdash; shortened</span><span class="c"># each AC in the spec needs a test that names it</span>
+spec=specs/GB-147.md
+<span class="k">for</span> ac <span class="k">in</span> $(grep -o 'AC[0-9]\+' $spec | sort -u); <span class="k">do</span>
+  grep -rqw "Spec GB-147 $ac" src/test \
+    || { echo "$ac has no test"; fail=1; }
+<span class="k">done</span>; exit ${fail:-0}
 </div>
       <div class="pts" style="margin-top:11px">
         <ul>
@@ -748,7 +749,7 @@ grep -ro 'AC[0-9]*' src/test | sort -u &gt; have
     <div>
       <div class="callout" style="margin-top:0"><b>2 &middot; Three lines in the pull request template</b></div>
 <div class="file"><span class="fn">.github/pull_request_template.md</span><span class="k">## Spec</span>
-Link: <span class="c">&lt;path to spec.md&gt;</span>
+Link: <span class="c">specs/GB-nnn.md</span>
 
 - [ ] The spec still describes what this code
       does. If not, it is updated in this PR.
@@ -892,7 +893,7 @@ Link: <span class="c">&lt;path to spec.md&gt;</span>
         <text class="ss" x="120" y="278" text-anchor="middle" style="font-size:11.5px;fill:#e2726e">read over MCP, one way</text>
         <path class="arr dash" d="M224 264 L262 264"/>
         <rect class="bx w" x="266" y="238" width="200" height="52" rx="6"/>
-        <text class="ss" x="366" y="260" text-anchor="middle" style="font-size:12px">spec.md</text>
+        <text class="ss" x="366" y="260" text-anchor="middle" style="font-size:12px">specs/GB-147.md</text>
         <text class="ss" x="366" y="278" text-anchor="middle" style="font-size:11.5px;fill:#e2726e">in the repository only</text>
         <path class="arr dash" d="M470 264 L508 264"/>
         <rect class="bx w" x="512" y="238" width="168" height="52" rx="6"/>

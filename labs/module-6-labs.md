@@ -297,7 +297,8 @@ Start again, from the checkpoint, in a new chat. Keep your Part A branch as evid
 git switch -c GB-163-raise-posting-limit m6-start
 ```
 
-Write your tool budget in your notes first. The slides give five calls for GB-163:
+Write your tool budget in your notes first. The slides give about three calls for a normal ticket,
+and about five for a ticket with a history. Decide which kind GB-163 is:
 
 ```text
 Lab 6.2 tool budget: ___ Jira tool calls for GB-163

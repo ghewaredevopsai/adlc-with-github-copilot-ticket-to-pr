@@ -237,7 +237,7 @@ and record whether the agents disagreed · **Ticket:** GB-207 (balance as at a d
 
 | Chat | Agents | Sees | Hands over |
 |---|---|---|---|
-| 1 | design, then coding | the ticket, the ADRs, the code | `spec.md`, the change, `coding-summary.md` |
+| 1 | design, then coding | design: the ticket, the ADRs, the docs. Coding: the spec and the code | `spec.md`, the change, `coding-summary.md` |
 | 2 | test | the ticket only (and the code's public methods) | the tests, `test-report.md` |
 | 3 | review | the diff, the ticket, the ADRs | `review-report.md` |
 
@@ -295,10 +295,12 @@ In the Chat view, start a new chat and pick the **design** agent from the agent 
 ```text
 Read course/labs/lab-keys.md to find my Jira key for GB-207. Use the atlassian MCP tools to
 read that Jira issue, including its comments.
-Write the spec for this ticket, in the shape your agent file gives for spec.md. The change is
-in the global-bank-account folder.
-Every claim about existing behaviour names the file it came from. List anything the
-repository cannot answer under "Open questions". Do not guess.
+Write the spec for this ticket, in the shape your agent file gives for spec.md. Work only from
+the ticket and the documents your agent file lists as inputs: global-bank-account/docs/adr/,
+global-bank-account/docs/architecture.md and global-bank-account/docs/glossary.md.
+Do not open the Java code.
+Every claim about existing behaviour names the file it came from. List anything these
+documents cannot answer under "Open questions". Do not guess.
 Show the spec in the chat. Do not create or edit any file. Stop when the spec is shown.
 ```
 
@@ -469,6 +471,7 @@ version: 1, owner: TODO-OWNER, and a tools list. Put in the tools list only the 
 role needs, chosen from: read, search, edit, execute, atlassian/jira_get_issue.
 Then write seven sections, in this order: Role, Goal, Allowed tools, Inputs, Guardrails,
 Hand-off contract, Never.
+- Inputs: the ticket, the ADRs, docs/architecture.md and docs/glossary.md. Not the Java code.
 - Hand-off contract: spec.md, shown in the chat, with: the problem in one paragraph, two or
   three options, a recommendation with the rule that decides it and its source file, and
   open questions.

@@ -402,7 +402,7 @@ Read, search, run the tests.
 </section>
 
 <!-- 10 -->
-<section class="slide" data-sec="3 &middot; The four in practice" data-title="The test agent - from the ticket, not the code" data-notes="The key difference is where the tests come from. A test written from the code asks: does the code do what it does? The answer is always yes. A test written from the ticket asks: does the code do what was asked? That test can fail, and that is useful. The test report lists one line per acceptance criterion, marked covered or not covered. In the example, AC3 has no test. A passing test suite hides that gap. The report shows it. Module 3 taught a habit: run each new test on the old code first, and it must fail. Here that habit becomes a written rule in test.agent.md. A common mistake is giving the test agent the diff to work from. Then the test simply repeats the code's reading of the ticket." data-tier="K">
+<section class="slide" data-sec="3 &middot; The four in practice" data-title="The test agent - from the ticket, not the code" data-notes="The key difference is where the tests come from. A test written from the code asks: does the code do what it does? The answer is always yes. A test written from the ticket asks: does the code do what was asked? That test can fail, and that is useful. The test report lists one line per acceptance criterion, marked covered or not covered. In the example, AC5 has no test. A passing test suite hides that gap. The report shows it. Module 3 taught a habit: run each new test on the old code first, and it must fail. Here that habit becomes a written rule in test.agent.md. A common mistake is giving the test agent the diff to work from. Then the test simply repeats the code's reading of the ticket." data-tier="K">
   <h2>The test agent &mdash; it works from the ticket, not the code<span class="tag k">3</span></h2>
   <div class="body g64">
     <div>
@@ -434,11 +434,11 @@ Read, search, run the tests.
         <text class="lb a" x="4" y="304">THE TEST REPORT &mdash; ONE LINE PER CRITERION, GAPS INCLUDED</text>
         <rect class="bx a" x="4" y="314" width="692" height="116" rx="8"/>
         <rect class="bx w" x="20" y="332" width="660" height="24" rx="4"/>
-        <text class="ss" x="34" y="349" style="font-size:11.5px">AC1 balances back to pre-posting values &nbsp;&mdash;&nbsp; <tspan font-weight="700" fill="#5fbf8f">covered</tspan> &nbsp; reversalRestoresBothBalances</text>
+        <text class="ss" x="34" y="349" style="font-size:11.5px">AC2 balances back to pre-posting values &nbsp;&mdash;&nbsp; <tspan font-weight="700" fill="#5fbf8f">covered</tspan> &nbsp; reversalRestoresBothBalances</text>
         <rect class="bx w" x="20" y="360" width="660" height="24" rx="4"/>
-        <text class="ss" x="34" y="377" style="font-size:11.5px">AC2 reversal visible after the fact &nbsp;&mdash;&nbsp; <tspan font-weight="700" fill="#5fbf8f">covered</tspan> &nbsp; reversedPostingKeepsStatus</text>
+        <text class="ss" x="34" y="377" style="font-size:11.5px">AC3 reversal visible after the fact &nbsp;&mdash;&nbsp; <tspan font-weight="700" fill="#5fbf8f">covered</tspan> &nbsp; reversedPostingKeepsStatus</text>
         <rect class="bx r" x="20" y="388" width="660" height="24" rx="4"/>
-        <text class="ss" x="34" y="405" style="font-size:11.5px">AC3 second reversal rejected &nbsp;&mdash;&nbsp; <tspan font-weight="700" fill="#e2726e">NOT COVERED</tspan> &nbsp; no test written</text>
+        <text class="ss" x="34" y="405" style="font-size:11.5px">AC5 second reversal rejected &nbsp;&mdash;&nbsp; <tspan font-weight="700" fill="#e2726e">NOT COVERED</tspan> &nbsp; no test written</text>
         <text class="ss" x="20" y="426" style="fill:#d98a3d;font-weight:600">In a passing test suite, this gap is invisible.</text>
       </svg>
     </div>
@@ -629,7 +629,7 @@ Read, search, run the tests.
 </section>
 
 <!-- 14 -->
-<section class="slide" data-sec="4 &middot; Hand-off artifacts" data-title="A worked hand-off on GB-151" data-notes="GB-151 is the reversal ticket you already met in Lab 2.2. Read the spec first. Every claim names its source file, such as docs/glossary.md or copilot-instructions.md. So a person can check it in about 30 seconds. The open question about the value date is asked, not guessed. Now read the test report. The coding agent built the reversal as a status change only. The test agent never saw the spec. It read AC1 from the ticket, which says balances must move back. So its test fails. Neither agent is broken. They read the ticket differently. Because they worked separately, you see the problem today as a failing test. You do not find it months later as a wrong balance. With one agent, this disagreement cannot happen." data-tier="K">
+<section class="slide" data-sec="4 &middot; Hand-off artifacts" data-title="A worked hand-off on GB-151" data-notes="GB-151 is the reversal ticket you already met in Lab 2.2. Read the spec first. Every claim names its source file, such as docs/glossary.md or copilot-instructions.md. So a person can check it in about 30 seconds. The open question about the value date is asked, not guessed. Now read the test report. The coding agent built the reversal as a status change only. The test agent never saw the spec. It read AC2 from the ticket, which says balances must move back. So its test fails. Neither agent is broken. They read the ticket differently. Because they worked separately, you see the problem today as a failing test. You do not find it months later as a wrong balance. With one agent, this disagreement cannot happen." data-tier="K">
   <h2>A worked hand-off on GB-151 &mdash; and the disagreement that pays off<span class="tag k">4</span></h2>
   <div class="body g55">
     <div>
@@ -662,20 +662,20 @@ must create entries, not adjust a total.
       </div>
     </div>
     <div>
-<div class="file"><span class="fn">test-report.md &mdash; FROM THE TEST AGENT (NEVER SAW THE SPEC)</span><span class="k">AC1</span> balances back to pre-posting values
-    <span class="s">NOT MET</span> - reversalRestoresBalances
+<div class="file"><span class="fn">test-report.md &mdash; FROM THE TEST AGENT (NEVER SAW THE SPEC)</span><span class="k">AC2</span> balances back to pre-posting values
+    covered - reversalRestoresBalances
     <span class="s">FAILS against the change.</span>
 
-<span class="k">AC2</span> reversal visible after the fact
-    MET - reversedPostingKeepsStatus
+<span class="k">AC3</span> reversal visible after the fact
+    covered - reversedPostingKeepsStatus
 
-<span class="k">AC3</span> second reversal rejected
-    MET - doubleReversalIsRejected
+<span class="k">AC5</span> second reversal rejected
+    covered - doubleReversalIsRejected
 
 <span class="k">## Note</span>
 The change marks the original REVERSED but
 writes no reversing entries, so the calculated
-balances do not change. AC1 asks for the
+balances do not change. AC2 asks for the
 balances to move back.
 </div>
       <div class="callout bad" style="margin-top:12px"><b>Neither agent is broken.</b> They read the ticket differently. Because they worked <em>separately</em>, you see it today as a failing test &mdash; not months later as a wrong balance.</div>

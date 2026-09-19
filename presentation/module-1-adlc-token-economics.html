@@ -40,7 +40,7 @@
 </section>
 
 <!-- 2 -->
-<section class="slide" data-sec="Opening" data-title="What you will be able to do after Module 1" data-notes="These four skills are decisions, not features. You will use each one again in later modules. The band at the bottom is the thread of the whole course. In Lab 1.1 you measure one ticket with no preparation. At the end of Day 2 you measure again, with the full pipeline. Modules 2 to 5 all exist to move that number. Note what this module does not cover. There are no prompt tricks, no tool tour and no vendor comparison. A common mistake is to judge agents only by speed. Speed is easy to see. Cost and wrong answers are harder to see, so this course makes you count them. Read the next slide carefully. It defines the words used all through the course." data-tier="K">
+<section class="slide" data-sec="Opening" data-title="What you will be able to do after Module 1" data-notes="These four skills are decisions, not features. You will use each one again in later modules. The band at the bottom is the thread of the whole course. In Lab 1.1 you measure one ticket with no preparation. At the end of Day 2, in the capstone, you measure a similar ticket with the same six counts and the full pipeline. Modules 2 to 5 all exist to move that number. Note what this module does not cover. There are no prompt tricks, no tool tour and no vendor comparison. A common mistake is to judge agents only by speed. Speed is easy to see. Cost and wrong answers are harder to see, so this course makes you count them. Read the next slide carefully. It defines the words used all through the course." data-tier="K">
   <h2>What you will be able to do after Module 1<span class="tag">M1</span></h2>
   <div class="body g64">
     <div>
@@ -74,7 +74,7 @@
         <path class="fl" d="M556 296 L608 296"/>
         <circle cx="640" cy="296" r="21" fill="#6ea8fe"/>
         <text x="640" y="301" text-anchor="middle" style="font-size:12px;font-weight:700;fill:#0e1116">M8</text>
-        <text class="ss w" x="24" y="340" style="font-size:13px">One ticket measured in Module 1, measured again at the end of Day 2.</text>
+        <text class="ss w" x="24" y="340" style="font-size:13px">The same six counts, measured in Module 1 and again in the capstone at the end of Day 2.</text>
       </svg>
     </div>
     <div class="pts">
@@ -93,7 +93,7 @@
 </section>
 
 <!-- 3 -->
-<section class="slide" data-sec="Opening" data-title="Words used in this course" data-notes="Keep this slide in mind. These words come back in every module. Two of them matter most today. A turn is one prompt from you plus one reply from the agent. It is the main unit you count in Lab 1.1. The context window is everything the agent can see right now. It starts empty in every new chat. That empty start is the root of the re-discovery tax. The re-discovery tax is the cost of the agent re-learning facts your team already knows. The tally sheet is your score card of six numbers for each measured run. You fill in its first row in Lab 1.1. You can come back to this slide at any time from the slide index." data-tier="K">
+<section class="slide" data-sec="Opening" data-title="Words used in this course" data-notes="Keep this slide in mind. These words come back in every module. Two of them matter most today. A turn is one prompt from you plus one reply from the agent. It is the main unit you count in Lab 1.1. A tool call is the agent using a tool, such as reading a file or running a command. In your tally you count only file reads and searches, not the ticket fetch or terminal commands. The context window is everything the agent can see right now. It starts empty in every new chat. That empty start is the root of the re-discovery tax. The re-discovery tax is the cost of the agent re-learning facts your team already knows. The tally sheet is your score card of six numbers for each measured run. You fill in its first row in Lab 1.1. You can come back to this slide at any time from the slide index." data-tier="K">
   <h2>Words used in this course<span class="tag">M1</span></h2>
   <div class="body g55">
     <div class="pts">
@@ -105,7 +105,7 @@
         <li><b>Turn</b> &mdash; one prompt from you plus one reply.</li>
         <li><b>Token</b> &mdash; a small piece of text. Models read and bill in tokens.</li>
         <li><b>Context window</b> &mdash; everything the agent can see right now. A new chat starts empty.</li>
-        <li><b>Tool call</b> &mdash; the agent uses a tool: reads a file, runs a test, fetches a ticket.</li>
+        <li><b>Tool call</b> &mdash; the agent uses a tool: reads a file, searches, runs a command. In the tally, count only file reads and searches.</li>
         <li><b>Hallucination</b> &mdash; a made-up answer that looks real.</li>
       </ul>
     </div>
@@ -425,7 +425,7 @@
 </section>
 
 <!-- 9 -->
-<section class="slide" data-sec="3 &middot; Baselining" data-title="What you can actually measure" data-notes="The real cost of Copilot is AI credits. But you cannot see credits for one ticket while you work. They appear later, per user, in a usage view. So a per-ticket credit number would have no source you can show. Instead you count six things you can see live, from the chat or a stopwatch. Turns and tool calls follow spend most closely. Questions it asked and rework show how much the agent had to guess. In the labs, rework means the repair prompts you paste when a check fails. Everyone sends the same scripted prompts, so repairs are where runs differ. Diff churn and wall-clock time show the outcome. Repairs become the rework column of your tally sheet, and later modules refer to it. Save your numbers in metrics.md in the repo and on your tally issue. You can compare with the usage view at the end of Day 2. The rule: measure what you can show, and check later what you cannot." data-tier="K">
+<section class="slide" data-sec="3 &middot; Baselining" data-title="What you can actually measure" data-notes="The real cost of Copilot is AI credits. But you cannot see credits for one ticket while you work. They appear later, per user, in a usage view. So a per-ticket credit number would have no source you can show. Instead you count six things you can see live, from the chat or a stopwatch. Turns and tool calls follow spend most closely. Questions it asked and rework show how much the agent had to guess. In the labs, rework means the repair prompts you paste when a check fails. Everyone sends the same scripted prompts, so repairs are where runs differ. Diff churn and wall-clock time show the outcome. The clock runs from your first prompt until all the lab's checks pass. If they never pass, stop at the timebox and write that time, for example 35 minutes in Lab 1.1. Repairs become the rework column of your tally sheet, and later modules refer to it. Save your numbers in metrics.md in the repo and on your tally issue. You can compare with the usage view at the end of Day 2. The rule: measure what you can show, and check later what you cannot." data-tier="K">
   <h2>Measuring a ticket &mdash; six numbers you can see live<span class="tag k">3</span></h2>
   <div class="body g64">
     <div>
@@ -449,7 +449,8 @@
         <text class="ss" x="34" y="246">lines written, then thrown away</text>
         <rect class="bx w rise r6" x="356" y="198" width="326" height="72" rx="6"/>
         <text class="tt" x="370" y="222">6 &middot; Wall-clock time</text>
-        <text class="ss" x="370" y="246">first prompt to a PR-ready change</text>
+        <text class="ss" x="370" y="246">first prompt until all checks pass</text>
+        <text class="ss" x="370" y="264" style="font-size:13px">or the timebox ends (35 min in Lab 1.1)</text>
 
         <text class="lb a" x="4" y="312">CHECKED LATER &mdash; NOT AVAILABLE DURING CLASS</text>
         <rect class="bx a" x="4" y="322" width="692" height="92" rx="8"/>

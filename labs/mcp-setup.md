@@ -85,8 +85,8 @@ You should see:
 
 ```text
 Jira OK: signed in as <your name>, project ADLC.
-Confluence OK: space ADLC.
 Keys written to labs/lab-keys.md
+Confluence OK: space ADLC.
 ```
 
 `labs/lab-keys.md` holds your project and space keys, and later your ticket keys. It holds no
@@ -251,8 +251,12 @@ one line above each of them. Everything else in the labs is the same.
 - **Prompts.** Paste this line first, then the prompt from the guide, unchanged:
 
   ```text
-  I use GitHub issues, not Jira. Read every "Jira key" below as a GitHub issue number, and every "Jira issue" or "Jira ticket" as a GitHub issue, in the repository named in course/labs/lab-keys.md. Instead of jira_get_issue use the github tool issue_read, instead of jira_add_comment use add_issue_comment, and instead of jira_search use search_issues. "Jira tools" and "Jira calls" mean these github tools, and "Do not search Jira" or "Never search Jira" means do not search GitHub issues.
+  I use GitHub issues, not Jira. Read every "Jira key" below as a GitHub issue number, and every "Jira issue" or "Jira ticket" as a GitHub issue, in the repository named in course/labs/lab-keys.md. Instead of jira_get_issue use the github tool issue_read, instead of jira_add_comment use add_issue_comment, and instead of jira_search use search_issues. "Jira tools" and "Jira calls" mean these github tools, and "Do not search Jira" or "Never search Jira" means do not search GitHub issues. GitHub issues have no links, epics or "blocked by" fields: a linked issue, an epic or an issue that blocks this one appears as a #number in the issue body or its comments, so read each #number issue it mentions.
   ```
+
+  GitHub has no issue links. So when a prompt says "each issue it links to", "the epic" or "an issue
+  that blocks this one", Copilot finds them as `#12`-style references in the issue text, for example
+  "blocked by #12". The line above tells it to read those issues too.
 
 - **Module 8, Confluence steps** (Prompts 8.1-D and C14). There is no Confluence page to write to.
   Paste this line as well, under the first one:
