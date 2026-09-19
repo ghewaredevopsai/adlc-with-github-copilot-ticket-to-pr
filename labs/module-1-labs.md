@@ -131,7 +131,7 @@ If Check 1 fails, go to [When a check fails](#when-a-check-fails).
 ### Step 4 — Start the service
 
 Open a **second** terminal in `global-bank-account`, and leave it running. If the whole Global Bank
-app is still running from the setup, stop it first (Step 7 of `participants-instructions.md`):
+app is still running from the setup, stop it first (Step 6 of `participants-instructions.md`):
 
 ```bash
 mvn spring-boot:run

@@ -104,8 +104,8 @@ Follow [mcp-setup.md](mcp-setup.md). At the end, both test prompts must work.
 ### 5. Open the lab workspace
 
 In VS Code: **File**, then **Open Workspace from File**, then `adlc-labs.code-workspace` in the course
-repository. Always work from this workspace. It shows the course repository, `global-bank-account` and
-`global-bank-transaction`, and it starts the Jira and Confluence connection.
+repository. Always work from this workspace. It shows the course repository and all seven
+`global-bank-*` repositories, and it starts the Jira and Confluence connection.
 
 ## Tickets: your own keys
 

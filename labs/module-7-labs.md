@@ -35,7 +35,7 @@ python labs/scripts/setup-lab-tickets.py --module 7
 
 It loads **GB-158** and adds its key to `labs/lab-keys.md`.
 
-**2. Open the workspace.** In VS Code, open `adlc-labs.code-workspace`. You need all three folders:
+**2. Open the workspace.** In VS Code, open `adlc-labs.code-workspace`. This lab uses three of its folders:
 `course`, `global-bank-account` and `global-bank-transaction`.
 
 **3. Make a branch in each repository.** In a terminal:

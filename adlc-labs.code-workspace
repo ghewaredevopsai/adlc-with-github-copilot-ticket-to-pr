@@ -2,11 +2,16 @@
 	// Open this file in VS Code: File > Open Workspace from File.
 	// It expects the folders set up by participants-instructions.md:
 	//   $HOME/adlc-with-github-copilot-ticket-to-pr   (this course repo)
-	//   $HOME/global-bank/global-bank-account   $HOME/global-bank/global-bank-transaction
+	//   $HOME/global-bank/global-bank-*               (the seven Global Bank repos)
 	"folders": [
 		{ "name": "course", "path": "." },
+		{ "name": "global-bank-platform", "path": "../global-bank/global-bank-platform" },
 		{ "name": "global-bank-account", "path": "../global-bank/global-bank-account" },
-		{ "name": "global-bank-transaction", "path": "../global-bank/global-bank-transaction" }
+		{ "name": "global-bank-authentication", "path": "../global-bank/global-bank-authentication" },
+		{ "name": "global-bank-customer", "path": "../global-bank/global-bank-customer" },
+		{ "name": "global-bank-transaction", "path": "../global-bank/global-bank-transaction" },
+		{ "name": "global-bank-rules", "path": "../global-bank/global-bank-rules" },
+		{ "name": "global-bank-frontend", "path": "../global-bank/global-bank-frontend" }
 	],
 	"settings": {
 		"chat.agent.enabled": true,

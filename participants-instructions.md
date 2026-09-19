@@ -107,20 +107,14 @@ Use PowerShell on Windows. Use the normal shell on macOS or Linux.
 5. At the end, show me a table of the seven folders with the current branch of each one.
 ```
 
-All seven folders must sit side by side inside `global-bank`. The start script in Step 5 looks for
+All seven folders must sit side by side inside `global-bank`. The start script in Step 4 looks for
 them there.
 
-## Step 4. Open the code in VS Code
+## Step 4. Start Global Bank on localhost (optional)
 
-Do this step by hand:
-
-1. **File > Open Folder**.
-2. Choose `global-bank` in your home folder, then **Open**.
-3. If VS Code asks whether you trust the authors, choose **Yes**.
-
-The next prompts run from this window. Open Copilot Chat again and check that the mode is still **Agent**.
-
-## Step 5. Start Global Bank on localhost
+> [!TIP]
+> **This step is optional.** Each lab starts the services it needs. Do Steps 4 to 6 only if you want
+> to see the whole Global Bank app running on your machine before the labs.
 
 Global Bank has five Spring Boot services and one web app. They all run on your machine.
 You do not need Docker or Kubernetes.
@@ -141,7 +135,7 @@ Use the prompt for your operating system.
 ### macOS or Linux
 
 ```text
-Start the Global Bank app on localhost. Run this command in the terminal, from the global-bank folder:
+Start the Global Bank app on localhost. Run this command in the terminal, from the global-bank folder in my home folder:
 
 bash global-bank-platform/scripts/local.sh start
 
@@ -178,7 +172,7 @@ Use mvn, not ./mvnw. The ./mvnw wrapper does not work in these repositories.
 7. Show me a table of the six parts with UP or DOWN. If a part is DOWN, show me the end of its log file and explain the error.
 ```
 
-## Step 6. Check that it works
+## Step 5. Check that it works
 
 The web app shows demo data when a service is down. So a page that loads does **not** prove the services
 work. This prompt checks the services directly.
@@ -204,14 +198,14 @@ Tell me PASS if all five services say UP and the sign-in returns the role CUSTOM
 Then open **http://localhost:4200** in your browser. Sign in as `john` with the password `unigps`.
 The users `admin`, `eric` and `ratan` use the same password.
 
-## Step 7. Stop Global Bank
+## Step 6. Stop Global Bank
 
 Stop the app at the end of the day, or before you start it again.
 
 ### macOS or Linux
 
 ```text
-Stop the Global Bank app. Run this command from the global-bank folder:
+Stop the Global Bank app. Run this command from the global-bank folder in my home folder:
 
 bash global-bank-platform/scripts/local.sh stop
 
@@ -237,7 +231,7 @@ Then check each port again and show me a table of the ports with STOPPED or STIL
 | `release version 25 not supported` | Maven is using a JDK older than 25 | Install JDK 25. Set `JAVA_HOME` to it. Open a new VS Code window. |
 | `MavenWrapperMain` not found | Something ran `./mvnw` | Use `mvn`. The wrapper files are not in these repositories. |
 | A Maven download hangs or fails | Your network needs a proxy for Maven | Ask your IT team for the Maven proxy settings for `~/.m2/settings.xml`. |
-| `port 8084 is in use` (or another port) | Something else uses that port, or an old copy is still running | Run Step 7, then start again. |
+| `port 8084 is in use` (or another port) | Something else uses that port, or an old copy is still running | Run Step 6, then start again. |
 | `not found next to global-bank-platform` | A repository is missing or in the wrong folder | Run Step 3 again. All seven folders must be inside `global-bank`. |
-| The web page loads, but Step 6 says FAIL | The web app is showing demo data | Ask Copilot to show you the log of the service that is down. |
+| The web page loads, but Step 5 says FAIL | The web app is showing demo data | Ask Copilot to show you the log of the service that is down. |
 | `Permission denied` on `local.sh` | The script is not marked as runnable | Start it with `bash` in front, as the prompt does. |

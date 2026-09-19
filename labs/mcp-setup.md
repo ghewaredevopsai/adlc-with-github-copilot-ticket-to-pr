@@ -117,8 +117,8 @@ through your company's Python package mirror.
 ## Step 5 — Open the lab workspace
 
 In VS Code, select **File**, then **Open Workspace from File**, and pick `adlc-labs.code-workspace`
-in the course repository. The Explorer now shows three folders: `course`, `global-bank-account` and
-`global-bank-transaction`.
+in the course repository. The Explorer now shows eight folders: `course` and the seven
+`global-bank-*` repositories.
 
 The workspace file tells VS Code how to start the MCP server:
 
