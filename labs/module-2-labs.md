@@ -4,7 +4,8 @@
 from: `m1-start`
 
 In Lab 1.1 the agent spent many turns working out facts your team already knows. In Lab 2.1 you write
-those facts into the repository, in three files at three different layers. In Lab 2.2 you run a new
+those facts into the repository, in three files: two for the whole repository and one for a single
+folder. In Lab 2.2 you run a new
 ticket of the same size, with the same prompt and the same 35 minutes, and you count again. The only
 thing that changes between the two runs is what is written down.
 
@@ -414,11 +415,11 @@ Fill in row **2.2** on your tally issue, and post the row as a comment. Use the 
 | Counter | Count |
 |---|---|
 | Turns | Prompt 2.2-A plus every repair. Prompt 2.2-check does not count |
-| Tool calls | Files Copilot opened or searched |
+| Tool calls | Files Copilot read, and searches. Not the ticket fetch |
 | Asked | Questions a file could have answered |
 | Rework | Repair prompts |
 | Churn | Lines written and then thrown away, to the nearest ten |
-| Clock | Minutes to a change you would raise a pull request for |
+| Clock | Minutes from your first prompt until all six checks pass, or 35 if you stop at the timebox |
 
 Report what you measured, even if a number got worse. Then write one line under the row: which of your
 three files helped most in this run, and how you know. The references list under each answer shows
@@ -477,6 +478,10 @@ Do not change any Markdown file.
 ```
 
 **Check:** break one path on purpose, then undo it.
+
+First check that your `copilot-instructions.md` names `docs/adr/` in backticks. The test reads only
+paths in backticks, so without them this check passes and proves nothing. Add the backticks if they
+are missing, then:
 
 ```bash
 sed -i 's#docs/adr/#docs/decisions/#' .github/copilot-instructions.md

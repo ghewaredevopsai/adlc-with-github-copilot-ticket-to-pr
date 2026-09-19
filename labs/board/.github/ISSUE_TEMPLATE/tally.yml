@@ -17,10 +17,11 @@ body:
     attributes:
       label: Tally
       description: >-
-        Counting rules — turns: every prompt sent, corrections included · tool calls: files the
-        AGENT opened or searched · asked: questions a file in the repo could have answered ·
-        rework: turns spent undoing a guess (also counted as turns) · churn: lines written then
-        discarded, nearest ten · clock: first prompt to a change you would raise a PR for, in minutes.
+        Counting rules — turns: every prompt sent, repair prompts included · tool calls: files the
+        AGENT read and searches it ran, not the ticket fetch · asked: questions a file in the repo
+        could have answered · rework: repair prompts sent (also counted as turns) · churn: lines
+        written then discarded, nearest ten · clock: minutes from the first prompt until all the
+        lab's checks pass (a change you would raise a PR for), or the timebox if you stop there.
       value: |
         | Run | Ticket | Turns | Tool calls | Asked | Rework | Churn | Clock |
         |---|---|---|---|---|---|---|---|
@@ -43,6 +44,8 @@ body:
         |---|---|---|
         | Ordinary request |  | 6 |
         | Engineered request + skill file |  | 6 |
+
+        Changed (tickets whose result changed between the two): 
     validations:
       required: false
 

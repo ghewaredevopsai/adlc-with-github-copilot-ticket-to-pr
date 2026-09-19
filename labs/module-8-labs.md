@@ -28,8 +28,8 @@ of the page. Your write-back pages go under it.
 
 Do **not** load the capstone ticket yet. Your trainer tells you when.
 
-**2. Save your Day 2 work.** In each repository, commit anything that is still open on your Lab 7.2
-branch. Then run `git status`. It must say `nothing to commit`.
+**2. Save your Day 2 work.** In each repository, commit anything that is still open on your GB-158
+branches from Lab 7.1. Then run `git status`. It must say `nothing to commit`.
 
 **3. Make the Lab 8.1 branches.** In a terminal:
 
@@ -55,7 +55,8 @@ rejected.
 The test for every candidate is the one from Module 2: **can an engineer work this out from the code,
 easily?** If yes, do not write it. If no, write it, even if people need it only twice a year.
 
-Steps 1 to 3 fit in the 15 minutes. Steps 4 to 6 are in stretch lab 8.1+, below.
+Steps 1 to 3 fit in the 15 minutes. The rest of the write-back, the ticket comment and the Confluence
+page, is in stretch lab 8.1+, below.
 
 ### Step 1 — Find the candidates
 
@@ -91,7 +92,7 @@ look at your Day 2 chats. Did you find something there that is not on the list? 
 
 In Module 4 you saw the design agent's spec for GB-151, the reversal ticket. It already holds the
 decision, the rejected option and the rule that decided it. You promote that spec to an ADR. You do
-not write it from nothing. The prompt holds the spec text from the Module 4 deck.
+not write it from nothing. The prompt holds that spec's text as slide 11 of the Module 8 deck shows it.
 
 **Prompt 8.1-B** · Agent mode · base model · **same chat**
 
@@ -117,11 +118,12 @@ shape:
 - "## Consequences": what is now true because of this decision, for reports and for callers.
 Copy the words above where you can. Add nothing they do not say. If you think something is
 missing, tell me instead of adding it.
-Change no other file. Show me the ADR when you finish.
+Add one line for the new ADR to docs/adr/README.md, in the same format as the lines already there.
+Change no other file. Show me the ADR and the new README line when you finish.
 ```
 
-**What you should see:** one new file, about 15 lines, in `global-bank-account/docs/adr/`. The
-"Rejected" section names a rule and a file.
+**What you should see:** one new file, about 15 lines, in `global-bank-account/docs/adr/`, and one new
+line in `docs/adr/README.md`. The "Rejected" section names a rule and a file.
 
 **Check:** read the ADR once. Does it say what was **rejected**? An ADR with no rejected option only
 describes the code. If it has none, ask Copilot to add it from the spec text.

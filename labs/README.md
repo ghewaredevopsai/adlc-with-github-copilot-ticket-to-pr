@@ -41,11 +41,11 @@ Labs 1.1, 2.2 and the capstone are **measured runs**. You count six numbers on y
 | Counter | What it counts |
 |---|---|
 | **Turns** | Every prompt you send, including repair prompts |
-| **Tool calls** | Files Copilot opened or searched. The chat shows each one |
+| **Tool calls** | Files Copilot read, and searches it ran. The chat shows each one. Fetching the ticket does not count |
 | **Asked** | Questions Copilot asked you that a file in the repository could have answered |
 | **Rework** | Repair prompts you had to send (they also count as turns) |
 | **Churn** | Lines Copilot wrote and then threw away, to the nearest ten |
-| **Clock** | Minutes from your first prompt to a change you would raise a pull request for |
+| **Clock** | Minutes from your first prompt to a change you would raise a pull request for: all the lab's checks pass. If you stop at the timebox, write the timebox |
 
 A measured run has one **repair prompt**. Paste it only when a check fails. It is the same for
 everyone, so the number of repairs is what differs between your runs.
@@ -149,6 +149,15 @@ Start every lab on a new branch from its tag, named after the ticket and the lab
 ```bash
 git switch -c GB-142-lab-1.1 m1-start
 ```
+
+## Terminals and services
+
+- **Windows:** run the terminal commands in the guides in **Git Bash**, not PowerShell. They use bash
+  syntax. In VS Code, pick **Git Bash** from the list next to the **+** in the Terminal panel.
+- **Services:** some checks start `global-bank-account` (port 8086) or `global-bank-transaction`
+  (port 8087) with `mvn spring-boot:run`. Stop the whole Global Bank app first, with Step 7 of
+  [participants-instructions.md](../participants-instructions.md). `Port 8086 was already in use`
+  means a copy is still running.
 
 ## If Copilot goes wrong
 

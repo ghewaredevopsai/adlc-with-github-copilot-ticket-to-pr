@@ -105,7 +105,7 @@ global-bank-account. Stop when the file is written, and show it to me.
 | INPUTS | Could you explain why each file you left out is not needed? |
 | OUTPUT CONTRACT | Could a reviewer read the resulting change in one sitting? |
 | DONE | Could a teammate run each check without asking you? |
-| STOP | Does any line say "if unsure" or "if unclear"? Rewrite it as a situation the agent can check, such as "if no ADR covers this design choice". |
+| STOP | Does any line say only "if unsure" or "if unclear"? Rewrite it as a situation the agent can check, such as "if the ticket can be read two ways" or "if no ADR covers this design choice". |
 
 "Ask if you are unsure" changes nothing. The model does not feel unsure the way a person does. A
 stop condition must name something the agent can check.
@@ -259,7 +259,7 @@ how to start from the reference skill file.
 ## Lab 3.2 — The prompt A/B
 
 **Goal:** run six tickets twice and compare two ways of asking, by pass rate · **Tickets:** GB-201
-to GB-206 · **Timebox:** 60 min (about 40 running, 20 scoring) · **Output:** two pass rates out of
+to GB-206 · **Timebox:** 60 min (10 to set up, about 20 per column including scoring, 10 to record) · **Output:** two pass rates out of
 6, on your tally
 
 You run the six tickets twice. **Column A** uses an ordinary prompt, the way most people type it.
@@ -285,10 +285,12 @@ acceptance criteria.
 | GB-206 | | | | |
 | **Pass rate** | | **/6** | **/6** | |
 
-Use the rules from slide 19 for every ticket:
+Use the rules from slide 19 for every ticket, cut down to fit a four-minute run:
 
-- The acceptance criteria are met, and `mvn test` passes.
-- No file changed that the ticket did not need.
+- The acceptance criteria are met, and `mvn test` passes. (Slide 19 also asks that the new test
+  fails on the old code. There is no time to check that here, so leave it out for both columns.)
+- No file changed that the ticket did not need. (Column A has no INPUTS list, so this replaces
+  slide 19's "no files changed outside INPUTS" for both columns.)
 - A ticket you judge unclear passes only if the agent stopped and asked. Guessing is a fail.
 
 **Do not change this column after your first run.** If you decide what a pass means after you see
@@ -498,8 +500,8 @@ If you are short of time, your trainer may ask you to run four tickets instead o
 ## Stretch lab 3.1+ (optional) — Reuse the skill on another ticket
 
 **Goal:** make the skill file fully general, so that only the prompt file's inputs change per
-ticket. Then use it on GB-142 without editing it. Do this inside the Lab 3.1 timebox, before Lab
-3.2.
+ticket. Then use it on GB-142 without editing it. Do it if you finish Lab 3.1 early, before you start Lab
+3.2. It sits at the end of this guide only because it is optional.
 
 **Prompt 3.1+-A** · Ask mode · base model · **new chat**
 
@@ -553,7 +555,7 @@ git status --short
 your pass rate hold?
 
 **1. Create the ticket.** This ticket is not loaded by the script. Create it by hand in your Jira
-project, from the browser. Type: **Story**. Summary: `GB-208 — Block postings to suspended accounts`.
+project, from the browser. Type: **Story**. Summary: `[GB-208] Block postings to suspended accounts`, the same format the script uses.
 Description:
 
 ```text

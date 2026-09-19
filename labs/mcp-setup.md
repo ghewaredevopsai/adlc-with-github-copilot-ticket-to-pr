@@ -188,15 +188,15 @@ Fewer tools also help Copilot choose the right one.
 | Tool | What it does | Used in |
 |---|---|---|
 | `jira_get_issue` | Reads one issue: description, comments, links | Every lab with a ticket |
-| `jira_search` | Finds issues with a JQL query | Module 6 |
-| `jira_get_project_issues` | Lists the issues in your project | Setup check |
+| `jira_search` | Finds issues with a JQL query | Setup check (test 1). Module 6 counts it when Copilot uses it without being asked |
+| `jira_get_project_issues` | Lists the issues in your project | Setup check (test 1) |
 | `jira_add_comment` | Adds a comment to an issue. **The only Jira write** | Modules 5 (stretch), 6 and 8 |
-| `confluence_search` | Finds pages | Module 8 |
-| `confluence_get_page` | Reads a page | Module 8 |
-| `confluence_get_page_children` | Lists the pages under a page | Module 8 |
-| `confluence_create_page` | Creates a page | Module 8, capstone |
-| `confluence_update_page` | Edits a page | Module 8, capstone |
-| `confluence_add_comment` | Comments on a page | Module 8 |
+| `confluence_search` | Finds pages | Setup check (test 2) |
+| `confluence_get_page` | Reads a page | Only if Copilot needs to read a page back. No lab step asks for it |
+| `confluence_get_page_children` | Lists the pages under a page | Setup check (test 2) |
+| `confluence_create_page` | Creates a page | Module 8 (stretch 8.1+) and the capstone |
+| `confluence_update_page` | Edits a page | Only to fix a page Copilot just created. The prompts forbid editing any other page |
+| `confluence_add_comment` | Comments on a page | No lab step asks for it |
 
 Copilot cannot change an issue's status, fields or assignee, and it cannot delete anything. Module 6
 explains why this split is a good default for your team as well.

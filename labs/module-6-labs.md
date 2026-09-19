@@ -3,8 +3,9 @@
 **Day 2** · Labs 6.1, 6.2 (+ stretch) · about 90 minutes · Repository: `global-bank-account` ·
 Start from: `m6-start`
 
-Until now you pasted tickets into the chat. In these labs Copilot **pulls** the ticket from your Jira
-instead, through the atlassian MCP server. It also **writes back**: it adds a comment to the ticket.
+Until now Copilot read one ticket at a time, because the prompt told it which key to fetch. In these
+labs you decide what else to **pull** around a ticket, and what that costs: its comments, its links and
+its epic. Copilot also **writes back**: it adds a comment to the ticket.
 Lab 6.1 shows what the connection costs, on a ticket you know. Lab 6.2 is the main lab of the
 module. Work through it in order, and do not read ahead.
 
@@ -18,7 +19,7 @@ module. Work through it in order, and do not read ahead.
 | **Surroundings** | Everything around a ticket except its description: comments, linked issues, the epic |
 | **Epic** | A group of related tickets |
 | **Write-back** | Copilot writing into Jira. In this course, that is a comment and nothing else |
-| **Spec** | The written plan for a ticket, from Module 5. Here it lives in `specs/<ticket>.md` |
+| **Spec** | Your written copy of a ticket: what it must do, and where each rule comes from. Module 5 introduced it. Here it lives in `specs/<ticket>.md` |
 
 ## Before you start
 
@@ -101,8 +102,8 @@ request, then select **Allow**. It shows the ticket and a list of surroundings.
 Write a spec for this ticket to global-bank-account/specs/GB-207.md. Use only what you pulled in
 this chat. Do not call the Jira tools again.
 At the top, write the lab ticket name GB-207 and my Jira key.
-Include: the problem in one paragraph, the acceptance criteria numbered as on the ticket, the files
-you expect to change, and any open questions.
+Include: the problem in one paragraph, the acceptance criteria numbered as on the ticket, and any
+open questions. Say what must happen, not how to build it: name no code files.
 For every rule in the spec, name its source: the description, a comment, a linked issue, or a file
 in the repository.
 Stop when the file is written. Do not change any code.
@@ -415,7 +416,7 @@ ticket with many comments and links?
 
 **Goal:** save the stop condition from Lab 6.2 as a skill file, so every chat gets it without a long
 prompt. Then try it on another ticket. A **skill file** is a set of steps that Copilot loads when the
-task matches its description. You met them in Module 4.
+task matches its description. You wrote one in Lab 3.1.
 
 GB-147 was loaded in Module 5. If `labs/lab-keys.md` has no key for it, run
 `python labs/scripts/setup-lab-tickets.py --module 5` from the course repository first.

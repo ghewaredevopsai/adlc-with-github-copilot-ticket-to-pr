@@ -1,6 +1,6 @@
 # Module 4 labs — Specialised agents
 
-**Day 1** · Labs 4.1, 4.2 (+ stretch) · about 90 minutes · Repository: `global-bank-account` · Start from: your Lab 3 branch (catch-up: `m4-start`), then `m5-start` for Lab 4.2
+**Day 1** · Labs 4.1, 4.2 (+ stretch) · about 90 minutes · Repository: `global-bank-account` · Start from: your Lab 3.1 branch `GB-151-lab-3.1` (catch-up: `m4-start`). Lab 4.2 brings in agents from `m5-start`
 
 In these labs you build two **custom agents** and then use them on a real ticket. A custom agent is an
 agent you define yourself, with one job and its own rules. Lab 4.1 writes the test agent and the review
@@ -29,22 +29,25 @@ ticket differently.
    python labs/scripts/setup-lab-tickets.py --module 4
    ```
 
-   The script adds GB-207 to `labs/lab-keys.md`. You use GB-207 in Lab 4.2.
+   The script adds GB-207 and its epic, GB-100, to `labs/lab-keys.md`. You use GB-207 in Lab 4.2.
 
 2. Open the lab workspace: **File**, then **Open Workspace from File**, then `adlc-labs.code-workspace`.
    Check that the **atlassian** MCP server is running (**MCP: List Servers**).
 
-3. In `global-bank-account`, commit your Lab 3 work, then start a new branch from it:
+3. Go back to your Lab 3.1 branch, which holds your skill file and prompt file, and start a new
+   branch from it. Lab 3.2's eval runs stay behind on `eval-lab-3.2`:
 
    ```bash
    cd ~/global-bank/global-bank-account
-   git add -A && git commit -m "Lab 3 work"
+   git switch GB-151-lab-3.1
+   git status --short
+   # must print nothing. If it lists files, commit them first
    git switch -c lab-4.1-agents
    mvn test
-   # expect: Tests run: 4, Failures: 0, Errors: 0
+   # expect: Failures: 0, Errors: 0. Tests run: 4, or more if your earlier labs added tests
    ```
 
-   No Lab 3 branch, or it is broken? Start from the checkpoint instead:
+   No Lab 3.1 branch, or it is broken? Start from the checkpoint instead:
    `git switch -c lab-4.1-agents m4-start`.
 
 ---
@@ -257,7 +260,7 @@ Then, for both A and B:
 git branch GB-207-base
 mkdir -p handoff/GB-207
 mvn test
-# expect: Tests run: 4, Failures: 0, Errors: 0
+# expect: Failures: 0, Errors: 0. Tests run: 4, or more with A if your earlier labs added tests
 ```
 
 `GB-207-base` marks where you started. Later you use it to produce the diff for the review agent.
@@ -314,7 +317,7 @@ each file.
 
 ```bash
 mvn test
-# expect: Tests run: 4, Failures: 0, Errors: 0
+# expect: Failures: 0, Errors: 0, and the same number of tests as before this step
 git status
 # expect: changes under src/main, and your new handoff/ folder. Nothing under src/test
 ```
@@ -406,6 +409,10 @@ git diff m5-start -- .github/agents/test.agent.md .github/agents/review.agent.md
 ```
 
 Look for one thing: a **Never** line in the reference that you did not think to write.
+
+The reference files are an older layout. They call the hand-off contract "Outputs — the hand-off
+artifact" and put it before Guardrails, and the test agent states its withheld input as a Never line,
+not in Inputs. Your files follow this lab's seven-part order. Do not change yours to match.
 
 ### Record — the verdict
 

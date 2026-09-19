@@ -2,7 +2,8 @@
 # Agentic ADLC with GitHub Copilot — shared with participants.
 #
 # Tracked: the outline (HTML + PDF), the eight decks and their shared assets/,
-# the metrics board and the deck-check scripts.
+# participants-instructions.md, and labs/: the lab guides, tickets, MCP setup,
+# metrics board and scripts. Also adlc-labs.code-workspace and .env.example.
 #
 # Nothing sensitive or client-related belongs in this folder, tracked or not.
 # Credentials, internal delivery notes and client correspondence live outside
@@ -58,3 +59,6 @@ check.pdf
 # Python bytecode from labs/scripts/
 __pycache__/
 *.py[cod]
+
+# Lab 3.2 working notes: the eval sheet stays on your laptop
+labs/my-work/

@@ -129,7 +129,8 @@ If Check 1 fails, go to [When a check fails](#when-a-check-fails).
 
 ### Step 4 — Start the service
 
-Open a **second** terminal in `global-bank-account`, and leave it running:
+Open a **second** terminal in `global-bank-account`, and leave it running. If the whole Global Bank
+app is still running from the setup, stop it first (Step 7 of `participants-instructions.md`):
 
 ```bash
 mvn spring-boot:run
@@ -234,7 +235,7 @@ Keep six columns on paper and make a mark as each thing happens.
 | Counter | Mark one each time ... | Do not count |
 |---|---|---|
 | **Turns** | you send a prompt. The opener is turn 1. Every 1.1-Q and 1.1-R reply is one more | Changing the mode or the model |
-| **Tool calls** | the chat shows Copilot reading a file, searching, or fetching the ticket. Expand the collapsed lists in the chat to see each one | File edits, terminal commands, files **you** opened |
+| **Tool calls** | the chat shows Copilot reading a file or searching. Expand the collapsed lists in the chat to see each one | Fetching the ticket, file edits, terminal commands, files **you** opened |
 | **Asked** | Copilot asks you something that a well-kept repository could answer: where code lives, a team rule, a past decision, what a word means | Questions about what **you** want |
 | **Rework** | you send repair prompt 1.1-R. Count it under **Turns** too | — |
 | **Churn** | Copilot replaces or deletes lines that it wrote earlier in this run. Estimate the lines, to the nearest ten | Lines in the final change |

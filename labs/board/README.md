@@ -4,13 +4,8 @@ In a room, this is a whiteboard that stays up for two days. Online, it is a **Gi
 participant** in a public repository, and it works better than the whiteboard because nobody has to
 read someone else's handwriting from a webcam.
 
-Copy this folder's contents into whichever public repo hosts the workshop board, then enable issues.
-
-```
-<board-repo>/
-  README.md                          this file, edited for your cohort
-  .github/ISSUE_TEMPLATE/tally.yml   the form each participant opens once
-```
+Your trainer posts the link to the board repository on Day 1. It holds this file and the tally form,
+`.github/ISSUE_TEMPLATE/tally.yml`, which you open once.
 
 ## Why an issue per participant, not a shared file
 
@@ -19,16 +14,16 @@ guaranteed twenty minutes lost to git, during the labs, which is exactly the tim
 spare. One issue per person has none of that: no write access to the repo is needed, no branches, no
 conflicts, and anyone with a GitHub account can open one.
 
-It also matches what the board is *for*. The trainer notes call for a board that is **public and
-unedited** and stays up until the capstone, because the closing comparison is against those exact
-numbers **including the embarrassing ones**. An issue thread is append-only by nature: the body holds
+It also matches what the board is *for*. The board is **public and unedited**, and it stays up until
+the capstone, because the closing comparison is against those exact numbers **including the
+embarrassing ones**. An issue thread is append-only by nature: the body holds
 the current tally, and each row is also posted as a comment when it lands, so the history of what was
 claimed and when is visible. Editing a number later leaves a visible edit mark. That is the point.
 
 ## How it runs
 
-**Day 1, before Lab 1.1.** Each participant opens one issue from the template and titles it with their
-name. That is the whole setup.
+**Day 1, before Lab 1.1.** Each participant opens one issue from the **Workshop tally** template and
+titles it with their name. That is the whole setup.
 
 **After each measured run.** They update the table in the issue body, and post a comment with the row
 they just filled. Four rows across two days:

@@ -242,7 +242,7 @@ Fill in this worksheet in your notes. Post the last line in the meeting chat.
 
 ### If you are behind
 
-At 40 minutes, commit whatever you have and go to step 6. Lab 5.2 works with any spec that has
+At 38 minutes, commit whatever you have and go to step 6. Lab 5.2 works with any spec that has
 numbered criteria, even a short one. No checkpoint tag holds a GB-147 spec, so keep your own.
 
 ---

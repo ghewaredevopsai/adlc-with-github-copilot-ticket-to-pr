@@ -1,10 +1,10 @@
 # Agentic ADLC with GitHub Copilot
 
 *From JIRA Ticket to Merged PR — Knowledge, Specialised Agents & Spec-Driven Delivery*
-2 days · Advanced · 8 modules · 15 labs + capstone · 40% theory / 60% demo + hands-on
+2 days · Advanced · 8 modules · 14 labs + capstone · 40% theory / 60% demo + hands-on
 
-This repository holds the course outline and the eight module decks. Everything opens straight from
-the filesystem: no build step, no install, no network needed.
+This repository holds the course outline, the eight module decks and the lab guides. The outline and
+decks open straight from the filesystem: no build step, no install, no network needed.
 
 ## Start here
 
@@ -23,13 +23,18 @@ presentation/
   module-7-multi-repo-engineering.html              changes that cross repositories
   module-8-closing-the-loop.html                    review, pull requests and documentation
 labs/
+  README.md                                         how the labs work, and one-time setup
+  mcp-setup.md                                      connect Copilot to your Jira and Confluence
+  module-1-labs.md … module-8-labs.md               one lab guide per module
+  tickets/                                          the lab tickets, loaded into your own Jira
   board/                                            the metrics board: one GitHub issue per participant
-  scripts/                                          checks the decks' layout (for maintainers)
+  scripts/                                          setup-lab-tickets.py (you run it), and deck checks
+adlc-labs.code-workspace                            the VS Code workspace every lab uses
 ```
 
 The course works on **Global Bank**, a set of Spring Boot services on JDK 25, and a small weather app
 used to demonstrate the Jira → agent → pull request flow. Your trainer gives you a machine setup check
-before Day 1. Lab guides are handed out module by module.
+before Day 1. Before Day 1, also do the one-time setup in [labs/README.md](labs/README.md).
 
 ## The code you work on
 
