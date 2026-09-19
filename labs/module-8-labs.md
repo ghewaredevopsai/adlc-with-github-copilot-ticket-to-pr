@@ -18,6 +18,7 @@ Your trainer runs the Module 8 quiz (the last slide of the deck) before the caps
 repository:
 
 ```bash
+cd ~/adlc-with-github-copilot-ticket-to-pr
 python labs/scripts/setup-lab-tickets.py --module 8
 ```
 
@@ -30,12 +31,11 @@ Do **not** load the capstone ticket yet. Your trainer tells you when.
 **2. Save your Day 2 work.** In each repository, commit anything that is still open on your Lab 7.2
 branch. Then run `git status`. It must say `nothing to commit`.
 
-**3. Make the Lab 8.1 branches.** The workspace has three folders. Run these from the folder that holds
-all three repositories:
+**3. Make the Lab 8.1 branches.** In a terminal:
 
 ```bash
-cd global-bank-account && git switch -c GB-151-lab-8.1 capstone-start && cd ..
-cd global-bank-transaction && git switch -c GB-151-lab-8.1 capstone-start && cd ..
+cd ~/global-bank/global-bank-account && git switch -c GB-151-lab-8.1 capstone-start
+cd ~/global-bank/global-bank-transaction && git switch -c GB-151-lab-8.1 capstone-start
 ```
 
 **4. Open the workspace.** In VS Code, open `adlc-labs.code-workspace`. Check that the **atlassian**
@@ -145,7 +145,7 @@ Show me the diff when you finish.
 knowledge changes with the work that made it wrong.
 
 ```bash
-cd global-bank-account
+cd ~/global-bank/global-bank-account
 git status
 git add docs .github
 git commit -m "GB-151: ADR-011 reversal as a second posting, and fix the doc it made wrong"
@@ -263,16 +263,17 @@ questions that a file could have answered.
 **1. Load the ticket** when your trainer says so:
 
 ```bash
+cd ~/adlc-with-github-copilot-ticket-to-pr
 python labs/scripts/setup-lab-tickets.py --module capstone
 ```
 
 You should see `created GB-186 ...`, and `labs/lab-keys.md` now has a line for GB-186.
 
-**2. Make the capstone branches** in both repositories, from the folder that holds all three:
+**2. Make the capstone branches** in both repositories. In a terminal:
 
 ```bash
-cd global-bank-account && git switch -c GB-186-capstone capstone-start && mvn test | grep "Tests run:" | tail -1; cd ..
-cd global-bank-transaction && git switch -c GB-186-capstone capstone-start && mvn test | grep "Tests run:" | tail -1; cd ..
+cd ~/global-bank/global-bank-account && git switch -c GB-186-capstone capstone-start && mvn test | grep "Tests run:" | tail -1
+cd ~/global-bank/global-bank-transaction && git switch -c GB-186-capstone capstone-start && mvn test | grep "Tests run:" | tail -1
 ```
 
 Expect `Tests run: 4, Failures: 0` in `global-bank-account` and `Tests run: 2, Failures: 0` in
@@ -282,7 +283,7 @@ Expect `Tests run: 4, Failures: 0` in `global-bank-account` and `Tests run: 2, F
 
 ### The custom agents
 
-Four stages use the custom agents from Module 4: **design**, **coding**, **test** and **review**.
+Five stages use the four custom agents from Module 4: **design**, **coding**, **test** and **review**.
 To use one, open the agent list in the Chat view (next to the mode list) and pick the agent. Then
 paste the prompt. Pick the agent **before** you paste.
 
@@ -297,7 +298,8 @@ Read course/labs/lab-keys.md to find my Jira keys for GB-186 and GB-158.
 Use the atlassian MCP tool jira_get_issue to read GB-186 with its comments, then GB-158, which
 GB-186 names. Make no more than three Jira calls. Do not search for other tickets.
 Write a short summary to global-bank-account/specs/GB-186-ticket.md: the description in three
-lines, the six acceptance criteria word for word, the notes, and the rule GB-158 sets.
+lines, the six acceptance criteria word for word, the notes, and what GB-158 says about the
+sequencing rule. Quote the tickets only. Do not look the rule up.
 Change no other file. Stop when the file is written.
 ```
 
@@ -324,12 +326,14 @@ Your spec must have these sections:
 5. Two or three options, with a recommendation and the rule that decides it. Name the file
    each rule comes from.
 6. Open questions: anything neither repository can answer. Ask them. Do not guess.
-Save the spec as global-bank-account/specs/GB-186.md. That file is your hand-off. Write no
-code and change no other file.
+Write no code and edit no files. Show the spec here in the chat.
 ```
 
-**What you should see:** a spec with six numbered criteria, options, a recommendation, and at least one
-open question.
+**What you should see:** a spec in the chat, with six numbered criteria, options, a recommendation,
+and at least one open question. The design agent writes no files, by design.
+
+**Save it:** create the file `global-bank-account/specs/GB-186.md`. Select **Copy** on the agent's
+answer, and paste it into the file. That file is the hand-off for every later stage.
 
 **Then, you:** read the open questions. If a question needs a business answer, ask your trainer. In
 this room, the trainer speaks for Client Money Ops, who reported the ticket. Type the answer under the
@@ -418,12 +422,15 @@ global-bank-account/specs/GB-186.md. Do not read specs/GB-186-plan.md.
 Write tests in both repositories, under src/test/ only. Run "mvn test" in each.
 Do not run git stash, git checkout or git reset. If you cannot run a new test against the old
 code without them, say so in the report.
-Write the test report to global-bank-account/specs/GB-186-test-report.md: one line per
-criterion, AC1 to AC6, marked covered or not covered, with the test that covers it.
+Show the test report in the chat: one line per criterion, AC1 to AC6, marked covered or not
+covered, with the test that covers it. Then stop.
 ```
 
-**What you should see:** new tests in both repositories, and a report with six lines. A criterion
-marked "not covered" is a finding, not a failure. Leave it in the report.
+**What you should see:** new tests in both repositories, and a report with six lines in the chat. A
+criterion marked "not covered" is a finding, not a failure. Leave it in the report.
+
+**Save it:** the test agent edits only under `src/test/`, so you save the report. Create
+`global-bank-account/specs/GB-186-test-report.md` and paste the report into it.
 
 ### Checks — do the acceptance criteria hold?
 
@@ -433,8 +440,8 @@ coding agent's chat (from C3). A run has at most three repairs.
 **Check 1 — both builds (AC6).** In a terminal:
 
 ```bash
-cd global-bank-account && mvn test | grep "Tests run:" | tail -1; cd ..
-cd global-bank-transaction && mvn test | grep "Tests run:" | tail -1; cd ..
+cd ~/global-bank/global-bank-account && mvn test | grep "Tests run:" | tail -1
+cd ~/global-bank/global-bank-transaction && mvn test | grep "Tests run:" | tail -1
 ```
 
 Pass: `Failures: 0, Errors: 0` in both, and more tests than the 4 and 2 you started with.
@@ -442,11 +449,11 @@ Pass: `Failures: 0, Errors: 0` in both, and more tests than the 4 and 2 you star
 **Start both services** for the next checks. Use two new terminals, and leave them running:
 
 ```bash
-cd global-bank-account && mvn spring-boot:run
+cd ~/global-bank/global-bank-account && mvn spring-boot:run
 ```
 
 ```bash
-cd global-bank-transaction && mvn spring-boot:run
+cd ~/global-bank/global-bank-transaction && mvn spring-boot:run
 ```
 
 Wait until each one prints `Started`. The account service listens on port 8086, and the transaction
@@ -487,7 +494,7 @@ Pass: ACC-PAYROLL's `balanceMinor` is now **450000 lower** than in check 2 (thre
 the `target/` folder (git ignores it):
 
 ```bash
-cd global-bank-transaction
+cd ~/global-bank/global-bank-transaction
 python -c "import json;[json.dump({'batchId':'PAY-SIZE-%d'%n,'valueDate':'2026-09-30','items':[{'employeeAccountId':'ACC-CLIENT-002','amountMinor':100,'reference':'E%d'%i} for i in range(1,n+1)]},open('target/batch-%d.json'%n,'w')) for n in (500,501)]"
 curl -s http://localhost:8086/account/api/v1/accounts/ACC-PAYROLL/balance; echo
 curl -s -X POST http://localhost:8087/transaction/api/v1/disbursements \
@@ -594,21 +601,13 @@ no criteria, no file count and no test names is a warning sign.
 **Commit** in both repositories:
 
 ```bash
-cd global-bank-account && git add -A && git commit -m "GB-186: post a payroll batch all-or-nothing" && cd ..
-cd global-bank-transaction && git add -A && git commit -m "GB-186: send each payroll run as one batch" && cd ..
+cd ~/global-bank/global-bank-account && git add -A && git commit -m "GB-186: post a payroll batch all-or-nothing"
+cd ~/global-bank/global-bank-transaction && git add -A && git commit -m "GB-186: send each payroll run as one batch"
 ```
 
-**If your trainer gave you a team repository**, push both branches. The branch name gets your email
-name added, so it does not clash with other participants:
-
-```bash
-cd global-bank-account && git push -u origin HEAD:GB-186-capstone-$(git config user.email | cut -d@ -f1) && cd ..
-cd global-bank-transaction && git push -u origin HEAD:GB-186-capstone-$(git config user.email | cut -d@ -f1) && cd ..
-```
-
-Then open the two pull requests in the browser, in the merge order the descriptions give. Paste each
-description from its file. Add the link to the other pull request in each. No team repository? Your
-committed branches and the two description files are the output.
+You do not push. Your committed branches and the two description files are the output of this stage.
+In your own team, these two files are what you paste into the two pull requests, opened in the merge
+order they give, each linking to the other.
 
 ### Stage 8 — Write back: the repository, the ticket, the page
 
@@ -623,7 +622,7 @@ each repository to see the change, and global-bank-account/specs/GB-186.md for t
 including the answers under the open questions.
 Show me each wrong line and why. Then fix them, changing the fewest lines you can.
 If the spec records a decision with a rejected option that no ADR holds, draft it as the next
-ADR number in global-bank-account/docs/adr/, in the same shape as ADR-011, and add it to
+free ADR number in global-bank-account/docs/adr/, in the same shape as ADR-009, and add it to
 docs/adr/README.md.
 Show me the diff when you finish.
 ```
@@ -631,11 +630,9 @@ Show me the diff when you finish.
 Commit it in the same branches, so the knowledge travels with the code:
 
 ```bash
-cd global-bank-account && git add -A && git commit -m "GB-186: update the docs this change made wrong" && cd ..
-cd global-bank-transaction && git add -A && git commit -m "GB-186: update the docs this change made wrong" && cd ..
+cd ~/global-bank/global-bank-account && git add -A && git commit -m "GB-186: update the docs this change made wrong"
+cd ~/global-bank/global-bank-transaction && git add -A && git commit -m "GB-186: update the docs this change made wrong"
 ```
-
-If you pushed in stage 7, push again with the same command.
 
 **Prompt C13** · Agent mode · default agent · base model · **same chat**
 
@@ -688,21 +685,46 @@ stage you reached. That stage is often the one that costs most, which is itself 
 
 ## Stretch lab Capstone+ (optional)
 
-**Goal:** review another participant's capstone change with your own review agent. This works only
-if you both pushed to a team repository in stage 7.
+**Goal:** review another participant's capstone change with your own review agent. Nobody pushes, so
+you swap patch files. Pair with a neighbour who has also finished stage 8.
+
+On Windows, run these commands in **Git Bash**: a patch file written by PowerShell does not apply.
+
+**1. Export your change** and send the two files to your neighbour, in the workshop chat:
+
+```bash
+cd ~/global-bank/global-bank-account && git diff capstone-start GB-186-capstone > ~/GB-186-account.patch
+cd ~/global-bank/global-bank-transaction && git diff capstone-start GB-186-capstone > ~/GB-186-transaction.patch
+```
+
+**2. Apply your neighbour's change** on a new branch in each repository. Save their files as
+`~/neighbour-account.patch` and `~/neighbour-transaction.patch` first. Commit your own work before you
+switch.
+
+```bash
+cd ~/global-bank/global-bank-account && git switch -c GB-186-neighbour capstone-start && git apply --index ~/neighbour-account.patch
+cd ~/global-bank/global-bank-transaction && git switch -c GB-186-neighbour capstone-start && git apply --index ~/neighbour-transaction.patch
+```
+
+**3. Review it:**
 
 **Prompt C+** · Agent mode · agent: **review** · base model · **new chat**
 
 ```text
-Review another participant's GB-186 change. First, in global-bank-account and in
-global-bank-transaction, run "git fetch origin" and list the remote branches whose names start
-with "origin/GB-186-capstone-". Show me the list, ask me which one to review, and wait for my
-answer. Do not switch branch.
-Then, in each repository, see that change with "git diff" from capstone-start to that remote
-branch. The criteria are AC1 to AC6 in global-bank-account/specs/GB-186-ticket.md on my own
-branch. Do not read the other participant's spec, plan or pull request description.
+Review another participant's GB-186 change. It is applied, not committed, on branch
+GB-186-neighbour in global-bank-account and global-bank-transaction. See it with "git diff HEAD"
+in each repository. Its specs/ files are part of the change: do not read them.
+The criteria are the six numbered acceptance criteria in course/labs/tickets/GB-186.md. Judge
+the change against those only.
 Write your review report in this chat. Follow your agent definition. Do not edit any file.
 ```
 
-When Copilot asks, type your neighbour's branch name from the list. Then compare the report with your
-neighbour's own review in their stage 6. What did your agent find that theirs did not, and why?
+Then compare the report with your neighbour's own review in their stage 6. What did your agent find
+that theirs did not, and why?
+
+**4. Clean up** and go back to your own branches:
+
+```bash
+cd ~/global-bank/global-bank-account && git reset --hard && git switch GB-186-capstone
+cd ~/global-bank/global-bank-transaction && git reset --hard && git switch GB-186-capstone
+```

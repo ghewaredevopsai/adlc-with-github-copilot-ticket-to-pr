@@ -1,11 +1,12 @@
 {
 	// Open this file in VS Code: File > Open Workspace from File.
-	// It expects the three repositories side by side in one folder:
-	//   <folder>/<this course repo>   <folder>/global-bank-account   <folder>/global-bank-transaction
+	// It expects the folders set up by participants-instructions.md:
+	//   $HOME/adlc-with-github-copilot-ticket-to-pr   (this course repo)
+	//   $HOME/global-bank/global-bank-account   $HOME/global-bank/global-bank-transaction
 	"folders": [
 		{ "name": "course", "path": "." },
-		{ "name": "global-bank-account", "path": "../global-bank-account" },
-		{ "name": "global-bank-transaction", "path": "../global-bank-transaction" }
+		{ "name": "global-bank-account", "path": "../global-bank/global-bank-account" },
+		{ "name": "global-bank-transaction", "path": "../global-bank/global-bank-transaction" }
 	],
 	"settings": {
 		"chat.agent.enabled": true,

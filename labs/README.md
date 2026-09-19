@@ -59,36 +59,38 @@ everyone, so the number of repairs is what differs between your runs.
 - **JDK 25** and **Maven 3.9** or newer. Check with `java -version` and `mvn -version`
 - **Python 3.12** or newer (for the ticket script)
 
-### 2. Clone the three repositories side by side
+### 2. Clone the repositories
 
-Clone, do not fork. Put all three in one folder:
+Follow Steps 2 and 3 of [participants-instructions.md](../participants-instructions.md). Clone, do not
+fork. You end with this layout, and the lab workspace depends on it:
 
-```bash
-mkdir adlc && cd adlc
-git clone <this course repository URL>
-git clone https://github.com/brainupgrade-in/global-bank-account.git
-git clone https://github.com/brainupgrade-in/global-bank-transaction.git
+```text
+$HOME/
+  adlc-with-github-copilot-ticket-to-pr/   this course repository
+  global-bank/
+    global-bank-account/                   the labs work here
+    global-bank-transaction/               and here, from Module 7
+    ...                                    the other five Global Bank repositories
 ```
 
 Then fetch the lab checkpoints. They are git tags, and a plain clone does not always bring them all:
 
 ```bash
-cd global-bank-account && git fetch --tags && cd ..
-cd global-bank-transaction && git fetch --tags && cd ..
+cd ~/global-bank/global-bank-account && git fetch --tags
+cd ~/global-bank/global-bank-transaction && git fetch --tags
 ```
 
-Check that it worked: `git -C global-bank-account tag` lists `m1-start` … `capstone-start`.
+Check that it worked: `git -C ~/global-bank/global-bank-account tag` lists `m1-start` … `capstone-start`.
 
-**Your pull requests** go to a copy of these repositories that your team can push to, for example in
-your company's GitHub organisation. Your trainer tells you which one on Day 1. Until then, you work
-on local branches, and nothing needs pushing.
+**Nothing is pushed.** You work on local branches in your own clone for the whole course. Where a lab
+produces a pull request, the output is the pull request description, saved as a file.
 
 ### 3. Build both once
 
 ```bash
-cd global-bank-account && git switch -c setup-check m1-start && mvn test
+cd ~/global-bank/global-bank-account && git switch -c setup-check m1-start && mvn test
 # expect: Tests run: 4, Failures: 0, Errors: 0
-cd ../global-bank-transaction && git switch -c setup-check m1-start && mvn test
+cd ~/global-bank/global-bank-transaction && git switch -c setup-check m1-start && mvn test
 # expect: Tests run: 2, Failures: 0, Errors: 0
 ```
 
@@ -102,8 +104,8 @@ Follow [mcp-setup.md](mcp-setup.md). At the end, both test prompts must work.
 ### 5. Open the lab workspace
 
 In VS Code: **File**, then **Open Workspace from File**, then `adlc-labs.code-workspace` in the course
-repository. Always work from this workspace. It shows all three repositories, and it starts the Jira
-and Confluence connection.
+repository. Always work from this workspace. It shows the course repository, `global-bank-account` and
+`global-bank-transaction`, and it starts the Jira and Confluence connection.
 
 ## Tickets: your own keys
 

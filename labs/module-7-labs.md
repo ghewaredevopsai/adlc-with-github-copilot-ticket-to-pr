@@ -29,6 +29,7 @@ You merge nothing in these labs. Both labs stop where a person would decide.
 **1. Load this module's ticket into your Jira.** In a terminal, at the root of the course repository:
 
 ```bash
+cd ~/adlc-with-github-copilot-ticket-to-pr
 python labs/scripts/setup-lab-tickets.py --module 7
 ```
 
@@ -37,17 +38,16 @@ It loads **GB-158** and adds its key to `labs/lab-keys.md`.
 **2. Open the workspace.** In VS Code, open `adlc-labs.code-workspace`. You need all three folders:
 `course`, `global-bank-account` and `global-bank-transaction`.
 
-**3. Make a branch in each repository.** In a terminal, in the folder that holds the three
-repositories:
+**3. Make a branch in each repository.** In a terminal:
 
 ```bash
-cd global-bank-account
+cd ~/global-bank/global-bank-account
 git fetch --tags origin
 git switch -c GB-158-settlement-date m7-start
 mvn test
 # expect: Tests run: 4, Failures: 0, Errors: 0
 
-cd ../global-bank-transaction
+cd ~/global-bank/global-bank-transaction
 git fetch --tags origin
 git switch -c GB-158-send-settlement-date m7-start
 mvn test
@@ -166,7 +166,7 @@ git diff --numstat m7-start -- src/test
 **Check 3 — old and new callers, against the running service.** Start the service in one terminal:
 
 ```bash
-cd global-bank-account
+cd ~/global-bank/global-bank-account
 mvn spring-boot:run
 ```
 
@@ -300,8 +300,7 @@ Write both descriptions here in the chat. Do not create or change any file.
 **What you should see:** two short descriptions in the chat. No file changes.
 
 **Check:** read both. Each must name the other pull request, state the order in words, and say which
-side to revert first. Copy them into your notes. If your team has a shared copy of the repositories,
-you may open the two pull requests with these descriptions. Do not merge them.
+side to revert first. Copy them into your notes. You do not push or open pull requests in this course.
 
 ### Record
 
@@ -337,16 +336,16 @@ Someone else has already written a GB-158 change in both repositories. It is on 
 
 ### Before you start
 
-Commit or stop any Lab 7.1 work first. Then, in the folder that holds the three repositories:
+Commit or stop any Lab 7.1 work first. Then, in a terminal:
 
 ```bash
-cd global-bank-account
+cd ~/global-bank/global-bank-account
 git fetch origin
 git switch m7.2-review
 mvn test
 # expect: Tests run: 5, Failures: 0, Errors: 0
 
-cd ../global-bank-transaction
+cd ~/global-bank/global-bank-transaction
 git fetch origin
 git switch m7.2-review
 mvn test
@@ -456,8 +455,8 @@ Run 1 and Run 2 results to the debrief.
 When you finish, go back to your own branches if you want to keep working on them:
 
 ```bash
-cd global-bank-account && git switch GB-158-settlement-date
-cd ../global-bank-transaction && git switch GB-158-send-settlement-date
+cd ~/global-bank/global-bank-account && git switch GB-158-settlement-date
+cd ~/global-bank/global-bank-transaction && git switch GB-158-send-settlement-date
 ```
 
 ---

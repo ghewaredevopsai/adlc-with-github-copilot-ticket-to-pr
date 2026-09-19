@@ -22,6 +22,7 @@ rejected. The deck explains all three. A **reversal** undoes a posting that was 
    repository:
 
    ```bash
+   cd ~/adlc-with-github-copilot-ticket-to-pr
    python labs/scripts/setup-lab-tickets.py --module 2
    ```
 
@@ -35,7 +36,7 @@ rejected. The deck explains all three. A **reversal** undoes a posting that was 
    give the agent in Lab 2.2 must be the same code you gave it in Lab 1.1.
 
    ```bash
-   cd global-bank-account
+   cd ~/global-bank/global-bank-account
    git switch -c lab-2.1-knowledge m1-start
    mvn test
    # expect: Tests run: 4, Failures: 0, Errors: 0
@@ -255,7 +256,7 @@ would measure your memory, not your files.
 ### Step 1 — Branch from your own Lab 2.1 work
 
 ```bash
-cd global-bank-account
+cd ~/global-bank/global-bank-account
 git switch -c GB-151-lab-2.2 lab-2.1-knowledge
 mvn test
 # expect: Tests run: 4, Failures: 0, Errors: 0
@@ -448,7 +449,7 @@ measures the reference files, not yours.
 ## Stretch lab 2.1+ (optional) — A check for paths that no longer exist
 
 **Goal:** a test that fails when an instruction file names a file or folder that is not in the
-repository. It runs with `mvn test`, so the CI build runs it too.
+repository. It runs with `mvn test`, so in a team the CI build would run it on every pull request.
 
 Do it on its own branch, so Lab 2.2 still starts from your three files only:
 

@@ -28,6 +28,7 @@ decisions you stopped the agent from inventing.**
 **1. Load the Module 5 ticket.** In a terminal at the root of the course repository:
 
 ```bash
+cd ~/adlc-with-github-copilot-ticket-to-pr
 python labs/scripts/setup-lab-tickets.py --module 5
 ```
 
@@ -40,6 +41,7 @@ then **MCP: List Servers**).
 **3. Make your branch.** In a terminal in `global-bank-account`:
 
 ```bash
+cd ~/global-bank/global-bank-account
 git fetch --tags
 git switch -c GB-147-lab-5.1 m5-start
 mvn test
@@ -519,5 +521,5 @@ git add ci .github/workflows/build.yml
 git commit -m "GB-147: fail the build when a criterion has no test"
 ```
 
-The step runs when the branch is pushed. Until the test agent writes tagged tests, it fails, and
-that is the point.
+In a team, the build runs this step on every pull request. You do not push in this course, so it does
+not run here. Until the test agent writes tagged tests, it would fail, and that is the point.

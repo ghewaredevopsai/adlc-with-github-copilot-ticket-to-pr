@@ -25,6 +25,7 @@ module. Work through it in order, and do not read ahead.
 **1. Load the Module 6 tickets.** In a terminal at the root of the course repository:
 
 ```bash
+cd ~/adlc-with-github-copilot-ticket-to-pr
 python labs/scripts/setup-lab-tickets.py --module 6
 ```
 
@@ -41,7 +42,7 @@ server is **Running** (Command Palette, then **MCP: List Servers**).
 **3. Make the Lab 6.1 branch and build it.**
 
 ```bash
-cd ../global-bank-account
+cd ~/global-bank/global-bank-account
 git fetch --tags
 git switch -c GB-207-lab-6.1 m6-start
 mvn test
@@ -217,7 +218,7 @@ open GB-163 in Jira, and do not open `labs/tickets/GB-163.md`, until Part B tell
 Most tickets reach an agent the way this one does: someone pastes the description. Do that here.
 
 ```bash
-cd ../global-bank-account
+cd ~/global-bank/global-bank-account
 git switch -c GB-163-lab-6.2-part-a m6-start
 ```
 
@@ -398,7 +399,7 @@ Then stop. Do not open any code, and do not write any files.
 2. **Context size.** Measure the size of what reached the chat. For the paste:
 
    ```bash
-   python -c "print(len(open('labs/tickets/GB-207.md', encoding='utf-8').read()))"
+   python -c "print(len(open('../../adlc-with-github-copilot-ticket-to-pr/labs/tickets/GB-207.md', encoding='utf-8').read()))"
    ```
 
    For the pull: in the Lab 6.1 chat, expand the `jira_get_issue` call and copy its output into a

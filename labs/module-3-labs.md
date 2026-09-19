@@ -21,6 +21,7 @@ Two words you need:
 the Explorer, then **Open in Integrated Terminal**). Run:
 
 ```bash
+cd ~/adlc-with-github-copilot-ticket-to-pr
 python labs/scripts/setup-lab-tickets.py --module 3
 ```
 
@@ -35,6 +36,7 @@ continue from the branch you finished Lab 2.2 on, `GB-151-lab-2.2`. It holds the
 you wrote in Module 2. Your skill file points at them.
 
 ```bash
+cd ~/global-bank/global-bank-account
 git status --short
 # must print nothing. If it lists files, commit them first:
 #   git add -A && git commit -m "Lab 2.2 work"

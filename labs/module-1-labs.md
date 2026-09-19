@@ -24,6 +24,7 @@ These steps take about 5 minutes. They are not part of the measured run.
 repository:
 
 ```bash
+cd ~/adlc-with-github-copilot-ticket-to-pr
 python labs/scripts/setup-lab-tickets.py --module 1
 ```
 
@@ -36,6 +37,7 @@ key to `labs/lab-keys.md`.
 **3. Make your branch and check the build.** In a terminal, in the `global-bank-account` folder:
 
 ```bash
+cd ~/global-bank/global-bank-account
 git switch -c GB-142-lab-1.1 m1-start
 mvn test
 # expect: Tests run: 4, Failures: 0, Errors: 0, Skipped: 0

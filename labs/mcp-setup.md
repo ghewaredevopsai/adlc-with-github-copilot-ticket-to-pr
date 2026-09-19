@@ -20,16 +20,18 @@ are needed.
 | A Confluence space you can create pages in | You can create a page in it from the browser |
 | Your company allows MCP servers in Copilot | Your GitHub administrator controls this. Step 6 shows how to tell |
 
-The three repositories must sit side by side in one folder:
+The repositories must be in these folders, in your home folder:
 
 ```text
-<your folder>/
-  <this course repository>
-  global-bank-account
-  global-bank-transaction
+$HOME/
+  adlc-with-github-copilot-ticket-to-pr/   the course repository
+  global-bank/
+    global-bank-account/
+    global-bank-transaction/
+    ...                                    the other Global Bank repositories
 ```
 
-`labs/README.md` shows how to clone them.
+[participants-instructions.md](../participants-instructions.md) shows how to clone them.
 
 ## Step 1 — Create your access tokens
 
