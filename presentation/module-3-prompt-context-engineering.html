@@ -38,7 +38,7 @@
 </section>
 
 <!-- 2 -->
-<section class="slide" data-sec="Opening" data-title="The repository knows what is true; this is how you ask" data-notes="Two things shape what the agent does. The first is standing context: files in the repo, written once and read on every request. Module 2 built these. The second is your request, which you write again for every ticket. Many teams try to fix accuracy only in the request. Their prompts get longer every month but not better. A simple rule helps. If you type the same thing twice, it belongs in a file. Facts go in a knowledge file (Module 2). Steps for a task go in a skill file (this module). The main problem here is simple. An AI agent always gives an answer, even when it does not know. This module shows how to make it stop and ask instead. In Lab 1.5 you will measure this as a pass rate over six tickets. That becomes row three of your tally sheet from Module 1." data-tier="K">
+<section class="slide" data-sec="Opening" data-title="The repository knows what is true; this is how you ask" data-notes="Two things shape what the agent does. The first is standing context: files in the repo, written once and read on every request. Module 2 built these. The second is your request, which you write again for every ticket. Many teams try to fix accuracy only in the request. Their prompts get longer every month but not better. A simple rule helps. If you type the same thing twice, it belongs in a file. Facts go in a knowledge file (Module 2). Steps for a task go in a skill file (this module). The main problem here is simple. An AI agent always gives an answer, even when it does not know. This module shows how to make it stop and ask instead. In Lab 3.2 you will measure this as a pass rate over six tickets. That becomes row three of your tally sheet from Module 1." data-tier="K">
   <h2>Module 2 put the facts in the repo. Now: how you <em>ask</em><span class="tag">M3</span></h2>
   <div class="body g64">
     <div>
@@ -636,7 +636,7 @@ findByClientReferenceAndValueDate
         <li>Do not write prompt rules for what the <b>build</b> already catches.</li>
         <li>Spend effort on failures only a <b>person who knows the system</b> can spot.</li>
       </ul>
-      <div class="take"><b>In Lab 2.6</b> you get a change with one real bug and one made-up API. See which one the review agent misses.</div>
+      <div class="take"><b>In Lab 7.2</b> you get a change with one real bug and one made-up API. See which one the review agent misses.</div>
     </div>
   </div>
 </section>
@@ -826,11 +826,11 @@ findByClientReferenceAndValueDate
 </section>
 
 <!-- 20 -->
-<section class="slide" data-sec="6 &middot; Proving a prompt is better" data-title="Lab 1.5 and row three" data-notes="In Lab 1.5 you run the same six tickets twice. First with an ordinary request. Then with the engineered request plus the skill file. You score each run pass or fail, using criteria you wrote down before you started. The table shows what each row can tell you. The total score matters less than which tickets change. The tickets the old prompt already passed are your control group. They show whether the new prompt made anything worse. The unclear tickets test your stop conditions, because stopping to ask is their pass condition. You may also see no change at all. That can mean the Module 2 repo files already do the job for this repo. That is a real finding, not a failed lab. Write the pass rate out of 6 in row three of your tally sheet. It is the only row measured as a pass rate, not a count of turns." data-tier="K">
-  <h2>Lab 1.5 &mdash; two prompts, six tickets, one score<span class="tag k">6</span></h2>
+<section class="slide" data-sec="6 &middot; Proving a prompt is better" data-title="Lab 3.2 and row three" data-notes="In Lab 3.2 you run the same six tickets twice. First with an ordinary request. Then with the engineered request plus the skill file. You score each run pass or fail, using criteria you wrote down before you started. The table shows what each row can tell you. The total score matters less than which tickets change. The tickets the old prompt already passed are your control group. They show whether the new prompt made anything worse. The unclear tickets test your stop conditions, because stopping to ask is their pass condition. You may also see no change at all. That can mean the Module 2 repo files already do the job for this repo. That is a real finding, not a failed lab. Write the pass rate out of 6 in row three of your tally sheet. It is the only row measured as a pass rate, not a count of turns." data-tier="K">
+  <h2>Lab 3.2 &mdash; two prompts, six tickets, one score<span class="tag k">6</span></h2>
   <div class="body g1">
     <div>
-      <svg viewBox="0 0 1180 420" role="img" aria-label="Lab 1.5: six tickets run with the old and new prompt, and how to read the result">
+      <svg viewBox="0 0 1180 420" role="img" aria-label="Lab 3.2: six tickets run with the old and new prompt, and how to read the result">
         <rect class="bx d" x="4" y="4" width="1172" height="30" rx="6"/>
         <text class="lb w" x="24" y="24">TICKETS</text>
         <text class="lb w" x="400" y="24">OLD PROMPT</text>

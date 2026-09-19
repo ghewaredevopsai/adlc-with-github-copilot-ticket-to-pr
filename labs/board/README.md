@@ -36,8 +36,8 @@ they just filled. Four rows across two days:
 | Run | When |
 |---|---|
 | **1.1** — unprepared repository (GB-142) | Module 1 |
-| **1.3** — your knowledge in the repository (GB-151) | Module 2 |
-| **1.5** — the prompt A/B | Module 3, a **pass rate**, not the six counters |
+| **2.2** — your knowledge in the repository (GB-151) | Module 2 |
+| **3.2** — the prompt A/B | Module 3, a **pass rate**, not the six counters |
 | **capstone** — the full pipeline (GB-186) | Module 8 |
 
 **At the capstone debrief.** The trainer reads the board — every capstone row next to its 1.1 row,
@@ -48,7 +48,7 @@ by category rather than by headline.
 Report what you measured, either way. A run that got worse is a finding and goes on the board
 unchanged. Module 1 slide 8 makes that promise to the room; the board is where it is kept.
 
-## Reading rows 1.1 and 1.3 against each other
+## Reading rows 1.1 and 2.2 against each other
 
 These two are the comparison the course rests on, and they are matched deliberately: same repository,
 comparable ticket size, and the **same 35-minute working window**. The only thing that changed between
