@@ -120,8 +120,11 @@ Jira gives each ticket its own key, such as `ADLC-7`. The script writes `labs/la
 maps each lab ticket to your key. **The prompts tell Copilot to look the key up in that file**, so you
 paste them unchanged.
 
-Running the script twice is safe: it skips tickets that already exist. No Jira at all? See the
-fallback at the end of [mcp-setup.md](mcp-setup.md).
+Running the script twice is safe: it skips tickets that already exist.
+
+**No Jira at all?** Use GitHub issues instead. Read
+[No Jira or Confluence at all?](mcp-setup.md#no-jira-or-confluence-at-all) in `mcp-setup.md` before
+Module 1: every ticket command gets `--target github`, and every prompt gets one extra line in front.
 
 ## Checkpoints: catching up
 

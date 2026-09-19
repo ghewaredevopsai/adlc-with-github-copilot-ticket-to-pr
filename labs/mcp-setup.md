@@ -7,8 +7,9 @@ Confluence space**. It does this through an **MCP server**. MCP (Model Context P
 way to give Copilot extra tools. The server runs on your laptop, inside your network. It uses your
 own access tokens, so Copilot sees only what you can see.
 
-You need only **VS Code with the GitHub Copilot extension**, and Python. No other command-line tools
-are needed.
+For this connection you need only **VS Code with the GitHub Copilot extension**, and Python. The labs
+also need Git, JDK 25 and Maven, which [participants-instructions.md](../participants-instructions.md)
+sets up.
 
 ## What you need
 
@@ -228,12 +229,45 @@ Then, in `adlc-labs.code-workspace`, change the server's `"command": "uvx"` to
 
 ## No Jira or Confluence at all?
 
-Use GitHub issues instead. Only the ticket source changes. The labs are otherwise the same.
+Use GitHub issues instead. The lab tickets become issues in a GitHub repository, and Copilot reads
+them through the **github** MCP server. The prompts in the guides are written for Jira, so you add
+one line above each of them. Everything else in the labs is the same.
 
-1. In `.env`, set `GITHUB_REPO` (the repository your issues go in) and `GITHUB_TOKEN` (a
-   fine-grained personal access token with **Issues: read and write** on that repository).
-2. Run the setup script with `--target github`, as each lab guide shows.
-3. Use the **github** server in the workspace instead of **atlassian**. Start it the same way as in
-   step 6, and sign in to GitHub when VS Code asks.
+### Set it up once
 
-The Confluence steps in Module 8 then write to `docs/` in the repository instead.
+1. In `.env`, set `GITHUB_REPO` (the repository your issues go in, as `owner/name`) and
+   `GITHUB_TOKEN` (a fine-grained personal access token with **Issues: read and write** on that
+   repository).
+2. Check it: `python labs/scripts/setup-lab-tickets.py --check --target github`. You should see
+   `GitHub OK: <owner/name>.`
+3. Start the **github** server instead of **atlassian**, the same way as in step 6. Sign in to GitHub
+   when VS Code asks. In step 7, look for **github** in the tools list instead.
+
+### In every lab
+
+- **Loading tickets.** Add `--target github` to every `setup-lab-tickets.py` command in the guides.
+  For example: `python labs/scripts/setup-lab-tickets.py --module 1 --target github`.
+  `labs/lab-keys.md` then maps each lab ticket to an issue number, such as `#7`.
+- **Prompts.** Paste this line first, then the prompt from the guide, unchanged:
+
+  ```text
+  I use GitHub issues, not Jira. Read every "Jira key" below as a GitHub issue number, and every "Jira issue" or "Jira ticket" as a GitHub issue, in the repository named in course/labs/lab-keys.md. Instead of jira_get_issue use the github tool issue_read, instead of jira_add_comment use add_issue_comment, and instead of jira_search use search_issues. "Jira tools" and "Jira calls" mean these github tools, and "Do not search Jira" or "Never search Jira" means do not search GitHub issues.
+  ```
+
+- **Module 8, Confluence steps** (Prompts 8.1-D and C14). There is no Confluence page to write to.
+  Paste this line as well, under the first one:
+
+  ```text
+  I have no Confluence. Instead of confluence_create_page, write the page as a new Markdown file in global-bank-account/docs/pages/, named after the page title, with the same content. There is no CONFLUENCE-PAGE parent. Do not edit any other file.
+  ```
+
+- **Custom agents** (Module 4 onwards). Their `tools:` lines name `atlassian/jira_get_issue`, so an
+  agent cannot read a GitHub issue. Each time you make a branch from a checkpoint tag, send this in
+  a new chat, in Agent mode, before the lab's first prompt:
+
+  ```text
+  In global-bank-account/.github/agents/, replace atlassian/jira_get_issue with github/issue_read in every tools: line. Change nothing else. Then show me the tools: lines.
+  ```
+
+Your numbers still go on the board. Note "GitHub issues" in the notes box of your tally: the extra
+line adds nothing to your turns, but the tool names differ from everyone else's.

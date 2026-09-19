@@ -13,7 +13,7 @@ You **clone** the repositories. You do not fork them. Your changes stay on branc
 
 ```
 $HOME/
-  adlc-with-github-copilot-ticket-to-pr/   the course: outline, slides, metrics board
+  adlc-with-github-copilot-ticket-to-pr/   the course: outline, slides, lab guides, metrics board
   global-bank/                             the code you work on
     global-bank-platform/                  scripts to run the whole app, and the map of all services
     global-bank-account/
@@ -39,6 +39,8 @@ Install these tools:
 - Git
 - **JDK 25** (for example Temurin 25) and Maven 3.9 or newer
 - Node.js 22 or newer
+- **Python 3.12** or newer. The labs use it to load tickets into your Jira, and to start the Jira and
+  Confluence connection
 - VS Code, signed in to GitHub, with GitHub Copilot working
 
 **How to use Copilot for these steps:**
@@ -66,6 +68,7 @@ Use PowerShell on Windows. Use the normal shell on macOS or Linux.
 - mvn -version           (PASS if Apache Maven 3.9 or newer)
 - node --version         (PASS if v22 or newer)
 - npm --version          (PASS if it prints a version)
+- python --version       (PASS if Python 3.12 or newer. If python is not found on macOS or Linux, run python3 --version instead)
 
 Do not install or change anything. If a tool fails, tell me what to install.
 ```
@@ -230,6 +233,7 @@ Then check each port again and show me a table of the ports with STOPPED or STIL
 
 | What you see | What it means | What to do |
 |---|---|---|
+| `python` is not found, or older than 3.12 | Python is missing, or an old copy comes first | Install Python 3.12 or newer. On macOS or Linux, use `python3` wherever a lab says `python`. |
 | `release version 25 not supported` | Maven is using a JDK older than 25 | Install JDK 25. Set `JAVA_HOME` to it. Open a new VS Code window. |
 | `MavenWrapperMain` not found | Something ran `./mvnw` | Use `mvn`. The wrapper files are not in these repositories. |
 | A Maven download hangs or fails | Your network needs a proxy for Maven | Ask your IT team for the Maven proxy settings for `~/.m2/settings.xml`. |
