@@ -180,7 +180,7 @@ Add POST /api/v1/postings/{id}/reversal.
 - posting/service/PostingService.java
 - posting/domain/Posting.java
 - GB-151, all six acceptance criteria
-- Copy the style of controller/AccountController.java
+- Copy the style of posting/api/PostingController.java
 
 <span class="k">OUTPUT CONTRACT</span>
 - Controller + service + slice tests
@@ -251,7 +251,7 @@ Add POST /api/v1/postings/{id}/reversal.
 </section>
 
 <!-- 7 -->
-<section class="slide" data-sec="1 &middot; Anatomy of an instruction" data-title="Four patterns, in their agentic form" data-notes="You may know these four patterns from chat tools. With an agent, which edits files and runs tests, each one looks a little different. Few-shot means showing an example. In a repo, name one real file such as AccountController.java. Made-up examples teach made-up conventions. Chain of thought means reasoning before acting. Modern models already reason, so asking them to 'think step by step' adds little. What still helps is asking for a plan you can read before any file changes. Decomposition means splitting the ticket into steps. Each step ends with passing tests, so you know where a failure is. Self-critique means the agent checks its own work. It does find missing items, such as a missing test. It cannot find its own misreading of the ticket, because the check uses the same understanding. Section 4 returns to this, and Module 4 builds on it." data-tier="K">
+<section class="slide" data-sec="1 &middot; Anatomy of an instruction" data-title="Four patterns, in their agentic form" data-notes="You may know these four patterns from chat tools. With an agent, which edits files and runs tests, each one looks a little different. Few-shot means showing an example. In a repo, name one real file such as PostingController.java. Made-up examples teach made-up conventions. Chain of thought means reasoning before acting. Modern models already reason, so asking them to 'think step by step' adds little. What still helps is asking for a plan you can read before any file changes. Decomposition means splitting the ticket into steps. Each step ends with passing tests, so you know where a failure is. Self-critique means the agent checks its own work. It does find missing items, such as a missing test. It cannot find its own misreading of the ticket, because the check uses the same understanding. Section 4 returns to this, and Module 4 builds on it." data-tier="K">
   <h2>Four prompting patterns &mdash; and how to use them with an agent<span class="tag k">1</span></h2>
   <div class="body g1">
     <div>
@@ -263,7 +263,7 @@ Add POST /api/v1/postings/{id}/reversal.
         <rect class="bx grow" x="4" y="42" width="1172" height="72" rx="6"/>
         <text class="tt" x="24" y="72">Few-shot</text>
         <text class="ss" x="24" y="94">show an example</text>
-        <text class="ss" x="250" y="84" style="font-size:14px;fill:#e0b34d">&ldquo;Copy the style of AccountController.java.&rdquo;</text>
+        <text class="ss" x="250" y="84" style="font-size:14px;fill:#e0b34d">&ldquo;Copy the style of PostingController.java.&rdquo;</text>
         <text class="ss" x="800" y="84" style="font-size:14px">One real file beats made-up examples.</text>
         <rect class="bx grow w2" x="4" y="120" width="1172" height="72" rx="6"/>
         <text class="tt" x="24" y="150">Chain of thought</text>
@@ -344,7 +344,7 @@ Add POST /api/v1/postings/{id}/reversal.
 </section>
 
 <!-- 9 -->
-<section class="slide" data-sec="2 &middot; Skill files" data-title="Anatomy of a skill file" data-notes="This is a worked skill file for the Global Bank account service. Copilot uses one folder per skill with a SKILL.md file inside. The name in the header must match the folder name, or Copilot will not pick up the skill. Copilot reads the description to decide when to use the skill, so make it specific. Version and owner sit under metadata. They are for your team, not for Copilot. They make the file reviewable and give it an owner. Look at the body. It is the six-part request from slide 3 without the goal and inputs. Those two change with every ticket, so they come with each request. The 'Stop and ask' list records mistakes the team already made once. The next person does not have to repeat them. Your first version will be too long. Improve it by removing lines that do not help on real tickets." data-tier="K">
+<section class="slide" data-sec="2 &middot; Skill files" data-title="Anatomy of a skill file" data-notes="This is a worked skill file for the Global Bank account service. Copilot uses one folder per skill with a SKILL.md file inside. The name in the header must match the folder name, or Copilot will not pick up the skill. Copilot reads the description to decide when to use the skill, so make it specific. Version and owner sit under metadata. They are for your team, not for Copilot. They make the file reviewable and give it an owner. Look at the body. It is the six-part request from slide 4 without the goal and inputs. Those two change with every ticket, so they come with each request. The 'Stop and ask' list records mistakes the team already made once. The next person does not have to repeat them. Your first version will be too long. Improve it by removing lines that do not help on real tickets." data-tier="K">
   <h2>A skill file &mdash; the reusable half of a request<span class="tag k">2</span></h2>
   <div class="body g55">
     <div>
@@ -374,6 +374,8 @@ Add POST /api/v1/postings/{id}/reversal.
 - Errors in ProblemDetail format.
 - No new dependencies without an ADR.
 
+<span class="k"># Done:</span> mvn test green; new test fails on old code.
+
 <span class="k"># Stop and ask &mdash; do not choose</span>
 - <span class="s">The ticket can be read two ways.</span>
 - <span class="s">A design choice with no ADR.</span>
@@ -389,7 +391,7 @@ Add POST /api/v1/postings/{id}/reversal.
       </ul>
       <h3>The body</h3>
       <ul>
-        <li>The <b>six parts</b> from slide 3, minus goal and inputs. Those come with each ticket.</li>
+        <li>The <b>six parts</b> from slide 4, minus goal and inputs. Those come with each ticket.</li>
         <li>&ldquo;Stop and ask&rdquo; lists mistakes the team already made once.</li>
       </ul>
       <div class="take"><b>Tip:</b> your first version will be too long. Remove lines that do not help on real tickets.</div>
@@ -480,7 +482,7 @@ If you cannot name them, search #codebase,
 </section>
 
 <!-- 12 -->
-<section class="slide" data-sec="3 &middot; Grounding" data-title="Four grounding rules" data-notes="Grounding means the agent must point to where a fact came from: a file in this repo. It should not answer from general knowledge. The four rules do four different jobs. Cite the file makes the source checkable, so you check one file instead of the whole repo. Quote before you change makes the agent read the code before editing it. It is the easiest rule, and it catches edits based on an old version of a file. Say when you do not know only works with a clear stop condition from slide 5. Never invent values covers IDs, status names, currency codes and limits. These look harmless, and they are the most common invented content in banking code. These rules are not magic words. They work because a made-up answer becomes hard to produce and easy to spot. Put them in the skill file once. The worked example's copilot-instructions.md already ends with 'quote the file you are relying on'." data-tier="K">
+<section class="slide" data-sec="3 &middot; Grounding" data-title="Four grounding rules" data-notes="Grounding means the agent must point to where a fact came from: a file in this repo. It should not answer from general knowledge. The four rules do four different jobs. Cite the file makes the source checkable, so you check one file instead of the whole repo. Quote before you change makes the agent read the code before editing it. It is the easiest rule, and it catches edits based on an old version of a file. Say when you do not know only works with a clear stop condition from slide 6. Never invent values covers IDs, status names, currency codes and limits. These look harmless, and they are the most common invented content in banking code. These rules are not magic words. They work because a made-up answer becomes hard to produce and easy to spot. Put them in the skill file once. The worked example's copilot-instructions.md already ends with 'quote the file you are relying on'." data-tier="K">
   <h2>Four grounding rules &mdash; make the agent show its source<span class="tag k">3</span></h2>
   <div class="body g64">
     <div>
@@ -496,7 +498,7 @@ If you cannot name them, search #codebase,
         <rect class="bx a grow w3" x="4" y="216" width="692" height="98" rx="7"/>
         <text class="lb a" x="20" y="240">3 &middot; SAY WHEN YOU DO NOT KNOW</text>
         <text class="tt" x="20" y="268" style="font-size:14px">&ldquo;If you cannot find it in the repo, say so and stop.&rdquo;</text>
-        <text class="ss" x="20" y="294">Works only with a clear stop condition (slide 5).</text>
+        <text class="ss" x="20" y="294">Works only with a clear stop condition (slide 6).</text>
         <rect class="bx a grow w4" x="4" y="322" width="692" height="98" rx="7"/>
         <text class="lb a" x="20" y="346">4 &middot; NEVER INVENT VALUES</text>
         <text class="tt" x="20" y="374" style="font-size:14px">&ldquo;Do not make up IDs, status names, codes or limits.&rdquo;</text>
@@ -718,7 +720,7 @@ findByClientReferenceAndValueDate
 <span class="k">Next:</span>     the controller and its slice test.
 
 <span class="s">#file:posting/service/PostingService.java</span>
-<span class="s">#file:controller/AccountController.java</span>
+<span class="s">#file:posting/api/PostingController.java</span>
 
 <span class="c"># Rules and ADRs are already in the repo</span>
 <span class="c"># (Module 2), so they are not repeated here.</span>

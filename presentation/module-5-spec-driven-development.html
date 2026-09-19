@@ -338,7 +338,8 @@
   <div class="body g55">
     <div>
       <div class="callout bad" style="margin-top:0"><b>A spec with a plan hidden inside</b></div>
-<div class="file"><span class="fn">SPEC.MD &mdash; WRONG</span>Add a method <span class="s">findByAccountIdAndValueDateBefore</span>
+<div class="file"><span class="fn">SPEC.MD &mdash; WRONG</span>Add a method
+<span class="s">findByAccountIdAndValueDateLessThanEqual</span>
 to LedgerEntryRepository. Call it from
 <span class="s">BalanceService.balanceMinorFor</span>, adding an
 <span class="s">asAt</span> parameter, and pass the date down from
@@ -720,7 +721,7 @@ existing endpoints already enforce.
 </section>
 
 <!-- 16 -->
-<section class="slide" data-sec="5 &middot; Spec drift" data-title="Catching drift at pull-request time" data-notes="These are two concrete ways to catch drift. The first is to tag each test with the criterion it proves. You add a comment such as Spec GB-147 AC2 to the test. A short script then fails the build if a numbered criterion has no test. This makes covered in the Module 4 test report a fact the build checks, not a claim. The second is a pull request template. It adds three lines that every reviewer sees. One line asks if the spec still describes what the code does. CI catches a missing test. The template makes a person think for one sentence per pull request. Know the limit. Both checks catch drift. Neither catches a spec that was wrong from day one. The human checks in section 2 are for that." data-tier="R">
+<section class="slide" data-sec="5 &middot; Spec drift" data-title="Catching drift at pull-request time" data-notes="These are two concrete ways to catch drift. The first is to tag each test with the criterion it proves. You add a comment such as Spec GB-147 AC2 to the test. A short script then fails the build if a numbered criterion has no test. This makes covered in the Module 4 test report a fact the build checks, not a claim. The second is a pull request template. It adds three lines that every reviewer sees. One line asks if the spec still describes what the code does. CI catches a missing test. The template makes a person think for one sentence per pull request. Know the limit. Both checks catch drift. Neither catches a spec that was wrong from day one. The human checks in section 2 are for that." data-tier="R" data-after="lab">
   <h2>Two ways to catch drift in a pull request<span class="tag k">5</span></h2>
   <div class="body g55">
     <div>
@@ -767,7 +768,7 @@ Link: <span class="c">&lt;path to spec.md&gt;</span>
 </section>
 
 <!-- 17 -->
-<section class="slide" data-sec="6 &middot; When it is overkill" data-title="When not to do this" data-notes="Do not write a full spec for every ticket. If you do, it will feel absurd on a dependency bump, and you will drop the method. Use the three tests on the left. Could done mean more than one thing? Is being wrong expensive? Will more than one person or repo touch it? One yes means write a spec. Three no answers means no spec. For most tickets, use the thirty-second version on the right. It is three lines at the top of the ticket. Done when, not doing, and assuming. These are the three parts that matter most: criteria, out of scope and assumptions. Because it lives in the ticket, there is no second file to drift. Keep the full process for the unclear or risky few." data-tier="K">
+<section class="slide" data-sec="6 &middot; When it is overkill" data-title="When not to do this" data-notes="Do not write a full spec for every ticket. If you do, it will feel absurd on a dependency bump, and you will drop the method. Use the three tests on the left. Could done mean more than one thing? Is being wrong expensive? Will more than one person or repo touch it? One yes means write a spec. Three no answers means no spec. For most tickets, use the thirty-second version on the right. It is three lines at the top of the ticket. Done when, not doing, and assuming. These are the three parts that matter most: criteria, out of scope and assumptions. Because it lives in the ticket, there is no second file to drift. Keep the full process for the unclear or risky few." data-tier="K" data-after="lab">
   <h2>When a spec is too much &mdash; and the thirty-second version<span class="tag k">6</span></h2>
   <div class="body g55">
     <div>
@@ -857,7 +858,7 @@ Link: <span class="c">&lt;path to spec.md&gt;</span>
 </section>
 
 <!-- 19 -->
-<section class="slide" data-sec="Close" data-title="What to take into Module 6" data-notes="This slide summarises the module. For each ticket, first decide if it needs a spec. Most tickets need only three lines. Write criteria that a test can check, and number them. List what is out of scope and what you assumed. Challenge the plan before any code. The spec is where the four agents get their facts. Now look at the right side. Your spec is still a file on your laptop. The ticket was pasted in by hand. The open questions sit in a file nobody reads. The people who can answer them look at the ticket, not your laptop. Module 6 fixes this with MCP. MCP (Model Context Protocol) is a standard way to connect an agent to tools like JIRA. The agent can then read and update the ticket directly." data-tier="R">
+<section class="slide" data-sec="Close" data-title="What to take into Module 6" data-notes="This slide summarises the module. For each ticket, first decide if it needs a spec. Most tickets need only three lines. Write criteria that a test can check, and number them. List what is out of scope and what you assumed. Challenge the plan before any code. The spec is where the four agents get their facts. Now look at the right side. The agent read the ticket from JIRA over MCP, but it wrote nothing back. Your spec and its open questions stay in the repository. The people who can answer them look at the ticket, not at the repository. Module 6 fixes this. MCP (Model Context Protocol) is a standard way to connect an agent to tools like JIRA. In Module 6 the agent also writes back to the ticket." data-tier="R">
   <h2>What to take into Module 6<span class="tag">M5</span></h2>
   <div class="body g46">
     <div class="pts">
@@ -869,7 +870,7 @@ Link: <span class="c">&lt;path to spec.md&gt;</span>
         <li><b>Challenge the plan</b> before any code.</li>
       </ul>
       <div class="callout">The spec is where the four agents get their facts. Without it, they check against nothing.</div>
-      <div class="take"><b>Next, Module 6:</b> your spec is still a file on your laptop. The ticket, and its open questions, belong in JIRA.</div>
+      <div class="take"><b>Next, Module 6:</b> the spec and its open questions are still only in the repository. They belong in JIRA.</div>
     </div>
     <div>
       <svg viewBox="0 0 700 430" role="img" aria-label="What the pipeline has now, and where it is still disconnected">
@@ -888,20 +889,20 @@ Link: <span class="c">&lt;path to spec.md&gt;</span>
         <rect class="bx r" x="4" y="222" width="692" height="136" rx="8"/>
         <rect class="bx w" x="20" y="238" width="200" height="52" rx="6"/>
         <text class="ss" x="120" y="260" text-anchor="middle" style="font-size:12px">the ticket</text>
-        <text class="ss" x="120" y="278" text-anchor="middle" style="font-size:11.5px;fill:#e2726e">pasted in by hand</text>
+        <text class="ss" x="120" y="278" text-anchor="middle" style="font-size:11.5px;fill:#e2726e">read over MCP, one way</text>
         <path class="arr dash" d="M224 264 L262 264"/>
         <rect class="bx w" x="266" y="238" width="200" height="52" rx="6"/>
         <text class="ss" x="366" y="260" text-anchor="middle" style="font-size:12px">spec.md</text>
-        <text class="ss" x="366" y="278" text-anchor="middle" style="font-size:11.5px;fill:#e2726e">on your laptop</text>
+        <text class="ss" x="366" y="278" text-anchor="middle" style="font-size:11.5px;fill:#e2726e">in the repository only</text>
         <path class="arr dash" d="M470 264 L508 264"/>
         <rect class="bx w" x="512" y="238" width="168" height="52" rx="6"/>
         <text class="ss" x="596" y="260" text-anchor="middle" style="font-size:12px">open questions</text>
         <text class="ss" x="596" y="278" text-anchor="middle" style="font-size:11.5px;fill:#e2726e">in a file nobody reads</text>
         <text class="ss" x="20" y="316">The people who can answer are looking at the ticket,</text>
-        <text class="ss" x="20" y="338">not at your laptop.</text>
+        <text class="ss" x="20" y="338">not at the repository.</text>
 
         <rect class="bx d" x="4" y="370" width="692" height="60" rx="8"/>
-        <text class="ss w" x="24" y="396" style="font-size:14px">Module 6: the agent reads and updates the ticket through <tspan font-weight="700" fill="#e0b34d">MCP</tspan></text>
+        <text class="ss w" x="24" y="396" style="font-size:14px">Module 6: the agent writes back to the ticket through <tspan font-weight="700" fill="#e0b34d">MCP</tspan></text>
         <text class="ss w" x="24" y="418" style="font-size:13px">(a standard way to connect an agent to tools like JIRA).</text>
       </svg>
     </div>
@@ -909,7 +910,7 @@ Link: <span class="c">&lt;path to spec.md&gt;</span>
 </section>
 
 <!-- 20 -->
-<section class="slide" data-sec="Review quiz" data-title="Review quiz - eight questions" data-notes="Use this quiz to check your understanding. Answer each question first, then hover Answer to check. If you get one wrong, go back to the slide it comes from. Q1 - B: the spec is reviewed, followed by agents, checked by tests, and it lasts. A and C may be true, but a careful chat is still gone in a week. Q2 - A: it says how, so it is a plan. B is tempting, but a plan inside a spec leaves the design check nothing to decide. Q3 - D: it names an input and a visible result. C sounds strict, but it names nothing, so you cannot write a failing test from it. Q4 - C: an important unconfirmed assumption blocks the spec check. A is tempting, but a note nobody must act on is only a hope. Q5 - A: the test and review agents still check the code against the old spec. B misses the point: the real harm is that the spec now misleads the agents. Q6 - B: the compiler and existing tests fully check a version bump. C is the near miss: it is small, but it still has a criterion worth writing. Q7 - D: each task boundary is a point where you check a result. A is the usual view, but task size is about checking, not estimating. Q8 - C: the spec and its questions stay on your laptop, not in JIRA. That is Module 6. B is reasonable, but that is Module 8. D is wrong: the test agent, the review agent and CI now check the numbered criteria." data-tier="K">
+<section class="slide" data-sec="Review quiz" data-title="Review quiz - eight questions" data-notes="Use this quiz to check your understanding. Answer each question first, then hover Answer to check. If you get one wrong, go back to the slide it comes from. Q1 - B: the spec is reviewed, followed by agents, checked by tests, and it lasts. A and C may be true, but a careful chat is still gone in a week. Q2 - A: it says how, so it is a plan. B is tempting, but a plan inside a spec leaves the design check nothing to decide. Q3 - D: it names an input and a visible result. C sounds strict, but it names nothing, so you cannot write a failing test from it. Q4 - C: an important unconfirmed assumption blocks the spec check. A is tempting, but a note nobody must act on is only a hope. Q5 - A: the test and review agents still check the code against the old spec. B misses the point: the real harm is that the spec now misleads the agents. Q6 - B: the compiler and existing tests fully check a version bump. C is the near miss: it is small, but it still has a criterion worth writing. Q7 - D: each task boundary is a point where you check a result. A is the usual view, but task size is about checking, not estimating. Q8 - C: the agent read the ticket over MCP, but the spec and its questions stay in the repository. Nothing is written back to JIRA until Module 6. B is reasonable, but that is Module 8. D is wrong: the test agent, the review agent and CI now check the numbered criteria." data-tier="K">
   <h2>Review quiz &mdash; eight questions<span class="tag q">QUIZ</span></h2>
   <div class="body qgrid">
     <div class="qcol">
@@ -930,7 +931,7 @@ Link: <span class="c">&lt;path to spec.md&gt;</span>
       <div class="qc"><div class="qh"><b>7</b><span>When you split a plan into tasks, what are you really choosing?</span><a class="ans" tabindex="0">Answer</a></div>
         <div class="qo"><span><i>A</i>How accurate the estimate is</span><span><i>B</i>The context cost per request</span><span><i>C</i>Which tasks can run in parallel</span><span class="c" data-why="Each task end is a chance to check before you build on it. Task size is the size of mistake you accept finding late. A is the old planning view."><i>D</i>How often you check a result</span></div></div>
       <div class="qc"><div class="qh"><b>8</b><span>Spec written, criteria testable, plan challenged. What has this module not fixed?</span><a class="ans" tabindex="0">Answer</a></div>
-        <div class="qo"><span><i>A</i>Agents cannot see other work</span><span><i>B</i>The result is never saved anywhere</span><span class="c" data-why="The people who can answer look at the ticket, not your laptop. B is real &mdash; that is Module 8. Module 6 connects the agent to the ticket through MCP."><i>C</i>Its questions never reach JIRA</span><span><i>D</i>Nobody checks the criteria</span></div></div>
+        <div class="qo"><span><i>A</i>Agents cannot see other work</span><span><i>B</i>The result is never saved anywhere</span><span class="c" data-why="The ticket was read over MCP, but the spec and its questions stay in the repository. Module 6 writes them back to JIRA. B is real &mdash; that is Module 8."><i>C</i>Its questions never reach JIRA</span><span><i>D</i>Nobody checks the criteria</span></div></div>
     </div>
   </div>
 </section>

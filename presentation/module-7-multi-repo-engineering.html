@@ -278,33 +278,32 @@
 </section>
 
 <!-- 7 -->
-<section class="slide" data-sec="2 &middot; Workspace strategies" data-title="The contract file - four questions, answered once" data-notes="This is a worked example of the contract file the transaction service should have. Each section answers a question that the agent would otherwise answer by guessing. What we call stops it inventing an endpoint. The note on mirrored types tells it the copy can be wrong. The failure section stops it inventing an error format. The merge-order rule is copied here on purpose. It binds the consumer, but it is written in the producer's ADR-009, which the consumer cannot see. Look at the note about @JsonIgnoreProperties. It explains why that annotation protects reads but not writes. An agent cannot work this out alone, and it will not ask you. A common mistake is to make the file long. One page is enough. You will see this file again in Lab 7.1." data-tier="R">
+<section class="slide" data-sec="2 &middot; Workspace strategies" data-title="The contract file - four questions, answered once" data-notes="This is the contract file the transaction service already has, slightly shortened. Each section answers a question that the agent would otherwise answer by guessing. What we call stops it inventing an endpoint. The note on mirrored types tells it the copy can be wrong. The failure section stops it inventing an error format. The merge-order rule is copied here on purpose. It binds the consumer, but it is written in the producer's ADR-009, which the consumer cannot see. Look at the note about @JsonIgnoreProperties. It explains why that annotation protects reads but not writes. An agent cannot work this out alone, and it will not ask you. Notice also that the table lists every producer endpoint the consumer may call. A call that is not on that list is a warning sign. A common mistake is to make the file long. One page is enough. You will see this file again in Lab 7.1." data-tier="R">
   <h2>The contract file &mdash; four questions, answered once<span class="tag k">2</span></h2>
   <div class="body g55">
     <div>
-<div class="file"><span class="fn">global-bank-transaction/docs/contract.md — WORKED EXAMPLE</span><span class="k"># What we depend on in global-bank-account</span>
+<div class="file"><span class="fn">global-bank-transaction/docs/contract.md — SHORTENED</span><span class="k"># What we depend on in global-bank-account</span>
 
-| We call | For |
+| We call                           | For           |
 |---|---|
-| POST /transaction      | One call per transfer |
-| POST /checkBalance     | Not used yet |
+| POST /api/v1/postings             | Payroll items |
+| GET /api/v1/accounts/{id}/balance | Not used yet  |
 
 <span class="k">## The mirrored types</span>
-feign/AccountFeign's request and response are
-<span class="s">hand-written mirrors</span> of the producer's types.
-There is no code generation today; the cost of
-keeping them in step by hand is accepted, and
-the discipline that makes it safe is ADR-009
+client/PostingRequest and client/PostingResponse
+are <span class="s">hand-written mirrors</span> of the producer's
+api/PostingRequest and api/PostingResponse.
+The discipline that makes it safe is ADR-009
 in the producer repository: <span class="s">producer merges</span>
 <span class="s">first, consumer second, PRs linked.</span>
 
+PostingResponse has @JsonIgnoreProperties(
+ignoreUnknown = true), so a new producer field
+cannot break our reads. It does not protect writes.
+
 <span class="k">## Failure semantics we rely on</span>
 - A rejected posting returns 4xx with an
-  RFC 9457 body whose title is the producer's
-  stable reason string.
-- The producer is a leaf service, so a timeout
-  means the producer is unhealthy - there is
-  no downstream to blame.
+  RFC 9457 body. We log it and continue.
 </div>
     </div>
     <div class="pts">
@@ -315,7 +314,7 @@ in the producer repository: <span class="s">producer merges</span>
         <li><b>What does an error look like?</b> So it does not invent one.</li>
         <li><b>What is the merge order?</b> Copied here on purpose. The consumer cannot see the producer&rsquo;s ADR.</li>
       </ul>
-      <div class="callout">The real file also explains why <code>@JsonIgnoreProperties</code> protects <em>reads</em> but not <em>writes</em>. An agent cannot work that out &mdash; and will not ask.</div>
+      <div class="callout">The file explains why <code>@JsonIgnoreProperties</code> protects <em>reads</em> but not <em>writes</em>. An agent cannot work that out &mdash; and will not ask.</div>
       <div class="take"><b>One page per repo. No tools needed.</b> If you do one thing on Monday, do this.</div>
     </div>
   </div>
@@ -372,7 +371,7 @@ in the producer repository: <span class="s">producer merges</span>
 </section>
 
 <!-- 9 -->
-<section class="slide" data-sec="3 &middot; Contract-first" data-title="GB-158 as a sequence" data-notes="This timeline shows GB-158 step by step. It is the ticket you run in Lab 7.1. The acceptance criteria say main must never be broken in either repo. So check each row. After the producer merges, the consumer has not changed. It still works, because the new field is optional. After the consumer merges, both sides are current. At no step does the consumer send a field the producer would reject. Now think about rollback, which means undoing a change. A release manager will ask how to undo it. You undo in the opposite order: consumer first, then producer. If you undo the producer first, the consumer sends a field nobody accepts. If only one half is merged, it should be the producer half, because it is safe alone." data-tier="D">
+<section class="slide" data-sec="3 &middot; Contract-first" data-title="GB-158 as a sequence" data-notes="This timeline shows GB-158 step by step. It is the ticket you run in Lab 7.1. The acceptance criteria say main must never be broken in either repo. So check each row. After the producer merges, the consumer has not changed. It still works, because the new field is optional. After the consumer merges, both sides are current. At no step does the consumer send a field the producer would ignore. Now think about rollback, which means undoing a change. A release manager will ask how to undo it. You undo in the opposite order: consumer first, then producer. If you undo the producer first, the consumer keeps sending the field. The old producer ignores unknown fields, so it still returns 201. The settlement date is dropped with no error, and nobody notices. If only one half is merged, it should be the producer half, because it is safe alone." data-tier="D">
   <h2>GB-158 &mdash; and what is true at every step<span class="tag k">3</span></h2>
   <div class="body g1">
     <div>
@@ -421,8 +420,8 @@ in the producer repository: <span class="s">producer merges</span>
 
         <text class="lb r" x="4" y="382">ROLLBACK &mdash; WHAT YOUR RELEASE MANAGER WILL ASK</text>
         <rect class="bx r" x="4" y="392" width="1172" height="56" rx="8"/>
-        <text class="ss" x="24" y="418"><tspan font-weight="600">Undo in the opposite order: consumer first, then producer.</tspan> Undo the producer first, and the consumer</text>
-        <text class="ss" x="24" y="440">sends a field nobody accepts. If only one half is merged, <tspan font-weight="600" fill="#e2726e">it should be the producer</tspan> &mdash; that half is safe alone.</text>
+        <text class="ss" x="24" y="418"><tspan font-weight="600">Undo in the opposite order: consumer first, then producer.</tspan> Undo the producer first, and the consumer&rsquo;s</text>
+        <text class="ss" x="24" y="440">field is dropped with no error. If only one half is merged, <tspan font-weight="600" fill="#e2726e">it should be the producer</tspan> &mdash; that half is safe alone.</text>
       </svg>
     </div>
   </div>
@@ -481,7 +480,7 @@ in the producer repository: <span class="s">producer merges</span>
 </section>
 
 <!-- 11 -->
-<section class="slide" data-sec="4 &middot; Coordinated pull requests" data-title="Two PRs, one change - four simple habits" data-notes="These four habits cost almost nothing. First, both PRs carry the ticket key from Module 6, such as GB-158. Second, each PR links to the other. A reviewer who opens one PR must know the second one exists. This does not happen by itself. Third, write the merge order in words, for example: Merge after #412 is deployed. No diff shows the order. Fourth, the reviewer of the second PR must know the first PR is deployed, not just approved. This is the habit people forget. In most organisations, no tool enforces these habits. So they need a fixed place to live, and that place is the pull request template. A useful self-check: can you say which PR to undo first? If not, you have two PRs, not a plan." data-tier="K">
+<section class="slide" data-sec="4 &middot; Coordinated pull requests" data-title="Two PRs, one change - four simple habits" data-notes="These four habits cost almost nothing. First, both PRs carry the ticket key from Module 6, such as GB-158. Second, each PR links to the other. A reviewer who opens one PR must know the second one exists. This does not happen by itself. Third, write the merge order in words, for example: Merge after #412 is deployed. No diff shows the order. Fourth, the reviewer of the second PR must know the first PR is deployed, not just approved. This is the habit people forget. Without these habits, the wrong order does not even fail. The producer ignores the unknown field and still returns 201, so the settlement dates are lost with no error. In most organisations, no tool enforces these habits. So they need a fixed place to live, and that place is the pull request template. A useful self-check: can you say which PR to undo first? If not, you have two PRs, not a plan." data-tier="K">
   <h2>Two pull requests, one change &mdash; four simple habits<span class="tag k">4</span></h2>
   <div class="body g55">
     <div>
@@ -507,8 +506,8 @@ in the producer repository: <span class="s">producer merges</span>
         <text class="lb r" x="4" y="272">WITHOUT THEM</text>
         <rect class="bx r" x="4" y="282" width="692" height="90" rx="8"/>
         <text class="ss" x="24" y="308">Both PRs are approved the same afternoon. Whoever clicks first sets the order.</text>
-        <text class="ss" x="24" y="330">The consumer merges first and sends a field nobody accepts.</text>
-        <text class="ss" x="24" y="352" style="fill:#e2726e;font-weight:600">The payroll batch fails in production. Both PRs looked fine in review.</text>
+        <text class="ss" x="24" y="330">The consumer merges first. The producer silently drops the new field.</text>
+        <text class="ss" x="24" y="352" style="fill:#e2726e;font-weight:600">Postings return 201, but every settlement date is lost. No error shows it.</text>
 
         <rect class="bx d" x="4" y="384" width="692" height="46" rx="8"/>
         <text class="ss w" x="24" y="413" style="font-size:13.5px">Put these habits in the <tspan font-weight="700" fill="#e0b34d">pull request template.</tspan></text>
@@ -532,7 +531,7 @@ in the producer repository: <span class="s">producer merges</span>
 </section>
 
 <!-- 12 -->
-<section class="slide" data-sec="4 &middot; Coordinated pull requests" data-title="What the two descriptions say" data-notes="Read the two PR descriptions for GB-158 and compare them with what you wrote in Lab 7.1. Notice how much of the plan lives in the text, not in the code. The producer PR says what it adds, that it is additive, and that consumer PR #88 follows. The consumer PR says DO NOT MERGE until #412 is deployed, not merely approved. It also records how the author checked the deployment. Both PRs state the rollback order. None of these facts appears in either diff. A PR has no built-in field for merge order, deploy state or rollback order. That is why they belong in the pull request template. The template is the one place a reviewer is sure to look. If your own descriptions left any of these out, add them now." data-tier="R" data-after="lab">
+<section class="slide" data-sec="4 &middot; Coordinated pull requests" data-title="What the two descriptions say" data-notes="Read the two PR descriptions for GB-158 and compare them with what you wrote in Lab 7.1. Notice how much of the plan lives in the text, not in the code. The producer PR says what it adds, that it is additive, and that consumer PR #88 follows. The consumer PR says DO NOT MERGE until #412 is deployed, not merely approved. It also says why: sent earlier, the field is silently dropped, and the data loss is invisible. It also records how the author checked the deployment. Both PRs state the rollback order. None of these facts appears in either diff. A PR has no built-in field for merge order, deploy state or rollback order. That is why they belong in the pull request template. The template is the one place a reviewer is sure to look. If your own descriptions left any of these out, add them now." data-tier="R" data-after="lab">
   <h2>Two PR descriptions &mdash; the plan lives only in the text<span class="tag k">4</span></h2>
   <div class="body g55">
     <div>
@@ -559,8 +558,8 @@ consumer #88 has not yet merged.
 <span class="k">Cross-repo:</span> paired with global-bank-account
 PR #412.
 <span class="s">DO NOT MERGE until #412 is deployed - not</span>
-<span class="s">merely approved. Sending this field before</span>
-<span class="s">the producer accepts it fails the batch.</span>
+<span class="s">merely approved. Sent earlier, the field is</span>
+<span class="s">silently dropped: 201, no error, date lost.</span>
 
 <span class="k">Verified:</span> #412 deployed to the shared
 environment, checked by posting one item
@@ -750,53 +749,53 @@ with the field set.
 </section>
 
 <!-- 17 -->
-<section class="slide" data-sec="6 &middot; Shared libraries" data-title="The review problem this module cannot solve" data-notes="Read this after Lab 7.2. In Module 4, the review agent was useful because its context was different from the coding agent's. Across repos, the same design works against you. The reviewer sees only the consumer repo, and the fact it needs is in the producer. It sees a call to a client method. The method exists in the consumer, the types match and the test passes. Whether the producer really offers that endpoint is not visible from where it stands. This is not a weak reviewer. The fact is simply outside its view. Both fixes have limits. A contract file helps only while it is current. A CI check compares paths and shapes, but not meaning. So keep a person who knows both sides at the merge step." data-tier="K" data-after="lab">
-  <h2>Across repos, the review agent has a blind spot<span class="tag k">6</span></h2>
+<section class="slide" data-sec="6 &middot; Shared libraries" data-title="The contract file lets the reviewer see the other side" data-notes="Read this after Lab 7.2. In Module 4, the review agent was useful because its context was different from the coding agent's. Across repos, that same separation can hide a bug. The reviewer of the consumer change sees only the consumer repo. It sees a call to GET /api/v1/settlement-date. The client method exists, the types match and the mocked test passes. Nothing in the code says the producer lacks that path. But the consumer repo has docs/contract.md. It lists every producer endpoint the consumer may call. The new path is not on the list, so the reviewer flags it. A file of a few hundred tokens lets a one-repo review catch a cross-repo bug. Without the file, the bug would be missed. The file has limits. It helps only while it is current. A stale file makes the reviewer wrong, and more confident about it. It also says nothing about the producer's own logic. A default that breaks the ticket is caught by checking the ticket's acceptance criteria. So give every reviewer the contract file and the ticket. Keep a person who knows both sides at the merge step." data-tier="K" data-after="lab">
+  <h2>Across repos, the contract file lets the reviewer see the other side<span class="tag k">6</span></h2>
   <div class="body g1">
     <div>
-      <svg viewBox="0 0 1180 452" role="img" aria-label="Why a review agent cannot check a cross-repo call, and the two imperfect fixes">
-        <text class="lb r" x="4" y="14">THE MODULE 4 REVIEWER, AT A REPO BOUNDARY</text>
-        <rect class="bx r" x="4" y="24" width="1172" height="150" rx="8"/>
+      <svg viewBox="0 0 1180 452" role="img" aria-label="How the contract file lets a one-repo review catch an invented endpoint, and its limits">
+        <text class="lb g" x="4" y="14">THE MODULE 4 REVIEWER, AT A REPO BOUNDARY</text>
+        <rect class="bx g" x="4" y="24" width="1172" height="150" rx="8"/>
 
         <rect class="bx w" x="24" y="44" width="330" height="110" rx="6"/>
         <text class="tt" x="189" y="70" text-anchor="middle" style="font-size:13px">The reviewer sees</text>
         <text class="ss" x="189" y="94" text-anchor="middle" style="font-size:11.5px">the consumer diff</text>
-        <text class="ss" x="189" y="114" text-anchor="middle" style="font-size:11.5px">the consumer&rsquo;s rules</text>
-        <text class="ss" x="189" y="134" text-anchor="middle" style="font-size:11.5px">a passing consumer test</text>
+        <text class="ss" x="189" y="114" text-anchor="middle" style="font-size:11.5px">a call to GET /settlement-date</text>
+        <text class="ss" x="189" y="134" text-anchor="middle" style="font-size:11.5px">a passing, mocked test</text>
 
         <path class="arr" d="M358 99 L406 99"/>
         <rect class="bx w" x="410" y="44" width="330" height="110" rx="6"/>
-        <text class="tt" x="575" y="70" text-anchor="middle" style="font-size:13px">And decides</text>
-        <text class="ss" x="575" y="96" text-anchor="middle" style="font-size:11.5px">the call looks right,</text>
-        <text class="ss" x="575" y="116" text-anchor="middle" style="font-size:11.5px">the types match,</text>
-        <text class="ss" x="575" y="136" text-anchor="middle" style="font-size:11.5px">the test covers it</text>
+        <text class="tt" x="575" y="70" text-anchor="middle" style="font-size:13px">It also reads contract.md</text>
+        <text class="ss" x="575" y="96" text-anchor="middle" style="font-size:11.5px">which lists every endpoint</text>
+        <text class="ss" x="575" y="116" text-anchor="middle" style="font-size:11.5px">the consumer may call.</text>
+        <text class="ss" x="575" y="136" text-anchor="middle" style="font-size:11.5px">The new path is not there.</text>
 
         <path class="arr" d="M744 99 L792 99"/>
         <rect class="bx d" x="796" y="44" width="356" height="110" rx="6"/>
-        <text class="tt w" x="974" y="72" text-anchor="middle" style="font-size:13px">But cannot see</text>
-        <text class="ss w" x="974" y="98" text-anchor="middle" style="font-size:12px">whether the producer</text>
-        <text class="ss w" x="974" y="118" text-anchor="middle" style="font-size:12px">offers that endpoint</text>
-        <text class="ss" x="974" y="140" text-anchor="middle" style="font-size:11.5px;fill:#e2726e;font-weight:600">at all</text>
+        <text class="tt w" x="974" y="72" text-anchor="middle" style="font-size:13px">So it flags</text>
+        <text class="ss w" x="974" y="98" text-anchor="middle" style="font-size:12px">a call to an endpoint</text>
+        <text class="ss w" x="974" y="118" text-anchor="middle" style="font-size:12px">the producer does not offer</text>
+        <text class="ss" x="974" y="140" text-anchor="middle" style="font-size:11.5px;fill:#5fbf8f;font-weight:600">from one repo</text>
 
-        <text class="lb a" x="4" y="204">TWO FIXES &mdash; BOTH HAVE LIMITS</text>
-        <rect class="bx a grow" x="4" y="214" width="580" height="130" rx="8"/>
-        <text class="tt" x="24" y="242" style="font-size:14px">Give the reviewer the contract file</text>
-        <text class="ss" x="24" y="268">Cheap, and it works &mdash; if the file is current.</text>
-        <text class="ss" x="24" y="290">If it is stale, the reviewer is wrong,</text>
-        <text class="ss" x="24" y="312">and more confident about it.</text>
-        <text class="ss" x="24" y="336" style="fill:#5fbf8f;font-weight:600">Do it anyway. It is the best single line to add.</text>
+        <text class="lb a" x="4" y="204">WHAT THE FILE CANNOT DO</text>
+        <rect class="bx r grow" x="4" y="214" width="580" height="130" rx="8"/>
+        <text class="tt" x="24" y="242" style="font-size:14px">Without the file, the bug is missed</text>
+        <text class="ss" x="24" y="268">The call, the types and the test all look right.</text>
+        <text class="ss" x="24" y="290">Nothing in the code shows the path is wrong.</text>
+        <text class="ss" x="24" y="312">A stale file is worse: wrong, and confident.</text>
+        <text class="ss" x="24" y="336" style="fill:#5fbf8f;font-weight:600">Update the file in the same PR.</text>
 
         <rect class="bx a grow w2" x="596" y="214" width="580" height="130" rx="8"/>
-        <text class="tt" x="616" y="242" style="font-size:14px">Add a cross-repo check in CI</text>
-        <text class="ss" x="616" y="268">It checks each called endpoint exists on the producer.</text>
-        <text class="ss" x="616" y="290">Works for paths and shapes.</text>
-        <text class="ss" x="616" y="312">Not for what a field means.</text>
-        <text class="ss" x="616" y="336" style="fill:#d98a3d;font-weight:600">It needs both repos built in one place.</text>
+        <text class="tt" x="616" y="242" style="font-size:14px">It says nothing about the producer&rsquo;s logic</text>
+        <text class="ss" x="616" y="268">A default that breaks the ticket is a logic bug.</text>
+        <text class="ss" x="616" y="290">To catch it, the reviewer needs</text>
+        <text class="ss" x="616" y="312">the ticket&rsquo;s acceptance criteria.</text>
+        <text class="ss" x="616" y="336" style="fill:#d98a3d;font-weight:600">Give every reviewer the ticket too.</text>
 
         <rect class="bx d" x="4" y="356" width="1172" height="92" rx="8"/>
-        <text class="lb w" x="24" y="380">THE HONEST LIMIT</text>
-        <text class="ss w" x="24" y="408" style="font-size:14px">Some cross-repo bugs are caught only by <tspan font-weight="700" fill="#e0b34d">a person who knows both sides.</tspan></text>
-        <text class="ss w" x="24" y="434" style="font-size:14px">So keep a human at the merge step for anything that crosses repos.</text>
+        <text class="lb w" x="24" y="380">THE LESSON</text>
+        <text class="ss w" x="24" y="408" style="font-size:14px">The contract file is <tspan font-weight="700" fill="#e0b34d">cheap cross-repo context.</tspan> It lets a one-repo review catch a cross-repo bug.</text>
+        <text class="ss w" x="24" y="434" style="font-size:14px">It works only while it is current. Keep a person who knows both sides at the merge step.</text>
       </svg>
     </div>
   </div>
@@ -841,7 +840,7 @@ with the field set.
         <text class="ss" x="520" y="330">real work</text>
         <text class="ss" x="720" y="307">The invented endpoint &mdash; the only failure</text>
         <text class="ss" x="720" y="329">here a machine can catch.</text>
-        <text class="ss" x="720" y="351" style="font-size:11.5px;fill:#d98a3d">It is also the one your review agent cannot see.</text>
+        <text class="ss" x="720" y="351" style="font-size:11.5px;fill:#d98a3d">Until then, the contract file lets review catch it.</text>
 
         <rect class="bx r" x="4" y="374" width="1172" height="74" rx="8"/>
         <text class="lb r" x="24" y="394">DO NOT START WITH</text>
@@ -903,7 +902,7 @@ with the field set.
 </section>
 
 <!-- quiz -->
-<section class="slide" data-sec="Review quiz" data-title="Review quiz - eight questions" data-notes="This quiz is best done after Lab 7.1 and Lab 7.2, because it uses both. Answer each question yourself first, then hover Answer to check. Q1 - A: the agent sees only half the system and does not know it. D is tempting, but it explains nothing and hides the fix, a one-page contract file. Q2 - B: semantic drift gives quietly wrong numbers for weeks. D is tempting, but ordering fails fast and loudly. Q3 - C: accepting a field is safe before anyone sends it. D gives the right order for the wrong reason, and that reason fails on rollback. Q4 - D: undo in reverse order, consumer first. A would leave the consumer sending a field nobody accepts. Q5 - B: that fact lives in the other repo. A, C and D can all be checked inside the consumer repo. Q6 - A: a one-page contract file, updated in the same PR. B is the instinct, but it is the most costly option. Q7 - D: a changed default affects every caller. B is close, but it only rejects input that was already documented as invalid. Q8 - C: lessons stay stuck on one ticket, which is Module 8's topic. B is a real gap, but it is not what is missing here." data-tier="K" data-after="lab">
+<section class="slide" data-sec="Review quiz" data-title="Review quiz - eight questions" data-notes="This quiz is best done after Lab 7.1 and Lab 7.2, because it uses both. Answer each question yourself first, then hover Answer to check. Q1 - A: the agent sees only half the system and does not know it. D is tempting, but it explains nothing and hides the fix, a one-page contract file. Q2 - B: semantic drift gives quietly wrong numbers for weeks. D is tempting, but ordering fails fast and loudly. Q3 - C: accepting a field is safe before anyone sends it. D gives the right order for the wrong reason, and that reason fails on rollback. Q4 - D: undo in reverse order, consumer first. A would leave the consumer sending a field the producer silently drops. Q5 - B: docs/contract.md lists every producer endpoint the consumer may call, and the new path is missing. Without that file, nothing in the consumer repo shows the path is wrong. Q6 - A: a one-page contract file, updated in the same PR. B is the instinct, but it is the most costly option. Q7 - D: a changed default affects every caller. B is close, but it only rejects input that was already documented as invalid. Q8 - C: lessons stay stuck on one ticket, which is Module 8's topic. B is a real gap, but it is not what is missing here." data-tier="K" data-after="lab">
   <h2>Review quiz &mdash; eight questions<span class="tag q">QUIZ</span></h2>
   <div class="body qgrid">
     <div class="qcol">
@@ -914,11 +913,11 @@ with the field set.
       <div class="qc"><div class="qh"><b>3</b><span>GB-158 adds an optional settlementDate. Why does the producer PR merge first?</span><a class="ans" tabindex="0">Answer</a></div>
         <div class="qo"><span><i>A</i>The producer owns the contract</span><span><i>B</i>The producer has better tests</span><span class="c" data-why="The producer can accept the new field safely before anyone sends it. &lsquo;Dependency first&rsquo; is the right order for the wrong reason: on undo, the order flips."><i>C</i>Accepting is safe before sending</span><span><i>D</i>The dependency always goes first</span></div></div>
       <div class="qc"><div class="qh"><b>4</b><span>Both GB-158 PRs are deployed. You must undo the ticket. What goes first?</span><a class="ans" tabindex="0">Answer</a></div>
-        <div class="qo"><span><i>A</i>The producer</span><span><i>B</i>Both together</span><span><i>C</i>Whichever looks riskier</span><span class="c" data-why="Stop sending the field first, then remove it. Undo runs the order backwards. Producer first leaves the consumer sending a field nobody accepts."><i>D</i>The consumer</span></div></div>
+        <div class="qo"><span><i>A</i>The producer</span><span><i>B</i>Both together</span><span><i>C</i>Whichever looks riskier</span><span class="c" data-why="Stop sending the field first, then remove it. Undo runs the order backwards. Producer first leaves the consumer sending a field that is silently dropped."><i>D</i>The consumer</span></div></div>
     </div>
     <div class="qcol">
-      <div class="qc"><div class="qh"><b>5</b><span>The review agent gets the consumer diff, ticket and ADRs. What can it <em>never</em> catch?</span><a class="ans" tabindex="0">Answer</a></div>
-        <div class="qo"><span><i>A</i>A default breaking a criterion</span><span class="c" data-why="Only this needs a fact from the producer repo, which the reviewer never saw. The other three can be checked inside the consumer repo. Watch for it in Lab 7.2."><i>B</i>An endpoint the producer lacks</span><span><i>C</i>A test checking only not-null</span><span><i>D</i>A change outside ticket scope</span></div></div>
+      <div class="qc"><div class="qh"><b>5</b><span>In Lab 7.2, the consumer-only review flagged the invented endpoint. What made that possible?</span><a class="ans" tabindex="0">Answer</a></div>
+        <div class="qo"><span><i>A</i>The ticket&rsquo;s acceptance criteria</span><span class="c" data-why="The contract file lists every producer endpoint the consumer may call, and the new path is missing. Without it, the call, the types and the mocked test all look right."><i>B</i>The endpoint list in contract.md</span><span><i>C</i>The consumer&rsquo;s passing tests</span><span><i>D</i>The copilot-instructions file</span></div></div>
       <div class="qc"><div class="qh"><b>6</b><span>Your agent needs to know what the producer serves. What do you try first?</span><a class="ans" tabindex="0">Answer</a></div>
         <div class="qo"><span class="c" data-why="A few hundred tokens, holding only what the agent cannot work out. A multi-root workspace fills the context window with code you are not changing."><i>A</i>A one-page contract file, same PR</span><span><i>B</i>A multi-root workspace of both</span><span><i>C</i>An MCP link to their repo</span><span><i>D</i>A weekly copy of their docs</span></div></div>
       <div class="qc"><div class="qh"><b>7</b><span>A library is used by six services you cannot see. Which change needs the owner?</span><a class="ans" tabindex="0">Answer</a></div>

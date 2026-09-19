@@ -425,7 +425,7 @@
 </section>
 
 <!-- 9 -->
-<section class="slide" data-sec="3 &middot; Baselining" data-title="What you can actually measure" data-notes="The real cost of Copilot is AI credits. But you cannot see credits for one ticket while you work. They appear later, per user, in a usage view. So a per-ticket credit number would have no source you can show. Instead you count six things you can see live, from the chat or a stopwatch. Turns and tool calls follow spend most closely. Questions it asked and rework prompts show how much the agent had to guess. Rework prompts are prompts you send to undo a wrong guess. Diff churn and wall-clock time show the outcome. Rework prompts become the rework column of your tally sheet, and later modules refer to it. You can compare with the usage view at the end of Day 2. The rule: measure what you can show, and check later what you cannot." data-tier="K">
+<section class="slide" data-sec="3 &middot; Baselining" data-title="What you can actually measure" data-notes="The real cost of Copilot is AI credits. But you cannot see credits for one ticket while you work. They appear later, per user, in a usage view. So a per-ticket credit number would have no source you can show. Instead you count six things you can see live, from the chat or a stopwatch. Turns and tool calls follow spend most closely. Questions it asked and rework show how much the agent had to guess. In the labs, rework means the repair prompts you paste when a check fails. Everyone sends the same scripted prompts, so repairs are where runs differ. Diff churn and wall-clock time show the outcome. Repairs become the rework column of your tally sheet, and later modules refer to it. Save your numbers in metrics.md in the repo and on your tally issue. You can compare with the usage view at the end of Day 2. The rule: measure what you can show, and check later what you cannot." data-tier="K">
   <h2>Measuring a ticket &mdash; six numbers you can see live<span class="tag k">3</span></h2>
   <div class="body g64">
     <div>
@@ -443,7 +443,7 @@
         <text class="ss" x="34" y="166">that a file could have answered</text>
         <rect class="bx w rise r4" x="356" y="118" width="326" height="72" rx="6"/>
         <text class="tt" x="370" y="142">4 &middot; Rework prompts</text>
-        <text class="ss" x="370" y="166">prompts to undo a wrong guess</text>
+        <text class="ss" x="370" y="166">repair prompts after a failed check</text>
         <rect class="bx w rise r5" x="20" y="198" width="326" height="72" rx="6"/>
         <text class="tt" x="34" y="222">5 &middot; Diff churn</text>
         <text class="ss" x="34" y="246">lines written, then thrown away</text>
@@ -466,8 +466,8 @@
       </ul>
       <h3>The rules</h3>
       <ul>
-        <li>Same kind of ticket, same counting rules, <b>same person</b> &mdash; before and after.</li>
-        <li>Save them in <code>metrics.md</code> in the repo.</li>
+        <li>Same scripted prompts, same counting rules &mdash; <b>before and after</b>.</li>
+        <li>Save them in <code>metrics.md</code> in the repo, and on your tally issue.</li>
       </ul>
       <div class="take"><b>Only quote a number</b> you can point to.</div>
     </div>
@@ -475,16 +475,16 @@
 </section>
 
 <!-- 10 -->
-<section class="slide" data-sec="3 &middot; Baselining" data-title="The baseline run — and the number that follows you" data-notes="This slide sets up Lab 1.1. Follow the four rules in order. Pick a normal ticket, about the size your team closes several of each sprint. Work as you normally do. This is the hardest rule. People often try to look efficient when they are measured. A polished first run hurts you, because it leaves nothing to compare on Day 2. Count as you go. If you count from memory afterwards, you will miss rework. Write your numbers on the board, because the capstone on Day 2 is compared with them. No result is promised in advance. The course follows its own rule: only quote a number you can point to. You measure now, measure again at the capstone, and report what you get." data-tier="D">
+<section class="slide" data-sec="3 &middot; Baselining" data-title="The baseline run — and the number that follows you" data-notes="This slide sets up Lab 1.1. Everyone runs the same ticket, GB-142, with the same scripted prompt. Do not change the words, and do not read or tidy the code first. The run measures the repository as it is. Paste the repair prompt only when a check fails. Each repair is one turn and one rework. Because the prompts are fixed, the number of repairs is the main way runs differ. Count as you go. If you count from memory afterwards, you will miss rework. Report your numbers unedited, even if they look bad. Write them in metrics.md and on your tally issue. Later rows are compared with this one: row 2.2 after Module 2, a pass rate for Lab 3.2 in Module 3, and the capstone on Day 2. No result is promised in advance. The course follows its own rule: only quote a number you can point to." data-tier="D">
   <h2>Lab 1.1 &mdash; measure one ticket, and keep the number for two days<span class="tag k">3</span></h2>
   <div class="body g46">
     <div class="pts">
       <h3>Four rules for Lab 1.1</h3>
       <ul>
-        <li><b>Pick a normal ticket</b> &mdash; not tiny, not huge.</li>
-        <li><b>Work as you normally would.</b> Do not try to look efficient.</li>
-        <li><b>Count as you go.</b> Memory always undercounts rework.</li>
-        <li><b>Write it on the board.</b> It stays there until the capstone.</li>
+        <li><b>Everyone runs GB-142</b> with the same scripted prompt. Do not edit it.</li>
+        <li><b>Do not read or tidy the code first.</b> Measure the repo as it is.</li>
+        <li><b>Paste the repair prompt only when a check fails.</b> Each one is rework.</li>
+        <li><b>Count as you go.</b> Report the numbers unedited, even if they look bad.</li>
       </ul>
       <div class="take"><b>No promises.</b> Tomorrow we report what we measure &mdash; even if it disappoints.</div>
     </div>
@@ -502,7 +502,7 @@
         <text class="lb" x="640" y="52">CLOCK</text>
 
         <rect class="bx a" x="16" y="80" width="668" height="34" rx="4"/>
-        <text class="tt" x="28" y="102" style="font-size:13.5px">1.1 &mdash; today, no preparation</text>
+        <text class="tt" x="28" y="102" style="font-size:13.5px">1.1 &mdash; GB-142, repo as it is</text>
         <text class="ss" x="266" y="102" style="font-weight:700;fill:#d98a3d">?</text>
         <text class="ss" x="344" y="102" style="font-weight:700;fill:#d98a3d">?</text>
         <text class="ss" x="422" y="102" style="font-weight:700;fill:#d98a3d">?</text>
@@ -511,17 +511,16 @@
         <text class="ss" x="652" y="102" style="font-weight:700;fill:#d98a3d">?</text>
 
         <rect class="bx w" x="16" y="118" width="668" height="30" rx="4"/>
-        <text class="ss" x="28" y="138" style="font-size:13px">after Module 2 &mdash; knowledge in the repo</text>
+        <text class="ss" x="28" y="138" style="font-size:13px">2.2 &mdash; GB-151, knowledge in the repo</text>
         <text class="ss" x="266" y="138">&mdash;</text><text class="ss" x="344" y="138">&mdash;</text><text class="ss" x="422" y="138">&mdash;</text>
         <text class="ss" x="506" y="138">&mdash;</text><text class="ss" x="588" y="138">&mdash;</text><text class="ss" x="652" y="138">&mdash;</text>
 
         <rect class="bx w" x="16" y="152" width="668" height="30" rx="4"/>
-        <text class="ss" x="28" y="172" style="font-size:13px">after Module 3 &mdash; better prompts</text>
-        <text class="ss" x="266" y="172">&mdash;</text><text class="ss" x="344" y="172">&mdash;</text><text class="ss" x="422" y="172">&mdash;</text>
-        <text class="ss" x="506" y="172">&mdash;</text><text class="ss" x="588" y="172">&mdash;</text><text class="ss" x="652" y="172">&mdash;</text>
+        <text class="ss" x="28" y="172" style="font-size:13px">3.2 &mdash; prompt A/B, six tickets</text>
+        <text class="ss" x="266" y="172" style="font-size:13px">pass rate only: A __/6 &middot; B __/6</text>
 
         <rect class="bx g" x="16" y="186" width="668" height="30" rx="4"/>
-        <text class="tt" x="28" y="206" style="font-size:13.5px">capstone &mdash; full pipeline, Day 2</text>
+        <text class="tt" x="28" y="206" style="font-size:13.5px">capstone &mdash; GB-186, Day 2</text>
         <text class="ss" x="266" y="206" style="font-weight:700;fill:#5fbf8f">?</text>
         <text class="ss" x="344" y="206" style="font-weight:700;fill:#5fbf8f">?</text>
         <text class="ss" x="422" y="206" style="font-weight:700;fill:#5fbf8f">?</text>
@@ -529,15 +528,15 @@
         <text class="ss" x="588" y="206" style="font-weight:700;fill:#5fbf8f">?</text>
         <text class="ss" x="652" y="206" style="font-weight:700;fill:#5fbf8f">?</text>
 
-        <text class="lb a" x="4" y="248">WHY TODAY&rsquo;S ROW SHOULD NOT LOOK TOO GOOD</text>
+        <text class="lb a" x="4" y="248">WHY YOU DO NOT PREPARE FIRST</text>
         <rect class="bx r" x="4" y="258" width="692" height="86" rx="8"/>
-        <text class="ss" x="24" y="284">A careful, polished run measures skills we have not taught yet.</text>
+        <text class="ss" x="24" y="284">Reading or tidying the code first measures you, not the repo.</text>
         <text class="ss" x="24" y="304">Then there is nothing to compare against tomorrow.</text>
-        <text class="tt" x="24" y="330" style="fill:#e2726e">Measure your normal working day.</text>
+        <text class="tt" x="24" y="330" style="fill:#e2726e">Run the script on the repo as it is.</text>
 
         <rect class="bx d" x="4" y="358" width="692" height="84" rx="8"/>
         <text class="lb w" x="24" y="382">HOW THIS COURSE PROVES ITSELF</text>
-        <text class="ss w" x="24" y="406" style="font-size:14px">Two similar tickets, measured the same way, two days apart.</text>
+        <text class="ss w" x="24" y="406" style="font-size:14px">Same prompts, same counting; only the repo knowledge changes.</text>
         <text class="ss w" x="24" y="428" style="font-size:14px">You keep the tally sheet, so you judge the result.</text>
       </svg>
     </div>

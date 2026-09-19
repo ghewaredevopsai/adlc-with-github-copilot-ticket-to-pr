@@ -38,7 +38,7 @@
 </section>
 
 <!-- 2 -->
-<section class="slide" data-sec="Opening" data-title="From pasted to pulled" data-notes="Think about how you have given tickets to the agent so far. You copied the description and pasted it. That copy is a snapshot, made quickly by a person. It leaves out the comments, the linked issues, the epic and the status. It also leaves out old closed tickets. The key rule is often in one of those places. Pulling over MCP gives you the whole ticket, read now. It keeps the ticket key with the work. It also lets questions go back to the ticket. A common mistake is to expect more from MCP than that. MCP only connects. It does not make the agent smarter. The rest of this module is about using the connection well, and about writing better tickets." data-tier="K">
+<section class="slide" data-sec="Opening" data-title="From pasted to pulled" data-notes="Many teams give a ticket to an agent by copying the description and pasting it. That copy is a snapshot, made quickly by a person. It leaves out the comments, the linked issues, the epic and the status. It also leaves out old closed tickets. The key rule is often in one of those places. Pulling over MCP gives you the whole ticket, read now. It keeps the ticket key with the work. It also lets questions go back to the ticket. A common mistake is to expect more from MCP than that. MCP only connects. It does not make the agent smarter. The rest of this module is about using the connection well, and about writing better tickets." data-tier="K">
   <h2>Pasting a ticket loses most of it<span class="tag">M6</span></h2>
   <div class="body g64">
     <div>
@@ -92,7 +92,7 @@
 </section>
 
 <!-- 3 -->
-<section class="slide" data-sec="Opening" data-title="Words used in this module" data-notes="Keep this slide as a reference. MCP (Model Context Protocol) is a standard plug between an agent and another system. Think of a USB port: one standard shape, many devices. An MCP server is the program behind the plug. It offers the agent a fixed set of tools, such as get_issue or add_comment. Two JIRA words matter most here. Surroundings is this course's word for everything around a ticket that is not its description: comments, linked issues, the epic and closed tickets. Definition of ready is the checklist a ticket must pass before work starts. You will add four items to it later in this module. Day 1 words such as context window, stop condition and grounding are not repeated here." data-tier="K">
+<section class="slide" data-sec="Opening" data-title="Words used in this module" data-notes="Keep this slide as a reference. MCP (Model Context Protocol) is a standard plug between an agent and another system. Think of a USB port: one standard shape, many devices. An MCP server is the program behind the plug. It offers the agent a fixed set of tools, such as jira_get_issue or jira_add_comment. Two JIRA words matter most here. Surroundings is this course's word for everything around a ticket that is not its description: comments, linked issues, the epic and closed tickets. Definition of ready is the checklist a ticket must pass before work starts. You will add four items to it later in this module. Day 1 words such as context window, stop condition and grounding are not repeated here." data-tier="K">
   <h2>Words used in this module<span class="tag">M6</span></h2>
   <div class="body g55">
     <div class="pts">
@@ -120,7 +120,7 @@
 </section>
 
 <!-- 4 -->
-<section class="slide" data-sec="1 &middot; MCP in practice" data-title="What the agent can actually see" data-notes="Three facts shape everything you do with a connected agent. First, MCP offers named tools, not open access to a database. The agent sees only what those tools return. Second, the scope is set by the access token: which project, which permissions. A line in the prompt such as do not look at other projects is not a control. Your platform team will ask about this first. Third, the agent decides which calls to make. A vague request like find the ticket about reporting starts a search. The agent may then read many tickets, and every result stays in the context window. The practical habit is simple. Name the key, for example GB-163. Name the surroundings you want. Pull once, and save the summary in the spec." data-tier="K">
+<section class="slide" data-sec="1 &middot; MCP in practice" data-title="What the agent can actually see" data-notes="Three facts shape everything you do with a connected agent. First, MCP offers named tools, not open access to a database. The agent sees only what those tools return. The server in this course offers four JIRA tools: jira_get_issue, jira_search, jira_get_project_issues and jira_add_comment. It also offers six Confluence tools. No tool can change a ticket's status. The only thing the agent can write to JIRA is a comment. That limit comes from the tool list, not from the prompt. Second, the scope is set by the access token: which project, which permissions. A line in the prompt such as do not look at other projects is not a control. Your platform team will ask about this first. Third, the agent decides which calls to make. A vague request like find the ticket about reporting starts a search. The agent may then read many tickets, and every result stays in the context window. The practical habit is simple. Name the key, for example GB-163. Name the surroundings you want. Pull once, and save the summary in the spec." data-tier="K">
   <h2>MCP gives the agent tools, not a database &mdash; and the agent picks the calls<span class="tag k">1</span></h2>
   <div class="body g1">
     <div>
@@ -128,10 +128,10 @@
         <rect class="bx grow" x="4" y="4" width="384" height="200" rx="8"/>
         <text class="lb" x="24" y="28">1 &middot; IT IS A SET OF TOOLS</text>
         <text class="tt" x="24" y="56">Named actions only</text>
-        <text class="ss" x="24" y="82">get_issue &middot; search_issues &middot; add_comment</text>
-        <text class="ss" x="24" y="102">get_transitions &middot; transition_issue</text>
-        <text class="ss" x="24" y="134">The agent can only use the tools</text>
-        <text class="ss" x="24" y="154">the server offers. Nothing else.</text>
+        <text class="ss" x="24" y="82">jira_get_issue &middot; jira_search &middot; jira_add_comment</text>
+        <text class="ss" x="24" y="102">jira_get_project_issues &middot; six confluence_* tools</text>
+        <text class="ss" x="24" y="134">No tool changes a status. The only</text>
+        <text class="ss" x="24" y="154">JIRA write is a comment. Nothing else.</text>
         <text class="ss" x="24" y="186" style="fill:#5fbf8f;font-weight:600">So first decide which tools to offer.</text>
 
         <rect class="bx a grow w2" x="398" y="4" width="384" height="200" rx="8"/>
