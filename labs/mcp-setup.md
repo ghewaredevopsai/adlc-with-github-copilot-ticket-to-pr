@@ -21,6 +21,22 @@ sets up.
 | A Confluence space you can create pages in | You can create a page in it from the browser |
 | Your company allows MCP servers in Copilot | Your GitHub administrator controls this. Step 6 shows how to tell |
 
+### Name your project and space
+
+Use the **same key** for your Jira project and your Confluence space.
+
+| Your setup | Key | Name |
+|---|---|---|
+| Your own Jira and Confluence site | `ADLC` | ADLC Workshop – Global Bank |
+| One Jira shared with other participants | `ADLC` plus your seat number, for example `ADLC07` | ADLC Workshop – *your name* |
+
+**Each participant needs their own project and space.** The ticket script skips a ticket that is
+already in the project. In a shared project, it would give you someone else's tickets.
+
+The Jira project must be a **software** project (Scrum or Kanban), with the issue types **Story**,
+**Bug**, **Task** and **Epic**. A key has at most 10 characters: capital letters and digits,
+starting with a letter.
+
 The repositories must be in these folders, in your home folder:
 
 ```text
@@ -59,7 +75,7 @@ folder. Then fill it in:
 |---|---|
 | `JIRA_URL` | Your Jira address, for example `https://jira.yourcompany.com` |
 | `JIRA_PERSONAL_TOKEN` | The Jira token from step 1 |
-| `JIRA_PROJECT_KEY` | Your project's key, for example `ADLC`. The lab tickets go here |
+| `JIRA_PROJECT_KEY` | Your project's key, for example `ADLC` or `ADLC07`. See [Name your project and space](#name-your-project-and-space). The lab tickets go here |
 | `JIRA_PROJECTS_FILTER` | The same key. It stops Copilot searching other projects |
 | `CONFLUENCE_URL` | Your Confluence address |
 | `CONFLUENCE_PERSONAL_TOKEN` | The Confluence token from step 1 |
@@ -99,7 +115,19 @@ until both lines say OK.
 ## Step 4 — Install the MCP server's launcher
 
 The server is a Python package called `mcp-atlassian`. A small tool called `uv` downloads it and
-runs it. Install `uv` once:
+runs it. Install `uv` once, with the command for your operating system.
+
+**macOS or Linux:**
+
+```bash
+python3 -m pip install --user --break-system-packages uv
+```
+
+Without `--break-system-packages`, pip may stop with `externally-managed-environment`. That error
+protects the Python that came with your system. `--user` puts `uv` in your home folder only, so the
+system Python is not changed.
+
+**Windows:**
 
 ```bash
 python -m pip install --user uv
@@ -214,6 +242,7 @@ Each time Copilot wants to use a tool, VS Code asks you first. Read the request 
 | `CERTIFICATE_VERIFY_FAILED` | Your company uses its own certificate authority. Ask IT for its certificate file. Add two lines to `.env`: `SSL_CERT_FILE=<path to the file>` and `REQUESTS_CA_BUNDLE=<the same path>` |
 | `Cannot reach …`, and you normally use a proxy | Set `HTTPS_PROXY` (and `NO_PROXY` if needed) in `.env`. The script and the server both read them |
 | `uvx` is not found | Close and reopen the terminal. Still missing? Use the fallback below |
+| `externally-managed-environment` from pip | Add `--break-system-packages` to the command, as step 4 shows for macOS and Linux |
 | `pip install` is blocked | Ask IT for the company Python package mirror. The labs cannot run without it |
 | The server stops as soon as it starts | Run **MCP: List Servers**, select **atlassian**, then **Show Output**. The last lines say why |
 | Copilot says it has no Jira tools | Check that the chat mode is **Agent**, and that **atlassian** is ticked in the tools list |
@@ -223,6 +252,8 @@ Each time Copilot wants to use a tool, VS Code asks you first. Read the request 
 ```bash
 python -m pip install --user mcp-atlassian
 ```
+
+On macOS or Linux, use `python3` and add `--break-system-packages`, as in step 4.
 
 Then, in `adlc-labs.code-workspace`, change the server's `"command": "uvx"` to
 `"command": "mcp-atlassian"`, and change `"args"` to `[]`.
