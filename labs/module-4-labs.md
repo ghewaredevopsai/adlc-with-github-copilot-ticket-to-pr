@@ -48,7 +48,22 @@ ticket differently.
    ```
 
    No Lab 3.1 branch, or it is broken? Start from the checkpoint instead:
-   `git switch -c lab-4.1-agents m4-start`.
+   `git switch -c lab-4.1-agents m4-start`, and skip step 4.
+
+4. Add the reference knowledge files that you did not write in Module 2. The agents in this module
+   point at them: the test rules, the ADR index, three ADRs and three files in `docs/`. This keeps your
+   own `copilot-instructions.md`, `domain.instructions.md`, `ADR-001`, skill file and prompt file:
+
+   ```bash
+   git checkout m2.2-start -- .github/instructions/tests.instructions.md \
+     .github/instructions/api.instructions.md docs/architecture.md docs/conventions.md \
+     docs/glossary.md docs/adr/README.md docs/adr/ADR-003-amounts-as-minor-units.md \
+     docs/adr/ADR-005-no-lombok.md docs/adr/ADR-007-duplicate-suppression.md \
+     docs/adr/ADR-009-versioning-the-posting-contract.md
+   git commit -m "Module 4: add the reference knowledge files"
+   ```
+
+   `ADR-007` is the reference version of your own `ADR-001`. Keep both. The ADR index lists `ADR-007`.
 
 ---
 

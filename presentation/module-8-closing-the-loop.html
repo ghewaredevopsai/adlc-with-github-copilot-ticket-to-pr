@@ -664,7 +664,7 @@ this - see GB-207.
 </section>
 
 <!-- 16 -->
-<section class="slide" data-sec="Capstone" data-title="The capstone - one ticket, everything" data-notes="The capstone is the final test of the course, not a demonstration. You take one ticket through both repositories and all eight stages. You have done each stage before. What is new is how the stages work together, and where the hand-offs between them cost time. Two rules make the result mean something. First, measure it exactly as you did in Lab 1.1: the same six counts, counted by the same person. Otherwise you cannot compare the two numbers. Second, and harder: do not pick an easy ticket and work extra carefully. Lab 1.1 was a normal working day, so this must be one too. If you compare a careful run to a careless one, you only fool yourself. Also note which stage cost the most time, and whether it was worth it. That answer helps you plan your own rollout." data-tier="K">
+<section class="slide" data-sec="Capstone" data-title="The capstone - one ticket, everything" data-notes="The capstone is the final test of the course, not a demonstration. You take one ticket through both repositories and all eight stages. You have done each stage before. What is new is how the stages work together, and where the hand-offs between them cost time. Two rules make the result mean something. First, measure it exactly as you did in Lab 1.1: the same six counts, counted by the same person. Otherwise you cannot compare the two numbers. Second, and harder: do not work extra carefully because this run is measured. Lab 1.1 was a normal working day, so this must be one too. When you compare, use only asked, rework and churn, divided by the number of acceptance criteria: 6 for GB-186, 5 for GB-142. If you compare a careful run to a careless one, you only fool yourself. Also note which stage cost the most time, and whether it was worth it. That answer helps you plan your own rollout." data-tier="K">
   <h2>The capstone &mdash; one ticket, both repos, every stage<span class="tag">CAP</span></h2>
   <div class="body g64">
     <div>
@@ -691,7 +691,7 @@ this - see GB-207.
         <rect class="bx d" x="4" y="312" width="692" height="118" rx="8"/>
         <text class="lb w" x="24" y="336">TWO RULES &mdash; THE SECOND IS THE HARD ONE</text>
         <text class="ss w" x="24" y="362" style="font-size:14px"><tspan font-weight="700">Measure it the same way.</tspan> Same six counts, same person counting.</text>
-        <text class="ss w" x="24" y="390" style="font-size:14px"><tspan font-weight="700" fill="#e0b34d">Do not pick an easy ticket and work extra carefully.</tspan></text>
+        <text class="ss w" x="24" y="390" style="font-size:14px"><tspan font-weight="700" fill="#e0b34d">Do not work extra carefully because it is measured.</tspan></text>
         <text class="ss w" x="24" y="412" style="font-size:14px">Lab 1.1 was a normal day. This must be one too.</text>
       </svg>
     </div>
@@ -703,7 +703,8 @@ this - see GB-207.
       </ul>
       <h3>On the board</h3>
       <ul>
-        <li>Six counts in the last row of the tally sheet, next to Lab 1.1.</li>
+        <li>Six counts in the last row of the tally sheet.</li>
+        <li>Compare only asked, rework and churn with Lab 1.1, <b>per acceptance criterion</b>.</li>
         <li>Plus: <b>which stage cost most, and was it worth it?</b></li>
       </ul>
       <div class="callout bad"><b>A careful run against a careless one proves nothing.</b> You would only fool yourself.</div>
@@ -712,7 +713,7 @@ this - see GB-207.
 </section>
 
 <!-- 17 -->
-<section class="slide" data-sec="Capstone" data-title="Reading the capstone result" data-notes="Compare your capstone row with your Lab 1.1 row, column by column. There are four common shapes. Rework and clarifying questions fall while turns stay about the same. This is the best case: less guessing and less searching, with extra stages keeping turns flat. Everything falls, even time taken. This is possible but check it, because extra stages usually cost something. Make sure the ticket was really comparable. Results stay about the same. Often the ticket was already clear, and that is a real finding about your board. Results are worse than Lab 1.1. This does happen on a first full run, because you are still learning the eight stages. A slower first run does not mean the method failed. Report it as measured, then ask which stage you would drop. Hiding a bad result is the dishonesty this course argues against." data-tier="R" data-after="lab">
+<section class="slide" data-sec="Capstone" data-title="Reading the capstone result" data-notes="Compare three columns with your Lab 1.1 row: asked, rework and churn. Divide each by the number of acceptance criteria: 6 for GB-186, 5 for GB-142. Do not compare turns, tool calls or time. GB-186 is two repositories and eight stages, so those are higher because the ticket is bigger. There are four common shapes. Asked, rework and churn per criterion fall. This is the best case: less guessing and fewer repairs. They fall to zero. This is possible but check it, because zero rework is rare. Make sure you counted the same way as in Lab 1.1. Results stay about the same. Often the ticket was already clear, and that is a real finding about your board. Results are worse than Lab 1.1. This does happen on a first full run, because you are still learning the eight stages. A slower first run does not mean the method failed. Report it as measured, then ask which stage you would drop. Hiding a bad result is the dishonesty this course argues against." data-tier="R" data-after="lab">
   <h2>Every result counts &mdash; even a disappointing one<span class="tag">CAP</span></h2>
   <div class="body g1">
     <div>
@@ -723,20 +724,20 @@ this - see GB-207.
         <text class="lb w" x="880" y="24">WHAT TO DO</text>
 
         <rect class="bx g grow" x="4" y="42" width="1172" height="94" rx="6"/>
-        <text class="tt" x="24" y="76">Rework and questions fall;</text>
-        <text class="tt" x="24" y="98">turns stay about the same</text>
-        <text class="ss" x="420" y="76">The best case. Less guessing, less searching.</text>
-        <text class="ss" x="420" y="98">Turns stay flat because there are more stages.</text>
+        <text class="tt" x="24" y="76">Asked, rework and churn</text>
+        <text class="tt" x="24" y="98">fall, per criterion</text>
+        <text class="ss" x="420" y="76">The best case. Less guessing, fewer repairs.</text>
+        <text class="ss" x="420" y="98">Turns and time rise with the ticket&rsquo;s size.</text>
         <text class="ss" x="880" y="76" style="fill:#5fbf8f;font-weight:600">Report each column,</text>
-        <text class="ss" x="880" y="98" style="fill:#5fbf8f;font-weight:600">not just the total</text>
+        <text class="ss" x="880" y="98" style="fill:#5fbf8f;font-weight:600">divided by 6 and by 5</text>
 
         <rect class="bx a grow w2" x="4" y="144" width="1172" height="88" rx="6"/>
-        <text class="tt" x="24" y="176">Everything falls,</text>
-        <text class="tt" x="24" y="196">even the time taken</text>
-        <text class="ss" x="420" y="176">Possible, but check it. Extra stages</text>
-        <text class="ss" x="420" y="198">usually cost something.</text>
-        <text class="ss" x="880" y="176">Check the ticket was</text>
-        <text class="ss" x="880" y="198">really comparable</text>
+        <text class="tt" x="24" y="176">All three fall</text>
+        <text class="tt" x="24" y="196">to zero</text>
+        <text class="ss" x="420" y="176">Possible, but check it. Zero rework</text>
+        <text class="ss" x="420" y="198">is rare on a first full run.</text>
+        <text class="ss" x="880" y="176">Check you counted the</text>
+        <text class="ss" x="880" y="198">same way as in Lab 1.1</text>
 
         <rect class="bx grow w3" x="4" y="240" width="1172" height="84" rx="6"/>
         <text class="tt" x="24" y="272">About the same</text>

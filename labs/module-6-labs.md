@@ -30,9 +30,9 @@ cd ~/adlc-with-github-copilot-ticket-to-pr
 python labs/scripts/setup-lab-tickets.py --module 6
 ```
 
-This loads five tickets into your Jira project: GB-207, GB-163, GB-118, GB-119 and RISK-402. GB-207
-may say `exists`, because Module 4 loaded it. That is fine. Open `labs/lab-keys.md` and check that
-all five have a key.
+This loads six tickets into your Jira project: GB-100, GB-207, GB-163, GB-118, GB-119 and RISK-402.
+GB-100 and GB-207 may say `exists`, because Module 4 loaded them. That is fine. Open
+`labs/lab-keys.md` and check that all six have a key.
 
 One of these tickets is closed. Many Jira projects have only a **Done** status, so its summary ends
 with `(CLOSED - WON'T DO)`. Read the summary, not the status.
@@ -343,10 +343,11 @@ wrote them in Module 3. This one is shaped for tickets, and the questions go ont
 ```text
 Now work GB-163 from global-bank-account/specs/GB-163.md.
 Stop condition: before you change any code, check the spec. If two sources disagree, or an issue
-that blocks this one is still open, do not change any code. Instead, write your questions, and use
+that blocks this one is still open, or a past ticket for this change was closed Won't Do, do not
+change any code. Instead, write your questions, and use
 jira_add_comment to post them as one comment on my GB-163 issue. Start the comment with
 "[copilot-agent] GB-163:" and name the source of each question.
-If neither is true, implement the ticket in global-bank-account and run "mvn test".
+If none of these is true, implement the ticket in global-bank-account and run "mvn test".
 Either way, tell me which path you took and why.
 ```
 
@@ -433,8 +434,8 @@ front matter format as global-bank-account/.github/skills/account-change/SKILL.m
 ticket-intake. The skill applies before work starts on any Jira ticket. It must say:
 1. Pull the ticket by its key, with its comments, its linked issues and its epic. Never search Jira.
 2. List every rule and number, with its source.
-3. Stop and ask, and change no code, when two sources disagree or when an issue that blocks this
-   ticket is still open.
+3. Stop and ask, and change no code, when two sources disagree, when an issue that blocks this
+   ticket is still open, or when a past ticket for the same change was closed Won't Do.
 4. Post the questions as one Jira comment on the ticket. Start it with "[copilot-agent]" and the
    ticket key.
 Keep the file under 40 lines. Do not change any other file. Stop when the file is written.
