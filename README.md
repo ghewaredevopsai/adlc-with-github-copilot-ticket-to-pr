@@ -28,8 +28,23 @@ labs/
 ```
 
 The course works on **Global Bank**, a set of Spring Boot services on JDK 25, and a small weather app
-used to demonstrate the Jira → agent → pull request flow. Your trainer gives you the repository links
-and a machine setup check before Day 1. Lab guides are handed out module by module.
+used to demonstrate the Jira → agent → pull request flow. Your trainer gives you a machine setup check
+before Day 1. Lab guides are handed out module by module.
+
+## The code you work on
+
+All repositories are public. You clone them; you do not fork them. [participants-instructions.md](participants-instructions.md) walks you through it.
+
+| Repository | What it is |
+|---|---|
+| [global-bank-platform](https://github.com/brainupgrade-in/global-bank-platform) | Start here: the map of all services, and scripts that run the whole app on your machine |
+| [global-bank-account](https://github.com/brainupgrade-in/global-bank-account) | Accounts and balances (Spring Boot) |
+| [global-bank-transaction](https://github.com/brainupgrade-in/global-bank-transaction) | Deposits, withdrawals and transaction history (Spring Boot) |
+| [global-bank-customer](https://github.com/brainupgrade-in/global-bank-customer) | Customer records (Spring Boot) |
+| [global-bank-authentication](https://github.com/brainupgrade-in/global-bank-authentication) | Sign-in and tokens (Spring Boot) |
+| [global-bank-rules](https://github.com/brainupgrade-in/global-bank-rules) | Minimum-balance and service-charge rules (Spring Boot) |
+| [global-bank-frontend](https://github.com/brainupgrade-in/global-bank-frontend) | The web app (React + Vite) |
+| [weather-app](https://github.com/brainupgrade-in/weather-app) | The Jira → agent → pull request demo |
 
 ## Using the decks
 
