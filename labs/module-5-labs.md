@@ -7,7 +7,7 @@ In Lab 5.1 you turn a vague ticket into a **spec**: a short file that says what 
 that a test can check it. In Lab 5.2 you plan the change, challenge the plan and split it into
 tasks, all before any code exists.
 
-These two labs are not measured on the tally. What you count here is different: **how many
+These two labs are not measured in `metrics.md`. What you count here is different: **how many
 decisions you stopped the agent from inventing.**
 
 ## Words used in these labs

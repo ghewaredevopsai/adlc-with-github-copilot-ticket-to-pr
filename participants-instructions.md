@@ -13,7 +13,7 @@ You **clone** the repositories. You do not fork them. Your changes stay on branc
 
 ```
 $HOME/
-  adlc-with-github-copilot-ticket-to-pr/   the course: outline, slides, lab guides, metrics board
+  adlc-with-github-copilot-ticket-to-pr/   the course: outline, slides, lab guides
   global-bank/                             the code you work on
     global-bank-platform/                  scripts to run the whole app, and the map of all services
     global-bank-account/

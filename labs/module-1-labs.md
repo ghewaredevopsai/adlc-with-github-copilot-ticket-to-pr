@@ -2,39 +2,34 @@
 
 **Day 1** · Lab 1.1 (+ stretch) · about 45 minutes · Repository: `global-bank-account` · Start from: `m1-start`
 
-Module 1 has one lab. You fix one real bug with Copilot, on a repository where the team has written
-nothing down. While you work, you count six numbers. Those numbers are your **baseline**: the
-starting point that the rest of the course is measured against. At the end of Day 2 you measure again
-and compare. The goal is an honest number, not a good one.
+You fix one real bug with Copilot, on a repository where the team has written nothing down. At the
+end, Copilot counts six numbers from the chat and saves them in `metrics.md`. That is your
+**baseline**: the first measurement, taken before the course teaches anything. You measure again in
+Lab 2.2 and at the capstone, and compare. The goal is an honest number, not a good one.
 
 **Words used in this lab**
 
 - **Posting** — one payment instruction. It moves money from one account to another.
-- **Ledger entry** — one side of a posting. Each posting writes two: a debit and a credit.
 - **Client reference** — the sender's own id for a payment instruction.
 - **Value date** — the date the payment takes effect.
 - **Paise** — amounts are whole numbers of paise. `2500000` means ₹25,000.00.
-- **Baseline** — your first measurement, taken before the course teaches anything.
 
-## Before you start
+## Before you start (5 minutes, not measured)
 
-These steps take about 5 minutes. They are not part of the measured run.
-
-**1. Load the Module 1 ticket into your Jira.** In a VS Code terminal, at the root of the course
-repository:
+**1. Load the ticket into your Jira.** In a VS Code terminal:
 
 ```bash
 cd ~/adlc-with-github-copilot-ticket-to-pr
 python labs/scripts/setup-lab-tickets.py --module 1
 ```
 
-Use `python3` if `python` is not found. The script creates GB-142 in your Jira project and writes its
-key to `labs/lab-keys.md`.
+Use `python3` if `python` is not found. The script creates GB-142 and writes its key to
+`labs/lab-keys.md`.
 
-**2. Open the lab workspace.** In VS Code, select **File**, then **Open Workspace from File**, then
-`adlc-labs.code-workspace`. Check that **atlassian** is running (**MCP: List Servers**).
+**2. Open the workspace.** **File** → **Open Workspace from File** → `adlc-labs.code-workspace`.
+Check that **atlassian** is running (**MCP: List Servers**).
 
-**3. Make your branch and check the build.** In a terminal, in the `global-bank-account` folder:
+**3. Make your branch and check the build:**
 
 ```bash
 cd ~/global-bank/global-bank-account
@@ -44,56 +39,39 @@ mvn test
 # expect: Tests run: 4, Failures: 0, Errors: 0, Skipped: 0
 ```
 
-`--force` replaces any old copy of the tag in your clone. If you still see long `jacoco` stack traces,
-your branch came from an old tag: run `git switch main`, then `git branch -D GB-142-lab-1.1`, and
-repeat this step. A green build now means that
-any red test later comes from this lab's change.
+If you see long `jacoco` stack traces, your branch came from an old tag. Run `git switch main` and
+`git branch -D GB-142-lab-1.1`, then repeat this step.
 
-**4. Open your tally issue on the board.** Your trainer shares the board link. On the board, select
-**New issue**, then **Workshop tally**. Title it with your name, for example `Tally — Priya Sharma`.
-Select **Submit**. You open this issue once, and you use it for the whole course. See
-[board/README.md](board/README.md).
-
-**5. Get paper and a pen.** You will count on paper while Copilot works. A counter in another window
-is a counter you forget.
-
-**Three things not to do before the run**
-
-- Do not read the code first. The run must measure the repository as it is.
-- Do not open any later tag, such as `m2.2-start`. Later tags hold later answers.
-- Do not change the prompts. Everyone sends the same words, so the numbers compare fairly.
+**Do not** read the code first, open a later tag such as `m2.2-start`, or change the prompts. The
+run must measure the repository as it is, with the same words for everyone.
 
 ## Lab 1.1 — The baseline run
 
-**Goal:** fix GB-142 on an unprepared repository, and count six numbers as you go · **Ticket:**
-GB-142 · **Timebox:** 45 min (35 working, 10 recording) · **Output:** row 1.1 on your tally issue
+**Goal:** fix GB-142 on an unprepared repository · **Timebox:** 35 minutes of work, then one record
+prompt · **Output:** the fix and `metrics.md`, committed on `GB-142-lab-1.1`
 
 **The ticket in one line.** GB-142, *Retried payments are booked twice*. When a payment is sent again
 after a timeout, the service books it a second time. Copilot reads the full ticket, with its five
 acceptance criteria, from your Jira.
 
-### Step 1 — Write down your four decisions
+### Step 1 — Choose your four decisions
 
-Before you send anything, write these four on your paper. One word each, plus a reason in one line.
-The deck (slides 11 to 18) explains each choice.
+Decide these four for this ticket, using slides 11 to 18. You type them into the record prompt at
+the end.
 
-1. **Kind of task:** mechanical / reasoning / review — because ...
-2. **Model class:** base model (the deck's *fast model*) / premium reasoning model (the deck's
-   *reasoning model*) — because ...
-3. **Mode:** Ask / Edit / Agent — because ...
-4. **Interactive or delegated:** interactive / delegated — because ...
+1. **Kind of task:** mechanical / reasoning / review
+2. **Model class:** base model / premium reasoning model
+3. **Mode:** Ask / Edit / Agent
+4. **Working style:** interactive / delegated
 
-Write what **you** would choose for this ticket. The measured run itself uses fixed settings (Agent
-mode, base model), so that every row on the board compares fairly. You compare these four answers
-with your choices at the capstone. The stretch lab lets you try a different choice.
+The measured run itself uses fixed settings (Agent mode, base model), so every run compares fairly.
 
-### Step 2 — Start the clock and send the opener
-
-Write down the time. Then send the prompt below. This is turn 1.
+### Step 2 — Send the opener
 
 **Prompt 1.1-A** · Agent mode · base model · **new chat**
 
 ```text
+First run "date" in a terminal and show me the output. That is the start time of this run.
 Read course/labs/lab-keys.md to find my Jira key for GB-142. Use the atlassian MCP tools to read
 that Jira issue, including its comments.
 Implement the ticket in the global-bank-account folder. Meet every acceptance criterion.
@@ -101,15 +79,10 @@ Run "mvn test" in global-bank-account until it passes.
 When you finish, list the files you changed, and say which acceptance criteria are met and how.
 ```
 
-**What you should see:** Copilot asks to use `jira_get_issue`, then reads and searches files, edits
-code and runs `mvn test`. Read each request before you select **Allow**. At the end, it lists the
-files it changed and the criteria it says are met.
+Read each tool request before you select **Allow**. You do not need to count anything: the record
+prompt does that from the chat.
 
-**While it works, count.** See [How to count](#how-to-count) below. Make a mark on paper each time
-something happens. Do not wait until the end.
-
-**If Copilot stops and asks you a question,** mark it on your paper under **Asked**. Then reply with
-this prompt. It counts as a turn.
+**If Copilot stops and asks you a question,** reply in the same chat with:
 
 **Prompt 1.1-Q** · Agent mode · **same chat**
 
@@ -120,101 +93,54 @@ tell me what you chose and why, and continue.
 
 ### Step 3 — Check the tests
 
-Wait until Copilot says it has finished. Then, in a terminal in `global-bank-account`:
+When Copilot has finished, in a terminal in `global-bank-account`:
 
 ```bash
 mvn test
 ```
 
-**Check 1 passes when:** `Tests run` is **more than 4**, with `Failures: 0` and `Errors: 0`. The
-ticket asks for tests (criterion 5), so the count must go up.
-
-If Check 1 fails, go to [When a check fails](#when-a-check-fails).
+**Check 1 passes when** `Tests run` is **more than 4**, with `Failures: 0` and `Errors: 0`.
+Criterion 5 asks for tests, so the count must go up.
 
 ### Step 4 — Start the service
 
-Open a **second** terminal in `global-bank-account`, and leave it running. If the whole Global Bank
-app is still running from the setup, stop it first (Step 6 of `participants-instructions.md`):
+In a **second** terminal in `global-bank-account` (stop the whole Global Bank app first if it is
+running):
 
 ```bash
 mvn spring-boot:run
 ```
 
-Wait for the line `Started AccountserviceApplication`. The service listens on port 8086.
+Wait for `Started AccountserviceApplication` (port 8086). Data is kept in memory, so every restart
+starts with empty accounts. On **Windows**, run the `curl` commands below in **Git Bash**, not
+PowerShell.
 
-On **Windows**, run the `curl` commands in the next steps in a **Git Bash** terminal. Pick it from
-the **+** list in the terminal panel. PowerShell treats the quotes differently, and the commands fail.
+### Step 5 — Checks 2 to 4
 
-The service keeps its data in memory. Every restart starts again with empty accounts, so every
-balance starts at `0`.
-
-### Step 5 — Check criteria 1 and 2: the same instruction, sent twice
-
-This is the retry from the ticket. Send the **same** payroll payment twice, in a third terminal:
+Run these in a third terminal. `post` is a small helper so each check is one line.
 
 ```bash
-curl -s -w '\nHTTP %{http_code}\n' -X POST http://localhost:8086/account/api/v1/postings \
-  -H 'Content-Type: application/json' \
-  -d '{"clientReference":"PAY-2026-03-0001","debitAccountId":"ACC-PAYROLL","creditAccountId":"ACC-CLIENT-001","amountMinor":2500000,"valueDate":"2026-03-31","narrative":"March payroll"}'
+post() { curl -s -w '\nHTTP %{http_code}\n' -X POST http://localhost:8086/account/api/v1/postings \
+  -H 'Content-Type: application/json' -d "$1"; }
+balance() { curl -s http://localhost:8086/account/api/v1/accounts/$1/balance; echo; }
+
+MARCH='{"clientReference":"PAY-2026-03-0001","debitAccountId":"ACC-PAYROLL","creditAccountId":"ACC-CLIENT-001","amountMinor":2500000,"valueDate":"2026-03-31","narrative":"March payroll"}'
+APRIL='{"clientReference":"PAY-2026-03-0001","debitAccountId":"ACC-PAYROLL","creditAccountId":"ACC-CLIENT-001","amountMinor":2500000,"valueDate":"2026-04-30","narrative":"April payroll"}'
+NEW='{"clientReference":"PAY-2026-03-0002","debitAccountId":"ACC-PAYROLL","creditAccountId":"ACC-CLIENT-002","amountMinor":750000,"valueDate":"2026-03-31","narrative":"March payroll"}'
 ```
 
-Run the **same command** again. Up-arrow and Enter is fine. Then read the balance of the account that
-received the money:
+| Check | Run | Passes when |
+|---|---|---|
+| **2** — the same instruction twice (criteria 1, 2) | `post "$MARCH"; post "$MARCH"; balance ACC-CLIENT-001` | Both calls return HTTP 200 or 201 with the **same** `postingId`. Balance `2500000` (one payment, not two) |
+| **3** — same reference, new value date (criterion 3) | `post "$APRIL"; balance ACC-CLIENT-001` | HTTP 201, a **new** `postingId`, `"valueDate":"2026-04-30"`. Balance `5000000` |
+| **4** — a new instruction (criterion 4) | `post "$NEW"; balance ACC-CLIENT-002` | HTTP 201 with a `postingId`. Balance `750000` |
 
-```bash
-curl -s http://localhost:8086/account/api/v1/accounts/ACC-CLIENT-001/balance
-```
+All four checks pass? Stop the service with `Ctrl+C` and go to [Step 6](#step-6--record).
 
-**Check 2 passes when all of these are true:**
+**When a check fails,** send the repair prompt in the **same chat**, with the failing output in
+place of the `<>` line:
 
-- Both calls return `HTTP 200` or `HTTP 201`. Neither returns an error.
-- Both responses show a `postingId`, and it is the **same** id both times.
-- The balance shows `"balanceMinor":2500000`. That is one payment of ₹25,000, not two.
-
-If the balance shows `5000000`, the payment was booked twice.
-
-### Step 6 — Check criterion 3: the same reference on a different value date
-
-A standing order sends the same client reference every month. Each month is a real, new payment.
-Send the April payment:
-
-```bash
-curl -s -w '\nHTTP %{http_code}\n' -X POST http://localhost:8086/account/api/v1/postings \
-  -H 'Content-Type: application/json' \
-  -d '{"clientReference":"PAY-2026-03-0001","debitAccountId":"ACC-PAYROLL","creditAccountId":"ACC-CLIENT-001","amountMinor":2500000,"valueDate":"2026-04-30","narrative":"April payroll"}'
-curl -s http://localhost:8086/account/api/v1/accounts/ACC-CLIENT-001/balance
-```
-
-**Check 3 passes when:**
-
-- The call returns `HTTP 201`, with a **new** `postingId`, different from the March one.
-- The response shows `"valueDate":"2026-04-30"`.
-- The balance is now `"balanceMinor":5000000`.
-
-### Step 7 — Check criterion 4: a brand-new instruction
-
-A new payment, with a new client reference, must work exactly as before:
-
-```bash
-curl -s -w '\nHTTP %{http_code}\n' -X POST http://localhost:8086/account/api/v1/postings \
-  -H 'Content-Type: application/json' \
-  -d '{"clientReference":"PAY-2026-03-0002","debitAccountId":"ACC-PAYROLL","creditAccountId":"ACC-CLIENT-002","amountMinor":750000,"valueDate":"2026-03-31","narrative":"March payroll"}'
-curl -s http://localhost:8086/account/api/v1/accounts/ACC-CLIENT-002/balance
-```
-
-**Check 4 passes when:** the call returns `HTTP 201` with a `postingId`, and the balance shows
-`"balanceMinor":750000`.
-
-All four checks pass? **Stop the clock.** Write down the minutes since your first prompt. Stop the
-service with `Ctrl+C`. Go to [Record](#record).
-
-### When a check fails
-
-Paste the repair prompt below into the **same chat**. Replace the second line with what you saw: the
-failing `Tests run` line, or the curl command and its output. This is the only part of any prompt you
-change. Each repair counts as **one turn** and **one rework**.
-
-**Repair prompt 1.1-R** · Agent mode · **same chat**
+**Prompt 1.1-R** · Agent mode · **same chat**
 
 ```text
 A check failed. This is what I saw:
@@ -223,129 +149,77 @@ Fix only this. Run "mvn test" in global-bank-account again, and tell me which ac
 criteria are now met.
 ```
 
-After Copilot finishes:
+Then restart the service (`Ctrl+C`, `mvn spring-boot:run`) and run **all** the checks again from
+Step 3. Send at most **three** repairs, and stop at **35 minutes** even mid-repair. An unfinished run
+is still a result.
 
-1. Stop the service with `Ctrl+C`, and start it again with `mvn spring-boot:run`. The running
-   service still has the old code, and the restart also empties the accounts.
-2. Run **all** the checks again from Step 3. A repair can break a check that passed before.
+### Step 6 — Record
 
-**Limits.** Send at most **three** repairs. Stop at **35 minutes** from your first prompt, even in the
-middle of a repair. A run that did not finish is still a result. Record it as it is.
+Send this in the **same chat**. Fill in the last two lines: your four decisions from Step 1, and any notes.
 
-### How to count
+**Prompt 1.1-M** · Agent mode · **same chat**
 
-Keep six columns on paper and make a mark as each thing happens.
+```text
+The run is over. Count these six numbers from this chat only, and do not guess beyond it:
+- Turns: prompts I sent, from the opener to the last repair. Not this prompt.
+- Tool calls: files you read and searches you ran. Not the Jira fetch, edits or terminal commands.
+- Asked: questions you asked me that a file in the repository could have answered.
+- Rework: repair prompts I sent that start with "A check failed".
+- Churn: lines you wrote earlier in this run and later replaced or deleted, to the nearest ten.
+- Clock: run "date" now. Minutes since the start time in your first reply. If over 35, write "35 (not finished)".
+Create metrics.md at the root of global-bank-account with this table and one row:
+| Run | Ticket | Turns | Tool calls | Asked | Rework | Churn | Clock |
+Use "1.1" as the run and "GB-142" as the ticket. Under the table, add a line "Decisions:" with my
+four decisions below, one line "Notes:" with my notes below, and one line "How counted:" that says
+anything you could not count exactly.
+Then run: git add -A && git commit -m "GB-142 lab 1.1 baseline run". Show me the table.
+My four decisions: <kind of task>, <model class>, <mode>, <working style>
+My notes: <anything unusual, for example "MCP failed", or leave empty>
+```
 
-| Counter | Mark one each time ... | Do not count |
-|---|---|---|
-| **Turns** | you send a prompt. The opener is turn 1. Every 1.1-Q and 1.1-R reply is one more | Changing the mode or the model |
-| **Tool calls** | the chat shows Copilot reading a file or searching. Expand the collapsed lists in the chat to see each one | Fetching the ticket, file edits, terminal commands, files **you** opened |
-| **Asked** | Copilot asks you something that a well-kept repository could answer: where code lives, a team rule, a past decision, what a word means | Questions about what **you** want |
-| **Rework** | you send repair prompt 1.1-R. Count it under **Turns** too | — |
-| **Churn** | Copilot replaces or deletes lines that it wrote earlier in this run. Estimate the lines, to the nearest ten | Lines in the final change |
-| **Clock** | minutes from your first prompt until all four checks pass, or 35 if you stop at the timebox | Setup time, reading this guide |
-
-Tips:
-
-- Be **consistent** rather than perfect. You count again the same way in Lab 2.2 and at the
-  capstone, so the same habits give a fair comparison.
-- Count tool calls after each reply, while they are still on screen. Scrolling back later is slow.
-- For churn, watch the diff in each edit. When Copilot rewrites a method it wrote ten minutes ago,
-  note how many lines it replaced.
-
-### Record
-
-You have 10 minutes. Do not skip them: a run with no row on the board cannot be compared later.
-
-1. **Save the numbers in the repository.** Create `metrics.md` at the root of `global-bank-account`,
-   with one line: the run, the ticket, and your six numbers. For example:
-
-   ```text
-   | 1.1 | GB-142 | turns | tool calls | asked | rework | churn | clock |
-   ```
-
-   Put your own numbers in place of the words. Then commit it with your work:
-
-   ```bash
-   git add -A
-   git commit -m "GB-142 lab 1.1 baseline run"
-   ```
-
-2. **Fill in row 1.1 on your tally issue.** Edit the issue body, and put your six numbers in the
-   **1.1** row. Write the clock as a number of minutes. If you stopped at the timebox, write
-   `35 (not finished)`.
-3. **Post the same row as a comment** on the issue. The comment keeps a record of what you reported
-   and when.
-4. **Say what could make your numbers hard to defend.** Use the last box in the issue. For example:
-   you had read the code before, the MCP server failed, or you lost count for a few minutes.
-5. **Keep your paper.** It holds your four decisions. You need them at the capstone.
-
-Report what you measured, even if it looks bad. A run that went badly is a finding, not a failure.
+**Check:** `git show --stat HEAD` lists `metrics.md` and your code changes. Leave the numbers as
+Copilot counted them, even if they look bad. A run that went badly is a finding, not a failure.
 
 ### If you are behind
 
-There is no catch-up tag for this lab, because the lab is the measurement. At 35 minutes, stop and
-record what you have, marked `35 (not finished)`. Lab 2.1 starts again from `m1-start` on a new
-branch, so nothing from this run carries over.
+There is no catch-up tag, because the lab is the measurement. At 35 minutes, send Prompt 1.1-M
+anyway. Lab 2.1 starts again from `m1-start`, so nothing from this run carries over.
 
 ## Stretch lab 1.1+ (optional)
 
-**Goal:** run GB-142 again with a different model class or a different mode, and see how the six
-numbers change. Do this only if you finish early. It is not scored, and it does not go on the board.
-
-This second run is not a clean measurement. You have now seen the code and the ticket once, so part of
-any change comes from you. Keep that in mind when you compare.
-
-**1. Make a fresh branch** from the same starting point. Commit Lab 1.1 first (see Record).
+**Goal:** run GB-142 again with one setting changed, and see which numbers move. Not scored. You
+have now seen the code once, so part of any change comes from you.
 
 ```bash
 git switch -c GB-142-lab-1.1plus m1-start
 ```
 
-**2. Choose one change,** and use a fresh sheet of paper to count.
+Pick one:
 
-**Option A — the other model class.** Send the same opener, word for word, with the premium reasoning
-model.
+- **Option A — the other model class.** Send Prompt 1.1-A word for word, in a **new chat**, with the
+  **premium reasoning model**.
+- **Option B — the other mode.** In a new chat, set the mode to **Edit** (if your list has no Edit,
+  do Option A). Select **Add Context** and add `course/labs/tickets/GB-142.md`,
+  `global-bank-account/src/main/java/in/brainupgrade/accountservice/posting/service/PostingService.java`
+  and `global-bank-account/src/test/java/in/brainupgrade/accountservice/posting/PostingServiceTest.java`.
+  Then send:
 
-**Prompt 1.1-A** · Agent mode · **premium reasoning model** · **new chat**
+  **Prompt 1.1+-B** · Edit mode · base model · **new chat**
 
-```text
-Read course/labs/lab-keys.md to find my Jira key for GB-142. Use the atlassian MCP tools to read
-that Jira issue, including its comments.
-Implement the ticket in the global-bank-account folder. Meet every acceptance criterion.
-Run "mvn test" in global-bank-account until it passes.
-When you finish, list the files you changed, and say which acceptance criteria are met and how.
+  ```text
+  The ticket is in GB-142.md. Implement it by changing only PostingService.java and
+  PostingServiceTest.java. Meet every acceptance criterion, and add tests for each one.
+  When you finish, list what you changed, and say which acceptance criteria are met and how.
+  ```
+
+  Select **Keep**, then run `mvn test` yourself. Edit mode cannot run commands.
+
+Run Steps 3 to 5 as before, then send Prompt 1.1-M with `1.1+` as the run and `GB-142 lab 1.1+` in
+the commit message. In Option B, switch the same chat to **Agent** mode first. Edit mode could not
+run `date`, so Copilot notes the clock as missing. Compare the two files:
+
+```bash
+git diff GB-142-lab-1.1 GB-142-lab-1.1plus -- metrics.md
 ```
 
-**Option B — the other mode.** Edit mode changes only the files you give it. It cannot read Jira or
-run commands, so you give it the ticket file and run the tests yourself. In a new chat, set the mode
-to **Edit**. Select **Add Context**, and add these three files:
-
-- `course/labs/tickets/GB-142.md`
-- `global-bank-account/src/main/java/in/brainupgrade/accountservice/posting/service/PostingService.java`
-- `global-bank-account/src/test/java/in/brainupgrade/accountservice/posting/PostingServiceTest.java`
-
-Then send:
-
-**Prompt 1.1+-B** · Edit mode · base model · **new chat**
-
-```text
-The ticket is in GB-142.md. Implement it by changing only PostingService.java and
-PostingServiceTest.java. Meet every acceptance criterion, and add tests for each one.
-When you finish, list what you changed, and say which acceptance criteria are met and how.
-```
-
-Select **Keep** to accept the changes. Then run `mvn test` yourself. If your mode list has no **Edit**
-mode, do Option A instead.
-
-**3. Run the same checks** as Lab 1.1, Steps 3 to 7. Use the same repair prompt 1.1-R, with the same
-limit of three repairs. In Option B, send it in Edit mode, then run `mvn test` yourself.
-
-**4. Compare.** Write both rows side by side on paper: Lab 1.1 and 1.1+. Then answer in one line each:
-
-- Which counter changed the most?
-- Did the other setting change the design of the fix, or only the effort to reach it?
-- Would you make the same four decisions from Step 1 again?
-
-Keep this comparison for yourself or for the room discussion. Do not change row 1.1 on your tally
-issue.
+Which number changed most? Did the other setting change the design of the fix, or only the effort?

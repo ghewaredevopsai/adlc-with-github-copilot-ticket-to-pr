@@ -8,7 +8,7 @@ will find it. This is called **write-back**. Most of the words already exist in 
 copy and tidy, not write from nothing.
 
 Then the **capstone**: one ticket, GB-186, through both repositories and all eight stages. You measure
-it the same way as Lab 1.1. The result goes on the board next to your Lab 1.1 row, whatever it says.
+it the same way as Lab 1.1. The result goes in `metrics.md` next to your Lab 1.1 row, whatever it says.
 
 Your trainer runs the Module 8 quiz (the last slide of the deck) before the capstone starts.
 
@@ -164,7 +164,7 @@ same message.
 
 ### Record
 
-Lab 8.1 is not a measured run. Nothing goes on the board. Keep one note for the debrief: which
+Lab 8.1 is not a measured run. Nothing goes in `metrics.md`. Keep one note for the debrief: which
 candidate did you mark SKIP, and why?
 
 ### If you are behind
@@ -243,7 +243,7 @@ the course where you practise removing something.
 
 **Goal:** take GB-186 through all eight stages, across both repositories, and measure it like Lab 1.1
 · **Ticket:** GB-186 · **Timebox:** 50 min of work + 20 min to record and debrief · **Output:** two
-branches ready for pull requests, the write-back, and the last row on the board
+branches ready for pull requests, the write-back, and the capstone row in `metrics.md`
 
 **GB-186 — A payroll batch must post all-or-nothing.** Today, global-bank-transaction posts a payroll
 run one item at a time. If one item fails, the ledger holds part of the batch. The ticket has six
@@ -253,18 +253,17 @@ acceptance criteria and touches both repositories. Read it through the stages, n
 
 ### Two rules — the second is the hard one
 
-- **Measure it the same way as Lab 1.1.** The same six counters, counted by the same person (you), as
-  you go. Use the **base model** for every stage, as in Lab 1.1.
+- **Measure it the same way as Lab 1.1.** The same six counters, with the same rules, counted by
+  Copilot with a record prompt. Use the **base model** for every stage, as in Lab 1.1.
 - **Work at your normal pace.** Lab 1.1 was a normal working day. The capstone must be one too. A
   careful run compared with a careless one proves nothing.
 
-**Start the clock** at your first prompt. **Stop it** when you finish stage 8, or at 50 minutes, the
-earlier of the two. This is the same clock rule as every lab: stop when all the lab's checks pass, or at
-the timebox. In the capstone, "all checks pass" means stage 8 is done. If the clock beats you, stop and write down which stage you reached. An honest
-unfinished run is worth more than a rushed complete one.
+**The clock** starts with Prompt C1, which runs `date`. It stops when stage 8 is done, or at 50
+minutes, the earlier of the two. This is the same rule as every lab: stop when all the checks pass,
+or at the timebox. An honest unfinished run is worth more than a rushed complete one.
 
 **One counting note.** In stage 2 the spec may raise an open question that no file in either
-repository can answer. When you ask the trainer, that is not an **Asked**. Asked counts only
+repository can answer. You ask the trainer. That is not an **Asked**, because Asked counts only
 questions that a file could have answered.
 
 ### Before you start the capstone
@@ -288,7 +287,42 @@ cd ~/global-bank/global-bank-transaction && git switch -c GB-186-capstone capsto
 Expect `Tests run: 4, Failures: 0` in `global-bank-account` and `Tests run: 2, Failures: 0` in
 `global-bank-transaction`.
 
-**3. Open your tally** (your issue on the board) at the capstone row.
+### Recording across chats
+
+The capstone uses nine chats, and one chat cannot see another. So you record **each chat before you
+leave it**, with Prompt C-M. Each record adds one row to `course/labs/my-work/capstone-chats.md`.
+At the end, Prompt C-M-last records the last chat and adds up all the rows into `metrics.md`.
+
+| Chat | Prompts | Record it |
+|---|---|---|
+| 1 | C1 | before you start chat 2 |
+| 2 | C2 | before you start chat 3 |
+| 3 — the coding chat | C3, C5, C6, C7, every C-R | **after stage 6**, because repairs come back to it |
+| 4 | C4 | before you go back to chat 3 |
+| 5 | C8 | before you start chat 6 |
+| 6 | C9 | before you start chat 7 |
+| 7 | C10 | before you start chat 8 |
+| 8 | C11 | before you start chat 9 |
+| 9 | C12, C13, C14 | with **C-M-last**, after C14 |
+
+Before you send a record prompt, pick the **default agent** in the same chat. Some custom agents
+cannot write files. Record prompts are not counted as turns.
+
+**Prompt C-M** · Agent mode · default agent · **same chat**
+
+```text
+Record this chat. Count from this chat only, and do not guess beyond it:
+- Turns: prompts I sent in this chat. Not this prompt.
+- Tool calls: files you read and searches you ran. Not Jira or Confluence calls, edits or terminal commands.
+- Asked: questions you asked me that a file in either repository could have answered.
+- Rework: prompts I sent that start with "A check failed".
+- Churn: lines you wrote earlier in this chat and later replaced or deleted, to the nearest ten.
+Append one row to course/labs/my-work/capstone-chats.md. If the file does not exist, create it
+with a line "Start: " plus the "date" output from your first reply in this chat, then this header:
+| Chat | Turns | Tool calls | Asked | Rework | Churn |
+In the Chat column, write a few words on what this chat did, for example "spec (design agent)".
+Change no other file. Show me the row.
+```
 
 ### The custom agents
 
@@ -303,6 +337,7 @@ The stages that say **default agent** use plain Agent mode, with no custom agent
 **Prompt C1** · Agent mode · default agent · base model · **new chat**
 
 ```text
+First run "date" in a terminal and show me the output. That is the start time of the capstone.
 Read course/labs/lab-keys.md to find my Jira keys for GB-186 and GB-158.
 Use the atlassian MCP tool jira_get_issue to read GB-186 with its comments, then GB-158, which
 GB-186 names. Make no more than three Jira calls. Do not search for other tickets.
@@ -669,26 +704,48 @@ that parent. Title: "GB-186 — Payroll batch posts all-or-nothing". Body, short
 Do not edit the parent page or any other page. Show me the new page's title and id.
 ```
 
-**Stop the clock.** Stage 8 is done.
+Stage 8 is done. Pick the **default agent** in this chat, and record the run.
 
 ### Record
 
-Fill the **capstone row** of your tally, in your issue on the board. Then post the row as a comment.
+**Prompt C-M-last** · Agent mode · default agent · **same chat**
 
-- The six counters: turns, tool calls, asked, rework, churn, clock.
-- **Asked, rework and churn per acceptance criterion.** Divide your capstone numbers by **6** and your
-  Lab 1.1 numbers by **5**. These three columns compare fairly. Turns, tool calls and clock do not:
-  GB-186 is two repositories, six criteria and eight stages, so those will be higher for size alone.
-- The stage you reached, if you did not finish.
-- Which stage cost the most time, and was it worth it?
+```text
+Record this chat, then total the whole capstone. For this chat, count from this chat only:
+- Turns: prompts I sent in this chat. Not this prompt.
+- Tool calls: files you read and searches you ran. Not Jira or Confluence calls, edits or terminal commands.
+- Asked: questions you asked me that a file in either repository could have answered.
+- Rework: prompts I sent that start with "A check failed".
+- Churn: lines you wrote earlier in this chat and later replaced or deleted, to the nearest ten.
+Append this chat's row to course/labs/my-work/capstone-chats.md, in the same shape as its rows.
+Then run "date". Clock: minutes since the Start line in that file. If over 50, write "50 (not finished)".
+Create metrics.md at the root of global-bank-account with this table:
+| Run | Ticket | Turns | Tool calls | Asked | Rework | Churn | Clock |
+Row "capstone", ticket "GB-186": the sum of each column over all rows of capstone-chats.md, and the
+clock. Below it, the Lab 1.1 row from "git show GB-142-lab-1.1:metrics.md" in global-bank-account.
+Under the table, add:
+- "Per criterion:" asked, rework and churn divided by the number of acceptance criteria in
+  global-bank-account/specs/GB-186.md for the capstone, and by 5 for Lab 1.1.
+- "Stage reached:" the last stage in capstone-chats.md.
+- "Chats:" a copy of the rows of capstone-chats.md.
+- "How counted:" anything you could not count exactly.
+Then in global-bank-account run: git add metrics.md && git commit -m "GB-186 capstone metrics".
+Show me metrics.md.
+```
 
-Report what you measured, even if it is worse than Lab 1.1. A first run of all eight stages includes
-the cost of learning them. That is a finding, not a failure.
+**Reading it.** Asked, rework and churn **per criterion** compare fairly with Lab 1.1. Turns, tool
+calls and clock do not: GB-186 is two repositories, six criteria and eight stages, so those are
+higher for size alone. For the debrief, look at the Chats rows: which stage cost the most, and was
+it worth it?
+
+Leave the numbers as Copilot counted them, even if they are worse than Lab 1.1. A first run of all
+eight stages includes the cost of learning them. That is a finding, not a failure.
 
 ### If you are behind
 
-There is no catch-up tag for the capstone. Stop where you are when the 50 minutes end, and record the
-stage you reached. That stage is often the one that costs most, which is itself a finding.
+There is no catch-up tag for the capstone. When the 50 minutes end, stop. Send Prompt C-M in every
+chat you have not recorded yet, then Prompt C-M-last in the chat you were in. The stage you reached
+is often the one that costs most, which is itself a finding.
 
 ---
 

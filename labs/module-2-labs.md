@@ -16,8 +16,7 @@ rejected. The deck explains all three. A **reversal** undoes a posting that was 
 
 ## Before you start
 
-1. Your Lab 1.1 tally row is filled in, and your Lab 1.1 work is committed on its own branch
-   (`GB-142-lab-1.1`). Lab 2.1 does not change that branch.
+1. Your Lab 1.1 work and its `metrics.md` are committed on their own branch (`GB-142-lab-1.1`). Lab 2.1 does not change that branch.
 
 2. Load the Module 2 ticket into your Jira project. In a terminal, at the root of the course
    repository:
@@ -232,7 +231,7 @@ your notes.
 
 ### Record
 
-Lab 2.1 is not a measured run, so nothing goes on the board. Write two lines in your notes:
+Lab 2.1 is not a measured run, so there is no `metrics.md`. Write two lines in your notes:
 - the line you deleted in Step 3, and why
 - the rejected option in your ADR, and where the reason came from
 
@@ -249,7 +248,7 @@ If you have no files at all, use the catch-up tag in Lab 2.2 (see below).
 
 **Goal:** run a new ticket of the same size as GB-142 on the repository you just wrote, and count
 the same six numbers · **Ticket:** GB-151 · **Timebox:** 45 min (35 working, 10 recording) ·
-**Output:** row 2.2 on the board
+**Output:** row 2.2 in `metrics.md`
 
 GB-151 is a different ticket on purpose. You already know the answer to GB-142. Running it again
 would measure your memory, not your files.
@@ -265,7 +264,7 @@ mvn test
 
 ### Step 2 — Check that Copilot sees your files
 
-Do this before the clock starts. It does not count on your tally.
+Do this before the clock starts. It does not count in your numbers.
 
 Close every editor tab. Then open
 `global-bank-account/src/main/java/in/brainupgrade/accountservice/posting/domain/Posting.java`, so
@@ -293,11 +292,12 @@ Now close `Posting.java`, so no editor tab is open. Lab 1.1 started with no open
 
 ### Step 3 — The measured run
 
-Start your clock when you send this prompt. Count as you go, not afterwards.
+The clock starts with this prompt. You do not count anything: the record prompt does that.
 
 **Prompt 2.2-A** · Agent mode · base model · **new chat**
 
 ```text
+First run "date" in a terminal and show me the output. That is the start time of this run.
 Read course/labs/lab-keys.md to find my Jira key for GB-151. Use the atlassian MCP tools to read
 that Jira issue, including its comments.
 Implement the ticket in the global-bank-account folder. Meet every acceptance criterion.
@@ -405,21 +405,31 @@ git add -A
 git commit -m "GB-151 reversal (Lab 2.2 run)"
 ```
 
-Commit even if some checks still fail. The tally records what happened.
+Commit even if some checks still fail. `metrics.md` records what happened.
 
 ### Record
 
-Fill in row **2.2** on your tally issue, and post the row as a comment. Use the same rules as row
-1.1:
+Send this in the **same chat as Prompt 2.2-A**. It is Prompt 1.1-M with the run, ticket and
+commit message changed. Prompt 2.2-check was a different chat, so it is not counted.
 
-| Counter | Count |
-|---|---|
-| Turns | Prompt 2.2-A plus every repair. Prompt 2.2-check does not count |
-| Tool calls | Files Copilot read, and searches. Not the ticket fetch |
-| Asked | Questions a file could have answered |
-| Rework | Repair prompts |
-| Churn | Lines written and then thrown away, to the nearest ten |
-| Clock | Minutes from your first prompt until all six checks pass, or 35 if you stop at the timebox |
+**Prompt 2.2-M** · Agent mode · **same chat**
+
+```text
+The run is over. Count these six numbers from this chat only, and do not guess beyond it:
+- Turns: prompts I sent, from the opener to the last repair. Not this prompt.
+- Tool calls: files you read and searches you ran. Not the Jira fetch, edits or terminal commands.
+- Asked: questions you asked me that a file in the repository could have answered.
+- Rework: repair prompts I sent that start with "A check failed".
+- Churn: lines you wrote earlier in this run and later replaced or deleted, to the nearest ten.
+- Clock: run "date" now. Minutes since the start time in your first reply. If over 35, write "35 (not finished)".
+Create metrics.md at the root of global-bank-account with this table and one row:
+| Run | Ticket | Turns | Tool calls | Asked | Rework | Churn | Clock |
+Use "2.2" as the run and "GB-151" as the ticket. Add the Lab 1.1 row below it, copied from
+"git show GB-142-lab-1.1:metrics.md". Under the table, add one line "Notes:" with my notes below,
+and one line "How counted:" that says anything you could not count exactly.
+Then run: git add -A && git commit -m "GB-151 lab 2.2 metrics". Show me the table.
+My notes: <anything unusual, or leave empty>
+```
 
 Report what you measured, even if a number got worse. Then write one line under the row: which of your
 three files helped most in this run, and how you know. The references list under each answer shows
@@ -442,7 +452,7 @@ Did not finish Lab 2.1? Start Lab 2.2 from the reference knowledge instead of yo
 git switch -c GB-151-lab-2.2 m2.2-start
 ```
 
-Then do Steps 2 to 6 as written. Write "m2.2-start" in your tally comment, because this row then
+Then do Steps 2 to 6 as written. Write "m2.2-start" in the notes line of Prompt 2.2-M, because this row then
 measures the reference files, not yours.
 
 ---

@@ -239,7 +239,7 @@ If `git stash` says "No local changes to save", that is fine.
 
 ### Record
 
-Nothing goes on the tally for Lab 3.1. Keep `gb-151-request.md` open. In the debrief, you may be
+Nothing goes in `metrics.md` for Lab 3.1. Keep `gb-151-request.md` open. In the debrief, you may be
 asked to read out your stop conditions.
 
 ### If you are behind
@@ -260,7 +260,7 @@ how to start from the reference skill file.
 
 **Goal:** run six tickets twice and compare two ways of asking, by pass rate · **Tickets:** GB-201
 to GB-206 · **Timebox:** 60 min (10 to set up, about 20 per column including scoring, 10 to record) · **Output:** two pass rates out of
-6, on your tally
+6, in `metrics.md`
 
 You run the six tickets twice. **Column A** uses an ordinary prompt, the way most people type it.
 **Column B** uses `/gb-change`, which brings in your skill file. That makes twelve runs. You score
@@ -459,18 +459,22 @@ opinion.
 
 ### Record
 
-On your tally, fill in the **Lab 3.2** section:
+Your scores are already in `eval-sheet.md`. Send this, so Copilot writes the summary for you:
 
-- **A:** your column A pass rate, for example `3/6`
-- **B:** your column B pass rate
-- **Changed:** the tickets whose result changed between A and B
+**Prompt 3.2-M** · Agent mode · base model · **new chat**
 
-Update the table in the issue body, and post the same row as a comment. Report what you measured,
-even if B scored lower than A.
+```text
+Read course/labs/my-work/eval-sheet.md. Create course/labs/my-work/metrics.md with a table
+| Run | A passed | B passed | Changed |
+and one row for run "3.2": the column A and column B pass rates out of 6, and the tickets whose
+result changed between A and B. Count only what the sheet says. Show me the table.
+```
+
+Leave the result as it is, even if B scored lower than A.
 
 ### Then, and only then: compare with the reference
 
-After your row is on the board, look at the team's reference skill file:
+After your `metrics.md` row is written, look at the team's reference skill file:
 
 ```bash
 git show m4-start:.github/skills/account-change/SKILL.md
@@ -489,8 +493,8 @@ git switch -c eval-lab-3.2-ref m4-start
 git tag -f eval-base
 ```
 
-Then do Steps 1 and 3 to 5 as written. On your tally, write **(reference)** after your B pass
-rate. You measured the team's skill file, not your own.
+Then do Steps 1 and 3 to 5 as written. Add "B used the reference files" to the end of
+Prompt 3.2-M. You measured the team's skill file, not your own.
 
 If you are short of time, your trainer may ask you to run four tickets instead of six.
 
@@ -593,4 +597,4 @@ Implement it in the global-bank-account folder. Run "mvn test" there until it pa
 ```
 
 **Record:** your pass rates out of 7. Did B's rate hold? Which stop condition in your skill file
-made the difference, if any? You can add this to the comment on your tally.
+made the difference, if any? You can add this under your table in `metrics.md`.

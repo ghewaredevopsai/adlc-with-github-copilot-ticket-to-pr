@@ -313,5 +313,6 @@ one line above each of them. Everything else in the labs is the same.
   In global-bank-account/.github/agents/, replace atlassian/jira_get_issue with github/issue_read in every tools: line. Change nothing else. Then show me the tools: lines.
   ```
 
-Your numbers still go on the board. Note "GitHub issues" in the notes box of your tally: the extra
-line adds nothing to your turns, but the tool names differ from everyone else's.
+Your numbers still count. Write "GitHub issues" in the notes line of your record prompt, so it lands
+in `metrics.md`: the extra line adds nothing to your turns, but the tool names differ from everyone
+else's.

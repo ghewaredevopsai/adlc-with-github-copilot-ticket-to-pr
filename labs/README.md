@@ -29,14 +29,15 @@ to run it:
 - **New chat:** start a new chat first (the **+** at the top of the Chat view). **Same chat:** stay
   in the chat you are in.
 
-Copy the prompt **exactly**. Everyone runs the same words, so the numbers on the board compare fairly.
+Copy the prompt **exactly**. Everyone runs the same words, so the numbers compare fairly.
 
 When Copilot asks to run a command or a tool, **read the request before you select Allow**.
 
 ## What you count
 
-Labs 1.1, 2.2 and the capstone are **measured runs**. You count six numbers on your
-[tally](board/README.md) as you go, not afterwards:
+Labs 1.1, 2.2 and the capstone are **measured runs**. Labs 1.1 and 2.2 end with a **record prompt**:
+Copilot counts six numbers from the chat, writes them to `metrics.md` and commits it. You do not
+count by hand. The six numbers are:
 
 | Counter | What it counts |
 |---|---|
