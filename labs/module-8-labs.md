@@ -14,7 +14,8 @@ Your trainer runs the Module 8 quiz (the last slide of the deck) before the caps
 
 ## Before you start
 
-**1. Create the Confluence page for Lab 8.1.** In a VS Code terminal, at the root of the course
+**1. Check the Confluence pages for Lab 8.1.** You created them before Day 1, with
+[confluence-setup.md](confluence-setup.md). In a VS Code terminal, at the root of the course
 repository:
 
 ```bash
@@ -22,9 +23,13 @@ cd ~/adlc-with-github-copilot-ticket-to-pr
 python labs/scripts/setup-lab-tickets.py --module 8
 ```
 
-You should see `Confluence OK: space ...` and then `created page ... 'Global Bank posting API -
-decisions'`. The script adds a `CONFLUENCE-PAGE` line to `labs/lab-keys.md`. That line holds the id
-of the page. Your write-back pages go under it.
+You should see `Confluence OK: space ...`, then `exists page ... 'Global Bank'` and `exists page ...
+'Global Bank posting API - decisions'`. If it says `created` instead, that is fine: the script has just
+made the pages you skipped. `labs/lab-keys.md` now has a `CONFLUENCE-PAGE` line. That line holds the id
+of the decisions page. Your write-back pages go under it.
+
+An error instead? See [If something goes wrong](confluence-setup.md#if-something-goes-wrong) in
+`confluence-setup.md`.
 
 Do **not** load the capstone ticket yet. Your trainer tells you when.
 

@@ -103,7 +103,10 @@ You should see:
 Jira OK: signed in as <your name>, project ADLC.
 Keys written to labs/lab-keys.md
 Confluence OK: space ADLC.
+  missing  page 'Global Bank'. Create it: see labs/confluence-setup.md
 ```
+
+The `missing` line is expected the first time. A new space has no page about Global Bank yet.
 
 `labs/lab-keys.md` holds your project and space keys, and later your ticket keys. It holds no
 secrets, so Copilot may read it. The lab prompts point Copilot at this file. **Never ask Copilot to
@@ -111,6 +114,10 @@ read `.env`**: that would send your tokens to the model.
 
 If you see an error instead, go to [If something goes wrong](#if-something-goes-wrong). Do not go on
 until both lines say OK.
+
+**Now set up your Confluence pages.** Follow [confluence-setup.md](confluence-setup.md). It creates the
+two pages the labs use, and takes about 5 minutes. Then come back here for step 4. Run the check again
+afterwards: both pages now say `exists`.
 
 ## Step 4 — Install the MCP server's launcher
 
@@ -199,12 +206,13 @@ five issues. An empty project is fine: Copilot says there are no issues, and no 
 **Test 2 — Confluence**
 
 ```text
-Use the atlassian MCP tools. Read course/labs/lab-keys.md to find my Confluence space key.
-List the titles of up to five pages in that space. Do not change anything, and do not open
-any other file.
+Use the atlassian MCP tools. Read course/labs/lab-keys.md to find my Confluence space key
+and the CONFLUENCE-HOME page id. Show the title of that page, and list the titles of the
+pages under it. Do not change anything, and do not open any other file.
 ```
 
-You see up to five page titles, or a message that the space is empty.
+Copilot asks to run `confluence_get_page` and `confluence_get_page_children`. You see the title
+**Global Bank**, and one page under it: **Global Bank posting API - decisions**.
 
 Both tests pass? You are ready. Load the Module 1 ticket as `labs/README.md` describes.
 
@@ -219,8 +227,8 @@ Fewer tools also help Copilot choose the right one.
 | `jira_search` | Finds issues with a JQL query | Setup check (test 1). Module 6 counts it when Copilot uses it without being asked |
 | `jira_get_project_issues` | Lists the issues in your project | Setup check (test 1) |
 | `jira_add_comment` | Adds a comment to an issue. **The only Jira write** | Modules 5 (stretch), 6 and 8 |
-| `confluence_search` | Finds pages | Setup check (test 2) |
-| `confluence_get_page` | Reads a page | Only if Copilot needs to read a page back. No lab step asks for it |
+| `confluence_search` | Finds pages | No lab step asks for it. Copilot may use it to find a page |
+| `confluence_get_page` | Reads a page | Setup check (test 2) |
 | `confluence_get_page_children` | Lists the pages under a page | Setup check (test 2) |
 | `confluence_create_page` | Creates a page | Module 8 (stretch 8.1+) and the capstone |
 | `confluence_update_page` | Edits a page | Only to fix a page Copilot just created. The prompts forbid editing any other page |
@@ -245,6 +253,7 @@ Each time Copilot wants to use a tool, VS Code asks you first. Read the request 
 | `externally-managed-environment` from pip | Add `--break-system-packages` to the command, as step 4 shows for macOS and Linux |
 | `pip install` is blocked | Ask IT for the company Python package mirror. The labs cannot run without it |
 | The server stops as soon as it starts | Run **MCP: List Servers**, select **atlassian**, then **Show Output**. The last lines say why |
+| Test 2 finds no `CONFLUENCE-HOME` in `lab-keys.md` | You skipped the Confluence pages. Follow [confluence-setup.md](confluence-setup.md) |
 | Copilot says it has no Jira tools | Check that the chat mode is **Agent**, and that **atlassian** is ticked in the tools list |
 
 **Fallback: without `uv`.** Install the server directly:

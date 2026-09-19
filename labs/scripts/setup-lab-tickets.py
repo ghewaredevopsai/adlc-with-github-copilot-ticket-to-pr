@@ -7,7 +7,8 @@ left alone.
 
     python3 labs/scripts/setup-lab-tickets.py --check              # test the .env settings, create nothing
     python3 labs/scripts/setup-lab-tickets.py --module 1           # Jira (the default)
-    python3 labs/scripts/setup-lab-tickets.py --module 8           # also creates the Confluence page
+    python3 labs/scripts/setup-lab-tickets.py --confluence         # create the Confluence pages (before Day 1)
+    python3 labs/scripts/setup-lab-tickets.py --module 8           # also makes sure the Confluence pages exist
     python3 labs/scripts/setup-lab-tickets.py --module 1 --target github   # fallback: GitHub issues
 
 Settings come from the .env file at the root of your course-repo clone (copy .env.example).
@@ -41,6 +42,31 @@ ISSUE_TYPES = {"bug": "Bug", "story": "Story", "task": "Task", "epic": "Epic", "
 LABEL_COLOURS = {"bug": "d73a4a", "story": "0e8a16", "task": "c5def5", "epic": "5319e7",
                  "risk": "b60205", "agent-ready": "1d76db", "eval-set": "fbca04", "wont-do": "ffffff"}
 
+APP_TITLE = "Global Bank"
+APP_BODY = (
+    "<p>Global Bank is the demo banking app used in the ADLC course. It is six Spring Boot services "
+    "on JDK 25 and a React front end. Each one is its own Git repository.</p>"
+    "<table><tbody>"
+    "<tr><th>Repository</th><th>What it does</th><th>Port</th></tr>"
+    "<tr><td><code>global-bank-account</code></td><td>Accounts, balances and the posting API. "
+    "Most labs work here</td><td>8086</td></tr>"
+    "<tr><td><code>global-bank-transaction</code></td><td>Deposits, withdrawals and history. "
+    "Module 7 and the capstone work here too</td><td>8087</td></tr>"
+    "<tr><td><code>global-bank-customer</code></td><td>Customer records</td><td>8085</td></tr>"
+    "<tr><td><code>global-bank-authentication</code></td><td>Sign-in and tokens</td><td>8084</td></tr>"
+    "<tr><td><code>global-bank-rules</code></td><td>Minimum-balance and service-charge rules</td><td>8090</td></tr>"
+    "<tr><td><code>global-bank-frontend</code></td><td>The web app (React and Vite)</td><td>4200</td></tr>"
+    "<tr><td><code>global-bank-platform</code></td><td>The map of all services, and the scripts that "
+    "run them</td><td>-</td></tr>"
+    "</tbody></table>"
+    "<p>The code and its documents are the source of truth: <code>docs/architecture.md</code> in "
+    "<code>global-bank-platform</code>, and <code>docs/adr/</code> in each service. This space holds "
+    "short pages that point to them, for people who do not read the code.</p>"
+    "<h2>Pages under this page</h2>"
+    '<ac:structured-macro ac:name="children" ac:schema-version="2" />'
+    "<p><em>Created by setup-lab-tickets.py for the ADLC course. Edit freely.</em></p>"
+)
+
 CONFLUENCE_TITLE = "Global Bank posting API - decisions"
 CONFLUENCE_BODY = (
     "<p>Decisions for the posting API in <code>global-bank-account</code>. The full ADRs live in the "
@@ -52,6 +78,7 @@ CONFLUENCE_BODY = (
     "<tr><td>ADR-007</td><td>Duplicate suppression keys on client reference + value date</td></tr>"
     "<tr><td>ADR-009</td><td>Posting contract changes are versioned and sequenced</td></tr>"
     "</tbody></table>"
+    "<p>The Module 8 write-back lab and the capstone add a page under this one for each new decision.</p>"
     "<p><em>Created by setup-lab-tickets.py for the Module 8 write-back lab. Edit freely.</em></p>"
 )
 
@@ -135,7 +162,7 @@ def write_keys(keys, where, env):
 def read_keys():
     if not KEYS_FILE.exists():
         return {}
-    return dict(re.findall(r"^\| ([A-Z]+-\d+|CONFLUENCE-PAGE) \| (\S+) \|$", KEYS_FILE.read_text(encoding="utf-8"), re.M))
+    return dict(re.findall(r"^\| ([A-Z]+-\d+|CONFLUENCE-[A-Z]+) \| (\S+) \|$", KEYS_FILE.read_text(encoding="utf-8"), re.M))
 
 
 # --------------------------------------------------------------------------- Jira and Confluence
@@ -257,7 +284,28 @@ def run_jira(env, tickets, check_only):
     write_keys(keys, f"Jira project {project}", env)
 
 
+def confluence_page(api, space, title, body, parent, check_only):
+    """Find a page by title in the space, or create it under the parent. Returns its id, or None."""
+    query = urllib.parse.urlencode({"spaceKey": space, "title": title})
+    found = api.call("GET", f"/rest/api/content?{query}").get("results")
+    if found:
+        print(f"  exists   page {found[0]['id']} '{title}'")
+        return found[0]["id"]
+    if check_only:
+        print(f"  missing  page '{title}'. Create it: see labs/confluence-setup.md")
+        return None
+    payload = {"type": "page", "title": title, "space": {"key": space},
+               "body": {"storage": {"value": body, "representation": "storage"}}}
+    if parent:
+        payload["ancestors"] = [{"id": parent}]
+    page = api.call("POST", "/rest/api/content", payload)["id"]
+    print(f"  created  page {page} '{title}'")
+    return page
+
+
 def run_confluence(env, check_only):
+    """The app's home page sits under the space home page, and the decisions page under the app's
+    home page. The labs create their pages under the decisions page (CONFLUENCE-PAGE)."""
     base, space = env.get("CONFLUENCE_URL"), env.get("CONFLUENCE_SPACE_KEY")
     token = env.get("CONFLUENCE_PERSONAL_TOKEN") or env.get("CONFLUENCE_API_TOKEN")
     if not (base and space and token):
@@ -265,22 +313,19 @@ def run_confluence(env, check_only):
         return
     username = None if env.get("CONFLUENCE_PERSONAL_TOKEN") else env.get("CONFLUENCE_USERNAME")
     api = Api(base, token, username)
-    query = urllib.parse.urlencode({"spaceKey": space, "title": CONFLUENCE_TITLE})
-    found = api.call("GET", f"/rest/api/content?{query}")
+    found = api.call("GET", f"/rest/api/space/{urllib.parse.quote(space)}?expand=homepage")
     print(f"Confluence OK: space {space}.")
-    if check_only:
-        return
-    if found.get("results"):
-        page = found["results"][0]["id"]
-        print(f"  exists   page {page} '{CONFLUENCE_TITLE}'")
-    else:
-        page = api.call("POST", "/rest/api/content", {
-            "type": "page", "title": CONFLUENCE_TITLE, "space": {"key": space},
-            "body": {"storage": {"value": CONFLUENCE_BODY, "representation": "storage"}}})["id"]
-        print(f"  created  page {page} '{CONFLUENCE_TITLE}'")
+    home = (found.get("homepage") or {}).get("id")
     keys = read_keys()
-    keys["CONFLUENCE-PAGE"] = page
-    write_keys(keys, "Jira and Confluence", env)
+    before = dict(keys)
+    app = confluence_page(api, space, APP_TITLE, APP_BODY, home, check_only)
+    page = app and confluence_page(api, space, CONFLUENCE_TITLE, CONFLUENCE_BODY, app, check_only)
+    if app:
+        keys["CONFLUENCE-HOME"] = app
+    if page:
+        keys["CONFLUENCE-PAGE"] = page
+    if keys != before:
+        write_keys(keys, "Jira and Confluence", env)
 
 
 # --------------------------------------------------------------------------- GitHub fallback
@@ -331,11 +376,15 @@ def main():
     parser.add_argument("--target", choices=("jira", "github"), default="jira",
                         help="jira (default) or github (the fallback when Jira is not reachable)")
     parser.add_argument("--check", action="store_true", help="test the settings in .env and create nothing")
+    parser.add_argument("--confluence", action="store_true", help="create the Confluence pages the labs use")
     args = parser.parse_args()
-    if not (args.check or args.module):
-        parser.error("give --module N, or --check")
+    if not (args.check or args.module or args.confluence):
+        parser.error("give --module N, --confluence, or --check")
 
     env = load_env()
+    if args.confluence and not args.module:
+        run_confluence(env, args.check)
+        return
     tickets = [parse(p) for p in sorted(TICKETS.glob("*.md"))]
     wanted = [t for t in tickets if args.module in (None, "all") or args.module in t["modules"]]
     if args.module and not wanted and args.module != "8":

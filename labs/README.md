@@ -103,7 +103,9 @@ long `jacoco` stack traces, your tags are old. Run `git fetch --tags --force` ag
 
 ### 4. Connect Copilot to your Jira and Confluence
 
-Follow [mcp-setup.md](mcp-setup.md). At the end, both test prompts must work.
+Follow [mcp-setup.md](mcp-setup.md). On the way, it sends you to
+[confluence-setup.md](confluence-setup.md), which creates the Confluence pages the Module 8 labs write
+under. At the end, both test prompts must work.
 
 ### 5. Open the lab workspace
 

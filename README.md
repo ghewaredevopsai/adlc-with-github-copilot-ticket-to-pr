@@ -25,6 +25,7 @@ presentation/
 labs/
   README.md                                         how the labs work, and one-time setup
   mcp-setup.md                                      connect Copilot to your Jira and Confluence
+  confluence-setup.md                               create the Confluence pages the labs write under
   module-1-labs.md … module-8-labs.md               one lab guide per module
   tickets/                                          the lab tickets, loaded into your own Jira
   board/                                            the metrics board: one GitHub issue per participant
