@@ -46,7 +46,7 @@ by category rather than by headline.
 ## The rule that makes it worth anything
 
 Report what you measured, either way. A run that got worse is a finding and goes on the board
-unchanged. Module 1 slide 8 makes that promise to the room; the board is where it is kept.
+unchanged. Module 1 slide 10 makes that promise to the room; the board is where it is kept.
 
 ## Reading rows 1.1 and 2.2 against each other
 

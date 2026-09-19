@@ -1,0 +1,29 @@
+{
+	// Open this file in VS Code: File > Open Workspace from File.
+	// It expects the three repositories side by side in one folder:
+	//   <folder>/<this course repo>   <folder>/global-bank-account   <folder>/global-bank-transaction
+	"folders": [
+		{ "name": "course", "path": "." },
+		{ "name": "global-bank-account", "path": "../global-bank-account" },
+		{ "name": "global-bank-transaction", "path": "../global-bank-transaction" }
+	],
+	"settings": {
+		"chat.agent.enabled": true,
+		"mcp": {
+			"servers": {
+				// Jira and Confluence. Reads URLs and tokens from the course repo's .env.
+				"atlassian": {
+					"type": "stdio",
+					"command": "uvx",
+					"args": ["mcp-atlassian"],
+					"envFile": "${workspaceFolder:course}/.env"
+				},
+				// Fallback only: lab tickets as GitHub issues.
+				"github": {
+					"type": "http",
+					"url": "https://api.githubcopilot.com/mcp/"
+				}
+			}
+		}
+	}
+}

@@ -12,6 +12,9 @@
 # Secrets, should one ever be dropped here by mistake
 .env
 .env.*
+!.env.example
+# Your own Jira keys for the lab tickets, written by labs/scripts/setup-lab-tickets.py
+labs/lab-keys.md
 *.pem
 *.key
 
@@ -36,6 +39,7 @@ machine-setup.md
 .claude/
 .github/modernize/
 *.code-workspace
+!adlc-labs.code-workspace
 .vscode/
 .idea/
 *.swp
