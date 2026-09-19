@@ -42,13 +42,13 @@ It loads **GB-158** and adds its key to `labs/lab-keys.md`.
 
 ```bash
 cd ~/global-bank/global-bank-account
-git fetch --tags origin
+git fetch --tags --force origin
 git switch -c GB-158-settlement-date m7-start
 mvn test
 # expect: Tests run: 4, Failures: 0, Errors: 0
 
 cd ~/global-bank/global-bank-transaction
-git fetch --tags origin
+git fetch --tags --force origin
 git switch -c GB-158-send-settlement-date m7-start
 mvn test
 # expect: Tests run: 2, Failures: 0, Errors: 0

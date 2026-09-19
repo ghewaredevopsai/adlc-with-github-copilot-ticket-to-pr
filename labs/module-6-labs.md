@@ -44,7 +44,7 @@ server is **Running** (Command Palette, then **MCP: List Servers**).
 
 ```bash
 cd ~/global-bank/global-bank-account
-git fetch --tags
+git fetch --tags --force
 git switch -c GB-207-lab-6.1 m6-start
 mvn test
 # expect: Tests run: 4, Failures: 0, Errors: 0

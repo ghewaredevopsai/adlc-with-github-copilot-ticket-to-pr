@@ -76,9 +76,12 @@ $HOME/
 Then fetch the lab checkpoints. They are git tags, and a plain clone does not always bring them all:
 
 ```bash
-cd ~/global-bank/global-bank-account && git fetch --tags
-cd ~/global-bank/global-bank-transaction && git fetch --tags
+cd ~/global-bank/global-bank-account && git fetch --tags --force
+cd ~/global-bank/global-bank-transaction && git fetch --tags --force
 ```
+
+Always add `--force`. The checkpoints were updated on 20 September. Without `--force`, git keeps any
+older copy of a tag that is already in your clone. With it, git replaces the old copy with the current one.
 
 Check that it worked: `git -C ~/global-bank/global-bank-account tag` lists `m1-start` … `capstone-start`.
 
@@ -94,8 +97,9 @@ cd ~/global-bank/global-bank-transaction && git switch -c setup-check m1-start &
 # expect: Tests run: 2, Failures: 0, Errors: 0
 ```
 
-The first build downloads Maven packages, so it takes a few minutes. You may see long `jacoco`
-warnings in `global-bank-account`. They are harmless: look only at the `Tests run` line.
+The first build downloads Maven packages, so it takes a few minutes. If `global-bank-account` prints
+long `jacoco` stack traces, your tags are old. Run `git fetch --tags --force` again, then
+`git branch -D setup-check`, and run the build again.
 
 ### 4. Connect Copilot to your Jira and Confluence
 

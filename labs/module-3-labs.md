@@ -329,7 +329,6 @@ git tag -f eval-base
    git diff
    mvn -q test
    # quiet mode: no "FAILURE" and no "Tests run" line with failures means all tests passed.
-   # Ignore jacoco warnings
    ```
 
    `git diff` does not show new files. `git status --short` marks them with `??`. Open them in the

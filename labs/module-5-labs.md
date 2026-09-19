@@ -42,12 +42,12 @@ then **MCP: List Servers**).
 
 ```bash
 cd ~/global-bank/global-bank-account
-git fetch --tags
+git fetch --tags --force
 git switch -c GB-147-lab-5.1 m5-start
 mvn test
 ```
 
-Expect: `Tests run: 4, Failures: 0, Errors: 0`. Ignore any long `jacoco` warnings.
+Expect: `Tests run: 4, Failures: 0, Errors: 0`.
 
 Check that the four agents from Module 4 are there:
 

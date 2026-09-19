@@ -38,12 +38,15 @@ key to `labs/lab-keys.md`.
 
 ```bash
 cd ~/global-bank/global-bank-account
+git fetch --tags --force
 git switch -c GB-142-lab-1.1 m1-start
 mvn test
 # expect: Tests run: 4, Failures: 0, Errors: 0, Skipped: 0
 ```
 
-Ignore any long `jacoco` warnings. Look only at the `Tests run` line. A green build now means that
+`--force` replaces any old copy of the tag in your clone. If you still see long `jacoco` stack traces,
+your branch came from an old tag: run `git switch main`, then `git branch -D GB-142-lab-1.1`, and
+repeat this step. A green build now means that
 any red test later comes from this lab's change.
 
 **4. Open your tally issue on the board.** Your trainer shares the board link. On the board, select
