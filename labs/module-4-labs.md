@@ -292,6 +292,10 @@ cd ~/adlc-copilot-training/global-bank-account
 git switch -c GB-207-lab-4.2 lab-4.1-agents
 git checkout m5-start -- .github/agents/design.agent.md .github/agents/coding.agent.md
 git commit -m "Lab 4.2: add the design and coding agents"
+git branch GB-207-base
+mkdir -p handoff/GB-207
+mvn test
+# expect: Failures: 0, Errors: 0. Tests run: 4, or more if your earlier labs added tests
 ```
 
 The branch name `lab-4.1-agents` is written out on purpose. Without it, git starts the branch from
@@ -302,18 +306,21 @@ whatever you have checked out now, and every step below still appears to work.
 ```bash
 cd ~/adlc-copilot-training/global-bank-account
 git switch -c GB-207-lab-4.2 m5-start
-```
-
-Then, for both A and B:
-
-```bash
 git branch GB-207-base
 mkdir -p handoff/GB-207
 mvn test
-# expect: Failures: 0, Errors: 0. Tests run: 4, or more with A if your earlier labs added tests
+# expect: Failures: 0, Errors: 0. Tests run: 4
 ```
 
-`GB-207-base` marks where you started. Later you use it to produce the diff for the review agent.
+Each block is complete on its own. Run **one** of them, all the way to the end.
+
+`GB-207-base` marks where you started. Step 3 uses it to produce the diff for the review agent, so a
+run without it stops there. Check it exists before you go on:
+
+```bash
+git branch --list GB-207-base
+# must print GB-207-base. Nothing means you did not finish your Set up block
+```
 
 > [!IMPORTANT]
 > **`fatal: a branch named 'GB-207-base' already exists`?** It is left over from an earlier run, and
@@ -451,7 +458,23 @@ produce the diff for the reviewer:
 ```bash
 git add -A && git commit -m "GB-207: tests from the ticket"
 git diff GB-207-base -- src > handoff/GB-207/change.diff
+wc -c < handoff/GB-207/change.diff
+# expect: a few thousand bytes
 ```
+
+> [!IMPORTANT]
+> **`fatal: bad revision 'GB-207-base'`, and `change.diff` is 0 bytes?** You did not finish your Set
+> up block. The shell makes the empty file before git runs, so the review agent in Step 4 would read
+> an empty diff and report that it found nothing. Put the branch back where Set up would have left
+> it, then run the two commands above again:
+>
+> ```bash
+> git log --oneline -5          # find your last Set up commit, before "GB-207: design and coding"
+> git branch GB-207-base <that commit>
+> ```
+>
+> On path **A** that is `Lab 4.2: add the design and coding agents`. On path **B** it is the commit
+> `m5-start` points at.
 
 ### Step 4 — Review: try to prove it wrong (chat 3)
 
