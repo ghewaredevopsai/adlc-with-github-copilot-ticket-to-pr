@@ -289,6 +289,29 @@ Before you go on, answer these in your notes. Answer from what you saw, not from
 | Is the acceptance criterion met? | |
 | Would you raise a pull request for this change? Yes or no, and why | |
 
+**Answer from your own run first.** Read the example below only after all six rows are filled. It
+shows how much detail each row needs. Your run will differ, because the agent chooses the number.
+
+<details>
+<summary><b>An example of five of the answers</b> — open after you have filled the table</summary>
+
+> | Question | Example answer |
+> |---|---|
+> | Did Copilot ask you anything before it changed code? | Yes. It asked what the new limit should be, so I sent Prompt 6.2-A2. (Write "No" if it chose a number and carried on.) |
+> | What is the new limit, in rupees? | ₹50 crore. `Money.MAX_POSTING_MINOR` went from `100_000_000_00L` to `500_000_000_00L`. The old limit was ₹10 crore. |
+> | Do the tests pass? | Yes. 5 tests, 0 failures. The new test posts an amount above the old limit and expects it to be accepted. |
+> | Did the review agent object? What did it say? | No blocking finding. One minor point: the test does not check the new upper bound. |
+> | Is the acceptance criterion met? | Yes. The criterion says "the limit is raised", and it is raised. |
+
+Write the **constant and the rupee figure**, as the second row does. Paise are easy to get wrong:
+`500_000_000L` is ₹50 lakh, which *lowers* the limit, and a test written against that constant still
+passes.
+
+**The last row has no example.** Your answer to "would you raise a pull request" is yours, and Part B
+is the test of it. Give one reason, and name the one thing that would change your mind.
+
+</details>
+
 ### Part B — pull the whole ticket (25 min)
 
 Start again, from the checkpoint, in a new chat. Keep your Part A branch as evidence.
@@ -413,6 +436,15 @@ Then stop. Do not open any code, and do not write any files.
 
 Write one sentence: for GB-207, was the pull worth its cost? Would your answer be the same for a
 ticket with many comments and links?
+
+<details>
+<summary><b>An example of the sentence</b> — open after you have written yours</summary>
+
+> For GB-207 the pull added little: the ticket has no comments and one link, the epic GB-100, so the
+> pull carried nearly the same words as the paste and cost a tool call. On a ticket with a history my
+> answer changes, because the comments and the linked issues are the part nobody pastes.
+
+</details>
 
 ## Stretch lab 6.2+ (optional) — the stop condition as a skill
 
