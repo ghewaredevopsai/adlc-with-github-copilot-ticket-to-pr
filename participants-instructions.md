@@ -197,13 +197,17 @@ The start script is a bash script, so on Windows Copilot starts each part with P
 Start the Global Bank app on localhost. Use PowerShell. Work from the adlc-copilot-training folder in my home folder.
 Use mvn, not ./mvnw. The ./mvnw wrapper does not work in these repositories.
 
-1. Create the folder "$HOME\adlc-copilot-training\logs" if it does not exist.
+1. Create the folder "$HOME\adlc-copilot-training\global-bank-platform\.run\logs" if it does not
+   exist. That is where the macOS and Linux start script puts its logs too, so the troubleshooting
+   steps are the same on every machine.
 2. Build each of these five folders with: mvn -B -q clean package -DskipTests
    global-bank-authentication, global-bank-customer, global-bank-account, global-bank-transaction, global-bank-rules
    Build them one at a time. If a build fails, stop and show me the error.
 3. Start each service in the background from its own folder, with its log in the logs folder. For example:
-   Start-Process java -ArgumentList '-jar','target\authentication.jar' -WorkingDirectory "$HOME\adlc-copilot-training\global-bank-authentication" -RedirectStandardOutput "$HOME\adlc-copilot-training\logs\auth.log" -RedirectStandardError "$HOME\adlc-copilot-training\logs\auth.err.log" -WindowStyle Hidden
+   Start-Process java -ArgumentList '-jar','target\authentication.jar' -WorkingDirectory "$HOME\adlc-copilot-training\global-bank-authentication" -RedirectStandardOutput "$HOME\adlc-copilot-training\global-bank-platform\.run\logs\auth.log" -RedirectStandardError "$HOME\adlc-copilot-training\global-bank-platform\.run\logs\auth.err.log" -WindowStyle Hidden
    Each folder has one jar in target: authentication.jar, customer.jar, account.jar, transaction.jar, rules.jar.
+   Name the logs auth.log, customer.log, account.log, transaction.log and rules.log, to match the
+   names the macOS and Linux script uses.
 4. Wait until each service answers its health address with "UP". Try every 5 seconds, for up to 2 minutes:
    http://localhost:8084/auth/actuator/health
    http://localhost:8085/customer/actuator/health
@@ -211,7 +215,7 @@ Use mvn, not ./mvnw. The ./mvnw wrapper does not work in these repositories.
    http://localhost:8087/transaction/actuator/health
    http://localhost:8090/rules/actuator/health
 5. In global-bank-frontend, run "npm install" once. Then start the web app in the background:
-   Start-Process npm.cmd -ArgumentList 'run','dev' -WorkingDirectory "$HOME\adlc-copilot-training\global-bank-frontend" -RedirectStandardOutput "$HOME\adlc-copilot-training\logs\frontend.log" -RedirectStandardError "$HOME\adlc-copilot-training\logs\frontend.err.log" -WindowStyle Hidden
+   Start-Process npm.cmd -ArgumentList 'run','dev' -WorkingDirectory "$HOME\adlc-copilot-training\global-bank-frontend" -RedirectStandardOutput "$HOME\adlc-copilot-training\global-bank-platform\.run\logs\frontend.log" -RedirectStandardError "$HOME\adlc-copilot-training\global-bank-platform\.run\logs\frontend.err.log" -WindowStyle Hidden
 6. Wait until http://localhost:4200 answers.
 7. Show me a table of the six parts with UP or DOWN. If a part is DOWN, show me the end of its log file and explain the error.
 ```
