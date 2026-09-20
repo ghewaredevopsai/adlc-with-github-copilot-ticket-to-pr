@@ -97,7 +97,7 @@ The measured run itself uses fixed settings (Agent mode, base model), so every r
 ```text
 First run "date" in a terminal and show me the output. That is the start time of this run.
 Read course/labs/lab-keys.md to find my Jira key for GB-142. Use the atlassian MCP tools to read
-that Jira issue, including its comments.
+that Jira issue, including its comments. Read no other issue, and do not search Confluence.
 Implement the ticket in the global-bank-account folder. Meet every acceptance criterion.
 Work only from the files on the current branch. Do not read any other git branch.
 Run "mvn test" in global-bank-account until it passes.

@@ -67,6 +67,9 @@ APP_BODY = (
     "<p><em>Created by setup-lab-tickets.py for the ADLC course. Edit freely.</em></p>"
 )
 
+# ADR-007 (duplicate suppression) is deliberately NOT listed here. This page exists before Day 1,
+# and that decision is the answer to the Lab 1.1 ticket. Participants meet it in Module 2, in the
+# repository, not on a page an agent can search on Day 1.
 CONFLUENCE_TITLE = "Global Bank posting API - decisions"
 CONFLUENCE_BODY = (
     "<p>Decisions for the posting API in <code>global-bank-account</code>. The full ADRs live in the "
@@ -75,7 +78,6 @@ CONFLUENCE_BODY = (
     "<tr><th>ADR</th><th>Decision</th></tr>"
     "<tr><td>ADR-003</td><td>Amounts are <code>long</code> minor units (paise)</td></tr>"
     "<tr><td>ADR-005</td><td>Lombok removed, and not to be reintroduced</td></tr>"
-    "<tr><td>ADR-007</td><td>Duplicate suppression keys on client reference + value date</td></tr>"
     "<tr><td>ADR-009</td><td>Posting contract changes are versioned and sequenced</td></tr>"
     "</tbody></table>"
     "<p>The Module 8 write-back lab and the capstone add a page under this one for each new decision.</p>"

@@ -73,7 +73,7 @@ Open `labs/lab-keys.md`. The table now has two new lines:
 1. Open your space. Under the space home page, you see **Global Bank**.
 2. Open **Global Bank**. It shows a table of the seven repositories. At the bottom, under "Pages under
    this page", it lists **Global Bank posting API - decisions**.
-3. Open **Global Bank posting API - decisions**. It shows a table of four ADRs.
+3. Open **Global Bank posting API - decisions**. It shows a table of three ADRs.
 
 The welcome text on the space home page does not matter to the labs. You may replace it with a link to
 **Global Bank**, or leave it.
