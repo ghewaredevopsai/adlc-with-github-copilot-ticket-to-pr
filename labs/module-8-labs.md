@@ -789,16 +789,36 @@ On Windows, run these commands in **Git Bash**: a patch file written by PowerShe
 ```bash
 cd ~/adlc-copilot-training/global-bank-account && git diff capstone-start GB-186-capstone > ~/GB-186-account.patch
 cd ~/adlc-copilot-training/global-bank-transaction && git diff capstone-start GB-186-capstone > ~/GB-186-transaction.patch
+wc -c ~/GB-186-account.patch ~/GB-186-transaction.patch
+# expect: a few thousand bytes each
 ```
 
+**Check the sizes before you send anything.** If a patch is **0 bytes**, do not send it. The shell
+makes the file before git runs, so a failed `git diff` leaves an empty patch and git says nothing
+more. Your neighbour then gets a file that cannot be applied, and spends the lab thinking their own
+setup is broken. `0 bytes` means `GB-186-capstone` is missing or has another name here: run
+`git branch` to find what you called it, and run the line again with that name.
+
 **2. Apply your neighbour's change** on a new branch in each repository. Save their files as
-`~/neighbour-account.patch` and `~/neighbour-transaction.patch` first. Commit your own work before you
-switch.
+`~/neighbour-account.patch` and `~/neighbour-transaction.patch` first.
+
+Commit your own work first. `git switch -c` carries anything uncommitted onto the new branch, where
+it mixes with your neighbour's change and makes the patch look broken:
+
+```bash
+cd ~/adlc-copilot-training/global-bank-account && git status --short
+cd ~/adlc-copilot-training/global-bank-transaction && git status --short
+# both must print nothing
+```
 
 ```bash
 cd ~/adlc-copilot-training/global-bank-account && git switch -c GB-186-neighbour capstone-start && git apply --index ~/neighbour-account.patch
 cd ~/adlc-copilot-training/global-bank-transaction && git switch -c GB-186-neighbour capstone-start && git apply --index ~/neighbour-transaction.patch
 ```
+
+`No valid patches in input`? Their patch is empty: ask them to run the size check in step 1 and send
+it again. `branch already exists`? You did this before: `git branch -D GB-186-neighbour` in that
+repository, then run the line again.
 
 **3. Review it:**
 
