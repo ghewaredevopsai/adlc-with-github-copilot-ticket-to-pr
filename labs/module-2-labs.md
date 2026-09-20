@@ -252,7 +252,12 @@ The agent starts in a **new chat**, so it remembers nothing from Lab 1.1. Your b
 
 ```bash
 cd ~/global-bank/global-bank-account
+git status --short
+# must print nothing. If it lists your three files, Lab 2.1 Step 6 did not commit them:
+# go back and commit them on lab-2.1-knowledge first
 git switch -c GB-142-lab-2.2 lab-2.1-knowledge
+git show --stat lab-2.1-knowledge | tail -5
+# expect: your three knowledge files
 mvn test
 # expect: Tests run: 4, Failures: 0, Errors: 0
 ```
