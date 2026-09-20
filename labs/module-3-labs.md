@@ -537,6 +537,10 @@ git commit -m "Make the account-change skill ticket-independent"
 /gb-change ticket=GB-142 goal="Stop a retried payment from being booked twice"
 ```
 
+GB-142 is already implemented on this branch, by your Lab 2.2 run. That is part of the test: a good
+skill file makes Copilot check the repository first, say the change is already there, and stop
+instead of writing it twice.
+
 **Check:** Copilot follows your skill file on a ticket it was not written for. The skill file did
 not change during the run:
 
