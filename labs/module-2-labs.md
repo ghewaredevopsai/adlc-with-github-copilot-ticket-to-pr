@@ -5,28 +5,20 @@ from: `m1-start`
 
 In Lab 1.1 the agent spent many turns working out facts your team already knows. In Lab 2.1 you write
 those facts into the repository, in three files: two for the whole repository and one for a single
-folder. In Lab 2.2 you run a new
-ticket of the same size, with the same prompt and the same 35 minutes, and you count again. The only
-thing that changes between the two runs is what is written down.
+folder. In Lab 2.2 you run **the same
+ticket again**, with the same prompt and the same 35 minutes, in a new chat on a branch without your
+Lab 1.1 code. The only thing that changes between the two runs is what is written down.
 
 **Words used in these labs.** An **instruction file** is a Markdown file that Copilot loads by
 itself. A **path-scoped** instruction file loads only when the agent works on files in one folder.
 An **ADR** (Architecture Decision Record) records one decision, why it was made, and what was
-rejected. The deck explains all three. A **reversal** undoes a posting that was booked in error.
+rejected. The deck explains all three.
 
 ## Before you start
 
 1. Your Lab 1.1 work and its `metrics.md` are committed on their own branch (`GB-142-lab-1.1`). Lab 2.1 does not change that branch.
 
-2. Load the Module 2 ticket into your Jira project. In a terminal, at the root of the course
-   repository:
-
-   ```bash
-   cd ~/adlc-with-github-copilot-ticket-to-pr
-   python labs/scripts/setup-lab-tickets.py --module 2
-   ```
-
-   `labs/lab-keys.md` now has a row for GB-151 as well as GB-142.
+2. Both labs use GB-142, which is already in your Jira from Module 1. There is nothing to load.
 
 3. Open the lab workspace: **File**, then **Open Workspace from File**, then
    `adlc-labs.code-workspace`. Check that the **atlassian** MCP server is running
@@ -244,20 +236,23 @@ If you have no files at all, use the catch-up tag in Lab 2.2 (see below).
 
 ---
 
-## Lab 2.2 — The re-measured run on GB-151
+## Lab 2.2 — The same ticket, re-measured
 
-**Goal:** run a new ticket of the same size as GB-142 on the repository you just wrote, and count
-the same six numbers · **Ticket:** GB-151 · **Timebox:** 45 min (35 working, 10 recording) ·
-**Output:** row 2.2 in `metrics.md`
+**Goal:** run GB-142 again on the repository you just wrote, and compare the numbers ·
+**Ticket:** GB-142 · **Timebox:** 45 min (35 working, 10 recording) · **Output:** row 2.2 in
+`metrics.md`
 
-GB-151 is a different ticket on purpose. You already know the answer to GB-142. Running it again
-would measure your memory, not your files.
+The same ticket, the same prompt and the same 35 minutes. Only the repository changed. That is what
+makes the two rows comparable: a different ticket would measure its size as much as your files.
+
+The agent starts in a **new chat**, so it remembers nothing from Lab 1.1. Your branch starts from
+`lab-2.1-knowledge`, which has your three files and none of your Lab 1.1 code.
 
 ### Step 1 — Branch from your own Lab 2.1 work
 
 ```bash
 cd ~/global-bank/global-bank-account
-git switch -c GB-151-lab-2.2 lab-2.1-knowledge
+git switch -c GB-142-lab-2.2 lab-2.1-knowledge
 mvn test
 # expect: Tests run: 4, Failures: 0, Errors: 0
 ```
@@ -298,84 +293,32 @@ The clock starts with this prompt. You do not count anything: the record prompt 
 
 ```text
 First run "date" in a terminal and show me the output. That is the start time of this run.
-Read course/labs/lab-keys.md to find my Jira key for GB-151. Use the atlassian MCP tools to read
+Read course/labs/lab-keys.md to find my Jira key for GB-142. Use the atlassian MCP tools to read
 that Jira issue, including its comments.
 Implement the ticket in the global-bank-account folder. Meet every acceptance criterion.
+Work only from the files on the current branch. Do not read any other git branch.
 Run "mvn test" in global-bank-account until it passes.
 When you finish, list the files you changed, and say which acceptance criteria are met and how.
 ```
 
-Copy it exactly. It is the Lab 1.1 prompt with only the ticket key changed.
+Copy it exactly. It is Prompt 1.1-A, word for word.
 
-**What you should see:** Copilot reads the ticket, changes some files, runs `mvn test` and reports
-on the six acceptance criteria.
+**Two things not to do.** Do not tell Copilot what your Lab 1.1 run did, and do not open your
+`GB-142-lab-1.1` branch. The comparison only holds while the chat and the branch are clean. What you
+remember is not a problem: you send one scripted prompt, so your memory has no way into the run.
 
-### Step 4 — Check the six acceptance criteria
+### Step 4 — The same four checks as Lab 1.1
 
-Run the checks yourself when Copilot says it is done. Do not trust its report alone.
+Run them yourself. Do not trust Copilot's report alone. The steps are in
+[module-1-labs.md](module-1-labs.md): `mvn test` for Check 1, then `mvn spring-boot:run` in a second
+terminal, then the `post` and `balance` helpers for Checks 2 to 4.
 
-**Check 6 — tests pass, and there are new ones:**
-
-```bash
-mvn test
-# expect: Tests run: more than 4, Failures: 0, Errors: 0
-grep -ril "revers" src/test
-# expect: at least one test file
-```
-
-**Start the service** in a second terminal, in `global-bank-account`:
-
-```bash
-mvn spring-boot:run
-# wait for: Started AccountserviceApplication
-```
-
-The data is held in memory. A restart clears it, so run checks 1 to 5 in one go, in the first
-terminal:
-
-```bash
-BASE=http://localhost:8086/account/api/v1
-
-# Balances before
-curl -s $BASE/accounts/ACC-CLIENT-001/balance; echo
-curl -s $BASE/accounts/ACC-SUSPENSE/balance; echo
-
-# Make a posting: 1,500.00 INR (150000 paise) from ACC-CLIENT-001 to ACC-SUSPENSE
-ID=$(curl -s -X POST $BASE/postings -H "Content-Type: application/json" \
-  -d '{"clientReference":"LAB-2.2-001","debitAccountId":"ACC-CLIENT-001","creditAccountId":"ACC-SUSPENSE","amountMinor":150000,"valueDate":"2026-09-21","narrative":"Lab 2.2 check"}' \
-  | python3 -c "import sys, json; print(json.load(sys.stdin)['postingId'])")
-echo "Posting id: $ID"
-
-# Check 1 - reverse it
-curl -s -w "\nHTTP %{http_code}\n" -X POST $BASE/postings/$ID/reversal
-
-# Check 2 - balances are back to the values before the posting
-curl -s $BASE/accounts/ACC-CLIENT-001/balance; echo
-curl -s $BASE/accounts/ACC-SUSPENSE/balance; echo
-
-# Check 3 - the posting shows it was reversed
-curl -s $BASE/postings/$ID; echo
-
-# Check 4 - reversing a posting that does not exist
-curl -s -w "\nHTTP %{http_code}\n" -X POST $BASE/postings/no-such-posting/reversal
-
-# Check 5 - a second reversal of the same posting
-curl -s -w "\nHTTP %{http_code}\n" -X POST $BASE/postings/$ID/reversal
-curl -s $BASE/accounts/ACC-CLIENT-001/balance; echo
-```
-
-On Windows without `python3`, use `python` in the `ID=` line.
-
-| Check | Criterion | Passes when |
-|---|---|---|
-| 1 | Reversal endpoint | HTTP 2xx |
-| 2 | Balances restored | Both balances equal the "before" values |
-| 3 | Reversal is visible | The posting shows a different status from a live posting |
-| 4 | Unknown posting | HTTP 4xx, not 5xx. **Counts only if check 1 passed** |
-| 5 | No second reversal | HTTP 4xx, and the ACC-CLIENT-001 balance did not change again |
-| 6 | Covered by tests | `mvn test` passes, with new reversal tests |
-
-Check 4 counts only if check 1 passed. Before the endpoint exists, every call to it gives 404.
+| Check | Passes when |
+|---|---|
+| **1** — tests | `Tests run` is more than 4, `Failures: 0`, `Errors: 0` |
+| **2** — the same instruction twice | Both calls return HTTP 200 or 201 with the **same** `postingId`. Balance `2500000` |
+| **3** — same reference, new value date | HTTP 201, a **new** `postingId`, `"valueDate":"2026-04-30"`. Balance `5000000` |
+| **4** — a new instruction | HTTP 201 with a `postingId`. Balance `750000` |
 
 ### Step 5 — Repair, only when a check fails
 
@@ -394,7 +337,7 @@ Replace the one line in `<>` with the output of the failing check. Each repair c
 After a repair, stop the service (`Ctrl+C`), start it again, and run all the checks again from the
 top.
 
-**Stop** when all six checks pass, after three repairs, or at 35 minutes. Whichever comes first.
+**Stop** when all four checks pass, after three repairs, or at 35 minutes. Whichever comes first.
 
 ### Step 6 — Commit
 
@@ -402,32 +345,37 @@ Stop the service. Then:
 
 ```bash
 git add -A
-git commit -m "GB-151 reversal (Lab 2.2 run)"
+git commit -m "GB-142 with the knowledge files (Lab 2.2 run)"
 ```
 
 Commit even if some checks still fail. `metrics.md` records what happened.
 
 ### Record
 
-Send this in the **same chat as Prompt 2.2-A**. It is Prompt 1.1-M with the run, ticket and
-commit message changed. Prompt 2.2-check was a different chat, so it is not counted.
+Send this as soon as the checks pass, in the **same chat as Prompt 2.2-A**. The clock runs until
+you send it. It is Prompt 1.1-M with the run and the commit
+message changed. Prompt 2.2-check was a different chat, so it is not counted.
 
 **Prompt 2.2-M** · Agent mode · **same chat**
 
 ```text
-The run is over. Count these six numbers from this chat only, and do not guess beyond it:
+The run is over. Count these numbers from this chat only, and do not guess beyond it:
 - Turns: prompts I sent, from the opener to the last repair. Not this prompt.
 - Tool calls: files you read and searches you ran. Not the Jira fetch, edits or terminal commands.
 - Asked: questions you asked me that a file in the repository could have answered.
 - Rework: repair prompts I sent that start with "A check failed".
 - Churn: lines you wrote earlier in this run and later replaced or deleted, to the nearest ten.
 - Clock: run "date" now. Minutes since the start time in your first reply. If over 35, write "35 (not finished)".
+- Assumptions: decisions you made that no file in the repository answered, for example a design
+  choice, a rule or a name. List them in one line each.
 Create metrics.md at the root of global-bank-account with this table and one row:
 | Run | Ticket | Turns | Tool calls | Asked | Rework | Churn | Clock |
-Use "2.2" as the run and "GB-151" as the ticket. Add the Lab 1.1 row below it, copied from
-"git show GB-142-lab-1.1:metrics.md". Under the table, add one line "Notes:" with my notes below,
-and one line "How counted:" that says anything you could not count exactly.
-Then run: git add -A && git commit -m "GB-151 lab 2.2 metrics". Show me the table.
+Use "2.2" as the run and "GB-142" as the ticket. Add the Lab 1.1 row below it, copied from
+"git show GB-142-lab-1.1:metrics.md". Under the table, add "Assumptions (N):" with N the number you
+counted and the list below it, then a line "Lab 1.1 assumptions:" with the count from that same
+Lab 1.1 file, then one line "Notes:" with my notes below, and one line "How counted:" that says
+anything you could not count exactly.
+Then run: git add -A && git commit -m "GB-142 lab 2.2 metrics". Show me the table.
 My notes: <anything unusual, or leave empty>
 ```
 
@@ -435,10 +383,21 @@ Report what you measured, even if a number got worse. Then write one line under 
 three files helped most in this run, and how you know. The references list under each answer shows
 which files Copilot used.
 
+**Then compare the two fixes.** The numbers are not the only result. Both runs solved the same
+ticket, so you can read the code side by side:
+
+```bash
+git diff GB-142-lab-1.1 GB-142-lab-2.2 -- src/main/java
+```
+
+Ask two questions. Does the Lab 1.1 fix match the decision in your ADR, or did the agent invent its
+own rule? Does the Lab 2.2 fix follow the ADR? A run with the same six numbers but the agreed design
+is still a better run, and that difference is what your files bought.
+
 Finally, compare your instruction file with the reference version:
 
 ```bash
-git diff GB-151-lab-2.2 m2.2-start -- .github/copilot-instructions.md
+git diff GB-142-lab-2.2 m2.2-start -- .github/copilot-instructions.md
 ```
 
 Note one fact the reference file has and yours does not. Your trainer shows the reference ADR in the
@@ -449,7 +408,7 @@ debrief after lunch.
 Did not finish Lab 2.1? Start Lab 2.2 from the reference knowledge instead of your own:
 
 ```bash
-git switch -c GB-151-lab-2.2 m2.2-start
+git switch -c GB-142-lab-2.2 m2.2-start
 ```
 
 Then do Steps 2 to 6 as written. Write "m2.2-start" in the notes line of Prompt 2.2-M, because this row then
@@ -501,7 +460,7 @@ mvn test          # expect: passes
 ```
 
 (On a Mac, use `sed -i ''`.) Commit on `lab-2.1-plus`. Switch back with
-`git switch GB-151-lab-2.2` before you go on.
+`git switch GB-142-lab-2.2` before you go on.
 
 ## Stretch lab 2.2+ (optional) — Plant a fake secret
 
@@ -511,7 +470,7 @@ is fake. **Never use a real key, token or password in this lab.**
 Do it on a throwaway branch, and never push it:
 
 ```bash
-git switch -c lab-2.2-plus GB-151-lab-2.2
+git switch -c lab-2.2-plus GB-142-lab-2.2
 echo "- Test posting API: API_KEY=test-not-real-0000" >> .github/copilot-instructions.md
 git commit -am "Add API note"
 ```
@@ -548,6 +507,6 @@ The value is still in the history. For a real key, deleting it is not enough: yo
 with a new key (rotate it). Then delete the branch:
 
 ```bash
-git switch GB-151-lab-2.2
+git switch GB-142-lab-2.2
 git branch -D lab-2.2-plus
 ```

@@ -317,7 +317,9 @@ Record this chat. Count from this chat only, and do not guess beyond it:
 - Asked: questions you asked me that a file in either repository could have answered.
 - Rework: prompts I sent that start with "A check failed".
 - Churn: lines you wrote earlier in this chat and later replaced or deleted, to the nearest ten.
-Append one row to course/labs/my-work/capstone-chats.md. If the file does not exist, create it
+- Assumptions: decisions you made in this chat that no file in either repository answered.
+Append one row to course/labs/my-work/capstone-chats.md, and under it one line
+"Assumptions (N):" with the list, N being the number for this chat. If the file does not exist, create it
 with a line "Start: " plus the "date" output from your first reply in this chat, then this header:
 | Chat | Turns | Tool calls | Asked | Rework | Churn |
 In the Chat column, write a few words on what this chat did, for example "spec (design agent)".
@@ -717,7 +719,9 @@ Record this chat, then total the whole capstone. For this chat, count from this 
 - Asked: questions you asked me that a file in either repository could have answered.
 - Rework: prompts I sent that start with "A check failed".
 - Churn: lines you wrote earlier in this chat and later replaced or deleted, to the nearest ten.
-Append this chat's row to course/labs/my-work/capstone-chats.md, in the same shape as its rows.
+- Assumptions: decisions you made in this chat that no file in either repository answered.
+Append this chat's row to course/labs/my-work/capstone-chats.md, in the same shape as its rows,
+with its own "Assumptions (N):" line.
 Then run "date". Clock: minutes since the Start line in that file. If over 50, write "50 (not finished)".
 Create metrics.md at the root of global-bank-account with this table:
 | Run | Ticket | Turns | Tool calls | Asked | Rework | Churn | Clock |
@@ -726,6 +730,8 @@ clock. Below it, the Lab 1.1 row from "git show GB-142-lab-1.1:metrics.md" in gl
 Under the table, add:
 - "Per criterion:" asked, rework and churn divided by the number of acceptance criteria in
   global-bank-account/specs/GB-186.md for the capstone, and by 5 for Lab 1.1.
+- "Assumptions (N):" every assumption line in capstone-chats.md, with N their total, and the
+  Lab 1.1 assumptions count from its metrics.md.
 - "Stage reached:" the last stage in capstone-chats.md.
 - "Chats:" a copy of the rows of capstone-chats.md.
 - "How counted:" anything you could not count exactly.
@@ -735,8 +741,9 @@ Show me metrics.md.
 
 **Reading it.** Asked, rework and churn **per criterion** compare fairly with Lab 1.1. Turns, tool
 calls and clock do not: GB-186 is two repositories, six criteria and eight stages, so those are
-higher for size alone. For the debrief, look at the Chats rows: which stage cost the most, and was
-it worth it?
+higher for size alone. The **assumptions** total compares directly: it is what two days of writing
+things down was meant to shrink. For the debrief, look at the Chats rows: which stage cost the most,
+and was it worth it?
 
 Leave the numbers as Copilot counted them, even if they are worse than Lab 1.1. A first run of all
 eight stages includes the cost of learning them. That is a finding, not a failure.

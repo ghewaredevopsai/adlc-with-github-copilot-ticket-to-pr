@@ -48,6 +48,10 @@ count by hand. The six numbers are:
 | **Churn** | Lines Copilot wrote and then threw away, to the nearest ten |
 | **Clock** | Minutes from your first prompt to a change you would raise a pull request for: all the lab's checks pass. If you stop at the timebox, write the timebox |
 
+The record prompt also asks for **assumptions**: the decisions the agent made that no file in the
+repository answered. That list is the clearest sign of what your team has not written down, and it
+is what Module 2 sets out to shorten.
+
 A measured run has one **repair prompt**. Paste it only when a check fails. It is the same for
 everyone, so the number of repairs is what differs between your runs.
 

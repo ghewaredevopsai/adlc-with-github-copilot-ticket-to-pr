@@ -425,7 +425,7 @@
 </section>
 
 <!-- 9 -->
-<section class="slide" data-sec="3 &middot; Baselining" data-title="What you can actually measure" data-notes="The real cost of Copilot is AI credits. But you cannot see credits for one ticket while you work. They appear later, per user, in a usage view. So a per-ticket credit number would have no source you can show. Instead you count six things you can see live, from the chat or a stopwatch. Turns and tool calls follow spend most closely. Questions it asked and rework show how much the agent had to guess. In the labs, rework means the repair prompts you paste when a check fails. Everyone sends the same scripted prompts, so repairs are where runs differ. Diff churn and wall-clock time show the outcome. The clock runs from your first prompt until all the lab's checks pass. If they never pass, stop at the timebox and write that time, for example 35 minutes in Lab 1.1. Repairs become the rework column of your tally sheet, and later modules refer to it. At the end, a record prompt asks Copilot to count them from the chat and save them in metrics.md in the repo. You can compare with the usage view at the end of Day 2. The rule: measure what you can show, and check later what you cannot." data-tier="K">
+<section class="slide" data-sec="3 &middot; Baselining" data-title="What you can actually measure" data-notes="The real cost of Copilot is AI credits. But you cannot see credits for one ticket while you work. They appear later, per user, in a usage view. So a per-ticket credit number would have no source you can show. Instead you count six things you can see live, from the chat or a stopwatch. Turns and tool calls follow spend most closely. Questions it asked and rework show how much the agent had to guess. In the labs, rework means the repair prompts you paste when a check fails. Everyone sends the same scripted prompts, so repairs are where runs differ. Diff churn and wall-clock time show the outcome. The clock runs from your first prompt until all the lab's checks pass. If they never pass, stop at the timebox and write that time, for example 35 minutes in Lab 1.1. Repairs become the rework column of your tally sheet, and later modules refer to it. At the end, a record prompt asks Copilot to count them from the chat and save them in metrics.md in the repo. You can compare with the usage view at the end of Day 2. The record prompt also asks the agent to list its assumptions: the decisions it made because no file answered them. That list is what Module 2 tries to shorten. The rule: measure what you can show, and check later what you cannot." data-tier="K">
   <h2>Measuring a ticket &mdash; six numbers you can see live<span class="tag k">3</span></h2>
   <div class="body g64">
     <div>
@@ -468,7 +468,7 @@
       <h3>The rules</h3>
       <ul>
         <li>Same scripted prompts, same counting rules &mdash; <b>before and after</b>.</li>
-        <li>Copilot counts them from the chat and saves them in <code>metrics.md</code>.</li>
+        <li>Copilot also lists what it had to <b>assume</b>, because no file said.</li>
       </ul>
       <div class="take"><b>Only quote a number</b> you can point to.</div>
     </div>
@@ -512,7 +512,7 @@
         <text class="ss" x="652" y="102" style="font-weight:700;fill:#d98a3d">?</text>
 
         <rect class="bx w" x="16" y="118" width="668" height="30" rx="4"/>
-        <text class="ss" x="28" y="138" style="font-size:13px">2.2 &mdash; GB-151, knowledge in the repo</text>
+        <text class="ss" x="28" y="138" style="font-size:13px">2.2 &mdash; GB-142 again, knowledge in repo</text>
         <text class="ss" x="266" y="138">&mdash;</text><text class="ss" x="344" y="138">&mdash;</text><text class="ss" x="422" y="138">&mdash;</text>
         <text class="ss" x="506" y="138">&mdash;</text><text class="ss" x="588" y="138">&mdash;</text><text class="ss" x="652" y="138">&mdash;</text>
 

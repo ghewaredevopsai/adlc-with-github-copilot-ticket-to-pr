@@ -3,9 +3,10 @@
 **Day 1** · Lab 1.1 (+ stretch) · about 45 minutes · Repository: `global-bank-account` · Start from: `m1-start`
 
 You fix one real bug with Copilot, on a repository where the team has written nothing down. At the
-end, Copilot counts six numbers from the chat and saves them in `metrics.md`. That is your
-**baseline**: the first measurement, taken before the course teaches anything. You measure again in
-Lab 2.2 and at the capstone, and compare. The goal is an honest number, not a good one.
+end, Copilot counts six numbers from the chat, lists what it had to assume, and saves both in
+`metrics.md`. That is your
+**baseline**: the first measurement, taken before the course teaches anything. In Lab 2.2 you run this same ticket again, on a
+repository where your team's knowledge is written down, and compare. The goal is an honest number, not a good one.
 
 **Words used in this lab**
 
@@ -75,6 +76,7 @@ First run "date" in a terminal and show me the output. That is the start time of
 Read course/labs/lab-keys.md to find my Jira key for GB-142. Use the atlassian MCP tools to read
 that Jira issue, including its comments.
 Implement the ticket in the global-bank-account folder. Meet every acceptance criterion.
+Work only from the files on the current branch. Do not read any other git branch.
 Run "mvn test" in global-bank-account until it passes.
 When you finish, list the files you changed, and say which acceptance criteria are met and how.
 ```
@@ -160,22 +162,28 @@ Send this in the **same chat**. Fill in the last two lines: your four decisions 
 **Prompt 1.1-M** · Agent mode · **same chat**
 
 ```text
-The run is over. Count these six numbers from this chat only, and do not guess beyond it:
+The run is over. Count these numbers from this chat only, and do not guess beyond it:
 - Turns: prompts I sent, from the opener to the last repair. Not this prompt.
 - Tool calls: files you read and searches you ran. Not the Jira fetch, edits or terminal commands.
 - Asked: questions you asked me that a file in the repository could have answered.
 - Rework: repair prompts I sent that start with "A check failed".
 - Churn: lines you wrote earlier in this run and later replaced or deleted, to the nearest ten.
 - Clock: run "date" now. Minutes since the start time in your first reply. If over 35, write "35 (not finished)".
+- Assumptions: decisions you made that no file in the repository answered, for example a design
+  choice, a rule or a name. List them in one line each.
 Create metrics.md at the root of global-bank-account with this table and one row:
 | Run | Ticket | Turns | Tool calls | Asked | Rework | Churn | Clock |
 Use "1.1" as the run and "GB-142" as the ticket. Under the table, add a line "Decisions:" with my
-four decisions below, one line "Notes:" with my notes below, and one line "How counted:" that says
-anything you could not count exactly.
+four decisions below, then "Assumptions (N):" with N the number you counted and the list below it,
+then one line "Notes:" with my notes below, and one line "How counted:" that says anything you could
+not count exactly.
 Then run: git add -A && git commit -m "GB-142 lab 1.1 baseline run". Show me the table.
 My four decisions: <kind of task>, <model class>, <mode>, <working style>
 My notes: <anything unusual, for example "MCP failed", or leave empty>
 ```
+
+**Send it as soon as the checks pass.** The clock runs until you send it, so a break here is
+recorded as working time.
 
 **Check:** `git show --stat HEAD` lists `metrics.md` and your code changes. Leave the numbers as
 Copilot counted them, even if they look bad. A run that went badly is a finding, not a failure.

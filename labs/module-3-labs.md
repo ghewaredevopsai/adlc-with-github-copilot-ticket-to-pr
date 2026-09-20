@@ -26,13 +26,13 @@ python labs/scripts/setup-lab-tickets.py --module 3
 ```
 
 This creates six tickets, GB-201 to GB-206, in your Jira project. Open `labs/lab-keys.md`. It
-should now list GB-201 to GB-206, each with your own key. GB-151 is already there from Module 2.
+should now list GB-151 and GB-201 to GB-206, each with your own key.
 
 **2. Check the Jira connection.** Run **MCP: List Servers** from the Command Palette. **atlassian**
 must say **Running**.
 
 **3. Branch from your Module 2 work.** Open a terminal in the `global-bank-account` folder. You
-continue from the branch you finished Lab 2.2 on, `GB-151-lab-2.2`. It holds the knowledge files
+continue from the branch you finished Lab 2.2 on, `GB-142-lab-2.2`. It holds the knowledge files
 you wrote in Module 2. Your skill file points at them.
 
 ```bash
