@@ -42,6 +42,7 @@ ticket differently.
    git switch GB-151-lab-3.1
    git status --short
    # must print nothing. If it lists files, commit them first
+   # branch already there from an earlier run? see "Running a lab again" in README.md
    git switch -c lab-4.1-agents
    mvn test
    # expect: Failures: 0, Errors: 0. Tests run: 4, or more if your earlier labs added tests

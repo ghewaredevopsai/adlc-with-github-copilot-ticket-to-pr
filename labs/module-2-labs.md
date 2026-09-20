@@ -29,6 +29,7 @@ rejected. The deck explains all three.
 
    ```bash
    cd ~/global-bank/global-bank-account
+   # branch already there from an earlier run? see "Running a lab again" in README.md
    git switch -c lab-2.1-knowledge m1-start
    mvn test
    # expect: Tests run: 4, Failures: 0, Errors: 0

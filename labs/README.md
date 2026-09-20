@@ -161,6 +161,40 @@ Start every lab on a new branch from its tag, named after the ticket and the lab
 git switch -c GB-142-lab-1.1 m1-start
 ```
 
+## Running a lab again
+
+`git switch -c` fails if the branch is already there from an earlier attempt. Delete it first, from
+another branch:
+
+```bash
+cd ~/global-bank/global-bank-account
+git switch main
+git branch -D GB-142-lab-1.1          # the branch you are about to make again
+```
+
+Anything you want to keep, rename instead: `git branch -m GB-142-lab-1.1 first-attempt-1.1`.
+
+**To start the whole course again**, in **both** `global-bank-account` and
+`global-bank-transaction`:
+
+```bash
+git switch main
+git fetch --tags --force              # the tags move when a lab is fixed
+git branch | grep -v '^\*\| main$' | xargs -r git branch -D
+```
+
+Then, in the course repository, clear your own notes and measurements:
+
+```bash
+cd ~/adlc-with-github-copilot-ticket-to-pr
+git pull
+rm -f labs/my-work/*
+```
+
+Your Jira project keeps the tickets from the earlier attempt, with any comments and status changes
+on them. `setup-lab-tickets.py` finds those tickets and does not make copies, so a second run is
+safe. For a clean board, delete the issues in Jira first, then run the script again.
+
 ## Terminals and services
 
 - **Windows:** run the terminal commands in the guides in **Git Bash**, not PowerShell. They use bash

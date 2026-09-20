@@ -39,6 +39,7 @@ branches from Lab 7.1. Then run `git status`. It must say `nothing to commit`.
 **3. Make the Lab 8.1 branches.** In a terminal:
 
 ```bash
+# branches already there from an earlier run? see "Running a lab again" in README.md
 cd ~/global-bank/global-bank-account && git switch -c GB-151-lab-8.1 capstone-start
 cd ~/global-bank/global-bank-transaction && git switch -c GB-151-lab-8.1 capstone-start
 ```
@@ -280,6 +281,7 @@ You should see `created GB-186 ...`, and `labs/lab-keys.md` now has a line for G
 **2. Make the capstone branches** in both repositories. In a terminal:
 
 ```bash
+# branches already there from an earlier run? see "Running a lab again" in README.md
 cd ~/global-bank/global-bank-account && git switch -c GB-186-capstone capstone-start && mvn test | grep "Tests run:" | tail -1
 cd ~/global-bank/global-bank-transaction && git switch -c GB-186-capstone capstone-start && mvn test | grep "Tests run:" | tail -1
 ```

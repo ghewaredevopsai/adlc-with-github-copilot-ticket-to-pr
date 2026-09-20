@@ -40,6 +40,7 @@ cd ~/global-bank/global-bank-account
 git status --short
 # must print nothing. If it lists files, commit them first:
 #   git add -A && git commit -m "Lab 2.2 work"
+# branch already there from an earlier run? see "Running a lab again" in README.md
 git switch -c GB-151-lab-3.1
 mvn test
 # expect: Failures: 0, Errors: 0
