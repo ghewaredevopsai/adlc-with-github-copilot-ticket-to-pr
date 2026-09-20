@@ -349,12 +349,27 @@ Show the spec in the chat. Do not create or edit any file. Stop when the spec is
 its source file, and open questions.
 
 **Check (gate 1, a person's check):** read the spec. Does every claim name a file? Is the
-recommendation sound? Then create `global-bank-account/handoff/GB-207/spec.md` and paste the spec into
-it.
+recommendation sound? Fix nothing yet. If the spec is wrong, run Prompt 4.2-A again.
+
+Now save it. The design agent has no `edit` tool, so it cannot write the file itself. That is the
+point: it must not be able to touch the repository at all. Switch the agent list from **design** back
+to **Agent**, in this same chat, and paste this.
+
+**Prompt 4.2-A2** · Agent mode · base model · **same chat**
+
+```text
+Write the spec you showed above to global-bank-account/handoff/GB-207/spec.md, word for word.
+Do not improve it, shorten it or re-order it. Create no other file. Change no other file.
+Then stop.
+```
+
+**Check:** open `spec.md`. It must say what the design agent showed. A scribe that "tidied" the spec
+has changed the input to every agent after it.
 
 ### Step 2 — Coding: build the change (still chat 1)
 
-Stay in the same chat. Switch the agent in the agent list from **design** to **coding**.
+Stay in the same chat. Switch the agent in the agent list from **Agent** to **coding**. You are on
+**Agent** because the scribe turn above used it.
 
 **Prompt 4.2-B** · agent: **coding** · base model · **same chat**
 
@@ -455,8 +470,22 @@ Then stop.
 rule or criterion it breaks. "Nothing found" is also a valid report.
 
 **Check:** look at the files the agent opened. Did it open `spec.md`, `coding-summary.md` or
-`test-report.md`? If yes, note it. Then create `global-bank-account/handoff/GB-207/review-report.md`,
-paste the report and commit:
+`test-report.md`? If yes, note it.
+
+Now save the report. The review agent has no `edit` tool, because you removed it in Lab 4.1, Step 2,
+so it cannot write the file itself. Switch the agent list from **review** back to **Agent**, in this
+same chat, and paste this.
+
+**Prompt 4.2-D2** · Agent mode · base model · **same chat**
+
+```text
+Write the review report you showed above to
+global-bank-account/handoff/GB-207/review-report.md, word for word. Do not add a finding,
+drop a finding or change any severity. Create no other file. Change no other file. Then stop.
+```
+
+**Check:** open `review-report.md` and count the findings. The number must match the chat. Then
+commit:
 
 ```bash
 git add -A && git commit -m "GB-207: hand-off artifacts"
@@ -574,7 +603,9 @@ Show the review report in the chat, in the shape your agent file gives. Do not e
 Then stop.
 ```
 
-Save the report as `global-bank-account/handoff/GB-207/review-report-with-rationale.md`.
+Save the report the same way as in Step 4: switch the agent list from **review** back to **Agent**
+in this same chat, and ask it to write the report above, word for word, to
+`global-bank-account/handoff/GB-207/review-report-with-rationale.md`.
 
 **Compare** the two reports:
 
