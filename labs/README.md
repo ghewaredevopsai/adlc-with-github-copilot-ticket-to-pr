@@ -38,7 +38,8 @@ When Copilot asks to run a command or a tool, **read the request before you sele
 
 Labs 1.1, 2.2 and the capstone are **measured runs**. Labs 1.1 and 2.2 end with a **record prompt**:
 Copilot counts five numbers from the chat, takes six more that you read off your Copilot client,
-writes the row to `metrics.md` and commits it. You do not count by hand. One row holds:
+writes the row to a timestamped `metrics-<run>-*.md` file and commits it. You do not count by hand.
+One row holds:
 
 | Counter | What it counts |
 |---|---|

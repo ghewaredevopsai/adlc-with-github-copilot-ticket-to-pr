@@ -86,14 +86,14 @@
       <h3>How we start</h3>
       <ul>
         <li>In <b>Lab 1.1</b> you do one real ticket, with no preparation, and count what it took.</li>
-        <li>That number stays in <code>metrics.md</code> for <b>two days</b>.</li>
+        <li>That number stays in your <code>metrics-1.1-*.md</code> for <b>two days</b>.</li>
       </ul>
     </div>
   </div>
 </section>
 
 <!-- 3 -->
-<section class="slide" data-sec="Opening" data-title="Words used in this course" data-notes="Keep this slide in mind. These words come back in every module. Two of them matter most today. A turn is one prompt from you plus one reply from the agent. It is the main unit you count in Lab 1.1. A tool call is the agent using a tool, such as reading a file or running a command. The tally counts only file reads and searches, not the ticket fetch or terminal commands. The context window is everything the agent can see right now. It starts empty in every new chat. That empty start is the root of the re-discovery tax. The re-discovery tax is the cost of the agent re-learning facts your team already knows. The tally sheet is metrics.md: one row for each measured run. A record prompt has Copilot count five numbers from the chat, and you read six more off your Copilot client and paste them in: the model, its id, input, output and total tokens, and AIC. Its first row comes from Lab 1.1. You can come back to this slide at any time from the slide index." data-tier="K">
+<section class="slide" data-sec="Opening" data-title="Words used in this course" data-notes="Keep this slide in mind. These words come back in every module. Two of them matter most today. A turn is one prompt from you plus one reply from the agent. It is the main unit you count in Lab 1.1. A tool call is the agent using a tool, such as reading a file or running a command. The tally counts only file reads and searches, not the ticket fetch or terminal commands. The context window is everything the agent can see right now. It starts empty in every new chat. That empty start is the root of the re-discovery tax. The re-discovery tax is the cost of the agent re-learning facts your team already knows. The tally sheet is a metrics file: one row for each measured run, in its own timestamped file, so a re-run never overwrites an earlier one. A record prompt has Copilot count five numbers from the chat, and you read six more off your Copilot client and paste them in: the model, its id, input, output and total tokens, and AIC. Its first row comes from Lab 1.1. You can come back to this slide at any time from the slide index." data-tier="K">
   <h2>Words used in this course<span class="tag">M1</span></h2>
   <div class="body g55">
     <div class="pts">
@@ -115,7 +115,7 @@
         <li><b>ADLC</b> &mdash; the development lifecycle when AI agents write much of the code.</li>
         <li><b>AI credits</b>, written <b>AIC</b> &mdash; how GitHub bills Copilot use.</li>
         <li><b>Re-discovery tax</b> &mdash; the cost of the agent re-learning facts your team already knows.</li>
-        <li><b>Tally sheet</b> &mdash; <code>metrics.md</code>: one row for each measured run.</li>
+        <li><b>Tally sheet</b> &mdash; <code>metrics-&lt;run&gt;-*.md</code>: one row per measured run.</li>
         <li><b>ADR</b> &mdash; a short file that records one design decision.</li>
       </ul>
     </div>
@@ -483,7 +483,7 @@
 </section>
 
 <!-- 10 -->
-<section class="slide" data-sec="3 &middot; Baselining" data-title="The baseline run — and the number that follows you" data-notes="This slide sets up Lab 1.1. Everyone runs the same ticket, GB-142, with the same scripted prompt. Do not change the words, and do not read or tidy the code first. The run measures the repository as it is. Paste the repair prompt only when a check fails. Each repair is one turn and one rework. Because the prompts are fixed, the number of repairs is the main way runs differ. You do not count by hand. Before the last prompt, read six values off your Copilot client: the model, its id, input, output and total tokens, and AIC. In the CLI that is slash usage; in VS Code it is the context window control in the chat box. The last prompt asks Copilot to count the other five from the chat, put the whole row in metrics.md and commit it. Keep the numbers unedited, even if they look bad. Later rows are compared with this one: row 2.2 after Module 2, a pass rate for Lab 3.2 in Module 3, and the capstone on Day 2. No result is promised in advance. The course follows its own rule: only quote a number you can point to." data-tier="D">
+<section class="slide" data-sec="3 &middot; Baselining" data-title="The baseline run — and the number that follows you" data-notes="This slide sets up Lab 1.1. Everyone runs the same ticket, GB-142, with the same scripted prompt. Do not change the words, and do not read or tidy the code first. The run measures the repository as it is. Paste the repair prompt only when a check fails. Each repair is one turn and one rework. Because the prompts are fixed, the number of repairs is the main way runs differ. You do not count by hand. Before the last prompt, read six values off your Copilot client: the model, its id, input, output and total tokens, and AIC. In the CLI that is slash usage; in VS Code it is the context window control in the chat box. The last prompt asks Copilot to count the other five from the chat, put the whole row in a timestamped metrics file and commit it. Keep the numbers unedited, even if they look bad. Later rows are compared with this one: row 2.2 after Module 2, a pass rate for Lab 3.2 in Module 3, and the capstone on Day 2. No result is promised in advance. The course follows its own rule: only quote a number you can point to." data-tier="D">
   <h2>Lab 1.1 &mdash; measure one ticket, and keep the number for two days<span class="tag k">3</span></h2>
   <div class="body g46">
     <div class="pts">
@@ -492,7 +492,7 @@
         <li><b>Everyone runs GB-142</b> with the same scripted prompt. Do not edit it.</li>
         <li><b>Do not read or tidy the code first.</b> Measure the repo as it is.</li>
         <li><b>Paste the repair prompt only when a check fails.</b> Each one is rework.</li>
-        <li><b>Copilot counts at the end</b>, into <code>metrics.md</code>. Keep the numbers unedited.</li>
+        <li><b>Copilot counts at the end</b>, into <code>metrics-1.1-*.md</code>. Keep the numbers unedited.</li>
         <li><b>Read the model and usage numbers first</b> &mdash; <code>/usage</code>, or the context window control.</li>
       </ul>
       <div class="take"><b>No promises.</b> Tomorrow we report what we measure &mdash; even if it disappoints.</div>
@@ -1066,7 +1066,7 @@
         <rect class="bx a" x="4" y="316" width="340" height="120" rx="8"/>
         <text class="lb a" x="20" y="340">TODAY &mdash; ROW ONE</text>
         <text class="ss" x="20" y="366">One ticket, no preparation.</text>
-        <text class="ss" x="20" y="388">Saved in metrics.md.</text>
+        <text class="ss" x="20" y="388">Saved in metrics-1.1-*.md.</text>
         <rect class="bx g" x="356" y="316" width="340" height="120" rx="8"/>
         <text class="lb g" x="372" y="340">TOMORROW &mdash; LAST ROW</text>
         <text class="ss" x="372" y="366">Same measurement, full pipeline.</text>

@@ -16,7 +16,7 @@ rejected. The deck explains all three.
 
 ## Before you start
 
-1. Your Lab 1.1 work and its `metrics.md` are committed on their own branch (`GB-142-lab-1.1`). Lab 2.1 does not change that branch.
+1. Your Lab 1.1 work and its metrics file are committed on their own branch (`GB-142-lab-1.1`). Lab 2.1 does not change that branch.
 
 2. Both labs use GB-142, which is already in your Jira from Module 1. There is nothing to load.
 
@@ -283,7 +283,7 @@ your notes.
 
 ### Record
 
-Lab 2.1 is not a measured run, so there is no `metrics.md`. Write two lines in your notes:
+Lab 2.1 is not a measured run, so there is no metrics file. Write two lines in your notes:
 - the line you deleted in Step 3, and why
 - the rejected option in your ADR, and where the reason came from
 
@@ -299,8 +299,7 @@ If you have no files at all, use the catch-up tag in Lab 2.2 (see below).
 ## Lab 2.2 — The same ticket, re-measured
 
 **Goal:** run GB-142 again on the repository you just wrote, and compare the numbers ·
-**Ticket:** GB-142 · **Timebox:** 45 min (35 working, 10 recording) · **Output:** row 2.2 in
-`metrics.md`
+**Ticket:** GB-142 · **Timebox:** 45 min (35 working, 10 recording) · **Output:** `metrics-2.2-*.md`
 
 The same ticket, the same prompt and the same 35 minutes. Only the repository changed. That is what
 makes the two rows comparable: a different ticket would measure its size as much as your files.
@@ -418,7 +417,7 @@ git add -A
 git commit -m "GB-142 with the knowledge files (Lab 2.2 run)"
 ```
 
-Commit even if some checks still fail. `metrics.md` records what happened.
+Commit even if some checks still fail. The metrics file records what happened.
 
 ### Record
 
@@ -434,7 +433,8 @@ message changed. Prompt 2.2-check was a different chat, so it is not counted.
 **Prompt 2.2-M** · Agent mode · **same chat**
 
 ```text
-The run is over. Do not ask me anything: if something below is missing, write "-" and carry on.
+The run is over. Do not ask me anything. Anything below still written inside angle brackets is
+missing: write "-" in its place, never the bracket text itself, and carry on.
 Count these numbers from this chat only, and do not guess beyond it:
 - Turns: prompts I sent, from the opener to the last repair. Not this prompt.
 - Tool calls: files you read and searches you ran. Not the Jira fetch, edits or terminal commands.
@@ -453,21 +453,24 @@ prompt. Copy them exactly. Do not calculate, estimate, round or replace them.
 - AIC: <paste AI credits>
 If more than one model ran during the work, list each one in Model and Model ID, separated by
 semicolons.
-Create metrics.md at the root of global-bank-account with this table and one row:
+Run "date +%Y%m%d-%H%M%S" in a terminal and use its output as the timestamp. At the root of
+global-bank-account create metrics-2.2-<timestamp>.md, with this table and one row:
 | Run | Ticket | Model | Model ID | Turns | Tool calls | Asked | Rework | Churn | Input tokens | Output tokens | Total tokens | AIC |
 Use "2.2" as the run and "GB-142" as the ticket.
-Add the Lab 1.1 row below it, copied from "git show GB-142-lab-1.1:metrics.md".
+Add the Lab 1.1 row below it, copied from the newest Lab 1.1 metrics file, which you get with
+"git show GB-142-lab-1.1:$(git ls-tree --name-only GB-142-lab-1.1 | grep '^metrics-1.1-' | sort | tail -1)".
 Under the table, add "Assumptions (N):" with N the number you counted and the list below it, then a
 line "Lab 1.1 assumptions:" with the count from that same Lab 1.1 file, then one line "Notes:" with
 my notes below, and one line "How counted:" that says anything you could not count exactly, and says
 that the model, token and AIC values were read from my client just before this prompt, so they leave
 this prompt out.
-Then run: git add -A && git commit -m "GB-142 lab 2.2 metrics". Show me the table.
+Then run: git add -A && git commit -m "GB-142 lab 2.2 metrics". Show me the file name and the
+table.
 My notes: <anything unusual, or leave empty>
 ```
 
 **A `-` in any usage column?** You sent the prompt with those lines unchanged. Type the values into
-`metrics.md` yourself and commit again, as in Lab 1.1.
+your `metrics-2.2-…md` yourself and commit again, as in Lab 1.1.
 
 Report what you measured, even if a number got worse. **AIC is the real bill**, so read that column in
 both rows first: it is what the three files cost or saved on this one ticket. Then write one line under

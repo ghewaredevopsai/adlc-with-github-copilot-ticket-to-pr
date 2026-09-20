@@ -8,7 +8,8 @@ will find it. This is called **write-back**. Most of the words already exist in 
 copy and tidy, not write from nothing.
 
 Then the **capstone**: one ticket, GB-186, through both repositories and all eight stages. You measure
-it the same way as Lab 1.1. The result goes in `metrics.md` next to your Lab 1.1 row, whatever it says.
+it the same way as Lab 1.1. The result goes in `metrics-capstone-*.md` next to your Lab 1.1 row,
+whatever it says.
 
 Your trainer runs the Module 8 quiz (the last slide of the deck) before the capstone starts.
 
@@ -165,7 +166,7 @@ same message.
 
 ### Record
 
-Lab 8.1 is not a measured run. Nothing goes in `metrics.md`. Keep one note for the debrief: which
+Lab 8.1 is not a measured run. Nothing goes in a metrics file. Keep one note for the debrief: which
 candidate did you mark SKIP, and why?
 
 ### If you are behind
@@ -244,7 +245,7 @@ the course where you practise removing something.
 
 **Goal:** take GB-186 through all eight stages, across both repositories, and measure it like Lab 1.1
 · **Ticket:** GB-186 · **Timebox:** 50 min of work + 20 min to record and debrief · **Output:** two
-branches ready for pull requests, the write-back, and the capstone row in `metrics.md`
+branches ready for pull requests, the write-back, and the capstone row in `metrics-capstone-*.md`
 
 **GB-186 — A payroll batch must post all-or-nothing.** Today, global-bank-transaction posts a payroll
 run one item at a time. If one item fails, the ledger holds part of the batch. The ticket has six
@@ -293,7 +294,8 @@ Expect `Tests run: 4, Failures: 0` in `global-bank-account` and `Tests run: 2, F
 
 The capstone uses nine chats, and one chat cannot see another. So you record **each chat before you
 leave it**, with Prompt C-M. Each record adds one row to `course/labs/my-work/capstone-chats.md`.
-At the end, Prompt C-M-last records the last chat and adds up all the rows into `metrics.md`.
+At the end, Prompt C-M-last records the last chat and adds up all the rows into
+`metrics-capstone-<timestamp>.md`.
 
 | Chat | Prompts | Record it |
 |---|---|---|
@@ -321,7 +323,8 @@ a running total in every row would count chat 1 nine times.
 **Prompt C-M** · Agent mode · default agent · **same chat**
 
 ```text
-Record this chat. Do not ask me anything: if something below is missing, write "-" and carry on.
+Record this chat. Do not ask me anything. Anything below still written inside angle brackets is
+missing: write "-" in its place, never the bracket text itself, and carry on.
 Count from this chat only, and do not guess beyond it:
 - Turns: prompts I sent in this chat. Not this prompt.
 - Tool calls: files you read and searches you ran. Not Jira or Confluence calls, edits or terminal commands.
@@ -752,8 +755,9 @@ Stage 8 is done. Pick the **default agent** in this chat, and record the run.
 **Prompt C-M-last** · Agent mode · default agent · **same chat**
 
 ```text
-Record this chat, then total the whole capstone. Do not ask me anything: if something below is
-missing, write "-" and carry on. For this chat, count from this chat only:
+Record this chat, then total the whole capstone. Do not ask me anything. Anything below still
+written inside angle brackets is missing: write "-" in its place, never the bracket text itself,
+and carry on. For this chat, count from this chat only:
 - Turns: prompts I sent in this chat. Not this prompt.
 - Tool calls: files you read and searches you ran. Not Jira or Confluence calls, edits or terminal commands.
 - Asked: questions you asked me that a file in either repository could have answered.
@@ -770,22 +774,24 @@ prompt. Copy them exactly. Do not calculate, estimate, round or replace them.
 - AIC: <paste AI credits>
 Append this chat's row to course/labs/my-work/capstone-chats.md, in the same shape as its rows,
 with its own "Assumptions (N):" line.
-Create metrics.md at the root of global-bank-account with this table:
+Run "date +%Y%m%d-%H%M%S" in a terminal and use its output as the timestamp. At the root of
+global-bank-account create metrics-capstone-<timestamp>.md, with this table:
 | Run | Ticket | Model | Model ID | Turns | Tool calls | Asked | Rework | Churn | Input tokens | Output tokens | Total tokens | AIC |
 Row "capstone", ticket "GB-186": add up every number column over all rows of capstone-chats.md,
 counting a "-" as zero. For Model and Model ID, list every different model in those rows, separated
 by semicolons.
-Below it, the Lab 1.1 row from "git show GB-142-lab-1.1:metrics.md" in global-bank-account.
+Below it, the Lab 1.1 row from the newest Lab 1.1 metrics file in global-bank-account, which you
+get with "git show GB-142-lab-1.1:$(git ls-tree --name-only GB-142-lab-1.1 | grep '^metrics-1.1-' | sort | tail -1)".
 Under the table, add:
 - "Per criterion:" asked, rework and churn divided by the number of acceptance criteria in
   global-bank-account/specs/GB-186.md for the capstone, and by 5 for Lab 1.1.
 - "Assumptions (N):" every assumption line in capstone-chats.md, with N their total, and the
-  Lab 1.1 assumptions count from its metrics.md.
+  Lab 1.1 assumptions count from that same Lab 1.1 file.
 - "Stage reached:" the last stage in capstone-chats.md.
 - "Chats:" a copy of the rows of capstone-chats.md.
 - "How counted:" anything you could not count exactly, including every "-" you counted as zero.
-Then in global-bank-account run: git add metrics.md && git commit -m "GB-186 capstone metrics".
-Show me metrics.md.
+Then in global-bank-account run: git add -A && git commit -m "GB-186 capstone metrics".
+Show me the file name and the file.
 ```
 
 **Reading it.** Asked, rework and churn **per criterion** compare fairly with Lab 1.1. Turns, tool

@@ -3,7 +3,8 @@
 **Day 1** · Lab 1.1 (+ stretch) · about 45 minutes · Repository: `global-bank-account` · Start from: `m1-start`
 
 You fix one real bug with Copilot, on a repository where the team has written nothing down. At the
-end, Copilot saves the run as one row of `metrics.md`, with a list of what it had to assume. That is your
+end, Copilot saves the run as one row in its own timestamped `metrics-1.1-*.md` file, with a list of
+what it had to assume. That is your
 **baseline**: the first measurement, taken before the course teaches anything. In Lab 2.2 you run this same ticket again, on a
 repository where your team's knowledge is written down, and compare. The goal is an honest number, not a good one.
 
@@ -71,7 +72,7 @@ run must measure the repository as it is, with the same words for everyone.
 ## Lab 1.1 — The baseline run
 
 **Goal:** fix GB-142 on an unprepared repository · **Timebox:** 35 minutes of work, then one record
-prompt · **Output:** the fix and `metrics.md`, committed on `GB-142-lab-1.1`
+prompt · **Output:** the fix and `metrics-1.1-*.md`, committed on `GB-142-lab-1.1`
 
 **The ticket in one line.** GB-142, *Retried payments are booked twice*. When a payment is sent again
 after a timeout, the service books it a second time. Copilot reads the full ticket, with its five
@@ -238,7 +239,8 @@ in the table, and Copilot carries on instead of stopping to ask you.
 **Prompt 1.1-M** · Agent mode · **same chat**
 
 ```text
-The run is over. Do not ask me anything: if something below is missing, write "-" and carry on.
+The run is over. Do not ask me anything. Anything below still written inside angle brackets is
+missing: write "-" in its place, never the bracket text itself, and carry on.
 Count these numbers from this chat only, and do not guess beyond it:
 - Turns: prompts I sent, from the opener to the last repair. Not this prompt.
 - Tool calls: files you read and searches you ran. Not the Jira fetch, edits or terminal commands.
@@ -257,14 +259,16 @@ prompt. Copy them exactly. Do not calculate, estimate, round or replace them.
 - AIC: <paste AI credits>
 If more than one model ran during the work, list each one in Model and Model ID, separated by
 semicolons.
-Create metrics.md at the root of global-bank-account with this table and one row:
+Run "date +%Y%m%d-%H%M%S" in a terminal and use its output as the timestamp. At the root of
+global-bank-account create metrics-1.1-<timestamp>.md, with this table and one row:
 | Run | Ticket | Model | Model ID | Turns | Tool calls | Asked | Rework | Churn | Input tokens | Output tokens | Total tokens | AIC |
 Use "1.1" as the run and "GB-142" as the ticket. Under the table, add a line "Decisions:" with my
 four decisions below, then "Assumptions (N):" with N the number you counted and the list below it,
 then one line "Notes:" with my notes below, and one line "How counted:" that says anything you could
 not count exactly, and says that the model, token and AIC values were read from my client just
 before this prompt, so they leave this prompt out.
-Then run: git add -A && git commit -m "GB-142 lab 1.1 baseline run". Show me the table.
+Then run: git add -A && git commit -m "GB-142 lab 1.1 baseline run". Show me the file name and the
+table.
 My four decisions: <kind of task>, <model class>, <mode>, <working style>
 My notes: <anything unusual, for example "MCP failed", or leave empty>
 ```
@@ -273,10 +277,10 @@ My notes: <anything unusual, for example "MCP failed", or leave empty>
 eats the timebox.
 
 **A `-` in the model or usage columns?** You sent the prompt with those lines unchanged. Open
-`metrics.md`, type the values in yourself, and commit again:
+your `metrics-1.1-…md`, type the values in yourself, and commit again:
 `git commit -am "GB-142 lab 1.1 usage"`.
 
-**Check:** `git show --stat HEAD` lists `metrics.md` and your code changes. Leave the numbers as
+**Check:** `git show --stat HEAD` lists your `metrics-1.1-…md` and your code changes. Leave the numbers as
 Copilot counted them, even if they look bad. A run that went badly is a finding, not a failure.
 
 ### If you are behind
@@ -316,23 +320,24 @@ Pick one:
   Then select **Start Implementation** and pick the Agent to carry it out.
 
 
-Run Steps 3 to 5 as before. Then send Prompt 1.1-M with `1.1+` as the run and `GB-142 lab 1.1+` in
-the commit message.
+Run Steps 3 to 5 as before. Then send Prompt 1.1-M with `1.1+` as the run, `metrics-1.1plus-` in
+place of `metrics-1.1-` in the file name, and `GB-142 lab 1.1+` in the commit message.
 
 **Option A is one chat.** Read the model and usage numbers the way Step 6 says.
 
 **Option B is two chats,** and the plan chat is the part you are measuring. Read the tokens and the
 AIC in **both** chats and **add them together** before you type them in. Send Prompt 1.1-M in the
 implementation chat, and put "planned first, usage is both chats added" in the notes line. Then open
-`metrics.md`, add your plan chat's prompts to the Turns cell, and commit again:
+your `metrics-1.1plus-…md`, add your plan chat's prompts to the Turns cell, and commit again:
 `git commit -am "GB-142 lab 1.1+ plan chat"`. Leave tool calls and churn as Copilot counted them: it
 can only see the chat it is in, and the plan chat wrote no code.
 
-Compare the two files:
+Put the two rows side by side:
 
 ```bash
-git diff GB-142-lab-1.1 GB-142-lab-1.1plus -- metrics.md
+git show GB-142-lab-1.1:$(git ls-tree --name-only GB-142-lab-1.1 | grep '^metrics-1.1-' | sort | tail -1)
+git show GB-142-lab-1.1plus:$(git ls-tree --name-only GB-142-lab-1.1plus | grep '^metrics-1.1plus-' | sort | tail -1)
 ```
 
 Which number changed most? Did the other setting change the design of the fix, or only the effort?
-In Option B, the plan usually costs turns and saves churn. Your `metrics.md` shows whether it did.
+In Option B, the plan usually costs turns and saves churn. Your two metrics files show whether it did.

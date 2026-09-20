@@ -247,7 +247,7 @@ If `git stash` says "No local changes to save", that is fine.
 
 ### Record
 
-Nothing goes in `metrics.md` for Lab 3.1. Keep `gb-151-request.md` open. In the debrief, you may be
+Nothing goes in a metrics file for Lab 3.1. Keep `gb-151-request.md` open. In the debrief, you may be
 asked to read out your stop conditions.
 
 ### If you are behind
@@ -269,7 +269,7 @@ how to start from the reference skill file.
 **Goal:** run three tickets twice, and see what your skill file changes · **Tickets:** GB-204,
 GB-205, GB-206 · **Timebox:** 45 min (8 to set up, about 12 per column including scoring, 13 to
 compare and record) · **Output:** two pass rates out of 3, and a list of what changed, in
-`metrics.md`
+`metrics-3.2-*.md`
 
 You run the same three tickets twice. **Column A** uses an ordinary prompt, the way most people
 type it, on a branch that does **not** have your skill file. **Column B** uses `/gb-change` on the
@@ -499,7 +499,8 @@ summary for you:
 **Prompt 3.2-M** · Agent mode · base model · **new chat**
 
 ```text
-Read course/labs/my-work/eval-sheet.md. Create course/labs/my-work/metrics.md with a table
+Read course/labs/my-work/eval-sheet.md. Run "date +%Y%m%d-%H%M%S" and use its output as the
+timestamp. Create course/labs/my-work/metrics-3.2-<timestamp>.md with a table
 | Run | A passed | B passed | Changed |
 and one row for run "3.2": the column A and column B pass rates out of 3, and the tickets whose
 result changed between A and B. Under the table, add a short list headed "What changed in the work,
@@ -511,7 +512,7 @@ Leave the result as it is, even if B scored lower than A.
 
 ### Then, and only then: compare with the reference
 
-After your `metrics.md` row is written, look at the team's reference skill file:
+After your `metrics-3.2-…md` row is written, look at the team's reference skill file:
 
 ```bash
 git show m4-start:.github/skills/account-change/SKILL.md
@@ -639,4 +640,4 @@ Implement it in the global-bank-account folder. Run "mvn test" there until it pa
 ```
 
 **Record:** your pass rates out of 4. Did B's rate hold? Which stop condition in your skill file
-made the difference, if any? You can add this under your table in `metrics.md`.
+made the difference, if any? You can add this under your table in `metrics-3.2-…md`.
