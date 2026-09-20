@@ -313,6 +313,25 @@ Write these on your worksheet:
 | The merge order, in one sentence | |
 | The rollback order, in one sentence | |
 
+**Fill the table from your own run first.** Read the example below only after you have written your
+four answers.
+
+<details>
+<summary><b>An example of the four answers</b> — open after you have filled the table</summary>
+
+> - **Shape:** additive, in `/api/v1`. ADR-009 allows an additive optional field in v1, and criterion
+>   4 needs old callers to keep working. Nothing is removed or renamed, so expand-and-contract is not
+>   needed.
+> - **Existing tests changed?** No. `git diff --numstat m7-start -- src/test` showed 0 removed lines.
+> - **Merge order:** the producer first. Accepting a new optional field is safe for every caller.
+> - **Rollback:** the consumer first, then the producer. If only one half stays in production, it
+>   should be the producer half, because nobody is sending the field yet.
+
+If your run edited the existing tests, write that down as it happened. It is a real result, and the
+Lab 7.2 review branch has the same problem.
+
+</details>
+
 ### If you are behind
 
 Lab 7.2 does not need your Lab 7.1 work. When the timebox ends, commit what you have in each

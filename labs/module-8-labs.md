@@ -619,6 +619,27 @@ at the end of `global-bank-account/specs/GB-186.md`, under "## Human review":
 3. Does it clash with anything outside this repository?
 4. What did the review report not mention?
 
+**Answer from the diff you just read.** Read the example below only after you have written your four
+lines. **The example is GB-158 from Module 7**, not your capstone ticket, so it shows the shape of a
+good answer without giving you one.
+
+<details>
+<summary><b>An example of the four answers, for GB-158</b> — open after you have answered</summary>
+
+> 1. **Should we build this at all?** Yes. Ops cannot reconcile without a settlement date, and no
+>    field carries it today.
+> 2. **Will this be easy to live with?** Mostly. The field is optional, so callers need no change. The
+>    rule "missing means the value date" is easy to forget, so it must stay in the contract document.
+> 3. **Does it clash with anything outside this repository?** Yes. The consumer sends the field, so it
+>    must not reach production before the producer accepts it.
+> 4. **What did the review report not mention?** It read the code, not the ticket. It said nothing
+>    about criterion 4, that old callers are unchanged.
+
+Each answer is one line, and each says something the review report did not. If all four repeat the
+report, read the diff again.
+
+</details>
+
 If the review found a real problem, fix it with the repair prompt in the coding agent's chat. That
 counts as rework.
 

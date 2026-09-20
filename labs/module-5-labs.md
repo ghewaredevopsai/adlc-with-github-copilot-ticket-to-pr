@@ -103,6 +103,28 @@ type `unknown`. Do not guess just to keep going. A guess you type here becomes a
 
 **Check:** count the decisions marked "not answered". Write the number down.
 
+**Answer from your own run first.** Your answers become the spec, so they must be yours. Read the
+example below only after Copilot has asked all its questions.
+
+<details>
+<summary><b>An example of six answers</b> — open after you have answered</summary>
+
+> 1. **Which date does the report use, the value date or the date the posting arrived?** The value
+>    date. Ops reconcile by the date a payment takes effect.
+> 2. **Does "end of day" mean the calendar date or the bank's business date?** `unknown`
+> 3. **Does the report include reversed postings?** Yes, and it shows the status.
+> 4. **Is this a screen or an API?** An API. Another team builds the ops screen.
+> 5. **Which fields does ops need?** Posting id, client reference, debit account, credit account,
+>    amount in minor units, currency, value date, status.
+> 6. **Who may see the report?** `unknown`. The service has no authentication today, so I cannot
+>    answer this from the repository.
+
+Two answers are `unknown`, and that is the useful part. Question 2 becomes an assumption marked
+UNCONFIRMED and BLOCKING in Step 3, because the code would differ. Question 6 becomes an open
+question. A spec with no `unknown` in it usually means somebody guessed.
+
+</details>
+
 ### Step 2 — Draft the acceptance criteria (8 min)
 
 **Prompt 5.1-B** · Agent mode · base model · **same chat**

@@ -90,6 +90,25 @@ the end.
 
 The measured run itself uses fixed settings (Agent mode, base model), so every run compares fairly.
 
+**Answer for yourself first.** These are your decisions, and the debrief compares the room's answers.
+Read the example below only after you have chosen all four.
+
+<details>
+<summary><b>An example of the four decisions</b> — open after you have chosen</summary>
+
+> 1. **Kind of task:** reasoning. The ticket hides a design choice — what counts as a duplicate, and
+>    what the retry gets back. The code change is small, which makes it look mechanical.
+> 2. **Model class:** base model for this run. This is a reasoning task about client money, which is
+>    the "worth paying for" case on the slides. Once the rule is written down, a base model can do it.
+> 3. **Mode:** Agent. It has to find the files and run the tests, and I do not know this repository yet.
+> 4. **Working style:** interactive. I cannot say what "done" means until the duplicate rule is chosen,
+>    and this is client money, so I read each step.
+
+Your answers may differ from these, and still be right. What matters is that you can say **why** for
+each one.
+
+</details>
+
 ### Step 2 — Send the opener
 
 **Prompt 1.1-A** · Agent mode · base model · **new chat**
