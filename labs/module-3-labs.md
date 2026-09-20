@@ -1,12 +1,13 @@
 # Module 3 labs — Prompt and context engineering
 
-**Day 1** · Labs 3.1, 3.2 (+ stretch) · about 105 minutes · Repository: `global-bank-account` ·
+**Day 1** · Labs 3.1, 3.2 (+ stretch) · about 90 minutes · Repository: `global-bank-account` ·
 Start from: your Module 2 branch (catch-up: `m3-start`)
 
 In Module 2 you wrote down what is true about the repository. These labs are about how you ask.
 In Lab 3.1 you write one clear request for a ticket. Then you save the reusable half as a **skill
-file** and a **prompt file**. In Lab 3.2 you test that skill file on six tickets and get a **pass
-rate**. A pass rate is the number of tickets that passed, out of six.
+file** and a **prompt file**. In Lab 3.2 you test that skill file on three tickets, with and without it, and read what
+changed. You get a **pass rate** — the number of tickets that passed, out of three — and a
+side-by-side read of the two runs.
 
 Two words you need:
 
@@ -25,8 +26,10 @@ cd ~/adlc-with-github-copilot-ticket-to-pr
 python labs/scripts/setup-lab-tickets.py --module 3
 ```
 
-This creates six tickets, GB-201 to GB-206, in your Jira project. Open `labs/lab-keys.md`. It
-should now list GB-151 and GB-201 to GB-206, each with your own key.
+This loads six tickets, GB-201 to GB-206, into your Jira project. Lab 3.2 uses three of them:
+GB-204, GB-205 and GB-206. The other three are there for the stretch lab and for Module 5.
+Open `labs/lab-keys.md`. It should now list GB-151 and GB-201 to GB-206, each with your own key.
+On a re-run the script prints `exists` instead of `created`, and changes nothing.
 
 **2. Check the Jira connection.** Run **MCP: List Servers** from the Command Palette. **atlassian**
 must say **Running**.
@@ -132,6 +135,11 @@ constraints, the output contract, the done checks and the stop conditions are in
 **Check:** read the second group. It must not name GB-151, and it must not mention reversals. A
 teammate should be able to use it on next sprint's ticket without editing it. Move any line that
 fails this test into the first group, by hand.
+
+**Then check each line stands on its own.** Cover the first group and read the second again. A line
+that was split can be left pointing at words that are no longer there — "stop and ask if satisfying
+**that** requires deleting a row" makes no sense once "that" is in the other group. Rewrite any such
+line so it says what it means. The skill file you write next has no first group to refer back to.
 
 ### Step 3 — Write the skill file (12 min)
 
@@ -258,32 +266,42 @@ how to start from the reference skill file.
 
 ## Lab 3.2 — The prompt A/B
 
-**Goal:** run six tickets twice and compare two ways of asking, by pass rate · **Tickets:** GB-201
-to GB-206 · **Timebox:** 60 min (10 to set up, about 20 per column including scoring, 10 to record) · **Output:** two pass rates out of
-6, in `metrics.md`
+**Goal:** run three tickets twice, and see what your skill file changes · **Tickets:** GB-204,
+GB-205, GB-206 · **Timebox:** 45 min (8 to set up, about 12 per column including scoring, 13 to
+compare and record) · **Output:** two pass rates out of 3, and a list of what changed, in
+`metrics.md`
 
-You run the six tickets twice. **Column A** uses an ordinary prompt, the way most people type it.
-**Column B** uses `/gb-change`, which brings in your skill file. That makes twelve runs. You score
-each run **pass** or **fail**. The six tickets are an **eval set**, short for evaluation set: a
-small, fixed set of tickets for testing a prompt.
+You run the same three tickets twice. **Column A** uses an ordinary prompt, the way most people
+type it, on a branch that does **not** have your skill file. **Column B** uses `/gb-change` on the
+branch that does. That makes six runs. The three tickets are an **eval set**, short for evaluation
+set: a small, fixed set of tickets for testing a prompt.
+
+You produce two things, and the second one matters more:
+
+1. A **pass rate** out of 3 for each column. It is coarse. Three tickets cannot tell you much.
+2. A **side-by-side read of the two runs** for each ticket. This is where you see what your skill
+   file actually did, whether or not the score moved.
+
+**Why Column A runs on a different branch.** A skill file loads by itself whenever your task
+matches its `description`. Your description says "posting or balance behaviour", and all three
+tickets are exactly that — so if the file were on the branch, Column A would load it too, and you
+would be comparing your skill file against itself. Column A starts from `m3-start`, which predates
+it.
 
 ### Step 1 — Fill in the pass criteria first (8 min)
 
 This step has no prompt. You write it yourself.
 
-Copy this table into a new file, `course/labs/my-work/eval-sheet.md`. Read the six tickets in your
+Copy this table into a new file, `course/labs/my-work/eval-sheet.md`. Read the three tickets in your
 Jira. For each ticket, write what a pass means in the second column. Base it on the ticket's
 acceptance criteria.
 
 | Ticket | Pass means (write this before any run) | A | B | Changed? |
 |---|---|---|---|---|
-| GB-201 | | | | |
-| GB-202 | | | | |
-| GB-203 | | | | |
 | GB-204 | | | | |
 | GB-205 | | | | |
 | GB-206 | | | | |
-| **Pass rate** | | **/6** | **/6** | |
+| **Pass rate** | | **/3** | **/3** | |
 
 Use the rules from slide 19 for every ticket, cut down to fit a four-minute run:
 
@@ -293,21 +311,35 @@ Use the rules from slide 19 for every ticket, cut down to fit a four-minute run:
   slide 19's "no files changed outside INPUTS" for both columns.)
 - A ticket you judge unclear passes only if the agent stopped and asked. Guessing is a fail.
 
+The three tickets are not the same kind of problem, and that is deliberate:
+
+- **GB-204** is clear from the ticket alone. It is your control. If it fails in B, your skill file
+  is too strict.
+- **GB-205** is not answered by the ticket, but it **is** answered by the repository. Decide now
+  whether your pass criterion is the ticket's acceptance criteria alone, or the rule the repository
+  already holds. Say which you chose, and why, in the sheet.
+- **GB-206** is answered nowhere. This is the one your stop conditions are for.
+
 **Do not change this column after your first run.** If you decide what a pass means after you see
 the output, you will favour the prompt you wrote yourself.
 
-### Step 2 — Set up a branch for the runs (2 min)
+### Step 2 — Set up two branches for the runs (2 min)
 
-In the `global-bank-account` terminal:
+Column A and Column B start from different places. Set both up now, in the `global-bank-account`
+terminal:
 
 ```bash
 git status --short
 # must print nothing. Your skill file and prompt file must be committed
-git switch -c eval-lab-3.2
-git tag -f eval-base
+git switch -c eval-lab-3.2-B           # from your Lab 3.1 branch: skill file present
+git tag -f eval-base-B
+git switch -c eval-lab-3.2-A m3-start  # no skill file here
+git tag -f eval-base-A
+ls .github/skills 2>/dev/null
+# must print nothing: column A has no skill file
 ```
 
-`eval-base` marks the clean starting point. After every run, you go back to it.
+You are now on the Column A branch. After every run you go back to that column's base.
 
 ### How every run works
 
@@ -336,47 +368,35 @@ git tag -f eval-base
 
    Also read the agent's last message. Did it stop and ask a question? Write **P** or **F** in the
    sheet, with a few words on why.
-7. **Reset** before the next run. This keeps the run's changes in the git stash and cleans the tree:
+7. **Save the run, then reset.** You compare the two runs in Step 5, so each one is saved under a
+   name you can find again:
 
    ```bash
-   git stash push -u -m "lab 3.2 run"
-   git reset --hard eval-base
+   git stash push -u -m "3.2 <run name>"    # for example: 3.2 A5
+   git reset --hard eval-base-A             # eval-base-B in column B
    git status --short
    # must print nothing
    ```
 
-   "No local changes to save" is fine. It means the run changed nothing.
+   "No local changes to save" is fine. It means the run changed nothing. Write that in the sheet:
+   a run that did nothing is a fail, not a missing row.
 
 Do not use `git clean` or `git stash pop` in this lab. Your runs stay in `git stash list`, newest
-first, if you want to look at one again.
+first.
 
-### Step 3 — Column A: the ordinary prompt (about 20 min)
+Both eval branches are throwaway. Your Lab 3.1 branch keeps your skill file untouched, which is
+what Module 4 starts from.
 
-Run all six, in order. Score and reset after each one.
+### Step 3 — Column A: the ordinary prompt (about 12 min)
 
-**Prompt 3.2-A1** · Agent mode · base model · **new chat**
+Check you are on the Column A branch first:
 
-```text
-Read course/labs/lab-keys.md to find my Jira key for GB-201. Use the atlassian MCP tools to read
-that Jira issue.
-Implement it in the global-bank-account folder. Run "mvn test" there until it passes.
+```bash
+git branch --show-current
+# must print: eval-lab-3.2-A
 ```
 
-**Prompt 3.2-A2** · Agent mode · base model · **new chat**
-
-```text
-Read course/labs/lab-keys.md to find my Jira key for GB-202. Use the atlassian MCP tools to read
-that Jira issue.
-Implement it in the global-bank-account folder. Run "mvn test" there until it passes.
-```
-
-**Prompt 3.2-A3** · Agent mode · base model · **new chat**
-
-```text
-Read course/labs/lab-keys.md to find my Jira key for GB-203. Use the atlassian MCP tools to read
-that Jira issue.
-Implement it in the global-bank-account folder. Run "mvn test" there until it passes.
-```
+Run all three, in order. Score and reset after each one.
 
 **Prompt 3.2-A4** · Agent mode · base model · **new chat**
 
@@ -402,27 +422,18 @@ that Jira issue.
 Implement it in the global-bank-account folder. Run "mvn test" there until it passes.
 ```
 
-### Step 4 — Column B: the prompt file and your skill (about 20 min)
+### Step 4 — Column B: the prompt file and your skill (about 12 min)
 
-Same six tickets, same order, a new chat each time. Score and reset after each one.
+Switch to the branch that has your skill file:
 
-**Prompt 3.2-B1** · Agent mode · base model · **new chat**
-
-```text
-/gb-change ticket=GB-201 goal="List the postings for a client reference"
+```bash
+git switch eval-lab-3.2-B
+git branch --show-current
+ls .github/skills/account-change/SKILL.md
+# must list the file
 ```
 
-**Prompt 3.2-B2** · Agent mode · base model · **new chat**
-
-```text
-/gb-change ticket=GB-202 goal="Reject postings dated more than 30 days ahead"
-```
-
-**Prompt 3.2-B3** · Agent mode · base model · **new chat**
-
-```text
-/gb-change ticket=GB-203 goal="Add an account statement with a readable total"
-```
+Same three tickets, same order, a new chat each time. Score and reset to `eval-base-B` after each one.
 
 **Prompt 3.2-B4** · Agent mode · base model · **new chat**
 
@@ -442,32 +453,58 @@ Same six tickets, same order, a new chat each time. Score and reset after each o
 /gb-change ticket=GB-206 goal="Let Operations correct the narrative on a posting"
 ```
 
-### Step 5 — Total, and read which rows changed (10 min)
+### Step 5 — Read the two runs side by side (13 min)
 
-Add up each column: two pass rates out of 6. Then fill in the **Changed?** column. Look at which
-tickets changed, not only the total.
+First add up each column: two pass rates out of 3. Then do the part that actually pays.
+
+For each ticket, put the two runs on screen together. They are in your stash:
+
+```bash
+git stash list
+# newest first. Find the two entries for this ticket, for example "3.2 A6" and "3.2 B6"
+git stash show -p 'stash@{1}' > /tmp/a6.diff
+git stash show -p 'stash@{0}' > /tmp/b6.diff
+```
+
+Open both files in the editor, side by side. For each ticket, answer these four questions in
+`eval-sheet.md`:
+
+| Question | Where to look |
+|---|---|
+| Did either run name the file a rule came from? | the agent's last message |
+| Did either run read `docs/adr/` before writing? | the tool calls in the chat |
+| Do the tests check the same thing, at the same level? | the two diffs |
+| Did either run stop and ask, instead of choosing? | the agent's last message |
+
+A pass rate can only move by whole tickets. These four answers move even when the score does not,
+and they are what you take back to your own repository.
+
+Then read the score:
 
 | What you see | What it means |
 |---|---|
-| Unclear tickets changed from fail to pass | Your stop conditions work. This part transfers to your own repository unchanged. |
-| Tickets that failed in A pass in B | Your rules and output contract work. They work because Module 2 put the rules in files they can point at. |
-| A ticket that passed in A fails in B | Your skill file is too strict. You would not see this without the tickets that A already passes. |
-| Nothing changed | Module 2's files may already do the job for this repository. That is a real result, not a failed lab. |
+| GB-206 changed from fail to pass | Your stop conditions work. This part transfers to your own repository unchanged. |
+| GB-205 changed | Your skill file sent the agent to the rule the repository already held. |
+| GB-204 passed in A and fails in B | Your skill file is too strict. That is why a clear ticket is in the set. |
+| Nothing changed, but the diffs differ | The usual result with three tickets. The score is too coarse to see it; your four answers are not. |
+| Nothing changed, and the diffs match | Module 2's files may already do the job for this repository. That is a real result, not a failed lab. |
 
-Six tickets show a trend, not proof. Say so when you report it. It is still far better than an
-opinion.
+Three tickets show a direction, not a trend, and certainly not proof. Say so when you report it.
 
 ### Record
 
-Your scores are already in `eval-sheet.md`. Send this, so Copilot writes the summary for you:
+Your scores and your four answers are already in `eval-sheet.md`. Send this, so Copilot writes the
+summary for you:
 
 **Prompt 3.2-M** · Agent mode · base model · **new chat**
 
 ```text
 Read course/labs/my-work/eval-sheet.md. Create course/labs/my-work/metrics.md with a table
 | Run | A passed | B passed | Changed |
-and one row for run "3.2": the column A and column B pass rates out of 6, and the tickets whose
-result changed between A and B. Count only what the sheet says. Show me the table.
+and one row for run "3.2": the column A and column B pass rates out of 3, and the tickets whose
+result changed between A and B. Under the table, add a short list headed "What changed in the work,
+not the score", with one line per ticket, taken only from what the sheet says. Count only what the
+sheet says. Show me the table.
 ```
 
 Leave the result as it is, even if B scored lower than A.
@@ -486,18 +523,18 @@ the real output of this module.
 
 ### If you are behind
 
-If you have no working skill file and prompt file, start from the reference ones at `m4-start`:
+If you have no working skill file and prompt file, use the reference ones for Column B:
 
 ```bash
 git switch -c eval-lab-3.2-ref m4-start
-git tag -f eval-base
+git tag -f eval-base-B
 ```
 
-Then do Steps 1 and 3 to 5 as written. Add "B used the reference files" to the end of
-Prompt 3.2-M. You measured the team's skill file, not your own.
+Column A is unchanged: it still starts from `m3-start`. Add "B used the reference files" to the end
+of Prompt 3.2-M. You measured the team's skill file, not your own.
 
-If you are short of time, your trainer may ask you to run four tickets instead of six.
-
+If you are short of time, run GB-205 and GB-206 only, and say your pass rates are out of 2. Do not
+drop GB-206: it is the ticket the module is about.
 ---
 
 ## Stretch lab 3.1+ (optional) — Reuse the skill on another ticket
@@ -556,9 +593,9 @@ git stash push -u -m "lab 3.1+ GB-142"
 git status --short
 ```
 
-## Stretch lab 3.2+ (optional) — A seventh ticket
+## Stretch lab 3.2+ (optional) — A fourth ticket
 
-**Goal:** add a seventh eval ticket that tempts the agent to use a method that may not exist. Does
+**Goal:** add a fourth eval ticket that tempts the agent to use a method that may not exist. Does
 your pass rate hold?
 
 **1. Create the ticket.** This ticket is not loaded by the script. Create it by hand in your Jira
@@ -584,7 +621,8 @@ the new ticket, in the same format as the other rows: `| GB-208 | ADLC-31 |` (us
 **2. Add a row to your sheet.** Add GB-208 to `eval-sheet.md`, and write its pass criteria
 **before** you run it.
 
-**3. Run it twice.** Use the same run steps as Lab 3.2, including the reset after each run.
+**3. Run it twice.** Use the same run steps as Lab 3.2, including the branch for each column and
+the reset after each run.
 
 **Prompt 3.2+-A** · Agent mode · base model · **new chat**
 
@@ -600,5 +638,5 @@ Implement it in the global-bank-account folder. Run "mvn test" there until it pa
 /gb-change ticket=GB-208 goal="Block postings to suspended accounts"
 ```
 
-**Record:** your pass rates out of 7. Did B's rate hold? Which stop condition in your skill file
+**Record:** your pass rates out of 4. Did B's rate hold? Which stop condition in your skill file
 made the difference, if any? You can add this under your table in `metrics.md`.

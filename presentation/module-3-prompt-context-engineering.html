@@ -16,7 +16,7 @@
 </defs></svg>
 
 <div id="viewport"><div id="stage"><!-- 1 -->
-<section class="slide title" data-sec="Opening" data-title="Title" data-notes="This module is about the single request you send to the agent. Modules 1 and 2 changed what the repository knows. Now the repository tells the agent what is true. This module covers how you ask. It also covers what stops the agent from inventing an answer when the answer is not in the repo. You will learn six parts of a good request. You will write skill files, which are reusable step lists that Copilot loads for one kind of task. You will learn grounding, which means making the agent show its source. You will learn four common agent failures and when to start a new chat. Finally, you will test a prompt on six tickets and get a pass rate. After this module you can write a short, clear request and check where each answer came from. This is the last module about one agent. Module 4 adds specialised agents." data-tier="R">
+<section class="slide title" data-sec="Opening" data-title="Title" data-notes="This module is about the single request you send to the agent. Modules 1 and 2 changed what the repository knows. Now the repository tells the agent what is true. This module covers how you ask. It also covers what stops the agent from inventing an answer when the answer is not in the repo. You will learn six parts of a good request. You will write skill files, which are reusable step lists that Copilot loads for one kind of task. You will learn grounding, which means making the agent show its source. You will learn four common agent failures and when to start a new chat. Finally, you will test a prompt on three tickets, with and without your skill file, and read what changed. After this module you can write a short, clear request and check where each answer came from. This is the last module about one agent. Module 4 adds specialised agents." data-tier="R">
   <div class="wrap">
     <span class="tier">Day 1 &middot; Module 3 of 8</span>
     <h1>Prompt &amp; Context Engineering</h1>
@@ -38,7 +38,7 @@
 </section>
 
 <!-- 2 -->
-<section class="slide" data-sec="Opening" data-title="The repository knows what is true; this is how you ask" data-notes="Two things shape what the agent does. The first is standing context: files in the repo, written once and read on every request. Module 2 built these. The second is your request, which you write again for every ticket. Many teams try to fix accuracy only in the request. Their prompts get longer every month but not better. A simple rule helps. If you type the same thing twice, it belongs in a file. Facts go in a knowledge file (Module 2). Steps for a task go in a skill file (this module). The main problem here is simple. An AI agent always gives an answer, even when it does not know. This module shows how to make it stop and ask instead. In Lab 3.2 you will measure this as a pass rate over six tickets. That becomes row three of your tally sheet from Module 1." data-tier="K">
+<section class="slide" data-sec="Opening" data-title="The repository knows what is true; this is how you ask" data-notes="Two things shape what the agent does. The first is standing context: files in the repo, written once and read on every request. Module 2 built these. The second is your request, which you write again for every ticket. Many teams try to fix accuracy only in the request. Their prompts get longer every month but not better. A simple rule helps. If you type the same thing twice, it belongs in a file. Facts go in a knowledge file (Module 2). Steps for a task go in a skill file (this module). The main problem here is simple. An AI agent always gives an answer, even when it does not know. This module shows how to make it stop and ask instead. In Lab 3.2 you will measure this as a pass rate over three tickets. That becomes row three of your tally sheet from Module 1." data-tier="K">
   <h2>Module 2 put the facts in the repo. Now: how you <em>ask</em><span class="tag">M3</span></h2>
   <div class="body g64">
     <div>
@@ -779,23 +779,23 @@ findByClientReferenceAndValueDate
 </section>
 
 <!-- 19 -->
-<section class="slide" data-sec="6 &middot; Proving a prompt is better" data-title="Test your prompt on six tickets" data-notes="How do you know your new prompt is really better? You measure it. A small set of test tickets like this is called an eval set, short for evaluation set. You will see this term often in agentic AI. Most people get the first picking rule wrong. Include tickets the old prompt already passes. If you do not, your test can only agree with you. If those tickets start to fail, your new prompt is too strict. Decide what pass means before you run anything. If you decide after you see the output, you will favour the prompt you wrote yourself. Six tickets is small enough to run in a lab. It is large enough to show a difference of two tickets. It shows a trend, not a statistical proof. The goal is to turn an opinion about wording into a number two engineers can discuss." data-tier="K">
-  <h2>Test your prompt on six real tickets<span class="tag k">6</span></h2>
+<section class="slide" data-sec="6 &middot; Proving a prompt is better" data-title="Test your prompt on three tickets" data-notes="How do you know your new prompt is really better? You measure it. A small set of test tickets like this is called an eval set, short for evaluation set. You will see this term often in agentic AI. Most people get the first picking rule wrong. Include a ticket the old prompt already passes. If you do not, your test can only agree with you. If that ticket starts to fail, your new prompt is too strict. Decide what pass means before you run anything. If you decide after you see the output, you will favour the prompt you wrote yourself. Three tickets is what fits in a lab. It is too small to give you a trend, so you also read the two runs side by side. The score tells you whether anything moved. The diffs tell you what your skill file actually did." data-tier="K">
+  <h2>Test your prompt on three real tickets<span class="tag k">6</span></h2>
   <div class="body g64">
     <div>
-      <svg viewBox="0 0 700 400" role="img" aria-label="How to pick six tickets for an eval set and decide what counts as a pass">
-        <text class="lb" x="4" y="13">PICK SIX REAL TICKETS</text>
+      <svg viewBox="0 0 700 400" role="img" aria-label="How to pick three tickets for an eval set and decide what counts as a pass">
+        <text class="lb" x="4" y="13">PICK THREE REAL TICKETS</text>
         <rect class="bx" x="4" y="22" width="692" height="140" rx="8"/>
         <rect class="bx g rise" x="20" y="40" width="212" height="70" rx="6"/>
-        <text class="tt" x="32" y="64" style="font-size:13px">2 &middot; old prompt passes</text>
+        <text class="tt" x="32" y="64" style="font-size:13px">1 &middot; clear ticket</text>
         <text class="ss" x="32" y="86" style="font-size:12px">checks you did not</text>
         <text class="ss" x="32" y="102" style="font-size:12px">make things worse</text>
         <rect class="bx a rise r2" x="240" y="40" width="212" height="70" rx="6"/>
-        <text class="tt" x="252" y="64" style="font-size:13px">2 &middot; old prompt fails</text>
-        <text class="ss" x="252" y="86" style="font-size:12px">the kind of mistake</text>
-        <text class="ss" x="252" y="102" style="font-size:12px">you saw in Lab 1.1</text>
+        <text class="tt" x="252" y="64" style="font-size:13px">1 &middot; the repo answers it</text>
+        <text class="ss" x="252" y="86" style="font-size:12px">the ticket does not,</text>
+        <text class="ss" x="252" y="102" style="font-size:12px">but an ADR does</text>
         <rect class="bx r rise r3" x="460" y="40" width="220" height="70" rx="6"/>
-        <text class="tt" x="472" y="64" style="font-size:13px">2 &middot; unclear tickets</text>
+        <text class="tt" x="472" y="64" style="font-size:13px">1 &middot; unclear ticket</text>
         <text class="ss" x="472" y="86" style="font-size:12px">pass = it stops</text>
         <text class="ss" x="472" y="102" style="font-size:12px">and asks</text>
         <text class="ss" x="20" y="142">Use real tickets. Made-up tickets are too easy to answer.</text>
@@ -822,44 +822,44 @@ findByClientReferenceAndValueDate
       <ul>
         <li>Picking only tickets your new prompt handles well. Then the test can only agree with you.</li>
       </ul>
-      <div class="take"><b>Six tickets</b> show a trend, not proof. That is still far better than guessing.</div>
+      <div class="take"><b>Three tickets</b> show a direction, not a trend. Read the two diffs as well as the score.</div>
     </div>
   </div>
 </section>
 
 <!-- 20 -->
-<section class="slide" data-sec="6 &middot; Proving a prompt is better" data-title="Lab 3.2 and row three" data-notes="In Lab 3.2 you run the same six tickets twice. First with an ordinary request. Then with the engineered request plus the skill file. You score each run pass or fail, using criteria you wrote down before you started. The table shows what each row can tell you. The total score matters less than which tickets change. The tickets the old prompt already passed are your control group. They show whether the new prompt made anything worse. The unclear tickets test your stop conditions, because stopping to ask is their pass condition. You may also see no change at all. That can mean the Module 2 repo files already do the job for this repo. That is a real finding, not a failed lab. Write the pass rate out of 6 in row three of your tally sheet. It is the only row measured as a pass rate, not a count of turns." data-tier="K">
-  <h2>Lab 3.2 &mdash; two prompts, six tickets, one score<span class="tag k">6</span></h2>
+<section class="slide" data-sec="6 &middot; Proving a prompt is better" data-title="Lab 3.2 and row three" data-notes="In Lab 3.2 you run the same three tickets twice. First with an ordinary request. Then with the engineered request plus the skill file. You score each run pass or fail, using criteria you wrote down before you started. One detail matters more than it looks. Column A runs on a branch that does not have your skill file. A skill file loads by itself whenever the task matches its description, and all three tickets match yours. If the file were there, column A would load it too, and you would be comparing your skill file with itself. The table shows what each row can tell you. GB-204 is your control: if it fails in B, your skill file is too strict. With only three tickets the score often does not move at all. That is why you also open the two runs side by side and ask four questions: did it name its source, did it read the ADRs, are the tests at the same level, did it stop and ask. Those answers move even when the score does not. Write the pass rate out of 3 in row three of your tally sheet." data-tier="K">
+  <h2>Lab 3.2 &mdash; two prompts, three tickets, two reads<span class="tag k">6</span></h2>
   <div class="body g1">
     <div>
-      <svg viewBox="0 0 1180 420" role="img" aria-label="Lab 3.2: six tickets run with the old and new prompt, and how to read the result">
+      <svg viewBox="0 0 1180 420" role="img" aria-label="Lab 3.2: three tickets run with the old and new prompt, and how to read the result">
         <rect class="bx d" x="4" y="4" width="1172" height="30" rx="6"/>
         <text class="lb w" x="24" y="24">TICKETS</text>
         <text class="lb w" x="400" y="24">OLD PROMPT</text>
         <text class="lb w" x="560" y="24">NEW PROMPT + SKILL</text>
         <text class="lb w" x="780" y="24">WHAT IT TELLS YOU</text>
         <rect class="bx g grow" x="4" y="42" width="1172" height="62" rx="6"/>
-        <text class="tt" x="24" y="79" style="font-size:14px">2 &middot; old prompt already passes</text>
+        <text class="tt" x="24" y="79" style="font-size:14px">GB-204 &middot; clear &mdash; your control</text>
         <text class="tt" x="420" y="79" style="fill:#5fbf8f">PASS</text>
         <text class="tt" x="600" y="79" style="fill:#5fbf8f">PASS</text>
-        <text class="ss" x="780" y="79" style="font-size:14px">If these now fail, the new prompt is too strict.</text>
+        <text class="ss" x="780" y="79" style="font-size:14px">If this now fails, your skill file is too strict.</text>
         <rect class="bx a grow w2" x="4" y="112" width="1172" height="62" rx="6"/>
-        <text class="tt" x="24" y="141" style="font-size:14px">2 &middot; old prompt fails</text>
-        <text class="ss" x="24" y="162" style="font-size:12px">the kind of mistake you saw in Lab 1.1</text>
+        <text class="tt" x="24" y="141" style="font-size:14px">GB-205 &middot; the repo answers it</text>
+        <text class="ss" x="24" y="162" style="font-size:12px">the ticket does not say; an ADR does</text>
         <text class="tt" x="420" y="149" style="fill:#e2726e">FAIL</text>
         <text class="tt" x="600" y="149" style="fill:#5fbf8f">PASS</text>
-        <text class="ss" x="780" y="149" style="font-size:14px">Your rules and output contract are working.</text>
+        <text class="ss" x="780" y="149" style="font-size:14px">Your skill file sent it to the rule the repo held.</text>
         <rect class="bx r grow w3" x="4" y="182" width="1172" height="62" rx="6"/>
-        <text class="tt" x="24" y="219" style="font-size:14px">2 &middot; unclear tickets</text>
+        <text class="tt" x="24" y="219" style="font-size:14px">GB-206 &middot; answered nowhere</text>
         <text class="tt" x="420" y="219" style="fill:#e2726e">FAIL</text>
         <text class="tt" x="600" y="219" style="fill:#5fbf8f">PASS</text>
         <text class="ss" x="780" y="219" style="font-size:14px">Biggest change: your stop conditions are working.</text>
         <rect class="bx a" x="4" y="262" width="1172" height="86" rx="8"/>
-        <text class="ss" x="24" y="294" style="font-size:14px">Look at <tspan font-weight="600" fill="#d98a3d">which rows changed</tspan>, not just the total.</text>
-        <text class="ss" x="24" y="324" style="font-size:14px">If nothing changes, Module 2&rsquo;s repo files may already do the job. That is a real result.</text>
+        <text class="ss" x="24" y="294" style="font-size:14px">Column A runs on a branch <tspan font-weight="600" fill="#d98a3d">without your skill file</tspan> &mdash; or it loads itself, and A = B.</text>
+        <text class="ss" x="24" y="324" style="font-size:14px">Three tickets rarely move the score. Open the two diffs: that is where the change shows.</text>
 
         <rect class="bx d" x="4" y="358" width="1172" height="58" rx="8"/>
-        <text class="ss w" x="24" y="393" style="font-size:15px">Your tally sheet, row three: a <tspan font-weight="700" fill="#e0b34d">pass rate out of 6</tspan> &mdash; not a count of turns.</text>
+        <text class="ss w" x="24" y="393" style="font-size:15px">Your tally sheet, row three: a <tspan font-weight="700" fill="#e0b34d">pass rate out of 3</tspan> &mdash; not a count of turns.</text>
       </svg>
     </div>
   </div>

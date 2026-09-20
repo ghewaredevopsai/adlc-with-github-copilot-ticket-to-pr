@@ -35,7 +35,7 @@ ticket differently.
    Check that the **atlassian** MCP server is running (**MCP: List Servers**).
 
 3. Go back to your Lab 3.1 branch, which holds your skill file and prompt file, and start a new
-   branch from it. Lab 3.2's eval runs stay behind on `eval-lab-3.2`:
+   branch from it. Lab 3.2's eval runs stay behind on `eval-lab-3.2-A` and `eval-lab-3.2-B`:
 
    ```bash
    cd ~/global-bank/global-bank-account
