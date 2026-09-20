@@ -345,6 +345,18 @@ Do not change anything.
 **Check:** expand the **references** list under the answer (it says "Used n references"). Both
 `copilot-instructions.md` and `domain.instructions.md` should be listed.
 
+**On Copilot CLI, check it this way instead.** The CLI reads instruction files from **the folder it
+was started in**, so it must be started inside `global-bank-account`:
+
+```bash
+cd ~/adlc-copilot-training/global-bank-account
+copilot instruction list
+```
+
+It must list `.github/copilot-instructions.md` and your path-scoped file. If it says **"No
+instruction sources found"**, you started the CLI in the wrong folder — close it, `cd` into
+`global-bank-account`, and start it again. Starting one folder up finds nothing, with no warning.
+
 If a file is missing from the list, stop and tell your trainer. Written is not the same as
 reachable, and a run with files Copilot cannot see measures nothing.
 
@@ -357,8 +369,10 @@ Your 35 minutes start with this prompt. You do not count anything: the record pr
 **Prompt 2.2-A** · Agent mode · base model · **new chat**
 
 **This run is one chat again,** the way Lab 1.1 was. On **Copilot CLI**, start the CLI fresh before
-you send it: `/usage` counts the whole session, and this session already holds Lab 2.1 and Prompt
-2.2-check. Those would land in your row and make the prepared run look more expensive than it was.
+you send it, **inside `global-bank-account`**: `/usage` counts the whole session, and this session
+already holds Lab 2.1 and Prompt 2.2-check, which would land in your row and make the prepared run
+look more expensive than it was. The folder matters as much as the fresh start — from anywhere else
+the CLI loads none of your instruction files, and the run measures an unprepared repository.
 
 ```text
 Read course/labs/lab-keys.md to find my Jira key for GB-142. Use the atlassian MCP tools to read
@@ -476,6 +490,17 @@ Report what you measured, even if a number got worse. **AIC is the real bill**, 
 both rows first: it is what the three files cost or saved on this one ticket. Then write one line under
 the row: which of your three files helped most in this run, and how you know. The references list
 under each answer shows which files Copilot used.
+
+**Read the two assumption lists, not the two counts.** The count often does not move, and it does not
+have to. What changes is **what** the agent had to assume. Put the lists side by side and mark each
+line: is it a **business rule** (what counts as a duplicate, what the caller gets back) or an
+**implementation detail** (a class name, an exception name, an edge case)? A run that guesses only
+names, on a repository that settled the rule for it, is the result Module 2 is after — even with the
+same number of lines.
+
+**Tool calls may go up, and that is not a failure.** Your files do not stop the agent reading code;
+they point it at more of the code, and it often writes more tests and more classes as a result. Say
+what you see.
 
 **Then compare the two fixes.** The numbers are not the only result. Both runs solved the same
 ticket, so you can read the code side by side:
