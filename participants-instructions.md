@@ -24,6 +24,10 @@ $HOME/
     global-bank-frontend/
 ```
 
+You open these as **one VS Code workspace** in Step 4, which shows them side by side as `course`
+and `global-bank-*`. The folders stay where they are on disk; the workspace only changes how VS
+Code presents them.
+
 `$HOME` is your home folder:
 
 | Operating system | Home folder |
@@ -110,7 +114,52 @@ Use PowerShell on Windows. Use the normal shell on macOS or Linux.
 All seven folders must sit side by side inside `global-bank`. The start script in Step 4 looks for
 them there.
 
-## Step 4. Start Global Bank on localhost (optional)
+## Step 4. Open the lab workspace
+
+Every lab is run from one VS Code **workspace** that holds the course folder and all seven Global
+Bank repositories side by side. Open it once, and use it for the whole course.
+
+In VS Code: **File**, then **Open Workspace from File**, then choose:
+
+```
+$HOME/adlc-with-github-copilot-ticket-to-pr/adlc-labs.code-workspace
+```
+
+If VS Code asks whether you trust the authors, choose **Yes, I trust the authors**. Copilot does
+not read the repositories' instruction files in a folder you have not trusted.
+
+**What you should see** in the Explorer on the left — eight folders, whatever the repositories
+happen to sit in on disk:
+
+```
+COURSE                      the outline, the slides and the lab guides
+GLOBAL-BANK-PLATFORM
+GLOBAL-BANK-ACCOUNT         most labs change this one
+GLOBAL-BANK-AUTHENTICATION
+GLOBAL-BANK-CUSTOMER
+GLOBAL-BANK-TRANSACTION
+GLOBAL-BANK-RULES
+GLOBAL-BANK-FRONTEND
+```
+
+This is why the lab prompts can write `course/labs/lab-keys.md` and `global-bank-account/docs/` in
+the same request: both names come from this list.
+
+**Why one workspace and not one folder per repository.** Copilot reads its configuration from
+**every folder in the workspace**, not just the first. So the instruction files you write in
+Module 2, and the skill file and prompt file you write in Module 3, all live in
+`global-bank-account/.github/` and are still found while you work. If you open a single folder
+instead, the labs from Module 3 onwards will not find them.
+
+**Check it worked.** Open a terminal in the workspace (**Terminal**, then **New Terminal**) and
+pick `global-bank-account` if VS Code asks which folder. Then:
+
+```bash
+pwd
+# must end in: global-bank-account
+```
+
+## Step 5. Start Global Bank on localhost (optional)
 
 > [!TIP]
 > **This step is optional.** Each lab starts the services it needs. Do Steps 4 to 6 only if you want
@@ -172,7 +221,7 @@ Use mvn, not ./mvnw. The ./mvnw wrapper does not work in these repositories.
 7. Show me a table of the six parts with UP or DOWN. If a part is DOWN, show me the end of its log file and explain the error.
 ```
 
-## Step 5. Check that it works
+## Step 6. Check that it works
 
 The web app shows demo data when a service is down. So a page that loads does **not** prove the services
 work. This prompt checks the services directly.
@@ -198,7 +247,7 @@ Tell me PASS if all five services say UP and the sign-in returns the role CUSTOM
 Then open **http://localhost:4200** in your browser. Sign in as `john` with the password `unigps`.
 The users `admin`, `eric` and `ratan` use the same password.
 
-## Step 6. Stop Global Bank
+## Step 7. Stop Global Bank
 
 Stop the app at the end of the day, or before you start it again.
 
