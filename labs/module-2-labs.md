@@ -29,9 +29,8 @@ rejected. The deck explains all three.
 
    ```bash
    cd ~/global-bank/global-bank-account
-   # branch already there from an earlier run? see "Running a lab again" in README.md
-   git switch -c lab-2.1-knowledge m1-start
-   mvn test
+   git switch -c lab-2.1-knowledge m1-start && mvn test
+   # "already exists"? The branch is from an earlier run: see "Running a lab again" in README.md
    # expect: Tests run: 4, Failures: 0, Errors: 0
    ```
 
@@ -257,6 +256,7 @@ git status --short
 # must print nothing. If it lists your three files, Lab 2.1 Step 6 did not commit them:
 # go back and commit them on lab-2.1-knowledge first
 git switch -c GB-142-lab-2.2 lab-2.1-knowledge
+# "already exists"? The branch is from an earlier run: see "Running a lab again" in README.md
 git show --stat lab-2.1-knowledge | tail -5
 # expect: your three knowledge files
 mvn test

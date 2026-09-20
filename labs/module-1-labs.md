@@ -35,9 +35,8 @@ Check that **atlassian** is running (**MCP: List Servers**).
 ```bash
 cd ~/global-bank/global-bank-account
 git fetch --tags --force
-# branch already there from an earlier run? see "Running a lab again" in README.md
-git switch -c GB-142-lab-1.1 m1-start
-mvn test
+git switch -c GB-142-lab-1.1 m1-start && mvn test
+# "already exists"? The branch is from an earlier run: see "Running a lab again" in README.md
 # expect: Tests run: 4, Failures: 0, Errors: 0, Skipped: 0
 ```
 

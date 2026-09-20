@@ -43,9 +43,8 @@ It loads **GB-158** and adds its key to `labs/lab-keys.md`.
 ```bash
 cd ~/global-bank/global-bank-account
 git fetch --tags --force origin
-# branch already there from an earlier run? see "Running a lab again" in README.md
-git switch -c GB-158-settlement-date m7-start
-mvn test
+git switch -c GB-158-settlement-date m7-start && mvn test
+# "already exists"? The branch is from an earlier run: see "Running a lab again" in README.md
 # expect: Tests run: 4, Failures: 0, Errors: 0
 
 cd ~/global-bank/global-bank-transaction

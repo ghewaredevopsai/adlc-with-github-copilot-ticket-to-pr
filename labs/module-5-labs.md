@@ -43,9 +43,8 @@ then **MCP: List Servers**).
 ```bash
 cd ~/global-bank/global-bank-account
 git fetch --tags --force
-# branch already there from an earlier run? see "Running a lab again" in README.md
-git switch -c GB-147-lab-5.1 m5-start
-mvn test
+git switch -c GB-147-lab-5.1 m5-start && mvn test
+# "already exists"? The branch is from an earlier run: see "Running a lab again" in README.md
 ```
 
 Expect: `Tests run: 4, Failures: 0, Errors: 0`.
