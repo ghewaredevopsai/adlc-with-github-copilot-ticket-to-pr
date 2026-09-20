@@ -240,7 +240,8 @@ def jira_finish(api, ticket, keys):
                  {"body": f"*{author}:*\n{to_wiki(link_text(text, keys, 'jira'))}"}, fail_ok=True)
     blockers = set(BLOCKED_BY.findall(ticket["body"]))
     for other in sorted(set(PLACEHOLDER.findall(ticket["body"])) - {ticket["key"]}):
-        if other not in keys:
+        if other not in keys:  # a ticket from a later module, or a lab-keys.md that lost its rows
+            print(f"    - no link from {key} to {other}: {other} is not in lab-keys.md yet")
             continue
         if other in blockers:  # "RISK-402 blocks GB-163"
             link = {"type": {"name": "Blocks"}, "outwardIssue": {"key": keys[other]}, "inwardIssue": {"key": key}}
