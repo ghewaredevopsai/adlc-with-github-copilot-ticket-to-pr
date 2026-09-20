@@ -3,8 +3,7 @@
 **Day 1** · Lab 1.1 (+ stretch) · about 45 minutes · Repository: `global-bank-account` · Start from: `m1-start`
 
 You fix one real bug with Copilot, on a repository where the team has written nothing down. At the
-end, Copilot counts six numbers from the chat, lists what it had to assume, and saves both in
-`metrics.md`. That is your
+end, Copilot saves the run as one row of `metrics.md`, with a list of what it had to assume. That is your
 **baseline**: the first measurement, taken before the course teaches anything. In Lab 2.2 you run this same ticket again, on a
 repository where your team's knowledge is written down, and compare. The goal is an honest number, not a good one.
 
@@ -210,12 +209,31 @@ is still a result.
 
 ### Step 6 — Record
 
-Send this in the **same chat**. Fill in the last two lines: your four decisions from Step 1, and any notes.
+**First, read what the run cost.** You type these into the record prompt, so read them now, before
+you send it — the record prompt costs credits of its own.
+
+- **Copilot CLI:** type `/usage`. It gives the model, the input, output and total tokens, and the
+  **AIC** (AI credits) for this session.
+- **VS Code:** in the chat input box, hover over the **context window control** — the bar that shows
+  how full the chat is — and select it. The popover gives this chat's total tokens and its cost in
+  credits. The model name is in the model picker under the chat box. If input and output tokens are
+  not shown separately, leave those two lines empty.
+
+**Do not ask Copilot to run `/usage` for you.** It is a command to your Copilot client, not to the
+agent. The agent cannot run it, and it cannot see its own tokens or credits.
+
+The Copilot icon in the status bar shows something else: the share of your monthly allowance used so
+far, across every chat. That is not this run's cost.
+
+Then send this in the **same chat**. Replace every `<...>` line before you send: the six values you
+just read, your four decisions from Step 1, and your notes. A line you leave as it is becomes a `-`
+in the table, and Copilot carries on instead of stopping to ask you.
 
 **Prompt 1.1-M** · Agent mode · **same chat**
 
 ```text
-The run is over. Count these numbers from this chat only, and do not guess beyond it:
+The run is over. Do not ask me anything: if something below is missing, write "-" and carry on.
+Count these numbers from this chat only, and do not guess beyond it:
 - Turns: prompts I sent, from the opener to the last repair. Not this prompt.
 - Tool calls: files you read and searches you ran. Not the Jira fetch, edits or terminal commands.
 - Asked: questions you asked me that a file in the repository could have answered.
@@ -223,12 +241,23 @@ The run is over. Count these numbers from this chat only, and do not guess beyon
 - Churn: lines you wrote earlier in this run and later replaced or deleted, to the nearest ten.
 - Assumptions: decisions you made that no file in the repository answered, for example a design
   choice, a rule or a name. List them in one line each.
+The model and usage numbers below come from my Copilot client, read just before I sent this
+prompt. Copy them exactly. Do not calculate, estimate, round or replace them.
+- Model: <paste the model name>
+- Model ID: <paste the model id, if it is shown>
+- Input tokens: <paste input tokens>
+- Output tokens: <paste output tokens>
+- Total tokens: <paste total tokens>
+- AIC: <paste AI credits>
+If more than one model ran during the work, list each one in Model and Model ID, separated by
+semicolons.
 Create metrics.md at the root of global-bank-account with this table and one row:
-| Run | Ticket | Turns | Tool calls | Asked | Rework | Churn | Credits |
-Use "1.1" as the run and "GB-142" as the ticket. Leave the Credits column as "(day 2)". I fill it in at the end of Day 2 from the Copilot usage view. Under the table, add a line "Decisions:" with my
+| Run | Ticket | Model | Model ID | Turns | Tool calls | Asked | Rework | Churn | Input tokens | Output tokens | Total tokens | AIC |
+Use "1.1" as the run and "GB-142" as the ticket. Under the table, add a line "Decisions:" with my
 four decisions below, then "Assumptions (N):" with N the number you counted and the list below it,
 then one line "Notes:" with my notes below, and one line "How counted:" that says anything you could
-not count exactly.
+not count exactly, and says that the model, token and AIC values were read from my client just
+before this prompt, so they leave this prompt out.
 Then run: git add -A && git commit -m "GB-142 lab 1.1 baseline run". Show me the table.
 My four decisions: <kind of task>, <model class>, <mode>, <working style>
 My notes: <anything unusual, for example "MCP failed", or leave empty>
@@ -236,6 +265,10 @@ My notes: <anything unusual, for example "MCP failed", or leave empty>
 
 **Send it as soon as the checks pass.** Your 35 minutes run until you send it, so a break here
 eats the timebox.
+
+**A `-` in the model or usage columns?** You sent the prompt with those lines unchanged. Open
+`metrics.md`, type the values in yourself, and commit again:
+`git commit -am "GB-142 lab 1.1 usage"`.
 
 **Check:** `git show --stat HEAD` lists `metrics.md` and your code changes. Leave the numbers as
 Copilot counted them, even if they look bad. A run that went badly is a finding, not a failure.
@@ -272,8 +305,8 @@ Pick one:
   That reply is a turn. Then select **Start Implementation** and pick the Agent to carry it out.
 
 
-Run Steps 3 to 5 as before, then send Prompt 1.1-M with `1.1+` as the run and `GB-142 lab 1.1+` in
-the commit message. In Option B, send it in the implementation chat, and add "planned first" to the
+Run Steps 3 to 5 as before. Read the model and usage numbers for this chat, then send Prompt 1.1-M with
+`1.1+` as the run and `GB-142 lab 1.1+` in the commit message. In Option B, send it in the implementation chat, and add "planned first" to the
 notes line. Compare the two files:
 
 ```bash

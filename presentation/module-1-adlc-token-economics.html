@@ -17,7 +17,7 @@
 
 <div id="viewport"><div id="stage">
 <!-- 1 -->
-<section class="slide title" data-sec="Opening" data-title="Title" data-notes="This module is about cost, not about whether the tool works. You will learn what one request to the agent really costs, and what decides that cost. An agent is Copilot in agent mode: it reads files, edits code and runs commands for you. The main idea is simple. The agent is fast. But each time it re-learns what your team already knows, you pay twice. You pay once in AI credits, and once in answers that are wrong. After this module you will be able to measure one ticket with six numbers. You will choose mode and model on purpose for each task. You will decide where each fact goes: the chat, a file, or a tool call. You will also decide when to hand work off to the agent." data-tier="R">
+<section class="slide title" data-sec="Opening" data-title="Title" data-notes="This module is about cost, not about whether the tool works. You will learn what one request to the agent really costs, and what decides that cost. An agent is Copilot in agent mode: it reads files, edits code and runs commands for you. The main idea is simple. The agent is fast. But each time it re-learns what your team already knows, you pay twice. You pay once in AI credits, and once in answers that are wrong. After this module you will be able to measure one ticket as one row of a tally sheet: five numbers Copilot counts, and six you read off your Copilot client. You will choose mode and model on purpose for each task. You will decide where each fact goes: the chat, a file, or a tool call. You will also decide when to hand work off to the agent." data-tier="R">
   <div class="wrap">
     <span class="tier">Day 1 &middot; Module 1 of 8</span>
     <h1>The ADLC Operating Model<br>&amp; Token Economics</h1>
@@ -93,7 +93,7 @@
 </section>
 
 <!-- 3 -->
-<section class="slide" data-sec="Opening" data-title="Words used in this course" data-notes="Keep this slide in mind. These words come back in every module. Two of them matter most today. A turn is one prompt from you plus one reply from the agent. It is the main unit you count in Lab 1.1. A tool call is the agent using a tool, such as reading a file or running a command. The tally counts only file reads and searches, not the ticket fetch or terminal commands. The context window is everything the agent can see right now. It starts empty in every new chat. That empty start is the root of the re-discovery tax. The re-discovery tax is the cost of the agent re-learning facts your team already knows. The tally sheet is metrics.md: six numbers for each measured run, counted by Copilot with a record prompt. Its first row comes from Lab 1.1. You can come back to this slide at any time from the slide index." data-tier="K">
+<section class="slide" data-sec="Opening" data-title="Words used in this course" data-notes="Keep this slide in mind. These words come back in every module. Two of them matter most today. A turn is one prompt from you plus one reply from the agent. It is the main unit you count in Lab 1.1. A tool call is the agent using a tool, such as reading a file or running a command. The tally counts only file reads and searches, not the ticket fetch or terminal commands. The context window is everything the agent can see right now. It starts empty in every new chat. That empty start is the root of the re-discovery tax. The re-discovery tax is the cost of the agent re-learning facts your team already knows. The tally sheet is metrics.md: one row for each measured run. A record prompt has Copilot count five numbers from the chat, and you read six more off your Copilot client and paste them in: the model, its id, input, output and total tokens, and AIC. Its first row comes from Lab 1.1. You can come back to this slide at any time from the slide index." data-tier="K">
   <h2>Words used in this course<span class="tag">M1</span></h2>
   <div class="body g55">
     <div class="pts">
@@ -113,9 +113,9 @@
       <h3>Course words</h3>
       <ul>
         <li><b>ADLC</b> &mdash; the development lifecycle when AI agents write much of the code.</li>
-        <li><b>AI credits</b> &mdash; how GitHub bills Copilot use.</li>
+        <li><b>AI credits</b>, written <b>AIC</b> &mdash; how GitHub bills Copilot use.</li>
         <li><b>Re-discovery tax</b> &mdash; the cost of the agent re-learning facts your team already knows.</li>
-        <li><b>Tally sheet</b> &mdash; <code>metrics.md</code>: six numbers for each measured run.</li>
+        <li><b>Tally sheet</b> &mdash; <code>metrics.md</code>: one row for each measured run.</li>
         <li><b>ADR</b> &mdash; a short file that records one design decision.</li>
       </ul>
     </div>
@@ -425,45 +425,52 @@
 </section>
 
 <!-- 9 -->
-<section class="slide" data-sec="3 &middot; Baselining" data-title="What you can actually measure" data-notes="The real cost of Copilot is AI credits. You cannot see credits for one ticket while you work: they appear later, per user, in a usage view. So credits are the sixth number, and it is the one you come back and fill in on Day 2. The other five you count live, from the chat. Turns and tool calls follow spend most closely. Questions it asked and rework show how much the agent had to guess. In the labs, rework means the repair prompts you paste when a check fails. Everyone sends the same scripted prompts, so repairs are where runs differ. Diff churn shows the outcome. Repairs become the rework column of your tally sheet, and later modules refer to it. At the end, a record prompt asks Copilot to count the first five from the chat and save them in metrics.md in the repo. The sixth is AI credits, the real bill. Copilot cannot see its own spend, so the record prompt writes the word day two in that cell, and you fill in the number yourself at the end of Day 2 from the Copilot usage view. You still have a timebox in every lab, 35 minutes in Lab 1.1, but it is a stopping rule, not a number you record: it varies too much with how fast you read to compare between runs. The record prompt also asks the agent to list its assumptions: the decisions it made because no file answered them. That list is what Module 2 tries to shorten. The rule: measure what you can show, and check later what you cannot." data-tier="K">
-  <h2>Measuring a ticket &mdash; six numbers you can see live<span class="tag k">3</span></h2>
+<section class="slide" data-sec="3 &middot; Baselining" data-title="What you can actually measure" data-notes="The real cost of Copilot is AI credits, and you can see them for one run. Your Copilot client reports them; the agent cannot. In Copilot CLI, type slash usage: it gives the model, its id, the input, output and total tokens, and the AI credits for the session. In VS Code, hover the context window control in the chat input box and select it. That popover gives the chat's total tokens and its cost in credits, and the model name is in the model picker. Those six are numbers six to eleven, and you paste them into the record prompt. Do not ask Copilot to run slash usage for you: it is a command to the client, not to the agent, and the agent cannot see its own cost. Read them before you send the record prompt, so that prompt stays out of the run. Copilot counts the other five from the chat. Turns and tool calls follow spend most closely. Questions it asked and rework show how much the agent had to guess. In the labs, rework means the repair prompts you paste when a check fails. Everyone sends the same scripted prompts, so repairs are where runs differ. Diff churn shows the outcome. Careful with the Copilot icon in the status bar: it shows the share of your monthly allowance used so far, across every chat, not this run. You still have a timebox in every lab, 35 minutes in Lab 1.1, but it is a stopping rule, not a number you record. The record prompt also asks the agent to list its assumptions: the decisions it made because no file answered them. That list is what Module 2 tries to shorten. The rule: measure what you can show, and say where you read it." data-tier="K">
+  <h2>Measuring a ticket &mdash; five counted, six read<span class="tag k">3</span></h2>
   <div class="body g64">
     <div>
-      <svg viewBox="0 0 700 420" role="img" aria-label="Six numbers you can count during a session, and AI credits which arrive later">
-        <text class="lb g" x="4" y="13">COUNT THESE LIVE &mdash; FROM THE CHAT OR A STOPWATCH</text>
-        <rect class="bx g" x="4" y="22" width="692" height="260" rx="8"/>
-        <rect class="bx w rise" x="20" y="38" width="326" height="72" rx="6"/>
-        <text class="tt" x="34" y="62">1 &middot; Turns</text>
-        <text class="ss" x="34" y="86">every prompt you sent, fixes included</text>
-        <rect class="bx w rise r2" x="356" y="38" width="326" height="72" rx="6"/>
-        <text class="tt" x="370" y="62">2 &middot; Tool calls / files read</text>
-        <text class="ss" x="370" y="86">how much it had to search</text>
-        <rect class="bx w rise r3" x="20" y="118" width="326" height="72" rx="6"/>
-        <text class="tt" x="34" y="142">3 &middot; Questions it asked</text>
-        <text class="ss" x="34" y="166">that a file could have answered</text>
-        <rect class="bx w rise r4" x="356" y="118" width="326" height="72" rx="6"/>
-        <text class="tt" x="370" y="142">4 &middot; Rework prompts</text>
-        <text class="ss" x="370" y="166">repair prompts after a failed check</text>
-        <rect class="bx w rise r5" x="20" y="198" width="326" height="72" rx="6"/>
-        <text class="tt" x="34" y="222">5 &middot; Diff churn</text>
-        <text class="ss" x="34" y="246">lines written, then thrown away</text>
-        <rect class="bx w rise r6" x="356" y="198" width="326" height="72" rx="6"/>
-        <text class="tt" x="370" y="222">6 &middot; AI credits</text>
-        <text class="ss" x="370" y="246">what the run actually cost</text>
-        <text class="ss" x="370" y="264" style="font-size:13px">the one number you fill in later</text>
+      <svg viewBox="0 0 700 420" role="img" aria-label="Five numbers Copilot counts from the chat, and six you read off your Copilot client">
+        <text class="lb g" x="4" y="13">FIVE COPILOT COUNTS FROM THE CHAT</text>
+        <rect class="bx g" x="4" y="22" width="692" height="170" rx="8"/>
+        <rect class="bx w rise" x="20" y="34" width="326" height="46" rx="6"/>
+        <text class="tt" x="34" y="54">1 &middot; Turns</text>
+        <text class="ss" x="34" y="72" style="font-size:12.5px">every prompt you sent, fixes included</text>
+        <rect class="bx w rise r2" x="356" y="34" width="326" height="46" rx="6"/>
+        <text class="tt" x="370" y="54">2 &middot; Tool calls / files read</text>
+        <text class="ss" x="370" y="72" style="font-size:12.5px">how much it had to search</text>
+        <rect class="bx w rise r3" x="20" y="84" width="326" height="46" rx="6"/>
+        <text class="tt" x="34" y="104">3 &middot; Questions it asked</text>
+        <text class="ss" x="34" y="122" style="font-size:12.5px">that a file could have answered</text>
+        <rect class="bx w rise r4" x="356" y="84" width="326" height="46" rx="6"/>
+        <text class="tt" x="370" y="104">4 &middot; Rework prompts</text>
+        <text class="ss" x="370" y="122" style="font-size:12.5px">repair prompts after a failed check</text>
+        <rect class="bx w rise r5" x="20" y="134" width="662" height="46" rx="6"/>
+        <text class="tt" x="34" y="154">5 &middot; Diff churn</text>
+        <text class="ss" x="34" y="172" style="font-size:12.5px">lines written, then thrown away</text>
 
-        <text class="lb a" x="4" y="312">NUMBER 6 &mdash; FILLED IN AT THE END OF DAY 2</text>
-        <rect class="bx a" x="4" y="322" width="692" height="92" rx="8"/>
-        <text class="tt" x="24" y="350">Copilot cannot count its own credits</text>
-        <text class="ss" x="24" y="374">The record prompt writes &ldquo;(day 2)&rdquo;. You read the usage view</text>
-        <text class="ss" x="24" y="396">at the end of Day 2 and write the number in yourself.</text>
+        <text class="lb a" x="4" y="214">SIX YOU READ OFF YOUR COPILOT CLIENT, BEFORE YOU RECORD</text>
+        <rect class="bx a" x="4" y="222" width="692" height="194" rx="8"/>
+        <rect class="bx w rise r6" x="20" y="234" width="326" height="40" rx="6"/>
+        <text class="tt" x="34" y="259">6 &middot; Model</text>
+        <rect class="bx w rise r6" x="356" y="234" width="326" height="40" rx="6"/>
+        <text class="tt" x="370" y="259">7 &middot; Model ID</text>
+        <rect class="bx w rise r6" x="20" y="280" width="326" height="40" rx="6"/>
+        <text class="tt" x="34" y="305">8 &middot; Input tokens</text>
+        <rect class="bx w rise r6" x="356" y="280" width="326" height="40" rx="6"/>
+        <text class="tt" x="370" y="305">9 &middot; Output tokens</text>
+        <rect class="bx w rise r6" x="20" y="326" width="326" height="40" rx="6"/>
+        <text class="tt" x="34" y="351">10 &middot; Total tokens</text>
+        <rect class="bx w rise r6" x="356" y="326" width="326" height="40" rx="6"/>
+        <text class="tt" x="370" y="351">11 &middot; AIC &mdash; AI credits</text>
+        <text class="ss" x="24" y="394" style="font-size:12.5px">CLI: <tspan style="font-weight:700">/usage</tspan>. VS Code: the context window control in the chat box.</text>
+        <text class="ss" x="24" y="410" style="font-size:12.5px">Copilot cannot run <tspan style="font-weight:700">/usage</tspan>, and cannot see its own cost.</text>
       </svg>
     </div>
     <div class="pts">
-      <h3>Why these six</h3>
+      <h3>Why two groups</h3>
       <ul>
-        <li>Five you can see <b>live</b>, with no special tools.</li>
-        <li>They go up and down with the real bill.</li>
+        <li>Copilot counts the five it can <b>see in the chat</b>.</li>
+        <li>It cannot see its own cost, so you read the other six and paste them.</li>
       </ul>
       <h3>The rules</h3>
       <ul>
@@ -476,7 +483,7 @@
 </section>
 
 <!-- 10 -->
-<section class="slide" data-sec="3 &middot; Baselining" data-title="The baseline run — and the number that follows you" data-notes="This slide sets up Lab 1.1. Everyone runs the same ticket, GB-142, with the same scripted prompt. Do not change the words, and do not read or tidy the code first. The run measures the repository as it is. Paste the repair prompt only when a check fails. Each repair is one turn and one rework. Because the prompts are fixed, the number of repairs is the main way runs differ. You do not count by hand. The last prompt asks Copilot to count five of the six numbers from the chat, write them in metrics.md and commit it. The credits cell says day two until you fill it in. Keep the numbers unedited, even if they look bad. Later rows are compared with this one: row 2.2 after Module 2, a pass rate for Lab 3.2 in Module 3, and the capstone on Day 2. No result is promised in advance. The course follows its own rule: only quote a number you can point to." data-tier="D">
+<section class="slide" data-sec="3 &middot; Baselining" data-title="The baseline run — and the number that follows you" data-notes="This slide sets up Lab 1.1. Everyone runs the same ticket, GB-142, with the same scripted prompt. Do not change the words, and do not read or tidy the code first. The run measures the repository as it is. Paste the repair prompt only when a check fails. Each repair is one turn and one rework. Because the prompts are fixed, the number of repairs is the main way runs differ. You do not count by hand. Before the last prompt, read six values off your Copilot client: the model, its id, input, output and total tokens, and AIC. In the CLI that is slash usage; in VS Code it is the context window control in the chat box. The last prompt asks Copilot to count the other five from the chat, put the whole row in metrics.md and commit it. Keep the numbers unedited, even if they look bad. Later rows are compared with this one: row 2.2 after Module 2, a pass rate for Lab 3.2 in Module 3, and the capstone on Day 2. No result is promised in advance. The course follows its own rule: only quote a number you can point to." data-tier="D">
   <h2>Lab 1.1 &mdash; measure one ticket, and keep the number for two days<span class="tag k">3</span></h2>
   <div class="body g46">
     <div class="pts">
@@ -486,48 +493,73 @@
         <li><b>Do not read or tidy the code first.</b> Measure the repo as it is.</li>
         <li><b>Paste the repair prompt only when a check fails.</b> Each one is rework.</li>
         <li><b>Copilot counts at the end</b>, into <code>metrics.md</code>. Keep the numbers unedited.</li>
+        <li><b>Read the model and usage numbers first</b> &mdash; <code>/usage</code>, or the context window control.</li>
       </ul>
       <div class="take"><b>No promises.</b> Tomorrow we report what we measure &mdash; even if it disappoints.</div>
     </div>
     <div>
-      <svg viewBox="0 0 700 442" role="img" aria-label="The baseline tally sheet and where it is re-measured across the two days">
+      <svg class="dense" viewBox="0 0 700 442" role="img" aria-label="The baseline tally sheet and where it is re-measured across the two days">
         <text class="lb" x="4" y="14">THE TALLY SHEET &mdash; YOUR SCORE CARD, ONE ROW PER RUN</text>
         <rect class="bx" x="4" y="24" width="692" height="196" rx="8"/>
         <line x1="20" y1="72" x2="680" y2="72" stroke="#435063" stroke-width="1.5"/>
         <text class="lb" x="20" y="52">RUN</text>
-        <text class="lb" x="250" y="52">TURNS</text>
-        <text class="lb" x="330" y="52">TOOL</text>
-        <text class="lb" x="404" y="52">ASKED</text>
-        <text class="lb" x="482" y="52">REWORK</text>
-        <text class="lb" x="572" y="52">CHURN</text>
-        <text class="lb" x="640" y="52">CLOCK</text>
+        <text class="lb" x="210" y="52">MODEL</text>
+        <text class="lb" x="261" y="52">ID</text>
+        <text class="lb" x="290" y="52">TURNS</text>
+        <text class="lb" x="341" y="52">TOOL</text>
+        <text class="lb" x="385" y="52">ASKED</text>
+        <text class="lb" x="436" y="52">REWORK</text>
+        <text class="lb" x="494" y="52">CHURN</text>
+        <text class="lb" x="545" y="52">IN</text>
+        <text class="lb" x="574" y="52">OUT</text>
+        <text class="lb" x="611" y="52">TOTAL</text>
+        <text class="lb" x="662" y="52">AIC</text>
 
         <rect class="bx a" x="16" y="80" width="668" height="34" rx="4"/>
-        <text class="tt" x="28" y="102" style="font-size:13.5px">1.1 &mdash; GB-142, repo as it is</text>
-        <text class="ss" x="266" y="102" style="font-weight:700;fill:#d98a3d">?</text>
-        <text class="ss" x="344" y="102" style="font-weight:700;fill:#d98a3d">?</text>
-        <text class="ss" x="422" y="102" style="font-weight:700;fill:#d98a3d">?</text>
-        <text class="ss" x="506" y="102" style="font-weight:700;fill:#d98a3d">?</text>
-        <text class="ss" x="588" y="102" style="font-weight:700;fill:#d98a3d">?</text>
-        <text class="ss" x="652" y="102" style="font-weight:700;fill:#d98a3d">?</text>
+        <text class="tt" x="28" y="102" style="font-size:13px">1.1 &mdash; GB-142, repo as it is</text>
+        <text class="ss" x="216" y="102" style="font-weight:700;fill:#d98a3d">?</text>
+        <text class="ss" x="265" y="102" style="font-weight:700;fill:#d98a3d">?</text>
+        <text class="ss" x="296" y="102" style="font-weight:700;fill:#d98a3d">?</text>
+        <text class="ss" x="347" y="102" style="font-weight:700;fill:#d98a3d">?</text>
+        <text class="ss" x="391" y="102" style="font-weight:700;fill:#d98a3d">?</text>
+        <text class="ss" x="442" y="102" style="font-weight:700;fill:#d98a3d">?</text>
+        <text class="ss" x="500" y="102" style="font-weight:700;fill:#d98a3d">?</text>
+        <text class="ss" x="549" y="102" style="font-weight:700;fill:#d98a3d">?</text>
+        <text class="ss" x="578" y="102" style="font-weight:700;fill:#d98a3d">?</text>
+        <text class="ss" x="617" y="102" style="font-weight:700;fill:#d98a3d">?</text>
+        <text class="ss" x="666" y="102" style="font-weight:700;fill:#d98a3d">?</text>
 
         <rect class="bx w" x="16" y="118" width="668" height="30" rx="4"/>
-        <text class="ss" x="28" y="138" style="font-size:13px">2.2 &mdash; GB-142 again, knowledge in repo</text>
-        <text class="ss" x="266" y="138">&mdash;</text><text class="ss" x="344" y="138">&mdash;</text><text class="ss" x="422" y="138">&mdash;</text>
-        <text class="ss" x="506" y="138">&mdash;</text><text class="ss" x="588" y="138">&mdash;</text><text class="ss" x="652" y="138">&mdash;</text>
+        <text class="ss" x="28" y="138" style="font-size:13px">2.2 &mdash; GB-142, with knowledge</text>
+        <text class="ss" x="216" y="138">&mdash;</text>
+        <text class="ss" x="265" y="138">&mdash;</text>
+        <text class="ss" x="296" y="138">&mdash;</text>
+        <text class="ss" x="347" y="138">&mdash;</text>
+        <text class="ss" x="391" y="138">&mdash;</text>
+        <text class="ss" x="442" y="138">&mdash;</text>
+        <text class="ss" x="500" y="138">&mdash;</text>
+        <text class="ss" x="549" y="138">&mdash;</text>
+        <text class="ss" x="578" y="138">&mdash;</text>
+        <text class="ss" x="617" y="138">&mdash;</text>
+        <text class="ss" x="666" y="138">&mdash;</text>
 
         <rect class="bx w" x="16" y="152" width="668" height="30" rx="4"/>
-        <text class="ss" x="28" y="172" style="font-size:13px">3.2 &mdash; prompt A/B, three tickets</text>
-        <text class="ss" x="266" y="172" style="font-size:13px">pass rate only: A __/3 &middot; B __/3</text>
+        <text class="ss" x="28" y="172" style="font-size:13px">3.2 &mdash; prompt A/B</text>
+        <text class="ss" x="215" y="172" style="font-size:13px">pass rate only: A __/3 &middot; B __/3</text>
 
         <rect class="bx g" x="16" y="186" width="668" height="30" rx="4"/>
         <text class="tt" x="28" y="206" style="font-size:13.5px">capstone &mdash; GB-186, Day 2</text>
-        <text class="ss" x="266" y="206" style="font-weight:700;fill:#5fbf8f">?</text>
-        <text class="ss" x="344" y="206" style="font-weight:700;fill:#5fbf8f">?</text>
-        <text class="ss" x="422" y="206" style="font-weight:700;fill:#5fbf8f">?</text>
-        <text class="ss" x="506" y="206" style="font-weight:700;fill:#5fbf8f">?</text>
-        <text class="ss" x="588" y="206" style="font-weight:700;fill:#5fbf8f">?</text>
-        <text class="ss" x="652" y="206" style="font-weight:700;fill:#5fbf8f">?</text>
+        <text class="ss" x="216" y="206" style="font-weight:700;fill:#5fbf8f">?</text>
+        <text class="ss" x="265" y="206" style="font-weight:700;fill:#5fbf8f">?</text>
+        <text class="ss" x="296" y="206" style="font-weight:700;fill:#5fbf8f">?</text>
+        <text class="ss" x="347" y="206" style="font-weight:700;fill:#5fbf8f">?</text>
+        <text class="ss" x="391" y="206" style="font-weight:700;fill:#5fbf8f">?</text>
+        <text class="ss" x="442" y="206" style="font-weight:700;fill:#5fbf8f">?</text>
+        <text class="ss" x="500" y="206" style="font-weight:700;fill:#5fbf8f">?</text>
+        <text class="ss" x="549" y="206" style="font-weight:700;fill:#5fbf8f">?</text>
+        <text class="ss" x="578" y="206" style="font-weight:700;fill:#5fbf8f">?</text>
+        <text class="ss" x="617" y="206" style="font-weight:700;fill:#5fbf8f">?</text>
+        <text class="ss" x="666" y="206" style="font-weight:700;fill:#5fbf8f">?</text>
 
         <text class="lb a" x="4" y="248">WHY YOU DO NOT PREPARE FIRST</text>
         <rect class="bx r" x="4" y="258" width="692" height="86" rx="8"/>
@@ -1045,7 +1077,7 @@
 </section>
 
 <!-- 20 -->
-<section class="slide" data-sec="Review quiz" data-title="Review quiz - eight questions" data-notes="Use this quiz to check your understanding. Answer each question yourself first, then hover Answer to check. A wrong answer is useful: the wrong options are ideas many experienced engineers believe. Q1 - C: branching, pipelines, merge and ownership stay; the hard work moved to context going in and checking output. B is tempting, but agent code needs more careful review, not less. Q2 - A: you pay in credits and again in confident wrong guesses that reach the code. B is real but small. Q3 - D: credits arrive late and per user, so you cannot link them to one ticket while you work. B is wrong because turns are a live signal, not a more accurate cost. Q4 - B: the answer is already decided and tests check it fast. A, C and D each hide a real decision. Q5 - D: mode sets how much it may change without asking. C is tempting, but the model is the same in every mode. Q6 - A: large and rarely needed, so only the requests that need it should pay. B feels careful but charges every request. Q7 - B: repeating a rule means the chat is past its best. A is not a sign by itself. Q8 - C: an unclear definition of done stops delegation most often. A and D are real gates, but they fail less often." data-tier="K">
+<section class="slide" data-sec="Review quiz" data-title="Review quiz - eight questions" data-notes="Use this quiz to check your understanding. Answer each question yourself first, then hover Answer to check. A wrong answer is useful: the wrong options are ideas many experienced engineers believe. Q1 - C: branching, pipelines, merge and ownership stay; the hard work moved to context going in and checking output. B is tempting, but agent code needs more careful review, not less. Q2 - A: you pay in credits and again in confident wrong guesses that reach the code. B is real but small. Q3 - D: your Copilot client reports them - slash usage in the CLI, or the context window control in the VS Code chat box. A is wrong because the agent cannot see its own cost, and it cannot run slash usage either. B is your monthly allowance across every chat, not one run. Q4 - B: the answer is already decided and tests check it fast. A, C and D each hide a real decision. Q5 - D: mode sets how much it may change without asking. C is tempting, but the model is the same in every mode. Q6 - A: large and rarely needed, so only the requests that need it should pay. B feels careful but charges every request. Q7 - B: repeating a rule means the chat is past its best. A is not a sign by itself. Q8 - C: an unclear definition of done stops delegation most often. A and D are real gates, but they fail less often." data-tier="K">
   <h2>Review quiz &mdash; eight questions<span class="tag q">QUIZ</span></h2>
   <div class="body qgrid">
     <div class="qcol">
@@ -1053,8 +1085,8 @@
         <div class="qo"><span><i>A</i>Branching and CI/CD need redesign</span><span><i>B</i>Review matters less now</span><span class="c" data-why="Writing code got cheap. The hard work moved to the context going in and checking what comes out. Review needs more care, not less."><i>C</i>Context and checking got harder</span><span><i>D</i>Nothing; it just runs faster</span></div></div>
       <div class="qc"><div class="qh"><b>2</b><span>The re-discovery tax is &ldquo;paid twice&rdquo;. What are the two payments?</span><a class="ans" tabindex="0">Answer</a></div>
         <div class="qo"><span class="c" data-why="You see the credits and turns. You do not see the wrong guesses that reach code &mdash; they cost more. The others are real costs, but not re-discovery."><i>A</i>Credits, plus wrong guesses in code</span><span><i>B</i>Reading files again after compaction</span><span><i>C</i>Once by engineer, once by reviewer</span><span><i>D</i>Licence seats, plus tooling</span></div></div>
-      <div class="qc"><div class="qh"><b>3</b><span>Lab 1.1 counts turns and rework, not AI credits. Why?</span><a class="ans" tabindex="0">Answer</a></div>
-        <div class="qo"><span><i>A</i>Credit numbers are confidential</span><span><i>B</i>Turns measure cost more accurately</span><span><i>C</i>Six numbers are easier to teach</span><span class="c" data-why="You cannot see credits for one ticket while you work. Turns are visible live. Credits are still the true cost &mdash; check them afterwards."><i>D</i>Credits arrive late, per user</span></div></div>
+      <div class="qc"><div class="qh"><b>3</b><span>Where do one run&rsquo;s tokens and AIC come from?</span><a class="ans" tabindex="0">Answer</a></div>
+        <div class="qo"><span><i>A</i>You ask Copilot to count them</span><span><i>B</i>The status bar, for this run</span><span><i>C</i>A report GitHub sends next day</span><span class="c" data-why="Your client reports them: /usage in the CLI, the context window control in VS Code. The agent cannot see its own cost, or run /usage."><i>D</i>Your Copilot client reports them</span></div></div>
       <div class="qc"><div class="qh"><b>4</b><span>Four tickets arrive. Which belongs on the fast, cheap model?</span><a class="ans" tabindex="0">Answer</a></div>
         <div class="qo"><span><i>A</i>Retry rules after a partial failure</span><span class="c" data-why="The answer is already decided, and the build and tests check it fast. The others need a hard decision &mdash; but split them, and the simple part can use the fast model."><i>B</i>Mappers for an agreed contract</span><span><i>C</i>Why the month-end total differs</span><span><i>D</i>A migration two services depend on</span></div></div>
     </div>

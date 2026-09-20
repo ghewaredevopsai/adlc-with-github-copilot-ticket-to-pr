@@ -307,23 +307,35 @@ At the end, Prompt C-M-last records the last chat and adds up all the rows into 
 | 8 | C11 | before you start chat 9 |
 | 9 | C12, C13, C14 | with **C-M-last**, after C14 |
 
-Before you send a record prompt, pick the **default agent** in the same chat. Some custom agents
-cannot write files. Record prompts are not counted as turns.
+Before you send a record prompt, do two things in that chat. Pick the **default agent** — some custom
+agents cannot write files. Then read the model and the usage numbers for that chat: `/usage` in
+Copilot CLI, or the **context window control** in the VS Code chat input box. You type them into the
+record prompt, so read them before you record and the record prompt's own cost stays out of the row.
+The agent cannot run `/usage` for you. Record prompts are not counted as turns.
 
 **Prompt C-M** · Agent mode · default agent · **same chat**
 
 ```text
-Record this chat. Count from this chat only, and do not guess beyond it:
+Record this chat. Do not ask me anything: if something below is missing, write "-" and carry on.
+Count from this chat only, and do not guess beyond it:
 - Turns: prompts I sent in this chat. Not this prompt.
 - Tool calls: files you read and searches you ran. Not Jira or Confluence calls, edits or terminal commands.
 - Asked: questions you asked me that a file in either repository could have answered.
 - Rework: prompts I sent that start with "A check failed".
 - Churn: lines you wrote earlier in this chat and later replaced or deleted, to the nearest ten.
 - Assumptions: decisions you made in this chat that no file in either repository answered.
+The model and usage numbers below come from my Copilot client, read just before I sent this
+prompt. Copy them exactly. Do not calculate, estimate, round or replace them.
+- Model: <paste the model name>
+- Model ID: <paste the model id, if it is shown>
+- Input tokens: <paste input tokens>
+- Output tokens: <paste output tokens>
+- Total tokens: <paste total tokens>
+- AIC: <paste AI credits>
 Append one row to course/labs/my-work/capstone-chats.md, and under it one line
 "Assumptions (N):" with the list, N being the number for this chat. If the file does not exist, create it
 with this header:
-| Chat | Turns | Tool calls | Asked | Rework | Churn |
+| Chat | Model | Model ID | Turns | Tool calls | Asked | Rework | Churn | Input tokens | Output tokens | Total tokens | AIC |
 In the Chat column, write a few words on what this chat did, for example "spec (design agent)".
 Change no other file. Show me the row.
 ```
@@ -735,19 +747,30 @@ Stage 8 is done. Pick the **default agent** in this chat, and record the run.
 **Prompt C-M-last** · Agent mode · default agent · **same chat**
 
 ```text
-Record this chat, then total the whole capstone. For this chat, count from this chat only:
+Record this chat, then total the whole capstone. Do not ask me anything: if something below is
+missing, write "-" and carry on. For this chat, count from this chat only:
 - Turns: prompts I sent in this chat. Not this prompt.
 - Tool calls: files you read and searches you ran. Not Jira or Confluence calls, edits or terminal commands.
 - Asked: questions you asked me that a file in either repository could have answered.
 - Rework: prompts I sent that start with "A check failed".
 - Churn: lines you wrote earlier in this chat and later replaced or deleted, to the nearest ten.
 - Assumptions: decisions you made in this chat that no file in either repository answered.
+The model and usage numbers below come from my Copilot client, read just before I sent this
+prompt. Copy them exactly. Do not calculate, estimate, round or replace them.
+- Model: <paste the model name>
+- Model ID: <paste the model id, if it is shown>
+- Input tokens: <paste input tokens>
+- Output tokens: <paste output tokens>
+- Total tokens: <paste total tokens>
+- AIC: <paste AI credits>
 Append this chat's row to course/labs/my-work/capstone-chats.md, in the same shape as its rows,
 with its own "Assumptions (N):" line.
 Create metrics.md at the root of global-bank-account with this table:
-| Run | Ticket | Turns | Tool calls | Asked | Rework | Churn | Credits |
-Row "capstone", ticket "GB-186": the sum of each column over all rows of capstone-chats.md.
-Leave the Credits column as "(day 2)". I fill it in at the end of Day 2 from the Copilot usage view. Below it, the Lab 1.1 row from "git show GB-142-lab-1.1:metrics.md" in global-bank-account.
+| Run | Ticket | Model | Model ID | Turns | Tool calls | Asked | Rework | Churn | Input tokens | Output tokens | Total tokens | AIC |
+Row "capstone", ticket "GB-186": add up every number column over all rows of capstone-chats.md,
+counting a "-" as zero. For Model and Model ID, list every different model in those rows, separated
+by semicolons.
+Below it, the Lab 1.1 row from "git show GB-142-lab-1.1:metrics.md" in global-bank-account.
 Under the table, add:
 - "Per criterion:" asked, rework and churn divided by the number of acceptance criteria in
   global-bank-account/specs/GB-186.md for the capstone, and by 5 for Lab 1.1.
@@ -755,14 +778,15 @@ Under the table, add:
   Lab 1.1 assumptions count from its metrics.md.
 - "Stage reached:" the last stage in capstone-chats.md.
 - "Chats:" a copy of the rows of capstone-chats.md.
-- "How counted:" anything you could not count exactly.
+- "How counted:" anything you could not count exactly, including every "-" you counted as zero.
 Then in global-bank-account run: git add metrics.md && git commit -m "GB-186 capstone metrics".
 Show me metrics.md.
 ```
 
-**Reading it.** Asked, rework and churn **per criterion** compare fairly with Lab 1.1. Turns and tool
-calls do not: GB-186 is two repositories, six criteria and eight stages, so those are
-higher for size alone. The **assumptions** total compares directly: it is what two days of writing
+**Reading it.** Asked, rework and churn **per criterion** compare fairly with Lab 1.1. Turns, tool
+calls, tokens and AIC do not: GB-186 is two repositories, six criteria and eight stages, so those
+are higher for size alone. Read the credits as the price of a whole lifecycle run, not against
+Lab 1.1. The **assumptions** total compares directly: it is what two days of writing
 things down was meant to shrink. For the debrief, look at the Chats rows: which stage cost the most,
 and was it worth it?
 
@@ -772,7 +796,7 @@ eight stages includes the cost of learning them. That is a finding, not a failur
 ### If you are behind
 
 There is no catch-up tag for the capstone. When the 50 minutes end, stop. Send Prompt C-M in every
-chat you have not recorded yet, then Prompt C-M-last in the chat you were in. The stage you reached
+chat you have not recorded yet, reading its model and usage numbers first, then Prompt C-M-last in the chat you were in. The stage you reached
 is often the one that costs most, which is itself a finding.
 
 ---

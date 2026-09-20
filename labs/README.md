@@ -37,8 +37,8 @@ When Copilot asks to run a command or a tool, **read the request before you sele
 ## What you count
 
 Labs 1.1, 2.2 and the capstone are **measured runs**. Labs 1.1 and 2.2 end with a **record prompt**:
-Copilot counts six numbers from the chat, writes them to `metrics.md` and commits it. You do not
-count by hand. The six numbers are:
+Copilot counts five numbers from the chat, takes six more that you read off your Copilot client,
+writes the row to `metrics.md` and commits it. You do not count by hand. One row holds:
 
 | Counter | What it counts |
 |---|---|
@@ -47,7 +47,19 @@ count by hand. The six numbers are:
 | **Asked** | Questions Copilot asked you that a file in the repository could have answered |
 | **Rework** | Repair prompts you had to send (they also count as turns) |
 | **Churn** | Lines Copilot wrote and then threw away, to the nearest ten |
-| **Credits** | The AI credits the run actually cost. Copilot cannot see this, so the record prompt writes `(day 2)` and you fill it in at the end of Day 2 from the Copilot usage view |
+| **Model**, **Model ID** | The model that did the work, by name and by id. You read them, and type them in |
+| **Input / Output / Total tokens** | The tokens the run used. You read them, and type them in |
+| **AIC** | AI credits — what the run actually cost. You read it, and type it in |
+
+**Reading the model and usage numbers.** In **Copilot CLI**, type `/usage`. In **VS Code**, hover the
+**context window control** in the chat input box and select it; the popover gives that chat's total
+tokens and its cost in credits, and the model name is in the model picker. Where a number is not
+shown, leave that line empty and the record prompt writes `-`. Read them **before** you send the
+record prompt, so that prompt's own cost stays out of the run.
+
+⚠️ **The agent cannot run `/usage`,** and it cannot see its own tokens or credits. It is a command to
+your Copilot client. The Copilot icon in the status bar is a different number again: your monthly
+allowance across every chat.
 
 The record prompt also asks for **assumptions**: the decisions the agent made that no file in the
 repository answered. That list is the clearest sign of what your team has not written down, and it

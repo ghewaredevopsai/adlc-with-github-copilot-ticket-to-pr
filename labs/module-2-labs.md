@@ -418,14 +418,19 @@ Commit even if some checks still fail. `metrics.md` records what happened.
 
 ### Record
 
-Send this as soon as the checks pass, in the **same chat as Prompt 2.2-A**. Your 35 minutes run
+Read the model and the usage numbers for this chat first, the same way as in Lab 1.1: `/usage` in
+Copilot CLI, or the **context window control** in the VS Code chat input box. Read them before you
+record, so the record prompt's own cost stays out of the run. The agent cannot run `/usage` for you.
+
+Then send this in the **same chat as Prompt 2.2-A**, as soon as the checks pass. Your 35 minutes run
 until you send it. It is Prompt 1.1-M with the run and the commit
 message changed. Prompt 2.2-check was a different chat, so it is not counted.
 
 **Prompt 2.2-M** · Agent mode · **same chat**
 
 ```text
-The run is over. Count these numbers from this chat only, and do not guess beyond it:
+The run is over. Do not ask me anything: if something below is missing, write "-" and carry on.
+Count these numbers from this chat only, and do not guess beyond it:
 - Turns: prompts I sent, from the opener to the last repair. Not this prompt.
 - Tool calls: files you read and searches you ran. Not the Jira fetch, edits or terminal commands.
 - Asked: questions you asked me that a file in the repository could have answered.
@@ -433,20 +438,36 @@ The run is over. Count these numbers from this chat only, and do not guess beyon
 - Churn: lines you wrote earlier in this run and later replaced or deleted, to the nearest ten.
 - Assumptions: decisions you made that no file in the repository answered, for example a design
   choice, a rule or a name. List them in one line each.
+The model and usage numbers below come from my Copilot client, read just before I sent this
+prompt. Copy them exactly. Do not calculate, estimate, round or replace them.
+- Model: <paste the model name>
+- Model ID: <paste the model id, if it is shown>
+- Input tokens: <paste input tokens>
+- Output tokens: <paste output tokens>
+- Total tokens: <paste total tokens>
+- AIC: <paste AI credits>
+If more than one model ran during the work, list each one in Model and Model ID, separated by
+semicolons.
 Create metrics.md at the root of global-bank-account with this table and one row:
-| Run | Ticket | Turns | Tool calls | Asked | Rework | Churn | Credits |
-Use "2.2" as the run and "GB-142" as the ticket. Leave the Credits column as "(day 2)". I fill it in at the end of Day 2 from the Copilot usage view. Add the Lab 1.1 row below it, copied from
-"git show GB-142-lab-1.1:metrics.md". Under the table, add "Assumptions (N):" with N the number you
-counted and the list below it, then a line "Lab 1.1 assumptions:" with the count from that same
-Lab 1.1 file, then one line "Notes:" with my notes below, and one line "How counted:" that says
-anything you could not count exactly.
+| Run | Ticket | Model | Model ID | Turns | Tool calls | Asked | Rework | Churn | Input tokens | Output tokens | Total tokens | AIC |
+Use "2.2" as the run and "GB-142" as the ticket.
+Add the Lab 1.1 row below it, copied from "git show GB-142-lab-1.1:metrics.md".
+Under the table, add "Assumptions (N):" with N the number you counted and the list below it, then a
+line "Lab 1.1 assumptions:" with the count from that same Lab 1.1 file, then one line "Notes:" with
+my notes below, and one line "How counted:" that says anything you could not count exactly, and says
+that the model, token and AIC values were read from my client just before this prompt, so they leave
+this prompt out.
 Then run: git add -A && git commit -m "GB-142 lab 2.2 metrics". Show me the table.
 My notes: <anything unusual, or leave empty>
 ```
 
-Report what you measured, even if a number got worse. Then write one line under the row: which of your
-three files helped most in this run, and how you know. The references list under each answer shows
-which files Copilot used.
+**A `-` in any usage column?** You sent the prompt with those lines unchanged. Type the values into
+`metrics.md` yourself and commit again, as in Lab 1.1.
+
+Report what you measured, even if a number got worse. **AIC is the real bill**, so read that column in
+both rows first: it is what the three files cost or saved on this one ticket. Then write one line under
+the row: which of your three files helped most in this run, and how you know. The references list
+under each answer shows which files Copilot used.
 
 **Then compare the two fixes.** The numbers are not the only result. Both runs solved the same
 ticket, so you can read the code side by side:
@@ -456,7 +477,7 @@ git diff GB-142-lab-1.1 GB-142-lab-2.2 -- src/main/java
 ```
 
 Ask two questions. Does the Lab 1.1 fix match the decision in your ADR, or did the agent invent its
-own rule? Does the Lab 2.2 fix follow the ADR? A run with the same six numbers but the agreed design
+own rule? Does the Lab 2.2 fix follow the ADR? A run with the same numbers but the agreed design
 is still a better run, and that difference is what your files bought.
 
 Finally, compare your instruction file with the reference version:
