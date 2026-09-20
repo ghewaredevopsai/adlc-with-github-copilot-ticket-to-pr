@@ -188,9 +188,12 @@ not know your reasons, so you supply them. If you do not know why an option was 
 
 ```text
 Read course/labs/lab-keys.md to find my Jira key for GB-142. Use the atlassian MCP tools to
-read that Jira issue, including its comments.
+read that Jira issue, including its comments. Read Jira only. Do not add a comment to the
+issue, and do not change it.
 I will write an ADR for how we suppress duplicate postings. You write it down; I supply the
-decision. Ask me these questions one at a time, and wait for each answer:
+decision. Ask me these questions here in the chat, one at a time. Ask the first question,
+then stop and end your turn. Do not run any tool while you are asking. Wait for my answer
+before you ask the next one.
 1. Which options did we consider?
 2. Which option did we choose, and why?
 3. Which options did we reject, and why was each one rejected?
@@ -207,6 +210,10 @@ Do not change any other file.
 
 **What you should see:** four questions, one at a time. Then the ADR file, and one new pointer line
 in the instruction file.
+
+If you see **Add Comment** run instead, the agent is posting your questions to the Jira issue. It
+has no way to ask you, so it reached for the nearest tool it did have. Stop it, delete the comments
+it added to the issue, and start a new chat with the prompt above.
 
 **Check:** open the ADR. It has a **Rejected options** section with at least one option and a reason
 (or "Unknown - ask the team"). Check that every reason in it is one you gave.

@@ -82,14 +82,17 @@ In this lab Copilot is your **interviewer and drafter**. It asks the questions a
 
 ```text
 Read course/labs/lab-keys.md to find my Jira key for GB-147. Use the atlassian MCP tools to read
-that Jira issue, including its comments.
+that Jira issue, including its comments. Read Jira only. Do not add a comment to the issue,
+and do not change it.
 Do not design or build anything. Your job is to interview me, so that I can write a spec.
 First read these files in global-bank-account: docs/glossary.md, docs/architecture.md, every ADR
 in docs/adr/, and src/main/java/in/brainupgrade/accountservice/posting/domain/Posting.java.
 Then list every decision someone must make to build this ticket that the ticket does not answer.
 For each decision, name the file that answers it, or write "not answered".
-Then ask me about the "not answered" decisions, one question at a time, most important first.
-Wait for my answer before you ask the next question. Stop after six questions.
+Then ask me about the "not answered" decisions here in the chat, one question at a time, most
+important first. Ask the first question, then stop and end your turn. Do not run any tool
+while you are asking. Wait for my answer before you ask the next question. Stop after six
+questions.
 ```
 
 **How to answer:** reply in one line. If the ticket, the files and you do not know the answer,
