@@ -74,7 +74,7 @@ ticket differently.
    ```
 
 4. Add the reference knowledge files that you did not write in Module 2. The agents in this module
-   point at them: the test rules, the ADR index, three ADRs and three files in `docs/`. This keeps your
+   point at them: two instruction files, the ADR index, four ADRs and three files in `docs/`. This keeps your
    own `copilot-instructions.md`, `domain.instructions.md`, `ADR-001`, skill file and prompt file:
 
    ```bash
@@ -87,6 +87,10 @@ ticket differently.
    ```
 
    `ADR-007` is the reference version of your own `ADR-001`. Keep both. The ADR index lists `ADR-007`.
+
+   **`nothing to commit, working tree clean`?** Your branch already has all ten files, because you
+   took Module 3's `m3-start` catch-up and that checkpoint includes them. Nothing is wrong. Go on to
+   Lab 4.1.
 
 ---
 
@@ -280,10 +284,13 @@ from the checkpoint. Skip the `git checkout` line if you wrote your own in the s
 
 ```bash
 cd ~/adlc-copilot-training/global-bank-account
-git switch -c GB-207-lab-4.2
+git switch -c GB-207-lab-4.2 lab-4.1-agents
 git checkout m5-start -- .github/agents/design.agent.md .github/agents/coding.agent.md
 git commit -m "Lab 4.2: add the design and coding agents"
 ```
+
+The branch name `lab-4.1-agents` is written out on purpose. Without it, git starts the branch from
+whatever you have checked out now, and every step below still appears to work.
 
 **B — catching up.** Start from the checkpoint. It holds all four agent definitions.
 
@@ -302,6 +309,17 @@ mvn test
 ```
 
 `GB-207-base` marks where you started. Later you use it to produce the diff for the review agent.
+
+> [!IMPORTANT]
+> **`fatal: a branch named 'GB-207-base' already exists`?** It is left over from an earlier run, and
+> it still points at where *that* run started. Delete it before you go on, or the diff you hand the
+> review agent in Step 4 is the wrong change and every finding is judged against it:
+>
+> ```bash
+> git branch -D GB-207-base GB-207-lab-4.2
+> ```
+>
+> Then run your Set up block again. `GB-207-lab-4.2` raises the same error for the same reason.
 
 Check that the four agents (**design**, **coding**, **test**, **review**) appear in the Chat view's
 agent list.
@@ -346,8 +364,9 @@ folder. Where the spec lists open questions, choose the answer the ticket suppor
 each choice in your summary.
 Do not write or change any test. Tests are the test agent's job.
 Run "mvn test" in global-bank-account until the existing tests pass.
-When you finish, write a summary: every file you changed, and why. Show it in the chat.
-Do not edit anything under handoff/. Then stop.
+When you finish, write your summary to global-bank-account/handoff/GB-207/coding-summary.md:
+every file you changed, and why. Show it in the chat as well.
+That file is the only thing you may write under handoff/. Do not change spec.md. Then stop.
 ```
 
 **What you should see:** changes under `src/main`, no changes under `src/test`, and a summary naming
@@ -362,8 +381,8 @@ git status
 # expect: changes under src/main, and your new handoff/ folder. Nothing under src/test
 ```
 
-Create `global-bank-account/handoff/GB-207/coding-summary.md` and paste the summary into it. Then
-commit:
+The agent writes `coding-summary.md` itself. Check that the file exists and says what the chat said,
+then commit:
 
 ```bash
 git add -A && git commit -m "GB-207: design and coding"
@@ -379,21 +398,24 @@ Start a **new chat**. Pick the **test** agent from the agent list.
 Read course/labs/lab-keys.md to find my Jira key for GB-207. Use the atlassian MCP tools to
 read that Jira issue, including its comments. The ticket is your only description of the
 change.
-Do not open any file under global-bank-account/handoff/.
+Do not read any file under global-bank-account/handoff/. Your own report, written at the end,
+is the only thing you may write there.
 Write tests in global-bank-account/src/test that prove each acceptance criterion, as the
 ticket states it. Follow global-bank-account/.github/instructions/tests.instructions.md.
 Do not change any file under src/main.
 Run "mvn test" in global-bank-account. If a new test fails, do not change it to pass.
 A failing test is a finding: report it.
-Show the test report in the chat, in the shape your agent file gives. Then stop.
+Write the test report to global-bank-account/handoff/GB-207/test-report.md, in the shape your
+agent file gives. Show it in the chat as well. Then stop.
 ```
 
 **What you should see:** new tests under `src/test`, a test run, and a report with one line per
 acceptance criterion.
 
 **Check:**
-1. Scroll through the chat and look at each file the agent opened. Did it open anything in
-   `handoff/`? If yes, this reading was not separate. Write that down in your verdict.
+1. Scroll through the chat and look at each file the agent opened. Did it **read** anything in
+   `handoff/`? Writing its own `test-report.md` at the end is expected. Reading `spec.md` or
+   `coding-summary.md` is not: that reading was not separate. Write that down in your verdict.
 2. Run the tests yourself, and note every failing test by name:
 
    ```bash
@@ -402,8 +424,8 @@ acceptance criterion.
 
 A failing test here is not a problem with the lab. It may be the finding you are looking for.
 
-Create `global-bank-account/handoff/GB-207/test-report.md` and paste the report into it. Then commit
-the tests and produce the diff for the reviewer:
+The agent writes `test-report.md` itself. Check that the file exists, then commit the tests and
+produce the diff for the reviewer:
 
 ```bash
 git add -A && git commit -m "GB-207: tests from the ticket"
