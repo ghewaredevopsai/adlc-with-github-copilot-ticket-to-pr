@@ -11,22 +11,10 @@ It takes about 20 minutes. Most of that time is the first Maven build.
 
 You **clone** the repositories. You do not fork them. Your changes stay on branches in your own clone.
 
-```
-$HOME/
-  adlc-with-github-copilot-ticket-to-pr/   the course: outline, slides, lab guides
-  global-bank/                             the code you work on
-    global-bank-platform/                  scripts to run the whole app, and the map of all services
-    global-bank-account/
-    global-bank-authentication/
-    global-bank-customer/
-    global-bank-transaction/
-    global-bank-rules/
-    global-bank-frontend/
-```
-
-You open these as **one VS Code workspace** in Step 3, which shows them side by side as `course`
-and `global-bank-*`. The folders stay where they are on disk; the workspace only changes how VS
-Code presents them.
+Step 2 clones the course repository into your home folder, and the seven Global Bank repositories
+into `$HOME/global-bank`. Step 3 opens them as **one VS Code workspace**, which shows them side by
+side as `course` and `global-bank-*`. That is the view the lab guides describe. The folders stay
+where they are on disk; the workspace only changes how VS Code presents them.
 
 `$HOME` is your home folder:
 
