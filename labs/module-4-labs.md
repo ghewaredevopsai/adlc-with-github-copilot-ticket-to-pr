@@ -25,7 +25,7 @@ ticket differently.
    repository:
 
    ```bash
-   cd ~/adlc-with-github-copilot-ticket-to-pr
+   cd ~/adlc-copilot-training/adlc-with-github-copilot-ticket-to-pr
    python labs/scripts/setup-lab-tickets.py --module 4
    ```
 
@@ -38,7 +38,7 @@ ticket differently.
    branch from it. Lab 3.2's eval runs stay behind on `eval-lab-3.2-A` and `eval-lab-3.2-B`:
 
    ```bash
-   cd ~/global-bank/global-bank-account
+   cd ~/adlc-copilot-training/global-bank-account
    git switch GB-151-lab-3.1
    git status --short
    # must print nothing. If it lists files, commit them first
@@ -256,7 +256,7 @@ Pick **one** starting point.
 from the checkpoint. Skip the `git checkout` line if you wrote your own in the stretch lab 4.1+.
 
 ```bash
-cd ~/global-bank/global-bank-account
+cd ~/adlc-copilot-training/global-bank-account
 git switch -c GB-207-lab-4.2
 git checkout m5-start -- .github/agents/design.agent.md .github/agents/coding.agent.md
 git commit -m "Lab 4.2: add the design and coding agents"
@@ -265,7 +265,7 @@ git commit -m "Lab 4.2: add the design and coding agents"
 **B — catching up.** Start from the checkpoint. It holds all four agent definitions.
 
 ```bash
-cd ~/global-bank/global-bank-account
+cd ~/adlc-copilot-training/global-bank-account
 git switch -c GB-207-lab-4.2 m5-start
 ```
 

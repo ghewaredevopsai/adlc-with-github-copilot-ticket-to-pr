@@ -28,7 +28,7 @@ decisions you stopped the agent from inventing.**
 **1. Load the Module 5 ticket.** In a terminal at the root of the course repository:
 
 ```bash
-cd ~/adlc-with-github-copilot-ticket-to-pr
+cd ~/adlc-copilot-training/adlc-with-github-copilot-ticket-to-pr
 python labs/scripts/setup-lab-tickets.py --module 5
 ```
 
@@ -41,7 +41,7 @@ then **MCP: List Servers**).
 **3. Make your branch.** In a terminal in `global-bank-account`:
 
 ```bash
-cd ~/global-bank/global-bank-account
+cd ~/adlc-copilot-training/global-bank-account
 git fetch --tags --force
 git switch -c GB-147-lab-5.1 m5-start && mvn test
 # "already exists"? The branch is from an earlier run: see "Running a lab again" in README.md

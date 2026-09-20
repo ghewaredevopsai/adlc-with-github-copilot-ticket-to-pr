@@ -29,7 +29,7 @@ You merge nothing in these labs. Both labs stop where a person would decide.
 **1. Load this module's ticket into your Jira.** In a terminal, at the root of the course repository:
 
 ```bash
-cd ~/adlc-with-github-copilot-ticket-to-pr
+cd ~/adlc-copilot-training/adlc-with-github-copilot-ticket-to-pr
 python labs/scripts/setup-lab-tickets.py --module 7
 ```
 
@@ -41,13 +41,13 @@ It loads **GB-158** and adds its key to `labs/lab-keys.md`.
 **3. Make a branch in each repository.** In a terminal:
 
 ```bash
-cd ~/global-bank/global-bank-account
+cd ~/adlc-copilot-training/global-bank-account
 git fetch --tags --force origin
 git switch -c GB-158-settlement-date m7-start && mvn test
 # "already exists"? The branch is from an earlier run: see "Running a lab again" in README.md
 # expect: Tests run: 4, Failures: 0, Errors: 0
 
-cd ~/global-bank/global-bank-transaction
+cd ~/adlc-copilot-training/global-bank-transaction
 git fetch --tags --force origin
 git switch -c GB-158-send-settlement-date m7-start
 mvn test
@@ -166,7 +166,7 @@ git diff --numstat m7-start -- src/test
 **Check 3 — old and new callers, against the running service.** Start the service in one terminal:
 
 ```bash
-cd ~/global-bank/global-bank-account
+cd ~/adlc-copilot-training/global-bank-account
 mvn spring-boot:run
 ```
 
@@ -358,13 +358,13 @@ Someone else has already written a GB-158 change in both repositories. It is on 
 Commit or stop any Lab 7.1 work first. Then, in a terminal:
 
 ```bash
-cd ~/global-bank/global-bank-account
+cd ~/adlc-copilot-training/global-bank-account
 git fetch origin
 git switch m7.2-review
 mvn test
 # expect: Tests run: 5, Failures: 0, Errors: 0
 
-cd ~/global-bank/global-bank-transaction
+cd ~/adlc-copilot-training/global-bank-transaction
 git fetch origin
 git switch m7.2-review
 mvn test
@@ -474,8 +474,8 @@ Run 1 and Run 2 results to the debrief.
 When you finish, go back to your own branches if you want to keep working on them:
 
 ```bash
-cd ~/global-bank/global-bank-account && git switch GB-158-settlement-date
-cd ~/global-bank/global-bank-transaction && git switch GB-158-send-settlement-date
+cd ~/adlc-copilot-training/global-bank-account && git switch GB-158-settlement-date
+cd ~/adlc-copilot-training/global-bank-transaction && git switch GB-158-send-settlement-date
 ```
 
 ---

@@ -20,7 +20,7 @@ repository where your team's knowledge is written down, and compare. The goal is
 **1. Load the ticket into your Jira.** In a VS Code terminal:
 
 ```bash
-cd ~/adlc-with-github-copilot-ticket-to-pr
+cd ~/adlc-copilot-training/adlc-with-github-copilot-ticket-to-pr
 python labs/scripts/setup-lab-tickets.py --module 1
 ```
 
@@ -33,7 +33,7 @@ Check that **atlassian** is running (**MCP: List Servers**).
 **3. Make your branch and check the build:**
 
 ```bash
-cd ~/global-bank/global-bank-account
+cd ~/adlc-copilot-training/global-bank-account
 git fetch --tags --force
 git switch -c GB-142-lab-1.1 m1-start && mvn test
 # expect: Tests run: 4, Failures: 0, Errors: 0, Skipped: 0
@@ -50,11 +50,11 @@ git branch -D GB-142-lab-1.1                          # or: git branch -m GB-142
 **Starting the whole course again?** Clear every lab branch and your own notes first:
 
 ```bash
-cd ~/global-bank/global-bank-account
+cd ~/adlc-copilot-training/global-bank-account
 git switch main
 git fetch --tags --force                              # the tags move when a lab is fixed
 git branch | grep -v '^\*\| main$' | xargs -r git branch -D
-cd ~/adlc-with-github-copilot-ticket-to-pr && git pull && rm -f labs/my-work/*
+cd ~/adlc-copilot-training/adlc-with-github-copilot-ticket-to-pr && git pull && rm -f labs/my-work/*
 ```
 
 Your Jira keeps the tickets from the earlier run, with their comments. The setup script finds them

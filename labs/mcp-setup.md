@@ -40,12 +40,11 @@ starting with a letter.
 The repositories must be in these folders, in your home folder:
 
 ```text
-$HOME/
+$HOME/adlc-copilot-training/
   adlc-with-github-copilot-ticket-to-pr/   the course repository
-  global-bank/
-    global-bank-account/
-    global-bank-transaction/
-    ...                                    the other Global Bank repositories
+  global-bank-account/
+  global-bank-transaction/
+  ...                                      the other Global Bank repositories
 ```
 
 [participants-instructions.md](../participants-instructions.md) shows how to clone them.

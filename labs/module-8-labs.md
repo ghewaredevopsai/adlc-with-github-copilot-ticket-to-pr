@@ -19,7 +19,7 @@ Your trainer runs the Module 8 quiz (the last slide of the deck) before the caps
 repository:
 
 ```bash
-cd ~/adlc-with-github-copilot-ticket-to-pr
+cd ~/adlc-copilot-training/adlc-with-github-copilot-ticket-to-pr
 python labs/scripts/setup-lab-tickets.py --module 8
 ```
 
@@ -40,8 +40,8 @@ branches from Lab 7.1. Then run `git status`. It must say `nothing to commit`.
 
 ```bash
 # branches already there from an earlier run? see "Running a lab again" in README.md
-cd ~/global-bank/global-bank-account && git switch -c GB-151-lab-8.1 capstone-start
-cd ~/global-bank/global-bank-transaction && git switch -c GB-151-lab-8.1 capstone-start
+cd ~/adlc-copilot-training/global-bank-account && git switch -c GB-151-lab-8.1 capstone-start
+cd ~/adlc-copilot-training/global-bank-transaction && git switch -c GB-151-lab-8.1 capstone-start
 ```
 
 **4. Open the workspace.** In VS Code, open `adlc-labs.code-workspace`. Check that the **atlassian**
@@ -154,7 +154,7 @@ Show me the diff when you finish.
 knowledge changes with the work that made it wrong.
 
 ```bash
-cd ~/global-bank/global-bank-account
+cd ~/adlc-copilot-training/global-bank-account
 git status
 git add docs .github
 git commit -m "GB-151: ADR-011 reversal as a second posting, and fix the doc it made wrong"
@@ -272,7 +272,7 @@ questions that a file could have answered.
 **1. Load the ticket** when your trainer says so:
 
 ```bash
-cd ~/adlc-with-github-copilot-ticket-to-pr
+cd ~/adlc-copilot-training/adlc-with-github-copilot-ticket-to-pr
 python labs/scripts/setup-lab-tickets.py --module capstone
 ```
 
@@ -282,8 +282,8 @@ You should see `created GB-186 ...`, and `labs/lab-keys.md` now has a line for G
 
 ```bash
 # branches already there from an earlier run? see "Running a lab again" in README.md
-cd ~/global-bank/global-bank-account && git switch -c GB-186-capstone capstone-start && mvn test | grep "Tests run:" | tail -1
-cd ~/global-bank/global-bank-transaction && git switch -c GB-186-capstone capstone-start && mvn test | grep "Tests run:" | tail -1
+cd ~/adlc-copilot-training/global-bank-account && git switch -c GB-186-capstone capstone-start && mvn test | grep "Tests run:" | tail -1
+cd ~/adlc-copilot-training/global-bank-transaction && git switch -c GB-186-capstone capstone-start && mvn test | grep "Tests run:" | tail -1
 ```
 
 Expect `Tests run: 4, Failures: 0` in `global-bank-account` and `Tests run: 2, Failures: 0` in
@@ -487,8 +487,8 @@ coding agent's chat (from C3). A run has at most three repairs.
 **Check 1 — both builds (AC6).** In a terminal:
 
 ```bash
-cd ~/global-bank/global-bank-account && mvn test | grep "Tests run:" | tail -1
-cd ~/global-bank/global-bank-transaction && mvn test | grep "Tests run:" | tail -1
+cd ~/adlc-copilot-training/global-bank-account && mvn test | grep "Tests run:" | tail -1
+cd ~/adlc-copilot-training/global-bank-transaction && mvn test | grep "Tests run:" | tail -1
 ```
 
 Pass: `Failures: 0, Errors: 0` in both, and more tests than the 4 and 2 you started with.
@@ -496,11 +496,11 @@ Pass: `Failures: 0, Errors: 0` in both, and more tests than the 4 and 2 you star
 **Start both services** for the next checks. Use two new terminals, and leave them running:
 
 ```bash
-cd ~/global-bank/global-bank-account && mvn spring-boot:run
+cd ~/adlc-copilot-training/global-bank-account && mvn spring-boot:run
 ```
 
 ```bash
-cd ~/global-bank/global-bank-transaction && mvn spring-boot:run
+cd ~/adlc-copilot-training/global-bank-transaction && mvn spring-boot:run
 ```
 
 Wait until each one prints `Started`. The account service listens on port 8086, and the transaction
@@ -541,7 +541,7 @@ Pass: ACC-PAYROLL's `balanceMinor` is now **450000 lower** than in check 2 (thre
 the `target/` folder (git ignores it):
 
 ```bash
-cd ~/global-bank/global-bank-transaction
+cd ~/adlc-copilot-training/global-bank-transaction
 python -c "import json;[json.dump({'batchId':'PAY-SIZE-%d'%n,'valueDate':'2026-09-30','items':[{'employeeAccountId':'ACC-CLIENT-002','amountMinor':100,'reference':'E%d'%i} for i in range(1,n+1)]},open('target/batch-%d.json'%n,'w')) for n in (500,501)]"
 curl -s http://localhost:8086/account/api/v1/accounts/ACC-PAYROLL/balance; echo
 curl -s -X POST http://localhost:8087/transaction/api/v1/disbursements \
@@ -669,8 +669,8 @@ no criteria, no file count and no test names is a warning sign.
 **Commit** in both repositories:
 
 ```bash
-cd ~/global-bank/global-bank-account && git add -A && git commit -m "GB-186: post a payroll batch all-or-nothing"
-cd ~/global-bank/global-bank-transaction && git add -A && git commit -m "GB-186: send each payroll run as one batch"
+cd ~/adlc-copilot-training/global-bank-account && git add -A && git commit -m "GB-186: post a payroll batch all-or-nothing"
+cd ~/adlc-copilot-training/global-bank-transaction && git add -A && git commit -m "GB-186: send each payroll run as one batch"
 ```
 
 You do not push. Your committed branches and the two description files are the output of this stage.
@@ -698,8 +698,8 @@ Show me the diff when you finish.
 Commit it in the same branches, so the knowledge travels with the code:
 
 ```bash
-cd ~/global-bank/global-bank-account && git add -A && git commit -m "GB-186: update the docs this change made wrong"
-cd ~/global-bank/global-bank-transaction && git add -A && git commit -m "GB-186: update the docs this change made wrong"
+cd ~/adlc-copilot-training/global-bank-account && git add -A && git commit -m "GB-186: update the docs this change made wrong"
+cd ~/adlc-copilot-training/global-bank-transaction && git add -A && git commit -m "GB-186: update the docs this change made wrong"
 ```
 
 **Prompt C13** · Agent mode · default agent · base model · **same chat**
@@ -787,8 +787,8 @@ On Windows, run these commands in **Git Bash**: a patch file written by PowerShe
 **1. Export your change** and send the two files to your neighbour, in the workshop chat:
 
 ```bash
-cd ~/global-bank/global-bank-account && git diff capstone-start GB-186-capstone > ~/GB-186-account.patch
-cd ~/global-bank/global-bank-transaction && git diff capstone-start GB-186-capstone > ~/GB-186-transaction.patch
+cd ~/adlc-copilot-training/global-bank-account && git diff capstone-start GB-186-capstone > ~/GB-186-account.patch
+cd ~/adlc-copilot-training/global-bank-transaction && git diff capstone-start GB-186-capstone > ~/GB-186-transaction.patch
 ```
 
 **2. Apply your neighbour's change** on a new branch in each repository. Save their files as
@@ -796,8 +796,8 @@ cd ~/global-bank/global-bank-transaction && git diff capstone-start GB-186-capst
 switch.
 
 ```bash
-cd ~/global-bank/global-bank-account && git switch -c GB-186-neighbour capstone-start && git apply --index ~/neighbour-account.patch
-cd ~/global-bank/global-bank-transaction && git switch -c GB-186-neighbour capstone-start && git apply --index ~/neighbour-transaction.patch
+cd ~/adlc-copilot-training/global-bank-account && git switch -c GB-186-neighbour capstone-start && git apply --index ~/neighbour-account.patch
+cd ~/adlc-copilot-training/global-bank-transaction && git switch -c GB-186-neighbour capstone-start && git apply --index ~/neighbour-transaction.patch
 ```
 
 **3. Review it:**
@@ -819,6 +819,6 @@ that theirs did not, and why?
 **4. Clean up** and go back to your own branches:
 
 ```bash
-cd ~/global-bank/global-bank-account && git reset --hard && git switch GB-186-capstone
-cd ~/global-bank/global-bank-transaction && git reset --hard && git switch GB-186-capstone
+cd ~/adlc-copilot-training/global-bank-account && git reset --hard && git switch GB-186-capstone
+cd ~/adlc-copilot-training/global-bank-transaction && git reset --hard && git switch GB-186-capstone
 ```

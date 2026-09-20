@@ -71,25 +71,24 @@ Follow Step 2 of [participants-instructions.md](../participants-instructions.md)
 fork. You end with this layout, and the lab workspace depends on it:
 
 ```text
-$HOME/
+$HOME/adlc-copilot-training/
   adlc-with-github-copilot-ticket-to-pr/   this course repository
-  global-bank/
-    global-bank-account/                   the labs work here
-    global-bank-transaction/               and here, from Module 7
-    ...                                    the other five Global Bank repositories
+  global-bank-account/                     the labs work here
+  global-bank-transaction/                 and here, from Module 7
+  ...                                      the other five Global Bank repositories
 ```
 
 Then fetch the lab checkpoints. They are git tags, and a plain clone does not always bring them all:
 
 ```bash
-cd ~/global-bank/global-bank-account && git fetch --tags --force
-cd ~/global-bank/global-bank-transaction && git fetch --tags --force
+cd ~/adlc-copilot-training/global-bank-account && git fetch --tags --force
+cd ~/adlc-copilot-training/global-bank-transaction && git fetch --tags --force
 ```
 
 Always add `--force`. The checkpoints were updated on 20 September. Without `--force`, git keeps any
 older copy of a tag that is already in your clone. With it, git replaces the old copy with the current one.
 
-Check that it worked: `git -C ~/global-bank/global-bank-account tag` lists `m1-start` … `capstone-start`.
+Check that it worked: `git -C ~/adlc-copilot-training/global-bank-account tag` lists `m1-start` … `capstone-start`.
 
 **Nothing is pushed.** You work on local branches in your own clone for the whole course. Where a lab
 produces a pull request, the output is the pull request description, saved as a file.
@@ -97,9 +96,9 @@ produces a pull request, the output is the pull request description, saved as a 
 ### 3. Build both once
 
 ```bash
-cd ~/global-bank/global-bank-account && git switch -c setup-check m1-start && mvn test
+cd ~/adlc-copilot-training/global-bank-account && git switch -c setup-check m1-start && mvn test
 # expect: Tests run: 4, Failures: 0, Errors: 0
-cd ~/global-bank/global-bank-transaction && git switch -c setup-check m1-start && mvn test
+cd ~/adlc-copilot-training/global-bank-transaction && git switch -c setup-check m1-start && mvn test
 # expect: Tests run: 2, Failures: 0, Errors: 0
 ```
 
@@ -168,7 +167,7 @@ git switch -c GB-142-lab-1.1 m1-start
 another branch:
 
 ```bash
-cd ~/global-bank/global-bank-account
+cd ~/adlc-copilot-training/global-bank-account
 git switch main
 git branch -D GB-142-lab-1.1          # the branch you are about to make again
 ```
@@ -187,7 +186,7 @@ git branch | grep -v '^\*\| main$' | xargs -r git branch -D
 Then, in the course repository, clear your own notes and measurements:
 
 ```bash
-cd ~/adlc-with-github-copilot-ticket-to-pr
+cd ~/adlc-copilot-training/adlc-with-github-copilot-ticket-to-pr
 git pull
 rm -f labs/my-work/*
 ```

@@ -28,7 +28,7 @@ rejected. The deck explains all three.
    give the agent in Lab 2.2 must be the same code you gave it in Lab 1.1.
 
    ```bash
-   cd ~/global-bank/global-bank-account
+   cd ~/adlc-copilot-training/global-bank-account
    git switch -c lab-2.1-knowledge m1-start && mvn test
    # expect: Tests run: 4, Failures: 0, Errors: 0
    ```
@@ -311,7 +311,7 @@ The agent starts in a **new chat**, so it remembers nothing from Lab 1.1. Your b
 ### Step 1 — Branch from your own Lab 2.1 work
 
 ```bash
-cd ~/global-bank/global-bank-account
+cd ~/adlc-copilot-training/global-bank-account
 git status --short
 # must print nothing. If it lists your three files, Lab 2.1 Step 6 did not commit them:
 # go back and commit them on lab-2.1-knowledge first

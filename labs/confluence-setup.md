@@ -44,7 +44,7 @@ Cannot create pages? See [If something goes wrong](#if-something-goes-wrong).
 In a VS Code terminal, at the root of the course repository:
 
 ```bash
-cd ~/adlc-with-github-copilot-ticket-to-pr
+cd ~/adlc-copilot-training/adlc-with-github-copilot-ticket-to-pr
 python labs/scripts/setup-lab-tickets.py --confluence
 ```
 

@@ -11,10 +11,24 @@ It takes about 20 minutes. Most of that time is the first Maven build.
 
 You **clone** the repositories. You do not fork them. Your changes stay on branches in your own clone.
 
-Step 2 clones the course repository into your home folder, and the seven Global Bank repositories
-into `$HOME/global-bank`. Step 3 opens them as **one VS Code workspace**, which shows them side by
-side as `course` and `global-bank-*`. That is the view the lab guides describe. The folders stay
-where they are on disk; the workspace only changes how VS Code presents them.
+Everything for this course goes in one folder: `$HOME/adlc-copilot-training`.
+
+Step 2 clones all eight repositories side by side inside it — the course repository and the seven
+Global Bank repositories. Step 3 opens them as **one VS Code workspace**, which shows them as
+`course` and `global-bank-*`. That is the view the lab guides describe. The folders stay where they
+are on disk; the workspace only changes how VS Code presents them.
+
+```text
+$HOME/adlc-copilot-training/
+  adlc-with-github-copilot-ticket-to-pr/   this course repository
+  global-bank-platform/
+  global-bank-account/                     most labs work here
+  global-bank-authentication/
+  global-bank-customer/
+  global-bank-transaction/                 and here, from Module 7
+  global-bank-rules/
+  global-bank-frontend/
+```
 
 `$HOME` is your home folder:
 
@@ -76,10 +90,10 @@ One prompt clones all eight. Paste it into Copilot Chat:
 Clone eight repositories for a training course. Use PowerShell on Windows. Use the normal shell on
 macOS or Linux.
 
-1. Clone the course repository into my home folder, keeping the default folder name:
+1. Create the folder "$HOME/adlc-copilot-training" if it does not exist.
+2. Inside "$HOME/adlc-copilot-training", clone each of these with git clone. Keep the default folder
+   names, so all eight folders sit side by side.
    https://github.com/ghewaredevopsai/adlc-with-github-copilot-ticket-to-pr.git
-2. Create the folder "$HOME/global-bank" if it does not exist.
-3. Inside "$HOME/global-bank", clone each of these with git clone. Keep the default folder names.
    https://github.com/brainupgrade-in/global-bank-platform.git
    https://github.com/brainupgrade-in/global-bank-account.git
    https://github.com/brainupgrade-in/global-bank-authentication.git
@@ -87,14 +101,13 @@ macOS or Linux.
    https://github.com/brainupgrade-in/global-bank-transaction.git
    https://github.com/brainupgrade-in/global-bank-rules.git
    https://github.com/brainupgrade-in/global-bank-frontend.git
-4. If a folder already exists, do not clone it again. Run "git pull" inside it instead.
-5. Do not fork any repository.
-6. At the end, show me a table of all eight folders with the current branch of each one.
+3. If a folder already exists, do not clone it again. Run "git pull" inside it instead.
+4. Do not fork any repository.
+5. At the end, show me a table of all eight folders with the current branch of each one.
 ```
 
-You should get a table of eight rows. The course repository sits directly in your home folder, and
-the seven Global Bank folders sit side by side inside `global-bank`. The start script in Step 4
-looks for them there.
+You should get a table of eight rows, all eight folders side by side inside
+`$HOME/adlc-copilot-training`. The start script in Step 4 looks for them there.
 
 ## Step 3. Open the lab workspace
 
@@ -104,7 +117,7 @@ Bank repositories side by side. Open it once, and use it for the whole course.
 In VS Code: **File**, then **Open Workspace from File**, then choose:
 
 ```
-$HOME/adlc-with-github-copilot-ticket-to-pr/adlc-labs.code-workspace
+$HOME/adlc-copilot-training/adlc-with-github-copilot-ticket-to-pr/adlc-labs.code-workspace
 ```
 
 If VS Code asks whether you trust the authors, choose **Yes, I trust the authors**. Copilot does
@@ -166,7 +179,7 @@ Use the prompt for your operating system.
 ### macOS or Linux
 
 ```text
-Start the Global Bank app on localhost. Run this command in the terminal, from the global-bank folder in my home folder:
+Start the Global Bank app on localhost. Run this command in the terminal, from the adlc-copilot-training folder in my home folder:
 
 bash global-bank-platform/scripts/local.sh start
 
@@ -181,15 +194,15 @@ Use mvn, not ./mvnw. The ./mvnw wrapper does not work in these repositories.
 The start script is a bash script, so on Windows Copilot starts each part with PowerShell.
 
 ```text
-Start the Global Bank app on localhost. Use PowerShell. Work from the global-bank folder in my home folder.
+Start the Global Bank app on localhost. Use PowerShell. Work from the adlc-copilot-training folder in my home folder.
 Use mvn, not ./mvnw. The ./mvnw wrapper does not work in these repositories.
 
-1. Create the folder "$HOME\global-bank\logs" if it does not exist.
+1. Create the folder "$HOME\adlc-copilot-training\logs" if it does not exist.
 2. Build each of these five folders with: mvn -B -q clean package -DskipTests
    global-bank-authentication, global-bank-customer, global-bank-account, global-bank-transaction, global-bank-rules
    Build them one at a time. If a build fails, stop and show me the error.
 3. Start each service in the background from its own folder, with its log in the logs folder. For example:
-   Start-Process java -ArgumentList '-jar','target\authentication.jar' -WorkingDirectory "$HOME\global-bank\global-bank-authentication" -RedirectStandardOutput "$HOME\global-bank\logs\auth.log" -RedirectStandardError "$HOME\global-bank\logs\auth.err.log" -WindowStyle Hidden
+   Start-Process java -ArgumentList '-jar','target\authentication.jar' -WorkingDirectory "$HOME\adlc-copilot-training\global-bank-authentication" -RedirectStandardOutput "$HOME\adlc-copilot-training\logs\auth.log" -RedirectStandardError "$HOME\adlc-copilot-training\logs\auth.err.log" -WindowStyle Hidden
    Each folder has one jar in target: authentication.jar, customer.jar, account.jar, transaction.jar, rules.jar.
 4. Wait until each service answers its health address with "UP". Try every 5 seconds, for up to 2 minutes:
    http://localhost:8084/auth/actuator/health
@@ -198,7 +211,7 @@ Use mvn, not ./mvnw. The ./mvnw wrapper does not work in these repositories.
    http://localhost:8087/transaction/actuator/health
    http://localhost:8090/rules/actuator/health
 5. In global-bank-frontend, run "npm install" once. Then start the web app in the background:
-   Start-Process npm.cmd -ArgumentList 'run','dev' -WorkingDirectory "$HOME\global-bank\global-bank-frontend" -RedirectStandardOutput "$HOME\global-bank\logs\frontend.log" -RedirectStandardError "$HOME\global-bank\logs\frontend.err.log" -WindowStyle Hidden
+   Start-Process npm.cmd -ArgumentList 'run','dev' -WorkingDirectory "$HOME\adlc-copilot-training\global-bank-frontend" -RedirectStandardOutput "$HOME\adlc-copilot-training\logs\frontend.log" -RedirectStandardError "$HOME\adlc-copilot-training\logs\frontend.err.log" -WindowStyle Hidden
 6. Wait until http://localhost:4200 answers.
 7. Show me a table of the six parts with UP or DOWN. If a part is DOWN, show me the end of its log file and explain the error.
 ```
@@ -236,7 +249,7 @@ Stop the app at the end of the day, or before you start it again.
 ### macOS or Linux
 
 ```text
-Stop the Global Bank app. Run this command from the global-bank folder in my home folder:
+Stop the Global Bank app. Run this command from the adlc-copilot-training folder in my home folder:
 
 bash global-bank-platform/scripts/local.sh stop
 
@@ -263,6 +276,6 @@ Then check each port again and show me a table of the ports with STOPPED or STIL
 | `MavenWrapperMain` not found | Something ran `./mvnw` | Use `mvn`. The wrapper files are not in these repositories. |
 | A Maven download hangs or fails | Your network needs a proxy for Maven | Ask your IT team for the Maven proxy settings for `~/.m2/settings.xml`. |
 | `port 8084 is in use` (or another port) | Something else uses that port, or an old copy is still running | Run Step 6, then start again. |
-| `not found next to global-bank-platform` | A repository is missing or in the wrong folder | Run Step 3 again. All seven folders must be inside `global-bank`. |
+| `not found next to global-bank-platform` | A repository is missing or in the wrong folder | Run Step 2 again. All eight folders must sit side by side inside `adlc-copilot-training`. |
 | The web page loads, but Step 5 says FAIL | The web app is showing demo data | Ask Copilot to show you the log of the service that is down. |
 | `Permission denied` on `local.sh` | The script is not marked as runnable | Start it with `bash` in front, as the prompt does. |
