@@ -261,7 +261,7 @@
 </section>
 
 <!-- 7 -->
-<section class="slide" data-sec="2 &middot; Defining an agent" data-title="Seven parts of an agent file" data-notes="This is like Module 3's prompt anatomy, one level up. Each of the seven parts prevents a specific problem. Most people write the role and the goal, and stop there. Allowed tools is often far too wide. If a reviewer has edit access, it will eventually edit. A sentence in the file will not stop it. Removing the permission will. Inputs is where you write down the deliberate blindness from the previous section. The hand-off contract fixes the shape of the file this agent passes on. Without it, the next agent receives random prose and must guess. The Never section matters most. Like stop conditions in Module 3, it is the only part that limits the agent when it feels confident." data-tier="K">
+<section class="slide" data-sec="2 &middot; Defining an agent" data-title="Seven parts of an agent file" data-notes="This is like Module 3's prompt anatomy, one level up. Each of the seven parts prevents a specific problem. Most people write the role and the goal, and stop there. Allowed tools is often far too wide. If a reviewer has edit access, it will eventually edit. A sentence in the file will not stop it. Removing the permission will. But edit is not the only way to write a file. An agent that is allowed to run terminal commands can write anything, because a terminal command can. We saw this in a real run: a test agent with no edit permission wrote a Java test file by running shell commands. So an agent that must not change the code needs both permissions withheld. Inputs is where you write down the deliberate blindness from the previous section. The hand-off contract fixes the shape of the file this agent passes on. Without it, the next agent receives random prose and must guess. The Never section matters most. Like stop conditions in Module 3, it is the only part that limits the agent when it feels confident." data-tier="K">
   <h2>Seven parts of an agent file &mdash; and the two nobody writes<span class="tag k">2</span></h2>
   <div class="body g1">
     <div>
@@ -281,7 +281,7 @@
         <rect class="bx a grow w3" x="4" y="158" width="1172" height="52" rx="6"/>
         <text class="tt" x="24" y="190">Allowed tools</text>
         <text class="ss" x="250" y="190" style="font-size:14px">Read, edit, terminal, tests &mdash; listed.</text>
-        <text class="ss" x="700" y="190" style="font-size:14px;fill:#d98a3d">A reviewer that can edit, will. Remove the permission.</text>
+        <text class="ss" x="700" y="190" style="font-size:14px;fill:#d98a3d">A reviewer that can edit, will &mdash; and a terminal edits too.</text>
         <text class="lb a" x="1162" y="172" text-anchor="end">OFTEN TOO WIDE</text>
         <rect class="bx grow w4" x="4" y="216" width="1172" height="52" rx="6"/>
         <text class="tt" x="24" y="248">Inputs</text>
@@ -307,7 +307,7 @@
 </section>
 
 <!-- 8 -->
-<section class="slide" data-sec="2 &middot; Defining an agent" data-title="A real agent file - the review agent" data-notes="This is a real agent file. It lives in .github/agents/ in the repository. Look at two parts closely. First, allowed tools: read, search and run the tests, but no edits. That is a permission, not a preference. A reviewer that fixes what it finds becomes an author, and then nobody independent has checked the work. Second, the inputs section says what is withheld and why. Writing it down stops a helpful colleague adding the rationale back later. The checks are ordered. Check 5, what is missing, comes last because people and agents both skip it. Missing things are not on the screen. Also note the file has no words like be careful. Named checks and named nevers change behaviour. Adjectives do not." data-tier="D">
+<section class="slide" data-sec="2 &middot; Defining an agent" data-title="A real agent file - the review agent" data-notes="This is a real agent file. It lives in .github/agents/ in the repository. Look at two parts closely. First, allowed tools: read, search and run the tests, but no edits. That is a permission, not a preference. Notice that running the tests needs a terminal, and a terminal can write any file. So this reviewer still could change the code. If you need that closed, withhold the terminal too, or name in the Never section the one command it may run. A reviewer that fixes what it finds becomes an author, and then nobody independent has checked the work. Second, the inputs section says what is withheld and why. Writing it down stops a helpful colleague adding the rationale back later. The checks are ordered. Check 5, what is missing, comes last because people and agents both skip it. Missing things are not on the screen. Also note the file has no words like be careful. Named checks and named nevers change behaviour. Adjectives do not." data-tier="D">
   <h2>A real agent file &mdash; <code>review.agent.md</code><span class="tag k">2</span></h2>
   <div class="body g55">
     <div>
@@ -348,9 +348,10 @@ Read, search, run the tests.
         <li><b>1</b> criteria &middot; <b>2</b> scope &middot; <b>3</b> ADRs &middot; <b>4</b> do the tests fail on the old code? &middot; <b>5</b> <em>what is missing</em></li>
         <li>Number 5 is last because <b>everyone skips it</b>. Missing things are not on the screen.</li>
       </ul>
-      <h3>Two important lines</h3>
+      <h3>Three important lines</h3>
       <ul>
         <li><b>&ldquo;No edits&rdquo; is a permission.</b> A reviewer that fixes things becomes an author.</li>
+        <li><b>&ldquo;Run the tests&rdquo; is a permission too</b> &mdash; and a terminal writes files. Name what it may run.</li>
         <li><b>The withheld input is written down</b>, so nobody adds it back by mistake.</li>
       </ul>
       <div class="take"><b>No &ldquo;be thorough&rdquo; or &ldquo;be careful&rdquo;.</b> Named checks and named &ldquo;nevers&rdquo; work. Adjectives do not.</div>
