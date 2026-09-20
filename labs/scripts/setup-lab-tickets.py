@@ -267,10 +267,17 @@ def run_jira(env, tickets, check_only):
     me = api.call("GET", "/rest/api/2/myself")
     api.call("GET", f"/rest/api/2/project/{project}")
     print(f"Jira OK: signed in as {me.get('displayName') or me.get('name')}, project {project}.")
-    if check_only:
-        write_keys(read_keys(), f"Jira project {project}", env)
-        return
     keys = read_keys()
+    if check_only:
+        for ticket in tickets:  # find what is already there, so --check repairs a lost mapping
+            existing = jira_find(api, project, ticket)
+            if existing:
+                keys[ticket["key"]] = existing
+                print(f"  exists   {ticket['key']:<9} {existing}")
+            else:
+                print(f"  missing  {ticket['key']:<9} run without --check to create it")
+        write_keys(keys, f"Jira project {project}", env)
+        return
     fresh = []
     for ticket in tickets:
         existing = jira_find(api, project, ticket)
