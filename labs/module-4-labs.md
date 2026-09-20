@@ -107,14 +107,23 @@ The deck's "Seven parts of an agent file" slide lists them. Use this table to ch
 |---|---|---|
 | Role | One sentence: what this agent is for | Could anyone mix it up with another agent's role? |
 | Goal | The file or report it must produce | Is it a file or report, or only a chat? |
-| Allowed tools | The tools, listed | Does the `tools:` list allow something a Never line forbids? |
+| Allowed tools | The tools, listed | Does the list allow something a Never line forbids? Does it cover what the Goal needs? Remember `execute` can write files |
 | Inputs | What it gets, and a line saying what it does not get | Is the withheld input written down as a line? |
 | Guardrails | The team rules for this role | Do they point to repository files, instead of copying them? |
 | Hand-off contract | The shape of the report it passes on | Could a person judge the report without reading the chat? |
 | Never | What it must not do, even when that seems reasonable | Would this line stop the agent when it feels sure it is right? |
 
-A rule in the text is only a request. The `tools:` list is what VS Code enforces. If the file says
-"no edits", the `tools:` list must not contain `edit`.
+A rule in the text is only a request. The `tools:` list is what VS Code enforces, and it does enforce
+it: an agent without `edit` cannot use the edit tool.
+
+**`edit` is not the only way to write a file.** An agent with `execute` can run a terminal command,
+and a terminal command can write anything. We saw this in a real run: a test agent with
+`tools: [read, search, execute, atlassian/jira_get_issue]` wrote a 41-line Java test file by running
+shell commands. It broke no rule. It used the tool it was given.
+
+So "this agent must not change the code" needs **both** `edit` and `execute` kept out of the tools
+list. Give `execute` only to an agent that must run something, and say in its Never section what it
+may run.
 
 ### Step 1 — Draft the test agent
 
@@ -186,8 +195,17 @@ of reason for each. Then stop.
 **What you should see:** a second file with the same shape. The checklist has five numbered checks,
 with "what is missing" last.
 
-**Check:** replace `TODO-OWNER` with your name. Look at the `tools:` line. If it contains `edit`,
-delete `edit` now. A reviewer that can edit will edit one day, whatever the text says.
+**Check:** replace `TODO-OWNER` with your name. Then look at the `tools:` line and ask two questions.
+
+1. Does it contain `edit`? Delete `edit` now. A reviewer that can edit will edit one day, whatever
+   the text says.
+2. Does it contain `execute`? Then it can still write any file, through the terminal. Keep `execute`
+   only if your review agent has to run something, for example `mvn test` for checklist item 4. If
+   you keep it, add a Never line naming what it may run, and nothing else. If you do not need it,
+   delete it too.
+
+This is the whole lesson of the lab in one line. The text is a request; the tools list is the fence;
+and a fence with `execute` in it has a gate.
 
 ### Step 3 — Audit both files
 
@@ -200,12 +218,15 @@ Read global-bank-account/.github/agents/test.agent.md and
 global-bank-account/.github/agents/review.agent.md. Audit each file against these questions:
 1. Does it have all seven sections: Role, Goal, Allowed tools, Inputs, Guardrails,
    Hand-off contract, Never?
-2. Does the tools list in the frontmatter allow anything that a Never line forbids?
-3. Does the Allowed tools section say the same as the tools list?
-4. Is the withheld input written as its own line in Inputs?
-5. Could a person judge the hand-off report without reading the chat?
-6. Does any line use an adjective instead of a named check, for example "be thorough"?
-7. Does the review checklist end with "what is missing"?
+2. Does the tools list allow anything that a Never line forbids? Count "execute" as a way to
+   write files, because a terminal command can write anything.
+3. Does the tools list contain everything the Goal needs? An agent told to write tests needs
+   "edit". Name any tool the Goal needs and the list does not have.
+4. Does the Allowed tools section say the same as the tools list?
+5. Is the withheld input written as its own line in Inputs?
+6. Could a person judge the hand-off report without reading the chat?
+7. Does any line use an adjective instead of a named check, for example "be thorough"?
+8. Does the review checklist end with "what is missing"?
 Answer as one table per file: question, yes or no, and the line you are quoting.
 Do not suggest a rewrite of the whole file. Do not edit anything.
 ```
@@ -247,7 +268,9 @@ git commit -m "Lab 4.1: test and review agent definitions"
 ### Record
 
 Write down, for your debrief:
-- Which tools did Copilot choose for the review agent at first? Did it include `edit`?
+- Which tools did Copilot choose for the review agent at first? Did it include `edit`? Did it
+  include `execute`, which can write files just as well?
+- Did the audit find a tool the Goal needs and the list did not have?
 - Which audit questions came back "no"?
 - The one line you changed by hand that you think matters most.
 
