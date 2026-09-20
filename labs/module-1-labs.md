@@ -36,9 +36,32 @@ Check that **atlassian** is running (**MCP: List Servers**).
 cd ~/global-bank/global-bank-account
 git fetch --tags --force
 git switch -c GB-142-lab-1.1 m1-start && mvn test
-# "already exists"? The branch is from an earlier run: see "Running a lab again" in README.md
 # expect: Tests run: 4, Failures: 0, Errors: 0, Skipped: 0
 ```
+
+**"a branch named ... already exists"?** You ran this lab before. The tests do not run, because the
+two commands are chained. Delete the old branch, or rename it to keep it, and run the block again:
+
+```bash
+git switch main
+git branch -D GB-142-lab-1.1                          # or: git branch -m GB-142-lab-1.1 first-try
+```
+
+**Starting the whole course again?** Clear every lab branch and your own notes first:
+
+```bash
+cd ~/global-bank/global-bank-account
+git switch main
+git fetch --tags --force                              # the tags move when a lab is fixed
+git branch | grep -v '^\*\| main$' | xargs -r git branch -D
+cd ~/adlc-with-github-copilot-ticket-to-pr && git pull && rm -f labs/my-work/*
+```
+
+Your Jira keeps the tickets from the earlier run, with their comments. The setup script finds them
+and makes no copies, so running it again is safe.
+
+**Any number other than 4** means you are not on a fresh branch from `m1-start`. Check with
+`git branch --show-current`.
 
 If you see long `jacoco` stack traces, your branch came from an old tag. Run `git switch main` and
 `git branch -D GB-142-lab-1.1`, then repeat this step.

@@ -30,9 +30,18 @@ rejected. The deck explains all three.
    ```bash
    cd ~/global-bank/global-bank-account
    git switch -c lab-2.1-knowledge m1-start && mvn test
-   # "already exists"? The branch is from an earlier run: see "Running a lab again" in README.md
    # expect: Tests run: 4, Failures: 0, Errors: 0
    ```
+
+   **"already exists"?** You ran Lab 2.1 before. The tests do not run when the branch is not
+   created. Delete the old branch, or rename it to keep it, then run the block again:
+
+   ```bash
+   git switch main
+   git branch -D lab-2.1-knowledge GB-142-lab-2.2      # both, so Lab 2.2 starts clean too
+   ```
+
+   **Any number other than 4** means the branch did not come from `m1-start`.
 
 ---
 
@@ -256,7 +265,7 @@ git status --short
 # must print nothing. If it lists your three files, Lab 2.1 Step 6 did not commit them:
 # go back and commit them on lab-2.1-knowledge first
 git switch -c GB-142-lab-2.2 lab-2.1-knowledge
-# "already exists"? The branch is from an earlier run: see "Running a lab again" in README.md
+# "already exists"? git switch main && git branch -D GB-142-lab-2.2, then run this block again
 git show --stat lab-2.1-knowledge | tail -5
 # expect: your three knowledge files
 mvn test
