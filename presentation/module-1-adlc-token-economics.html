@@ -656,11 +656,11 @@
 </section>
 
 <!-- 13 -->
-<section class="slide" data-sec="4 &middot; Mode &amp; model" data-title="Mode is a permission boundary" data-notes="Mode is not a convenience setting. It decides how much of your repository the agent may change without asking you. People call this the blast radius. Ask mode changes nothing and only answers. Edit mode changes only the files you name. Agent mode chooses files itself and can run commands. The model is the same in all three modes. Only the permission changes. Start with the lowest mode that does the job, and move up only when you need to. A common habit among experienced users is running everything in Agent mode. Then they spend time reviewing changes they never needed. Your attention as a reviewer is your scarcest resource, and Agent mode uses the most of it." data-tier="R">
+<section class="slide" data-sec="4 &middot; Mode &amp; model" data-title="Mode is a permission boundary" data-notes="Mode is not a convenience setting. It decides how much of your repository the agent may change without asking you. People call this the blast radius. Ask mode changes nothing and only answers. Plan mode writes a plan for the change but touches no code, and you hand that plan to Agent when you agree with it. Agent mode chooses files itself, edits them and can run commands. The model is the same in all three modes. Only the permission changes. Start with the lowest mode that does the job, and move up only when you need to. A common habit among experienced users is running everything in Agent mode. Then they spend time reviewing changes they never needed. Your attention as a reviewer is your scarcest resource, and Agent mode uses the most of it." data-tier="R">
   <h2>Mode decides how much the agent may change<span class="tag k">4</span></h2>
   <div class="body g1">
     <div>
-      <svg viewBox="0 0 1180 448" role="img" aria-label="Ask, Edit and Agent modes compared by how much they can change">
+      <svg viewBox="0 0 1180 448" role="img" aria-label="Ask, Plan and Agent modes compared by how much they can change">
         <text class="lb" x="4" y="14">HOW MUCH IT CAN CHANGE WITHOUT ASKING YOU &mdash; THE &ldquo;BLAST RADIUS&rdquo;</text>
         <rect class="bx g grow" x="4" y="24" width="384" height="236" rx="8"/>
         <text class="tt" x="24" y="56" style="font-size:18px">Ask</text>
@@ -671,13 +671,13 @@
         <text class="lb" x="24" y="200">REVIEW EFFORT</text>
         <text class="ss" x="24" y="222">None &mdash; nothing changed</text>
         <rect class="bx a grow" x="398" y="24" width="384" height="236" rx="8"/>
-        <text class="tt" x="418" y="56" style="font-size:18px">Edit</text>
-        <text class="ss" x="418" y="82" style="font-size:14px;font-weight:600">Changes only what you point at.</text>
+        <text class="tt" x="418" y="56" style="font-size:18px">Plan</text>
+        <text class="ss" x="418" y="82" style="font-size:14px;font-weight:600">Writes a plan. Changes no code.</text>
         <text class="lb" x="418" y="118">USE IT FOR</text>
-        <text class="ss" x="418" y="140">A change where you</text>
-        <text class="ss" x="418" y="160">know the files</text>
+        <text class="ss" x="418" y="140">Agreeing the approach</text>
+        <text class="ss" x="418" y="160">before any code</text>
         <text class="lb" x="418" y="200">REVIEW EFFORT</text>
-        <text class="ss" x="418" y="222">A small diff you expected</text>
+        <text class="ss" x="418" y="222">Read the plan, then hand off</text>
         <rect class="bx r grow" x="792" y="24" width="384" height="236" rx="8"/>
         <text class="tt" x="812" y="56" style="font-size:18px">Agent</text>
         <text class="ss" x="812" y="82" style="font-size:14px;font-weight:600">Chooses files itself. Runs commands.</text>
@@ -1001,7 +1001,7 @@
       <h3>Four questions before every request</h3>
       <ul>
         <li><b>What kind of task?</b> Mechanical, reasoning, or review.</li>
-        <li><b>Which mode?</b> Ask, Edit, or Agent.</li>
+        <li><b>Which mode?</b> Ask, Plan, or Agent.</li>
         <li><b>What goes in the window?</b> Chat, file, or tool call.</li>
         <li><b>Interactive or hand off?</b> Check the four gates.</li>
       </ul>
@@ -1059,7 +1059,7 @@
         <div class="qo"><span><i>A</i>Retry rules after a partial failure</span><span class="c" data-why="The answer is already decided, and the build and tests check it fast. The others need a hard decision &mdash; but split them, and the simple part can use the fast model."><i>B</i>Mappers for an agreed contract</span><span><i>C</i>Why the month-end total differs</span><span><i>D</i>A migration two services depend on</span></div></div>
     </div>
     <div class="qcol">
-      <div class="qc"><div class="qh"><b>5</b><span>When you pick Ask, Edit or Agent mode, what are you deciding?</span><a class="ans" tabindex="0">Answer</a></div>
+      <div class="qc"><div class="qh"><b>5</b><span>When you pick Ask, Plan or Agent mode, what are you deciding?</span><a class="ans" tabindex="0">Answer</a></div>
         <div class="qo"><span><i>A</i>How much of the repo it reads</span><span><i>B</i>Which model answers, and the cost</span><span><i>C</i>How hard the answer thinks</span><span class="c" data-why="Mode sets how much the agent can change. The model is the same in every mode, so agent mode does not think harder."><i>D</i>How much it changes without asking</span></div></div>
       <div class="qc"><div class="qh"><b>6</b><span>A 40-page design doc is needed for one ticket in ten. Where should it go?</span><a class="ans" tabindex="0">Answer</a></div>
         <div class="qo"><span class="c" data-why="Only the requests that need it should pay for it. The instruction file makes every request pay. A summary plus a link is fine; deleting the source is not."><i>A</i>Fetched by a tool call</span><span><i>B</i>In the main instruction file</span><span><i>C</i>Pasted into every new chat</span><span><i>D</i>Cut to three bullets; source deleted</span></div></div>

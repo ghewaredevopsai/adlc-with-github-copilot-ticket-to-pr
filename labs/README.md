@@ -23,7 +23,8 @@ to run it:
 
 > **Prompt 1.1-A** · Agent mode · base model · **new chat**
 
-- **Agent mode:** in the Copilot Chat box, set the mode to **Agent**. Some steps say **Ask**.
+- **Agent mode:** in the Copilot Chat box, set the mode to **Agent**. Some steps say **Ask** or
+  **Plan**. Your list has these three: Edit mode was removed from Copilot in 2026.
 - **Base model** or **premium reasoning model:** pick the model class the step names, from the model
   list in the chat box. Your trainer shows which models count as which on Day 1.
 - **New chat:** start a new chat first (the **+** at the top of the Chat view). **Same chat:** stay

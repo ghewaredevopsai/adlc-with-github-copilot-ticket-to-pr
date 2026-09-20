@@ -85,7 +85,7 @@ the end.
 
 1. **Kind of task:** mechanical / reasoning / review
 2. **Model class:** base model / premium reasoning model
-3. **Mode:** Ask / Edit / Agent
+3. **Mode:** Ask / Plan / Agent
 4. **Working style:** interactive / delegated
 
 The measured run itself uses fixed settings (Agent mode, base model), so every run compares fairly.
@@ -229,28 +229,29 @@ Pick one:
 
 - **Option A — the other model class.** Send Prompt 1.1-A word for word, in a **new chat**, with the
   **premium reasoning model**.
-- **Option B — the other mode.** In a new chat, set the mode to **Edit** (if your list has no Edit,
-  do Option A). Select **Add Context** and add `course/labs/tickets/GB-142.md`,
-  `global-bank-account/src/main/java/in/brainupgrade/accountservice/posting/service/PostingService.java`
-  and `global-bank-account/src/test/java/in/brainupgrade/accountservice/posting/PostingServiceTest.java`.
-  Then send:
+- **Option B — plan first.** In a **new chat**, set the mode to **Plan**. Plan mode reads the
+  repository and writes an implementation plan. It changes no code. Send:
 
-  **Prompt 1.1+-B** · Edit mode · base model · **new chat**
+  **Prompt 1.1+-B** · Plan mode · base model · **new chat**
 
   ```text
-  The ticket is in GB-142.md. Implement it by changing only PostingService.java and
-  PostingServiceTest.java. Meet every acceptance criterion, and add tests for each one.
-  When you finish, list what you changed, and say which acceptance criteria are met and how.
+  First run "date" in a terminal and show me the output. That is the start time of this run.
+  The ticket is course/labs/tickets/GB-142.md. Plan the change in the global-bank-account folder,
+  so that every acceptance criterion is met and each one has a test.
   ```
 
-  Select **Keep**, then run `mvn test` yourself. Edit mode cannot run commands.
+  Read the plan. If it names a duplicate rule you disagree with, say so once and ask for a new plan.
+  That reply is a turn. Then select **Start Implementation** and pick the Agent to carry it out.
+
+  If Plan mode cannot run `date`, send it as your first message in the implementation chat instead.
 
 Run Steps 3 to 5 as before, then send Prompt 1.1-M with `1.1+` as the run and `GB-142 lab 1.1+` in
-the commit message. In Option B, switch the same chat to **Agent** mode first. Edit mode could not
-run `date`, so Copilot notes the clock as missing. Compare the two files:
+the commit message. In Option B, send it in the implementation chat, and add "planned first" to the
+notes line. Compare the two files:
 
 ```bash
 git diff GB-142-lab-1.1 GB-142-lab-1.1plus -- metrics.md
 ```
 
 Which number changed most? Did the other setting change the design of the fix, or only the effort?
+In Option B, the plan usually costs turns and saves churn. Your `metrics.md` shows whether it did.
