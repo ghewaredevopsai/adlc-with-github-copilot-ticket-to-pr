@@ -215,6 +215,50 @@ If you see **Add Comment** run instead, the agent is posting your questions to t
 has no way to ask you, so it reached for the nearest tool it did have. Stop it, delete the comments
 it added to the issue, and start a new chat with the prompt above.
 
+**Answer from your own run first.** The ADR records what **you** decided in Lab 1.1. Read the example
+below only after you have answered all four questions. Your answers will differ from it, because your
+Lab 1.1 differed. That is correct.
+
+<details>
+<summary><b>An example of the four answers</b> — open after you have answered</summary>
+
+**1. Which options did we consider?**
+
+> Three. (a) A posting is a duplicate when the `clientReference` matches. (b) A posting is a duplicate
+> when `clientReference` **and** `valueDate` both match. (c) An `Idempotency-Key` request header, with
+> a store of keys we have already seen.
+
+If your agent weighed only one option, say so. A short list is an honest list.
+
+**2. Which option did we choose, and why?**
+
+> `clientReference` + `valueDate`. Criteria 1 and 3 need both fields. The same reference on the same
+> value date is the retry. The same reference on a later value date is a real standing-order payment,
+> and it must go through. `findByClientReferenceAndValueDate` was already in the repository, unused.
+> On a match we return the first posting with HTTP 200 and its posting id, so criterion 2 holds.
+> Amount and narrative are not part of the key.
+
+**3. Which options did we reject, and why was each one rejected?**
+
+> - `clientReference` alone — breaks criterion 3. The April payment has the same reference, and we
+>   would suppress it.
+> - Answer the retry with an error — breaks criterion 2. The caller needs the posting id back.
+> - `Idempotency-Key` header — **Unknown, ask the team.**
+
+The last line is the honest one. Nothing in the ticket or the code says why a header would not work
+here. You meet that reason in Module 4. Do not let the agent write a reason for you.
+
+**4. What does the choice cost us, or what must we do next?**
+
+> - Two retries at the same moment can both pass the check. Closing that needs a unique index on
+>   `(client_reference, value_date)`. We have not added one, and no test covers it.
+> - `clientReference` is now part of our API contract. Callers must keep it the same across their own
+>   retries, and we must tell them.
+> - A caller that sends the same reference with a different amount on the same date now gets the first
+>   posting back. We accepted that. It is a caller mistake, so we may want to log it.
+
+</details>
+
 **Check:** open the ADR. It has a **Rejected options** section with at least one option and a reason
 (or "Unknown - ask the team"). Check that every reason in it is one you gave.
 
