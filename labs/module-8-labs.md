@@ -259,7 +259,7 @@ acceptance criteria and touches both repositories. Read it through the stages, n
 - **Work at your normal pace.** Lab 1.1 was a normal working day. The capstone must be one too. A
   careful run compared with a careless one proves nothing.
 
-**The clock** starts with Prompt C1, which runs `date`. It stops when stage 8 is done, or at 50
+**The timebox** starts with Prompt C1. It stops when stage 8 is done, or at 50
 minutes, the earlier of the two. This is the same rule as every lab: stop when all the checks pass,
 or at the timebox. An honest unfinished run is worth more than a rushed complete one.
 
@@ -322,7 +322,7 @@ Record this chat. Count from this chat only, and do not guess beyond it:
 - Assumptions: decisions you made in this chat that no file in either repository answered.
 Append one row to course/labs/my-work/capstone-chats.md, and under it one line
 "Assumptions (N):" with the list, N being the number for this chat. If the file does not exist, create it
-with a line "Start: " plus the "date" output from your first reply in this chat, then this header:
+with this header:
 | Chat | Turns | Tool calls | Asked | Rework | Churn |
 In the Chat column, write a few words on what this chat did, for example "spec (design agent)".
 Change no other file. Show me the row.
@@ -341,7 +341,6 @@ The stages that say **default agent** use plain Agent mode, with no custom agent
 **Prompt C1** · Agent mode · default agent · base model · **new chat**
 
 ```text
-First run "date" in a terminal and show me the output. That is the start time of the capstone.
 Read course/labs/lab-keys.md to find my Jira keys for GB-186 and GB-158.
 Use the atlassian MCP tool jira_get_issue to read GB-186 with its comments, then GB-158, which
 GB-186 names. Make no more than three Jira calls. Do not search for other tickets.
@@ -745,11 +744,10 @@ Record this chat, then total the whole capstone. For this chat, count from this 
 - Assumptions: decisions you made in this chat that no file in either repository answered.
 Append this chat's row to course/labs/my-work/capstone-chats.md, in the same shape as its rows,
 with its own "Assumptions (N):" line.
-Then run "date". Clock: minutes since the Start line in that file. If over 50, write "50 (not finished)".
 Create metrics.md at the root of global-bank-account with this table:
-| Run | Ticket | Turns | Tool calls | Asked | Rework | Churn | Clock |
-Row "capstone", ticket "GB-186": the sum of each column over all rows of capstone-chats.md, and the
-clock. Below it, the Lab 1.1 row from "git show GB-142-lab-1.1:metrics.md" in global-bank-account.
+| Run | Ticket | Turns | Tool calls | Asked | Rework | Churn | Credits |
+Row "capstone", ticket "GB-186": the sum of each column over all rows of capstone-chats.md.
+Leave the Credits column as "(day 2)". I fill it in at the end of Day 2 from the Copilot usage view. Below it, the Lab 1.1 row from "git show GB-142-lab-1.1:metrics.md" in global-bank-account.
 Under the table, add:
 - "Per criterion:" asked, rework and churn divided by the number of acceptance criteria in
   global-bank-account/specs/GB-186.md for the capstone, and by 5 for Lab 1.1.
@@ -762,8 +760,8 @@ Then in global-bank-account run: git add metrics.md && git commit -m "GB-186 cap
 Show me metrics.md.
 ```
 
-**Reading it.** Asked, rework and churn **per criterion** compare fairly with Lab 1.1. Turns, tool
-calls and clock do not: GB-186 is two repositories, six criteria and eight stages, so those are
+**Reading it.** Asked, rework and churn **per criterion** compare fairly with Lab 1.1. Turns and tool
+calls do not: GB-186 is two repositories, six criteria and eight stages, so those are
 higher for size alone. The **assumptions** total compares directly: it is what two days of writing
 things down was meant to shrink. For the debrief, look at the Chats rows: which stage cost the most,
 and was it worth it?

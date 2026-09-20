@@ -47,7 +47,7 @@ count by hand. The six numbers are:
 | **Asked** | Questions Copilot asked you that a file in the repository could have answered |
 | **Rework** | Repair prompts you had to send (they also count as turns) |
 | **Churn** | Lines Copilot wrote and then threw away, to the nearest ten |
-| **Clock** | Minutes from your first prompt to a change you would raise a pull request for: all the lab's checks pass. If you stop at the timebox, write the timebox |
+| **Credits** | The AI credits the run actually cost. Copilot cannot see this, so the record prompt writes `(day 2)` and you fill it in at the end of Day 2 from the Copilot usage view |
 
 The record prompt also asks for **assumptions**: the decisions the agent made that no file in the
 repository answered. That list is the clearest sign of what your team has not written down, and it

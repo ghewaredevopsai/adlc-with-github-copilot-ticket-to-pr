@@ -353,12 +353,11 @@ Now close `Posting.java`, so no editor tab is open. Lab 1.1 started with no open
 
 ### Step 3 — The measured run
 
-The clock starts with this prompt. You do not count anything: the record prompt does that.
+Your 35 minutes start with this prompt. You do not count anything: the record prompt does that.
 
 **Prompt 2.2-A** · Agent mode · base model · **new chat**
 
 ```text
-First run "date" in a terminal and show me the output. That is the start time of this run.
 Read course/labs/lab-keys.md to find my Jira key for GB-142. Use the atlassian MCP tools to read
 that Jira issue, including its comments. Read no other issue, and do not search Confluence.
 Implement the ticket in the global-bank-account folder. Meet every acceptance criterion.
@@ -418,8 +417,8 @@ Commit even if some checks still fail. `metrics.md` records what happened.
 
 ### Record
 
-Send this as soon as the checks pass, in the **same chat as Prompt 2.2-A**. The clock runs until
-you send it. It is Prompt 1.1-M with the run and the commit
+Send this as soon as the checks pass, in the **same chat as Prompt 2.2-A**. Your 35 minutes run
+until you send it. It is Prompt 1.1-M with the run and the commit
 message changed. Prompt 2.2-check was a different chat, so it is not counted.
 
 **Prompt 2.2-M** · Agent mode · **same chat**
@@ -431,12 +430,11 @@ The run is over. Count these numbers from this chat only, and do not guess beyon
 - Asked: questions you asked me that a file in the repository could have answered.
 - Rework: repair prompts I sent that start with "A check failed".
 - Churn: lines you wrote earlier in this run and later replaced or deleted, to the nearest ten.
-- Clock: run "date" now. Minutes since the start time in your first reply. If over 35, write "35 (not finished)".
 - Assumptions: decisions you made that no file in the repository answered, for example a design
   choice, a rule or a name. List them in one line each.
 Create metrics.md at the root of global-bank-account with this table and one row:
-| Run | Ticket | Turns | Tool calls | Asked | Rework | Churn | Clock |
-Use "2.2" as the run and "GB-142" as the ticket. Add the Lab 1.1 row below it, copied from
+| Run | Ticket | Turns | Tool calls | Asked | Rework | Churn | Credits |
+Use "2.2" as the run and "GB-142" as the ticket. Leave the Credits column as "(day 2)". I fill it in at the end of Day 2 from the Copilot usage view. Add the Lab 1.1 row below it, copied from
 "git show GB-142-lab-1.1:metrics.md". Under the table, add "Assumptions (N):" with N the number you
 counted and the list below it, then a line "Lab 1.1 assumptions:" with the count from that same
 Lab 1.1 file, then one line "Notes:" with my notes below, and one line "How counted:" that says

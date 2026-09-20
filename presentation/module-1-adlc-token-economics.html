@@ -425,7 +425,7 @@
 </section>
 
 <!-- 9 -->
-<section class="slide" data-sec="3 &middot; Baselining" data-title="What you can actually measure" data-notes="The real cost of Copilot is AI credits. But you cannot see credits for one ticket while you work. They appear later, per user, in a usage view. So a per-ticket credit number would have no source you can show. Instead you count six things you can see live, from the chat or a stopwatch. Turns and tool calls follow spend most closely. Questions it asked and rework show how much the agent had to guess. In the labs, rework means the repair prompts you paste when a check fails. Everyone sends the same scripted prompts, so repairs are where runs differ. Diff churn and wall-clock time show the outcome. The clock runs from your first prompt until all the lab's checks pass. If they never pass, stop at the timebox and write that time, for example 35 minutes in Lab 1.1. Repairs become the rework column of your tally sheet, and later modules refer to it. At the end, a record prompt asks Copilot to count them from the chat and save them in metrics.md in the repo. You can compare with the usage view at the end of Day 2. The record prompt also asks the agent to list its assumptions: the decisions it made because no file answered them. That list is what Module 2 tries to shorten. The rule: measure what you can show, and check later what you cannot." data-tier="K">
+<section class="slide" data-sec="3 &middot; Baselining" data-title="What you can actually measure" data-notes="The real cost of Copilot is AI credits. You cannot see credits for one ticket while you work: they appear later, per user, in a usage view. So credits are the sixth number, and it is the one you come back and fill in on Day 2. The other five you count live, from the chat. Turns and tool calls follow spend most closely. Questions it asked and rework show how much the agent had to guess. In the labs, rework means the repair prompts you paste when a check fails. Everyone sends the same scripted prompts, so repairs are where runs differ. Diff churn shows the outcome. Repairs become the rework column of your tally sheet, and later modules refer to it. At the end, a record prompt asks Copilot to count the first five from the chat and save them in metrics.md in the repo. The sixth is AI credits, the real bill. Copilot cannot see its own spend, so the record prompt writes the word day two in that cell, and you fill in the number yourself at the end of Day 2 from the Copilot usage view. You still have a timebox in every lab, 35 minutes in Lab 1.1, but it is a stopping rule, not a number you record: it varies too much with how fast you read to compare between runs. The record prompt also asks the agent to list its assumptions: the decisions it made because no file answered them. That list is what Module 2 tries to shorten. The rule: measure what you can show, and check later what you cannot." data-tier="K">
   <h2>Measuring a ticket &mdash; six numbers you can see live<span class="tag k">3</span></h2>
   <div class="body g64">
     <div>
@@ -448,21 +448,21 @@
         <text class="tt" x="34" y="222">5 &middot; Diff churn</text>
         <text class="ss" x="34" y="246">lines written, then thrown away</text>
         <rect class="bx w rise r6" x="356" y="198" width="326" height="72" rx="6"/>
-        <text class="tt" x="370" y="222">6 &middot; Wall-clock time</text>
-        <text class="ss" x="370" y="246">first prompt until all checks pass</text>
-        <text class="ss" x="370" y="264" style="font-size:13px">or the timebox ends (35 min in Lab 1.1)</text>
+        <text class="tt" x="370" y="222">6 &middot; AI credits</text>
+        <text class="ss" x="370" y="246">what the run actually cost</text>
+        <text class="ss" x="370" y="264" style="font-size:13px">the one number you fill in later</text>
 
-        <text class="lb a" x="4" y="312">CHECKED LATER &mdash; NOT AVAILABLE DURING CLASS</text>
+        <text class="lb a" x="4" y="312">NUMBER 6 &mdash; FILLED IN AT THE END OF DAY 2</text>
         <rect class="bx a" x="4" y="322" width="692" height="92" rx="8"/>
-        <text class="tt" x="24" y="350">AI credits, from the usage view</text>
-        <text class="ss" x="24" y="374">The real cost &mdash; but shown per user, and hours later.</text>
-        <text class="ss" x="24" y="396">You cannot tie it to one ticket while you work.</text>
+        <text class="tt" x="24" y="350">Copilot cannot count its own credits</text>
+        <text class="ss" x="24" y="374">The record prompt writes &ldquo;(day 2)&rdquo;. You read the usage view</text>
+        <text class="ss" x="24" y="396">at the end of Day 2 and write the number in yourself.</text>
       </svg>
     </div>
     <div class="pts">
       <h3>Why these six</h3>
       <ul>
-        <li>You can see them <b>live</b>, with no special tools.</li>
+        <li>Five you can see <b>live</b>, with no special tools.</li>
         <li>They go up and down with the real bill.</li>
       </ul>
       <h3>The rules</h3>
@@ -476,7 +476,7 @@
 </section>
 
 <!-- 10 -->
-<section class="slide" data-sec="3 &middot; Baselining" data-title="The baseline run — and the number that follows you" data-notes="This slide sets up Lab 1.1. Everyone runs the same ticket, GB-142, with the same scripted prompt. Do not change the words, and do not read or tidy the code first. The run measures the repository as it is. Paste the repair prompt only when a check fails. Each repair is one turn and one rework. Because the prompts are fixed, the number of repairs is the main way runs differ. You do not count by hand. The last prompt asks Copilot to count the six numbers from the chat, write them in metrics.md and commit it. Keep the numbers unedited, even if they look bad. Later rows are compared with this one: row 2.2 after Module 2, a pass rate for Lab 3.2 in Module 3, and the capstone on Day 2. No result is promised in advance. The course follows its own rule: only quote a number you can point to." data-tier="D">
+<section class="slide" data-sec="3 &middot; Baselining" data-title="The baseline run — and the number that follows you" data-notes="This slide sets up Lab 1.1. Everyone runs the same ticket, GB-142, with the same scripted prompt. Do not change the words, and do not read or tidy the code first. The run measures the repository as it is. Paste the repair prompt only when a check fails. Each repair is one turn and one rework. Because the prompts are fixed, the number of repairs is the main way runs differ. You do not count by hand. The last prompt asks Copilot to count five of the six numbers from the chat, write them in metrics.md and commit it. The credits cell says day two until you fill it in. Keep the numbers unedited, even if they look bad. Later rows are compared with this one: row 2.2 after Module 2, a pass rate for Lab 3.2 in Module 3, and the capstone on Day 2. No result is promised in advance. The course follows its own rule: only quote a number you can point to." data-tier="D">
   <h2>Lab 1.1 &mdash; measure one ticket, and keep the number for two days<span class="tag k">3</span></h2>
   <div class="body g46">
     <div class="pts">

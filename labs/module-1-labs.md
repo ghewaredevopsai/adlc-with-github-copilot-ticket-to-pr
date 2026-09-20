@@ -114,7 +114,6 @@ each one.
 **Prompt 1.1-A** · Agent mode · base model · **new chat**
 
 ```text
-First run "date" in a terminal and show me the output. That is the start time of this run.
 Read course/labs/lab-keys.md to find my Jira key for GB-142. Use the atlassian MCP tools to read
 that Jira issue, including its comments. Read no other issue, and do not search Confluence.
 Implement the ticket in the global-bank-account folder. Meet every acceptance criterion.
@@ -173,6 +172,9 @@ APRIL='{"clientReference":"PAY-2026-03-0001","debitAccountId":"ACC-PAYROLL","cre
 NEW='{"clientReference":"PAY-2026-03-0002","debitAccountId":"ACC-PAYROLL","creditAccountId":"ACC-CLIENT-002","amountMinor":750000,"valueDate":"2026-03-31","narrative":"March payroll"}'
 ```
 
+**Nothing prints.** That block only sets up the helpers. The checks below are what run them, and
+they are the lines in the **Run** column.
+
 | Check | Run | Passes when |
 |---|---|---|
 | **2** — the same instruction twice (criteria 1, 2) | `post "$MARCH"; post "$MARCH"; balance ACC-CLIENT-001` | Both calls return HTTP 200 or 201 with the **same** `postingId`. Balance `2500000` (one payment, not two) |
@@ -210,12 +212,11 @@ The run is over. Count these numbers from this chat only, and do not guess beyon
 - Asked: questions you asked me that a file in the repository could have answered.
 - Rework: repair prompts I sent that start with "A check failed".
 - Churn: lines you wrote earlier in this run and later replaced or deleted, to the nearest ten.
-- Clock: run "date" now. Minutes since the start time in your first reply. If over 35, write "35 (not finished)".
 - Assumptions: decisions you made that no file in the repository answered, for example a design
   choice, a rule or a name. List them in one line each.
 Create metrics.md at the root of global-bank-account with this table and one row:
-| Run | Ticket | Turns | Tool calls | Asked | Rework | Churn | Clock |
-Use "1.1" as the run and "GB-142" as the ticket. Under the table, add a line "Decisions:" with my
+| Run | Ticket | Turns | Tool calls | Asked | Rework | Churn | Credits |
+Use "1.1" as the run and "GB-142" as the ticket. Leave the Credits column as "(day 2)". I fill it in at the end of Day 2 from the Copilot usage view. Under the table, add a line "Decisions:" with my
 four decisions below, then "Assumptions (N):" with N the number you counted and the list below it,
 then one line "Notes:" with my notes below, and one line "How counted:" that says anything you could
 not count exactly.
@@ -224,8 +225,8 @@ My four decisions: <kind of task>, <model class>, <mode>, <working style>
 My notes: <anything unusual, for example "MCP failed", or leave empty>
 ```
 
-**Send it as soon as the checks pass.** The clock runs until you send it, so a break here is
-recorded as working time.
+**Send it as soon as the checks pass.** Your 35 minutes run until you send it, so a break here
+eats the timebox.
 
 **Check:** `git show --stat HEAD` lists `metrics.md` and your code changes. Leave the numbers as
 Copilot counted them, even if they look bad. A run that went badly is a finding, not a failure.
@@ -254,7 +255,6 @@ Pick one:
   **Prompt 1.1+-B** · Plan mode · base model · **new chat**
 
   ```text
-  First run "date" in a terminal and show me the output. That is the start time of this run.
   The ticket is course/labs/tickets/GB-142.md. Plan the change in the global-bank-account folder,
   so that every acceptance criterion is met and each one has a test.
   ```
@@ -262,7 +262,6 @@ Pick one:
   Read the plan. If it names a duplicate rule you disagree with, say so once and ask for a new plan.
   That reply is a turn. Then select **Start Implementation** and pick the Agent to carry it out.
 
-  If Plan mode cannot run `date`, send it as your first message in the implementation chat instead.
 
 Run Steps 3 to 5 as before, then send Prompt 1.1-M with `1.1+` as the run and `GB-142 lab 1.1+` in
 the commit message. In Option B, send it in the implementation chat, and add "planned first" to the
