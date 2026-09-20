@@ -221,16 +221,21 @@ fine. They are there for people: who looks after the file, and which version is 
 ### Step 4 — Check that VS Code sees the agents
 
 1. Save both files.
-2. In the Chat view, open the agent list (the list that shows **Agent**, **Ask** and **Plan**).
-3. Find **test** and **review** in the list.
+2. Run **Developer: Reload Window** from the Command Palette. VS Code reads `.github/agents/` when
+   the window loads, so a new agent file does not show up until you do this. Expect to reload every
+   time you add an agent file in these labs.
+3. In the Chat view, open the agent list and click **Agent**.
+4. **Scroll down.** Your own agents are below the built-in **Agent**, **Ask** and **Plan**, far
+   enough down that they are easy to miss. Find **test** and **review**.
 
-**Check:** both agents appear in the list. Pick **review** and look at the chat box: its description
-shows as the hint text.
+**Check:** both agents appear. Pick **review** and look at the chat box: its description shows as the
+hint text.
 
 Agent missing? Check these, in order:
+- You reloaded the window after saving the file.
+- You scrolled to the bottom of the agent list.
 - The file name ends in `.agent.md`, and the file is in `global-bank-account/.github/agents/`.
 - The first line of the file is exactly `---`.
-- Run **Developer: Reload Window** from the Command Palette, then look again.
 
 Then commit:
 
@@ -321,8 +326,9 @@ mvn test
 >
 > Then run your Set up block again. `GB-207-lab-4.2` raises the same error for the same reason.
 
-Check that the four agents (**design**, **coding**, **test**, **review**) appear in the Chat view's
-agent list.
+Reload the window (**Developer: Reload Window**), then check that all four agents (**design**,
+**coding**, **test**, **review**) appear. They are at the bottom of the agent list, under **Agent** —
+scroll down, as in Lab 4.1, Step 4.
 
 An agent says it cannot read the Jira issue? Its `tools:` list is missing
 `atlassian/jira_get_issue`. Add it to that agent file, save, and paste the prompt again in a new chat.
@@ -576,7 +582,8 @@ of reason for each. Then stop.
 ```
 
 **Check:** replace `TODO-OWNER` in both files. Run Prompt 4.1-C again, with the two new file names in
-place of the old ones. Check that **design** and **coding** appear in the agent list, then commit.
+place of the old ones. Reload the window, then check that **design** and **coding** appear at the
+bottom of the agent list, then commit.
 
 ---
 
