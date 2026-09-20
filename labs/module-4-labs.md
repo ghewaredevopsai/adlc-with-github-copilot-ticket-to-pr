@@ -39,16 +39,39 @@ ticket differently.
 
    ```bash
    cd ~/adlc-copilot-training/global-bank-account
-   git switch GB-151-lab-3.1
-   git status --short
+   git switch GB-151-lab-3.1 && git status --short
    # must print nothing. If it lists files, commit them first
+   ```
+
+   > [!IMPORTANT]
+   > **`fatal: invalid reference: GB-151-lab-3.1`?** You do not have that branch, because you did not
+   > finish Lab 3.1. Do not run the next block. Start from this module's checkpoint instead, and then
+   > **skip step 4**, because the checkpoint already has those files:
+   >
+   > ```bash
+   > git switch -c lab-4.1-agents m4-start
+   > ```
+   >
+   > Each `git switch` is a separate command. If the first one fails and you run the next block
+   > anyway, git makes `lab-4.1-agents` from whatever branch you are on now. The build still passes,
+   > so nothing tells you that you started three modules behind.
+
+   Then make your branch and check the build:
+
+   ```bash
    git switch -c lab-4.1-agents && mvn test
    # "already exists"? The branch is from an earlier run: see "Running a lab again" in README.md
    # expect: Failures: 0, Errors: 0. Tests run: 4, or more if your earlier labs added tests
    ```
 
-   No Lab 3.1 branch, or it is broken? Start from the checkpoint instead:
-   `git switch -c lab-4.1-agents m4-start`, and skip step 4.
+   **Check you started from the right place.** `mvn test` passes on every branch in this repository,
+   so it cannot tell you this on its own:
+
+   ```bash
+   ls .github/skills/account-change/SKILL.md .github/prompts/gb-change.prompt.md
+   # both must exist. "No such file" means lab-4.1-agents came from the wrong branch:
+   # git switch main && git branch -D lab-4.1-agents, then start again from this step
+   ```
 
 4. Add the reference knowledge files that you did not write in Module 2. The agents in this module
    point at them: the test rules, the ADR index, three ADRs and three files in `docs/`. This keeps your
