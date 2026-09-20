@@ -313,6 +313,11 @@ Copilot CLI, or the **context window control** in the VS Code chat input box. Yo
 record prompt, so read them before you record and the record prompt's own cost stays out of the row.
 The agent cannot run `/usage` for you. Record prompts are not counted as turns.
 
+**One row is one chat.** The VS Code control already reads one chat. **Copilot CLI `/usage` counts
+the whole session**, so each reading holds the chats before it as well. Keep the last number you
+read, subtract it from the new one, and type in the difference. Prompt C-M-last adds the rows up, so
+a running total in every row would count chat 1 nine times.
+
 **Prompt C-M** · Agent mode · default agent · **same chat**
 
 ```text

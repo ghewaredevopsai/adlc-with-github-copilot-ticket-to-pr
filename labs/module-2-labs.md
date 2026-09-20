@@ -357,6 +357,10 @@ Your 35 minutes start with this prompt. You do not count anything: the record pr
 
 **Prompt 2.2-A** · Agent mode · base model · **new chat**
 
+**This run is one chat again,** the way Lab 1.1 was. On **Copilot CLI**, start the CLI fresh before
+you send it: `/usage` counts the whole session, and this session already holds Lab 2.1 and Prompt
+2.2-check. Those would land in your row and make the prepared run look more expensive than it was.
+
 ```text
 Read course/labs/lab-keys.md to find my Jira key for GB-142. Use the atlassian MCP tools to read
 that Jira issue, including its comments. Read no other issue, and do not search Confluence.
@@ -421,6 +425,7 @@ Commit even if some checks still fail. `metrics.md` records what happened.
 Read the model and the usage numbers for this chat first, the same way as in Lab 1.1: `/usage` in
 Copilot CLI, or the **context window control** in the VS Code chat input box. Read them before you
 record, so the record prompt's own cost stays out of the run. The agent cannot run `/usage` for you.
+On CLI, the number is this run only if you started the CLI fresh at Step 3.
 
 Then send this in the **same chat as Prompt 2.2-A**, as soon as the checks pass. Your 35 minutes run
 until you send it. It is Prompt 1.1-M with the run and the commit

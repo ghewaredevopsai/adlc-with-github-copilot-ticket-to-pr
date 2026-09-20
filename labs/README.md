@@ -57,6 +57,11 @@ tokens and its cost in credits, and the model name is in the model picker. Where
 shown, leave that line empty and the record prompt writes `-`. Read them **before** you send the
 record prompt, so that prompt's own cost stays out of the run.
 
+⚠️ **A measured run is one chat, and the number you paste must cover that chat and nothing else.**
+The VS Code control reads one chat. **`/usage` in Copilot CLI reads the whole session**, so on CLI
+start the CLI fresh at the start of each measured run. In the capstone, where nine chats each get a
+row, subtract the number you read in the chat before.
+
 ⚠️ **The agent cannot run `/usage`,** and it cannot see its own tokens or credits. It is a command to
 your Copilot client. The Copilot icon in the status bar is a different number again: your monthly
 allowance across every chat.

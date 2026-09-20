@@ -112,6 +112,11 @@ each one.
 
 **Prompt 1.1-A** · Agent mode · base model · **new chat**
 
+**Your run is one chat.** Everything from this prompt to the record prompt goes in it, and nothing
+else does. That is what makes the numbers you read in Step 6 the cost of this ticket. On **Copilot
+CLI**, start the CLI fresh as well: `/usage` reports the whole session, so anything you ran in it
+before this prompt would land in your row.
+
 ```text
 Read course/labs/lab-keys.md to find my Jira key for GB-142. Use the atlassian MCP tools to read
 that Jira issue, including its comments. Read no other issue, and do not search Confluence.
@@ -213,7 +218,8 @@ is still a result.
 you send it — the record prompt costs credits of its own.
 
 - **Copilot CLI:** type `/usage`. It gives the model, the input, output and total tokens, and the
-  **AIC** (AI credits) for this session.
+  **AIC** (AI credits) for the **whole session**, not for one chat. That is this run only if you
+  started the CLI fresh at Step 2.
 - **VS Code:** in the chat input box, hover over the **context window control** — the bar that shows
   how full the chat is — and select it. The popover gives this chat's total tokens and its cost in
   credits. The model name is in the model picker under the chat box. If input and output tokens are
@@ -287,6 +293,9 @@ have now seen the code once, so part of any change comes from you.
 git switch -c GB-142-lab-1.1plus m1-start
 ```
 
+This is a second run, so give it its own boundary: a **new chat**, and on **Copilot CLI** a fresh
+CLI session again. Without that, `/usage` still holds Lab 1.1, and the two rows differ by that alone.
+
 Pick one:
 
 - **Option A — the other model class.** Send Prompt 1.1-A word for word, in a **new chat**, with the
@@ -302,12 +311,24 @@ Pick one:
   ```
 
   Read the plan. If it names a duplicate rule you disagree with, say so once and ask for a new plan.
-  That reply is a turn. Then select **Start Implementation** and pick the Agent to carry it out.
+  That reply is a turn. Count the prompts you send in this chat, including that one, and keep the
+  number. Copilot cannot see this chat from the implementation chat, so you add them in yourself.
+  Then select **Start Implementation** and pick the Agent to carry it out.
 
 
-Run Steps 3 to 5 as before. Read the model and usage numbers for this chat, then send Prompt 1.1-M with
-`1.1+` as the run and `GB-142 lab 1.1+` in the commit message. In Option B, send it in the implementation chat, and add "planned first" to the
-notes line. Compare the two files:
+Run Steps 3 to 5 as before. Then send Prompt 1.1-M with `1.1+` as the run and `GB-142 lab 1.1+` in
+the commit message.
+
+**Option A is one chat.** Read the model and usage numbers the way Step 6 says.
+
+**Option B is two chats,** and the plan chat is the part you are measuring. Read the tokens and the
+AIC in **both** chats and **add them together** before you type them in. Send Prompt 1.1-M in the
+implementation chat, and put "planned first, usage is both chats added" in the notes line. Then open
+`metrics.md`, add your plan chat's prompts to the Turns cell, and commit again:
+`git commit -am "GB-142 lab 1.1+ plan chat"`. Leave tool calls and churn as Copilot counted them: it
+can only see the chat it is in, and the plan chat wrote no code.
+
+Compare the two files:
 
 ```bash
 git diff GB-142-lab-1.1 GB-142-lab-1.1plus -- metrics.md
