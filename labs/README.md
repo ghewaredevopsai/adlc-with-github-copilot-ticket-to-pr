@@ -67,7 +67,7 @@ everyone, so the number of repairs is what differs between your runs.
 
 ### 2. Clone the repositories
 
-Follow Steps 2 and 3 of [participants-instructions.md](../participants-instructions.md). Clone, do not
+Follow Step 2 of [participants-instructions.md](../participants-instructions.md). Clone, do not
 fork. You end with this layout, and the lab workspace depends on it:
 
 ```text

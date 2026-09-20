@@ -24,7 +24,7 @@ $HOME/
     global-bank-frontend/
 ```
 
-You open these as **one VS Code workspace** in Step 4, which shows them side by side as `course`
+You open these as **one VS Code workspace** in Step 3, which shows them side by side as `course`
 and `global-bank-*`. The folders stay where they are on disk; the workspace only changes how VS
 Code presents them.
 
@@ -80,25 +80,18 @@ Do not install or change anything. If a tool fails, tell me what to install.
 If `java` reports a version older than 25, install JDK 25 and set `JAVA_HOME` to it. Then open a new
 VS Code window and run Step 1 again.
 
-## Step 2. Clone the course repository into your home folder
+## Step 2. Clone the course repository and the Global Bank repositories
+
+One prompt clones all eight. Paste it into Copilot Chat:
 
 ```text
-Clone the course repository into my home folder. Run this one command in the terminal:
+Clone eight repositories for a training course. Use PowerShell on Windows. Use the normal shell on
+macOS or Linux.
 
-git clone https://github.com/ghewaredevopsai/adlc-with-github-copilot-ticket-to-pr.git "$HOME/adlc-with-github-copilot-ticket-to-pr"
-
-If the folder already exists, do not clone again. Run "git pull" inside it instead.
-Then list the files in that folder, so I can see the clone worked.
-```
-
-## Step 3. Clone the Global Bank repositories into `$HOME/global-bank`
-
-```text
-Clone the seven Global Bank repositories into the folder global-bank in my home folder.
-Use PowerShell on Windows. Use the normal shell on macOS or Linux.
-
-1. Create the folder "$HOME/global-bank" if it does not exist.
-2. Inside it, clone each of these repositories with git clone. Keep the default folder names.
+1. Clone the course repository into my home folder, keeping the default folder name:
+   https://github.com/ghewaredevopsai/adlc-with-github-copilot-ticket-to-pr.git
+2. Create the folder "$HOME/global-bank" if it does not exist.
+3. Inside "$HOME/global-bank", clone each of these with git clone. Keep the default folder names.
    https://github.com/brainupgrade-in/global-bank-platform.git
    https://github.com/brainupgrade-in/global-bank-account.git
    https://github.com/brainupgrade-in/global-bank-authentication.git
@@ -106,15 +99,16 @@ Use PowerShell on Windows. Use the normal shell on macOS or Linux.
    https://github.com/brainupgrade-in/global-bank-transaction.git
    https://github.com/brainupgrade-in/global-bank-rules.git
    https://github.com/brainupgrade-in/global-bank-frontend.git
-3. If a repository folder already exists, do not clone it again. Run "git pull" inside it instead.
-4. Do not fork any repository.
-5. At the end, show me a table of the seven folders with the current branch of each one.
+4. If a folder already exists, do not clone it again. Run "git pull" inside it instead.
+5. Do not fork any repository.
+6. At the end, show me a table of all eight folders with the current branch of each one.
 ```
 
-All seven folders must sit side by side inside `global-bank`. The start script in Step 4 looks for
-them there.
+You should get a table of eight rows. The course repository sits directly in your home folder, and
+the seven Global Bank folders sit side by side inside `global-bank`. The start script in Step 4
+looks for them there.
 
-## Step 4. Open the lab workspace
+## Step 3. Open the lab workspace
 
 Every lab is run from one VS Code **workspace** that holds the course folder and all seven Global
 Bank repositories side by side. Open it once, and use it for the whole course.
@@ -159,7 +153,7 @@ pwd
 # must end in: global-bank-account
 ```
 
-## Step 5. Start Global Bank on localhost (optional)
+## Step 4. Start Global Bank on localhost (optional)
 
 > [!TIP]
 > **This step is optional.** Each lab starts the services it needs. Do Steps 4 to 6 only if you want
@@ -221,7 +215,7 @@ Use mvn, not ./mvnw. The ./mvnw wrapper does not work in these repositories.
 7. Show me a table of the six parts with UP or DOWN. If a part is DOWN, show me the end of its log file and explain the error.
 ```
 
-## Step 6. Check that it works
+## Step 5. Check that it works
 
 The web app shows demo data when a service is down. So a page that loads does **not** prove the services
 work. This prompt checks the services directly.
@@ -247,7 +241,7 @@ Tell me PASS if all five services say UP and the sign-in returns the role CUSTOM
 Then open **http://localhost:4200** in your browser. Sign in as `john` with the password `unigps`.
 The users `admin`, `eric` and `ratan` use the same password.
 
-## Step 7. Stop Global Bank
+## Step 6. Stop Global Bank
 
 Stop the app at the end of the day, or before you start it again.
 

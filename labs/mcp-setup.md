@@ -151,6 +151,10 @@ through your company's Python package mirror.
 
 ## Step 5 — Open the lab workspace
 
+If you already opened it in Step 3 of
+[participants-instructions.md](../participants-instructions.md), it is the same workspace: skip to
+Step 6.
+
 In VS Code, select **File**, then **Open Workspace from File**, and pick `adlc-labs.code-workspace`
 in the course repository. The Explorer now shows eight folders: `course` and the seven
 `global-bank-*` repositories.
