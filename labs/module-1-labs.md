@@ -158,7 +158,7 @@ Wait for `Started AccountserviceApplication` (port 8086). Data is kept in memory
 starts with empty accounts. On **Windows**, run the `curl` commands below in **Git Bash**, not
 PowerShell.
 
-### Step 5 — Checks 2 to 4
+### Step 5 — Checks 2 to 5
 
 Run these in a third terminal. `post` is a small helper so each check is one line.
 
@@ -170,6 +170,7 @@ balance() { curl -s http://localhost:8086/account/api/v1/accounts/$1/balance; ec
 MARCH='{"clientReference":"PAY-2026-03-0001","debitAccountId":"ACC-PAYROLL","creditAccountId":"ACC-CLIENT-001","amountMinor":2500000,"valueDate":"2026-03-31","narrative":"March payroll"}'
 APRIL='{"clientReference":"PAY-2026-03-0001","debitAccountId":"ACC-PAYROLL","creditAccountId":"ACC-CLIENT-001","amountMinor":2500000,"valueDate":"2026-04-30","narrative":"April payroll"}'
 NEW='{"clientReference":"PAY-2026-03-0002","debitAccountId":"ACC-PAYROLL","creditAccountId":"ACC-CLIENT-002","amountMinor":750000,"valueDate":"2026-03-31","narrative":"March payroll"}'
+RESEND='{"clientReference":"PAY-2026-03-0001","debitAccountId":"ACC-PAYROLL","creditAccountId":"ACC-CLIENT-001","amountMinor":2500000,"valueDate":"2026-03-31","narrative":"March payroll resend"}'
 ```
 
 **Nothing prints.** That block only sets up the helpers. The checks below are what run them, and
@@ -180,8 +181,16 @@ they are the lines in the **Run** column.
 | **2** — the same instruction twice (criteria 1, 2) | `post "$MARCH"; post "$MARCH"; balance ACC-CLIENT-001` | Both calls return HTTP 200 or 201 with the **same** `postingId`. Balance `2500000` (one payment, not two) |
 | **3** — same reference, new value date (criterion 3) | `post "$APRIL"; balance ACC-CLIENT-001` | HTTP 201, a **new** `postingId`, `"valueDate":"2026-04-30"`. Balance `5000000` |
 | **4** — a new instruction (criterion 4) | `post "$NEW"; balance ACC-CLIENT-002` | HTTP 201 with a `postingId`. Balance `750000` |
+| **5** — the March payment again, worded differently (criterion 1) | `post "$RESEND"; balance ACC-CLIENT-001` | The **same** `postingId` as your first `MARCH` call. Balance still `5000000` |
 
-All four checks pass? Stop the service with `Ctrl+C` and go to [Step 6](#step-6--record).
+**Check 5 is the interesting one.** It sends the March payment a third time, with the same client
+reference and the same value date, and only the wording changed. Your team treats that as the same
+payment: the narrative is not part of what makes a payment unique. Nobody has written that down,
+so the agent has to guess, and a common guess is to compare every field. That guess passes Checks 2
+to 4 and books the March payroll **twice** — the very bug GB-142 was raised for. If Check 5 fails,
+your run is normal. Repair it, and record it.
+
+All five checks pass? Stop the service with `Ctrl+C` and go to [Step 6](#step-6--record).
 
 **When a check fails,** send the repair prompt in the **same chat**, with the failing output in
 place of the `<>` line:

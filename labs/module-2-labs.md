@@ -372,11 +372,11 @@ Copy it exactly. It is Prompt 1.1-A, word for word.
 `GB-142-lab-1.1` branch. The comparison only holds while the chat and the branch are clean. What you
 remember is not a problem: you send one scripted prompt, so your memory has no way into the run.
 
-### Step 4 — The same four checks as Lab 1.1
+### Step 4 — The same five checks as Lab 1.1
 
 Run them yourself. Do not trust Copilot's report alone. The steps are in
 [module-1-labs.md](module-1-labs.md): `mvn test` for Check 1, then `mvn spring-boot:run` in a second
-terminal, then the `post` and `balance` helpers for Checks 2 to 4.
+terminal, then the `post` and `balance` helpers for Checks 2 to 5.
 
 | Check | Passes when |
 |---|---|
@@ -384,6 +384,7 @@ terminal, then the `post` and `balance` helpers for Checks 2 to 4.
 | **2** — the same instruction twice | Both calls return HTTP 200 or 201 with the **same** `postingId`. Balance `2500000` |
 | **3** — same reference, new value date | HTTP 201, a **new** `postingId`, `"valueDate":"2026-04-30"`. Balance `5000000` |
 | **4** — a new instruction | HTTP 201 with a `postingId`. Balance `750000` |
+| **5** — the March payment again, worded differently | The **same** `postingId` as your first `MARCH` call. Balance still `5000000` |
 
 ### Step 5 — Repair, only when a check fails
 
@@ -402,7 +403,7 @@ Replace the one line in `<>` with the output of the failing check. Each repair c
 After a repair, stop the service (`Ctrl+C`), start it again, and run all the checks again from the
 top.
 
-**Stop** when all four checks pass, after three repairs, or at 35 minutes. Whichever comes first.
+**Stop** when all five checks pass, after three repairs, or at 35 minutes. Whichever comes first.
 
 ### Step 6 — Commit
 
