@@ -292,7 +292,7 @@ Expect `Tests run: 4, Failures: 0` in `global-bank-account` and `Tests run: 2, F
 
 ### Recording across chats
 
-The capstone uses nine chats, and one chat cannot see another. So you record **each chat before you
+The capstone uses ten chats, and one chat cannot see another. So you record **each chat before you
 leave it**, with Prompt C-M. Each record adds one row to `course/labs/my-work/capstone-chats.md`.
 At the end, Prompt C-M-last records the last chat and adds up all the rows into
 `metrics-capstone-<timestamp>.md`.
@@ -301,13 +301,14 @@ At the end, Prompt C-M-last records the last chat and adds up all the rows into
 |---|---|---|
 | 1 | C1 | before you start chat 2 |
 | 2 | C2 | before you start chat 3 |
-| 3 — the coding chat | C3, C5, C6, C7, every C-R | **after stage 6**, because repairs come back to it |
+| 3 — the plan chat | C3, and any plan change after C4 | at the end of stage 3, because plan changes come back to it |
 | 4 | C4 | before you go back to chat 3 |
-| 5 | C8 | before you start chat 6 |
-| 6 | C9 | before you start chat 7 |
-| 7 | C10 | before you start chat 8 |
-| 8 | C11 | before you start chat 9 |
-| 9 | C12, C13, C14 | with **C-M-last**, after C14 |
+| 5 — the coding chat | C5, C6, C7, every C-R | **after stage 6**, because repairs come back to it |
+| 6 | C8 | before you start chat 7 |
+| 7 | C9 | before you start chat 8 |
+| 8 | C10 | before you start chat 9 |
+| 9 | C11 | before you start chat 10 |
+| 10 | C12, C13, C14 | with **C-M-last**, after C14 |
 
 Before you send a record prompt, do two things in that chat. Pick the **default agent** — some custom
 agents cannot write files. Then read the model and the usage numbers for that chat: `/usage` in
@@ -318,7 +319,7 @@ The agent cannot run `/usage` for you. Record prompts are not counted as turns.
 **One row is one chat.** The VS Code control already reads one chat. **Copilot CLI `/usage` counts
 the whole session**, so each reading holds the chats before it as well. Keep the last number you
 read, subtract it from the new one, and type in the difference. Prompt C-M-last adds the rows up, so
-a running total in every row would count chat 1 nine times.
+a running total in every row would count chat 1 ten times.
 
 **Prompt C-M** · Agent mode · default agent · **same chat**
 
@@ -344,13 +345,13 @@ Append one row to course/labs/my-work/capstone-chats.md, and under it one line
 "Assumptions (N):" with the list, N being the number for this chat. If the file does not exist, create it
 with this header:
 | Chat | Model | Model ID | Turns | Tool calls | Asked | Rework | Churn | Input tokens | Output tokens | Total tokens | AIC |
-In the Chat column, write a few words on what this chat did, for example "spec (design agent)".
+In the Chat column, write a few words on what this chat did, for example "plan (design agent)".
 Change no other file. Show me the row.
 ```
 
 ### The custom agents
 
-Five stages use the four custom agents from Module 4: **design**, **coding**, **test** and **review**.
+Four stages use the four custom agents from Module 4: **design**, **coding**, **test** and **review**.
 To use one, open the agent list in the Chat view (next to the mode list) and pick the agent. Then
 paste the prompt. Pick the agent **before** you paste.
 
@@ -377,7 +378,7 @@ reads this file, not Jira. You pull once.
 
 ### Stage 2 — Write the spec
 
-**Prompt C2** · Agent mode · agent: **design** · base model · **new chat**
+**Prompt C2** · Agent mode · default agent · base model · **new chat**
 
 ```text
 Write the spec for GB-186. The ticket is in global-bank-account/specs/GB-186-ticket.md.
@@ -385,22 +386,18 @@ GB-186 changes both repositories. Read:
 - in global-bank-account: docs/adr/, docs/architecture.md, docs/glossary.md,
   .github/copilot-instructions.md
 - in global-bank-transaction: .github/copilot-instructions.md and docs/contract.md
-Your spec must have these sections:
+The spec says what must be true, not how to build it. Give it these sections:
 1. The problem, in one paragraph.
 2. Acceptance criteria, numbered AC1 to AC6, one behaviour each, each one testable.
 3. Out of scope.
-4. Assumptions.
-5. Two or three options, with a recommendation and the rule that decides it. Name the file
-   each rule comes from.
-6. Open questions: anything neither repository can answer. Ask them. Do not guess.
-Write no code and edit no files. Show the spec here in the chat.
+4. Assumptions, each marked CONFIRMED or UNCONFIRMED.
+5. Open questions: anything neither repository can answer. Ask them. Do not guess.
+Name no endpoint, class or file to change: that is the plan's job.
+Write the spec to global-bank-account/specs/GB-186.md. Write no code and change no other file.
 ```
 
-**What you should see:** a spec in the chat, with six numbered criteria, options, a recommendation,
-and at least one open question. The design agent writes no files, by design.
-
-**Save it:** create the file `global-bank-account/specs/GB-186.md`. Select **Copy** on the agent's
-answer, and paste it into the file. That file is the hand-off for every later stage.
+**What you should see:** one new file, `global-bank-account/specs/GB-186.md`, with six numbered
+criteria and at least one open question. That file is the hand-off for every later stage.
 
 **Then, you:** read the open questions. If a question needs a business answer, ask your trainer. In
 this room, the trainer speaks for Client Money Ops, who reported the ticket. Type the answer under the
@@ -409,20 +406,29 @@ Copilot choose the answer.
 
 ### Stage 3 — Plan it, then challenge the plan
 
-**Prompt C3** · Agent mode · agent: **coding** · base model · **new chat**
+**Prompt C3** · Agent mode · agent: **design** · base model · **new chat**
 
 ```text
-Plan the change for GB-186. Read the spec global-bank-account/specs/GB-186.md, including the
-answers under the open questions. Do not edit any code yet.
-Write the plan to global-bank-account/specs/GB-186-plan.md, as numbered small steps. For each
-step give: the repository, the files, and the acceptance criterion it serves.
-Order the steps like this: the contract between the two repositories first, then the producer
-(global-bank-account), then the consumer (global-bank-transaction).
-Stop and show me the plan. Do not edit any other file.
+Plan the change for GB-186. The agreed spec is global-bank-account/specs/GB-186.md, including
+the answers under the open questions. Work from the spec, not the Jira ticket.
+Also read, in global-bank-account: docs/adr/, docs/architecture.md and docs/glossary.md; and in
+global-bank-transaction: docs/contract.md.
+Give the plan these sections:
+"## Approach": two or three options, a recommendation, and the rule that decides it. Name the
+file each rule comes from.
+"## Steps": numbered small steps. For each step give: the repository, the files, and the
+acceptance criterion it serves. Order them like this: the contract between the two repositories
+first, then the producer (global-bank-account), then the consumer (global-bank-transaction).
+Write no code and edit no files. Show the plan here in the chat.
 ```
 
-Now challenge the plan. The challenger must not be the agent that wrote it. The design agent has not
-seen any code, and there is none yet.
+**What you should see:** a plan in the chat. The design agent writes no files, by design.
+
+**Save it:** create the file `global-bank-account/specs/GB-186-plan.md`. Select **Copy** on the
+agent's answer, and paste it into the file.
+
+Now challenge the plan, in a **new chat**. A new chat does not share the planner's reasoning. The
+design agent has not seen any code, and there is none yet.
 
 **Prompt C4** · Agent mode · agent: **design** · base model · **new chat**
 
@@ -436,17 +442,19 @@ global-bank-account/specs/GB-186.md. Answer four questions about the plan:
 Give each answer in at most four lines. Do not edit any file.
 ```
 
-**Then, you:** decide what to change. If the plan needs a change, go back to the coding agent's chat
-from C3 and ask for it in one sentence. That counts as a turn, not as rework.
+**Then, you:** decide what to change. If the plan needs a change, go back to the design agent's chat
+from C3, ask for it in one sentence, and paste the new plan into `specs/GB-186-plan.md`. That
+counts as a turn, not as rework.
 
 ### Stage 4 — Build across both repositories, contract first
 
-Go back to the **coding agent's chat from C3** for all three prompts in this stage.
+Start a **new chat** with the **coding** agent. Use this chat for all three prompts in this stage.
 
-**Prompt C5** · Agent mode · agent: **coding** · base model · **same chat as C3**
+**Prompt C5** · Agent mode · agent: **coding** · base model · **new chat**
 
 ```text
-Do the contract step of the plan only. Write the batch request and response shapes, the
+Read the plan global-bank-account/specs/GB-186-plan.md and the spec
+global-bank-account/specs/GB-186.md. Do the contract step of the plan only. Write the batch request and response shapes, the
 error cases, and the merge order into global-bank-transaction/docs/contract.md. Keep what is
 still true, and change only what GB-186 changes. Follow ADR-009 in global-bank-account.
 Do not change any code yet. Show me the diff of docs/contract.md, then stop.
@@ -502,7 +510,7 @@ criterion marked "not covered" is a finding, not a failure. Leave it in the repo
 ### Checks — do the acceptance criteria hold?
 
 Run these after stage 5. **Paste the repair prompt only when a check fails.** Paste it in the
-coding agent's chat (from C3). A run has at most three repairs.
+coding agent's chat (from C5). A run has at most three repairs.
 
 **Check 1 — both builds (AC6).** In a terminal:
 
@@ -588,7 +596,7 @@ Pass: `HTTP 201`, and the response has a `postingId`.
 
 Stop both services with `Ctrl+C` when the checks pass.
 
-**Repair prompt C-R** · Agent mode · agent: **coding** · **same chat as C3**. Paste it only when a
+**Repair prompt C-R** · Agent mode · agent: **coding** · **same chat as C5**. Paste it only when a
 check fails. It counts as a turn and as rework.
 
 ```text
