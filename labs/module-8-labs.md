@@ -1,7 +1,7 @@
 # Module 8 labs — Closing the loop
 
 **Day 2** · Lab 8.1 and the capstone (+ stretch) · about 85 minutes · Repositories: `global-bank-account`
-and `global-bank-transaction` · Start from: `capstone-start`
+and `global-bank-transaction` · Start from: the tag `capstone-start`
 
 Lab 8.1 is short. You take one thing you learned in the last two days and save it where the next ticket
 will find it. This is called **write-back**. Most of the words already exist in your spec, so you
@@ -290,6 +290,11 @@ cd ~/adlc-copilot-training/global-bank-transaction && git switch -c GB-186-capst
 
 Expect `Tests run: 4, Failures: 0` in `global-bank-account` and `Tests run: 2, Failures: 0` in
 `global-bank-transaction`.
+
+`capstone-start` is a **tag**, not a branch, so `git branch -a` does not list it; `git tag` does. Never
+start from `main` instead. `main` is Global Bank before the course: it has no posting API, so every
+stage after this one has nothing to change. If `git switch` says the tag is missing, fetch the tags
+(step 2 of the one-time setup in README.md) and run the block again.
 
 ### Recording across chats
 
