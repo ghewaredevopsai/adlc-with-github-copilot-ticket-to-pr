@@ -272,7 +272,11 @@ Then, in `adlc-labs.code-workspace`, change the server's `"command": "uvx"` to
 
 ## No Jira or Confluence at all?
 
-Use GitHub issues instead. The lab tickets become issues in a GitHub repository, and Copilot reads
+**First choice: run them on your laptop.** A small open-source stand-in answers the Jira and Confluence
+calls the labs make, so the prompts and the MCP server stay exactly as they are. Ask Copilot, in Agent mode:
+*"Follow course/labs/local-jira-confluence.md and set up local Jira and Confluence."* It takes about 5 minutes.
+
+**Second choice: GitHub issues.** Use GitHub issues instead. The lab tickets become issues in a GitHub repository, and Copilot reads
 them through the **github** MCP server. The prompts in the guides are written for Jira, so you add
 one line above each of them. Everything else in the labs is the same.
 
