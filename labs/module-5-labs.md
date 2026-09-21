@@ -486,9 +486,27 @@ git commit -m "GB-202: light spec"
 
 This is the step the core lab leaves out for time.
 
-First, the gate. If your gate said **fail** because of a BLOCKING assumption, ask your trainer. Your
-trainer plays the person from Client Money Ops for this lab. Post your question in the meeting
-chat. Mark the answer in the spec as `CONFIRMED (Client Money Ops, in the meeting chat)`.
+First, the gate. If your gate said **fail** because of a BLOCKING assumption, you need an answer
+from Client Money Ops, who reported the ticket. Their answers are below. Open them only now, after
+your gate: reading them before Lab 5.1 would answer the questions your spec was meant to find.
+
+<details>
+<summary>Answers from Client Money Ops for GB-147 (open only after your gate)</summary>
+
+| If your question is about… | Client Money Ops says |
+|---|---|
+| Which date | The **value date**. Ops reconcile by the date a posting takes effect |
+| Calendar or business date | Calendar date (India time). Business date is a later ticket |
+| Reversed postings | Include them, and show the status |
+| Which fields | Posting id, client reference, debit account, credit account, amount in minor units, currency, value date, status |
+| Screen or API | An API. Another team builds the ops screen |
+| Export or scheduling | No. Not in this ticket |
+| Which accounts | All ledger accounts, one request per date. No totals |
+| Anything else | No answer yet. Leave it UNCONFIRMED |
+
+</details>
+
+Copy each answer you use into the spec, marked `CONFIRMED (Client Money Ops)`.
 
 In the agent list, pick **coding**. Then paste:
 

@@ -32,7 +32,8 @@ of the decisions page. Your write-back pages go under it.
 An error instead? See [If something goes wrong](confluence-setup.md#if-something-goes-wrong) in
 `confluence-setup.md`.
 
-Do **not** load the capstone ticket yet. Your trainer tells you when.
+Do **not** load the capstone ticket yet. Your trainer tells you when. Working on your own? Load it
+when you are ready to start the capstone, and not before.
 
 **2. Save your Day 2 work.** In each repository, commit anything that is still open on your GB-158
 branches from Lab 7.1. Then run `git status`. It must say `nothing to commit`.
@@ -265,12 +266,12 @@ minutes, the earlier of the two. This is the same rule as every lab: stop when a
 or at the timebox. An honest unfinished run is worth more than a rushed complete one.
 
 **One counting note.** In stage 2 the spec may raise an open question that no file in either
-repository can answer. You ask the trainer. That is not an **Asked**, because Asked counts only
+repository can answer. You look up the answer from Client Money Ops. That is not an **Asked**, because Asked counts only
 questions that a file could have answered.
 
 ### Before you start the capstone
 
-**1. Load the ticket** when your trainer says so:
+**1. Load the ticket** when your trainer says so, or when you start, if you work on your own:
 
 ```bash
 cd ~/adlc-copilot-training/adlc-with-github-copilot-ticket-to-pr
@@ -399,10 +400,24 @@ Write the spec to global-bank-account/specs/GB-186.md. Write no code and change 
 **What you should see:** one new file, `global-bank-account/specs/GB-186.md`, with six numbered
 criteria and at least one open question. That file is the hand-off for every later stage.
 
-**Then, you:** read the open questions. If a question needs a business answer, ask your trainer. In
-this room, the trainer speaks for Client Money Ops, who reported the ticket. Type the answer under the
-question in `specs/GB-186.md`, with "Answer from Client Money Ops (trainer):" in front. Do not let
-Copilot choose the answer.
+**Then, you:** read the open questions. If a question needs a business answer, it has to come from
+Client Money Ops, who reported the ticket. Their answers are below. Open them only now, after C2,
+and use only the rows that match a question your spec asked. Type each answer under its question in
+`specs/GB-186.md`, with "Answer from Client Money Ops:" in front. Do not let Copilot choose the
+answer.
+
+<details>
+<summary>Answers from Client Money Ops for GB-186 (open only after C2)</summary>
+
+| If your question is about… | Client Money Ops says |
+|---|---|
+| The batch-level reporting global-bank-transaction does today, or its rule that a failed item must not fail the batch | **Replace it.** The batch is the unit now. The result reports the batch outcome, plus the item that was rejected and why. There is no partial disbursement to report any more. |
+| Anything else | No answer yet. Leave it as an open question, or as an UNCONFIRMED assumption |
+
+</details>
+
+If your spec asked none of these, do not add the answer now. Carry on to stage 3: what your agents
+do without it is part of the result.
 
 ### Stage 3 — Plan it, then challenge the plan
 

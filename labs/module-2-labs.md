@@ -519,8 +519,14 @@ Finally, compare your instruction file with the reference version:
 git diff GB-142-lab-2.2 m2.2-start -- .github/copilot-instructions.md
 ```
 
-Note one fact the reference file has and yours does not. Your trainer shows the reference ADR in the
-debrief after lunch.
+Note one fact the reference file has and yours does not. Then read the reference ADR the same way,
+and compare it with your ADR-001:
+
+```bash
+git show m2.2-start:docs/adr/ADR-007-duplicate-suppression.md
+```
+
+Look for the rejected option and the reason it gives. The debrief after lunch goes through it.
 
 ### If you are behind
 

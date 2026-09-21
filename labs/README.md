@@ -26,7 +26,9 @@ to run it:
 - **Agent mode:** in the Copilot Chat box, set the mode to **Agent**. Some steps say **Ask** or
   **Plan**. Your list has these three: Edit mode was removed from Copilot in 2026.
 - **Base model** or **premium reasoning model:** pick the model class the step names, from the model
-  list in the chat box. Your trainer shows which models count as which on Day 1.
+  list in the chat box. The **base model** is the default, lowest-cost model in your list. A
+  **premium reasoning model** is one marked for reasoning or thinking, at a higher AI-credit rate.
+  Model names change often, so your trainer confirms the two for your organisation on Day 1.
 - **New chat:** start a new chat first (the **+** at the top of the Chat view). **Same chat:** stay
   in the chat you are in.
 
