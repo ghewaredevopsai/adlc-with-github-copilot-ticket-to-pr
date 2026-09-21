@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Course Summary &mdash; Modules and Labs | Agentic ADLC with GitHub Copilot</title>
+<link rel="stylesheet" href="../assets/adlc-deck.css">
+</head>
+<body data-deck="Summary">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#71809a"/></marker>
+  <marker id="arb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#6ea8fe"/></marker>
+  <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#e2726e"/></marker>
+  <marker id="arg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#5fbf8f"/></marker>
+</defs></svg>
+
+<div id="viewport"><div id="stage">
+<!-- title -->
+<section class="slide title" data-sec="Opening" data-title="Title" data-notes="This deck is a quick review of the whole course. Each module has two slides. The first gives the four key learnings of the module deck, the problem it solves, and one line to remember. The second gives its labs: what you do, what you learn, and what you leave with. Use it to prepare before a module, or to revise afterwards. It does not replace the module decks or the lab guides. They hold the full explanations, the prompts and the steps. The lab slides describe each lab without giving away its result, so you can still use them before you run the lab." data-tier="R">
+  <div class="wrap">
+    <span class="tier">Day 1 &amp; Day 2 &middot; Summary</span>
+    <h1>Course Summary<br>Modules and Labs</h1>
+    <p class="sub">Two slides per module: the key learnings, then the labs.</p>
+    <p class="meta">
+      <span><b>Agentic ADLC with GitHub Copilot</b> &mdash; From JIRA Ticket to Merged PR</span>
+      <span>Advanced</span>
+      <span>Trainer: Rajesh Gheware</span>
+    </p>
+    <div class="chips">
+      <span class="chip">M1 ADLC &amp; token economics</span>
+      <span class="chip">M2 Knowledge harnessing</span>
+      <span class="chip">M3 Prompt &amp; context</span>
+      <span class="chip">M4 Specialised agents</span>
+      <span class="chip">M5 Spec-driven development</span>
+      <span class="chip">M6 Ticket as unit of work</span>
+      <span class="chip">M7 Multi-repo engineering</span>
+      <span class="chip">M8 Closing the loop</span>
+    </div>
+  </div>
+</section>
+
+<!-- M1 · module -->
+<section class="slide" data-sec="M1 &middot; ADLC & token economics" data-title="Module 1 &mdash; what it teaches" data-notes="This slide is the whole of Module 1 on one page. The main idea is the re-discovery tax: the turns and tool calls the agent spends working out facts your team already knows. You pay for it in AI credits, and again in answers that rest on guesses. The four cards are the four skills. You measure a ticket the same way every time, so two runs can be compared. You name the task before you pick a mode and a model, because the strongest model is not always the right one. You decide where each fact lives. The band holds the four questions to ask before every request. The fourth one, interactive or hand-off, is decided by four gates, and gate 1 asks whether you can write down what done means. Module 5 comes back to that question." data-tier="K">
+  <h2>Module 1 &mdash; <em>The ADLC operating model &amp; token economics</em><span class="tag">M1</span></h2>
+  <div class="body g64">
+    <div>
+      <svg viewBox="0 0 700 330" role="img" aria-label="Four key learnings from Module 1, and one rule to remember">
+        <text class="lb" x="4" y="13">KEY LEARNINGS</text>
+        <rect class="bx" x="4" y="22" width="692" height="218" rx="8"/>
+        <rect class="bx w rise" x="20" y="38" width="326" height="88" rx="6"/>
+        <text class="tt" x="34" y="64">1 &middot; The re-discovery tax</text>
+        <text class="ss" x="34" y="88">Turns the agent spends re-learning</text>
+        <text class="ss" x="34" y="108">facts your team already knows.</text>
+        <rect class="bx w rise r2" x="356" y="38" width="326" height="88" rx="6"/>
+        <text class="tt" x="370" y="64">2 &middot; Measure one ticket</text>
+        <text class="ss" x="370" y="88">One tally-sheet row: five counts,</text>
+        <text class="ss" x="370" y="108">plus model, tokens and AIC.</text>
+        <rect class="bx w rise r3" x="20" y="138" width="326" height="88" rx="6"/>
+        <text class="tt" x="34" y="164">3 &middot; Choose mode and model</text>
+        <text class="ss" x="34" y="188">Name the task first: mechanical,</text>
+        <text class="ss" x="34" y="208">reasoning or review.</text>
+        <rect class="bx w rise r4" x="356" y="138" width="326" height="88" rx="6"/>
+        <text class="tt" x="370" y="164">4 &middot; Plan the context window</text>
+        <text class="ss" x="370" y="188">Each fact goes in the chat,</text>
+        <text class="ss" x="370" y="208">in a file, or in a tool call.</text>
+        <rect class="bx d" x="4" y="256" width="692" height="70" rx="8"/>
+        <text class="lb w" x="24" y="280">ONE LINE TO REMEMBER</text>
+        <text class="ss w" x="24" y="308" style="font-size:15px">Before every request: task type, mode, window, interactive or hand-off.</text>
+      </svg>
+    </div>
+    <div class="pts">
+      <h3>The problem</h3>
+      <ul>
+        <li>The agent is fast, but it re-learns what your team already knows.</li>
+        <li>You pay twice: in AI credits, and in wrong answers.</li>
+      </ul>
+      <div class="take"><b>Next:</b> Module 2 writes that team knowledge into the repository.</div>
+    </div>
+  </div>
+</section>
+<!-- M1 · labs -->
+<section class="slide" data-sec="M1 &middot; ADLC & token economics" data-title="Module 1 labs &mdash; 1.1" data-notes="Lab 1.1 is the first row of your tally sheet. Everyone runs the same ticket, GB-142, with the same words, on a repository nobody has prepared. That is what makes the number fair: it measures the repository, not your prompting skill. Do not read or tidy the code first. Paste the repair prompt only when one of the five checks fails. At the end, the record prompt writes the row for you. Read the model, tokens and AI credits before you send it, so its own cost stays out of the run. Pay most attention to the assumptions list. Each assumption is a decision the agent made that no file in the repository answered. That list is your to-do list for Module 2." data-tier="K">
+  <h2>Module 1 labs &mdash; what you do, what you learn<span class="tag">M1</span></h2>
+  <div class="body g55">
+    <div class="pts">
+      <h3>Lab 1.1 &middot; The baseline run</h3>
+      <p style="margin:0 0 6px;color:#d98a3d;font-weight:600">GB-142 &middot; 35 min + record</p>
+      <h3>You do</h3>
+      <ul>
+        <li>Fix GB-142 (retried payments are booked twice) on the repo as it is.</li>
+        <li>Use the same scripted prompt as everyone. Repair only when a check fails.</li>
+      </ul>
+      <h3>You learn</h3>
+      <ul>
+        <li>How much of a run is re-discovery, measured, not guessed.</li>
+        <li>The assumptions list shows what your team never wrote down.</li>
+      </ul>
+      <div class="take"><b>You leave with:</b> the fix, and <span style="white-space:nowrap">metrics-1.1-*.md</span></div>
+    </div>
+    <div class="pts">
+      <h3>The row you record</h3>
+      <ul>
+        <li><b>Copilot counts</b> turns, tool calls, asked, rework and churn.</li>
+        <li><b>You read</b> the model, tokens and AIC off your Copilot client.</li>
+        <li>Lab 2.2 and the capstone record the same row, so you can compare.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+<!-- M2 · module -->
+<section class="slide" data-sec="M2 &middot; Knowledge harnessing" data-title="Module 2 &mdash; what it teaches" data-notes="Module 2 turns the re-discovery tax into files the agent reads by itself. The four cards are four habits for every fact you write down. Put it in one layer only, because two copies drift apart. Write it only if it is hard to work out from the code and needed often; the agent can read the rest from the code. Make it reachable: a fact buried in a wiki page nobody links to does not help. Give it an owner and a check, and update it in the same pull request that makes it wrong. A stale file does more harm than a missing one, because the agent trusts it and stops looking. The band is the limit: the instruction file is the most-read file in the repository, so a secret there travels with every request. Often the right move is to write less." data-tier="K">
+  <h2>Module 2 &mdash; <em>Knowledge harnessing</em><span class="tag">M2</span></h2>
+  <div class="body g64">
+    <div>
+      <svg viewBox="0 0 700 330" role="img" aria-label="Four key learnings from Module 2, and one rule to remember">
+        <text class="lb" x="4" y="13">KEY LEARNINGS</text>
+        <rect class="bx" x="4" y="22" width="692" height="218" rx="8"/>
+        <rect class="bx w rise" x="20" y="38" width="326" height="88" rx="6"/>
+        <text class="tt" x="34" y="64">1 &middot; One fact, one layer</text>
+        <text class="ss" x="34" y="88">Organisation, repo, path or ADR.</text>
+        <text class="ss" x="34" y="108">Two copies soon disagree.</text>
+        <rect class="bx w rise r2" x="356" y="38" width="326" height="88" rx="6"/>
+        <text class="tt" x="370" y="64">2 &middot; Write only what helps</text>
+        <text class="ss" x="370" y="88">Hard to work out, needed often?</text>
+        <text class="ss" x="370" y="108">Write it. Otherwise, skip it.</text>
+        <rect class="bx w rise r3" x="20" y="138" width="326" height="88" rx="6"/>
+        <text class="tt" x="34" y="164">3 &middot; Make it reachable</text>
+        <text class="ss" x="34" y="188">Written is not the same as found.</text>
+        <text class="ss" x="34" y="208">Use a module map and links.</text>
+        <rect class="bx w rise r4" x="356" y="138" width="326" height="88" rx="6"/>
+        <text class="tt" x="370" y="164">4 &middot; Treat it like code</text>
+        <text class="ss" x="370" y="188">An owner, a review, a check.</text>
+        <text class="ss" x="370" y="208">A stale file stops the search.</text>
+        <rect class="bx d" x="4" y="256" width="692" height="70" rx="8"/>
+        <text class="lb w" x="24" y="280">ONE LINE TO REMEMBER</text>
+        <text class="ss w" x="24" y="308" style="font-size:15px">Never put a secret in the instruction file. It goes out with every request.</text>
+      </svg>
+    </div>
+    <div class="pts">
+      <h3>The problem</h3>
+      <ul>
+        <li>Lab 1.1 showed the agent re-learning team facts.</li>
+        <li>Write them into the repo once. The agent reads them on every request.</li>
+      </ul>
+      <div class="take"><b>Next:</b> Module 3 is about how you ask.</div>
+    </div>
+  </div>
+</section>
+<!-- M2 · labs -->
+<section class="slide" data-sec="M2 &middot; Knowledge harnessing" data-title="Module 2 labs &mdash; 2.1 &middot; 2.2" data-notes="The two labs are one experiment. In Lab 2.1 you turn your Lab 1.1 notes into three files: a short repository instruction file, a path-scoped file for the domain folder, and an ADR for the GB-142 decision. Keep the instruction file short, because it is read on every request. In Lab 2.2 you run the same ticket with the same prompt, in a new chat, on the repository you just wrote. The agent remembers nothing from Lab 1.1, so any change comes from your files. Before the measured run, check that Copilot lists your files as loaded; a file it never reads cannot help. When you compare the rows, read each column, not only the total. A column that did not move points to knowledge that is missing or not reachable." data-tier="K">
+  <h2>Module 2 labs &mdash; what you do, what you learn<span class="tag">M2</span></h2>
+  <div class="body g55">
+    <div class="pts">
+      <h3>Lab 2.1 &middot; Write the knowledge in three layers</h3>
+      <p style="margin:0 0 6px;color:#d98a3d;font-weight:600">GB-142 &middot; 45 min</p>
+      <h3>You do</h3>
+      <ul>
+        <li>List what the agent re-discovered in Lab 1.1.</li>
+        <li>Write a repo instruction file, a path-scoped file and an ADR.</li>
+      </ul>
+      <h3>You learn</h3>
+      <ul>
+        <li>Cutting the file down is part of the job: 30 lines or fewer.</li>
+        <li>An ADR holds what the code cannot show: the rejected option.</li>
+      </ul>
+      <div class="take"><b>You leave with:</b> three files, committed on lab-2.1-knowledge</div>
+    </div>
+    <div class="pts">
+      <h3>Lab 2.2 &middot; The same ticket, re-measured</h3>
+      <p style="margin:0 0 6px;color:#d98a3d;font-weight:600">GB-142 &middot; 45 min</p>
+      <h3>You do</h3>
+      <ul>
+        <li>Run GB-142 again: same prompt, new chat, your updated repo.</li>
+        <li>First check that Copilot really loads your files.</li>
+      </ul>
+      <h3>You learn</h3>
+      <ul>
+        <li>Only the repo changed, so the two rows compare fairly.</li>
+        <li>Look at which column moved. That tells you what to write next.</li>
+      </ul>
+      <div class="take"><b>You leave with:</b> <span style="white-space:nowrap">metrics-2.2-*.md</span></div>
+    </div>
+  </div>
+</section>
+<!-- M3 · module -->
+<section class="slide" data-sec="M3 &middot; Prompt & context" data-title="Module 3 &mdash; what it teaches" data-notes="Module 3 is about the one request you send. The six parts each protect against one kind of failure, and stop conditions are the part most people leave out. Without them, a model that cannot find a fact writes the most likely-looking answer, and nothing in the code shows it was a guess. Grounding means the agent names the file each rule came from, so you check one file instead of the whole repository. Anything you type twice belongs in a skill file (the steps that are true for every ticket) or a prompt file (a slash command you run). Finally, measure: a small eval set of three tickets and a pass rate beat any debate about wording. Two failures survive all of this: the confidently wrong refactor and the test written to pass. Module 4 deals with them." data-tier="K">
+  <h2>Module 3 &mdash; <em>Prompt and context engineering</em><span class="tag">M3</span></h2>
+  <div class="body g64">
+    <div>
+      <svg viewBox="0 0 700 330" role="img" aria-label="Four key learnings from Module 3, and one rule to remember">
+        <text class="lb" x="4" y="13">KEY LEARNINGS</text>
+        <rect class="bx" x="4" y="22" width="692" height="218" rx="8"/>
+        <rect class="bx w rise" x="20" y="38" width="326" height="88" rx="6"/>
+        <text class="tt" x="34" y="64">1 &middot; Six parts per request</text>
+        <text class="ss" x="34" y="88">Goal, constraints, inputs, output</text>
+        <text class="ss" x="34" y="108">contract, done criteria, stop.</text>
+        <rect class="bx w rise r2" x="356" y="38" width="326" height="88" rx="6"/>
+        <text class="tt" x="370" y="64">2 &middot; Stop conditions</text>
+        <text class="ss" x="370" y="88">Name when it must stop and ask.</text>
+        <text class="ss" x="370" y="108">Otherwise it guesses, confidently.</text>
+        <rect class="bx w rise r3" x="20" y="138" width="326" height="88" rx="6"/>
+        <text class="tt" x="34" y="164">3 &middot; Ground every answer</text>
+        <text class="ss" x="34" y="188">Ask for the file behind each rule.</text>
+        <text class="ss" x="34" y="208">Then you check one file.</text>
+        <rect class="bx w rise r4" x="356" y="138" width="326" height="88" rx="6"/>
+        <text class="tt" x="370" y="164">4 &middot; Save what you repeat</text>
+        <text class="ss" x="370" y="188">Typed it twice? Put it in a</text>
+        <text class="ss" x="370" y="208">skill file or a prompt file.</text>
+        <rect class="bx d" x="4" y="256" width="692" height="70" rx="8"/>
+        <text class="lb w" x="24" y="280">ONE LINE TO REMEMBER</text>
+        <text class="ss w" x="24" y="308" style="font-size:15px">Prove a prompt is better with a pass rate on an eval set, not a feeling.</text>
+      </svg>
+    </div>
+    <div class="pts">
+      <h3>The problem</h3>
+      <ul>
+        <li>The repo now says what is true. This module is how you ask.</li>
+        <li>An agent always answers, even when it does not know.</li>
+      </ul>
+      <div class="take"><b>Next:</b> Two failures remain. Module 4 adds a separate checker.</div>
+    </div>
+  </div>
+</section>
+<!-- M3 · labs -->
+<section class="slide" data-sec="M3 &middot; Prompt & context" data-title="Module 3 labs &mdash; 3.1 &middot; 3.2" data-notes="Lab 3.1 builds the tool, and Lab 3.2 tests it. In Lab 3.1 you write one clear request for GB-151, using the six parts. Then you split it. The half that is true for every ticket goes into a skill file. The ticket-specific half stays out. A prompt file lets you run the whole thing as /gb-change. In Lab 3.2 you write your pass criteria before any run, so the result cannot bend your scoring. Then you run three tickets twice. Column A uses an ordinary prompt on a branch without your skill file. Column B uses /gb-change on the branch that has it. A common mistake is to leave the skill file where column A can load it by itself; then both columns test the same thing." data-tier="K">
+  <h2>Module 3 labs &mdash; what you do, what you learn<span class="tag">M3</span></h2>
+  <div class="body g55">
+    <div class="pts">
+      <h3>Lab 3.1 &middot; The skill file</h3>
+      <p style="margin:0 0 6px;color:#d98a3d;font-weight:600">GB-151 &middot; 45 min</p>
+      <h3>You do</h3>
+      <ul>
+        <li>Write a six-part request for GB-151.</li>
+        <li>Save the reusable half as SKILL.md, and a /gb-change prompt file.</li>
+      </ul>
+      <h3>You learn</h3>
+      <ul>
+        <li>A skill file names no ticket. It holds steps true for every ticket.</li>
+        <li>Check that Copilot loads it. An unused file does nothing.</li>
+      </ul>
+      <div class="take"><b>You leave with:</b> SKILL.md and gb-change.prompt.md, committed</div>
+    </div>
+    <div class="pts">
+      <h3>Lab 3.2 &middot; The prompt A/B</h3>
+      <p style="margin:0 0 6px;color:#d98a3d;font-weight:600">GB-204, 205, 206 &middot; 45 min</p>
+      <h3>You do</h3>
+      <ul>
+        <li>Write the pass criteria first.</li>
+        <li>Run three tickets twice: an ordinary prompt (A), then /gb-change (B).</li>
+      </ul>
+      <h3>You learn</h3>
+      <ul>
+        <li>Three tickets make a small eval set with a pass rate you can compare.</li>
+        <li>Column A must not see the skill file, or it is not a fair control.</li>
+      </ul>
+      <div class="take"><b>You leave with:</b> two pass rates out of 3, in <span style="white-space:nowrap">metrics-3.2-*.md</span></div>
+    </div>
+  </div>
+</section>
+<!-- M4 · module -->
+<section class="slide" data-sec="M4 &middot; Specialised agents" data-title="Module 4 &mdash; what it teaches" data-notes="Module 4 fixes what prompts could not. The design, coding, test and review agents are the same model; the gain comes from what each one sees. The test agent works from the ticket, not from the code or the reasons behind it, so its tests can fail. The review agent tries to prove the change wrong, and has no edit rights. An agent file has seven parts, and allowed tools is the one people set too wide. Agents hand each other files with a fixed shape, not chat history, because a free-text hand-off gets read two ways. A person still approves the plan and the merge. Four agents cost more, so choose which tickets deserve them. When rolling this out at work, start with the review agent alone." data-tier="K">
+  <h2>Module 4 &mdash; <em>Specialised agents</em><span class="tag">M4</span></h2>
+  <div class="body g64">
+    <div>
+      <svg viewBox="0 0 700 330" role="img" aria-label="Four key learnings from Module 4, and one rule to remember">
+        <text class="lb" x="4" y="13">KEY LEARNINGS</text>
+        <rect class="bx" x="4" y="22" width="692" height="218" rx="8"/>
+        <rect class="bx w rise" x="20" y="38" width="326" height="88" rx="6"/>
+        <text class="tt" x="34" y="64">1 &middot; A separate checker</text>
+        <text class="ss" x="34" y="88">The gain is structure,</text>
+        <text class="ss" x="34" y="108">not a smarter model.</text>
+        <rect class="bx w rise r2" x="356" y="38" width="326" height="88" rx="6"/>
+        <text class="tt" x="370" y="64">2 &middot; Keep the blindness</text>
+        <text class="ss" x="370" y="88">The test agent never sees why.</text>
+        <text class="ss" x="370" y="108">The reviewer never edits.</text>
+        <rect class="bx w rise r3" x="20" y="138" width="326" height="88" rx="6"/>
+        <text class="tt" x="34" y="164">3 &middot; Seven parts per agent</text>
+        <text class="ss" x="34" y="188">Keep allowed tools tight.</text>
+        <text class="ss" x="34" y="208">A reviewer that can edit, will.</text>
+        <rect class="bx w rise r4" x="356" y="138" width="326" height="88" rx="6"/>
+        <text class="tt" x="370" y="164">4 &middot; Pass files, not chats</text>
+        <text class="ss" x="370" y="188">Plan, summary, test report,</text>
+        <text class="ss" x="370" y="208">review: fixed shapes.</text>
+        <rect class="bx d" x="4" y="256" width="692" height="70" rx="8"/>
+        <text class="lb w" x="24" y="280">ONE LINE TO REMEMBER</text>
+        <text class="ss w" x="24" y="308" style="font-size:15px">Four agents cost 3 to 4 times the requests. Use them where mistakes are costly.</text>
+      </svg>
+    </div>
+    <div class="pts">
+      <h3>The problem</h3>
+      <ul>
+        <li>One agent writes the code and the test from one reading of the ticket.</li>
+        <li>So they always agree, and the agreement proves nothing.</li>
+      </ul>
+      <div class="take"><b>Next:</b> Day 2 asks: what does done mean? Module 5.</div>
+    </div>
+  </div>
+</section>
+<!-- M4 · labs -->
+<section class="slide" data-sec="M4 &middot; Specialised agents" data-title="Module 4 labs &mdash; 4.1 &middot; 4.2" data-notes="Lab 4.1 is about writing agents down. You write the test agent and the review agent as files in .github/agents/, each with all seven parts. The most important line is the input each agent must not see: the test agent never gets the coding rationale, and the reviewer never gets edit tools. Lab 4.2 uses the agents on GB-207, balance as at a date. Design and coding share chat 1. The test agent works in chat 2 from the ticket only. The review agent works in chat 3 and tries to prove the change does not meet the ticket. The files in specs/ are the hand-offs between them. Your verdict records whether the agents disagreed, and what that told you about the change." data-tier="K">
+  <h2>Module 4 labs &mdash; what you do, what you learn<span class="tag">M4</span></h2>
+  <div class="body g55">
+    <div class="pts">
+      <h3>Lab 4.1 &middot; Two agent definitions</h3>
+      <p style="margin:0 0 6px;color:#d98a3d;font-weight:600">No ticket &middot; 45 min</p>
+      <h3>You do</h3>
+      <ul>
+        <li>Write test.agent.md and review.agent.md with all seven parts.</li>
+        <li>Write down the input each agent must not see.</li>
+      </ul>
+      <h3>You learn</h3>
+      <ul>
+        <li>What an agent is not given matters as much as what it is told.</li>
+        <li>Audit each file, then check VS Code lists both agents.</li>
+      </ul>
+      <div class="take"><b>You leave with:</b> two agent files, committed</div>
+    </div>
+    <div class="pts">
+      <h3>Lab 4.2 &middot; The four-agent hand-off</h3>
+      <p style="margin:0 0 6px;color:#d98a3d;font-weight:600">GB-207 &middot; 45 min</p>
+      <h3>You do</h3>
+      <ul>
+        <li>Chat 1: design, then coding. Chat 2: test, from the ticket only.</li>
+        <li>Chat 3: review, trying to prove the change wrong.</li>
+      </ul>
+      <h3>You learn</h3>
+      <ul>
+        <li>Separate chats keep each check independent.</li>
+        <li>You record whether the agents disagreed. A disagreement is a finding.</li>
+      </ul>
+      <div class="take"><b>You leave with:</b> four files in specs/, and a verdict</div>
+    </div>
+  </div>
+</section>
+<!-- M5 · module -->
+<section class="slide" data-sec="M5 &middot; Spec-driven development" data-title="Module 5 &mdash; what it teaches" data-notes="Module 5 answers the question Day 1 left open: can you write down what done means? A spec says what must be true. The plan says how the code will make it true. Keep them apart, or the plan check has nothing left to decide. Acceptance criteria are the most practical skill here. Each one names an input and a result you can observe, and each is numbered, so the test agent reports one line per criterion. Out of scope and assumptions are short, and they stop the agent from quietly changing files it should leave alone. Challenge the plan while it is still one page. Between the steps sit four checks where a person can say no. Do not write a full spec for every ticket; three lines cover most of them." data-tier="K">
+  <h2>Module 5 &mdash; <em>Spec-driven development</em><span class="tag">M5</span></h2>
+  <div class="body g64">
+    <div>
+      <svg viewBox="0 0 700 330" role="img" aria-label="Four key learnings from Module 5, and one rule to remember">
+        <text class="lb" x="4" y="13">KEY LEARNINGS</text>
+        <rect class="bx" x="4" y="22" width="692" height="218" rx="8"/>
+        <rect class="bx w rise" x="20" y="38" width="326" height="88" rx="6"/>
+        <text class="tt" x="34" y="64">1 &middot; Spec says what, plan how</text>
+        <text class="ss" x="34" y="88">A spec that names classes</text>
+        <text class="ss" x="34" y="108">is already a plan.</text>
+        <rect class="bx w rise r2" x="356" y="38" width="326" height="88" rx="6"/>
+        <text class="tt" x="370" y="64">2 &middot; Criteria a test can check</text>
+        <text class="ss" x="370" y="88">A concrete input, a visible result.</text>
+        <text class="ss" x="370" y="108">Numbered, so tests can cite them.</text>
+        <rect class="bx w rise r3" x="20" y="138" width="326" height="88" rx="6"/>
+        <text class="tt" x="34" y="164">3 &middot; Out of scope, assumptions</text>
+        <text class="ss" x="34" y="188">Two short lists that stop</text>
+        <text class="ss" x="34" y="208">silent scope drift.</text>
+        <rect class="bx w rise r4" x="356" y="138" width="326" height="88" rx="6"/>
+        <text class="tt" x="370" y="164">4 &middot; Challenge the plan early</text>
+        <text class="ss" x="370" y="188">A page of text is cheap to fix.</text>
+        <text class="ss" x="370" y="208">Code, tests and review are not.</text>
+        <rect class="bx d" x="4" y="256" width="692" height="70" rx="8"/>
+        <text class="lb w" x="24" y="280">ONE LINE TO REMEMBER</text>
+        <text class="ss w" x="24" y="308" style="font-size:15px">Most tickets need three lines: done when, not doing, assuming.</text>
+      </svg>
+    </div>
+    <div class="pts">
+      <h3>The problem</h3>
+      <ul>
+        <li>Every agent works from the ticket as written.</li>
+        <li>A vague ticket gives a confident, wrong change.</li>
+      </ul>
+      <div class="take"><b>Next:</b> Module 6 moves the open questions onto the ticket.</div>
+    </div>
+  </div>
+</section>
+<!-- M5 · labs -->
+<section class="slide" data-sec="M5 &middot; Spec-driven development" data-title="Module 5 labs &mdash; 5.1 &middot; 5.2" data-notes="Both labs use GB-147, a ticket whose only criterion is that ops can see the postings. In Lab 5.1 you turn it into a spec. Copilot interviews you first, so the questions come before any code. Then you write numbered criteria a test can check, and short lists of what is out of scope, what you assumed and what is still open. Step 4 asks you to look for a hidden plan: a line that already chooses the code. In Lab 5.2 the design agent writes the plan from your spec, you challenge it, and you split it into tasks small enough to check one by one. Nobody writes code in the core lab. Implementing the first task is stretch lab 5.2+." data-tier="K">
+  <h2>Module 5 labs &mdash; what you do, what you learn<span class="tag">M5</span></h2>
+  <div class="body g55">
+    <div class="pts">
+      <h3>Lab 5.1 &middot; Write the spec for GB-147</h3>
+      <p style="margin:0 0 6px;color:#d98a3d;font-weight:600">GB-147 &middot; 45 min</p>
+      <h3>You do</h3>
+      <ul>
+        <li>Let Copilot interview you, then draft numbered criteria.</li>
+        <li>Add out of scope, assumptions, open questions. Then gate it.</li>
+      </ul>
+      <h3>You learn</h3>
+      <ul>
+        <li>Do not let the agent build it first &ldquo;to see&rdquo;.</li>
+        <li>A spec that names code is hiding a plan. Look for it.</li>
+      </ul>
+      <div class="take"><b>You leave with:</b> specs/GB-147.md, committed and reviewed</div>
+    </div>
+    <div class="pts">
+      <h3>Lab 5.2 &middot; Plan, challenge, gate</h3>
+      <p style="margin:0 0 6px;color:#d98a3d;font-weight:600">GB-147 &middot; 30 min</p>
+      <h3>You do</h3>
+      <ul>
+        <li>The design agent writes the plan from your spec. Challenge it.</li>
+        <li>Split it into tasks you can check, then gate the task list.</li>
+      </ul>
+      <h3>You learn</h3>
+      <ul>
+        <li>A challenge costs minutes now, and saves rework later.</li>
+        <li>Task size decides how late you find a mistake.</li>
+      </ul>
+      <div class="take"><b>You leave with:</b> specs/GB-147-plan.md with tasks and your gate decision</div>
+    </div>
+  </div>
+</section>
+<!-- M6 · module -->
+<section class="slide" data-sec="M6 &middot; Ticket as unit of work" data-title="Module 6 &mdash; what it teaches" data-notes="Module 6 connects the agent to JIRA through MCP, a standard plug between an agent and another system. The agent sees only what the MCP tools return, and every result stays in the context window, so decide a tool budget before you start. Pulling beats pasting because it is complete, fresh, traceable and two-way: questions go back to the ticket, where the people who can answer them are looking. The ticket key should appear everywhere the work goes. Write-back comes in three levels. Only writes that add something and can be undone run unattended, such as a comment or a link. Anything that changes what others rely on needs a person. In a bank, every write needs a clear audit trail. Much of this module is about writing better tickets." data-tier="K">
+  <h2>Module 6 &mdash; <em>The ticket as the unit of work</em><span class="tag">M6</span></h2>
+  <div class="body g64">
+    <div>
+      <svg viewBox="0 0 700 330" role="img" aria-label="Four key learnings from Module 6, and one rule to remember">
+        <text class="lb" x="4" y="13">KEY LEARNINGS</text>
+        <rect class="bx" x="4" y="22" width="692" height="218" rx="8"/>
+        <rect class="bx w rise" x="20" y="38" width="326" height="88" rx="6"/>
+        <text class="tt" x="34" y="64">1 &middot; Pull, do not paste</text>
+        <text class="ss" x="34" y="88">MCP reads the whole ticket, now:</text>
+        <text class="ss" x="34" y="108">comments, links, epic, status.</text>
+        <rect class="bx w rise r2" x="356" y="38" width="326" height="88" rx="6"/>
+        <text class="tt" x="370" y="64">2 &middot; Set a tool budget</text>
+        <text class="ss" x="370" y="88">Decide how many calls a ticket</text>
+        <text class="ss" x="370" y="108">is worth, before you start.</text>
+        <rect class="bx w rise r3" x="20" y="138" width="326" height="88" rx="6"/>
+        <text class="tt" x="34" y="164">3 &middot; The key travels</text>
+        <text class="ss" x="34" y="188">Branch, commit, PR title,</text>
+        <text class="ss" x="34" y="208">and the spec file name.</text>
+        <rect class="bx w rise r4" x="356" y="138" width="326" height="88" rx="6"/>
+        <text class="tt" x="370" y="164">4 &middot; Safe write-back</text>
+        <text class="ss" x="370" y="188">Unattended writes only add,</text>
+        <text class="ss" x="370" y="208">and can be undone.</text>
+        <rect class="bx d" x="4" y="256" width="692" height="70" rx="8"/>
+        <text class="lb w" x="24" y="280">ONE LINE TO REMEMBER</text>
+        <text class="ss w" x="24" y="308" style="font-size:15px">MCP only connects. The agent is only as good as your JIRA tickets.</text>
+      </svg>
+    </div>
+    <div class="pts">
+      <h3>The problem</h3>
+      <ul>
+        <li>A pasted ticket is one paragraph, copied once.</li>
+        <li>Comments, links, the epic and later answers are left out.</li>
+      </ul>
+      <div class="take"><b>Next:</b> Module 7 crosses from one repo to two.</div>
+    </div>
+  </div>
+</section>
+<!-- M6 · labs -->
+<section class="slide" data-sec="M6 &middot; Ticket as unit of work" data-title="Module 6 labs &mdash; 6.1 &middot; 6.2" data-notes="Lab 6.1 reuses GB-207 from Lab 4.2, so you already know what to build. Watch the two ends instead: the pull at the start and the write-back at the end. Write your tool budget before Copilot does anything, then compare it with what the run used. The comment you write back must be the kind that is safe unattended: it adds something and a person can remove it in seconds. Lab 6.2 is done in pairs. One person drives, the other takes notes. Part A works GB-163 the way most tickets reach an agent, from a pasted description. Part B pulls the whole ticket. The order matters: if you read the full ticket first, Part A no longer measures anything. The debrief compares what each run knew." data-tier="K">
+  <h2>Module 6 labs &mdash; what you do, what you learn<span class="tag">M6</span></h2>
+  <div class="body g55">
+    <div class="pts">
+      <h3>Lab 6.1 &middot; The connected run</h3>
+      <p style="margin:0 0 6px;color:#d98a3d;font-weight:600">GB-207 &middot; 40 min &middot; solo</p>
+      <h3>You do</h3>
+      <ul>
+        <li>Set a tool budget, then pull GB-207 by its key.</li>
+        <li>Save it as a spec, code it, write back one comment.</li>
+      </ul>
+      <h3>You learn</h3>
+      <ul>
+        <li>What the connection costs, counted in calls.</li>
+        <li>What a safe, undoable write-back looks like.</li>
+      </ul>
+      <div class="take"><b>You leave with:</b> specs/GB-207.md, a commit, one comment</div>
+    </div>
+    <div class="pts">
+      <h3>Lab 6.2 &middot; GB-163: raise the posting limit</h3>
+      <p style="margin:0 0 6px;color:#d98a3d;font-weight:600">GB-163 &middot; 50 min &middot; pairs</p>
+      <h3>You do</h3>
+      <ul>
+        <li>Part A: work it from the pasted description only.</li>
+        <li>Part B: pull the whole ticket, then compare the two.</li>
+      </ul>
+      <h3>You learn</h3>
+      <ul>
+        <li>What a small-looking ticket leaves out when pasted.</li>
+        <li>Do Part A first, and do not open the ticket early.</li>
+      </ul>
+      <div class="take"><b>You leave with:</b> a verdict for Part A, a record of Part B</div>
+    </div>
+  </div>
+</section>
+<!-- M7 · module -->
+<section class="slide" data-sec="M7 &middot; Multi-repo engineering" data-title="Module 7 &mdash; what it teaches" data-notes="Module 7 is about changes that span two repositories. In Global Bank the account service is the producer of the posting API and the transaction service is its consumer. Across that boundary nothing throws an error, so the agent seems to get worse when really the task got harder. The method is contract first: agree the change as a document, ship the producer change so that nothing existing breaks, then change the consumer. Write the merge order down, because nothing else records it. Opening both repos in one workspace looks complete, but the agent then pays for both on every turn; a short contract file gives it the other side cheaply. Keep that file honest with the same-PR rule from Module 2. A shared library needs even more care, because its users are teams you cannot see." data-tier="K">
+  <h2>Module 7 &mdash; <em>Multi-repo engineering</em><span class="tag">M7</span></h2>
+  <div class="body g64">
+    <div>
+      <svg viewBox="0 0 700 330" role="img" aria-label="Four key learnings from Module 7, and one rule to remember">
+        <text class="lb" x="4" y="13">KEY LEARNINGS</text>
+        <rect class="bx" x="4" y="22" width="692" height="218" rx="8"/>
+        <rect class="bx w rise" x="20" y="38" width="326" height="88" rx="6"/>
+        <text class="tt" x="34" y="64">1 &middot; Contract first</text>
+        <text class="ss" x="34" y="88">Agree the API change as a</text>
+        <text class="ss" x="34" y="108">document, before any code.</text>
+        <rect class="bx w rise r2" x="356" y="38" width="326" height="88" rx="6"/>
+        <text class="tt" x="370" y="64">2 &middot; Producer first, additive</text>
+        <text class="ss" x="370" y="88">Consumer second.</text>
+        <text class="ss" x="370" y="108">Write the merge order down.</text>
+        <rect class="bx w rise r3" x="20" y="138" width="326" height="88" rx="6"/>
+        <text class="tt" x="34" y="164">3 &middot; A summary, not the repo</text>
+        <text class="ss" x="34" y="188">A contract file is small.</text>
+        <text class="ss" x="34" y="208">A second checkout costs every turn.</text>
+        <rect class="bx w rise r4" x="356" y="138" width="326" height="88" rx="6"/>
+        <text class="tt" x="370" y="164">4 &middot; Link the two PRs</text>
+        <text class="ss" x="370" y="188">Same ticket key, each links</text>
+        <text class="ss" x="370" y="208">the other. A person merges.</text>
+        <rect class="bx d" x="4" y="256" width="692" height="70" rx="8"/>
+        <text class="lb w" x="24" y="280">ONE LINE TO REMEMBER</text>
+        <text class="ss w" x="24" y="308" style="font-size:15px">A stale contract file is worse than none: two teams trust it.</text>
+      </svg>
+    </div>
+    <div class="pts">
+      <h3>The problem</h3>
+      <ul>
+        <li>Across two repos nothing errors, and the tests still pass.</li>
+        <li>The agent sees half the system, and does not know it.</li>
+      </ul>
+      <div class="take"><b>Next:</b> Module 8: what you learned is about to be forgotten.</div>
+    </div>
+  </div>
+</section>
+<!-- M7 · labs -->
+<section class="slide" data-sec="M7 &middot; Multi-repo engineering" data-title="Module 7 labs &mdash; 7.1 &middot; 7.2" data-notes="Lab 7.1 follows the order the module teaches: contract, then the shape of the change, then the producer, then the pull request descriptions. The producer change must be additive, so the check is simple: it removes no lines. The consumer step is optional, for when you are ahead of the clock. Lab 7.2 gives you a GB-158 change someone else already wrote, in both repositories. You review it three times with different inputs, and you do not apply, fix or merge anything. Keep the three review reports separate and fill the comparison table honestly. The lesson comes from comparing what each review could and could not see. Stretch lab 7.2+ takes the contract file away, to test that lesson again." data-tier="K">
+  <h2>Module 7 labs &mdash; what you do, what you learn<span class="tag">M7</span></h2>
+  <div class="body g55">
+    <div class="pts">
+      <h3>Lab 7.1 &middot; Cross-repo GB-158, contract first</h3>
+      <p style="margin:0 0 6px;color:#d98a3d;font-weight:600">GB-158 &middot; 30 min</p>
+      <h3>You do</h3>
+      <ul>
+        <li>Write the contract change, then ship the producer side.</li>
+        <li>Additive only, then write two linked PR descriptions.</li>
+      </ul>
+      <h3>You learn</h3>
+      <ul>
+        <li>main stays green in both repos after every merge.</li>
+        <li>The plan lives in the PR text, not only in the code.</li>
+      </ul>
+      <div class="take"><b>You leave with:</b> a contract change, a green producer branch, two PR texts</div>
+    </div>
+    <div class="pts">
+      <h3>Lab 7.2 &middot; Review a cross-repo change set</h3>
+      <p style="margin:0 0 6px;color:#d98a3d;font-weight:600">GB-158 &middot; 45 min</p>
+      <h3>You do</h3>
+      <ul>
+        <li>Review a prepared change three times: producer, consumer, both.</li>
+        <li>Review only. Do not fix or merge anything.</li>
+      </ul>
+      <h3>You learn</h3>
+      <ul>
+        <li>Which inputs let a one-repo review see the other repo.</li>
+        <li>Compare your three review reports side by side.</li>
+      </ul>
+      <div class="take"><b>You leave with:</b> three review reports and a comparison table</div>
+    </div>
+  </div>
+</section>
+<!-- M8 · module -->
+<section class="slide" data-sec="M8 &middot; Closing the loop" data-title="Module 8 &mdash; what it teaches" data-notes="Module 8 closes the loop back to Module 2. The review agent reliably checks criteria, scope, conventions and tests, so as a human reviewer you spend your attention elsewhere: should this be built, is it safe, what does the confident PR description hide. Ask the author which rule decided each choice. A pull request description is a good agent job, because it only assembles the spec, the diff and the test report. Writing back is mostly done already: the design agent&#x27;s plan holds the decision, the rejected option and the deciding rule, which is an ADR. Write back only what an engineer cannot easily work out from the code. Most tickets produce nothing worth writing, and that is fine. Writes to Confluence follow the same three levels as JIRA in Module 6." data-tier="K">
+  <h2>Module 8 &mdash; <em>Closing the loop</em><span class="tag">M8</span></h2>
+  <div class="body g64">
+    <div>
+      <svg viewBox="0 0 700 330" role="img" aria-label="Four key learnings from Module 8, and one rule to remember">
+        <text class="lb" x="4" y="13">KEY LEARNINGS</text>
+        <rect class="bx" x="4" y="22" width="692" height="218" rx="8"/>
+        <rect class="bx w rise" x="20" y="38" width="326" height="88" rx="6"/>
+        <text class="tt" x="34" y="64">1 &middot; Review what agents miss</text>
+        <text class="ss" x="34" y="88">The agent checks criteria, scope,</text>
+        <text class="ss" x="34" y="108">tests. You ask the costly questions.</text>
+        <rect class="bx w rise r2" x="356" y="38" width="326" height="88" rx="6"/>
+        <text class="tt" x="370" y="64">2 &middot; Ask the author</text>
+        <text class="ss" x="370" y="88">&ldquo;Which rule decided this?&rdquo;</text>
+        <text class="ss" x="370" y="108">A real answer names a file.</text>
+        <rect class="bx w rise r3" x="20" y="138" width="326" height="88" rx="6"/>
+        <text class="tt" x="34" y="164">3 &middot; PR text is assembly</text>
+        <text class="ss" x="34" y="188">Built from the spec, the diff</text>
+        <text class="ss" x="34" y="208">and the test report.</text>
+        <rect class="bx w rise r4" x="356" y="138" width="326" height="88" rx="6"/>
+        <text class="tt" x="370" y="164">4 &middot; Write back what helps</text>
+        <text class="ss" x="370" y="188">A decision and the rejected option.</text>
+        <text class="ss" x="370" y="208">A rule you had to hunt for.</text>
+        <rect class="bx d" x="4" y="256" width="692" height="70" rx="8"/>
+        <text class="lb w" x="24" y="280">ONE LINE TO REMEMBER</text>
+        <text class="ss w" x="24" y="308" style="font-size:15px">Same-PR rule: update the knowledge in the PR that makes it wrong.</text>
+      </svg>
+    </div>
+    <div class="pts">
+      <h3>The problem</h3>
+      <ul>
+        <li>Modules 3 to 7 read the repo. None of them wrote back.</li>
+        <li>So the next ticket starts from zero again.</li>
+      </ul>
+      <div class="take"><b>Next:</b> The capstone runs one ticket through every stage.</div>
+    </div>
+  </div>
+</section>
+<!-- M8 · labs -->
+<section class="slide" data-sec="M8 &middot; Closing the loop" data-title="Module 8 labs &mdash; 8.1 &middot; Capstone" data-notes="Lab 8.1 is short. You look back at GB-151 and pick what is worth saving. Most candidates fail the test, because the code already shows them. You write one ADR with the recommendation, why you did not change the posting in place, and the rule that decided it. Then you fix one document the work made out of date, in the same commit. The capstone is the final test, not a demonstration. GB-186 asks a payroll batch to post all-or-nothing: every posting is saved, or none is. It crosses both repositories and all eight stages, each in the chat the lab guide names. Each chat gets its own row. To compare with Lab 1.1, divide asked, rework and churn by the number of acceptance criteria. Turns and time are not comparable, because the ticket is much bigger." data-tier="K">
+  <h2>Module 8 labs &mdash; what you do, what you learn<span class="tag">M8</span></h2>
+  <div class="body g55">
+    <div class="pts">
+      <h3>Lab 8.1 &middot; Close the loop</h3>
+      <p style="margin:0 0 6px;color:#d98a3d;font-weight:600">GB-151 &middot; 15 min</p>
+      <h3>You do</h3>
+      <ul>
+        <li>Write one ADR: the choice, the rejected option, the deciding rule.</li>
+        <li>Fix one document the work made wrong. One commit.</li>
+      </ul>
+      <h3>You learn</h3>
+      <ul>
+        <li>Test each candidate: can an engineer work it out from the code?</li>
+        <li>If yes, do not write it.</li>
+      </ul>
+      <div class="take"><b>You leave with:</b> one ADR and one corrected document</div>
+    </div>
+    <div class="pts">
+      <h3>Capstone &middot; GB-186, every stage</h3>
+      <p style="margin:0 0 6px;color:#d98a3d;font-weight:600">GB-186 &middot; 50 + 20 min</p>
+      <h3>You do</h3>
+      <ul>
+        <li>Payroll batch posts all-or-nothing, across both repos.</li>
+        <li>Eight stages, ten chats: pull, spec, plan, build, test, review, PRs, write-back.</li>
+      </ul>
+      <h3>You learn</h3>
+      <ul>
+        <li>How the stages fit, and where hand-offs cost time.</li>
+        <li>Compare asked, rework and churn per criterion with Lab 1.1.</li>
+      </ul>
+      <div class="take"><b>You leave with:</b> two branches, the write-back, <span style="white-space:nowrap">metrics-capstone-*.md</span></div>
+    </div>
+  </div>
+</section>
+
+</div></div>
+<script src="../assets/adlc-deck.js"></script>
+</body>
+</html>
