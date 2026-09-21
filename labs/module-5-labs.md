@@ -64,7 +64,7 @@ You do not need your Day 1 branches. `m5-start` holds everything this module nee
 ## Lab 5.1 — Write the spec for GB-147
 
 **Goal:** turn a vague ticket into a spec an agent can follow and a test can check · **Ticket:**
-GB-147 · **Timebox:** 45 min · **Output:** `specs/GB-147.md`, committed and reviewed by a partner
+GB-147 · **Timebox:** 45 min · **Output:** `specs/GB-147.md`, committed and reviewed
 
 GB-147 asks for "reporting for the ops team". Its only acceptance criterion is: *"Ops can see the
 postings."*
@@ -220,24 +220,17 @@ git add specs/GB-147.md
 git commit -m "GB-147: spec"
 ```
 
-### Step 6 — The pair review: the gate (7 min)
+### Step 6 — The review: the gate (7 min)
 
-This is the most useful part of the lab. **Do not skip it.**
-
-Your trainer puts you in pairs. Share your spec with your partner (share your screen, or paste the
-file in the meeting chat). Read your partner's spec and find two things:
+This is the most useful part of the lab. **Do not skip it.** Someone other than the author reads the
+spec and looks for two things:
 
 1. **One criterion you could not write a failing test from.** Say why.
 2. **One decision the author made that should have been an open question.**
 
-Both are almost always there in a first draft. Tell your partner. Then fix your own spec in the
-editor, and commit again:
+Both are almost always there in a first draft.
 
-```bash
-git commit -am "GB-147: spec after pair review"
-```
-
-**No partner?** Use this prompt instead. It is weaker than a person, but it is better than no review.
+**The review, by default:** use this prompt.
 
 **Prompt 5.1-F** · Agent mode · premium reasoning model · **new chat**
 
@@ -248,6 +241,17 @@ You are reviewing this spec before any code is written. Find two things:
 2. One criterion or assumption where the writer decided something that should have been an open
    question for the business. Quote it, and say what the question is.
 Do not edit the file.
+```
+
+**Optional: review with a partner instead.** If a neighbour has also finished step 5, swap specs
+(share your screen, or paste the file in the meeting chat). Look for the same two things in each
+other's spec, and tell each other what you found. A person is usually better at this than the prompt.
+The prompt tends to find wording problems, and a person is more likely to spot a business decision.
+
+Then fix your own spec in the editor, and commit again:
+
+```bash
+git commit -am "GB-147: spec after review"
 ```
 
 ### Record
@@ -261,8 +265,8 @@ Fill in this worksheet in your notes. Post the last line in the meeting chat.
 | Out-of-scope items | |
 | Assumptions (how many UNCONFIRMED, how many BLOCKING) | |
 | Open questions | |
-| From the pair review: the criterion they could not test | |
-| From the pair review: the decision that should have been a question | |
+| From the review: the criterion that could not be tested | |
+| From the review: the decision that should have been a question | |
 | **Decisions the agent did not get to invent** (open questions + UNCONFIRMED assumptions) | |
 
 ### If you are behind
