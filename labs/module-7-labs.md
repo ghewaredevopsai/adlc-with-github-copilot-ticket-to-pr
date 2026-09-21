@@ -1,7 +1,7 @@
 # Module 7 labs — Multi-repo engineering
 
 **Day 2** · Labs 7.1, 7.2 (+ stretch) · about 75 minutes · Repositories: `global-bank-account` and
-`global-bank-transaction` · Start from: `m7-start` (Lab 7.1) and branch `m7.2-review` (Lab 7.2)
+`global-bank-transaction` · Start from: the tag `m7-start` (Lab 7.1) and branch `m7.2-review` (Lab 7.2)
 
 These are the first labs that use both repositories. In Lab 7.1 you take one ticket, GB-158, across
 the boundary between two services. You agree the contract first, then change the producer, then write
@@ -43,6 +43,7 @@ It loads **GB-158** and adds its key to `labs/lab-keys.md`.
 ```bash
 cd ~/adlc-copilot-training/global-bank-account
 git fetch --tags --force origin
+# m7-start is a tag: git tag lists it, git branch does not. Never use main instead.
 git switch -c GB-158-settlement-date m7-start && mvn test
 # "already exists"? The branch is from an earlier run: see "Running a lab again" in README.md
 # expect: Tests run: 4, Failures: 0, Errors: 0

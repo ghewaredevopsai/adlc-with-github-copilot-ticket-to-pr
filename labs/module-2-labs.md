@@ -1,7 +1,7 @@
 # Module 2 labs — Knowledge harnessing
 
 **Day 1** · Labs 2.1, 2.2 (+ stretch) · about 90 minutes · Repository: `global-bank-account` · Start
-from: `m1-start`
+from: the tag `m1-start`
 
 In Lab 1.1 the agent spent many turns working out facts your team already knows. In Lab 2.1 you write
 those facts into the repository, in three files: two for the whole repository and one for a single
@@ -29,6 +29,7 @@ rejected. The deck explains all three.
 
    ```bash
    cd ~/adlc-copilot-training/global-bank-account
+   # m1-start is a tag: git tag lists it, git branch does not. Never use main instead.
    git switch -c lab-2.1-knowledge m1-start && mvn test
    # expect: Tests run: 4, Failures: 0, Errors: 0
    ```

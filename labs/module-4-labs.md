@@ -1,6 +1,6 @@
 # Module 4 labs — Specialised agents
 
-**Day 1** · Labs 4.1, 4.2 (+ stretch) · about 90 minutes · Repository: `global-bank-account` · Start from: your Lab 3.1 branch `GB-151-lab-3.1` (catch-up: `m4-start`). Lab 4.2 brings in agents from `m5-start`
+**Day 1** · Labs 4.1, 4.2 (+ stretch) · about 90 minutes · Repository: `global-bank-account` · Start from: your Lab 3.1 branch `GB-151-lab-3.1` (catch-up: the tag `m4-start`). Lab 4.2 brings in agents from the tag `m5-start`
 
 In these labs you build two **custom agents** and then use them on a real ticket. A custom agent is an
 agent you define yourself, with one job and its own rules. Lab 4.1 writes the test agent and the review
@@ -48,6 +48,7 @@ ticket differently.
    > **skip step 4**, because the checkpoint already has those files:
    >
    > ```bash
+   > # m4-start is a tag: git tag lists it, git branch does not. Never use main instead.
    > git switch -c lab-4.1-agents m4-start
    > ```
    >

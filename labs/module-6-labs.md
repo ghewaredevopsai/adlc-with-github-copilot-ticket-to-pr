@@ -1,7 +1,7 @@
 # Module 6 labs — The ticket as the unit of work
 
 **Day 2** · Labs 6.1, 6.2 (+ stretch) · about 90 minutes · Repository: `global-bank-account` ·
-Start from: `m6-start`
+Start from: the tag `m6-start`
 
 Until now Copilot read one ticket at a time, because the prompt told it which key to fetch. In these
 labs you decide what else to **pull** around a ticket, and what that costs: its comments, its links and
@@ -45,6 +45,7 @@ server is **Running** (Command Palette, then **MCP: List Servers**).
 ```bash
 cd ~/adlc-copilot-training/global-bank-account
 git fetch --tags --force
+# m6-start is a tag: git tag lists it, git branch does not. Never use main instead.
 git switch -c GB-207-lab-6.1 m6-start && mvn test
 # "already exists"? The branch is from an earlier run: see "Running a lab again" in README.md
 # expect: Tests run: 4, Failures: 0, Errors: 0

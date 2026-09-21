@@ -1,6 +1,6 @@
 # Module 5 labs — Spec-driven development
 
-**Day 2** · Labs 5.1, 5.2 (+ stretch) · about 75 minutes · Repository: `global-bank-account` · Start from: `m5-start`
+**Day 2** · Labs 5.1, 5.2 (+ stretch) · about 75 minutes · Repository: `global-bank-account` · Start from: the tag `m5-start`
 
 On Day 1 every agent worked from the ticket as it was written. Today you improve the ticket first.
 In Lab 5.1 you turn a vague ticket into a **spec**: a short file that says what "done" means, so
@@ -43,6 +43,7 @@ then **MCP: List Servers**).
 ```bash
 cd ~/adlc-copilot-training/global-bank-account
 git fetch --tags --force
+# m5-start is a tag: git tag lists it, git branch does not. Never use main instead.
 git switch -c GB-147-lab-5.1 m5-start && mvn test
 # "already exists"? The branch is from an earlier run: see "Running a lab again" in README.md
 ```

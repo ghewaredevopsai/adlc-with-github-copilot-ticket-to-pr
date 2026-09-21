@@ -1,6 +1,6 @@
 # Module 1 labs — The ADLC operating model and token economics
 
-**Day 1** · Lab 1.1 (+ stretch) · about 45 minutes · Repository: `global-bank-account` · Start from: `m1-start`
+**Day 1** · Lab 1.1 (+ stretch) · about 45 minutes · Repository: `global-bank-account` · Start from: the tag `m1-start`
 
 You fix one real bug with Copilot, on a repository where the team has written nothing down. At the
 end, Copilot saves the run as one row in its own timestamped `metrics-1.1-*.md` file, with a list of
@@ -35,6 +35,7 @@ Check that **atlassian** is running (**MCP: List Servers**).
 ```bash
 cd ~/adlc-copilot-training/global-bank-account
 git fetch --tags --force
+# m1-start is a tag: git tag lists it, git branch does not. Never use main instead.
 git switch -c GB-142-lab-1.1 m1-start && mvn test
 # expect: Tests run: 4, Failures: 0, Errors: 0, Skipped: 0
 ```

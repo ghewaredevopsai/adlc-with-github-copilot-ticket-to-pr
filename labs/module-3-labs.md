@@ -1,7 +1,7 @@
 # Module 3 labs — Prompt and context engineering
 
 **Day 1** · Labs 3.1, 3.2 (+ stretch) · about 90 minutes · Repository: `global-bank-account` ·
-Start from: your Module 2 branch (catch-up: `m3-start`)
+Start from: your Module 2 branch (catch-up: the tag `m3-start`)
 
 In Module 2 you wrote down what is true about the repository. These labs are about how you ask.
 In Lab 3.1 you write one clear request for a ticket. Then you save the reusable half as a **skill
