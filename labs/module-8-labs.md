@@ -71,8 +71,8 @@ page, is in stretch lab 8.1+, below.
 
 ```text
 I want to write back what I learned in this course. Do not change any file in this step.
-1. Search the global-bank-account and global-bank-transaction folders for spec files: files
-   named spec.md, and files under a specs/, handoff/ or docs/contract-changes/ folder. Also look on
+1. Search the global-bank-account and global-bank-transaction folders for spec and plan files:
+   files under a specs/ or docs/contract-changes/ folder. Also look on
    my other local branches. Run
    "git branch" in each repository, and read files there with "git show", giving the branch
    and the path.
@@ -81,7 +81,7 @@ I want to write back what I learned in this course. Do not change any file in th
    Use the atlassian MCP tool jira_get_issue to read each of those four issues, with comments.
    Make no more than four Jira calls.
 3. List up to six write-back candidates. A candidate is one of these:
-   - a decision with a rejected option, from a spec
+   - a decision with a rejected option, from a spec or a plan
    - a rule that was hard to find, for example in a closed ticket or a comment
    - a document in either repository that the work made wrong
    For each candidate, give its source (file or ticket), and one line on what it says.
@@ -98,14 +98,14 @@ look at your Day 2 chats. Did you find something there that is not on the list? 
 
 ### Step 2 — Write one ADR
 
-In Module 4 you saw the design agent's spec for GB-151, the reversal ticket. It already holds the
-decision, the rejected option and the rule that decided it. You promote that spec to an ADR. You do
-not write it from nothing. The prompt holds that spec's text as slide 11 of the Module 8 deck shows it.
+In Module 4 you saw the design agent's plan for GB-151, the reversal ticket. It already holds the
+decision, the rejected option and the rule that decided it. You promote that plan to an ADR. You do
+not write it from nothing. The prompt holds that plan's text as slide 11 of the Module 8 deck shows it.
 
 **Prompt 8.1-B** · Agent mode · base model · **same chat**
 
 ```text
-Write one ADR from this text, which is the design agent's spec for GB-151:
+Write one ADR from this text, which is the design agent's plan for GB-151:
 ## Recommendation
 Reversal creates a second posting with debit and credit swapped, and marks the original REVERSED.
 ## Why not change it in place
@@ -134,7 +134,7 @@ Change no other file. Show me the ADR and the new README line when you finish.
 line in `docs/adr/README.md`. The "Rejected" section names a rule and a file.
 
 **Check:** read the ADR once. Does it say what was **rejected**? An ADR with no rejected option only
-describes the code. If it has none, ask Copilot to add it from the spec text.
+describes the code. If it has none, ask Copilot to add it from the plan text.
 
 ### Step 3 — Fix one document the work made wrong
 
@@ -619,6 +619,9 @@ Write your review report in this chat. Follow your agent definition. Do not edit
 ```
 
 **What you should see:** a report with findings by severity, each naming a file, a line and a rule.
+
+**Save it:** the review agent has no `edit` tool, so you save the report. Create
+`global-bank-account/specs/GB-186-review-report.md` and paste the report into it.
 
 Now your own review. Read the **file list** before any description. This stops a confident summary
 from setting what you look for.

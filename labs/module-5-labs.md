@@ -299,7 +299,7 @@ only. Do not read the Jira ticket.
 Also read these files in global-bank-account: docs/architecture.md, docs/conventions.md,
 docs/glossary.md and every ADR in docs/adr/.
 Write a technical plan: how the code will meet each acceptance criterion (AC1, AC2 and so on).
-For this lab, your hand-off is a plan, not spec.md. Give the plan these sections:
+Give the plan these sections:
 "## Approach": the approach. Give two options only if there is a real choice, and recommend one.
 "## Criteria": one line for each AC, saying how the plan meets it.
 "## Files": each file to change or add.

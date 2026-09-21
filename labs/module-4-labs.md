@@ -16,8 +16,7 @@ ticket differently.
 | **Frontmatter** | The block between two `---` lines at the top of the file. It holds settings such as `name` and `tools` |
 | **Tools list** | The `tools:` line in the frontmatter. The agent can use only the tools listed there |
 | **Rationale** | The coding agent's own explanation of why it wrote the code |
-| **Hand-off artifact** | A file one agent passes to the next, for example `spec.md` or a test report |
-| **Hand-off folder** | In these labs: `global-bank-account/handoff/GB-207/`. The artifacts for the ticket go here |
+| **Hand-off artifact** | A file one agent passes to the next, for example the plan or a test report. In these labs they go in `global-bank-account/specs/`, named after the ticket: `specs/GB-207-plan.md`, `specs/GB-207-test-report.md` |
 
 ## Before you start
 
@@ -143,7 +142,8 @@ role needs, chosen from: read, search, edit, execute, atlassian/jira_get_issue.
 Then write seven sections, in this order: Role, Goal, Allowed tools, Inputs, Guardrails,
 Hand-off contract, Never.
 - Inputs: the first line says what the agent is NOT given: the coding agent's rationale and
-  summary, and the design spec. These are spec.md and coding-summary.md in the handoff folder.
+  summary, and the design plan. These are specs/<ticket key>-plan.md and
+  specs/<ticket key>-coding-summary.md.
   Add one sentence that says why.
 - Guardrails: include "run every new test against the code before the change first".
 - Hand-off contract: a test report shown in the chat. One line per acceptance criterion,
@@ -178,8 +178,8 @@ Then write seven sections, in this order: Role, Goal, Allowed tools, Inputs, Gua
 Hand-off contract, Never.
 - Inputs: the diff, the ticket and its acceptance criteria, docs/adr/, docs/conventions.md and
   the instruction files. Then one line that says what the agent is NOT given: the coding
-  agent's rationale and summary, and the design spec (spec.md and coding-summary.md in the
-  handoff folder). Add one sentence that says why.
+  agent's rationale and summary, and the design plan (specs/<ticket key>-plan.md and
+  specs/<ticket key>-coding-summary.md). Add one sentence that says why.
 - Guardrails: a numbered checklist, worked in this order: 1 acceptance criteria, 2 scope,
   3 ADRs and conventions, 4 would the tests fail on the code before the change,
   5 what is missing. "What is missing" must be last.
@@ -285,18 +285,18 @@ definitions. The steps in Lab 4.2 show how.
 
 **Goal:** take one ticket through design and coding, then test, then review, in three separate chats,
 and record whether the agents disagreed · **Ticket:** GB-207 (balance as at a date) ·
-**Timebox:** 45 min (35 running, 10 debrief) · **Output:** `spec.md`, `coding-summary.md`,
-`test-report.md`, `review-report.md` and a verdict
+**Timebox:** 45 min (35 running, 10 debrief) · **Output:** four files in `specs/`: `GB-207-plan.md`,
+`GB-207-coding-summary.md`, `GB-207-test-report.md`, `GB-207-review-report.md`, and a verdict
 
 ### Three chats, never one
 
 | Chat | Agents | Sees | Hands over |
 |---|---|---|---|
-| 1 | design, then coding | design: the ticket, the ADRs, the docs. Coding: the spec and the code | `spec.md`, the change, `coding-summary.md` |
-| 2 | test | the ticket only (and the code's public methods) | the tests, `test-report.md` |
-| 3 | review | the diff, the ticket, the ADRs | `review-report.md` |
+| 1 | design, then coding | design: the ticket, the ADRs, the docs. Coding: the plan and the code | `GB-207-plan.md`, the change, `GB-207-coding-summary.md` |
+| 2 | test | the ticket only (and the code's public methods) | the tests, `GB-207-test-report.md` |
+| 3 | review | the diff, the ticket, the ADRs | `GB-207-review-report.md` |
 
-Design and coding share one chat on purpose: the coding agent builds what the spec says. The two
+Design and coding share one chat on purpose: the coding agent builds what the plan says. The two
 separate readings of the ticket are the test agent's and the review agent's.
 
 **Always start a new chat for chats 2 and 3.** If two agents share one chat, they share one reading of
@@ -316,7 +316,7 @@ git switch -c GB-207-lab-4.2 lab-4.1-agents
 git checkout m5-start -- .github/agents/design.agent.md .github/agents/coding.agent.md
 git commit -m "Lab 4.2: add the design and coding agents"
 git branch GB-207-base
-mkdir -p handoff/GB-207
+mkdir -p specs
 mvn test
 # expect: Failures: 0, Errors: 0. Tests run: 4, or more if your earlier labs added tests
 ```
@@ -330,7 +330,7 @@ whatever you have checked out now, and every step below still appears to work.
 cd ~/adlc-copilot-training/global-bank-account
 git switch -c GB-207-lab-4.2 m5-start
 git branch GB-207-base
-mkdir -p handoff/GB-207
+mkdir -p specs
 mvn test
 # expect: Failures: 0, Errors: 0. Tests run: 4
 ```
@@ -363,7 +363,7 @@ scroll down, as in Lab 4.1, Step 4.
 An agent says it cannot read the Jira issue? Its `tools:` list is missing
 `atlassian/jira_get_issue`. Add it to that agent file, save, and paste the prompt again in a new chat.
 
-### Step 1 — Design: write the spec (chat 1)
+### Step 1 — Design: write the plan (chat 1)
 
 In the Chat view, start a new chat and pick the **design** agent from the agent list.
 
@@ -372,20 +372,20 @@ In the Chat view, start a new chat and pick the **design** agent from the agent 
 ```text
 Read course/labs/lab-keys.md to find my Jira key for GB-207. Use the atlassian MCP tools to
 read that Jira issue, including its comments.
-Write the spec for this ticket, in the shape your agent file gives for spec.md. Work only from
+Write the plan for this ticket, in the shape your agent file gives for the plan. Work only from
 the ticket and the documents your agent file lists as inputs: global-bank-account/docs/adr/,
 global-bank-account/docs/architecture.md and global-bank-account/docs/glossary.md.
 Do not open the Java code.
 Every claim about existing behaviour names the file it came from. List anything these
 documents cannot answer under "Open questions". Do not guess.
-Show the spec in the chat. Do not create or edit any file. Stop when the spec is shown.
+Show the plan in the chat. Do not create or edit any file. Stop when the plan is shown.
 ```
 
-**What you should see:** a spec with two or three options, one recommendation, the deciding rule with
+**What you should see:** a plan with two or three options, one recommendation, the deciding rule with
 its source file, and open questions.
 
-**Check (gate 1, a person's check):** read the spec. Does every claim name a file? Is the
-recommendation sound? Fix nothing yet. If the spec is wrong, run Prompt 4.2-A again.
+**Check (gate 1, a person's check):** read the plan. Does every claim name a file? Is the
+recommendation sound? Fix nothing yet. If the plan is wrong, run Prompt 4.2-A again.
 
 Now save it. The design agent has no `edit` tool, so it cannot write the file itself. That is the
 point: it must not be able to touch the repository at all. Switch the agent list from **design** back
@@ -394,12 +394,12 @@ to **Agent**, in this same chat, and paste this.
 **Prompt 4.2-A2** · Agent mode · base model · **same chat**
 
 ```text
-Write the spec you showed above to global-bank-account/handoff/GB-207/spec.md, word for word.
+Write the plan you showed above to global-bank-account/specs/GB-207-plan.md, word for word.
 Do not improve it, shorten it or re-order it. Create no other file. Change no other file.
 Then stop.
 ```
 
-**Check:** open `spec.md`. It must say what the design agent showed. A scribe that "tidied" the spec
+**Check:** open `specs/GB-207-plan.md`. It must say what the design agent showed. A scribe that "tidied" the plan
 has changed the input to every agent after it.
 
 ### Step 2 — Coding: build the change (still chat 1)
@@ -410,14 +410,14 @@ Stay in the same chat. Switch the agent in the agent list from **Agent** to **co
 **Prompt 4.2-B** · agent: **coding** · base model · **same chat**
 
 ```text
-Implement the spec in global-bank-account/handoff/GB-207/spec.md, in the global-bank-account
-folder. Where the spec lists open questions, choose the answer the ticket supports, and name
+Implement the plan in global-bank-account/specs/GB-207-plan.md, in the global-bank-account
+folder. Where the plan lists open questions, choose the answer the ticket supports, and name
 each choice in your summary.
 Do not write or change any test. Tests are the test agent's job.
 Run "mvn test" in global-bank-account until the existing tests pass.
-When you finish, write your summary to global-bank-account/handoff/GB-207/coding-summary.md:
+When you finish, write your summary to global-bank-account/specs/GB-207-coding-summary.md:
 every file you changed, and why. Show it in the chat as well.
-That file is the only thing you may write under handoff/. Do not change spec.md. Then stop.
+That file is the only thing you may write under specs/. Do not change the plan. Then stop.
 ```
 
 **What you should see:** changes under `src/main`, no changes under `src/test`, and a summary naming
@@ -429,10 +429,10 @@ each file.
 mvn test
 # expect: Failures: 0, Errors: 0, and the same number of tests as before this step
 git status
-# expect: changes under src/main, and your new handoff/ folder. Nothing under src/test
+# expect: changes under src/main, and your new specs/ folder. Nothing under src/test
 ```
 
-The agent writes `coding-summary.md` itself. Check that the file exists and says what the chat said,
+The agent writes `GB-207-coding-summary.md` itself. Check that the file exists and says what the chat said,
 then commit:
 
 ```bash
@@ -449,14 +449,14 @@ Start a **new chat**. Pick the **test** agent from the agent list.
 Read course/labs/lab-keys.md to find my Jira key for GB-207. Use the atlassian MCP tools to
 read that Jira issue, including its comments. The ticket is your only description of the
 change.
-Do not read any file under global-bank-account/handoff/. Your own report, written at the end,
+Do not read any file under global-bank-account/specs/. Your own report, written at the end,
 is the only thing you may write there.
 Write tests in global-bank-account/src/test that prove each acceptance criterion, as the
 ticket states it. Follow global-bank-account/.github/instructions/tests.instructions.md.
 Do not change any file under src/main.
 Run "mvn test" in global-bank-account. If a new test fails, do not change it to pass.
 A failing test is a finding: report it.
-Write the test report to global-bank-account/handoff/GB-207/test-report.md, in the shape your
+Write the test report to global-bank-account/specs/GB-207-test-report.md, in the shape your
 agent file gives. Show it in the chat as well. Then stop.
 ```
 
@@ -465,8 +465,8 @@ acceptance criterion.
 
 **Check:**
 1. Scroll through the chat and look at each file the agent opened. Did it **read** anything in
-   `handoff/`? Writing its own `test-report.md` at the end is expected. Reading `spec.md` or
-   `coding-summary.md` is not: that reading was not separate. Write that down in your verdict.
+   `specs/`? Writing its own `GB-207-test-report.md` at the end is expected. Reading the plan or
+   the coding summary is not: that reading was not separate. Write that down in your verdict.
 2. Run the tests yourself, and note every failing test by name:
 
    ```bash
@@ -475,18 +475,18 @@ acceptance criterion.
 
 A failing test here is not a problem with the lab. It may be the finding you are looking for.
 
-The agent writes `test-report.md` itself. Check that the file exists, then commit the tests and
+The agent writes `GB-207-test-report.md` itself. Check that the file exists, then commit the tests and
 produce the diff for the reviewer:
 
 ```bash
 git add -A && git commit -m "GB-207: tests from the ticket"
-git diff GB-207-base -- src > handoff/GB-207/change.diff
-wc -c < handoff/GB-207/change.diff
+git diff GB-207-base -- src > specs/GB-207-change.diff
+wc -c < specs/GB-207-change.diff
 # expect: a few thousand bytes
 ```
 
 > [!IMPORTANT]
-> **`fatal: bad revision 'GB-207-base'`, and `change.diff` is 0 bytes?** You did not finish your Set
+> **`fatal: bad revision 'GB-207-base'`, and `GB-207-change.diff` is 0 bytes?** You did not finish your Set
 > up block. The shell makes the empty file before git runs, so the review agent in Step 4 would read
 > an empty diff and report that it found nothing. Put the branch back where Set up would have left
 > it, then run the two commands above again:
@@ -508,10 +508,10 @@ Start a **new chat**. Pick the **review** agent from the agent list.
 ```text
 Read course/labs/lab-keys.md to find my Jira key for GB-207. Use the atlassian MCP tools to
 read that Jira issue, including its comments.
-The change is in global-bank-account/handoff/GB-207/change.diff. Also read
+The change is in global-bank-account/specs/GB-207-change.diff. Also read
 global-bank-account/docs/adr/, global-bank-account/docs/conventions.md and the files in
 global-bank-account/.github/instructions/.
-Do not open spec.md, coding-summary.md or test-report.md in the handoff folder.
+Do not open the other GB-207 files in specs/: the plan, the coding summary or the test report.
 Try to prove that this change does not meet the ticket. Work through your checklist in
 order, and do not skip "what is missing". Then report what you could not disprove.
 Show the review report in the chat, in the shape your agent file gives. Do not edit any file.
@@ -521,8 +521,8 @@ Then stop.
 **What you should see:** a review report with findings by severity, each with a file, a line and the
 rule or criterion it breaks. "Nothing found" is also a valid report.
 
-**Check:** look at the files the agent opened. Did it open `spec.md`, `coding-summary.md` or
-`test-report.md`? If yes, note it.
+**Check:** look at the files the agent opened. Did it open `GB-207-plan.md`,
+`GB-207-coding-summary.md` or `GB-207-test-report.md`? If yes, note it.
 
 Now save the report. The review agent has no `edit` tool, because you removed it in Lab 4.1, Step 2,
 so it cannot write the file itself. Switch the agent list from **review** back to **Agent**, in this
@@ -532,11 +532,11 @@ same chat, and paste this.
 
 ```text
 Write the review report you showed above to
-global-bank-account/handoff/GB-207/review-report.md, word for word. Do not add a finding,
+global-bank-account/specs/GB-207-review-report.md, word for word. Do not add a finding,
 drop a finding or change any severity. Create no other file. Change no other file. Then stop.
 ```
 
-**Check:** open `review-report.md` and count the findings. The number must match the chat. Then
+**Check:** open `GB-207-review-report.md` and count the findings. The number must match the chat. Then
 commit:
 
 ```bash
@@ -598,7 +598,7 @@ role needs, chosen from: read, search, edit, execute, atlassian/jira_get_issue.
 Then write seven sections, in this order: Role, Goal, Allowed tools, Inputs, Guardrails,
 Hand-off contract, Never.
 - Inputs: the ticket, the ADRs, docs/architecture.md and docs/glossary.md. Not the Java code.
-- Hand-off contract: spec.md, shown in the chat, with: the problem in one paragraph, two or
+- Hand-off contract: the plan, shown in the chat, with: the problem in one paragraph, two or
   three options, a recommendation with the rule that decides it and its source file, and
   open questions.
 - Never: at least three things this agent must never do, even when they seem reasonable.
@@ -610,7 +610,7 @@ of reason for each. Then stop.
 
 ```text
 Create the file global-bank-account/.github/agents/coding.agent.md. It defines a VS Code custom
-agent named "coding". Its job: build what an agreed spec says, touching only the files it
+agent named "coding". Its job: build what an agreed plan says, touching only the files it
 needs. It does not change design decisions.
 First read global-bank-account/.github/copilot-instructions.md and
 global-bank-account/docs/conventions.md. Point to these files; do not copy them.
@@ -645,8 +645,8 @@ Start a **new chat** and pick the **review** agent.
 ```text
 Read course/labs/lab-keys.md to find my Jira key for GB-207. Use the atlassian MCP tools to
 read that Jira issue, including its comments.
-The change is in global-bank-account/handoff/GB-207/change.diff. Also read
-global-bank-account/handoff/GB-207/spec.md and global-bank-account/handoff/GB-207/coding-summary.md.
+The change is in global-bank-account/specs/GB-207-change.diff. Also read
+global-bank-account/specs/GB-207-plan.md and global-bank-account/specs/GB-207-coding-summary.md.
 They explain why the change was made this way.
 Also read global-bank-account/docs/adr/, global-bank-account/docs/conventions.md and the files
 in global-bank-account/.github/instructions/.
@@ -658,7 +658,7 @@ Then stop.
 
 Save the report the same way as in Step 4: switch the agent list from **review** back to **Agent**
 in this same chat, and ask it to write the report above, word for word, to
-`global-bank-account/handoff/GB-207/review-report-with-rationale.md`.
+`global-bank-account/specs/GB-207-review-report-with-rationale.md`.
 
 **Compare** the two reports:
 
