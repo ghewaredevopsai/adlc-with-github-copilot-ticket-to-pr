@@ -164,6 +164,8 @@ git diff --numstat m7-start -- src/test
 # each line shows: lines added, lines removed, file. The second number must be 0.
 ```
 
+No output also passes: new test files appear only after `git add`.
+
 **Check 3 — old and new callers, against the running service.** Start the service in one terminal:
 
 ```bash
@@ -247,6 +249,8 @@ mvn test
 git diff --numstat m7-start -- src/test
 # the second number must be 0
 ```
+
+No output also passes: new test files appear only after `git add`.
 
 Then commit:
 
