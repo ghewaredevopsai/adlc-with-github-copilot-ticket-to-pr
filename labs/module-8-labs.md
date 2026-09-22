@@ -94,14 +94,18 @@ Stop after the list.
 **What you should see:** Copilot asks to run `git` commands and four `jira_get_issue` calls. Read each
 request before you select **Allow**. Then it shows a list of candidates, each marked WRITE or SKIP.
 
-**Check:** does every candidate name a source you can open? Now add one thing yourself: open your chat history (the clock icon at the top of the Chat view) and
-look at your Day 2 chats. Did you find something there that is not on the list? Note it on paper.
+**Check:** does every candidate name a source you can open? Now add one thing yourself: open your
+chat history (the clock icon at the top of the Chat view) and look at your Day 2 chats. Did you
+find something there that is not on the list? Note it on paper.
 
 ### Step 2 — Write one ADR
 
 In Module 4 you saw the design agent's plan for GB-151, the reversal ticket. It already holds the
 decision, the rejected option and the rule that decided it. You promote that plan to an ADR. You do
 not write it from nothing. The prompt holds that plan's text as slide 11 of the Module 8 deck shows it.
+
+The reversal itself is not built in this course. That is normal: a team accepts a decision before
+it writes the code. The ADR records the decision, not the code.
 
 **Prompt 8.1-B** · Agent mode · base model · **same chat**
 
@@ -118,13 +122,13 @@ copilot-instructions.md: balances are derived from entries, never stored.
 Create global-bank-account/docs/adr/ADR-011-reversal-as-a-second-posting.md with exactly this
 shape:
 - Title: "# ADR-011 — Reversal as a second posting"
-- A status line: "Status: Accepted · YYYY-MM-DD · GB-151", with today's date. Get the date
-  from the terminal.
-- An owner line: "Owner: payments-platform"
+- A status line in the same format as ADR-009: "**Status:** accepted · YYYY-MM-DD · GB-151",
+  with today's date. Get the date from the terminal.
 - "## Decision": the recommendation, in one or two sentences.
 - "## Rejected": the option that was rejected, and why. Name the rule that decided it, and the
   file that rule comes from.
-- "## Consequences": what is now true because of this decision, for reports and for callers.
+- "## Consequences": one or two lines on what is now true because of this decision, taken only
+  from the text above.
 Copy the words above where you can. Add nothing they do not say. If you think something is
 missing, tell me instead of adding it.
 Add one line for the new ADR to docs/adr/README.md, in the same format as the lines already there.
@@ -172,15 +176,21 @@ candidate did you mark SKIP, and why?
 
 ### If you are behind
 
-Stop at the end of step 2 and commit the ADR alone. The capstone starts from `capstone-start` in both
-repositories. It needs nothing from Lab 8.1.
+Stop at the end of step 2 and commit the ADR alone:
+
+```bash
+cd ~/adlc-copilot-training/global-bank-account
+git add docs/adr && git commit -m "GB-151: ADR-011 reversal as a second posting"
+```
+
+The capstone starts from `capstone-start` in both repositories. It needs nothing from Lab 8.1.
 
 ---
 
 ## Stretch lab 8.1+ (optional)
 
-**Goal:** finish the write-back the clock dropped: the Confluence page, the ticket comment, and one
-deletion. Do it only if you finish steps 1–3 early. Stay in the same chat.
+**Goal:** finish the parts of the write-back that did not fit in 15 minutes: the Confluence page,
+the ticket comment, and one deletion. Do it only if you finish steps 1–3 early. Stay in the same chat.
 
 All three steps only **add** something, or remove one line you choose. Copilot never edits a page
 that someone else owns. This is the "safe alone" level from Module 6 and slide 10 of this module.
@@ -234,8 +244,14 @@ Do not edit anything. Stop and wait for my decision.
 ```
 
 **What you should see:** one line, and a reason. You decide. If you agree, delete the line yourself
-and commit it with `git commit -am "Remove a line that no lab needed"`. If you disagree, keep it,
-and say why at the debrief.
+and commit it:
+
+```bash
+cd ~/adlc-copilot-training/global-bank-account
+git commit -am "Remove a line that no lab needed"
+```
+
+If you disagree, keep it, and say why at the debrief.
 
 A knowledge base that only grows is one that nobody trusts a year later. This is the only step in
 the course where you practise removing something.
@@ -266,8 +282,8 @@ minutes, the earlier of the two. This is the same rule as every lab: stop when a
 or at the timebox. An honest unfinished run is worth more than a rushed complete one.
 
 **One counting note.** In stage 2 the spec may raise an open question that no file in either
-repository can answer. You look up the answer from Client Money Ops. That is not an **Asked**, because Asked counts only
-questions that a file could have answered.
+repository can answer. You look up the answer from Client Money Ops. That is not an **Asked**,
+because Asked counts only questions that a file could have answered.
 
 ### Before you start the capstone
 
@@ -351,7 +367,8 @@ Append one row to course/labs/my-work/capstone-chats.md, and under it one line
 "Assumptions (N):" with the list, N being the number for this chat. If the file does not exist, create it
 with this header:
 | Chat | Model | Model ID | Turns | Tool calls | Asked | Rework | Churn | Input tokens | Output tokens | Total tokens | AIC |
-In the Chat column, write a few words on what this chat did, for example "plan (design agent)".
+In the Chat column, write the stage number and a few words on what this chat did, for example
+"stage 3 — plan (design agent)". Use the last stage this chat worked on.
 Change no other file. Show me the row.
 ```
 
@@ -439,6 +456,7 @@ file each rule comes from.
 "## Steps": numbered small steps. For each step give: the repository, the files, and the
 acceptance criterion it serves. Order them like this: the contract between the two repositories
 first, then the producer (global-bank-account), then the consumer (global-bank-transaction).
+Keep POST /api/v1/disbursements in global-bank-transaction, and its request body, as they are.
 Write no code and edit no files. Show the plan here in the chat.
 ```
 
@@ -474,9 +492,10 @@ Start a **new chat** with the **coding** agent. Use this chat for all three prom
 
 ```text
 Read the plan global-bank-account/specs/GB-186-plan.md and the spec
-global-bank-account/specs/GB-186.md. Do the contract step of the plan only. Write the batch request and response shapes, the
-error cases, and the merge order into global-bank-transaction/docs/contract.md. Keep what is
-still true, and change only what GB-186 changes. Follow ADR-009 in global-bank-account.
+global-bank-account/specs/GB-186.md. Do the contract step of the plan only. Write the batch
+request and response shapes, the error cases, and the merge order into
+global-bank-transaction/docs/contract.md. Keep what is still true, and change only what GB-186
+changes. Follow ADR-009 in global-bank-account.
 Do not change any code yet. Show me the diff of docs/contract.md, then stop.
 ```
 
@@ -494,11 +513,25 @@ When you finish, list the files you changed, and which steps of the plan are don
 
 ```text
 Now do the consumer steps of the plan, in global-bank-transaction only. Keep the mirrored
-client types in step with the producer, as docs/contract.md says.
+client types in step with the producer, as docs/contract.md says. Keep POST
+/api/v1/disbursements and its request body as they are.
 Run "mvn test" in global-bank-transaction until it passes. If an existing test asserts
 behaviour that GB-186 changes, stop and tell me which test and why, before you change it.
 When you finish, list the files you changed, and which steps of the plan are done.
 ```
+
+**Expect C7 to stop.** The existing test `recordsRejectedItemsWithoutFailingTheBatch` checks the
+behaviour that GB-186 removes: a failed item must not fail the batch. When Copilot names it, reply in
+the same chat:
+
+```text
+AC1 in the spec replaces that behaviour. Delete only that test, and name it in your summary.
+Do not write a replacement: the test agent writes the new tests in stage 5.
+Then run "mvn test" in global-bank-transaction again until it passes.
+```
+
+This reply counts as a turn. It is not an **Asked** and not rework: the prompt told Copilot to stop
+here. If Copilot changed or deleted the test without stopping, note that for the debrief.
 
 **What you should see:** after C6 and C7, both repositories build and their tests pass. You have not
 yet checked the acceptance criteria. That is next.
@@ -539,7 +572,9 @@ cd ~/adlc-copilot-training/global-bank-account && mvn test | grep "Tests run:" |
 cd ~/adlc-copilot-training/global-bank-transaction && mvn test | grep "Tests run:" | tail -1
 ```
 
-Pass: `Failures: 0, Errors: 0` in both, and more tests than the 4 and 2 you started with.
+Pass: `Failures: 0, Errors: 0` in both, and new tests in both: more than 4 in
+`global-bank-account`, and more than 1 in `global-bank-transaction` (you started with 2, and C7
+deleted one).
 
 **Start both services** for the next checks. Use two new terminals, and leave them running:
 
@@ -626,10 +661,21 @@ Fix only this. Run "mvn test" in global-bank-account and global-bank-transaction
 tell me which acceptance criteria are now met.
 ```
 
-After a repair, run the failed check again. The services do not reload code on their own: stop them
-with `Ctrl+C` and start them again first.
+After a repair, stop both services with `Ctrl+C` and start them again: they do not reload code on
+their own. A restart also resets every balance, because the data lives in memory. So run the checks
+again **from check 2**, not only the one that failed: check 3 compares with the balance from check 2.
 
 ### Stage 6 — The review agent, then you
+
+**First, stage your work** in both repositories. Stages 6 and 7 read the change with
+`git diff capstone-start`. That shows only files git already knows. A new file that was never added
+is left out, so the review agent would not see your new classes or tests. You do not commit yet;
+that comes in stage 7.
+
+```bash
+cd ~/adlc-copilot-training/global-bank-account && git add -A
+cd ~/adlc-copilot-training/global-bank-transaction && git add -A
+```
 
 The review agent did not write this code, and it is not told why it was written this way. That is
 why it gets a new chat.
@@ -691,7 +737,8 @@ report, read the diff again.
 </details>
 
 If the review found a real problem, fix it with the repair prompt in the coding agent's chat. That
-counts as rework.
+counts as rework. After the repair, run the two `git add -A` lines from the start of this stage
+again, so stage 7 sees any new file the repair made.
 
 ### Stage 7 — Two linked pull requests, merge order written down
 
@@ -740,9 +787,11 @@ GB-186 is built on branch GB-186-capstone in both repositories. Find the documen
 each repository to see the change, and global-bank-account/specs/GB-186.md for the decisions,
 including the answers under the open questions.
 Show me each wrong line and why. Then fix them, changing the fewest lines you can.
-If the spec records a decision with a rejected option that no ADR holds, draft it as the next
-free ADR number in global-bank-account/docs/adr/, in the same shape as ADR-009, and add it to
-docs/adr/README.md.
+If the spec records a decision with a rejected option that no ADR holds, draft it as ADR-012 in
+global-bank-account/docs/adr/ (ADR-011 is already used on another branch). Give it a title, a
+status line in the same format as ADR-009 with "GB-186" after the date, then "## Decision",
+"## Rejected" (the option and the rule that ruled it out, with that rule's file) and
+"## Consequences". Add it to docs/adr/README.md.
 Show me the diff when you finish.
 ```
 
@@ -804,7 +853,7 @@ prompt. Copy them exactly. Do not calculate, estimate, round or replace them.
 - Total tokens: <paste total tokens>
 - AIC: <paste AI credits>
 Append this chat's row to course/labs/my-work/capstone-chats.md, in the same shape as its rows,
-with its own "Assumptions (N):" line.
+with the stage number first in the Chat column and its own "Assumptions (N):" line.
 Run "date +%Y%m%d-%H%M%S" in a terminal and use its output as the timestamp. At the root of
 global-bank-account create metrics-capstone-<timestamp>.md, with this table:
 | Run | Ticket | Model | Model ID | Turns | Tool calls | Asked | Rework | Churn | Input tokens | Output tokens | Total tokens | AIC |
@@ -818,7 +867,7 @@ Under the table, add:
   global-bank-account/specs/GB-186.md for the capstone, and by 5 for Lab 1.1.
 - "Assumptions (N):" every assumption line in capstone-chats.md, with N their total, and the
   Lab 1.1 assumptions count from that same Lab 1.1 file.
-- "Stage reached:" the last stage in capstone-chats.md.
+- "Stage reached:" the highest stage number in the Chat column of capstone-chats.md.
 - "Chats:" a copy of the rows of capstone-chats.md.
 - "How counted:" anything you could not count exactly, including every "-" you counted as zero.
 Then in global-bank-account run: git add -A && git commit -m "GB-186 capstone metrics".
@@ -838,8 +887,9 @@ eight stages includes the cost of learning them. That is a finding, not a failur
 ### If you are behind
 
 There is no catch-up tag for the capstone. When the 50 minutes end, stop. Send Prompt C-M in every
-chat you have not recorded yet, reading its model and usage numbers first, then Prompt C-M-last in the chat you were in. The stage you reached
-is often the one that costs most, which is itself a finding.
+chat you have not recorded yet, reading its model and usage numbers first, then Prompt C-M-last in
+the chat you were in. The stage you reached is often the one that costs most, which is itself a
+finding.
 
 ---
 
